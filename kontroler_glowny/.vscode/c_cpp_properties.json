@@ -1,0 +1,58 @@
+//
+// !!! WARNING !!! AUTO-GENERATED FILE!
+// PLEASE DO NOT MODIFY IT AND USE "platformio.ini":
+// https://docs.platformio.org/page/projectconf/section_env_build.html#build-flags
+//
+{
+    "configurations": [
+        {
+            "name": "PlatformIO",
+            "includePath": [
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                ""
+            ],
+            "browse": {
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+                    ""
+                ]
+            },
+            "defines": [
+                "PLATFORMIO=60104",
+                "ARDUINO_AVR_PRO",
+                "F_CPU=16000000L",
+                "ARDUINO_ARCH_AVR",
+                "ARDUINO=10808",
+                "__AVR_ATmega328P__",
+                ""
+            ],
+            "cStandard": "c11",
+            "cppStandard": "c++11",
+            "compilerPath": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+            "compilerArgs": [
+                "-mmcu=atmega328p",
+                ""
+            ]
+        }
+    ],
+    "version": 4
+}
