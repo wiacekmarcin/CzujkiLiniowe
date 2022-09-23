@@ -8,14 +8,13 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/include",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/src",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
-                "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                "/home/marcin/.platformio/packages/framework-arduino-avr/variants/mega",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                 ""
@@ -23,14 +22,13 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/include",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/src",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
-                    "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+                    "/home/marcin/.platformio/packages/framework-arduino-avr/variants/mega",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
-                    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
                     ""
@@ -38,18 +36,18 @@
             },
             "defines": [
                 "PLATFORMIO=60104",
-                "ARDUINO_AVR_PRO",
+                "ARDUINO_AVR_MEGA2560",
                 "F_CPU=16000000L",
                 "ARDUINO_ARCH_AVR",
                 "ARDUINO=10808",
-                "__AVR_ATmega328P__",
+                "__AVR_ATmega2560__",
                 ""
             ],
             "cStandard": "c11",
             "cppStandard": "c++11",
             "compilerPath": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
             "compilerArgs": [
-                "-mmcu=atmega328p",
+                "-mmcu=atmega2560",
                 ""
             ]
         }

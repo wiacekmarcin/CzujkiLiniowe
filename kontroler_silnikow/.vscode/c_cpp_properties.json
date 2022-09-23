@@ -10,7 +10,6 @@
             "includePath": [
                 "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
                 "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -25,7 +24,6 @@
                 "path": [
                     "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
                     "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_lib",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
