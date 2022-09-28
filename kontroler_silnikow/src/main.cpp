@@ -4,34 +4,122 @@
 //SPI SLAVE (ARDUINO)
 #include<SPI.h>
 
-volatile boolean received;
-volatile byte Slavereceived,Slavesend;
+#include "crc8.hpp"
+#include "proto.hpp"
+#include "silnik.hpp"
+
+#define BUSYPIN A0
+
+
+Motor mot;
+Message msg;
+
+volatile bool received;
+volatile uint8_t recvBuff[32];
+volatile uint8_t sendBuff[32];
+volatile uint8_t recvPos;
+
+
+inline void setBusy(bool busy)
+{
+	digitalWrite(BUSYPIN, busy);;
+}
+
+void setStop()
+{
+	mot.setStop();
+}
+
 #define LEDPIN 9
+
 void setup()
 {
-  Serial.begin(115200);
-  pinMode(LEDPIN,OUTPUT);                 // Setting pin 7 as OUTPUT
-  pinMode(MISO,OUTPUT);                   //Sets MISO as OUTPUT (Have to Send data to Master IN 
+	pinMode(BUSYPIN, OUTPUT);
+	setBusy(true);
+	
+	mot.init();
+	msg.init();
 
-  SPCR |= _BV(SPE);                       //Turn on SPI in Slave Mode
-  received = false;
-  SPI.attachInterrupt();                  //Interuupt ON is set for SPI commnucation
+  	pinMode(LEDPIN,OUTPUT);                 
+  	pinMode(MISO,OUTPUT);                   //Sets MISO as OUTPUT (Have to Send data to Master IN 
 
-  digitalWrite(LEDPIN, HIGH);
-  delay(2000);
-  digitalWrite(LEDPIN, LOW);
+             //Interuupt ON is set for SPI commnucation
+
+  	digitalWrite(LEDPIN, HIGH);
+  	delay(2000);
+  	digitalWrite(LEDPIN, LOW);
+
+	mot.setStop();
+	
+	for (uint8_t i = 0; i < 32; ++i) {
+		recvBuff[i] = 0;
+		sendBuff[i] = 0;
+	}
+
+	Serial.begin(115200);
+
+	//attachInterrupt(digitalPinToInterrupt(10), setStop);
+	attachInterrupt(digitalPinToInterrupt(mot.KRANCPIN), setStop, FALLING);
+
+	setBusy(false);
 }
+
+
 
 ISR (SPI_STC_vect)                        //Inerrrput routine function 
 {
-  Slavereceived = SPDR;         // Value received from master if store in variable slavereceived
-  received = true;                        //Sets received as True 
+	uint8_t pos = (recvPos++) & 0x1f;
+  	recvBuff[pos] = SPDR;             // Value received from master if store in variable slavereceived
+  	SPDR = sendBuff[pos];
+  	received = true;                        //Sets received as True 
 }
 
+
+bool cmd_in_progress = false;
+uint8_t lenCmd = 0;
 void loop()
 { 
-  if(received)                            //Logic to SET LED ON OR OFF depending upon the value recerived from master
-  {
+  	if(received)                            //Logic to SET LED ON OR OFF depending upon the value recerived from master
+  	{
+		if (msg.add(recvBuff[recvPos-1])) {
+			setBusy(true);
+			recvPos = 0;
+			
+			Result status = msg.parse();
+			if (status.ok) {
+				switch(msg.getMsgCmd()) {
+				case LAST_REP:
+					for (uint8_t i = 0; i < 32; ++i)
+						sendBuff[i] = 0;
+					break;
+				case CONF_REQ:
+					mot.setReverseMotor(status.data.conf.reverse);
+					mot.setMaxSteps(status.data.conf.maxStep);
+					mot.setEnabledAlways(status.data.conf.enableAlways);
+					mot.setBaseSteps(status.data.conf.baseSteps);
+					mot.setDelayImp(status.data.conf.delayImp);
+					msg.copy(sendBuff);	
+					break;
+				case MOVE_REQ:
+					if (status.data.move.isHome) 
+						mot.moveHome();
+					else 
+						mot.movePosition(status.data.move.steps);
+					break;
+					msg.copy(sendBuff);	
+				default:
+					break;
+				}
+			}
+			msg.clear();
+			recvPos = 0;
+			setBusy(false);
+		}
+	}
+}
+
+/*
+    
     received = false;
     Serial.print("Receive");
     Serial.println(Slavereceived);
@@ -49,54 +137,4 @@ void loop()
     Serial.println(Slavesend, HEX);
   }
 }
-
-/*
-void setup (void)
-{
-  pinMode(LEDPIN, OUTPUT);
-  // have to send on master in, *slave out*
-  pinMode(MISO, OUTPUT);
-  // turn on SPI in slave mode
-  SPCR |= _BV(SPE);
-  // turn on interrupts
-  SPCR |= _BV(SPIE);
-  pos = 0;
-  process_it = false;
-  digitalWrite(LEDPIN, HIGH);
-  delay(2000);
-  digitalWrite(LEDPIN, LOW);
-}  // end of setup
-
-// SPI interrupt routine
-ISR (SPI_STC_vect)
-{
-byte c = SPDR;
-  
-  // add to buffer if room
-  if (pos < sizeof buf)
-    {
-    buf [pos++] = c;
-    
-    // example: newline means time to process buffer
-    if (c == '\n')
-      process_it = true;
-      
-    }  // end of room available
-}
-
-// main loop - wait for flag set in interrupt routine
-void loop (void)
-{
-  if (process_it)
-    {
-      char c = buf[pos-1];
-      pos = 0;
-      process_it = false;
-      if (c == '0')
-        digitalWrite(LEDPIN, LOW);
-      else if (c == '1')
-        digitalWrite(LEDPIN, HIGH);
-    }  // end of flag set 
-}  // end of loop
 */
-

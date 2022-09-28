@@ -1,0 +1,42 @@
+{
+  "C_Cpp_Runner.cCompilerPath": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin/avr-gcc",
+  "C_Cpp_Runner.cppCompilerPath": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin/avr-g++",
+  "C_Cpp_Runner.debuggerPath": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin/avr-gdb",
+  "C_Cpp_Runner.cStandard": "c11",
+  "C_Cpp_Runner.cppStandard": "c++11",
+  "C_Cpp_Runner.msvcBatchPath": "",
+  "C_Cpp_Runner.useMsvc": false,
+  "C_Cpp_Runner.warnings": [
+    "-Wall",
+    "-Wextra",
+    "-Wpedantic"
+  ],
+  "C_Cpp_Runner.enableWarnings": true,
+  "C_Cpp_Runner.warningsAsError": false,
+  "C_Cpp_Runner.compilerArgs": [],
+  "C_Cpp_Runner.linkerArgs": [],
+  "C_Cpp_Runner.includePaths": [
+    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
+    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/HID/src",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SoftwareSerial/src",
+    "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/Wire/src",
+    ""
+  ],
+  "C_Cpp_Runner.includeSearch": [
+    "*",
+    "**/*"
+  ],
+  "C_Cpp_Runner.excludeSearch": [
+    "**/build",
+    "**/build/**",
+    "**/.*",
+    "**/.*/**",
+    "**/.vscode",
+    "**/.vscode/**"
+  ]
+}

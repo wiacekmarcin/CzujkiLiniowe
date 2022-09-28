@@ -7,6 +7,31 @@
 #define PIN_P3 42
 #define PIN_RES 40
 
+//wiadomosc od mastera
+//ustawianie konfiguracji
+ 
+ //1b |typ wiadomosci 
+ //2b | 00 - nope, 01 - ustaw konfigruacje, 10 - ruch, 11 - powrot do bazy
+ //3-8 dlugosc wiadomosci 64 bajty max
+
+//typ wiadomosci
+ //00b - nope (dlugosc 0)
+ //01b - konfiguracja
+ //10b - ustaw pozycje 5 bajtow
+ //11b - ustaw pozycje bazowa
+
+ //numer silnika - caly bajt tutaj ignorujemy - poprostu przepiszemy wiadomosc
+ //3b - kierunek obrotow lewy czy prawy
+ //4b czy trzymac en - miedzy ruchami
+ 
+ //5b | dlugosc wiadomosci
+ //6b |
+ //7b |
+ //8b |
+
+
+
+
 void setup (void)
 {
   // Put SCK, MOSI, SS pins into output mode
