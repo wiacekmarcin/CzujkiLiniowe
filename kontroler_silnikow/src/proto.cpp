@@ -38,7 +38,7 @@ bool Message::add(uint8_t b)
     if (!startMsg && recvPos == 1) {
         startMsg = true;
         lenMsg = recvBuff[0] & 0x0f;
-        cmdMsg = conv(recvBuff[0] & 0xf0);
+        cmdMsg = conv(recvBuff[0]);
         sendBuff[0] = recvBuff[0] | 0x10;
         return false;
     }
@@ -103,14 +103,25 @@ Result Message::parse()
     r.ok = true;
 
     c.reset();
-    for (int i=0; i< lenMsg + restMsgCnt-1; ++i )
-        c.add(*(recvBuff+i));
+    for (int i=0; i< lenMsg + restMsgCnt-1; ++i ) {
+        Serial.print(recvBuff[i], HEX);
+        Serial.print(" ");
+        c.add(recvBuff[i]);
+    }
+    Serial.print("crc=");
+    Serial.println(recvBuff[lenMsg + restMsgCnt-1], HEX);
     
     if (c.getCRC() != recvBuff[lenMsg + restMsgCnt-1]) {
+        Serial.print("crc=");
+        Serial.println(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
     
+    Serial.print("cmdMsg");
+    Serial.println(cmdMsg, HEX);
+    Serial.print("lenMsg");
+    Serial.println(lenMsg, DEC);
     if (cmdMsg == LAST_REP)
         return r;
 
@@ -148,11 +159,11 @@ uint16_t Message::toNumber16(uint8_t n2, uint8_t n1)
 
 Msgtype Message::conv(uint8_t m)
 {
-    switch(m) {
-        case ECHO_REQ: return ECHO_REQ;
-        case CONF_REQ: return CONF_REQ;
-        case MOVE_REQ: return MOVE_REQ;
-        case LAST_REQ: return LAST_REQ;
+    switch(m & 0xf0) {
+        case 0x00: return ECHO_REQ;
+        case 0x20: return CONF_REQ;
+        case 0x40: return MOVE_REQ;
+        case 0xe0: return LAST_REQ;
         default: return INV_MSG;
     }
 }

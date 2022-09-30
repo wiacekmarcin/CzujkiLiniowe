@@ -2,68 +2,81 @@
 #include <SPI.h>
 #include "pins_arduino.h"
 
-#define PIN_P1 46
-#define PIN_P2 44
-#define PIN_P3 42
+#include "crc8.hpp"
+
+#define PIN_S1 46
+#define PIN_S2 44
+#define PIN_S3 42
 #define PIN_RES 40
-
-//wiadomosc od mastera
-//ustawianie konfiguracji
- 
- //1b |typ wiadomosci 
- //2b | 00 - nope, 01 - ustaw konfigruacje, 10 - ruch, 11 - powrot do bazy
- //3-8 dlugosc wiadomosci 64 bajty max
-
-//typ wiadomosci
- //00b - nope (dlugosc 0)
- //01b - konfiguracja
- //10b - ustaw pozycje 5 bajtow
- //11b - ustaw pozycje bazowa
-
- //numer silnika - caly bajt tutaj ignorujemy - poprostu przepiszemy wiadomosc
- //3b - kierunek obrotow lewy czy prawy
- //4b czy trzymac en - miedzy ruchami
- 
- //5b | dlugosc wiadomosci
- //6b |
- //7b |
- //8b |
-
-
-
 
 void setup (void)
 {
+  pinMode(SCK, OUTPUT);
+  digitalWrite(SCK, LOW);
+  pinMode(MISO, INPUT);
+  pinMode(MOSI, OUTPUT);
+  digitalWrite(MOSI, LOW);
+  pinMode(PIN_S1, OUTPUT);
+  digitalWrite(PIN_S1, HIGH);
+  pinMode(PIN_S2, OUTPUT);
+  digitalWrite(PIN_S2, HIGH);
+  pinMode(PIN_S3, OUTPUT);
+  digitalWrite(PIN_S3, HIGH);
+  pinMode(PIN_RES, OUTPUT);
+  digitalWrite(PIN_RES, HIGH);
+  Serial.begin(115200);
+
   // Put SCK, MOSI, SS pins into output mode
   // also put SCK, MOSI into LOW state, and SS into HIGH state.
   // Then put SPI hardware into Master mode and turn SPI on
   SPI.begin ();
-  //SPI.setClockDivider(SPI_CLOCK_DIV128);
+  SPI.setClockDivider(SPI_CLOCK_DIV128);
   
-  Serial.begin(9600);
-
-  pinMode(PIN_P1, OUTPUT);
-  pinMode(PIN_P2, OUTPUT);
-  pinMode(PIN_P3, OUTPUT);
-  pinMode(PIN_RES, OUTPUT);
-
-  digitalWrite(PIN_RES, LOW);
-  digitalWrite(PIN_P1, LOW);
-  digitalWrite(PIN_P2, LOW);
-  digitalWrite(PIN_P3, LOW);
-  delay(1000);
-  digitalWrite(PIN_RES, HIGH);
-  delay(1000);
-  digitalWrite(PIN_P1, HIGH);
-  delay(1000);
-  digitalWrite(PIN_P2, HIGH);
-  delay(1000);
-  digitalWrite(PIN_P3, HIGH);
-  delay(1000);
 }  // end of setup
 
 volatile char buf[5];
 volatile byte pos = 0;
+volatile uint32_t counterMsg = 0;
+
+void sendConf(uint8_t addr, bool en, bool reverse, uint32_t maxStep, uint16_t baseStep, uint16_t delayImp)
+{
+	++counterMsg;
+    uint8_t sendBuf[] = { 	0x20, 
+							addr*0x10, 
+							((counterMsg >> 24) & 0xff), 
+							((counterMsg >> 16) & 0xff), 
+						    ((counterMsg >> 8) & 0xff), 
+							(counterMsg & 0xff), 
+							((0x02 * en) + (0x01 * reverse)), 
+						    ((maxStep >> 24) & 0xff), 
+							((maxStep >> 16) & 0xff), 
+							((maxStep >> 8) & 0xff),
+						    (maxStep & 0xff), 
+							((baseStep >> 8) & 0xff), 
+							(baseStep & 0xff), 
+							((delayImp >> 8) & 0xff), 
+						    (delayImp & 0xff),
+							0xff
+						};
+	uint8_t lenMsg = sizeof(sendBuf)/sizeof(uint8_t);
+	sendBuf[0] = sendBuf[0] | ((lenMsg - 1 - 1 - 4 - 1) & 0x0f);
+	CRC8 c;
+    c.reset();
+    for (int i=0; i< lenMsg-1; ++i ) {
+        c.add(*(sendBuf+i));
+		Serial.print(sendBuf[i], HEX);
+		Serial.print(" ");
+	}
+
+  	uint8_t pinMask[] = { 0x00, PIN_S1, PIN_S2, PIN_S3 };
+	sendBuf[lenMsg-1] = c.getCRC();
+	Serial.print("crc=");
+	Serial.print(sendBuf[lenMsg-1], HEX);
+	digitalWrite(pinMask[addr], LOW); 
+  	SPI.transfer(sendBuf, lenMsg);
+  	digitalWrite(pinMask[addr], HIGH); 
+	
+}
 
 void loop (void)
 {
@@ -73,28 +86,24 @@ void loop (void)
       buf[pos++] = c;
       if (c == '\n') {
         if (buf[0] == 'A') {
-          Serial.print("\nTransfer=");
-          Serial.print(buf[1]);
-          Serial.println("Read=");
-          digitalWrite(PIN_P1, LOW); 
-          Serial.println(SPI.transfer (buf[1]), HEX);
-          digitalWrite(PIN_P1, HIGH);
+          Serial.print("\nKonfiguracja: ");
+		  sendConf(buf[1]-'0', false, true, 32000, 100, 140);
           pos = 0;
         } else if (buf[0] == 'B') {
           Serial.print("\nTransfer=");
           Serial.print(buf[1]);
           Serial.println("Read=");
-          digitalWrite(PIN_P2, LOW); 
+          digitalWrite(PIN_S2, LOW); 
           Serial.println(SPI.transfer (buf[1]), HEX);
-          digitalWrite(PIN_P2, HIGH);
+          digitalWrite(PIN_S2, HIGH);
           pos = 0;
         } else if (buf[0] == 'C') {
           Serial.print("\nTransfer=");
           Serial.print(buf[1]);
           Serial.println("Read=");
-          digitalWrite(PIN_P3, LOW); 
+          digitalWrite(PIN_S3, LOW); 
           Serial.println(SPI.transfer (buf[1]), HEX);
-          digitalWrite(PIN_P3, HIGH);
+          digitalWrite(PIN_S3, HIGH);
           pos = 0;
         } else if (buf[0] == 'R') {
           Serial.println("\nReset");
