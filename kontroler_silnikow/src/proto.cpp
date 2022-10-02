@@ -126,8 +126,8 @@ Result Message::parse()
         return r;
 
     if (cmdMsg == CONF_REQ) {
-        r.data.conf.reverse = dataCmd[0] & 0x01;
-        r.data.conf.enableAlways = dataCmd[0] & 0x02;
+        r.data.conf.reverse = (dataCmd[0] & 0x01) == 0x01;
+        r.data.conf.enableAlways = (dataCmd[0] & 0x02) == 0x02;
         r.data.conf.maxStep = toNumber32(dataCmd[1], dataCmd[2], dataCmd[3], dataCmd[4]);
         r.data.conf.baseSteps = toNumber16(dataCmd[5], dataCmd[6]);
         r.data.conf.delayImp = toNumber16(dataCmd[7], dataCmd[8]);

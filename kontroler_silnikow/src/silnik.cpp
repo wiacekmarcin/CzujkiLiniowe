@@ -68,7 +68,7 @@ bool Motor::moveHome()
 	while (steps-- && canMove && digitalRead(10))
 	{
 		delayMicroseconds(delayImp);
-		if (!canMove || !digitalRead(10))
+		if (!canMove || !digitalRead(SS))
 			break;
 		digitalWrite(PULSEPIN, HIGH);
 		digitalWrite(PULSEPIN2, HIGH);
@@ -104,25 +104,37 @@ bool Motor::movePosition(uint32_t pos)
 	uint32_t steps;
 	uint8_t diff = 0;
 
+	setEnabled(true);
+	canMove = true;
+	Serial.print("1. globalPos");
+	Serial.println(globalPos, DEC);
 	if (pos == globalPos) {
+		Serial.println("pos = globalpos");
 		return true;
 	} else if (pos > globalPos) {
 		steps = pos - globalPos;
 		diff = 1;	
-		setDir(false);
+		setDir(true);
+		Serial.println("left");
 	} else if (pos < globalPos) {
 		steps = globalPos - pos;
 		diff = -1;
 		setDir(false);
+		Serial.println("right");
 	}
 
 	digitalWrite(PULSEPIN, LOW);
 	digitalWrite(PULSEPIN2, LOW);
-	while (steps-- && canMove && digitalRead(10) && globalPos > 0 && globalPos < maxSteps)
+	Serial.print("1. Steps = ");
+	Serial.println(steps, DEC);
+	steps += 1; //dodaje zero i 1 dekremetacja licznika 
+	while (--steps && globalPos >= 0 && globalPos < maxSteps)
 	{
 		delayMicroseconds(delayImp);
-		if (!canMove || !digitalRead(10))
+		if (!canMove || !digitalRead(SS)) {
+			Serial.println("break");
 			break;
+		}
 		digitalWrite(PULSEPIN, HIGH);
 		digitalWrite(PULSEPIN2, HIGH);
 		delayMicroseconds(delayImp);
@@ -130,6 +142,12 @@ bool Motor::movePosition(uint32_t pos)
 		digitalWrite(PULSEPIN2, LOW);
 		globalPos += diff;
 	}
+	Serial.print("2. Steps");
+	Serial.println(steps, DEC);
+	Serial.print("2. globalPos");
+	Serial.println(globalPos, DEC);
     msg.addSteps(steps == 0, steps);
+	if (!enableAlways)
+		setEnabled(false);	
 	return steps == 0;
 }

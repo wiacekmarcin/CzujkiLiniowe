@@ -30,6 +30,7 @@ void setStop()
 	mot.setStop();
 }
 
+
 #define LEDPIN 9
 
 //#define DEBUG_START
@@ -174,19 +175,19 @@ void setup()
 	digitalWrite(A2, LOW);
 	digitalWrite(A3, LOW);
 	//setBusy(false);
+	//attachInterrupt(digitalPinToInterrupt(SS), initialTransmit, FALLING);
 #endif	
 }
 
 
 
+
 ISR (SPI_STC_vect)                        //Inerrrput routine function 
 {
-	digitalWrite(A1, HIGH);
 	uint8_t pos = (recvPos++) & 0x1f;
   	recvBuff[pos] = SPDR;             // Value received from master if store in variable slavereceived
   	SPDR = sendBuff[pos];
   	received = true;
-	digitalWrite(A1, LOW);                        //Sets received as True 
 }
 
 
@@ -198,14 +199,13 @@ void loop()
   	if(received)                            //Logic to SET LED ON OR OFF depending upon the value recerived from master
   	{
 		received = false;
-		digitalWrite(A3, HIGH);
 		while (actProcess < recvPos) {
 			digitalWrite(LEDPIN, HIGH);
-			digitalWrite(A2, HIGH);
 			//Serial.println(recvBuff[recvPos-1], HEX);
 			if (msg.add(recvBuff[actProcess++])) {
 				setBusy(true);
 				recvPos = 0;
+				actProcess = 0;
 				
 				Result status = msg.parse();
 				if (status.ok) {
@@ -234,7 +234,10 @@ void loop()
 						msg.copy(sendBuff);	
 						break;
 					case MOVE_REQ:
-						Serial.println("Ruch");
+						Serial.print("Ruch. Home = ");
+						Serial.print(status.data.move.isHome ? "Tak" : "Nie");
+						Serial.print(" Kroki = ");
+						Serial.println(status.data.move.steps, DEC);
 						if (status.data.move.isHome) 
 							mot.moveHome();
 						else 
@@ -252,10 +255,8 @@ void loop()
 				recvPos = 0;
 				setBusy(false);
 			}
-			digitalWrite(A2, LOW);
 			digitalWrite(LEDPIN, LOW);
 		}
-		digitalWrite(A3, LOW);
 	}
 }
 
