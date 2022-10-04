@@ -33,8 +33,8 @@ void Motor::init()
 
 inline void Motor::setEnabled(bool en)
 {
-	digitalWrite(ENPIN, en);
-	digitalWrite(ENPIN2, en);
+	digitalWrite(ENPIN, en ? LOW : HIGH);
+	digitalWrite(ENPIN2, en? LOW : HIGH);
 }
 
 //DIR REV

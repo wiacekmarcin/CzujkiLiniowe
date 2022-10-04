@@ -5,15 +5,13 @@
 
 typedef enum _MSGType
 {
-    ECHO_REQ = 0,
-    ECHO_REP = 1,
-    CONF_REQ = 2,
-    CONF_REP = 3,
-    MOVE_REQ = 4,
-    MOVE_REP = 5,
-    LAST_REQ = 0xe,
-    LAST_REP = 0xf,
-    INV_MSG
+    CONF_REQ = 8,
+    CONF_REP = 9,
+    MOVE_REQ = 10,
+    MOVE_REP = 11,
+    LAST_REQ = 12,
+    LAST_REP = 13,
+    INV_MSG = 16,
 } Msgtype;
 
 typedef struct _result {
