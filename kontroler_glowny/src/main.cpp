@@ -190,75 +190,82 @@ MessageSerial::Work actWork;
 uint8_t confTab[9][12];
 
 unsigned long readLastChar;    
+
+bool runLoop = false;
 void loop (void)
 {
-#if 0    
-    //przerwanie od konca pracy z sterownika
-    if (finishJob[kontId]) {
-        finishJob[kontId] = false;
-        if (actJob[kontId] == JOB_HOME_RETURN) {
-            //TODO send command with steps
-        } else if (actJob[kontId] == JOB_POSITIONING) {
-            //TODO send command with steps
+    if (runLoop) {
+        //przerwanie od konca pracy z sterownika
+        if (finishJob[kontId]) {
+            finishJob[kontId] = false;
+            if (actJob[kontId] == JOB_HOME_RETURN) {
+                //TODO send command with steps
+            } else if (actJob[kontId] == JOB_POSITIONING) {
+                //TODO send command with steps
+            }
+            actJob[kontId] = JOB_NOP;
         }
-        actJob[kontId] = JOB_NOP;
-    }
-    ++kontId;
+        ++kontId;
 
-    //przerwanie od timera
-    if (readMsr) {
-        readMsr = false;
-        mjob = SEND_CURR;
-        return;
-    }
-
-    if (mjob == SEND_CURR) {
-        Serial1.write("CURR?");
-        mjob = WAIT_CURR;
-        readLastChar = millis();
-        return;
-    }
-
-    if (mjob == WAIT_CURR) {
-        if (Serial1.available()) {
-            uint8_t c = Serial1.read();
-            //TODO addMsg
-            readLastChar = millis();
-        } else {
-            if (millis() - readLastChar > 50)
-            mjob = SEND_VOLT;
-        }
-        return;
-    }
-    
-    if (mjob == SEND_VOLT) {
-        Serial1.write("VOLT?");
-        mjob = WAIT_VOLT;
-        readLastChar = millis();
-        return;
-    }
-
-    if (mjob == WAIT_VOLT) {
-        if (Serial1.available()) {
-            uint8_t c = Serial1.read();
-            //TODO addMsg
-            readLastChar = millis();
-        } else {
-            if (millis() - readLastChar > 50)
+        //przerwanie od timera
+        if (readMsr) {
+            readMsr = false;
+            
+            //mjob = SEND_CURR;
             mjob = M_SEND_VALS;
+
+            return;
         }
-        return;
+
+        if (mjob == SEND_CURR) {
+            Serial1.write("CURR?");
+            mjob = WAIT_CURR;
+            readLastChar = millis();
+            return;
+        }
+
+        if (mjob == WAIT_CURR) {
+            if (Serial1.available()) {
+                uint8_t c = Serial1.read();
+                //TODO addMsg
+                readLastChar = millis();
+            } else {
+                if (millis() - readLastChar > 50)
+                mjob = SEND_VOLT;
+            }
+            return;
+        }
+        
+        if (mjob == SEND_VOLT) {
+            Serial1.write("VOLT?");
+            mjob = WAIT_VOLT;
+            readLastChar = millis();
+            return;
+        }
+
+        if (mjob == WAIT_VOLT) {
+            if (Serial1.available()) {
+                uint8_t c = Serial1.read();
+                //TODO addMsg
+                readLastChar = millis();
+            } else {
+                if (millis() - readLastChar > 50)
+                mjob = M_SEND_VALS;
+            }
+            return;
+        }
+
+        if (mjob == M_SEND_VALS) {
+            msg.sendMeasuremnt();
+            mjob = MEAS_NOP;
+            return;
+        }
     }
 
-    if (mjob == M_SEND_VALS) {
-        //TODO Serial.write(measurentMsg)
-        mjob = MEAS_NOP;
-        return;
-    }
-#endif
     if (actWork == MessageSerial::WELCOME_MSG) {
         msg.sendWelcomeMsg();
         actWork = MessageSerial::NOP;
+        runLoop = false;
         return;
     }
 
@@ -267,6 +274,10 @@ void loop (void)
         msg.sendConfigDoneMsg(msg.getAddress());
         actWork = MessageSerial::NOP;
         return;
+    }
+
+    if (actWork == MessageSerial::CONFIGURATION_LOCAL) {
+        runLoop = true;
     }
 
     if (Serial.available())  {

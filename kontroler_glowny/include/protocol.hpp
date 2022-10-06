@@ -14,6 +14,7 @@ class MessageSerial
         NOP,
         WELCOME_MSG,
         CONFIGURATION,
+        CONFIGURATION_LOCAL,
     } Work;
 
     typedef enum _msg {
@@ -39,6 +40,7 @@ class MessageSerial
 
     void sendWelcomeMsg();
     void sendConfigDoneMsg(uint8_t addr);
+    void sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/);
 
     uint8_t getAddress() { return address ; }
     

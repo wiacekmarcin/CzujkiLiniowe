@@ -136,7 +136,12 @@ bool MessageSerial::parseRozkaz()
         }
 
         case CONF_REQ:
-            actWork = CONFIGURATION;
+            if (address == 0)
+                actWork = CONFIGURATION_LOCAL;
+            else if (address < 10)
+                actWork = CONFIGURATION;
+            else
+                actWork = NOP;
             return true;
 
         default:
@@ -168,6 +173,13 @@ void MessageSerial::sendConfigDoneMsg(uint8_t addr)
 {
     sendMessage(CONF_REP, addr, 0x00, nullptr, 0);
 }
+
+void  MessageSerial::sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/)
+{
+    uint8_t sendData[] = {'0', '0', '1', '.', '0', ';', '0', '0', '2', '.', '0', ';'};
+    sendMessage(MEASURENT_REP, 0x10, 0x00, sendData, sizeof(sendData)/sizeof(uint8_t));
+}
+
 
 void MessageSerial::copyCmd(uint8_t *tab, uint8_t len)
 {
