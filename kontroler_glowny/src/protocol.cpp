@@ -12,6 +12,15 @@ MessageSerial::MessageSerial()
 void MessageSerial::init() 
 {
     Serial.begin(115200); 
+    reset();
+}
+
+void MessageSerial::reset()
+{
+    posCmd = 0;
+    rozkaz = 0;
+    dlugosc = 0;
+    crc.restart();
 }
 
 bool MessageSerial::check(unsigned char c)
@@ -32,7 +41,11 @@ bool MessageSerial::check(unsigned char c)
         Serial.println(rozkaz,DEC);
         Serial.print("LEN=");
         Serial.println(dlugosc, DEC);
-#endif        
+#endif
+        if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
+            reset();
+            return true;
+        }
         return false;
     }
     if (posCmd-1 == 0) {
@@ -57,6 +70,7 @@ bool MessageSerial::check(unsigned char c)
             posCmd = 0;
             bool r = parseRozkaz();
             if (!r) {
+                reset();
                 sendError("ZLY ROZKAZ");
 #ifdef DEBUG_SERIAL                    
                 Serial.println("ZLY ROZKAZ");
@@ -64,6 +78,7 @@ bool MessageSerial::check(unsigned char c)
             }
             return r;
         }
+        reset();
         posCmd = 0;
         sendError("ZLE CRC");
 #ifdef DEBUG_SERIAL            
@@ -87,7 +102,7 @@ bool MessageSerial::check(unsigned char c)
     return false;
 }
 
-void MessageSerial::sendMessage(uint8_t addr, uint8_t cmd, uint8_t* buf, uint8_t len)
+void MessageSerial::sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint8_t* buf, uint8_t len)
 {
     if (len > 15)
         return;
@@ -95,8 +110,8 @@ void MessageSerial::sendMessage(uint8_t addr, uint8_t cmd, uint8_t* buf, uint8_t
     uint8_t sendData[MAXLENPROTO] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
     if (len > 0)
         memcpy(sendData+2, buf, len);
-    sendData[0] = cmd << 4 | len ;
-    sendData[1] = addr << 4;
+    sendData[0] = (cmd << 4) | len ;
+    sendData[1] = (addr << 4) | (options &0x0f);
     crc.restart();
     crc.add(sendData, len+2);
     sendData[len+2] = crc.getCRC();
@@ -107,55 +122,23 @@ bool MessageSerial::parseRozkaz()
 {
     
     switch(rozkaz) {
-        case WELCOME_REQ:   //get info 
-        {                         
+        case WELCOME_MSG_REQ:   //get info 
+        {
             actWork = WELCOME_MSG;
             return true;
         }
 
-        case POSITION_REQ: 
+        case ECHO_CLEAR_REQ:
         {
-            Serial1.write(data, dlugosc+2);
-            actWork=NOP;
+            Serial.write(ECHO_CLEAR_REP);
+            actWork = NOP;
             return true;
         }
-        case MOVEHOME_REQ:
-        {
-            Serial1.write(data, dlugosc+2);
-            actWork=NOP;
+
+        case CONF_REQ:
+            actWork = CONFIGURATION;
             return true;
-        }
-        case SET_PARAM_REQ:
-        {
-            Serial1.write(data, dlugosc+2);
-            actWork=NOP;
-            return true;
-        }
-        case NOP_MSG:
-        {
-            Serial.write(0xF0);
-            return true;
-        }
-        case MEASVALUE_REQ:
-        {
-            actWork = GET_RADIOVAL;
-            return true;
-        }
-        case MEASUNIT_REQ:
-        {
-            actWork=NOP;
-            return true;
-        }
-        case RESET_STER_REQ:
-        {
-            digitalWrite(RESET_NANO, LOW);
-            delay(1000);
-            digitalWrite(RESET_NANO, HIGH);
-            delay(2000);
-            sendMessage(RESET_STER_REP, nullptr, 0);  
-            actWork=NOP;
-            return true;
-        }
+
         default:
             break;
 
@@ -168,6 +151,28 @@ void MessageSerial::sendWelcomeMsg()
 {
                                 //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
     uint8_t sendData[15] = {'C','Z','U','J','N','I','K','I','L','I','N','I','O','W', 'E'};
-    sendMessage(WELCOME_REP, sendData, 15);
+    sendMessage(WELCOME_MSG_REP, 0x00, 0x00, sendData, 15);
 }
 
+void MessageSerial::sendError(const char * err)
+{
+    uint8_t sendData[15];
+    uint8_t i;
+    for (i = 0; i < 15 && err[i]; ++i) {
+        sendData[i] = err[i];
+    }
+    sendMessage(ECHO_CLEAR_REP, 0x00, 0x01, sendData, i);
+}
+
+void MessageSerial::sendConfigDoneMsg(uint8_t addr)
+{
+    sendMessage(CONF_REP, addr, 0x00, nullptr, 0);
+}
+
+void MessageSerial::copyCmd(uint8_t *tab, uint8_t len)
+{
+    for (uint8_t i = 0; i < len; ++i)
+    {
+        tab[i] = data[i];
+    }
+}

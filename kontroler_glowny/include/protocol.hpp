@@ -13,6 +13,7 @@ class MessageSerial
     typedef enum _work {
         NOP,
         WELCOME_MSG,
+        CONFIGURATION,
     } Work;
 
     typedef enum _msg {
@@ -26,8 +27,8 @@ class MessageSerial
         LAST_REQ = 12,
         LAST_REP = 13,
         MEASURENT_REP = 14,
-        ECHO_CLEAR_REQ = 15,
-        ECHO_CLEAR_REP = 0,
+        ECHO_CLEAR_REQ = 0,
+        ECHO_CLEAR_REP = 15,
         INV_MSG = 16,
     } MsgType;
 
@@ -36,7 +37,12 @@ class MessageSerial
     Work getStatusWork() const { return actWork; }
     void reset();
 
+    void sendWelcomeMsg();
+    void sendConfigDoneMsg(uint8_t addr);
+
+    uint8_t getAddress() { return address ; }
     
+    void copyCmd(uint8_t *tab, uint8_t len);
 protected:
 
     bool isWork() { 
@@ -46,8 +52,8 @@ protected:
     
 
     bool parseRozkaz();
-    void sendMessage(uint8_t addr, uint8_t cmd, uint8_t *buf, uint8_t len);
-    void sendError()
+    void sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint8_t *buf, uint8_t len);
+    void sendError(const char * addr);
     
     private :
     // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
