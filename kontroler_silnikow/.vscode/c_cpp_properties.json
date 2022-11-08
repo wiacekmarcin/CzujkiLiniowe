@@ -11,6 +11,7 @@
                 "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
                 "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -25,6 +26,7 @@
                     "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
                     "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -35,7 +37,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60104",
+                "PLATFORMIO=60105",
                 "ARDUINO_AVR_PRO",
                 "F_CPU=16000000L",
                 "ARDUINO_ARCH_AVR",

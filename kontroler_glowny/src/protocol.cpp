@@ -1,6 +1,8 @@
 #include "protocol.hpp"
 #include <Arduino.h>
 
+#define DEBUG_SERIAL
+
 MessageSerial::MessageSerial() 
 {
     posCmd = 0;
@@ -28,8 +30,8 @@ bool MessageSerial::check(unsigned char c)
     data[posCmd++] = c;
     data[posCmd] = '\0';
 #ifdef DEBUG_SERIAL        
-    Serial.print("NOWY ZNAK=");
-    Serial.println(c, HEX);
+    Serial1.print("NOWY ZNAK=");
+    Serial1.println(c, HEX);
 #endif    
     if (posCmd-1 == 0) {    
         crc.restart();
@@ -37,10 +39,10 @@ bool MessageSerial::check(unsigned char c)
         rozkaz = data[0] >> 4;
         dlugosc = data[0] & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial.print("ROZKAZ=");
-        Serial.println(rozkaz,DEC);
-        Serial.print("LEN=");
-        Serial.println(dlugosc, DEC);
+        Serial1.print("ROZKAZ=");
+        Serial1.println(rozkaz,DEC);
+        Serial1.print("LEN=");
+        Serial1.println(dlugosc, DEC);
 #endif
         if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
             reset();
@@ -48,12 +50,14 @@ bool MessageSerial::check(unsigned char c)
         }
         return false;
     }
-    if (posCmd-1 == 0) {
-        crc.add(data[0]);
+
+    if (posCmd-2 == 0) {
         address = (data[1] >> 4) & 0x0f;
-        #ifdef DEBUG_SERIAL            
-        Serial.print("ADDRR=");
-        Serial.println(address);
+        options = data[1] & 0x0f;
+        crc.add(data[1]);
+#ifdef DEBUG_SERIAL            
+        Serial1.print("ADDRR=");
+        Serial1.println(address);
 #endif 
         return false;
     }
@@ -61,10 +65,10 @@ bool MessageSerial::check(unsigned char c)
     if (posCmd == dlugosc + 3) {
         uint8_t c = crc.getCRC();
 #ifdef DEBUG_SERIAL            
-        Serial.print("CRC=");
-        Serial.print(c,HEX);
-        Serial.print("==");
-        Serial.println(data[posCmd-1],HEX);
+        Serial1.print("CRC=");
+        Serial1.print(c,HEX);
+        Serial1.print("==");
+        Serial1.println(data[posCmd-1],HEX);
 #endif        
         if (data[posCmd-1] == c) {
             posCmd = 0;
@@ -73,7 +77,7 @@ bool MessageSerial::check(unsigned char c)
                 reset();
                 sendError("ZLY ROZKAZ");
 #ifdef DEBUG_SERIAL                    
-                Serial.println("ZLY ROZKAZ");
+                Serial1.println("ZLY ROZKAZ");
 #endif                
             }
             return r;
@@ -82,7 +86,7 @@ bool MessageSerial::check(unsigned char c)
         posCmd = 0;
         sendError("ZLE CRC");
 #ifdef DEBUG_SERIAL            
-        Serial.print("CRC FAILD");
+        Serial1.print("CRC FAILD");
 #endif        
         return false;
 
@@ -95,7 +99,7 @@ bool MessageSerial::check(unsigned char c)
         posCmd = 0;
         sendError("ZBYT DUZA WIAD");
 #ifdef DEBUG_SERIAL           
-        Serial.println("ZBYT DUZA WIADOMOSC");
+        Serial1.println("ZBYT DUZA WIADOMOSC");
 #endif        
         return false;    
     }
@@ -136,14 +140,28 @@ bool MessageSerial::parseRozkaz()
         }
 
         case CONF_REQ:
-            if (address == 0)
+        {
+            Serial1.println("konf");
+            Serial1.println(address, DEC);        
+            if (address == 0) {
+                Serial1.println("konf local");        
                 actWork = CONFIGURATION_LOCAL;
-            else if (address < 10)
+            }
+            else if (address < 10) {
+                Serial1.print("konf - ");
+                Serial1.println(address, DEC);
                 actWork = CONFIGURATION;
+            }
             else
                 actWork = NOP;
             return true;
+        }
 
+        case MOVE_REQ:
+        {
+            actWork = MOVE_REQUEST;
+            return true;
+        }
         default:
             break;
 

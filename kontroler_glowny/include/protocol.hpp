@@ -15,12 +15,14 @@ class MessageSerial
         WELCOME_MSG,
         CONFIGURATION,
         CONFIGURATION_LOCAL,
+        MOVE_REQUEST,
     } Work;
 
     typedef enum _msg {
         WELCOME_MSG_REQ = 1,
         WELCOME_MSG_REP = 2,
-
+        PROGRESS_REQ = 3,
+        PROGRESS_REP = 4,
         CONF_REQ = 8,
         CONF_REP = 9,
         MOVE_REQ = 10,
@@ -43,8 +45,12 @@ class MessageSerial
     void sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/);
 
     uint8_t getAddress() { return address ; }
+    uint8_t getOptions() { return options ; }
     
     void copyCmd(uint8_t *tab, uint8_t len);
+
+    uint8_t* msg() { return data; }
+    uint8_t len() { return posCmd; }
 protected:
 
     bool isWork() { 
@@ -58,7 +64,7 @@ protected:
     void sendError(const char * addr);
     
     private :
-    // rozkaz/dlugosc | 1 byte | 2 byte | 3 byte | 4 byte | crc
+    // rozkaz/dlugosc | Address | crc
     uint8_t data[MAXLENPROTO + 4];
 
     Work actWork;
@@ -66,6 +72,7 @@ protected:
     uint8_t rozkaz;
     uint8_t dlugosc;
     uint8_t address;
+    uint8_t options;
     CRC8 crc;
 
 };

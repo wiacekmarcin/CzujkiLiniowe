@@ -5,6 +5,10 @@
 
 typedef enum _MSGType
 {
+    ECHO_REQ = 0,
+    ECHO_REP = 1,
+    PROGRESS_REQ = 2,
+    PROGRESS_REP = 3,
     CONF_REQ = 8,
     CONF_REP = 9,
     MOVE_REQ = 10,
@@ -50,6 +54,8 @@ public:
 
     void copy(volatile uint8_t * tab);
 
+    uint8_t getAddr() { return addrMsg; };
+
     Result parse();
     Msgtype getMsgCmd() { return cmdMsg; }
     void clear();
@@ -66,9 +72,10 @@ private:
     Msgtype cmdMsg;
     uint8_t crcMsg;
     uint8_t addrMsg;
+    uint8_t options;
     uint8_t posData;
 
-    static constexpr uint8_t restMsgCnt = 1 + 1 + 4 + 1; //LENCMD ADR LICZNIK CRC
+    static constexpr uint8_t restMsgCnt = 1 + 1 + 1; //LENCMD ADR CRC
     static constexpr uint8_t msgCnt = 15;
     static constexpr uint8_t maxBuff = restMsgCnt + msgCnt;
     uint8_t recvBuff[maxBuff];

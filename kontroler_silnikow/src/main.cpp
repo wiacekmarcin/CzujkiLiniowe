@@ -3,13 +3,15 @@
 
 //SPI SLAVE (ARDUINO)
 #include<SPI.h>
+#include <TimerOne.h>
+
 
 #include "crc8.hpp"
 #include "proto.hpp"
 #include "silnik.hpp"
 
 #define BUSYPIN A0
-
+#define STOPPIN 2
 
 Motor mot;
 Message msg;
@@ -18,6 +20,7 @@ volatile bool received;
 volatile uint8_t recvBuff[32];
 volatile uint8_t sendBuff[32];
 volatile uint8_t recvPos;
+uint8_t addr = 0;
 
 
 inline void setBusy(bool busy)
@@ -28,134 +31,33 @@ inline void setBusy(bool busy)
 void setStop()
 {
 	mot.setStop();
+	Timer1.stop();
+}
+
+void readMeasurement()
+{
+    mot.impulse();
 }
 
 
-#define LEDPIN 9
-
-//#define DEBUG_START
 void setup()
 {
-#ifdef DEBUG_START
-	pinMode(A0, OUTPUT);
-	pinMode(A1, OUTPUT);
-	pinMode(A2, OUTPUT);
-	pinMode(A3, OUTPUT);
-	pinMode(MOSI, OUTPUT);
-	pinMode(MISO, OUTPUT);
-	pinMode(SCK, OUTPUT);
-	pinMode(SS, OUTPUT);
-	delay(100);
-	digitalWrite(A0, HIGH);
-	digitalWrite(A1, HIGH);
-	digitalWrite(A2, HIGH);
-	digitalWrite(A3, HIGH);
-	digitalWrite(MOSI, HIGH);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, HIGH);
-	digitalWrite(A2, HIGH);
-	digitalWrite(A3, HIGH);
-	digitalWrite(MOSI, HIGH);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, HIGH);
-	digitalWrite(A3, HIGH);
-	digitalWrite(MOSI, HIGH);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, HIGH);
-	digitalWrite(MOSI, HIGH);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, HIGH);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, LOW);
-	digitalWrite(MISO, HIGH);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, LOW);
-	digitalWrite(MISO, LOW);
-	digitalWrite(SCK, HIGH);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, LOW);
-	digitalWrite(MISO, LOW);
-	digitalWrite(SCK, LOW);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, LOW);
-	digitalWrite(MISO, LOW);
-	digitalWrite(SCK, LOW);
-	digitalWrite(SS, HIGH);
-	delay(100);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	digitalWrite(MOSI, LOW);
-	digitalWrite(MISO, LOW);
-	digitalWrite(SCK, LOW);
-	digitalWrite(SS, LOW);
-	delay(100);
-#else
-
 	pinMode(BUSYPIN, OUTPUT);
+	setBusy(true);
 	pinMode(SS, INPUT);
 	pinMode(SCK, INPUT);
 	pinMode(MOSI, INPUT);
 	pinMode(MISO, OUTPUT);
 	pinMode(A0, OUTPUT);
-	pinMode(A1, OUTPUT);
-	pinMode(A2, OUTPUT);
-	pinMode(A3, OUTPUT);
-	//setBusy(true);
+
+
 	
 	mot.init();
 	msg.init();
 
-  	pinMode(LEDPIN,OUTPUT);                 
   	pinMode(MISO,OUTPUT);                   //Sets MISO as OUTPUT (Have to Send data to Master IN 
 
-             //Interuupt ON is set for SPI commnucation
+    //Interuupt ON is set for SPI commnucation
 
 
 
@@ -168,15 +70,14 @@ void setup()
 
 	Serial.begin(115200);
 
-	//attachInterrupt(digitalPinToInterrupt(10), setStop);
+	attachInterrupt(digitalPinToInterrupt(STOPPIN), setStop, FALLING);
 	attachInterrupt(digitalPinToInterrupt(mot.KRANCPIN), setStop, FALLING);
-	digitalWrite(A0, LOW);
-	digitalWrite(A1, LOW);
-	digitalWrite(A2, LOW);
-	digitalWrite(A3, LOW);
-	//setBusy(false);
-	//attachInterrupt(digitalPinToInterrupt(SS), initialTransmit, FALLING);
-#endif	
+
+
+	Timer1.initialize(100000);
+    Timer1.attachInterrupt(readMeasurement);
+	Timer1.stop();
+	setBusy(false);
 }
 
 
@@ -200,8 +101,6 @@ void loop()
   	{
 		received = false;
 		while (actProcess < recvPos) {
-			digitalWrite(LEDPIN, HIGH);
-			//Serial.println(recvBuff[recvPos-1], HEX);
 			if (msg.add(recvBuff[actProcess++])) {
 				setBusy(true);
 				recvPos = 0;
@@ -209,11 +108,47 @@ void loop()
 				
 				Result status = msg.parse();
 				if (status.ok) {
+					uint8_t addr = msg.getAddr();
 					switch(msg.getMsgCmd()) {
-					case LAST_REP:
+					case LAST_REQ:
 						for (uint8_t i = 0; i < 32; ++i)
 							sendBuff[i] = 0;
+						setBusy(false);
 						break;
+					
+					case ECHO_REQ:
+						CRC8 crc;
+						crc.restart();
+						sendBuff[0] = (ECHO_REP << 4) & 0xf0;
+						sendBuff[1] = ((addr << 4) & 0xf0) | 0x08;
+						crc.add(sendBuff[0]);
+						crc.add(sendBuff[1]);
+						sendBuff[2] = crc.getCRC();
+						setBusy(false);
+						break;
+
+					case PROGRESS_REQ:
+						CRC8 crc;
+						crc.restart();
+						sendBuff[0] = (( PROGRESS_REP << 4) & 0xf0) | 0x04;
+						sendBuff[1] = ((addr << 4) & 0xf0) | 0x08;
+						if (mot.getIsMoveHome())
+							sendBuff[1] |= 0x04;
+						crc.add(sendBuff[0]);
+						crc.add(sendBuff[1]);
+						int pos = mot.getGlobalPos();
+						sendBuff[2] = (uint8_t)(pos >> 24) & 0xff;
+						sendBuff[3] = (uint8_t)(pos >> 16) & 0xff;
+						sendBuff[4] = (uint8_t)(pos >> 8) & 0xff;
+						sendBuff[5] = (uint8_t)(pos) & 0xff;
+						crc.add(sendBuff[2]);
+						crc.add(sendBuff[3]);
+						crc.add(sendBuff[4]);
+						crc.add(sendBuff[5]);
+						sendBuff[6] = crc.getCRC();
+						setBusy(false);
+						break;
+
 					case CONF_REQ:
 						Serial.println("Konfiguracja:");
 						Serial.print("reverse=");
@@ -231,19 +166,22 @@ void loop()
 						mot.setEnabledAlways(status.data.conf.enableAlways);
 						mot.setBaseSteps(status.data.conf.baseSteps);
 						mot.setDelayImp(status.data.conf.delayImp);
+						Timer1.setPeriod(status.data.conf.delayImp);
 						msg.copy(sendBuff);	
 						break;
+
 					case MOVE_REQ:
 						Serial.print("Ruch. Home = ");
 						Serial.print(status.data.move.isHome ? "Tak" : "Nie");
 						Serial.print(" Kroki = ");
 						Serial.println(status.data.move.steps, DEC);
-						if (status.data.move.isHome) 
+						if (status.data.move.isHome) {
 							mot.moveHome();
-						else 
+						} else {
 							mot.movePosition(status.data.move.steps);
+						}
 						break;
-						msg.copy(sendBuff);	
+						
 					default:
 						Serial.println("Uknonwn");
 						break;
@@ -253,9 +191,8 @@ void loop()
 				}
 				msg.clear();
 				recvPos = 0;
-				setBusy(false);
+				
 			}
-			digitalWrite(LEDPIN, LOW);
 		}
 	}
 }

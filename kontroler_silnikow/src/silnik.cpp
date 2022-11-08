@@ -12,6 +12,11 @@ Motor::Motor() :
     ,delayImp(1000)
     ,baseSteps(100)
     ,wasHome(false)
+	,isRun(false)
+	,newPosition(false)
+	,diff(0)
+	,highlevel(false)
+	,isMoveHome(false)
 {
 
 }
@@ -20,21 +25,17 @@ void Motor::init()
 {
 
   	pinMode(ENPIN, OUTPUT);
-	pinMode(ENPIN2, OUTPUT);
 	//setEnabled(true);
   
   	pinMode(KRANCPIN, INPUT_PULLUP);
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
-	pinMode(DIRPIN2, OUTPUT);
-	pinMode(PULSEPIN2, OUTPUT);
 }
 
 
 inline void Motor::setEnabled(bool en)
 {
 	digitalWrite(ENPIN, en ? LOW : HIGH);
-	digitalWrite(ENPIN2, en? LOW : HIGH);
 }
 
 //DIR REV
@@ -46,7 +47,6 @@ inline void Motor::setDir(bool back)
 {
 	bool out = back ^ reverseMotor;
 	digitalWrite(DIRPIN, out);
-	digitalWrite(DIRPIN2, out);
 }
 
 void Motor::setStop()
@@ -54,9 +54,24 @@ void Motor::setStop()
 	canMove = false;
 }
 
+void Motor::impulse()
+{
+	if () {
+		highlevel = !highlevel;
+		digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
+		globalPos += diff;
+		if (globalPos == newPosition) {
+
+		}
+	}
+}
+
+
 bool Motor::moveHome()
 {
 	bool ret = false;
+	isMoveHome = true;
+
 	//if (!enableAlways)
 	setEnabled(true);
 
@@ -64,17 +79,14 @@ bool Motor::moveHome()
 	
 	uint32_t steps = maxSteps;
 	digitalWrite(PULSEPIN, LOW);
-	digitalWrite(PULSEPIN2, LOW);
 	while (steps-- && canMove && digitalRead(10))
 	{
 		delayMicroseconds(delayImp);
 		if (!canMove || !digitalRead(SS))
 			break;
 		digitalWrite(PULSEPIN, HIGH);
-		digitalWrite(PULSEPIN2, HIGH);
 		delayMicroseconds(delayImp);
 		digitalWrite(PULSEPIN, LOW);
-		digitalWrite(PULSEPIN2, LOW);
 	}
 
 	if (!canMove) {
@@ -84,10 +96,8 @@ bool Motor::moveHome()
 		{
 			delayMicroseconds(delayImp);
 			digitalWrite(PULSEPIN, HIGH);
-			digitalWrite(PULSEPIN2, HIGH);
 			delayMicroseconds(delayImp);
 			digitalWrite(PULSEPIN, LOW);
-			digitalWrite(PULSEPIN2, LOW);
 		}
 		ret = true;
 	}	
@@ -100,7 +110,7 @@ bool Motor::moveHome()
 
 bool Motor::movePosition(uint32_t pos) 
 {
-
+	isMoveHome = false;
 	uint32_t steps;
 	uint8_t diff = 0;
 
@@ -124,7 +134,6 @@ bool Motor::movePosition(uint32_t pos)
 	}
 
 	digitalWrite(PULSEPIN, LOW);
-	digitalWrite(PULSEPIN2, LOW);
 	Serial.print("1. Steps = ");
 	Serial.println(steps, DEC);
 	steps += 1; //dodaje zero i 1 dekremetacja licznika 
@@ -136,10 +145,8 @@ bool Motor::movePosition(uint32_t pos)
 			break;
 		}
 		digitalWrite(PULSEPIN, HIGH);
-		digitalWrite(PULSEPIN2, HIGH);
 		delayMicroseconds(delayImp);
 		digitalWrite(PULSEPIN, LOW);
-		digitalWrite(PULSEPIN2, LOW);
 		globalPos += diff;
 	}
 	Serial.print("2. Steps");

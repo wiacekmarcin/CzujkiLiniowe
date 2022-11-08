@@ -34,12 +34,12 @@ void Message::clear()
 
 bool Message::add(uint8_t b)
 {
+    Serial.print(b, HEX);
     recvBuff[recvPos++] = b;
     if (!startMsg && recvPos == 1) {
         startMsg = true;
         lenMsg = recvBuff[0] & 0x0f;
         cmdMsg = conv(recvBuff[0]);
-        sendBuff[0] = recvBuff[0] | 0x10;
         return false;
     }
 
@@ -47,19 +47,13 @@ bool Message::add(uint8_t b)
         return false;
 
     if (recvPos == 2) {
-        sendBuff[1] = recvBuff[1] | 0x08;
-        addrMsg = recvBuff[1];
+        addrMsg = (recvBuff[1] >> 4)  & 0x0f;
+        options = recvBuff[1] & 0x0f;
         return false;
     }
 
-    if (recvPos == 3 || recvPos == 4 || recvPos == 5 || recvPos == 6) {
-        sendBuff[recvPos-1] = recvBuff[recvPos -1];
+    if (recvPos == 3) {
         posData = 0;
-        return false;
-    }
-
-    if (recvPos == 7) {
-        sendPos = recvPos - 1;
     }
 
     if (posData == lenMsg) {
@@ -103,28 +97,39 @@ Result Message::parse()
     r.ok = true;
 
     c.reset();
+    Serial.print("Parse  ");
     for (int i=0; i< lenMsg + restMsgCnt-1; ++i ) {
         Serial.print(recvBuff[i], HEX);
         Serial.print(" ");
         c.add(recvBuff[i]);
     }
-    Serial.print("crc=");
+    Serial.print(" crc=");
     Serial.println(recvBuff[lenMsg + restMsgCnt-1], HEX);
     
     if (c.getCRC() != recvBuff[lenMsg + restMsgCnt-1]) {
-        Serial.print("crc=");
+        Serial.print("invalid crc=");
         Serial.println(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
     
     Serial.print("cmdMsg");
-    Serial.println(cmdMsg, HEX);
+    Serial.println(cmdMsg, DEC);
     Serial.print("lenMsg");
     Serial.println(lenMsg, DEC);
+    Serial.print("addr");
+    Serial.println(addrMsg, DEC);
     if (cmdMsg == LAST_REP)
         return r;
 
+    if (cmdMsg == ECHO_REQ) {
+        return r;
+    }
+
+    if (cmdMsg == PROGRESS_REQ) {
+        return r;
+    }
+    
     if (cmdMsg == CONF_REQ) {
         r.data.conf.reverse = (dataCmd[0] & 0x01) == 0x01;
         r.data.conf.enableAlways = (dataCmd[0] & 0x02) == 0x02;
@@ -135,7 +140,7 @@ Result Message::parse()
     }
 
     if (cmdMsg == MOVE_REQ) {
-        r.data.move.isHome = (addrMsg & 0x01);
+        r.data.move.isHome = (options & 0x01);
         if (r.data.move.isHome) 
             r.data.move.steps = 0;
         else    
@@ -143,6 +148,7 @@ Result Message::parse()
         return r;
     }
 
+    Serial.println("Nieznana wiadomosc");
     r.ok = false;
     return r;
 }
@@ -160,10 +166,11 @@ uint16_t Message::toNumber16(uint8_t n2, uint8_t n1)
 Msgtype Message::conv(uint8_t m)
 {
     switch(m & 0xf0) {
-        case 0x00: return ECHO_REQ;
-        case 0x20: return CONF_REQ;
-        case 0x40: return MOVE_REQ;
-        case 0xe0: return LAST_REQ;
+        case ECHO_REQ << 4: return ECHO_REQ;
+        case LAST_REQ << 4: return LAST_REQ;
+        case CONF_REQ << 4: return CONF_REQ;
+        case MOVE_REQ << 4: return MOVE_REQ;
+        //case PROGRESS_REQ << 4: return PROGRESS_REQ;
         default: return INV_MSG;
     }
 }
