@@ -22,12 +22,25 @@ static void configurationLocal();
 static void welcomeMsg();
 static void configuration();
 static void moveSteps();
+static void getMotorReply(uint8_t index);
+static void sendProgressMsg(uint8_t index);
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
-volatile bool readMsr = false;
-void readMeasurement()
+volatile bool timeout = false;
+
+void phex(uint8_t b)
 {
-    readMsr = true;
+    Serial1.print(" ");
+    if (b < 10)
+        Serial1.print("0");
+    Serial1.print(b, HEX);
+}
+
+
+void timerHandler()
+{
+    //timeout = true;
+    //Serial1.println("IRQ T");
 }
 
 
@@ -36,8 +49,11 @@ volatile bool finishJob[maxNumSter] = {false,false,false,false,false,false,false
 
 typedef enum _actJob {
     JOB_NOP,
+    JOB_CONF,
+    JOB_PROGR,
     JOB_HOME_RETURN,
-    JOB_POSITIONING
+    JOB_POSITIONING,
+    JOB_RESPONSE,
 } actKontrJob;
 
 actKontrJob actJob[maxNumSter] = {JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP};
@@ -54,10 +70,11 @@ typedef enum _measurJob {
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
-    finishJob[N-1] = true;\
+    if (actJob[N] == JOB_RESPONSE) return; \
+    finishJob[N] = true;\
     /*digitalWrite(stopPins[N-1],LOW);*/\
 }
-
+FINISHJOB(0)
 FINISHJOB(1)
 FINISHJOB(2)
 FINISHJOB(3)
@@ -66,10 +83,10 @@ FINISHJOB(5)
 FINISHJOB(6)
 FINISHJOB(7)
 FINISHJOB(8)
-FINISHJOB(9)
+
 
 typedef void (*isr_bust_fun)(void);
-isr_bust_fun funptr[maxNumSter] = {isrFinishJob1, isrFinishJob2, isrFinishJob3, isrFinishJob4, isrFinishJob5, isrFinishJob6, isrFinishJob7, isrFinishJob8, isrFinishJob9};
+isr_bust_fun funptr[maxNumSter] = {isrFinishJob0, isrFinishJob1, isrFinishJob2, isrFinishJob3, isrFinishJob4, isrFinishJob5, isrFinishJob6, isrFinishJob7, isrFinishJob8};
 
 void setup (void)
 {
@@ -77,6 +94,7 @@ void setup (void)
     digitalWrite(resetPins, LOW);
     delay(50);
     digitalWrite(resetPins, HIGH);
+    delay(1500);
     
     // Put SCK, MOSI, SS pins into output mode
     // also put SCK, MOSI into LOW state, and SS into HIGH state.
@@ -103,17 +121,13 @@ void setup (void)
 #ifdef DEBUG    
     Serial1.begin(115200);
 #endif    
-#if 0    
-    Timer1.initialize(100000);
-    Timer1.attachInterrupt(readMeasurement);
-    Serial1.begin(1200); // to do konfiguracji
-#endif  
+    delay(1000);
+
+    Timer1.initialize(10000000);
+    Timer1.attachInterrupt(timerHandler);
+
+
 }  // end of setup
-
-volatile char buf[5];
-volatile byte pos = 0;
-volatile uint32_t counterMsg = 0;
-
 
 
 uint8_t kontId = 0;
@@ -122,7 +136,8 @@ MessageSerial::Work actWork;
 uint8_t confTab[9][18];
 uint8_t confMsgSize = 0;
 
-unsigned long readLastChar;    
+uint8_t indexMotor = 0;
+uint8_t indexMotorReply = 0;
 
 bool runLoop = false;
 void loop (void)
@@ -133,44 +148,212 @@ void loop (void)
     case MessageSerial::WELCOME_MSG: welcomeMsg(); break;
     case MessageSerial::CONFIGURATION: configuration(); break; 
     case MessageSerial::CONFIGURATION_LOCAL: configurationLocal(); break; 
-    case MessageSerial::MOVE_REQUEST moveSteps(); break;
+    case MessageSerial::MOVE_REQUEST: moveSteps(); break;
     default: break;
     }
 
-
-
-
-
-
-
-    if (runLoop) {
-        //przerwanie od konca pracy z sterownika
-        if (finishJob[kontId]) {
-            finishJob[kontId] = false;
-            if (actJob[kontId] == JOB_HOME_RETURN) {
-                //TODO send command with steps
-            } else if (actJob[kontId] == JOB_POSITIONING) {
-                //TODO send command with steps
-            }
-            actJob[kontId] = JOB_NOP;
+    if (timeout) {
+        if (indexMotor == 0) {
+            sendProgressMsg(indexMotor);
+            Serial1.print("INDEX=");
+            Serial1.println(indexMotor, DEC);
         }
-        ++kontId;
+        //else
+        //    delayMicroseconds(200);
+        
+    
+        if (++indexMotor == 9) {
+            timeout = false;
+            indexMotor = 0;
+        }
+    }
 
-        //przerwanie od timera
-        if (readMsr) {
-            readMsr = false;
+    if (finishJob[indexMotorReply]) {
+        Serial1.print("FIN=");
+        Serial1.println(indexMotorReply, DEC);
+        finishJob[indexMotorReply] = false;
+        //if (actJob[indexMotorReply] == JOB_PROGR) {
+        //    Serial1.println("PROG");
+            //Serial1.println(indexMotorReply, DEC);
+            getMotorReply(indexMotorReply);
+        //}
+        //actJob[indexMotorReply] = JOB_NOP;
 
-            digitalWrite(ssPins[msg.getAddress()-1], LOW); 
-            SPI.transfer(confTab[msg.getAddress()-1], 12);
-            digitalWrite(ssPins[msg.getAddress()-1], HIGH); 
-            
-            //mjob = SEND_CURR;
-            mjob = M_SEND_VALS;
-
+        if (mjob == M_SEND_VALS) {
+            msg.sendMeasuremnt();
+            mjob = MEAS_NOP;
             return;
         }
+    }
 
-        if (mjob == SEND_CURR) {
+    if (++indexMotorReply == 9) {
+        indexMotorReply = 0;
+    }    
+}
+
+void readSerial()
+{
+    if (Serial.available())  {
+        int c = Serial.read();
+#ifdef DEBUG
+        Serial1.print(c, HEX);
+#endif                
+        if (msg.check(c)) {
+            actWork = msg.getStatusWork();
+#ifdef DEBUG
+        Serial1.print("\nactWork=");
+        Serial1.println(actWork, DEC);
+#endif                  
+            return;
+        }
+    }
+}
+
+void configurationLocal()
+{
+#ifdef DEBUG
+    Serial1.println("Configuration Local");
+#endif        
+
+}
+
+void welcomeMsg()
+{
+#ifdef DEBUG
+    Serial1.println("Welcome Msg");
+#endif        
+    msg.sendWelcomeMsg();
+    actWork = MessageSerial::NOP;
+    return;
+}
+
+void configuration()
+{
+    uint8_t motor = msg.getAddress()-1;
+    digitalWrite(stopPins[motor],LOW);
+#ifdef DEBUG
+    Serial1.println("Send Configuration");
+#endif  
+    
+    msg.copyCmd(confTab[motor], msg.len());
+    confMsgSize = msg.len();
+    msg.sendConfigDoneMsg(msg.getAddress());
+    digitalWrite(stopPins[motor],HIGH);      
+#ifdef DEBUG        
+    Serial1.print("motor = ");
+    Serial1.print(motor, DEC);
+    Serial1.print(" confMsgSize=");
+    Serial1.print(confMsgSize, DEC);
+    Serial1.print(" PIN=");
+    Serial1.println(ssPins[motor]);
+#endif  
+                
+    digitalWrite(ssPins[motor], LOW); 
+    SPI.transfer(confTab[motor], confMsgSize);
+    digitalWrite(ssPins[motor], HIGH); 
+    digitalWrite(stopPins[motor], HIGH);      
+    actWork = MessageSerial::NOP;
+    actJob[motor] = JOB_CONF;
+}
+
+void moveSteps()
+{
+    uint8_t motor = msg.getAddress()-1;
+    digitalWrite(stopPins[motor],LOW);
+    actJob[motor] = ((msg.getOptions() & 0x01) == 0x01) ? JOB_HOME_RETURN : JOB_POSITIONING ; 
+#ifdef DEBUG
+    Serial1.print("Send steps ");
+    Serial1.println(((msg.getOptions() & 0x01) == 0x01) ? "H" : "M");
+    Serial1.print("PIN=");
+    Serial1.println(ssPins[motor]);
+#endif  
+
+    digitalWrite(ssPins[motor], LOW); 
+    SPI.transfer(msg.msg(), msg.len());
+    digitalWrite(ssPins[motor], HIGH); 
+    actWork = MessageSerial::NOP;
+    digitalWrite(stopPins[motor],HIGH);
+}
+
+void sendProgressMsg(uint8_t index)
+{
+#ifdef DEBUG
+    Serial1.print("Send Progress Msg ID=");
+    Serial1.println(index+1, DEC);
+#endif  
+    uint8_t msgLocal[3] = { 
+        ((MessageSerial::PROGRESS_REQ << 4) & 0xf0) ,
+        (uint8_t)(((index+1) << 4) & 0xf0),  0x00  };
+    CRC8 c;
+    c.reset();
+    c.add(msgLocal[0]);
+    c.add(msgLocal[1]);
+    msgLocal[2] = c.getCRC();
+#ifdef DEBUG
+    Serial1.print("Send msg ");
+    phex(msgLocal[0]);
+    phex(msgLocal[1]);
+    phex(msgLocal[2]);
+    Serial1.println("");
+#endif   
+    actJob[index] = JOB_PROGR;
+    digitalWrite(ssPins[index], LOW);
+    SPI.transfer(msgLocal, 3);
+    digitalWrite(ssPins[index], HIGH); 
+
+}
+void getMotorReply(uint8_t index)
+{
+#ifdef DEBUG
+    Serial1.print("Get Reply from ID=");
+    Serial1.println(index, DEC);
+#endif  
+    uint8_t msgLocal[20] = { 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 
+                             0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0 };
+    msgLocal[0] = (MessageSerial::LAST_REQ << 4) & 0xf0;
+    msgLocal[1] = (uint8_t)(((index+1) << 4) & 0xf0);
+    CRC8 c;
+    c.reset();
+    c.add(msgLocal[0]);
+    c.add(msgLocal[1]);
+    msgLocal[2] = c.getCRC();
+#ifdef DEBUG
+    Serial1.print("Send msg ");
+    phex(msgLocal[0]);
+    phex(msgLocal[1]);
+    phex(msgLocal[2]);
+    phex(msgLocal[3]);
+    Serial1.println("");
+#endif
+    actJob[index] = JOB_RESPONSE;
+    digitalWrite(ssPins[index], LOW);
+    SPI.transfer(msgLocal, 20);
+    digitalWrite(ssPins[index], HIGH); 
+#ifdef DEBUG
+    Serial1.print("Recv message LEN=");
+    Serial1.print(msgLocal[0], DEC);
+    Serial1.print(" Msg =");
+    phex(msgLocal[0]);
+    phex(msgLocal[1]);
+    phex(msgLocal[2]);
+    phex(msgLocal[3]);
+    phex(msgLocal[4]);
+    phex(msgLocal[5]);
+    phex(msgLocal[6]);
+    phex(msgLocal[7]);
+    phex(msgLocal[8]);
+    phex(msgLocal[9]);
+    Serial1.println("");
+#endif 
+    if (msgLocal[1] < 20)     
+        Serial.write(msgLocal + 2, msgLocal[1]);
+}
+
+/*
+
+int main_2()
+{
+    if (mjob == SEND_CURR) {
             Serial1.write("CURR?");
             mjob = WAIT_CURR;
             readLastChar = millis();
@@ -216,93 +399,7 @@ void loop (void)
     }
 
 
-    
 }
-
-void readSerial()
-{
-    if (Serial.available())  {
-        int c = Serial.read();
-#ifdef DEBUG
-        Serial1.print(c, HEX);
-#endif                
-        if (msg.check(c)) {
-            actWork = msg.getStatusWork();
-#ifdef DEBUG
-        Serial1.print("\nactWork=");
-        Serial1.println(actWork, DEC);
-#endif                  
-            return;
-        }
-    }
-}
-
-void configurationLocal()
-{
-#ifdef DEBUG
-    Serial1.println("Configuration Local");
-#endif        
-    runLoop = true; // po co ?
-}
-
-void welcomeMsg()
-{
-#ifdef DEBUG
-        Serial1.println("Welcome Msg");
-#endif        
-        msg.sendWelcomeMsg();
-        actWork = MessageSerial::NOP;
-        runLoop = false;
-        return;
-    }
-}
-
-void configuration()
-{
-    uint8_t motor = msg.getAddress()-1;
-    digitalWrite(stopPins[motor],LOW);
-#ifdef DEBUG
-    Serial1.println("Send Configuration");
-#endif  
-    
-    msg.copyCmd(confTab[motor], msg.len());
-    confMsgSize = msg.len();
-    msg.sendConfigDoneMsg(msg.getAddress());
-    digitalWrite(stopPins[motor],HIGH);      
-#ifdef DEBUG        
-    Serial1.print("PIN=");
-    Serial1.println(ssPins[motor]);
-#endif  
-                
-    digitalWrite(ssPins[motor], LOW); 
-    SPI.transfer(confTab[motor], confMsgSize);
-    digitalWrite(ssPins[motor], HIGH); 
-    digitalWrite(stopPins[motor], HIGH);      
-    actWork = MessageSerial::NOP;
-}
-
-void moveSteps()
-{
-    uint8_t motor = msg.getAddress()-1;
-    digitalWrite(stopPins[motor],LOW);
-    actJob[motor] = (msg.getOptions() & 0x01 == 0x01) ? JOB_HOME_RETURN : JOB_POSITIONING ; 
-#ifdef DEBUG
-    Serial1.print("Send steps ");
-    Serial1.println((msg.getOptions() & 0x01 == 0x01) ? "H" : "M");
-    Serial1.print("PIN=");
-    Serial1.println(ssPins[motor]);
-#endif  
-
-    digitalWrite(ssPins[motor], LOW); 
-    SPI.transfer(msg.msg(), msg.len());
-    digitalWrite(ssPins[motor], HIGH); 
-    actWork = MessageSerial::NOP;
-    digitalWrite(stopPins[motor],HIGH);
-}
-
-/*
-
-
 
 
 void sendConf(uint8_t addr, bool en, bool reverse, uint32_t maxStep, uint16_t baseStep, uint16_t delayImp)

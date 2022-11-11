@@ -2,12 +2,22 @@
 #include <SPI.h>
 #include "crc8.hpp"
 
+void phex(uint8_t b)
+{
+    Serial.print(" ");
+    if (b < 10)
+        Serial.print("0");
+    Serial.print(b, HEX);
+}
+
+
 Message::Message():
     recvPos(0),
     posData(0),
     lenMsg(0),
     sendPos(0),
-    addrMsg(0)
+    addrMsg(0),
+    skipChars(0)
 {
     clear();
 }
@@ -34,8 +44,19 @@ void Message::clear()
 
 bool Message::add(uint8_t b)
 {
-    Serial.print(b, HEX);
+    phex(b);
+    if (skipChars) {
+        --skipChars;
+        Serial.println(" Skip");
+        return false;
+    }else 
+    {
+        Serial.println(" Proc");
+    }
+        
+
     recvBuff[recvPos++] = b;
+
     if (!startMsg && recvPos == 1) {
         startMsg = true;
         lenMsg = recvBuff[0] & 0x0f;
@@ -119,8 +140,10 @@ Result Message::parse()
     Serial.println(lenMsg, DEC);
     Serial.print("addr");
     Serial.println(addrMsg, DEC);
-    if (cmdMsg == LAST_REP)
+    if (cmdMsg == LAST_REQ) {
+        skipChars = 17;
         return r;
+    }
 
     if (cmdMsg == ECHO_REQ) {
         return r;
@@ -170,7 +193,7 @@ Msgtype Message::conv(uint8_t m)
         case LAST_REQ << 4: return LAST_REQ;
         case CONF_REQ << 4: return CONF_REQ;
         case MOVE_REQ << 4: return MOVE_REQ;
-        //case PROGRESS_REQ << 4: return PROGRESS_REQ;
+        case PROGRESS_REQ << 4: return PROGRESS_REQ;
         default: return INV_MSG;
     }
 }

@@ -33,7 +33,8 @@ bool MessageSerial::check(unsigned char c)
     Serial1.print("NOWY ZNAK=");
     Serial1.println(c, HEX);
 #endif    
-    if (posCmd-1 == 0) {    
+    if (posCmd-1 == 0) {
+        lenMsg = posCmd;    
         crc.restart();
         crc.add(data[0]);
         rozkaz = data[0] >> 4;
@@ -52,6 +53,7 @@ bool MessageSerial::check(unsigned char c)
     }
 
     if (posCmd-2 == 0) {
+        lenMsg = posCmd;
         address = (data[1] >> 4) & 0x0f;
         options = data[1] & 0x0f;
         crc.add(data[1]);
@@ -63,6 +65,7 @@ bool MessageSerial::check(unsigned char c)
     }
     
     if (posCmd == dlugosc + 3) {
+        lenMsg = posCmd;
         uint8_t c = crc.getCRC();
 #ifdef DEBUG_SERIAL            
         Serial1.print("CRC=");

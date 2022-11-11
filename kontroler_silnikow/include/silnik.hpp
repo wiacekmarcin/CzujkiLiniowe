@@ -10,8 +10,8 @@ public:
     Motor();
 
     void setStop();
-    bool moveHome();
-    bool movePosition(uint32_t pos);
+    void moveHome();
+    void movePosition(uint32_t pos);
 
     void init();
 
@@ -56,6 +56,7 @@ private:
     volatile bool highlevel;
 
     bool isMoveHome;
+    volatile uint32_t actSteps;
 };
 
 #endif // __SILNIK_H__

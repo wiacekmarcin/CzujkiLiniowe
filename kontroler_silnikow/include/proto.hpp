@@ -7,14 +7,15 @@ typedef enum _MSGType
 {
     ECHO_REQ = 0,
     ECHO_REP = 1,
-    PROGRESS_REQ = 2,
-    PROGRESS_REP = 3,
+    PROGRESS_REQ = 6,
+    PROGRESS_REP = 7,
     CONF_REQ = 8,
     CONF_REP = 9,
     MOVE_REQ = 10,
     MOVE_REP = 11,
     LAST_REQ = 12,
     LAST_REP = 13,
+    SKIP_CHAR = 15,
     INV_MSG = 16,
 } Msgtype;
 
@@ -84,7 +85,7 @@ private:
     uint8_t sendPos;
     uint8_t dataCmd[15];
 
-    
-    
+    uint8_t skipChars;
+   
 };
 #endif // __PROTO_H__

@@ -21,14 +21,14 @@ class MessageSerial
     typedef enum _msg {
         WELCOME_MSG_REQ = 1,
         WELCOME_MSG_REP = 2,
-        PROGRESS_REQ = 3,
-        PROGRESS_REP = 4,
+        PROGRESS_REQ = 6,
+        PROGRESS_REP = 7,
         CONF_REQ = 8,
         CONF_REP = 9,
-        MOVE_REQ = 10,
-        MOVE_REP = 11,
-        LAST_REQ = 12,
-        LAST_REP = 13,
+        MOVE_REQ = 10, //a
+        MOVE_REP = 11, //b
+        LAST_REQ = 12, //c
+        LAST_REP = 13, //d
         MEASURENT_REP = 14,
         ECHO_CLEAR_REQ = 0,
         ECHO_CLEAR_REP = 15,
@@ -50,7 +50,7 @@ class MessageSerial
     void copyCmd(uint8_t *tab, uint8_t len);
 
     uint8_t* msg() { return data; }
-    uint8_t len() { return posCmd; }
+    uint8_t len() { return lenMsg; }
 protected:
 
     bool isWork() { 
@@ -74,7 +74,7 @@ protected:
     uint8_t address;
     uint8_t options;
     CRC8 crc;
-
+    uint8_t lenMsg;
 };
 
     
