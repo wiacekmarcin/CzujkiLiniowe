@@ -29,10 +29,7 @@ bool MessageSerial::check(unsigned char c)
 {
     data[posCmd++] = c;
     data[posCmd] = '\0';
-#ifdef DEBUG_SERIAL        
-    Serial1.print("NOWY ZNAK=");
-    Serial1.println(c, HEX);
-#endif    
+  
     if (posCmd-1 == 0) {
         lenMsg = posCmd;    
         crc.restart();
@@ -40,9 +37,9 @@ bool MessageSerial::check(unsigned char c)
         rozkaz = data[0] >> 4;
         dlugosc = data[0] & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial1.print("ROZKAZ=");
-        Serial1.println(rozkaz,DEC);
-        Serial1.print("LEN=");
+        Serial1.print("ROZ=");
+        Serial1.print(rozkaz,DEC);
+        Serial1.print(" LEN=");
         Serial1.println(dlugosc, DEC);
 #endif
         if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
@@ -58,8 +55,10 @@ bool MessageSerial::check(unsigned char c)
         options = data[1] & 0x0f;
         crc.add(data[1]);
 #ifdef DEBUG_SERIAL            
-        Serial1.print("ADDRR=");
-        Serial1.println(address);
+        Serial1.print("ADD=");
+        Serial1.print(address);
+        Serial1.print(" OPT=");
+        Serial1.println(options);
 #endif 
         return false;
     }
@@ -68,10 +67,11 @@ bool MessageSerial::check(unsigned char c)
         lenMsg = posCmd;
         uint8_t c = crc.getCRC();
 #ifdef DEBUG_SERIAL            
-        Serial1.print("CRC=");
+        Serial1.print("CRC (");
         Serial1.print(c,HEX);
         Serial1.print("==");
-        Serial1.println(data[posCmd-1],HEX);
+        Serial1.print(data[posCmd-1],HEX);
+        Serial1.println(")");
 #endif        
         if (data[posCmd-1] == c) {
             posCmd = 0;
@@ -99,6 +99,7 @@ bool MessageSerial::check(unsigned char c)
     
     
     if (posCmd == MAXLENPROTO) {
+        reset();
         posCmd = 0;
         sendError("ZBYT DUZA WIAD");
 #ifdef DEBUG_SERIAL           
@@ -144,15 +145,12 @@ bool MessageSerial::parseRozkaz()
 
         case CONF_REQ:
         {
-            Serial1.println("konf");
+            Serial1.print("konf ");
             Serial1.println(address, DEC);        
             if (address == 0) {
-                Serial1.println("konf local");        
-                actWork = CONFIGURATION_LOCAL;
+                   actWork = CONFIGURATION_LOCAL;
             }
             else if (address < 10) {
-                Serial1.print("konf - ");
-                Serial1.println(address, DEC);
                 actWork = CONFIGURATION;
             }
             else
@@ -166,6 +164,8 @@ bool MessageSerial::parseRozkaz()
             return true;
         }
         default:
+            Serial1.print("Nieznany rozkaz ");
+            Serial1.println(rozkaz, DEC);
             break;
 
     }
@@ -194,13 +194,6 @@ void MessageSerial::sendConfigDoneMsg(uint8_t addr)
 {
     sendMessage(CONF_REP, addr, 0x00, nullptr, 0);
 }
-
-void  MessageSerial::sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/)
-{
-    uint8_t sendData[] = {'0', '0', '1', '.', '0', ';', '0', '0', '2', '.', '0', ';'};
-    sendMessage(MEASURENT_REP, 0x10, 0x00, sendData, sizeof(sendData)/sizeof(uint8_t));
-}
-
 
 void MessageSerial::copyCmd(uint8_t *tab, uint8_t len)
 {

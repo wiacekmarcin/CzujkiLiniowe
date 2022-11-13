@@ -88,7 +88,7 @@ while True:
             continue
     	opt = 0
         steps = 0
-    	if i == 4:
+    	if i == '4':
     		steps = int(raw_input("Podaj ilosc krokow: "))
     	else:
     	    opt = 0x01
@@ -99,7 +99,6 @@ while True:
     	          (steps  & 0xff)]    
         cmd = [0xa0 | len(bytes), (m << 4 ) | opt] + bytes
         hash = crc8.crc8()
-        dozo = int(raw_input("Podaj nr dozownika: "))
 
         for c in cmd:
             hash.update(chr(c))

@@ -12,12 +12,15 @@ void phex(uint8_t b)
 
 
 Message::Message():
-    recvPos(0),
-    posData(0),
-    lenMsg(0),
-    sendPos(0),
-    addrMsg(0),
-    skipChars(0)
+    lenMsg(0)
+    ,cmdMsg(INV_MSG)
+    ,crcMsg(0)
+    ,addrMsg(0)
+    ,options(0)
+    ,posData(0)
+    ,recvPos(0)
+    ,sendPos(0)
+    ,skipChars(0)
 {
     clear();
 }

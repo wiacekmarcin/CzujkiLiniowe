@@ -9,7 +9,7 @@ class Motor
 public:
     Motor();
 
-    void setStop();
+    void setStop(bool hard);
     void moveHome();
     void movePosition(uint32_t pos);
 
@@ -25,7 +25,9 @@ public:
     int32_t getGlobalPos() const { return globalPos; }
     bool getIsMoveHome() const { return isMoveHome; }
 
-    void impulse();
+    bool impulse();
+
+    void print();
 
     static constexpr uint8_t KRANCPIN = 2;
 
@@ -57,6 +59,7 @@ private:
 
     bool isMoveHome;
     volatile uint32_t actSteps;
+
 };
 
 #endif // __SILNIK_H__

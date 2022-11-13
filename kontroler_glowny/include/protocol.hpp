@@ -19,6 +19,7 @@ class MessageSerial
     } Work;
 
     typedef enum _msg {
+
         WELCOME_MSG_REQ = 1,
         WELCOME_MSG_REP = 2,
         PROGRESS_REQ = 6,
@@ -29,7 +30,7 @@ class MessageSerial
         MOVE_REP = 11, //b
         LAST_REQ = 12, //c
         LAST_REP = 13, //d
-        MEASURENT_REP = 14,
+
         ECHO_CLEAR_REQ = 0,
         ECHO_CLEAR_REP = 15,
         INV_MSG = 16,

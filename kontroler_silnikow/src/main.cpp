@@ -12,9 +12,95 @@
 
 #define BUSYPIN A0
 #define STOPPIN 2
+#define KRANCPIN 3
 #define DEBUG
-Motor mot;
-Message msg;
+
+
+#if 1 
+volatile bool level = false;
+constexpr uint8_t ENPIN = 7;
+constexpr uint8_t DIRPIN = 8;
+constexpr uint8_t PULSEPIN = 9;
+
+void motorImpulse()
+{
+    level = !level;
+	digitalWrite(11, level ? HIGH : LOW);
+	digitalWrite(PULSEPIN, level ? HIGH : LOW);
+}
+
+volatile bool bstop1 = false;
+void stop1() 
+{
+	bstop1 = true;
+}
+
+volatile bool bstop2 = false;
+void stop2() 
+{
+	bstop2 = true;
+}
+
+bool dirLevel = false;
+void setup()
+{
+
+	pinMode(BUSYPIN, OUTPUT);
+	pinMode(13, OUTPUT);
+	pinMode(12, OUTPUT);
+	pinMode(11, OUTPUT);
+	pinMode(10, OUTPUT);
+	
+	pinMode(ENPIN, OUTPUT);
+	pinMode(PULSEPIN, OUTPUT);
+	pinMode(DIRPIN, OUTPUT);
+	digitalWrite(DIRPIN, HIGH);
+	pinMode(STOPPIN, INPUT);
+	pinMode(KRANCPIN, INPUT);
+	
+
+	digitalWrite(ENPIN, LOW);
+	digitalWrite(11, HIGH);
+
+	
+	Timer1.attachInterrupt(motorImpulse);
+	//Timer1.initialize(2000);
+
+	attachInterrupt(digitalPinToInterrupt(STOPPIN), stop1, FALLING);
+	//attachInterrupt(digitalPinToInterrupt(KRANCPIN), stop2, FALLING);
+
+
+	Timer1.start();
+}
+
+uint16_t cnt = 0;
+void loop()
+{
+	digitalWrite(10, digitalRead(KRANCPIN));
+	return;
+	 if (bstop2) {
+		bstop2 = false;
+		Timer1.stop();
+	 }
+
+	if (bstop1) {
+		bstop1 = false;
+		Timer1.stop();
+	}
+
+	 
+}
+
+
+#endif
+
+
+
+
+
+
+#if 0 
+
 
 volatile bool received;
 constexpr uint8_t maxBuff = 32;
@@ -22,6 +108,8 @@ volatile uint8_t recvBuff[maxBuff];
 volatile uint8_t sendBuff[maxBuff];
 volatile uint8_t recvPos;
 volatile uint8_t sendPos;
+volatile bool sendStopPos = false;
+
 uint8_t addr = 0;
 
 void phex2(uint8_t b)
@@ -37,30 +125,43 @@ inline void setBusy(bool busy)
 	digitalWrite(BUSYPIN, busy ? HIGH : LOW);;
 }
 
-void setStop()
+void setStopSoft()
 {
-	mot.setStop();
+	sendStopPos = true;
+	mot.setStop(false);
 	Timer1.stop();
 }
 
-void readMeasurement()
+void setStopHard()
 {
-    mot.impulse();
+	sendStopPos = true;
+	mot.setStop(true);
+	Timer1.stop();
+}
+
+
+void motorImpulse()
+{
+    sendStopPos = mot.impulse();
 }
 
 
 void setup()
 {
+
 	pinMode(BUSYPIN, OUTPUT);
 	setBusy(false);
+#ifndef TESTSILNIKA
 	pinMode(SS, INPUT);
 	pinMode(SCK, INPUT);
 	pinMode(MOSI, INPUT);
 	pinMode(MISO, OUTPUT);
-	pinMode(A0, OUTPUT);
-
-
+#endif // !1	
 	
+
+	Timer1.attachInterrupt(motorImpulse);
+	Timer1.initialize(200);
+    
 	mot.init();
 	msg.init();
 
@@ -68,10 +169,7 @@ void setup()
 
     //Interuupt ON is set for SPI commnucation
 
-
-
-	mot.setStop();
-	
+		
 	for (uint8_t i = 0; i < maxBuff; ++i) {
 		recvBuff[i] = 0;
 		sendBuff[i] = 0;
@@ -81,14 +179,15 @@ void setup()
 #endif // DEBUG
 
 
-	attachInterrupt(digitalPinToInterrupt(STOPPIN), setStop, FALLING);
-	attachInterrupt(digitalPinToInterrupt(mot.KRANCPIN), setStop, FALLING);
+	attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
+	attachInterrupt(digitalPinToInterrupt(mot.KRANCPIN), setStopHard, FALLING);
 
 
-	Timer1.initialize(100000);
-    Timer1.attachInterrupt(readMeasurement);
-	Timer1.stop();
+
+	Timer1.start();
 	setBusy(false);
+
+	mot.moveHome();
 }
 
 
@@ -98,8 +197,8 @@ ISR (SPI_STC_vect)                        //Inerrrput routine function
 {
   	recvBuff[recvPos] = SPDR;             // Value received from master if store in variable slavereceived
   	SPDR = sendBuff[sendPos];
-	recvPos = ++recvPos & 0x1f;
-	sendPos = ++sendPos & 0x1f;
+	recvPos = (recvPos+1) & 0x1f;
+	sendPos = (sendPos+1) & 0x1f;
   	received = true;
 }
 
@@ -107,16 +206,22 @@ ISR (SPI_STC_vect)                        //Inerrrput routine function
 bool cmd_in_progress = false;
 uint8_t lenCmd = 0;
 uint8_t actProcess = 0;
+uint32_t counter = 6500000;
 void loop()
 { 
+	--counter ;
+	if (counter < 2) {
+		counter = 6500000;
+		mot.print();
+		delay(1);
+	}
+
   	if(received)                            //Logic to SET LED ON OR OFF depending upon the value recerived from master
   	{
 		received = false;
-		setBusy(true);
 		while (actProcess < recvPos) {
 			if (msg.add(recvBuff[actProcess++])) {
 				setBusy(true);
-				recvPos = 0;
 				actProcess = 0;
 				
 				Result status = msg.parse();
@@ -127,7 +232,6 @@ void loop()
 					{
 						for (uint8_t i = 0; i < maxBuff; ++i)
 							sendBuff[i] = 0;
-						setBusy(false);
 						break;
 					}
 
@@ -157,19 +261,13 @@ void loop()
 						if (mot.getIsMoveHome())
 							sendBuff[2] |= 0x04;
 						crc.add(sendBuff[1]);
-						int pos = mot.getGlobalPos();
-						sendBuff[2] = (uint8_t)(pos >> 24) & 0xff;
-						sendBuff[3] = (uint8_t)(pos >> 16) & 0xff;
-						sendBuff[4] = (uint8_t)(pos >> 8) & 0xff;
-						sendBuff[5] = (uint8_t)(pos) & 0xff;
-						crc.add(sendBuff[2]);
 						int32_t pos = mot.getGlobalPos();
 						Serial.print("POS=");
 						Serial.println(pos, DEC);
-						sendBuff[3] = (uint8_t)((pos >> 24) & 0xff);
-						sendBuff[4] = (uint8_t)((pos >> 16) & 0xff);
-						sendBuff[5] = (uint8_t)((pos >> 8) & 0xff);
-						sendBuff[6] = (uint8_t)((pos) & 0xff);
+						sendBuff[3] = (pos >> 24) & 0xff;
+						sendBuff[4] = (pos >> 16) & 0xff;
+						sendBuff[5] = (pos >> 8) & 0xff;
+						sendBuff[6] = (pos) & 0xff;
 						crc.add(sendBuff[3]);
 						crc.add(sendBuff[4]);
 						crc.add(sendBuff[5]);
@@ -261,13 +359,19 @@ void loop()
 				}
 				msg.clear();
 				recvPos = 0;
-				
+				setBusy(false);		
 			}
 		}
-		setBusy(false);
+		
 		recvPos = 0;
 		sendPos = 0;
 		actProcess = 0;
+	}
+
+	if (sendStopPos) {
+		setBusy(true);	
+		sendStopPos = false;
+		setBusy(false);	
 	}
 }
 
@@ -291,3 +395,4 @@ void loop()
   }
 }
 */
+#endif

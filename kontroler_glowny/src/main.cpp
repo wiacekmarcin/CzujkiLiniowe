@@ -4,7 +4,7 @@
 
 #include "crc8.hpp"
 #include "protocol.hpp"
-
+#include "spi_proto.hpp"
 MessageSerial msg;
 
 #define DEBUG
@@ -12,23 +12,25 @@ MessageSerial msg;
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
+constexpr uint8_t maxNumSter2 = 1;
 constexpr uint8_t resetPins = 53;
 constexpr uint8_t ssPins[maxNumSter]    = {49,47,45,43,41,39,37,35,33};
 constexpr uint8_t busyPins[maxNumSter]  = {A15,A14,A13,A12,A11,A10,A9,A8,10};
 constexpr uint8_t stopPins[maxNumSter]  = {48,46,44,42,40,38,36,34,32};
+
+SPIMessage motors[maxNumSter];
 
 static void readSerial();
 static void configurationLocal();
 static void welcomeMsg();
 static void configuration();
 static void moveSteps();
-static void getMotorReply(uint8_t index);
-static void sendProgressMsg(uint8_t index);
+
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
 volatile bool timeout = false;
 
-void phex(uint8_t b)
+static void phex(uint8_t b)
 {
     Serial1.print(" ");
     if (b < 10)
@@ -44,36 +46,12 @@ void timerHandler()
 }
 
 
-//przerwanie od kontrolera po skonczonej pracy 
-volatile bool finishJob[maxNumSter] = {false,false,false,false,false,false,false,false,false};
-
-typedef enum _actJob {
-    JOB_NOP,
-    JOB_CONF,
-    JOB_PROGR,
-    JOB_HOME_RETURN,
-    JOB_POSITIONING,
-    JOB_RESPONSE,
-} actKontrJob;
-
-actKontrJob actJob[maxNumSter] = {JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP,JOB_NOP};
-
-typedef enum _measurJob {
-    MEAS_NOP = 0,
-    SEND_CURR,
-    WAIT_CURR,
-    SEND_VOLT,
-    WAIT_VOLT,
-    M_SEND_VALS,
-} MeasurJob;
-
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
-    if (actJob[N] == JOB_RESPONSE) return; \
-    finishJob[N] = true;\
-    /*digitalWrite(stopPins[N-1],LOW);*/\
+    motors[N].setFinish();\
 }
+
 FINISHJOB(0)
 FINISHJOB(1)
 FINISHJOB(2)
@@ -110,11 +88,12 @@ void setup (void)
     pinMode(MOSI, OUTPUT);
     digitalWrite(MOSI, LOW);
 
-    for (uint8_t p = 0; p < maxNumSter; ++p) {
+    for (uint8_t p = 0; p < maxNumSter2; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
         pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
         attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], FALLING);
+        motors[p].init(p+1, ssPins[p], stopPins[p], &msg);
     }
 
     Serial.begin(115200);
@@ -130,15 +109,10 @@ void setup (void)
 }  // end of setup
 
 
-uint8_t kontId = 0;
-MeasurJob mjob = MEAS_NOP;
-MessageSerial::Work actWork;
-uint8_t confTab[9][18];
-uint8_t confMsgSize = 0;
-
 uint8_t indexMotor = 0;
 uint8_t indexMotorReply = 0;
 
+MessageSerial::Work actWork = MessageSerial::NOP;
 bool runLoop = false;
 void loop (void)
 {
@@ -154,9 +128,8 @@ void loop (void)
 
     if (timeout) {
         if (indexMotor == 0) {
-            sendProgressMsg(indexMotor);
-            Serial1.print("INDEX=");
-            Serial1.println(indexMotor, DEC);
+            motors[indexMotor].sendProgressMsg();
+
         }
         //else
         //    delayMicroseconds(200);
@@ -168,25 +141,9 @@ void loop (void)
         }
     }
 
-    if (finishJob[indexMotorReply]) {
-        Serial1.print("FIN=");
-        Serial1.println(indexMotorReply, DEC);
-        finishJob[indexMotorReply] = false;
-        //if (actJob[indexMotorReply] == JOB_PROGR) {
-        //    Serial1.println("PROG");
-            //Serial1.println(indexMotorReply, DEC);
-            getMotorReply(indexMotorReply);
-        //}
-        //actJob[indexMotorReply] = JOB_NOP;
+    motors[indexMotorReply++].checkIsDone();
 
-        if (mjob == M_SEND_VALS) {
-            msg.sendMeasuremnt();
-            mjob = MEAS_NOP;
-            return;
-        }
-    }
-
-    if (++indexMotorReply == 9) {
+    if (indexMotorReply == 9) {
         indexMotorReply = 0;
     }    
 }
@@ -230,123 +187,25 @@ void welcomeMsg()
 void configuration()
 {
     uint8_t motor = msg.getAddress()-1;
-    digitalWrite(stopPins[motor],LOW);
-#ifdef DEBUG
-    Serial1.println("Send Configuration");
-#endif  
-    
-    msg.copyCmd(confTab[motor], msg.len());
-    confMsgSize = msg.len();
-    msg.sendConfigDoneMsg(msg.getAddress());
-    digitalWrite(stopPins[motor],HIGH);      
-#ifdef DEBUG        
-    Serial1.print("motor = ");
-    Serial1.print(motor, DEC);
-    Serial1.print(" confMsgSize=");
-    Serial1.print(confMsgSize, DEC);
-    Serial1.print(" PIN=");
-    Serial1.println(ssPins[motor]);
-#endif  
-                
-    digitalWrite(ssPins[motor], LOW); 
-    SPI.transfer(confTab[motor], confMsgSize);
-    digitalWrite(ssPins[motor], HIGH); 
-    digitalWrite(stopPins[motor], HIGH);      
+    motors[motor].setConfiguration(msg.msg(), msg.len());
+    motors[motor].sendConfiguration();
     actWork = MessageSerial::NOP;
-    actJob[motor] = JOB_CONF;
 }
 
 void moveSteps()
 {
     uint8_t motor = msg.getAddress()-1;
-    digitalWrite(stopPins[motor],LOW);
-    actJob[motor] = ((msg.getOptions() & 0x01) == 0x01) ? JOB_HOME_RETURN : JOB_POSITIONING ; 
-#ifdef DEBUG
-    Serial1.print("Send steps ");
-    Serial1.println(((msg.getOptions() & 0x01) == 0x01) ? "H" : "M");
-    Serial1.print("PIN=");
-    Serial1.println(ssPins[motor]);
-#endif  
-
-    digitalWrite(ssPins[motor], LOW); 
-    SPI.transfer(msg.msg(), msg.len());
-    digitalWrite(ssPins[motor], HIGH); 
+    motors[motor].moveSteps(msg.msg(), msg.len(), (msg.getOptions() & 0x01) == 0x01);
     actWork = MessageSerial::NOP;
-    digitalWrite(stopPins[motor],HIGH);
 }
 
 void sendProgressMsg(uint8_t index)
 {
-#ifdef DEBUG
-    Serial1.print("Send Progress Msg ID=");
-    Serial1.println(index+1, DEC);
-#endif  
-    uint8_t msgLocal[3] = { 
-        ((MessageSerial::PROGRESS_REQ << 4) & 0xf0) ,
-        (uint8_t)(((index+1) << 4) & 0xf0),  0x00  };
-    CRC8 c;
-    c.reset();
-    c.add(msgLocal[0]);
-    c.add(msgLocal[1]);
-    msgLocal[2] = c.getCRC();
-#ifdef DEBUG
-    Serial1.print("Send msg ");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    Serial1.println("");
-#endif   
-    actJob[index] = JOB_PROGR;
-    digitalWrite(ssPins[index], LOW);
-    SPI.transfer(msgLocal, 3);
-    digitalWrite(ssPins[index], HIGH); 
-
+    motors[index].sendProgressMsg();
 }
 void getMotorReply(uint8_t index)
 {
-#ifdef DEBUG
-    Serial1.print("Get Reply from ID=");
-    Serial1.println(index, DEC);
-#endif  
-    uint8_t msgLocal[20] = { 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 
-                             0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0, 0xf0 };
-    msgLocal[0] = (MessageSerial::LAST_REQ << 4) & 0xf0;
-    msgLocal[1] = (uint8_t)(((index+1) << 4) & 0xf0);
-    CRC8 c;
-    c.reset();
-    c.add(msgLocal[0]);
-    c.add(msgLocal[1]);
-    msgLocal[2] = c.getCRC();
-#ifdef DEBUG
-    Serial1.print("Send msg ");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    phex(msgLocal[3]);
-    Serial1.println("");
-#endif
-    actJob[index] = JOB_RESPONSE;
-    digitalWrite(ssPins[index], LOW);
-    SPI.transfer(msgLocal, 20);
-    digitalWrite(ssPins[index], HIGH); 
-#ifdef DEBUG
-    Serial1.print("Recv message LEN=");
-    Serial1.print(msgLocal[0], DEC);
-    Serial1.print(" Msg =");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    phex(msgLocal[3]);
-    phex(msgLocal[4]);
-    phex(msgLocal[5]);
-    phex(msgLocal[6]);
-    phex(msgLocal[7]);
-    phex(msgLocal[8]);
-    phex(msgLocal[9]);
-    Serial1.println("");
-#endif 
-    if (msgLocal[1] < 20)     
-        Serial.write(msgLocal + 2, msgLocal[1]);
+    motors[index].sendReplyMsg();
 }
 
 /*

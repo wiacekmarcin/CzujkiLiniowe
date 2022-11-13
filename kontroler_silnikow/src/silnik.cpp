@@ -6,16 +6,15 @@ extern Message msg;
 Motor::Motor() :
     reverseMotor(false)
     ,enableAlways(true)
-	,maxSteps(100000)
-    ,delayImp(1000)
-    ,baseSteps(100)
-    ,wasHome(false)
+	,maxSteps(1000)
+    ,delayImp(150)
+    ,baseSteps(10)
 	,isRun(false)
 	,newPosition(false)
 	,diff(0)
 	,canMove(true)
     ,globalPos(0)
-    ,wasHome(false)
+	,wasHome(false)
 	,highlevel(false)
 	,isMoveHome(false)
 	,actSteps(0)
@@ -32,6 +31,7 @@ void Motor::init()
   	pinMode(KRANCPIN, INPUT_PULLUP);
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
+	Timer1.setPeriod(delayImp);
 }
 
 
@@ -51,25 +51,45 @@ inline void Motor::setDir(bool back)
 	digitalWrite(DIRPIN, out);
 }
 
-void Motor::setStop()
+void Motor::setStop(bool hard)
 {
 	canMove = false;
+	Timer1.stop();
+	if (hard) {
+		globalPos = 0;
+	}
+	isRun = false;
 }
 
-void Motor::impulse()
+bool Motor::impulse()
 {
 	highlevel = !highlevel;
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
 	globalPos += diff;
 	if (globalPos == newPosition || ++actSteps == maxSteps) {
 		Timer1.stop();
+		isRun = false;
+		return true;
 	}
+	return false;
 }
 
+void Motor::print()
+{
+	Serial.print("r= ");
+	Serial.print(isRun, DEC);
+	Serial.print(" a= ");
+	Serial.print(actSteps, DEC);
+	Serial.print(" m= ");
+	Serial.print(maxSteps, DEC);
+	Serial.print(" n= ");
+	Serial.print(newPosition, DEC);
+	Serial.print(" g= ");
+	Serial.println(globalPos, DEC);
+}
 
 void Motor::moveHome()
 {
-	bool ret = false;
 	isMoveHome = true;
 
 	//if (!enableAlways)
@@ -82,6 +102,7 @@ void Motor::moveHome()
 	newPosition = 0;
 	diff = -1;
 	Timer1.start();
+	isRun = true;
 }
 
 void Motor::movePosition(uint32_t pos) 
@@ -111,10 +132,11 @@ void Motor::movePosition(uint32_t pos)
 		setDir(true);
 		Serial.println("left");
 	} else if (pos < globalPos) {
-		steps = globalPos - pos;
+		actSteps = globalPos - pos;
 		diff = -1;
 		setDir(false);
 		Serial.println("right");
 	}
 	Timer1.start();
+	isRun = true;
 }
