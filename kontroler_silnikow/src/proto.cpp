@@ -47,17 +47,6 @@ void Message::clear()
 
 bool Message::add(uint8_t b)
 {
-    phex(b);
-    if (skipChars) {
-        --skipChars;
-        Serial.println(" Skip");
-        return false;
-    }else 
-    {
-        Serial.println(" Proc");
-    }
-        
-
     recvBuff[recvPos++] = b;
 
     if (!startMsg && recvPos == 1) {
@@ -127,23 +116,23 @@ Result Message::parse()
         Serial.print(" ");
         c.add(recvBuff[i]);
     }
-    Serial.print(" crc=");
-    Serial.println(recvBuff[lenMsg + restMsgCnt-1], HEX);
-    
-    if (c.getCRC() != recvBuff[lenMsg + restMsgCnt-1]) {
-        Serial.print("invalid crc=");
+        
+    Serial.println(crcMsg, HEX);    
+    if (c.getCRC() != crcMsg) {
+        Serial.print("invalid crc ");
         Serial.println(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
     
-    Serial.print("cmdMsg");
-    Serial.println(cmdMsg, DEC);
-    Serial.print("lenMsg");
-    Serial.println(lenMsg, DEC);
-    Serial.print("addr");
+    Serial.print("cmdMsg=");
+    Serial.print(cmdMsg, DEC);
+    Serial.print(" lenMsg");
+    Serial.print(lenMsg, DEC);
+    Serial.print(" addr=");
     Serial.println(addrMsg, DEC);
     if (cmdMsg == LAST_REQ) {
+        Serial.println("17 znakow do pominiecia");
         skipChars = 17;
         return r;
     }

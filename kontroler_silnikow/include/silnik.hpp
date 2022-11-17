@@ -60,6 +60,9 @@ private:
     bool isMoveHome;
     volatile uint32_t actSteps;
 
+    uint8_t cntPrint;
+    bool isMove;
+
 };
 
 #endif // __SILNIK_H__

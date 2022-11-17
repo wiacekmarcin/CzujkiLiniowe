@@ -9,6 +9,8 @@ MessageSerial msg;
 
 #define DEBUG
 
+#define TempPin 22
+
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
@@ -33,7 +35,7 @@ volatile bool timeout = false;
 static void phex(uint8_t b)
 {
     Serial1.print(" ");
-    if (b < 10)
+    if (b < 16)
         Serial1.print("0");
     Serial1.print(b, HEX);
 }
@@ -49,7 +51,9 @@ void timerHandler()
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
+    digitalWrite(26, HIGH);\
     motors[N].setFinish();\
+    digitalWrite(26, LOW);\
 }
 
 FINISHJOB(0)
@@ -70,15 +74,16 @@ void setup (void)
 {
     pinMode(resetPins, OUTPUT); 
     digitalWrite(resetPins, LOW);
-    delay(50);
-    digitalWrite(resetPins, HIGH);
-    delay(1500);
+    pinMode(26, OUTPUT);
+    digitalWrite(26, HIGH);
+
+    
     
     // Put SCK, MOSI, SS pins into output mode
     // also put SCK, MOSI into LOW state, and SS into HIGH state.
     // Then put SPI hardware into Master mode and turn SPI on
     SPI.begin ();
-    
+    //
     SPI.setClockDivider(SPI_CLOCK_DIV128);
 
     /* piny SPI */
@@ -100,12 +105,14 @@ void setup (void)
 #ifdef DEBUG    
     Serial1.begin(115200);
 #endif    
-    delay(1000);
+    //delay(1000);
 
-    Timer1.initialize(10000000);
-    Timer1.attachInterrupt(timerHandler);
+    //Timer1.initialize(10000000);
+    //Timer1.attachInterrupt(timerHandler);
 
 
+    digitalWrite(resetPins, HIGH);
+    digitalWrite(26, LOW);
 }  // end of setup
 
 
@@ -116,6 +123,7 @@ MessageSerial::Work actWork = MessageSerial::NOP;
 bool runLoop = false;
 void loop (void)
 {
+
     readSerial();
         
     switch(actWork) {
@@ -203,147 +211,6 @@ void sendProgressMsg(uint8_t index)
 {
     motors[index].sendProgressMsg();
 }
-void getMotorReply(uint8_t index)
-{
-    motors[index].sendReplyMsg();
-}
-
-/*
-
-int main_2()
-{
-    if (mjob == SEND_CURR) {
-            Serial1.write("CURR?");
-            mjob = WAIT_CURR;
-            readLastChar = millis();
-            return;
-        }
-
-        if (mjob == WAIT_CURR) {
-            if (Serial1.available()) {
-                uint8_t c = Serial1.read();
-                //TODO addMsg
-                readLastChar = millis();
-            } else {
-                if (millis() - readLastChar > 50)
-                mjob = SEND_VOLT;
-            }
-            return;
-        }
-        
-        if (mjob == SEND_VOLT) {
-            Serial1.write("VOLT?");
-            mjob = WAIT_VOLT;
-            readLastChar = millis();
-            return;
-        }
-
-        if (mjob == WAIT_VOLT) {
-            if (Serial1.available()) {
-                uint8_t c = Serial1.read();
-                //TODO addMsg
-                readLastChar = millis();
-            } else {
-                if (millis() - readLastChar > 50)
-                mjob = M_SEND_VALS;
-            }
-            return;
-        }
-
-        if (mjob == M_SEND_VALS) {
-            msg.sendMeasuremnt();
-            mjob = MEAS_NOP;
-            return;
-        }
-    }
 
 
-}
 
-
-void sendConf(uint8_t addr, bool en, bool reverse, uint32_t maxStep, uint16_t baseStep, uint16_t delayImp)
-{
-    ++counterMsg;
-    uint8_t sendBuf[] = { 	
-        uint8_t(0x20), 
-        uint8_t(addr*0x10), 
-        uint8_t((counterMsg >> 24) & 0xff), 
-        uint8_t((counterMsg >> 16) & 0xff), 
-        uint8_t((counterMsg >> 8) & 0xff), 
-        uint8_t(counterMsg & 0xff), 
-        uint8_t((0x02 * en) + (0x01 * reverse)), 
-        uint8_t((maxStep >> 24) & 0xff), 
-        uint8_t((maxStep >> 16) & 0xff), 
-        uint8_t((maxStep >> 8) & 0xff),
-        uint8_t(maxStep & 0xff), 
-        uint8_t((baseStep >> 8) & 0xff), 
-        uint8_t(baseStep & 0xff), 
-        uint8_t((delayImp >> 8) & 0xff), 
-        uint8_t(delayImp & 0xff),
-        uint8_t(0xff)
-    };
-    uint8_t lenMsg = sizeof(sendBuf)/sizeof(uint8_t);
-    sendBuf[0] = sendBuf[0] | ((lenMsg - 1 - 1 - 1) & 0x0f);
-    CRC8 c;
-    c.reset();
-    for (int i=0; i< lenMsg-1; ++i ) {
-        c.add(*(sendBuf+i));
-#ifdef DEBUG
-        Serial1.print(sendBuf[i], HEX);
-        Serial1.print(" ");
-#endif // DEBUG                
-    }
-
-    sendBuf[lenMsg-1] = c.getCRC();
-#ifdef DEBUG
-    Serial1.print("crc=");
-    Serial1.print(sendBuf[lenMsg-1], HEX);
-#endif // DEBUG            
-    
-    digitalWrite(ssPins[addr-1], LOW); 
-    SPI.transfer(sendBuf, lenMsg);
-    digitalWrite(ssPins[addr-1], HIGH); 
-}
-
-
-void sendMove(uint8_t addr, bool home, uint32_t steps)
-{
-    ++counterMsg;
-    uint8_t sendBuf[] = { 	
-        uint8_t(0x40), 
-        uint8_t(addr*0x10 | (home * 0x01)), 
-        uint8_t((counterMsg >> 24) & 0xff), 
-        uint8_t((counterMsg >> 16) & 0xff), 
-        uint8_t((counterMsg >> 8) & 0xff), 
-        uint8_t(counterMsg & 0xff), 
-        uint8_t((steps >> 24) & 0xff), 
-        uint8_t((steps >> 16) & 0xff), 
-        uint8_t((steps >> 8) & 0xff),
-        uint8_t(steps & 0xff), 
-        uint8_t(0xff)
-    };
-    uint8_t lenMsg = sizeof(sendBuf)/sizeof(uint8_t);
-    sendBuf[0] = sendBuf[0] | ((lenMsg - 1 - 1 - 1) & 0x0f);
-    CRC8 c;
-    c.reset();
-    for (int i=0; i< lenMsg-1; ++i ) {
-        c.add(*(sendBuf+i));
-#ifdef DEBUG
-        Serial1.print(sendBuf[i], HEX);
-        Serial1.print(" ");
-#endif // DEBUG        
-
-    }
-
-    sendBuf[lenMsg-1] = c.getCRC();
-#ifdef DEBUG
-    Serial.print("crc=");
-    Serial.print(sendBuf[lenMsg-1], HEX);
-#endif // DEBUG    
-    digitalWrite(ssPins[addr-1], LOW); 
-    SPI.transfer(sendBuf, lenMsg);
-    digitalWrite(ssPins[addr-1], HIGH); 
-
-  //while (digitalRead())
-}
-*/

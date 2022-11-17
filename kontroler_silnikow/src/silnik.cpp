@@ -19,7 +19,8 @@ Motor::Motor() :
 	,isMoveHome(false)
 	,actSteps(0)
 {
-
+	cntPrint = 1;
+    isMove = false;
 }
 
 void Motor::init()
@@ -59,6 +60,7 @@ void Motor::setStop(bool hard)
 		globalPos = 0;
 	}
 	isRun = false;
+	isMove = false;
 }
 
 bool Motor::impulse()
@@ -69,6 +71,7 @@ bool Motor::impulse()
 	if (globalPos == newPosition || ++actSteps == maxSteps) {
 		Timer1.stop();
 		isRun = false;
+		isMove = false;
 		return true;
 	}
 	return false;
@@ -76,21 +79,28 @@ bool Motor::impulse()
 
 void Motor::print()
 {
-	Serial.print("r= ");
-	Serial.print(isRun, DEC);
-	Serial.print(" a= ");
-	Serial.print(actSteps, DEC);
-	Serial.print(" m= ");
-	Serial.print(maxSteps, DEC);
-	Serial.print(" n= ");
-	Serial.print(newPosition, DEC);
-	Serial.print(" g= ");
-	Serial.println(globalPos, DEC);
+	if (isMove || cntPrint > 0) {
+		Serial.print("r= ");
+		Serial.print(isRun, DEC);
+		Serial.print(" a= ");
+		Serial.print(actSteps, DEC);
+		Serial.print(" m= ");
+		Serial.print(maxSteps, DEC);
+		Serial.print(" n= ");
+		Serial.print(newPosition, DEC);
+		Serial.print(" g= ");
+		Serial.println(globalPos, DEC);
+	}
+	if (!isMove && cntPrint > 0)
+		--cntPrint;
+	if (isMove)
+		cntPrint = 1;
 }
 
 void Motor::moveHome()
 {
 	isMoveHome = true;
+	isMove = true;
 
 	//if (!enableAlways)
 	setEnabled(true);
@@ -108,6 +118,7 @@ void Motor::moveHome()
 void Motor::movePosition(uint32_t pos) 
 {
 	isMoveHome = false;
+	isMove = true;
 	
 	//if (!enableAlways)
 	setEnabled(true);
