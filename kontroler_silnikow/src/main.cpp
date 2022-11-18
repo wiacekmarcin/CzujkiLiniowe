@@ -149,29 +149,28 @@ void loop()
 		Serial.print(" recvPos=");
 		Serial.println(recvPos, DEC);
 		
-		while (false && recvPos > 0 && actProcess < recvPos)
+		while (recvPos > 0 && actProcess < recvPos)
 		{
-			Serial.print(actProcess, DEC);
+			Serial.print(actProcess+1, DEC);
 			Serial.print("/");
 			Serial.print(recvPos, DEC);
-			Serial.print("CHAR=");
+			Serial.print(" CHAR=");
 			phex2(recvBuff[actProcess]);
-			if (skipCharCnt > 0) {
+			if (skipCharCnt >= 0) {
 				Serial.print(" Skip");
 				Serial.print(" (");
 				Serial.print(skipCharCnt, DEC);
 				Serial.println(")");
+				if (skipCharCnt == 0) {
+					sendPos = 0;
+					msg.clear();
+					setBusy(false);
+					Serial.println("BUSY OFF");
+				}
+				
 				actProcess++;
 				--skipCharCnt;
-        		continue;
-			}
-			if (skipCharCnt == 0) {
-				Serial.println(" Skip ( 0 )");
-				sendPos = 0;
-				msg.clear();
-				setBusy(false);
-				Serial.println("BUSY OFF");
-				--skipCharCnt;
+				
         		continue;
 			}
 			
@@ -199,10 +198,10 @@ void loop()
 			switch(msg.getMsgCmd()) {
 				case LAST_REQ:
 				{
-					Serial.print("CMD:LAST");
+					Serial.println("CMD:LAST");
 					for (uint8_t i = 0; i < maxBuff; ++i)
 						sendBuff[i] = i;
-					skipCharCnt = 17; 
+					skipCharCnt = 16; 
 					break;
 				}
 

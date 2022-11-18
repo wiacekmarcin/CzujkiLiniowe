@@ -196,7 +196,7 @@ void configuration()
 {
     uint8_t motor = msg.getAddress()-1;
     motors[motor].setConfiguration(msg.msg(), msg.len());
-    motors[motor].sendConfiguration();
+    motors[motor].sendConfiguration(true);
     actWork = MessageSerial::NOP;
 }
 

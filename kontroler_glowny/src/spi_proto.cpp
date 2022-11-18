@@ -71,6 +71,25 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     c.add(echoRepMsg[0]);
     c.add(echoRepMsg[1]);
     echoRepMsg[2] = c.getCRC();
+
+    c.reset();
+    confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 0x09;
+    confMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x00;
+    confMsg[2] = 0;
+    confMsg[3] = 0;
+    confMsg[4] = 0;
+    confMsg[5] = 0x01;
+    confMsg[6] = 0x90;
+    confMsg[7] = 0;
+    confMsg[8] = 0x0a;
+    confMsg[9] = 0x03;
+    confMsg[10] = 0xe8;
+
+    for (uint8_t z = 0; z < 11; ++z) {
+        c.add(confMsg[z]);
+    }
+    confMsg[11] = c.getCRC();
+    confLen = 12;
 }
 
 void SPIMessage::sendReplyMsg()
@@ -112,9 +131,11 @@ void SPIMessage::sendReplyMsg()
 #endif 
     if (msgLocal[0] == 0x0A && msgLocal[1] < 20) {
 #ifdef DEBUG
-        Serial1.println("Send msg to PC");
+        Serial1.println("Send Rep msg to PC");
 #endif    
         Serial.write(echoMsg, 3);
+
+        //sendConfiguration(false);
     }
 }
 
@@ -152,7 +173,10 @@ void SPIMessage::sendEchoMsg()
         Serial1.println("Send msg to PC ECHO");
 #endif    
         Serial.write(echoRepMsg, 3);
+
+        sendConfiguration(false);
         actJob = JOB_RESPONSE;
+       
     } else 
         actJob = JOB_NOP;
 }
@@ -164,7 +188,7 @@ void SPIMessage::setConfiguration(uint8_t *config, uint8_t len)
     confLen = len;
 }
 
-void SPIMessage::sendConfiguration()
+void SPIMessage::sendConfiguration(bool send2Pc)
 {
 #ifdef DEBUG
     Serial1.println("Send Configuration ");
@@ -191,7 +215,8 @@ void SPIMessage::sendConfiguration()
     digitalWrite(ssPin, LOW);
     SPI.transfer(sendMsg, confLen);
     digitalWrite(ssPin, HIGH);
-    msg->sendConfigDoneMsg(addr);  
+    if (send2Pc)
+        msg->sendConfigDoneMsg(addr);  
 }
 
 void SPIMessage::stop()
