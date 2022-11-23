@@ -953,7 +953,7 @@ Czujki</string>
        </widget>
       </item>
       <item row="0" column="1" rowspan="2">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLabel" name="hodbiornik">
         <property name="text">
          <string>Numer odbiornika</string>
         </property>

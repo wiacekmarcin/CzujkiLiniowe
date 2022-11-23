@@ -15,6 +15,11 @@ public:
     explicit ParametryBadania2(QWidget *parent = nullptr);
     ~ParametryBadania2();
 
+protected:
+    void switchOdbiornikReflektor(bool odbiornik);
+private slots:
+    void on_comboBox_currentIndexChanged(int index);
+
 private:
     Ui::ParametryBadania2 *ui;
 };
