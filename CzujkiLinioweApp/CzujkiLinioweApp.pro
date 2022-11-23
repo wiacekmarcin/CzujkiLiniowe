@@ -9,25 +9,39 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    badaniedane.cpp \
     crc8.cpp \
     debugdialog.cpp \
     main.cpp \
     mainwindow.cpp \
+    parametrybadania.cpp \
+    parametrybadania1.cpp \
+    parametrybadania2.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
+    sterownikustawieniawidget.cpp \
     ustawienia.cpp
 
 HEADERS += \
+    badaniedane.h \
     crc8.h \
     debugdialog.h \
     mainwindow.h \
+    parametrybadania.h \
+    parametrybadania1.h \
+    parametrybadania2.h \
     serialdevice.h \
     serialmessage.h \
+    sterownikustawieniawidget.h \
     ustawienia.h
 
 FORMS += \
     debugdialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    parametrybadania.ui \
+    parametrybadania1.ui \
+    parametrybadania2.ui \
+    sterownikustawieniawidget.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts

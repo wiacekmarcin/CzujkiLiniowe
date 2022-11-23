@@ -22,7 +22,6 @@ public:
 
 private slots:
     void on_actionOtw_rz_okno_triggered();
-    void on_pbSetConfiguration_clicked();
     void on_pbConnect_clicked();
 
     void sd_error(QString s);
@@ -36,6 +35,8 @@ private slots:
     void sd_deviceName(QString name);
 
     void sd_setPositionDone(bool home, bool success);
+
+    void on_actionParametry_Badania_triggered();
 
 private:
     Ui::MainWindow *ui;

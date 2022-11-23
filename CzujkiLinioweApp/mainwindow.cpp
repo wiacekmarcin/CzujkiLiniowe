@@ -1,14 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
-#define SETCONF(N) ui->base##N->setText(u.getBaseStepsSilnik##N()); \
-                   ui->delay##N->setText(u.getDelayusSilnik##N()); \
-                   ui->maxSteps##N->setText(u.getMaxStepsSilnik##N()); \
-                   ui->obrot##N->setChecked(u.getLeftRotationSilnik##N()); \
-                   ui->ratio##N->setText(u.getRatioSilnik##N())
-
-
+#include "parametrybadania.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,16 +9,6 @@ MainWindow::MainWindow(QWidget *parent)
     , sd(nullptr)
 {
     ui->setupUi(this);
-
-    SETCONF(1);
-    SETCONF(2);
-    SETCONF(3);
-    SETCONF(4);
-    SETCONF(5);
-    SETCONF(6);
-    SETCONF(7);
-    SETCONF(8);
-    SETCONF(9);
 
     sd = new SerialDevice(&u, this);
     sd->setThread(&sdThreadW, &sdThreadR);
@@ -56,25 +39,6 @@ void MainWindow::on_actionOtw_rz_okno_triggered()
         dbgDlg->show();
     else
         dbgDlg->hide();
-}
-
-#define WRITECONF(N) u.setBaseStepsSilnik##N(ui->base##N->text()); \
-                     u.setDelayusSilnik##N(ui->delay##N->text()); \
-                     u.setMaxStepsSilnik##N(ui->maxSteps##N->text()); \
-                     u.setLeftRotationSilnik##N(ui->obrot##N->isChecked()); \
-                     u.setRatioSilnik##N(ui->ratio##N->text())
-
-void MainWindow::on_pbSetConfiguration_clicked()
-{
-    WRITECONF(1);
-    WRITECONF(2);
-    WRITECONF(3);
-    WRITECONF(4);
-    WRITECONF(5);
-    WRITECONF(6);
-    WRITECONF(7);
-    WRITECONF(8);
-    WRITECONF(9);
 }
 
 void MainWindow::on_pbConnect_clicked()
@@ -154,5 +118,12 @@ void MainWindow::sd_deviceName(QString name)
 void MainWindow::sd_setPositionDone(bool home, bool success)
 {
 
+}
+
+
+void MainWindow::on_actionParametry_Badania_triggered()
+{
+    ParametryBadania * dlg = new ParametryBadania(this);
+    dlg->exec();
 }
 

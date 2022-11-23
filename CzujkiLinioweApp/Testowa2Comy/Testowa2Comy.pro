@@ -10,13 +10,20 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    sterownik.cpp \
+    zasilacz.cpp \
+    zasilaczwidget.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    sterownik.h \
+    zasilacz.h \
+    zasilaczwidget.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    zasilaczwidget.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

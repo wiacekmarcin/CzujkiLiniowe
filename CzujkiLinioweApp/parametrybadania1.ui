@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>ParametryBadania1</class>
+ <widget class="QWidget" name="ParametryBadania1">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>914</width>
+    <height>397</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="5" column="0">
+    <widget class="QGroupBox" name="gbPassword">
+     <property name="title">
+      <string>Hasło dostępu do parametrów pomiaru</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lhaslo">
+        <property name="text">
+         <string>Wprowadź hasło</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="lineEdit_2"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lhaslo2">
+        <property name="text">
+         <string>Powtórz hasło</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Badanie</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="eNumerZlecenia">
+        <property name="text">
+         <string>Numer Zlecenia</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLineEdit" name="numerZlecenia"/>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lnumertestu">
+        <property name="text">
+         <string>Numer testu</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="losobaodpowiedzialna">
+        <property name="text">
+         <string>Osoba odpowiedzialna</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="numerTestu"/>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="osobaOdpowiedzialna"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QGroupBox" name="gbKonfiguracjaFiltrow">
+     <property name="title">
+      <string>Konfiguracja filtrów</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_4">
+      <item row="0" column="0">
+       <widget class="QLabel" name="ldlugoscfali">
+        <property name="text">
+         <string>Użyj zestawu filtrów dla długości fali</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_5">
+        <item>
+         <widget class="QComboBox" name="dlugoscFali">
+          <property name="minimumSize">
+           <size>
+            <width>145</width>
+            <height>0</height>
+           </size>
+          </property>
+          <item>
+           <property name="text">
+            <string>880</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>650</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="lunumdlugoscfali">
+          <property name="text">
+           <string>[nm]</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>Czas pomiędzy zmiana tłumienia filtra</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLineEdit" name="czasPomiedzyZmianamifiltra"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lunitczapomiedzytlumienia">
+          <property name="text">
+           <string>[s] (10-3600)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Zasilanie czujek</string>
+     </property>
+     <layout class="QFormLayout" name="formLayout_3">
+      <item row="0" column="0">
+       <widget class="QRadioButton" name="rbInsideSupply">
+        <property name="text">
+         <string>Z wbudowanego zasilacza napięciem</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <item>
+         <widget class="QLineEdit" name="napiecieZasilaniain"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lunitvoltinside">
+          <property name="text">
+           <string>[V} (2-30)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item row="1" column="0">
+       <widget class="QRadioButton" name="rbCentralSupply">
+        <property name="text">
+         <string>Z centrali sygnalizacji pożarowej typu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="typCentraliSygnalizacji"/>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lczasstabilizacjiczujki">
+        <property name="text">
+         <string>Czas stabilizacji czujki</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_2">
+        <item>
+         <widget class="QLineEdit" name="czasStabilizacjiCzujki"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="lunitczasstabilizacji">
+          <property name="text">
+           <string>[s] (10-3600)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="1" rowspan="2">
+    <widget class="QGroupBox" name="gbSposobSygnalizacjiAlarmu">
+     <property name="title">
+      <string>Sposób sygnalizacji alarmu</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QRadioButton" name="rbAlarmPrzekaznik">
+        <property name="text">
+         <string>Centrala lub (przekaźnik NO - normalnie otwarty)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QRadioButton" name="rbPrad">
+          <property name="text">
+           <string>Przekroczenie wartości prądu zasilania</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="pradAlarmu"/>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>mA (4-200)</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="gbUwagi">
+     <property name="title">
+      <string>Uwagi</string>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QTextEdit" name="uwagi"/>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox_2"/>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+ <slots>
+  <slot>accept()</slot>
+  <slot>reject()</slot>
+ </slots>
+</ui>

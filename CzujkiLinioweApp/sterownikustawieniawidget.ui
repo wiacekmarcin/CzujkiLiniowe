@@ -1,0 +1,438 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>SterownikUstawieniaWidget</class>
+ <widget class="QWidget" name="SterownikUstawieniaWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>797</width>
+    <height>392</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout_2">
+   <item row="1" column="4">
+    <widget class="QCheckBox" name="obrot1">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="et9">
+     <property name="text">
+      <string>Silnik 9</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QLabel" name="head4">
+     <property name="text">
+      <string>Odstęp między
+impulsami w
+mikrosekundach</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="et8">
+     <property name="text">
+      <string>Silnik 8</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="3">
+    <widget class="QLineEdit" name="delay9"/>
+   </item>
+   <item row="8" column="6">
+    <widget class="QLineEdit" name="ratio8"/>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLineEdit" name="delay1"/>
+   </item>
+   <item row="9" column="5">
+    <widget class="QCheckBox" name="enable9">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="5">
+    <widget class="QCheckBox" name="enable8">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <widget class="QLineEdit" name="ratio3"/>
+   </item>
+   <item row="4" column="5">
+    <widget class="QCheckBox" name="enable4">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLabel" name="et1">
+     <property name="text">
+      <string>Silnik 1</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="et6">
+     <property name="text">
+      <string>Silnik 6</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="maxSteps8"/>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="maxSteps2"/>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="maxSteps7"/>
+   </item>
+   <item row="0" column="2">
+    <widget class="QLabel" name="head3">
+     <property name="text">
+      <string>Ilość dodatkowych
+kroków przy bazie</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QCheckBox" name="obrot5">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="base3"/>
+   </item>
+   <item row="4" column="6">
+    <widget class="QLineEdit" name="ratio4"/>
+   </item>
+   <item row="8" column="3">
+    <widget class="QLineEdit" name="delay8"/>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLineEdit" name="delay2"/>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="base1"/>
+   </item>
+   <item row="10" column="6">
+    <widget class="QPushButton" name="pbSetConfiguration">
+     <property name="text">
+      <string>Ustaw konfigurację</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QCheckBox" name="enable3">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="4">
+    <widget class="QCheckBox" name="obrot6">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="2">
+    <widget class="QLineEdit" name="base9"/>
+   </item>
+   <item row="0" column="6">
+    <widget class="QLabel" name="head6">
+     <property name="text">
+      <string>Ilość kroków
+na 1mm</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="maxSteps5"/>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLineEdit" name="base6"/>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="et3">
+     <property name="text">
+      <string>Silnik 3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QCheckBox" name="enable1">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="5">
+    <widget class="QCheckBox" name="enable5">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="4">
+    <widget class="QCheckBox" name="obrot9">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="et4">
+     <property name="text">
+      <string>Silnik 4</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QLineEdit" name="ratio1"/>
+   </item>
+   <item row="2" column="6">
+    <widget class="QLineEdit" name="ratio2"/>
+   </item>
+   <item row="7" column="3">
+    <widget class="QLineEdit" name="delay7"/>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="et5">
+     <property name="text">
+      <string>Silnik 5</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5">
+    <widget class="QCheckBox" name="enable7">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
+    <widget class="QLabel" name="head1">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="5">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Czy sygnał
+enable tylko przed
+ruchem</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLineEdit" name="delay3"/>
+   </item>
+   <item row="8" column="2">
+    <widget class="QLineEdit" name="base8"/>
+   </item>
+   <item row="7" column="6">
+    <widget class="QLineEdit" name="ratio7"/>
+   </item>
+   <item row="8" column="4">
+    <widget class="QCheckBox" name="obrot8">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLineEdit" name="delay4"/>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="maxSteps3"/>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="et7">
+     <property name="text">
+      <string>Silnik 7</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="6">
+    <widget class="QLineEdit" name="ratio6"/>
+   </item>
+   <item row="4" column="4">
+    <widget class="QCheckBox" name="obrot4">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="2">
+    <widget class="QLineEdit" name="base5"/>
+   </item>
+   <item row="9" column="1">
+    <widget class="QLineEdit" name="maxSteps9"/>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLineEdit" name="delay6"/>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="head2">
+     <property name="text">
+      <string>Maksymalna
+ilość kroków</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="maxSteps4"/>
+   </item>
+   <item row="7" column="4">
+    <widget class="QCheckBox" name="obrot7">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="6">
+    <widget class="QLineEdit" name="ratio5"/>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="maxSteps1"/>
+   </item>
+   <item row="2" column="5">
+    <widget class="QCheckBox" name="enable2">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="5">
+    <widget class="QCheckBox" name="enable6">
+     <property name="text">
+      <string>Tylko ruch</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="4">
+    <widget class="QCheckBox" name="obrot3">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLineEdit" name="base4"/>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="base2"/>
+   </item>
+   <item row="9" column="6">
+    <widget class="QLineEdit" name="ratio9"/>
+   </item>
+   <item row="2" column="4">
+    <widget class="QCheckBox" name="obrot2">
+     <property name="text">
+      <string>lewe</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="et2">
+     <property name="text">
+      <string>Silnik 2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="maxSteps6"/>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="heaad5">
+     <property name="text">
+      <string>Obroty silnika</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QLineEdit" name="delay5"/>
+   </item>
+   <item row="7" column="2">
+    <widget class="QLineEdit" name="base7"/>
+   </item>
+  </layout>
+ </widget>
+ <tabstops>
+  <tabstop>maxSteps1</tabstop>
+  <tabstop>base1</tabstop>
+  <tabstop>delay1</tabstop>
+  <tabstop>obrot1</tabstop>
+  <tabstop>enable1</tabstop>
+  <tabstop>ratio1</tabstop>
+  <tabstop>maxSteps2</tabstop>
+  <tabstop>base2</tabstop>
+  <tabstop>delay2</tabstop>
+  <tabstop>obrot2</tabstop>
+  <tabstop>enable2</tabstop>
+  <tabstop>ratio2</tabstop>
+  <tabstop>maxSteps3</tabstop>
+  <tabstop>base3</tabstop>
+  <tabstop>delay3</tabstop>
+  <tabstop>obrot3</tabstop>
+  <tabstop>enable3</tabstop>
+  <tabstop>ratio3</tabstop>
+  <tabstop>maxSteps4</tabstop>
+  <tabstop>base4</tabstop>
+  <tabstop>delay4</tabstop>
+  <tabstop>obrot4</tabstop>
+  <tabstop>enable4</tabstop>
+  <tabstop>ratio4</tabstop>
+  <tabstop>maxSteps5</tabstop>
+  <tabstop>base5</tabstop>
+  <tabstop>delay5</tabstop>
+  <tabstop>obrot5</tabstop>
+  <tabstop>enable5</tabstop>
+  <tabstop>ratio5</tabstop>
+  <tabstop>maxSteps6</tabstop>
+  <tabstop>base6</tabstop>
+  <tabstop>delay6</tabstop>
+  <tabstop>obrot6</tabstop>
+  <tabstop>enable6</tabstop>
+  <tabstop>ratio6</tabstop>
+  <tabstop>maxSteps7</tabstop>
+  <tabstop>base7</tabstop>
+  <tabstop>delay7</tabstop>
+  <tabstop>obrot7</tabstop>
+  <tabstop>enable7</tabstop>
+  <tabstop>ratio7</tabstop>
+  <tabstop>maxSteps8</tabstop>
+  <tabstop>base8</tabstop>
+  <tabstop>delay8</tabstop>
+  <tabstop>obrot8</tabstop>
+  <tabstop>enable8</tabstop>
+  <tabstop>ratio8</tabstop>
+  <tabstop>maxSteps9</tabstop>
+  <tabstop>base9</tabstop>
+  <tabstop>delay9</tabstop>
+  <tabstop>obrot9</tabstop>
+  <tabstop>enable9</tabstop>
+  <tabstop>ratio9</tabstop>
+  <tabstop>pbSetConfiguration</tabstop>
+ </tabstops>
+ <resources/>
+ <connections/>
+</ui>
