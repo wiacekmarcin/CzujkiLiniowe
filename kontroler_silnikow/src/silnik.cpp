@@ -36,7 +36,7 @@ void Motor::init()
 }
 
 
-inline void Motor::setEnabled(bool en)
+void Motor::setEnabled(bool en)
 {
 	digitalWrite(ENPIN, en ? LOW : HIGH);
 }
@@ -46,7 +46,7 @@ inline void Motor::setEnabled(bool en)
 // 0    1   => 1
 // 1    0   => 1
 // 1    1   => 0
-inline void Motor::setDir(bool back)
+void Motor::setDir(bool back)
 {
 	bool out = back ^ reverseMotor;
 	digitalWrite(DIRPIN, out);
@@ -68,6 +68,7 @@ bool Motor::impulse()
 	highlevel = !highlevel;
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
 	globalPos += diff;
+
 	if (globalPos == newPosition || ++actSteps == maxSteps) {
 		Timer1.stop();
 		isRun = false;

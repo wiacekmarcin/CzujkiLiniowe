@@ -20,7 +20,10 @@ SOURCES += \
     serialdevice.cpp \
     serialmessage.cpp \
     sterownikustawieniawidget.cpp \
-    ustawienia.cpp
+    ustawienia.cpp \
+    ustawienia_gen.cpp \
+    ustawieniafiltrow.cpp \
+    ustawienianapedow.cpp
 
 HEADERS += \
     badaniedane.h \
@@ -33,7 +36,10 @@ HEADERS += \
     serialdevice.h \
     serialmessage.h \
     sterownikustawieniawidget.h \
-    ustawienia.h
+    ustawienia.h \
+    ustawienia_gen.h \
+    ustawieniafiltrow.h \
+    ustawienianapedow.h
 
 FORMS += \
     debugdialog.ui \
@@ -41,7 +47,9 @@ FORMS += \
     parametrybadania.ui \
     parametrybadania1.ui \
     parametrybadania2.ui \
-    sterownikustawieniawidget.ui
+    sterownikustawieniawidget.ui \
+    ustawieniafiltrow.ui \
+    ustawienianapedow.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts

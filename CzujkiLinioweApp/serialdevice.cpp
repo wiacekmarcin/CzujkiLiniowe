@@ -275,9 +275,9 @@ bool SerialDevice::configureDevice(bool wlcmmsg)
 
     for (short i = 1 ; i < 10; ++i) {
         QByteArray msgBA = SerialMessage::configMotorMsg(
-            i, ust->getEnableSilnik(i), ust->getLeftRotationSilnik(i),
-            ust->getMaxStepsSilnik(i).toInt(), ust->getBaseStepsSilnik(i).toInt(),
-            ust->getDelayusSilnik(i).toInt());
+            i, true, ust->getMotorOdwrocObroty(i),
+            ust->getMotorMaksIloscKrokow(i), 0,
+            ust->getMotorOpoznienieImp(i));
 
         if (!write(msgBA, 200))
             return false;

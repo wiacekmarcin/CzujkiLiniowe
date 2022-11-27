@@ -159,3 +159,149 @@ void BadanieDane::setOsobaOdpowiedzialna(const QString &newOsobaOdpowiedzialna)
 {
     osobaOdpowiedzialna = newOsobaOdpowiedzialna;
 }
+
+bool BadanieDane::getRodzajSystemuOdbiornikNadajnik() const
+{
+    return rodzajSystemuOdbiornikNadajnik;
+}
+
+void BadanieDane::setRodzajSystemuOdbiornikNadajnik(bool newRodzajSystemuOdbiornikNadajnik)
+{
+    rodzajSystemuOdbiornikNadajnik = newRodzajSystemuOdbiornikNadajnik;
+    rodzajSystemuOdbiornikReflektor= !newRodzajSystemuOdbiornikNadajnik;
+}
+
+bool BadanieDane::getRodzajSystemuOdbiornikReflektor() const
+{
+    return rodzajSystemuOdbiornikReflektor;
+}
+
+void BadanieDane::setRodzajSystemuOdbiornikReflektor(bool newRodzajSystemuOdbiornikReflektor)
+{
+    rodzajSystemuOdbiornikReflektor = newRodzajSystemuOdbiornikReflektor;
+    rodzajSystemuOdbiornikNadajnik = !newRodzajSystemuOdbiornikReflektor;
+}
+
+const QString &BadanieDane::getProducent() const
+{
+    return producent;
+}
+
+void BadanieDane::setProducent(const QString &newProducent)
+{
+    producent = newProducent;
+}
+
+const QString &BadanieDane::getTypNadajnika() const
+{
+    return typNadajnika;
+}
+
+void BadanieDane::setTypNadajnika(const QString &newTypNadajnika)
+{
+    typNadajnika = newTypNadajnika;
+}
+
+const QString &BadanieDane::getTypOdbiornika() const
+{
+    return typOdbiornika;
+}
+
+void BadanieDane::setTypOdbiornika(const QString &newTypOdbiornika)
+{
+    typOdbiornika = newTypOdbiornika;
+}
+
+long BadanieDane::getRozstawienieMinimalne_mm() const
+{
+    return rozstawienieMinimalne_mm;
+}
+
+void BadanieDane::setRozstawienieMinimalne_mm(long newRozstawienieMinimalne_mm)
+{
+    rozstawienieMinimalne_mm = newRozstawienieMinimalne_mm;
+}
+
+long BadanieDane::getRozstawienieMaksymalne_mm() const
+{
+    return rozstawienieMaksymalne_mm;
+}
+
+void BadanieDane::setRozstawienieMaksymalne_mm(long newRozstawienieMaksymalne_mm)
+{
+    rozstawienieMaksymalne_mm = newRozstawienieMaksymalne_mm;
+}
+
+float BadanieDane::getMaksKatNieWspolOdbiornikPion() const
+{
+    return maksKatNieWspolOdbiornikPion;
+}
+
+void BadanieDane::setMaksKatNieWspolOdbiornikPion(float newMaksKatNieWspolOdbiornikPion)
+{
+    maksKatNieWspolOdbiornikPion = newMaksKatNieWspolOdbiornikPion;
+}
+
+float BadanieDane::getMaksKatNieWspolOdbiornikPoz() const
+{
+    return maksKatNieWspolOdbiornikPoz;
+}
+
+void BadanieDane::setMaksKatNieWspolOdbiornikPoz(float newMaksKatNieWspolOdbiornikPoz)
+{
+    maksKatNieWspolOdbiornikPoz = newMaksKatNieWspolOdbiornikPoz;
+}
+
+float BadanieDane::getMaksKatNieWspolNadajnikPion() const
+{
+    return maksKatNieWspolNadajnikPion;
+}
+
+void BadanieDane::setMaksKatNieWspolNadajnikPion(float newMaksKatNieWspolNadajnikPion)
+{
+    maksKatNieWspolNadajnikPion = newMaksKatNieWspolNadajnikPion;
+}
+
+float BadanieDane::getMaksKatNieWspolNadajnikPaz() const
+{
+    return maksKatNieWspolNadajnikPaz;
+}
+
+void BadanieDane::setMaksKatNieWspolNadajnikPaz(float newMaksKatNieWspolNadajnikPaz)
+{
+    maksKatNieWspolNadajnikPaz = newMaksKatNieWspolNadajnikPaz;
+}
+
+int BadanieDane::getIloscNadajnikOdbiornik() const
+{
+    return iloscNadajnikOdbiornik;
+}
+
+void BadanieDane::setIloscNadajnikOdbiornik(int newIloscNadajnikOdbiornik)
+{
+    iloscNadajnikOdbiornik = newIloscNadajnikOdbiornik;
+}
+
+const QString &BadanieDane::getNumerNadajnika(const unsigned int & numer) const
+{
+    Q_ASSERT(numer > 7);
+    return numerNadajnika[numer];
+}
+
+void BadanieDane::setNumerNadajnika(const unsigned int & numer, const QString &newNumerNadajnika)
+{
+    Q_ASSERT(numer > 7);
+    numerNadajnika[numer] = newNumerNadajnika;
+}
+
+const QString &BadanieDane::getNumerOdbiornika(const unsigned int & numer) const
+{
+    Q_ASSERT(numer > 7);
+    return numerOdbiornika[numer];
+}
+
+void BadanieDane::setNumerOdbiornika(const unsigned int & numer, const QString &newNumerOdbiornika)
+{
+    Q_ASSERT(numer > 7);
+    numerOdbiornika[numer] = newNumerOdbiornika;
+}

@@ -17,6 +17,8 @@ int main(int argc, char *argv[])
             break;
         }
     }
+    Ustawienia u;
+    u.save();
     MainWindow w;
     w.show();
     return a.exec();

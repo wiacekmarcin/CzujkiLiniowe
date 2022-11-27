@@ -3,6 +3,17 @@
 
 #include <Arduino.h>
 
+/**
+ * silniki przy filtrach 
+ * 640 w bazie
+ * 30 400 krokow
+ * 
+ */
+
+
+
+
+
 class Motor
 {
 
@@ -31,9 +42,8 @@ public:
 
     static constexpr uint8_t KRANCPIN = 2;
 
-protected:
-    inline void setEnabled(bool en);
-    inline void setDir(bool back);
+    void setEnabled(bool en);
+    void setDir(bool back);
 
 private:
     static constexpr uint8_t ENPIN = 7;

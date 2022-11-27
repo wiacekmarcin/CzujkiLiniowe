@@ -54,6 +54,48 @@ public:
     const QString &getOsobaOdpowiedzialna() const;
     void setOsobaOdpowiedzialna(const QString &newOsobaOdpowiedzialna);
 
+    bool getRodzajSystemuOdbiornikNadajnik() const;
+    void setRodzajSystemuOdbiornikNadajnik(bool newRodzajSystemuOdbiornikNadajnik);
+
+    bool getRodzajSystemuOdbiornikReflektor() const;
+    void setRodzajSystemuOdbiornikReflektor(bool newRodzajSystemuOdbiornikReflektor);
+
+    const QString &getProducent() const;
+    void setProducent(const QString &newProducent);
+
+    const QString &getTypNadajnika() const;
+    void setTypNadajnika(const QString &newTypNadajnika);
+
+    const QString &getTypOdbiornika() const;
+    void setTypOdbiornika(const QString &newTypOdbiornika);
+
+    long getRozstawienieMinimalne_mm() const;
+    void setRozstawienieMinimalne_mm(long newRozstawienieMinimalne_mm);
+
+    long getRozstawienieMaksymalne_mm() const;
+    void setRozstawienieMaksymalne_mm(long newRozstawienieMaksymalne_mm);
+
+    float getMaksKatNieWspolOdbiornikPion() const;
+    void setMaksKatNieWspolOdbiornikPion(float newMaksKatNieWspolOdbiornikPion);
+
+    float getMaksKatNieWspolOdbiornikPoz() const;
+    void setMaksKatNieWspolOdbiornikPoz(float newMaksKatNieWspolOdbiornikPoz);
+
+    float getMaksKatNieWspolNadajnikPion() const;
+    void setMaksKatNieWspolNadajnikPion(float newMaksKatNieWspolNadajnikPion);
+
+    float getMaksKatNieWspolNadajnikPaz() const;
+    void setMaksKatNieWspolNadajnikPaz(float newMaksKatNieWspolNadajnikPaz);
+
+    int getIloscNadajnikOdbiornik() const;
+    void setIloscNadajnikOdbiornik(int newIloscNadajnikOdbiornik);
+
+    const QString &getNumerNadajnika(const unsigned int &numer) const;
+    void setNumerNadajnika(const unsigned int &numer, const QString &newNumerNadajnika);
+
+    const QString &getNumerOdbiornika(const unsigned int & numer) const;
+    void setNumerOdbiornika(const unsigned int & numer, const QString &newNumerOdbiornika);
+
 signals:
 
 
@@ -74,6 +116,22 @@ private:
     unsigned int pradWyzwolenia_mA;
     unsigned int dlugoscFaliFiltrow;
     unsigned int czasPomiedzyZmianaTlumenia_ms;
+
+    bool rodzajSystemuOdbiornikNadajnik;
+    bool rodzajSystemuOdbiornikReflektor;
+    QString producent;
+    QString typNadajnika;
+    QString typOdbiornika;
+    long rozstawienieMinimalne_mm;
+    long rozstawienieMaksymalne_mm;
+    float maksKatNieWspolOdbiornikPion;
+    float maksKatNieWspolOdbiornikPoz;
+    float maksKatNieWspolNadajnikPion;
+    float maksKatNieWspolNadajnikPaz;
+
+    QString numerNadajnika[7];
+    QString numerOdbiornika[7];
+    int iloscNadajnikOdbiornik;
 };
 
 #endif // BADANIEDANE_H

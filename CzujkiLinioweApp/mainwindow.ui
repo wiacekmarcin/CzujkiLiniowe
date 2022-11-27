@@ -14,185 +14,224 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QFrame" name="frame_2">
-    <property name="geometry">
-     <rect>
-      <x>0</x>
-      <y>40</y>
-      <width>791</width>
-      <height>45</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <widget class="QPushButton" name="pbConnect">
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <widget class="QTableWidget" name="tableWidget">
+      <column>
        <property name="text">
-        <string>Połącz</string>
+        <string>Nowa kolumna</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>131</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QLabel" name="namePort">
+      </column>
+      <column>
        <property name="text">
-        <string>Port</string>
+        <string>Nazwa testu</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="rbFound">
+      </column>
+      <column>
        <property name="text">
-        <string>Znaleziony</string>
+        <string>Nowa kolumna</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="rbAuth">
+      </column>
+      <column>
        <property name="text">
-        <string>Autoryzacja</string>
+        <string>Wynik</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="rbConf_2">
+      </column>
+      <column>
        <property name="text">
-        <string>Konfiguracja</string>
+        <string>Rozpoczęto</string>
        </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QCheckBox" name="rbMultimetr">
+      </column>
+      <column>
        <property name="text">
-        <string>Multimetr</string>
+        <string>Zakończono</string>
        </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-   <widget class="QFrame" name="frame_3">
-    <property name="geometry">
-     <rect>
-      <x>130</x>
-      <y>160</y>
-      <width>451</width>
-      <height>85</height>
-     </rect>
-    </property>
-    <property name="frameShape">
-     <enum>QFrame::StyledPanel</enum>
-    </property>
-    <property name="frameShadow">
-     <enum>QFrame::Raised</enum>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="head2_1">
+      </column>
+      <column>
        <property name="text">
-        <string/>
+        <string>Temp</string>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="label_2">
+      </column>
+      <column>
        <property name="text">
-        <string>Baza</string>
+        <string>Wilgotność</string>
        </property>
-      </widget>
-     </item>
-     <item row="0" column="2">
-      <widget class="QLabel" name="label_4">
+      </column>
+      <column>
        <property name="text">
-        <string>Pozycja
+        <string>Ciśnienie</string>
+       </property>
+      </column>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_2">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="pbConnect">
+         <property name="text">
+          <string>Połącz</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>131</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QLabel" name="namePort">
+         <property name="text">
+          <string>Port</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="rbFound">
+         <property name="text">
+          <string>Znaleziony</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="rbAuth">
+         <property name="text">
+          <string>Autoryzacja</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="rbConf_2">
+         <property name="text">
+          <string>Konfiguracja</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="rbMultimetr">
+         <property name="text">
+          <string>Multimetr</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item>
+     <widget class="QFrame" name="frame_3">
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="head2_1">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Baza</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Pozycja
 bazowa</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="5">
-      <widget class="QLabel" name="label_5">
-       <property name="text">
-        <string>Aktualna
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Aktualna
 pozycja</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="text">
-        <string>Silnik 1</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QPushButton" name="pushButton_2">
-       <property name="text">
-        <string>Powrót</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="2">
-      <widget class="QCheckBox" name="home_1">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="3">
-      <widget class="QLineEdit" name="posX_1"/>
-     </item>
-     <item row="1" column="4">
-      <widget class="QPushButton" name="pbUstawPos_1">
-       <property name="text">
-        <string>Ustaw</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="5">
-      <widget class="QLabel" name="actPos_1">
-       <property name="text">
-        <string>0</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="3" colspan="2">
-      <widget class="QLabel" name="head2_3">
-       <property name="text">
-        <string>Przesunięcie w mm</string>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Silnik 1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="pushButton_2">
+         <property name="text">
+          <string>Powrót</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
+        <widget class="QCheckBox" name="home_1">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="3">
+        <widget class="QLineEdit" name="posX_1"/>
+       </item>
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pbUstawPos_1">
+         <property name="text">
+          <string>Ustaw</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="QLabel" name="actPos_1">
+         <property name="text">
+          <string>0</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3" colspan="2">
+        <widget class="QLabel" name="head2_3">
+         <property name="text">
+          <string>Przesunięcie w mm</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -207,12 +246,38 @@ pozycja</string>
     <property name="title">
      <string>Plik</string>
     </property>
+    <addaction name="actionNoweBadanie"/>
+    <addaction name="actionOtworzBadanie"/>
+    <addaction name="actionZapiszZadanie"/>
+    <addaction name="actionZapiszJako"/>
+    <addaction name="actionUsunBadanie"/>
+    <addaction name="separator"/>
     <addaction name="actionOtw_rz_okno"/>
     <addaction name="actionParametry_Badania"/>
    </widget>
    <addaction name="menuDebug"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QToolBar" name="toolBar">
+   <property name="windowTitle">
+    <string>toolBar</string>
+   </property>
+   <property name="movable">
+    <bool>false</bool>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="actionNoweBadanie"/>
+   <addaction name="actionOtworzBadanie"/>
+   <addaction name="actionZapiszZadanie"/>
+   <addaction name="actionZapiszJako"/>
+   <addaction name="separator"/>
+   <addaction name="actionUsunBadanie"/>
+  </widget>
   <action name="actionOtw_rz_okno">
    <property name="text">
     <string>Otwórz okno</string>
@@ -221,6 +286,70 @@ pozycja</string>
   <action name="actionParametry_Badania">
    <property name="text">
     <string>Parametry Badania</string>
+   </property>
+  </action>
+  <action name="actionNoweBadanie">
+   <property name="icon">
+    <iconset theme="document-new"/>
+   </property>
+   <property name="text">
+    <string>Nowy</string>
+   </property>
+   <property name="toolTip">
+    <string>Tworzy nowe badanie</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
+   </property>
+  </action>
+  <action name="actionOtworzBadanie">
+   <property name="icon">
+    <iconset theme="document-open"/>
+   </property>
+   <property name="text">
+    <string>Otwórz</string>
+   </property>
+   <property name="toolTip">
+    <string>Otwórz poprzednio zapisane badanie</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
+  </action>
+  <action name="actionZapiszZadanie">
+   <property name="icon">
+    <iconset theme="media-floppy"/>
+   </property>
+   <property name="text">
+    <string>Zapisz</string>
+   </property>
+   <property name="toolTip">
+    <string>Zapisz zadanie do pliku</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
+   </property>
+  </action>
+  <action name="actionZapiszJako">
+   <property name="icon">
+    <iconset theme="document-save-as"/>
+   </property>
+   <property name="text">
+    <string>Zapisz jako</string>
+   </property>
+   <property name="toolTip">
+    <string>Zapisuje badanie do nowego pliku</string>
+   </property>
+  </action>
+  <action name="actionUsunBadanie">
+   <property name="icon">
+    <iconset theme="edit-delete"/>
+   </property>
+   <property name="text">
+    <string>Usuń</string>
+   </property>
+   <property name="toolTip">
+    <string>Usuwanie aktualne badanie</string>
    </property>
   </action>
  </widget>

@@ -16,9 +16,10 @@ MessageSerial msg;
 constexpr uint8_t maxNumSter = 9;
 constexpr uint8_t maxNumSter2 = 1;
 constexpr uint8_t resetPins = 53;
-constexpr uint8_t ssPins[maxNumSter]    = {49,47,45,43,41,39,37,35,33};
-constexpr uint8_t busyPins[maxNumSter]  = {A15,A14,A13,A12,A11,A10,A9,A8,10};
-constexpr uint8_t stopPins[maxNumSter]  = {48,46,44,42,40,38,36,34,32};
+constexpr uint8_t ssPins[maxNumSter]    = {32,33,34,35,36,37,38,39,40};
+constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,10};
+constexpr uint8_t stopPins[maxNumSter]  = {30,29,28,27,26,25,24,23,22};
+constexpr uint8_t movePins[maxNumSter]  = {41,42,43,44,45,46,47,48,49};
 
 SPIMessage motors[maxNumSter];
 
@@ -51,9 +52,7 @@ void timerHandler()
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
-    digitalWrite(26, HIGH);\
     motors[N].setFinish();\
-    digitalWrite(26, LOW);\
 }
 
 FINISHJOB(0)
@@ -74,9 +73,6 @@ void setup (void)
 {
     pinMode(resetPins, OUTPUT); 
     digitalWrite(resetPins, LOW);
-    pinMode(26, OUTPUT);
-    digitalWrite(26, HIGH);
-
     
     
     // Put SCK, MOSI, SS pins into output mode
