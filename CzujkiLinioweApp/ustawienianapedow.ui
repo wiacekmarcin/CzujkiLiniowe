@@ -6,515 +6,1206 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1029</width>
-    <height>374</height>
+    <width>1067</width>
+    <height>349</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="8">
-    <widget class="QLabel" name="label_5">
+   <item row="9" column="0">
+    <widget class="QLabel" name="lnazwa_9">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>Odwróć obroty</string>
+      <string>M9</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QLineEdit" name="ratio_7">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="9">
+    <widget class="QLineEdit" name="maxSteep_2">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="9">
+    <widget class="QLineEdit" name="maxSteep_1">
+     <property name="minimumSize">
+      <size>
+       <width>100</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="lnazwa_8">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M8</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="lnazwa_5">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M5</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QLabel" name="lnazwa_2">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M2</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="8">
+    <widget class="QCheckBox" name="reverse_9">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLineEdit" name="speedMax1_2">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="8">
+    <widget class="QCheckBox" name="reverse_6">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="8">
+    <widget class="QCheckBox" name="reverse_8">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
     <widget class="QLabel" name="head1">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
       <string>Opis</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="9">
-    <widget class="QLabel" name="head5">
+   <item row="5" column="2">
+    <widget class="QLineEdit" name="ratio_5">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="nazwa_7">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QLabel" name="lunit2_3">
      <property name="text">
-      <string>Maksymalna ilość kroków</string>
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lnazwa_4">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M4</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="9">
+    <widget class="QLineEdit" name="maxSteep_4">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="nazwa_5">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_6">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QLineEdit" name="ratio_8">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lnazwa_3">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="4">
+    <widget class="QLineEdit" name="speedMax1_7">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="ratio_1">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="8">
+    <widget class="QCheckBox" name="reverse_4">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_2">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="nazwa_3">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLabel" name="lunit1_6">
+     <property name="text">
+      <string>*/kroki</string>
      </property>
     </widget>
    </item>
    <item row="0" column="2" colspan="2">
     <widget class="QLabel" name="head2">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
       <string>Przełożenie</string>
      </property>
     </widget>
    </item>
+   <item row="9" column="1">
+    <widget class="QLineEdit" name="nazwa_9">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="9">
+    <widget class="QLineEdit" name="maxSteep_8">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="4">
+    <widget class="QLineEdit" name="speedMax1_5">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="lnazwa_6">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M6</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="2">
+    <widget class="QLineEdit" name="ratio_6">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="9">
+    <widget class="QLineEdit" name="maxSteep_5">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
    <item row="0" column="4" colspan="2">
     <widget class="QLabel" name="head3">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
       <string>Prędkość maksymalna</string>
      </property>
     </widget>
    </item>
-   <item row="0" column="6" colspan="2">
-    <widget class="QLabel" name="head4">
+   <item row="5" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_5">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="lnazwa_7">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>Prędkość maksymalna</string>
+      <string>M7</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_7">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="4">
+    <widget class="QLineEdit" name="speedMax1_4">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3">
+    <widget class="QLabel" name="lunit1_8">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="4">
+    <widget class="QLineEdit" name="speedMax1_6">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_9">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="8">
+    <widget class="QLabel" name="label_5">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Odwróć
+obroty</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
     <widget class="QLabel" name="lnazwa_1">
-        <property name="text">
-        <string>M1</string>
-        </property>
-    </widget>
-</item>
-<item row="1" column="1">
-    <widget class="QLineEdit" name="nazwa_1"/>
-</item>
-<item row="1" column="2">
-    <widget class="QLineEdit" name="ratio_1"/>
-</item>
-<item row="1" column="3">
-    <widget class="QLabel" name="lunit1_1">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="1" column="4">
-    <widget class="QLineEdit" name="speedMax1_1"/>
-</item>
-<item row="1" column="5">
-    <widget class="QLabel" name="lunit2_1">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="1" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_1"/>
-</item>
-<item row="1" column="7">
-    <widget class="QLabel" name="lunit3_1">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="1" column="8">
-    <widget class="QCheckBox" name="reverse_1">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
      <property name="text">
-      <string>Tak</string>
+      <string>M1</string>
      </property>
     </widget>
-</item>
-<item row="1" column="9">
-    <widget class="QLineEdit" name="maxSteep_1"/>
-</item>
-
-<item row="2" column="0">
-    <widget class="QLabel" name="lnazwa_2">
-        <property name="text">
-        <string>M2</string>
-        </property>
-    </widget>
-</item>
-<item row="2" column="1">
-    <widget class="QLineEdit" name="nazwa_2"/>
-</item>
-<item row="2" column="2">
-    <widget class="QLineEdit" name="ratio_2"/>
-</item>
-<item row="2" column="3">
-    <widget class="QLabel" name="lunit1_2">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="2" column="4">
-    <widget class="QLineEdit" name="speedMax1_2"/>
-</item>
-<item row="2" column="5">
-    <widget class="QLabel" name="lunit2_2">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="2" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_2"/>
-</item>
-<item row="2" column="7">
-    <widget class="QLabel" name="lunit3_2">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="2" column="8">
-    <widget class="QCheckBox" name="reverse_2">
-     <property name="text">
-      <string>Tak</string>
+   </item>
+   <item row="3" column="4">
+    <widget class="QLineEdit" name="speedMax1_3">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
-</item>
-<item row="2" column="9">
-    <widget class="QLineEdit" name="maxSteep_2"/>
-</item>
-
-<item row="3" column="0">
-    <widget class="QLabel" name="lnazwa_3">
-        <property name="text">
-        <string>M3</string>
-        </property>
-    </widget>
-</item>
-<item row="3" column="1">
-    <widget class="QLineEdit" name="nazwa_3"/>
-</item>
-<item row="3" column="2">
-    <widget class="QLineEdit" name="ratio_3"/>
-</item>
-<item row="3" column="3">
-    <widget class="QLabel" name="lunit1_3">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="3" column="4">
-    <widget class="QLineEdit" name="speedMax1_3"/>
-</item>
-<item row="3" column="5">
-    <widget class="QLabel" name="lunit2_3">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="3" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_3"/>
-</item>
-<item row="3" column="7">
-    <widget class="QLabel" name="lunit3_3">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="3" column="8">
-    <widget class="QCheckBox" name="reverse_3">
-     <property name="text">
-      <string>Tak</string>
+   </item>
+   <item row="9" column="2">
+    <widget class="QLineEdit" name="ratio_9">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
-</item>
-<item row="3" column="9">
-    <widget class="QLineEdit" name="maxSteep_3"/>
-</item>
-
-<item row="4" column="0">
-    <widget class="QLabel" name="lnazwa_4">
-        <property name="text">
-        <string>M4</string>
-        </property>
-    </widget>
-</item>
-<item row="4" column="1">
-    <widget class="QLineEdit" name="nazwa_4"/>
-</item>
-<item row="4" column="2">
-    <widget class="QLineEdit" name="ratio_4"/>
-</item>
-<item row="4" column="3">
-    <widget class="QLabel" name="lunit1_4">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="4" column="4">
-    <widget class="QLineEdit" name="speedMax1_4"/>
-</item>
-<item row="4" column="5">
-    <widget class="QLabel" name="lunit2_4">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="4" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_4"/>
-</item>
-<item row="4" column="7">
-    <widget class="QLabel" name="lunit3_4">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="4" column="8">
-    <widget class="QCheckBox" name="reverse_4">
-     <property name="text">
-      <string>Tak</string>
-     </property>
-    </widget>
-</item>
-<item row="4" column="9">
-    <widget class="QLineEdit" name="maxSteep_4"/>
-</item>
-
-<item row="5" column="0">
-    <widget class="QLabel" name="lnazwa_5">
-        <property name="text">
-        <string>M5</string>
-        </property>
-    </widget>
-</item>
-<item row="5" column="1">
-    <widget class="QLineEdit" name="nazwa_5"/>
-</item>
-<item row="5" column="2">
-    <widget class="QLineEdit" name="ratio_5"/>
-</item>
-<item row="5" column="3">
-    <widget class="QLabel" name="lunit1_5">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="5" column="4">
-    <widget class="QLineEdit" name="speedMax1_5"/>
-</item>
-<item row="5" column="5">
+   </item>
+   <item row="5" column="5">
     <widget class="QLabel" name="lunit2_5">
-        <property name="text">
-        <string>*/min</string>
-        </property>
+     <property name="text">
+      <string>*/min</string>
+     </property>
     </widget>
-</item>
-<item row="5" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_5"/>
-</item>
-<item row="5" column="7">
-    <widget class="QLabel" name="lunit3_5">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="5" column="8">
-    <widget class="QCheckBox" name="reverse_5">
+   </item>
+   <item row="3" column="8">
+    <widget class="QCheckBox" name="reverse_3">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>Tak</string>
      </property>
     </widget>
-</item>
-<item row="5" column="9">
-    <widget class="QLineEdit" name="maxSteep_5"/>
-</item>
-
-<item row="6" column="0">
-    <widget class="QLabel" name="lnazwa_6">
-        <property name="text">
-        <string>M6</string>
-        </property>
-    </widget>
-</item>
-<item row="6" column="1">
-    <widget class="QLineEdit" name="nazwa_6"/>
-</item>
-<item row="6" column="2">
-    <widget class="QLineEdit" name="ratio_6"/>
-</item>
-<item row="6" column="3">
-    <widget class="QLabel" name="lunit1_6">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="6" column="4">
-    <widget class="QLineEdit" name="speedMax1_6"/>
-</item>
-<item row="6" column="5">
+   </item>
+   <item row="6" column="5">
     <widget class="QLabel" name="lunit2_6">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="6" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_6"/>
-</item>
-<item row="6" column="7">
-    <widget class="QLabel" name="lunit3_6">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="6" column="8">
-    <widget class="QCheckBox" name="reverse_6">
      <property name="text">
-      <string>Tak</string>
+      <string>*/min</string>
      </property>
     </widget>
-</item>
-<item row="6" column="9">
-    <widget class="QLineEdit" name="maxSteep_6"/>
-</item>
-
-<item row="7" column="0">
-    <widget class="QLabel" name="lnazwa_7">
-        <property name="text">
-        <string>M7</string>
-        </property>
-    </widget>
-</item>
-<item row="7" column="1">
-    <widget class="QLineEdit" name="nazwa_7"/>
-</item>
-<item row="7" column="2">
-    <widget class="QLineEdit" name="ratio_7"/>
-</item>
-<item row="7" column="3">
-    <widget class="QLabel" name="lunit1_7">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="7" column="4">
-    <widget class="QLineEdit" name="speedMax1_7"/>
-</item>
-<item row="7" column="5">
-    <widget class="QLabel" name="lunit2_7">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="7" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_7"/>
-</item>
-<item row="7" column="7">
-    <widget class="QLabel" name="lunit3_7">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="7" column="8">
-    <widget class="QCheckBox" name="reverse_7">
-     <property name="text">
-      <string>Tak</string>
+   </item>
+   <item row="9" column="9">
+    <widget class="QLineEdit" name="maxSteep_9">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
-</item>
-<item row="7" column="9">
-    <widget class="QLineEdit" name="maxSteep_7"/>
-</item>
-
-<item row="8" column="0">
-    <widget class="QLabel" name="lnazwa_8">
-        <property name="text">
-        <string>M8</string>
-        </property>
-    </widget>
-</item>
-<item row="8" column="1">
-    <widget class="QLineEdit" name="nazwa_8"/>
-</item>
-<item row="8" column="2">
-    <widget class="QLineEdit" name="ratio_8"/>
-</item>
-<item row="8" column="3">
-    <widget class="QLabel" name="lunit1_8">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
-    </widget>
-</item>
-<item row="8" column="4">
-    <widget class="QLineEdit" name="speedMax1_8"/>
-</item>
-<item row="8" column="5">
-    <widget class="QLabel" name="lunit2_8">
-        <property name="text">
-        <string>*/min</string>
-        </property>
-    </widget>
-</item>
-<item row="8" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_8"/>
-</item>
-<item row="8" column="7">
-    <widget class="QLabel" name="lunit3_8">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="8" column="8">
-    <widget class="QCheckBox" name="reverse_8">
-     <property name="text">
-      <string>Tak</string>
+   </item>
+   <item row="6" column="1">
+    <widget class="QLineEdit" name="nazwa_6">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
      </property>
     </widget>
-</item>
-<item row="8" column="9">
-    <widget class="QLineEdit" name="maxSteep_8"/>
-</item>
-
-<item row="9" column="0">
-    <widget class="QLabel" name="lnazwa_9">
-        <property name="text">
-        <string>M9</string>
-        </property>
+   </item>
+   <item row="3" column="3">
+    <widget class="QLabel" name="lunit1_3">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
     </widget>
-</item>
-<item row="9" column="1">
-    <widget class="QLineEdit" name="nazwa_9"/>
-</item>
-<item row="9" column="2">
-    <widget class="QLineEdit" name="ratio_9"/>
-</item>
-<item row="9" column="3">
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="nazwa_1">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="5">
+    <widget class="QLabel" name="lunit2_1">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_4">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="3">
     <widget class="QLabel" name="lunit1_9">
-        <property name="text">
-        <string>*/kroki</string>
-        </property>
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
     </widget>
-</item>
-<item row="9" column="4">
-    <widget class="QLineEdit" name="speedMax1_9"/>
-</item>
-<item row="9" column="5">
-    <widget class="QLabel" name="lunit2_9">
-        <property name="text">
-        <string>*/min</string>
-        </property>
+   </item>
+   <item row="2" column="2">
+    <widget class="QLineEdit" name="ratio_2">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
     </widget>
-</item>
-<item row="9" column="6">
-    <widget class="QLineEdit" name="maxSpeed2_9"/>
-</item>
-<item row="9" column="7">
-    <widget class="QLabel" name="lunit3_9">
-        <property name="text">
-        <string>krok/s</string>
-        </property>
-    </widget>
-</item>
-<item row="9" column="8">
-    <widget class="QCheckBox" name="reverse_9">
+   </item>
+   <item row="2" column="8">
+    <widget class="QCheckBox" name="reverse_2">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
      <property name="text">
       <string>Tak</string>
      </property>
     </widget>
-</item>
-<item row="9" column="9">
-    <widget class="QLineEdit" name="maxSteep_9"/>
-</item>
-
+   </item>
+   <item row="8" column="5">
+    <widget class="QLabel" name="lunit2_8">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="3">
+    <widget class="QLabel" name="lunit1_5">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="8">
+    <widget class="QCheckBox" name="reverse_7">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QLabel" name="lunit2_4">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="nazwa_8">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_8">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="8">
+    <widget class="QCheckBox" name="reverse_5">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QLabel" name="lunit1_7">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="3">
+    <widget class="QLabel" name="lunit1_2">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLineEdit" name="ratio_4">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5">
+    <widget class="QLabel" name="lunit2_7">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="nazwa_4">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_1">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="9">
+    <widget class="QLineEdit" name="maxSteep_3">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="3">
+    <widget class="QLabel" name="lunit1_1">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLineEdit" name="speedMax1_1">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLabel" name="lunit1_4">
+     <property name="text">
+      <string>*/kroki</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="5">
+    <widget class="QLabel" name="lunit2_9">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="6">
+    <widget class="QLineEdit" name="maxSpeed2_3">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="9">
+    <widget class="QLineEdit" name="maxSteep_6">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="9">
+    <widget class="QLineEdit" name="maxSteep_7">
+     <property name="maximumSize">
+      <size>
+       <width>100</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="8">
+    <widget class="QCheckBox" name="reverse_1">
+     <property name="maximumSize">
+      <size>
+       <width>52</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Tak</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="9">
+    <widget class="QLabel" name="head5">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Maksymalna
+ilość kroków</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="5">
+    <widget class="QLabel" name="lunit2_2">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="nazwa_2">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="4">
+    <widget class="QLineEdit" name="speedMax1_9">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="4">
+    <widget class="QLineEdit" name="speedMax1_8">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="ratio_3">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="4">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="0" column="6">
+    <widget class="QLabel" name="head4">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Prędkość maksymalna
+[krok/s]</string>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

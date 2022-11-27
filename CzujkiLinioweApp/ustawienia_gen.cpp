@@ -2,19 +2,19 @@
 #include "ustawienia_gen.h"
 
 #include <QApplication>
-
+#include <QDebug>
 UstawieniaGen::UstawieniaGen() :
     settings(QApplication::applicationFilePath() + ".ini", QSettings::IniFormat)
 {
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
-    //load();
+    load();
 }
 
 UstawieniaGen::~UstawieniaGen()
 {
-    save();
+
 }
         
 

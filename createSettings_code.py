@@ -31,6 +31,7 @@ public:
     void load();
     void save();
     bool check();
+    void sync() { settings.sync(); }
 
 protected:
     QSettings settings;
@@ -57,12 +58,12 @@ public:
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
-    //load();
+    load();
 }
 
 %(className)s::~%(className)s()
 {
-    save();
+    
 }
         """ % {'className' : self.className,
                'filename_h' : self.h_filename}
@@ -200,7 +201,7 @@ public:
         self.h_public_fun.append("double getFiltr655_C(const short & nrPos) const { return getFiltr(655, 'C', nrPos); }") 
         
         self.h_public_fun.append("double getFiltr880(const char & nrTarczy, const short & nrPos) const { return getFiltr(880, nrTarczy, nrPos); }") 
-        self.h_public_fun.append("double getFiltr665(const char & nrTarczy, const short & nrPos) const { return getFiltr(665, nrTarczy, nrPos); }")
+        self.h_public_fun.append("double getFiltr655(const char & nrTarczy, const short & nrPos) const { return getFiltr(655, nrTarczy, nrPos); }")
         
         self.h_public_fun.append("void setFiltr880_A(const short & nrPos, const double & val) { setFiltr(880, 'A', nrPos, val); }") 
         self.h_public_fun.append("void setFiltr880_B(const short & nrPos, const double & val) { setFiltr(880, 'B', nrPos, val); }")
@@ -211,7 +212,7 @@ public:
         self.h_public_fun.append("void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }")
         
         self.h_public_fun.append("void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }") 
-        self.h_public_fun.append("void setFiltr665(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(665, nrTarczy, nrPos, val); }")
+        self.h_public_fun.append("void setFiltr655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(655, nrTarczy, nrPos, val); }")
 
         self.h_protected_fun.append("bool checkFilterValue(const QString & val);")
         self.h_protected_fun.append("double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;")

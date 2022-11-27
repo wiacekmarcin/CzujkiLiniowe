@@ -2,6 +2,9 @@
 #include "ui_mainwindow.h"
 
 #include "parametrybadania.h"
+#include "parametrykalibracyjnedlg.h"
+
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -125,5 +128,16 @@ void MainWindow::on_actionParametry_Badania_triggered()
 {
     ParametryBadania * dlg = new ParametryBadania(this);
     dlg->exec();
+
+}
+
+
+void MainWindow::on_actionParametryKalibracyjne_triggered()
+{
+    qDebug() << "Parametry Kalibracyjne";
+    ParametryKalibracyjneDlg * dlg = new ParametryKalibracyjneDlg(&u, this);
+    dlg->exec();
+    delete dlg;
+
 }
 

@@ -38,6 +38,8 @@ private slots:
 
     void on_actionParametry_Badania_triggered();
 
+    void on_actionParametryKalibracyjne_triggered();
+
 private:
     Ui::MainWindow *ui;
     Ustawienia u;

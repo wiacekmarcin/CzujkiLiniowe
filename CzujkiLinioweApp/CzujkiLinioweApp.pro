@@ -17,6 +17,7 @@ SOURCES += \
     parametrybadania.cpp \
     parametrybadania1.cpp \
     parametrybadania2.cpp \
+    parametrykalibracyjnedlg.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
     sterownikustawieniawidget.cpp \
@@ -33,6 +34,7 @@ HEADERS += \
     parametrybadania.h \
     parametrybadania1.h \
     parametrybadania2.h \
+    parametrykalibracyjnedlg.h \
     serialdevice.h \
     serialmessage.h \
     sterownikustawieniawidget.h \
@@ -47,6 +49,7 @@ FORMS += \
     parametrybadania.ui \
     parametrybadania1.ui \
     parametrybadania2.ui \
+    parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
     ustawieniafiltrow.ui \
     ustawienianapedow.ui

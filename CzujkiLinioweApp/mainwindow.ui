@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Czujniki Lioniowe</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -255,7 +255,14 @@ pozycja</string>
     <addaction name="actionOtw_rz_okno"/>
     <addaction name="actionParametry_Badania"/>
    </widget>
+   <widget class="QMenu" name="menuOpcje">
+    <property name="title">
+     <string>Opcje</string>
+    </property>
+    <addaction name="actionParametryKalibracyjne"/>
+   </widget>
    <addaction name="menuDebug"/>
+   <addaction name="menuOpcje"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QToolBar" name="toolBar">
@@ -290,7 +297,8 @@ pozycja</string>
   </action>
   <action name="actionNoweBadanie">
    <property name="icon">
-    <iconset theme="document-new"/>
+    <iconset theme="document-new">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Nowy</string>
@@ -304,7 +312,8 @@ pozycja</string>
   </action>
   <action name="actionOtworzBadanie">
    <property name="icon">
-    <iconset theme="document-open"/>
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Otwórz</string>
@@ -318,7 +327,8 @@ pozycja</string>
   </action>
   <action name="actionZapiszZadanie">
    <property name="icon">
-    <iconset theme="media-floppy"/>
+    <iconset theme="media-floppy">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zapisz</string>
@@ -332,7 +342,8 @@ pozycja</string>
   </action>
   <action name="actionZapiszJako">
    <property name="icon">
-    <iconset theme="document-save-as"/>
+    <iconset theme="document-save-as">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zapisz jako</string>
@@ -343,13 +354,19 @@ pozycja</string>
   </action>
   <action name="actionUsunBadanie">
    <property name="icon">
-    <iconset theme="edit-delete"/>
+    <iconset theme="edit-delete">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Usuń</string>
    </property>
    <property name="toolTip">
     <string>Usuwanie aktualne badanie</string>
+   </property>
+  </action>
+  <action name="actionParametryKalibracyjne">
+   <property name="text">
+    <string>Parametry Kalibracyjne</string>
    </property>
   </action>
  </widget>
