@@ -74,6 +74,42 @@ void UstawieniaGen::load()
 	motorMaksIloscKrokow7 = toUInt(settings.value("Silnik-7/MaksIloscKrokow").toString());
 	motorMaksIloscKrokow8 = toUInt(settings.value("Silnik-8/MaksIloscKrokow").toString());
 	motorMaksIloscKrokow9 = toUInt(settings.value("Silnik-9/MaksIloscKrokow").toString());
+	filtr880_A_0 = toDouble(settings.value("Filtr_880_A/Pos0").toString());
+	filtr880_B_0 = toDouble(settings.value("Filtr_880_B/Pos0").toString());
+	filtr880_C_0 = toDouble(settings.value("Filtr_880_C/Pos0").toString());
+	filtr880_A_1 = toDouble(settings.value("Filtr_880_A/Pos1").toString());
+	filtr880_B_1 = toDouble(settings.value("Filtr_880_B/Pos1").toString());
+	filtr880_C_1 = toDouble(settings.value("Filtr_880_C/Pos1").toString());
+	filtr880_A_2 = toDouble(settings.value("Filtr_880_A/Pos2").toString());
+	filtr880_B_2 = toDouble(settings.value("Filtr_880_B/Pos2").toString());
+	filtr880_C_2 = toDouble(settings.value("Filtr_880_C/Pos2").toString());
+	filtr880_A_3 = toDouble(settings.value("Filtr_880_A/Pos3").toString());
+	filtr880_B_3 = toDouble(settings.value("Filtr_880_B/Pos3").toString());
+	filtr880_C_3 = toDouble(settings.value("Filtr_880_C/Pos3").toString());
+	filtr880_A_4 = toDouble(settings.value("Filtr_880_A/Pos4").toString());
+	filtr880_B_4 = toDouble(settings.value("Filtr_880_B/Pos4").toString());
+	filtr880_C_4 = toDouble(settings.value("Filtr_880_C/Pos4").toString());
+	filtr880_A_5 = toDouble(settings.value("Filtr_880_A/Pos5").toString());
+	filtr880_B_5 = toDouble(settings.value("Filtr_880_B/Pos5").toString());
+	filtr880_C_5 = toDouble(settings.value("Filtr_880_C/Pos5").toString());
+	filtr655_A_0 = toDouble(settings.value("Filtr_655_A/Pos0").toString());
+	filtr655_B_0 = toDouble(settings.value("Filtr_655_B/Pos0").toString());
+	filtr655_C_0 = toDouble(settings.value("Filtr_655_C/Pos0").toString());
+	filtr655_A_1 = toDouble(settings.value("Filtr_655_A/Pos1").toString());
+	filtr655_B_1 = toDouble(settings.value("Filtr_655_B/Pos1").toString());
+	filtr655_C_1 = toDouble(settings.value("Filtr_655_C/Pos1").toString());
+	filtr655_A_2 = toDouble(settings.value("Filtr_655_A/Pos2").toString());
+	filtr655_B_2 = toDouble(settings.value("Filtr_655_B/Pos2").toString());
+	filtr655_C_2 = toDouble(settings.value("Filtr_655_C/Pos2").toString());
+	filtr655_A_3 = toDouble(settings.value("Filtr_655_A/Pos3").toString());
+	filtr655_B_3 = toDouble(settings.value("Filtr_655_B/Pos3").toString());
+	filtr655_C_3 = toDouble(settings.value("Filtr_655_C/Pos3").toString());
+	filtr655_A_4 = toDouble(settings.value("Filtr_655_A/Pos4").toString());
+	filtr655_B_4 = toDouble(settings.value("Filtr_655_B/Pos4").toString());
+	filtr655_C_4 = toDouble(settings.value("Filtr_655_C/Pos4").toString());
+	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5").toString());
+	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5").toString());
+	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5").toString());
 }
 
 void UstawieniaGen::save()
@@ -132,6 +168,42 @@ void UstawieniaGen::save()
 	settings.setValue("Silnik-7/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow7));
 	settings.setValue("Silnik-8/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow8));
 	settings.setValue("Silnik-9/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow9));
+	settings.setValue("Filtr_880_A/Pos0", QVariant::fromValue(filtr880_A_0));
+	settings.setValue("Filtr_880_B/Pos0", QVariant::fromValue(filtr880_B_0));
+	settings.setValue("Filtr_880_C/Pos0", QVariant::fromValue(filtr880_C_0));
+	settings.setValue("Filtr_880_A/Pos1", QVariant::fromValue(filtr880_A_1));
+	settings.setValue("Filtr_880_B/Pos1", QVariant::fromValue(filtr880_B_1));
+	settings.setValue("Filtr_880_C/Pos1", QVariant::fromValue(filtr880_C_1));
+	settings.setValue("Filtr_880_A/Pos2", QVariant::fromValue(filtr880_A_2));
+	settings.setValue("Filtr_880_B/Pos2", QVariant::fromValue(filtr880_B_2));
+	settings.setValue("Filtr_880_C/Pos2", QVariant::fromValue(filtr880_C_2));
+	settings.setValue("Filtr_880_A/Pos3", QVariant::fromValue(filtr880_A_3));
+	settings.setValue("Filtr_880_B/Pos3", QVariant::fromValue(filtr880_B_3));
+	settings.setValue("Filtr_880_C/Pos3", QVariant::fromValue(filtr880_C_3));
+	settings.setValue("Filtr_880_A/Pos4", QVariant::fromValue(filtr880_A_4));
+	settings.setValue("Filtr_880_B/Pos4", QVariant::fromValue(filtr880_B_4));
+	settings.setValue("Filtr_880_C/Pos4", QVariant::fromValue(filtr880_C_4));
+	settings.setValue("Filtr_880_A/Pos5", QVariant::fromValue(filtr880_A_5));
+	settings.setValue("Filtr_880_B/Pos5", QVariant::fromValue(filtr880_B_5));
+	settings.setValue("Filtr_880_C/Pos5", QVariant::fromValue(filtr880_C_5));
+	settings.setValue("Filtr_655_A/Pos0", QVariant::fromValue(filtr655_A_0));
+	settings.setValue("Filtr_655_B/Pos0", QVariant::fromValue(filtr655_B_0));
+	settings.setValue("Filtr_655_C/Pos0", QVariant::fromValue(filtr655_C_0));
+	settings.setValue("Filtr_655_A/Pos1", QVariant::fromValue(filtr655_A_1));
+	settings.setValue("Filtr_655_B/Pos1", QVariant::fromValue(filtr655_B_1));
+	settings.setValue("Filtr_655_C/Pos1", QVariant::fromValue(filtr655_C_1));
+	settings.setValue("Filtr_655_A/Pos2", QVariant::fromValue(filtr655_A_2));
+	settings.setValue("Filtr_655_B/Pos2", QVariant::fromValue(filtr655_B_2));
+	settings.setValue("Filtr_655_C/Pos2", QVariant::fromValue(filtr655_C_2));
+	settings.setValue("Filtr_655_A/Pos3", QVariant::fromValue(filtr655_A_3));
+	settings.setValue("Filtr_655_B/Pos3", QVariant::fromValue(filtr655_B_3));
+	settings.setValue("Filtr_655_C/Pos3", QVariant::fromValue(filtr655_C_3));
+	settings.setValue("Filtr_655_A/Pos4", QVariant::fromValue(filtr655_A_4));
+	settings.setValue("Filtr_655_B/Pos4", QVariant::fromValue(filtr655_B_4));
+	settings.setValue("Filtr_655_C/Pos4", QVariant::fromValue(filtr655_C_4));
+	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(filtr655_A_5));
+	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(filtr655_B_5));
+	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(filtr655_C_5));
 }
 
 bool UstawieniaGen::check()
@@ -190,6 +262,42 @@ bool UstawieniaGen::check()
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-7/MaksIloscKrokow").toString())) return false;
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-8/MaksIloscKrokow").toString())) return false;
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-9/MaksIloscKrokow").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_A/Pos5").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_B/Pos5").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_880_C/Pos5").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos0").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos1").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos2").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos3").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos4").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_A/Pos5").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_B/Pos5").toString())) return false;
+	if (!checkFilterValue(settings.value("Filtr_655_C/Pos5").toString())) return false;
 	return true;
 }
 
@@ -1059,4 +1167,498 @@ bool UstawieniaGen::checkMotorMaksIloscKrokow(const QString & val)
         return false;
     return ok;
 
+}
+
+double UstawieniaGen::getFiltr880_A_0() const
+{
+	return filtr880_A_0;
+}
+
+void UstawieniaGen::setFiltr880_A_0(const double & value)
+{
+	filtr880_A_0 = value;
+	settings.setValue("Filtr_880_A/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_0() const
+{
+	return filtr880_B_0;
+}
+
+void UstawieniaGen::setFiltr880_B_0(const double & value)
+{
+	filtr880_B_0 = value;
+	settings.setValue("Filtr_880_B/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_0() const
+{
+	return filtr880_C_0;
+}
+
+void UstawieniaGen::setFiltr880_C_0(const double & value)
+{
+	filtr880_C_0 = value;
+	settings.setValue("Filtr_880_C/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_A_1() const
+{
+	return filtr880_A_1;
+}
+
+void UstawieniaGen::setFiltr880_A_1(const double & value)
+{
+	filtr880_A_1 = value;
+	settings.setValue("Filtr_880_A/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_1() const
+{
+	return filtr880_B_1;
+}
+
+void UstawieniaGen::setFiltr880_B_1(const double & value)
+{
+	filtr880_B_1 = value;
+	settings.setValue("Filtr_880_B/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_1() const
+{
+	return filtr880_C_1;
+}
+
+void UstawieniaGen::setFiltr880_C_1(const double & value)
+{
+	filtr880_C_1 = value;
+	settings.setValue("Filtr_880_C/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_A_2() const
+{
+	return filtr880_A_2;
+}
+
+void UstawieniaGen::setFiltr880_A_2(const double & value)
+{
+	filtr880_A_2 = value;
+	settings.setValue("Filtr_880_A/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_2() const
+{
+	return filtr880_B_2;
+}
+
+void UstawieniaGen::setFiltr880_B_2(const double & value)
+{
+	filtr880_B_2 = value;
+	settings.setValue("Filtr_880_B/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_2() const
+{
+	return filtr880_C_2;
+}
+
+void UstawieniaGen::setFiltr880_C_2(const double & value)
+{
+	filtr880_C_2 = value;
+	settings.setValue("Filtr_880_C/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_A_3() const
+{
+	return filtr880_A_3;
+}
+
+void UstawieniaGen::setFiltr880_A_3(const double & value)
+{
+	filtr880_A_3 = value;
+	settings.setValue("Filtr_880_A/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_3() const
+{
+	return filtr880_B_3;
+}
+
+void UstawieniaGen::setFiltr880_B_3(const double & value)
+{
+	filtr880_B_3 = value;
+	settings.setValue("Filtr_880_B/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_3() const
+{
+	return filtr880_C_3;
+}
+
+void UstawieniaGen::setFiltr880_C_3(const double & value)
+{
+	filtr880_C_3 = value;
+	settings.setValue("Filtr_880_C/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_A_4() const
+{
+	return filtr880_A_4;
+}
+
+void UstawieniaGen::setFiltr880_A_4(const double & value)
+{
+	filtr880_A_4 = value;
+	settings.setValue("Filtr_880_A/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_4() const
+{
+	return filtr880_B_4;
+}
+
+void UstawieniaGen::setFiltr880_B_4(const double & value)
+{
+	filtr880_B_4 = value;
+	settings.setValue("Filtr_880_B/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_4() const
+{
+	return filtr880_C_4;
+}
+
+void UstawieniaGen::setFiltr880_C_4(const double & value)
+{
+	filtr880_C_4 = value;
+	settings.setValue("Filtr_880_C/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_A_5() const
+{
+	return filtr880_A_5;
+}
+
+void UstawieniaGen::setFiltr880_A_5(const double & value)
+{
+	filtr880_A_5 = value;
+	settings.setValue("Filtr_880_A/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_B_5() const
+{
+	return filtr880_B_5;
+}
+
+void UstawieniaGen::setFiltr880_B_5(const double & value)
+{
+	filtr880_B_5 = value;
+	settings.setValue("Filtr_880_B/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr880_C_5() const
+{
+	return filtr880_C_5;
+}
+
+void UstawieniaGen::setFiltr880_C_5(const double & value)
+{
+	filtr880_C_5 = value;
+	settings.setValue("Filtr_880_C/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_0() const
+{
+	return filtr655_A_0;
+}
+
+void UstawieniaGen::setFiltr655_A_0(const double & value)
+{
+	filtr655_A_0 = value;
+	settings.setValue("Filtr_655_A/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_0() const
+{
+	return filtr655_B_0;
+}
+
+void UstawieniaGen::setFiltr655_B_0(const double & value)
+{
+	filtr655_B_0 = value;
+	settings.setValue("Filtr_655_B/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_0() const
+{
+	return filtr655_C_0;
+}
+
+void UstawieniaGen::setFiltr655_C_0(const double & value)
+{
+	filtr655_C_0 = value;
+	settings.setValue("Filtr_655_C/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_1() const
+{
+	return filtr655_A_1;
+}
+
+void UstawieniaGen::setFiltr655_A_1(const double & value)
+{
+	filtr655_A_1 = value;
+	settings.setValue("Filtr_655_A/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_1() const
+{
+	return filtr655_B_1;
+}
+
+void UstawieniaGen::setFiltr655_B_1(const double & value)
+{
+	filtr655_B_1 = value;
+	settings.setValue("Filtr_655_B/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_1() const
+{
+	return filtr655_C_1;
+}
+
+void UstawieniaGen::setFiltr655_C_1(const double & value)
+{
+	filtr655_C_1 = value;
+	settings.setValue("Filtr_655_C/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_2() const
+{
+	return filtr655_A_2;
+}
+
+void UstawieniaGen::setFiltr655_A_2(const double & value)
+{
+	filtr655_A_2 = value;
+	settings.setValue("Filtr_655_A/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_2() const
+{
+	return filtr655_B_2;
+}
+
+void UstawieniaGen::setFiltr655_B_2(const double & value)
+{
+	filtr655_B_2 = value;
+	settings.setValue("Filtr_655_B/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_2() const
+{
+	return filtr655_C_2;
+}
+
+void UstawieniaGen::setFiltr655_C_2(const double & value)
+{
+	filtr655_C_2 = value;
+	settings.setValue("Filtr_655_C/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_3() const
+{
+	return filtr655_A_3;
+}
+
+void UstawieniaGen::setFiltr655_A_3(const double & value)
+{
+	filtr655_A_3 = value;
+	settings.setValue("Filtr_655_A/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_3() const
+{
+	return filtr655_B_3;
+}
+
+void UstawieniaGen::setFiltr655_B_3(const double & value)
+{
+	filtr655_B_3 = value;
+	settings.setValue("Filtr_655_B/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_3() const
+{
+	return filtr655_C_3;
+}
+
+void UstawieniaGen::setFiltr655_C_3(const double & value)
+{
+	filtr655_C_3 = value;
+	settings.setValue("Filtr_655_C/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_4() const
+{
+	return filtr655_A_4;
+}
+
+void UstawieniaGen::setFiltr655_A_4(const double & value)
+{
+	filtr655_A_4 = value;
+	settings.setValue("Filtr_655_A/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_4() const
+{
+	return filtr655_B_4;
+}
+
+void UstawieniaGen::setFiltr655_B_4(const double & value)
+{
+	filtr655_B_4 = value;
+	settings.setValue("Filtr_655_B/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_4() const
+{
+	return filtr655_C_4;
+}
+
+void UstawieniaGen::setFiltr655_C_4(const double & value)
+{
+	filtr655_C_4 = value;
+	settings.setValue("Filtr_655_C/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_A_5() const
+{
+	return filtr655_A_5;
+}
+
+void UstawieniaGen::setFiltr655_A_5(const double & value)
+{
+	filtr655_A_5 = value;
+	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_B_5() const
+{
+	return filtr655_B_5;
+}
+
+void UstawieniaGen::setFiltr655_B_5(const double & value)
+{
+	filtr655_B_5 = value;
+	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr655_C_5() const
+{
+	return filtr655_C_5;
+}
+
+void UstawieniaGen::setFiltr655_C_5(const double & value)
+{
+	filtr655_C_5 = value;
+	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(value));
+}
+
+bool UstawieniaGen::checkFilterValue(const QString & val)
+{
+
+    if (val.isEmpty()) return false;
+    
+    bool ok;
+    double v = val.toDouble(&ok);
+    if (!ok || v < 0.0)
+        return false;
+    return true;
+
+}
+
+double UstawieniaGen::getFiltr(const int & fala, const char & nrTarczy, const short & nrPos) const
+{
+	if (false) ;
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return getFiltr880_A_0();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return getFiltr880_A_1();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return getFiltr880_A_2();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return getFiltr880_A_3();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return getFiltr880_A_4();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return getFiltr880_A_5();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return getFiltr880_B_0();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return getFiltr880_B_1();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return getFiltr880_B_2();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return getFiltr880_B_3();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return getFiltr880_B_4();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return getFiltr880_B_5();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return getFiltr880_C_0();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return getFiltr880_C_1();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return getFiltr880_C_2();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return getFiltr880_C_3();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return getFiltr880_C_4();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return getFiltr880_C_5();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return getFiltr655_A_0();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return getFiltr655_A_1();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return getFiltr655_A_2();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return getFiltr655_A_3();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return getFiltr655_A_4();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return getFiltr655_A_5();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return getFiltr655_B_0();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return getFiltr655_B_1();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return getFiltr655_B_2();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return getFiltr655_B_3();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return getFiltr655_B_4();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return getFiltr655_B_5();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return getFiltr655_C_0();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return getFiltr655_C_1();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return getFiltr655_C_2();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return getFiltr655_C_3();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return getFiltr655_C_4();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return getFiltr655_C_5();
+	else Q_ASSERT(true);
+	 return 0.0;
+}
+
+void UstawieniaGen::setFiltr(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)
+{
+	if (false) ;
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return setFiltr880_A_0(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return setFiltr880_A_1(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return setFiltr880_A_2(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return setFiltr880_A_3(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return setFiltr880_A_4(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return setFiltr880_A_5(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return setFiltr880_B_0(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return setFiltr880_B_1(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return setFiltr880_B_2(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return setFiltr880_B_3(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return setFiltr880_B_4(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return setFiltr880_B_5(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return setFiltr880_C_0(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return setFiltr880_C_1(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return setFiltr880_C_2(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return setFiltr880_C_3(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return setFiltr880_C_4(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return setFiltr880_C_5(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return setFiltr655_A_0(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return setFiltr655_A_1(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return setFiltr655_A_2(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return setFiltr655_A_3(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return setFiltr655_A_4(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return setFiltr655_A_5(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return setFiltr655_B_0(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return setFiltr655_B_1(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return setFiltr655_B_2(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return setFiltr655_B_3(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return setFiltr655_B_4(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return setFiltr655_B_5(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return setFiltr655_C_0(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return setFiltr655_C_1(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return setFiltr655_C_2(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return setFiltr655_C_3(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr655_C_4(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr655_C_5(val);
+	else Q_ASSERT(true);
 }

@@ -191,6 +191,130 @@ public:
 	inline void setMotorMaksIloscKrokow9(const QString & maksIloscKrokow9) { setMotorMaksIloscKrokow9(toUInt(maksIloscKrokow9)); }
 	int getMotorMaksIloscKrokow(const short & nrMotor) const;
 	void setMotorMaksIloscKrokow(const short & nrMotor, const int & maksIloscKrokow);
+	double getFiltr880_A_0() const;
+	void setFiltr880_A_0(const double & val);
+	inline void setFiltr880_A_0(const QString & vals) { setFiltr880_A_0(toDouble(vals)); }
+	double getFiltr880_B_0() const;
+	void setFiltr880_B_0(const double & val);
+	inline void setFiltr880_B_0(const QString & vals) { setFiltr880_B_0(toDouble(vals)); }
+	double getFiltr880_C_0() const;
+	void setFiltr880_C_0(const double & val);
+	inline void setFiltr880_C_0(const QString & vals) { setFiltr880_C_0(toDouble(vals)); }
+	double getFiltr880_A_1() const;
+	void setFiltr880_A_1(const double & val);
+	inline void setFiltr880_A_1(const QString & vals) { setFiltr880_A_1(toDouble(vals)); }
+	double getFiltr880_B_1() const;
+	void setFiltr880_B_1(const double & val);
+	inline void setFiltr880_B_1(const QString & vals) { setFiltr880_B_1(toDouble(vals)); }
+	double getFiltr880_C_1() const;
+	void setFiltr880_C_1(const double & val);
+	inline void setFiltr880_C_1(const QString & vals) { setFiltr880_C_1(toDouble(vals)); }
+	double getFiltr880_A_2() const;
+	void setFiltr880_A_2(const double & val);
+	inline void setFiltr880_A_2(const QString & vals) { setFiltr880_A_2(toDouble(vals)); }
+	double getFiltr880_B_2() const;
+	void setFiltr880_B_2(const double & val);
+	inline void setFiltr880_B_2(const QString & vals) { setFiltr880_B_2(toDouble(vals)); }
+	double getFiltr880_C_2() const;
+	void setFiltr880_C_2(const double & val);
+	inline void setFiltr880_C_2(const QString & vals) { setFiltr880_C_2(toDouble(vals)); }
+	double getFiltr880_A_3() const;
+	void setFiltr880_A_3(const double & val);
+	inline void setFiltr880_A_3(const QString & vals) { setFiltr880_A_3(toDouble(vals)); }
+	double getFiltr880_B_3() const;
+	void setFiltr880_B_3(const double & val);
+	inline void setFiltr880_B_3(const QString & vals) { setFiltr880_B_3(toDouble(vals)); }
+	double getFiltr880_C_3() const;
+	void setFiltr880_C_3(const double & val);
+	inline void setFiltr880_C_3(const QString & vals) { setFiltr880_C_3(toDouble(vals)); }
+	double getFiltr880_A_4() const;
+	void setFiltr880_A_4(const double & val);
+	inline void setFiltr880_A_4(const QString & vals) { setFiltr880_A_4(toDouble(vals)); }
+	double getFiltr880_B_4() const;
+	void setFiltr880_B_4(const double & val);
+	inline void setFiltr880_B_4(const QString & vals) { setFiltr880_B_4(toDouble(vals)); }
+	double getFiltr880_C_4() const;
+	void setFiltr880_C_4(const double & val);
+	inline void setFiltr880_C_4(const QString & vals) { setFiltr880_C_4(toDouble(vals)); }
+	double getFiltr880_A_5() const;
+	void setFiltr880_A_5(const double & val);
+	inline void setFiltr880_A_5(const QString & vals) { setFiltr880_A_5(toDouble(vals)); }
+	double getFiltr880_B_5() const;
+	void setFiltr880_B_5(const double & val);
+	inline void setFiltr880_B_5(const QString & vals) { setFiltr880_B_5(toDouble(vals)); }
+	double getFiltr880_C_5() const;
+	void setFiltr880_C_5(const double & val);
+	inline void setFiltr880_C_5(const QString & vals) { setFiltr880_C_5(toDouble(vals)); }
+	double getFiltr655_A_0() const;
+	void setFiltr655_A_0(const double & val);
+	inline void setFiltr655_A_0(const QString & vals) { setFiltr655_A_0(toDouble(vals)); }
+	double getFiltr655_B_0() const;
+	void setFiltr655_B_0(const double & val);
+	inline void setFiltr655_B_0(const QString & vals) { setFiltr655_B_0(toDouble(vals)); }
+	double getFiltr655_C_0() const;
+	void setFiltr655_C_0(const double & val);
+	inline void setFiltr655_C_0(const QString & vals) { setFiltr655_C_0(toDouble(vals)); }
+	double getFiltr655_A_1() const;
+	void setFiltr655_A_1(const double & val);
+	inline void setFiltr655_A_1(const QString & vals) { setFiltr655_A_1(toDouble(vals)); }
+	double getFiltr655_B_1() const;
+	void setFiltr655_B_1(const double & val);
+	inline void setFiltr655_B_1(const QString & vals) { setFiltr655_B_1(toDouble(vals)); }
+	double getFiltr655_C_1() const;
+	void setFiltr655_C_1(const double & val);
+	inline void setFiltr655_C_1(const QString & vals) { setFiltr655_C_1(toDouble(vals)); }
+	double getFiltr655_A_2() const;
+	void setFiltr655_A_2(const double & val);
+	inline void setFiltr655_A_2(const QString & vals) { setFiltr655_A_2(toDouble(vals)); }
+	double getFiltr655_B_2() const;
+	void setFiltr655_B_2(const double & val);
+	inline void setFiltr655_B_2(const QString & vals) { setFiltr655_B_2(toDouble(vals)); }
+	double getFiltr655_C_2() const;
+	void setFiltr655_C_2(const double & val);
+	inline void setFiltr655_C_2(const QString & vals) { setFiltr655_C_2(toDouble(vals)); }
+	double getFiltr655_A_3() const;
+	void setFiltr655_A_3(const double & val);
+	inline void setFiltr655_A_3(const QString & vals) { setFiltr655_A_3(toDouble(vals)); }
+	double getFiltr655_B_3() const;
+	void setFiltr655_B_3(const double & val);
+	inline void setFiltr655_B_3(const QString & vals) { setFiltr655_B_3(toDouble(vals)); }
+	double getFiltr655_C_3() const;
+	void setFiltr655_C_3(const double & val);
+	inline void setFiltr655_C_3(const QString & vals) { setFiltr655_C_3(toDouble(vals)); }
+	double getFiltr655_A_4() const;
+	void setFiltr655_A_4(const double & val);
+	inline void setFiltr655_A_4(const QString & vals) { setFiltr655_A_4(toDouble(vals)); }
+	double getFiltr655_B_4() const;
+	void setFiltr655_B_4(const double & val);
+	inline void setFiltr655_B_4(const QString & vals) { setFiltr655_B_4(toDouble(vals)); }
+	double getFiltr655_C_4() const;
+	void setFiltr655_C_4(const double & val);
+	inline void setFiltr655_C_4(const QString & vals) { setFiltr655_C_4(toDouble(vals)); }
+	double getFiltr655_A_5() const;
+	void setFiltr655_A_5(const double & val);
+	inline void setFiltr655_A_5(const QString & vals) { setFiltr655_A_5(toDouble(vals)); }
+	double getFiltr655_B_5() const;
+	void setFiltr655_B_5(const double & val);
+	inline void setFiltr655_B_5(const QString & vals) { setFiltr655_B_5(toDouble(vals)); }
+	double getFiltr655_C_5() const;
+	void setFiltr655_C_5(const double & val);
+	inline void setFiltr655_C_5(const QString & vals) { setFiltr655_C_5(toDouble(vals)); }
+	double getFiltr880_A(const short & nrPos) const { return getFiltr(880, 'A', nrPos); }
+	double getFiltr880_B(const short & nrPos) const { return getFiltr(880, 'B', nrPos); }
+	double getFiltr880_C(const short & nrPos) const { return getFiltr(880, 'C', nrPos); }
+	double getFiltr655_A(const short & nrPos) const { return getFiltr(655, 'A', nrPos); }
+	double getFiltr655_B(const short & nrPos) const { return getFiltr(655, 'B', nrPos); }
+	double getFiltr655_C(const short & nrPos) const { return getFiltr(655, 'C', nrPos); }
+	double getFiltr880(const char & nrTarczy, const short & nrPos) const { return getFiltr(880, nrTarczy, nrPos); }
+	double getFiltr665(const char & nrTarczy, const short & nrPos) const { return getFiltr(665, nrTarczy, nrPos); }
+	void setFiltr880_A(const short & nrPos, const double & val) { setFiltr(880, 'A', nrPos, val); }
+	void setFiltr880_B(const short & nrPos, const double & val) { setFiltr(880, 'B', nrPos, val); }
+	void setFiltr880_C(const short & nrPos, const double & val) { setFiltr(880, 'C', nrPos, val); }
+	void setFiltr655_A(const short & nrPos, const double & val) { setFiltr(655, 'A', nrPos, val); }
+	void setFiltr655_B(const short & nrPos, const double & val) { setFiltr(655, 'B', nrPos, val); }
+	void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }
+	void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }
+	void setFiltr665(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(665, nrTarczy, nrPos, val); }
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenie(const QString & val);
@@ -198,6 +322,9 @@ protected:
 	bool checkMotorOdwrocObroty(const QString & val);
 	bool checkMotorOpoznienieImp(const QString & val);
 	bool checkMotorMaksIloscKrokow(const QString & val);
+	bool checkFilterValue(const QString & val);
+	double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;
+	void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
 private:
 
 	QString motorNazwa1;
@@ -254,5 +381,41 @@ private:
 	int motorMaksIloscKrokow7;
 	int motorMaksIloscKrokow8;
 	int motorMaksIloscKrokow9;
+	double filtr880_A_0;
+	double filtr880_B_0;
+	double filtr880_C_0;
+	double filtr880_A_1;
+	double filtr880_B_1;
+	double filtr880_C_1;
+	double filtr880_A_2;
+	double filtr880_B_2;
+	double filtr880_C_2;
+	double filtr880_A_3;
+	double filtr880_B_3;
+	double filtr880_C_3;
+	double filtr880_A_4;
+	double filtr880_B_4;
+	double filtr880_C_4;
+	double filtr880_A_5;
+	double filtr880_B_5;
+	double filtr880_C_5;
+	double filtr655_A_0;
+	double filtr655_B_0;
+	double filtr655_C_0;
+	double filtr655_A_1;
+	double filtr655_B_1;
+	double filtr655_C_1;
+	double filtr655_A_2;
+	double filtr655_B_2;
+	double filtr655_C_2;
+	double filtr655_A_3;
+	double filtr655_B_3;
+	double filtr655_C_3;
+	double filtr655_A_4;
+	double filtr655_B_4;
+	double filtr655_C_4;
+	double filtr655_A_5;
+	double filtr655_B_5;
+	double filtr655_C_5;
 };
 #endif
