@@ -27,7 +27,7 @@ public:
     void init();
 
     void setReverseMotor(bool rev) { reverseMotor = rev; }
-    void setEnabledAlways(bool en) { enableAlways = en; }
+    
 
     void setMaxSteps(uint32_t maxSteps) { this->maxSteps = maxSteps; }
     void setDelayImp(uint16_t delayImp) { this->delayImp = delayImp; }
@@ -42,11 +42,10 @@ public:
 
     static constexpr uint8_t KRANCPIN = 2;
 
-    void setEnabled(bool en);
     void setDir(bool back);
 
 private:
-    static constexpr uint8_t ENPIN = 7;
+
     static constexpr uint8_t DIRPIN = 8;
     static constexpr uint8_t PULSEPIN = 9;
 

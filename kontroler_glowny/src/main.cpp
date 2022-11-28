@@ -91,7 +91,7 @@ void setup (void)
 
     for (uint8_t p = 0; p < maxNumSter2; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
-        pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
+        //pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
         attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], FALLING);
         motors[p].init(p+1, ssPins[p], stopPins[p], &msg);

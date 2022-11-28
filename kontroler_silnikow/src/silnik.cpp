@@ -25,21 +25,12 @@ Motor::Motor() :
 
 void Motor::init()
 {
-
-  	pinMode(ENPIN, OUTPUT);
-	//setEnabled(true);
-  
   	pinMode(KRANCPIN, INPUT_PULLUP);
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
 	Timer1.setPeriod(delayImp);
 }
 
-
-void Motor::setEnabled(bool en)
-{
-	digitalWrite(ENPIN, en ? LOW : HIGH);
-}
 
 //DIR REV
 // 0    0   => 0
@@ -103,9 +94,6 @@ void Motor::moveHome()
 	isMoveHome = true;
 	isMove = true;
 
-	//if (!enableAlways)
-	setEnabled(true);
-
 	setDir(true);
 	
 	actSteps = 0;
@@ -121,16 +109,12 @@ void Motor::movePosition(uint32_t pos)
 	isMoveHome = false;
 	isMove = true;
 	
-	//if (!enableAlways)
-	setEnabled(true);
-
 	setDir(true);
 	
 	actSteps = 0;
 	newPosition = pos;
 	diff = -1;
 
-	setEnabled(true);
 	canMove = true;
 	Serial.print("1. globalPos");
 	Serial.println(globalPos, DEC);

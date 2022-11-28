@@ -25,8 +25,17 @@
 #define DBG2 A2
 #define DBG3 A3
 
+typedef enum _debugWorkMode {
+	PIONOWA = 0,
+	KATOWA = 1,
+	KOLOWA = 2,
+	POZIOMA = 4,
+	CHECKKRANC = 7,
+	UNKNOWN = 8
+} DebugWorkMode;
 
-#define MIDDLEBASE A1
+DebugWorkMode dbgWorkMode = UNKNOWN;
+
 #define DEBUG
 
 Motor mot;
@@ -79,6 +88,43 @@ void printSendBuf()
 
 #endif
 
+DebugWorkMode conv2DebugWorkMode(uint8_t b) {
+	switch(b)
+	{
+	case PIONOWA: return PIONOWA;
+	case KATOWA: return KATOWA;
+	case KOLOWA: return KOLOWA;
+	case POZIOMA: return POZIOMA;
+	case CHECKKRANC: return CHECKKRANC;
+	default: return UNKNOWN;
+	}
+}
+
+
+uint32_t getDelayImp(DebugWorkMode d) 
+{
+	switch(d)
+	{
+	case PIONOWA: return 150;
+	case KATOWA: return 125000;
+	case KOLOWA: return 200;
+	case POZIOMA: return 250;
+	default: return 1000000;
+	}
+}
+
+uint32_t getMaxSteps(DebugWorkMode d) 
+{
+	switch(d)
+	{
+	case PIONOWA: return 15000;
+	case KATOWA: return 1500;
+	case KOLOWA: return 32000;
+	case POZIOMA: return 25000;
+	default: return 1000000;
+	}
+}
+
 inline void setBusy(bool busy)
 {
 	digitalWrite(BUSYPIN, busy ? HIGH : LOW);
@@ -116,7 +162,7 @@ void krancPIN()
 
 uint32_t impDelay = 12500;
 bool isDebugMode = false;
-bool isMiddleBase = false;
+uint32_t maxSteps = 0;
 void setup()
 {
 
@@ -124,9 +170,9 @@ void setup()
 	setBusy(false);
 
 	pinMode(DEBUGPIN, INPUT);
-	pinMode(A3, INPUT);
-	pinMode(A2, INPUT);
-	pinMode(A1, INPUT);
+	pinMode(DBG3, INPUT);
+	pinMode(DBG2, INPUT);
+	pinMode(DBG1, INPUT);
 
 	pinMode(SS, INPUT);
 	pinMode(SCK, INPUT);
@@ -139,19 +185,20 @@ void setup()
 	pinMode(KRANCPIN, INPUT);
 	pinMode(STOPPIN, INPUT); 
 
+	digitalWrite(ENPIN, LOW);
 
 	isDebugMode = digitalRead(DEBUGPIN)	== LOW;
-	isMiddleBase = digitalRead(MIDDLEBASE) == LOW;
+	dbgWorkMode = conv2DebugWorkMode(digitalRead(DBG3) | (digitalRead(DBG2) << 1) | (digitalRead(DBG1) << 2));
 	
 	if (isDebugMode) {
 		Serial.begin(115200);
-		digitalWrite(ENPIN, LOW);
+		
 		digitalWrite(DIRPIN, LOW);
-		if (isMiddleBase) {
-			impDelay=125000;
-		} else {
-			impDelay=250;
-		}
+		impDelay=getDelayImp(dbgWorkMode);
+		maxSteps=getMaxSteps(dbgWorkMode);
+		if (dbgWorkMode == CHECKKRANC)
+			digitalWrite(ENPIN, HIGH);
+		
 		return;
 	}
 
@@ -183,7 +230,6 @@ void setup()
 	
 	setBusy(false);
 
-	mot.setEnabled(true);
     mot.setDir(true);
 	
 }
@@ -220,61 +266,67 @@ int delImp = 20;
 
 bool debugDir = false;
 unsigned long actTime=0, prevTime=0;
-uint32_t steps = 0;	
-uint32_t maxSteps = 0;
-
+uint32_t steps = 0xffffffff;	
+uint32_t middleSteps = 0;
+uint32_t timeDelay = 0;
 void loop()
 { 
-
-	Serial.print("DBG=");
-	Serial.print(digitalRead(DEBUGPIN));
-	Serial.print(" DBG1=");
-	Serial.print(digitalRead(A1));
-	Serial.print(" DBG2=");
-	Serial.print(digitalRead(A2));
-	Serial.print(" DBG3=");
-	Serial.println(digitalRead(A3));
-	delay(1000);
-	return;
-
 	if (isDebugMode) {
-		if (steps > (isMiddleBase? 2000 : 50000)) {
+		if (dbgWorkMode == CHECKKRANC) {
+			Serial.print("Czujnik krancowki = ");
+			Serial.println(digitalRead(KRANCPIN) == LOW ? "Tak" : "Nie");
+			delay(500);
+			prevTime = millis();
+			return;
+		}
+
+		if (steps == 0xffffffff) {
+			Serial.print("Rozpoczynam prace. Kierunek dir=");
+			Serial.println(debugDir ? HIGH : LOW);
 			steps = 0;
+			return;
+		}
+
+		if (steps > maxSteps) {
 			debugDir = !debugDir;
 			digitalWrite(DIRPIN, debugDir ? HIGH : LOW);
-			Serial.print("BRAK KRANCOWKI. KROKI=");
-			Serial.println((isMiddleBase? 2000 : 50000));
+			Serial.print("Nie wykryto krancowki. Steps > ");
+			Serial.println(maxSteps);
+			Serial.print("Zmieniam kierunek na dir=");
+			Serial.println(debugDir ? HIGH : LOW);
+			steps = 0;
 			return;
 		}
 
 		if (digitalRead(KRANCPIN) == LOW) {
-			digitalWrite(SCK, HIGH);
 			actTime = millis();
-			Serial.print("WYKRYTO KRANCOWKE. KROKI=");
+			Serial.print("Wykryto krancowke po ");
 			Serial.print(steps);
-			Serial.print(" CZAS [ms]=");
-			if (prevTime == 0) 
-				Serial.println("?");
-			else {
-				Serial.println(actTime - prevTime - (isMiddleBase ? 13000 : 3000));
-				maxSteps = steps;
-			}
-			prevTime = actTime;			
+			Serial.print(" krokach. Czas [ms]=");
+			Serial.print(actTime - prevTime - timeDelay);
+			Serial.print(" /");
+			Serial.print(actTime - prevTime);
+			middleSteps = steps / 2;
+			steps = 0;
 			debugDir = !debugDir;
 			digitalWrite(DIRPIN, debugDir ? HIGH : LOW);
+			delay(300);
+			
+			prevTime = actTime;			
+			
 			while(digitalRead(KRANCPIN) == LOW) {
 				digitalWrite(PULSEPIN, HIGH);
 				delayMicroseconds(impDelay);
 				digitalWrite(PULSEPIN, LOW);
 				delayMicroseconds(impDelay);
 			}
-			steps = 0;
-			delay(3000);
-			Serial.print("KIERUNEK=");
+			Serial.print("Zmiana kierunku dir=");
 			Serial.println(debugDir);
 		}
 
-		if (isMiddleBase && maxSteps && steps == maxSteps/2) {
+		if (dbgWorkMode == KATOWA && steps == maxSteps/2) {
+			Serial.println("Srodek");
+			timeDelay += 10000;
 			delay(10000);
 		}
 		digitalWrite(PULSEPIN, HIGH);
@@ -287,22 +339,23 @@ void loop()
 		}
 
 		return;
-	} else 
-#ifdef DEBUG	
-	{
-		Serial.println("NO isDebugMode");
-		return;
+	} 
+#ifdef DEBUGPIN
+	else {
+		Serial.print("DBG=");
+		Serial.print(digitalRead(DEBUGPIN));
+		Serial.print("D3=");
+		Serial.print(digitalRead(DBG3));
+		Serial.print("D2=");
+		Serial.print(digitalRead(DBG2));
+		Serial.print("D1=");
+		Serial.print(digitalRead(DBG1));
+		Serial.print("dbgWorkMode=");
+		Serial.println(dbgWorkMode, HEX);
 		delay(1000);
-
 	}
+
 #endif
-	--counter ;
-	if (counter < 2) {
-		counter = 6500000;
-		mot.print();
-		delay(1);
-	}
-
   	if(received)                            //Logic to SET LED ON OR OFF depending upon the value recerived from master
   	{
 		
@@ -442,7 +495,6 @@ void loop()
 					Serial.println(status.data.conf.delayImp, DEC);
 					mot.setReverseMotor(status.data.conf.reverse);
 					mot.setMaxSteps(status.data.conf.maxStep);
-					mot.setEnabledAlways(status.data.conf.enableAlways);
 					mot.setBaseSteps(status.data.conf.baseSteps);
 					mot.setDelayImp(status.data.conf.delayImp);
 					Timer1.setPeriod(status.data.conf.delayImp);
