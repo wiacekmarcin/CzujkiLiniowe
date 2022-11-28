@@ -81,6 +81,7 @@ public:
         SET_POSITION,
         SET_HOME,
         DISCONNECT,
+        MULTI_CMD,
         RESET,
     } Task;
 
@@ -93,7 +94,7 @@ public:
      * @param task - nowe zadanie IDLE, CONNECT, CONFIGURE, RESET, SET_PARAMS, SET_POSITION, SET_HOME, SET_CYCLE,
      * SET_STEPS, SET_ECHO2
      */
-    bool command(Task task);
+    bool command(Task task, const QByteArray & data);
 
     /**
      * @brief setStop
@@ -129,7 +130,7 @@ private:
     QMutex mutexRun;
     bool runWorker;
     SerialDevice * sd;
-    QVector<Task> futureTask;
+    QVector<QPair<Task,QByteArray>> futureTask;
 };
 
 
@@ -207,19 +208,14 @@ public:
     /**
      * @brief setPositionHome - ustawia pozycje bazową dla dozownika
     */
-    void setPositionHome();
-
-    /**
-     * @brief setSteps - ustawia ilość kroków dla przesunięcia
-     * @param x - ilosc przesuniecia w impulsach os X
-     * @param y - ilosc przesuniecia w impulsach os Y
-     */
-    void setPosition(uint32_t x, uint32_t y);
+    void setPositionSilnik(int silnik, bool home, uint32_t steps = 0);
 
     /**
     * @brief setReset
     */
     void setReset();
+
+    void sendMultiCmd(const QString & cmd);
 
 protected:
 
@@ -258,7 +254,7 @@ signals:
      * @brief setParamsDone - ustawianie parametrów zakończone
      * @param success - true powodzenie, false niepowodzenie
      */
-    void setParamsDone(bool success);
+    void setParamsDone(int address, bool success, bool silnik);
 
     /**
      * @brief kontrolerConfigured - znaleziono sterownik i skonfigurowano
@@ -278,7 +274,7 @@ signals:
      * @param home - czy powrot do bazy true, czy ustawianie pozycji
      * @param success - czy poprawny komunikat
      */
-    void setPositionDone(bool home, bool success);
+    void setPositionDone(bool home, bool success, unsigned int steps);
 
 protected:
     /********************************** INNE FUNKCJE *************************/
@@ -298,31 +294,10 @@ protected:
      */
     void connectToSerialJob();
 
-
-    /**
-     * @brief setParamsJob - ustawia paremetry sterownika silnika
-     */
-    void setParamsJob();
-
-    /**
-     * @brief setHomeJob - ustawia pozycję bazową dla wybranego dozownika
-     */
-    void setHomeJob();
-
-    /**
-     * @brief setPosJob - ustawia żądana pozycję
-     */
-    void setPosJob();
-
     /**
      * @brief closeDevice zamyka urzadzenia
      */
     void closeDeviceJob();
-
-    /**
-     * @brief resetJob - resetuje kontroler silnikow - zatrzymuje go
-    */
-    void resetJob();
 
     /***************************** Inne funkcje zwiazane z wiadaomosciamia ********************/
 
@@ -374,7 +349,8 @@ private:
     QSerialPort * m_serialPort;
 #endif
 
-
+    short m_silnik;
+    unsigned int m_steps;
 };
 
 

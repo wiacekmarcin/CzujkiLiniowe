@@ -36,13 +36,18 @@ QByteArray SerialMessage::configMotorMsg(short silnik, bool alwaysEnable, bool r
         (uint8_t) (delayStep  & 0xff)
     };
 
-    return prepareMessage(CONF_REQ, addr, opt, tab, sizeof(tab)/sizeof(uint8_t));
+    return prepareMessage(CONF_MSG_REQ, addr, opt, tab, sizeof(tab)/sizeof(uint8_t));
+}
+
+QByteArray SerialMessage::configKontrolerMsg()
+{
+    return prepareMessage(CONF_MSG_REQ, 0, 0, nullptr, 0);
 }
 
 QByteArray SerialMessage::setPositionHome(uint8_t addr)
 {
     uint8_t tab[4] = { 0x00, 0x00, 0x00, 0x00};
-    return prepareMessage(MOVE_REQ, addr, 0x01, tab, 4);
+    return prepareMessage(MOVE_MSG_REQ, addr, 0x01, tab, 4);
 }
 
 QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x)
@@ -54,7 +59,17 @@ QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x)
         (uint8_t) (x & 0xff)
     };
 
-    return prepareMessage(MOVE_REQ, addr, 0x00, tab, 4);
+    return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 4);
+}
+
+QByteArray SerialMessage::setMultiCmd(const QString &cmd)
+{
+    uint8_t tab[15];
+    uint8_t l = 0;
+    for (l = 0; l < 15 && l < cmd.size(); ++l) {
+        tab[l] = cmd.at(l).toLatin1();
+    }
+    return prepareMessage(CONF_MSG_REQ, 10, 0x00, tab, l);
 }
 /*
 QByteArray SerialMessage::resetSterownik(uint8_t addr)
@@ -75,7 +90,8 @@ bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options
 
     if (cmd == ECHO_CLEAR_REP && len == 0) {
         m_parseReply = CLR_MESSAGE;
-        arr.front();
+        //arr.front();
+        arr.remove(0,1);
         return false;
     }
 
@@ -107,7 +123,8 @@ bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options
         return false;
     }
 
-    unsigned short msgcrc = msg.back() & 0xff;
+    //unsigned short msgcrc = msg.back() & 0xff;
+    unsigned short msgcrc = msg.at(msg.size()-1) & 0xff;
 
     if (crc.getCRC() != msgcrc) {
         m_parseReply = INVALID_REPLY;
@@ -150,10 +167,33 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             return true;
         }
 
-        case CONF_REP:
+        case CONF_MSG_REP:
         {
             silnik = addr;
-            m_parseReply = ((options & 0x01) == 0x01) ? CONF_INT_REPLY : CONF_REPLY;
+            if (silnik == 0) {
+                //mega
+                m_parseReply = CONF_MEGA_REPLY;
+                return true;
+            } else if (silnik == 10) {
+                m_parseReply = MULTIMETR_REPLY;
+            } else
+                m_parseReply = ((options & 0x01) == 0x01) ? CONF_INT_REPLY : CONF_REPLY;
+            return true;
+        }
+
+        case MOVE_MSG_REP:
+        {
+        if (options == 0x01)
+            m_parseReply = MOVEHOME_REPLY;
+        else
+            m_parseReply = POSITION_REPLY;
+        steps = getNumber(data);
+        return true;
+        }
+
+        case MEASURENT_REP:
+        {
+            m_parseReply = MEASURENT_REPLY;
             return true;
         }
         
@@ -191,6 +231,11 @@ SerialMessage::ParseReply SerialMessage::getParseReply() const
 uint32_t SerialMessage::getNumber(const QByteArray &data)
 {
     return ((data[0] & 0xff) << 24) +  ((data[1] & 0xff) << 16) + ((data[2] & 0xff) << 8) + (data[3] & 0xff);
+}
+
+unsigned int SerialMessage::getSteps() const
+{
+    return steps;
 }
 
 int SerialMessage::getSilnik() const

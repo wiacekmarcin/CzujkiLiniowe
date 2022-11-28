@@ -2,6 +2,7 @@
 #include <Arduino.h>
 
 #define DEBUG_SERIAL
+//#define DEBUG_SERIAL
 
 MessageSerial::MessageSerial() 
 {
@@ -20,7 +21,6 @@ void MessageSerial::init()
 void MessageSerial::reset()
 {
     posCmd = 0;
-    rozkaz = 0;
     dlugosc = 0;
     crc.restart();
 }
@@ -43,22 +43,28 @@ bool MessageSerial::check(unsigned char c)
         Serial1.println(dlugosc, DEC);
 #endif
         if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
-            reset();
+#ifdef DEBUG_SERIAL            
+        Serial.println("ECHO_CLEAR_REQ");
+#endif
+            posCmd = 0;
+            bool r = parseRozkaz();
+            if (!r) {
+                reset();
+                sendError("ZLY ROZKAZ");
+#ifdef DEBUG_SERIAL                    
+                Serial.println("ZLY ROZKAZ");
+#endif                
+            }
             return true;
         }
         return false;
     }
-
-    if (posCmd-2 == 0) {
-        lenMsg = posCmd;
-        address = (data[1] >> 4) & 0x0f;
-        options = data[1] & 0x0f;
+    if (posCmd-1 == 1) {
         crc.add(data[1]);
+        address = (data[1] >> 4) & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial1.print("ADD=");
-        Serial1.print(address);
-        Serial1.print(" OPT=");
-        Serial1.println(options);
+        Serial.print("ADDRR=");
+        Serial.println(address);
 #endif 
         return false;
     }
@@ -76,6 +82,10 @@ bool MessageSerial::check(unsigned char c)
         if (data[posCmd-1] == c) {
             posCmd = 0;
             bool r = parseRozkaz();
+#ifdef DEBUG_SERIAL
+            Serial.print("actWork=");                    
+            Serial.println(actWork, DEC);
+#endif  
             if (!r) {
                 reset();
                 sendError("ZLY ROZKAZ");
@@ -115,7 +125,7 @@ void MessageSerial::sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint
     if (len > 15)
         return;
     
-    uint8_t sendData[MAXLENPROTO] = {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+    uint8_t sendData[MAXLENPROTO+3];
     if (len > 0)
         memcpy(sendData+2, buf, len);
     sendData[0] = (cmd << 4) | len ;

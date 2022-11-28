@@ -1,7 +1,7 @@
 #ifndef PROTOCOL_HPP
 #define PROTOCOL_HPP
 
-#define MAXLENPROTO 18
+#define MAXLENPROTO 15
 #include "crc8.hpp"
 
 

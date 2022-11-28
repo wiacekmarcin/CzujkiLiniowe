@@ -71,9 +71,9 @@ SerialWorkerWriter::~SerialWorkerWriter()
     wait(120000);
 }
 
-bool SerialWorkerWriter::command(Task curr)
+bool SerialWorkerWriter::command(Task curr, const QByteArray &data)
 {
-    DEBUGSER(QString("New command %1").arg(curr));
+    DEBUGSER(QString("New command %1 [%2]").arg(curr).arg(data.toHex().data()));
     {
         const QMutexLocker locker(&mutexRun);
         if (!runWorker)
@@ -81,7 +81,7 @@ bool SerialWorkerWriter::command(Task curr)
     }
     const QMutexLocker locker(&mutex);
 
-    futureTask.push_back(curr);
+    futureTask.push_back(QPair<Task,QByteArray>(curr, data));
     newTask.wakeOne();
     return true;
 }
@@ -96,7 +96,7 @@ void SerialWorkerWriter::setStop()
     //mutex.lock();
     const QMutexLocker locker(&mutex);
     futureTask.clear();
-    futureTask.push_back(DISCONNECT);
+    futureTask.push_back(QPair<Task,QByteArray>(DISCONNECT, QByteArray()));
     newTask.wakeOne();
     //mutex.unlock();
     //wait();
@@ -112,6 +112,7 @@ void SerialWorkerWriter::run()
 {
     mutex.lock();
     short zadanie = actTask;
+    QByteArray msg;
     mutex.unlock();
     bool quit = false;
     DEBUGSER(QString("actTask = %1").arg(actTask));
@@ -121,7 +122,8 @@ void SerialWorkerWriter::run()
             actTask = IDLE;
             newTask.wait(&mutex);
         } else {
-            actTask = futureTask.front();
+            actTask = futureTask.front().first;
+            msg = futureTask.front().second;
             futureTask.pop_front();
         }
         zadanie = actTask;
@@ -136,15 +138,15 @@ void SerialWorkerWriter::run()
             break;
 
         case SET_PARAMS:
-            sd->setParamsJob();
-              break;
+            sd->write(msg, 1000);
+            break;
 
         case SET_HOME:
-            sd->setHomeJob();
+            sd->write(msg, 1000);
             break;
 
         case SET_POSITION:
-            sd->setPosJob();
+            sd->write(msg, 1000);
             break;
 
         case DISCONNECT:
@@ -152,7 +154,7 @@ void SerialWorkerWriter::run()
             break;
 
         case RESET:
-            sd->resetJob();
+            sd->write(msg, 1000);
             break;
         
         default:
@@ -208,7 +210,7 @@ void SerialDevice::setThread(QThread *thrW, QThread *thrR)
 {
     m_writer.moveToThread(thrW);
     m_writer.start();
-    m_writer.command(SerialWorkerWriter::IDLE);
+    m_writer.command(SerialWorkerWriter::IDLE, QByteArray());
 
     m_reader.moveToThread(thrR);
     //start przy connect
@@ -226,7 +228,7 @@ void SerialDevice::connectToDevice()
     if (connected()) {
         emit kontrolerConfigured(true, ALL_OK);
     } else {
-        m_writer.command(SerialWorkerWriter::CONNECT);
+        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
     }
 }
 
@@ -239,20 +241,17 @@ void SerialDevice::setParams()
     }
 }
 
-void SerialDevice::setPositionHome()
+void SerialDevice::setPositionSilnik(int silnik, bool home, unsigned int steps)
 {
     if (!connected())
-        m_writer.command(SerialWorkerWriter::CONNECT);
-    m_writer.command(SerialWorkerWriter::SET_HOME);
-}
+        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
 
-void SerialDevice::setPosition(uint32_t x, uint32_t y)
-{
-    if (!connected()) {
-        m_writer.command(SerialWorkerWriter::CONNECT);
-        m_writer.command(SerialWorkerWriter::SET_HOME);
-    }
-    m_writer.command(SerialWorkerWriter::SET_POSITION);
+    if (home)
+        m_writer.command(SerialWorkerWriter::SET_HOME,
+                         SerialMessage::setPositionHome(silnik));
+    else
+        m_writer.command(SerialWorkerWriter::SET_POSITION,
+                         SerialMessage::setPosition(silnik,  steps));
 }
 
 bool SerialDevice::configureDevice(bool wlcmmsg)
@@ -279,8 +278,10 @@ bool SerialDevice::configureDevice(bool wlcmmsg)
             ust->getMotorMaksIloscKrokow(i), 0,
             ust->getMotorOpoznienieImp(i));
 
-        if (!write(msgBA, 200))
+        if (!write(msgBA, 500)) {
+            emit kontrolerConfigured(false, PARAMS_FAILD);
             return false;
+        }
 
         auto reply = read(1000);
         SerialMessage msg;
@@ -292,24 +293,23 @@ bool SerialDevice::configureDevice(bool wlcmmsg)
         }
     }
 
+    QByteArray msgBA = SerialMessage::configKontrolerMsg();
+    if (!write(msgBA, 500)) {
+        emit kontrolerConfigured(false, PARAMS_FAILD);
+        return false;
+    }
+
+    auto reply = read(1000);
+    SerialMessage msg;
+    msg.parseCommand(reply);
+
+    if (msg.getParseReply() != SerialMessage::CONF_REPLY && msg.isKontroler()) {
+        emit kontrolerConfigured(false, PARAMS_FAILD);
+        return false;
+    }
+
     emit kontrolerConfigured(true, PARAMS_OK);
     return true;
-}
-
-void SerialDevice::setParamsJob()
-{
-
-}
-
-
-void SerialDevice::setHomeJob()
-{
-    DEBUGSER(QString("Ustaw pozycje startowa dla czujnika"));
-}
-
-void SerialDevice::setPosJob()
-{
-
 }
 
 bool SerialDevice::connected()
@@ -340,15 +340,6 @@ void SerialDevice::closeDeviceJob()
     DEBUGSER("CLOSE DEVICE");
 }
 
-void SerialDevice::resetJob()
-{
-    DEBUGSER(QString("Resetuje urzadzenie"));
-    //auto s = write(SerialMessage::resetSterownik(0), 100);
-    //if (s.getParseReply() != SerialMessage::RESET_REPLY) {
-    //    return;
-    //}
-}
-
 bool SerialDevice::openDevice()
 {
 #ifdef SERIALLINUX
@@ -356,20 +347,42 @@ bool SerialDevice::openDevice()
 
     emit deviceName(m_serialPort->portName());
 
+    m_serialPort->setBaudRate(QSerialPort::Baud115200);
+    m_serialPort->setDataBits(QSerialPort::Data8);
+    m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
+    m_serialPort->setParity(QSerialPort::NoParity);
+    m_serialPort->setStopBits(QSerialPort::OneStop);
+    m_serialPort->clear();
+    m_serialPort->clearError();
+    m_serialPort->flush();
+    m_serialPort->reset();
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
         emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
                    arg(m_serialPort->errorString()));
         emit kontrolerConfigured(false, NO_OPEN);
         return false;
     }
-
-    emit kontrolerConfigured(false, OPEN);
+    m_serialPort->clear();
+    m_serialPort->clearError();
+    m_serialPort->flush();
+    m_serialPort->reset();
+    m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort->setBaudRate(QSerialPort::Baud115200);
     m_serialPort->setDataBits(QSerialPort::Data8);
-    m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
+    m_serialPort->setReadBufferSize(20);
 
+    QThread::currentThread()->sleep(2);
+
+    emit kontrolerConfigured(false, OPEN);
+
+
+
+    QByteArray startBuf(18, '\0');
+    DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
+    write(startBuf, 2500);
+    read(100);
     return true;
 #else
     DEBUGSER(QString("Otwieram urządzenia %1").arg(m_portName));
@@ -401,19 +414,21 @@ bool SerialDevice::openDevice()
 #endif
 }
 
-SerialMessage SerialDevice::parseMessage(QByteArray &reply)
-{
-    SerialMessage msg;
-    msg.parseCommand(reply);
-    return msg;
-}
-
 void SerialDevice::setReset()
 {
+    /*
     if (connected()) {
         m_writer.command(SerialWorkerWriter::RESET);
         m_writer.command(SerialWorkerWriter::SET_PARAMS);
     }
+    */
+}
+
+void SerialDevice::sendMultiCmd(const QString &cmd)
+{
+    if (!connected())
+        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
+    m_writer.command(SerialWorkerWriter::MULTI_CMD, SerialMessage::setMultiCmd(cmd));
 }
 
 bool SerialDevice::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
@@ -529,11 +544,51 @@ QByteArray SerialDevice::read(int currentWaitReadTimeout)
     return responseData;
 }
 
+SerialMessage SerialDevice::parseMessage(QByteArray &reply)
+{
+    SerialMessage msg;
+    if (!msg.parseCommand(reply)) {
+        DEBUGSER(QString("Parse Msg faild %1").arg(msg.getParseReply()));
+        return msg;
+    }
+    DEBUGSER(QString("Parse Msg success %1").arg(msg.getParseReply()));
+    switch(msg.getParseReply())
+    {
+    case SerialMessage::INVALID_REPLY:
+    case SerialMessage::CLR_MESSAGE:
+    case SerialMessage::EMPTY_MESSAGE:
+    case SerialMessage::INPROGRESS_REPLY:
+    case SerialMessage::WELCOME_REPLY:
+    default:
+        break;
+
+    case SerialMessage::CONF_REPLY:
+        emit setParamsDone(msg.getSilnik(), true, false);
+        break;
+
+    case SerialMessage::MOVEHOME_REPLY:
+        emit setPositionDone(true, true, 0);
+        break;
+
+    case SerialMessage::POSITION_REPLY:
+        emit setPositionDone(false, true, msg.getSteps());
+        break;
+
+    case SerialMessage::RESET_REPLY:
+        break;
+
+    case SerialMessage::CONF_INT_REPLY:
+        emit setParamsDone(msg.getSilnik(), true, true);
+        break;
+    }
+    return msg;
+}
+
 void SerialDevice::closeDevice(bool waitForDone)
 {
     DEBUGSER(QString("close device %1").arg(waitForDone));
     if (waitForDone) {
-        m_writer.command(SerialWorkerWriter::DISCONNECT);
+        m_writer.command(SerialWorkerWriter::DISCONNECT, QByteArray());
     } else {
         m_writer.setReset();
         closeDeviceJob();

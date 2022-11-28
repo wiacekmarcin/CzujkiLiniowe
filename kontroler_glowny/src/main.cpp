@@ -133,6 +133,36 @@ void loop (void)
     if (timeout) {
         if (indexMotor == 0) {
             motors[indexMotor].sendProgressMsg();
+    if (runLoop) {
+        //przerwanie od konca pracy z sterownika
+        /*
+        if (finishJob[kontId]) {
+            finishJob[kontId] = false;
+            if (actJob[kontId] == JOB_HOME_RETURN) {
+                //TODO send command with steps
+            } else if (actJob[kontId] == JOB_POSITIONING) {
+                //TODO send command with steps
+            }
+            actJob[kontId] = JOB_NOP;
+        }
+        ++kontId;
+        */
+        //przerwanie od timera
+        if (readMsr) {
+            readMsr = false;
+            
+            //mjob = SEND_CURR;
+            mjob = M_SEND_VALS;
+
+            return;
+        }
+        /*
+        if (mjob == SEND_CURR) {
+            Serial1.write("CURR?");
+            mjob = WAIT_CURR;
+            readLastChar = millis();
+            return;
+        }
 
         }
         //else
@@ -142,6 +172,29 @@ void loop (void)
         if (++indexMotor == 9) {
             timeout = false;
             indexMotor = 0;
+        if (mjob == SEND_VOLT) {
+            Serial1.write("VOLT?");
+            mjob = WAIT_VOLT;
+            readLastChar = millis();
+            return;
+        }
+
+        if (mjob == WAIT_VOLT) {
+            if (Serial1.available()) {
+                uint8_t c = Serial1.read();
+                //TODO addMsg
+                readLastChar = millis();
+            } else {
+                if (millis() - readLastChar > 50)
+                mjob = M_SEND_VALS;
+            }
+            return;
+        }
+        */
+        if (mjob == M_SEND_VALS) {
+            msg.sendMeasuremnt();
+            mjob = MEAS_NOP;
+            return;
         }
     }
 
@@ -151,6 +204,10 @@ void loop (void)
         indexMotorReply = 0;
     }    
 }
+    if (actWork == MessageSerial::CONFIGURATION_LOCAL) {
+        runLoop = true;
+        return;
+    }
 
 void readSerial()
 {

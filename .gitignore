@@ -6,3 +6,4 @@
 kontroler_silnikow/src/build/*
 CzujkiLinioweApp/build-*
 build-CzujkiLinioweApp-Desktop-*/*
+build-CzujkiLinioweApp-Desktop-Debug/.qmake.stash

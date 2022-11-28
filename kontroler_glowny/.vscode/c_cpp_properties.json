@@ -8,11 +8,11 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/include",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/src",
+                "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/include",
+                "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/TimerOne",
-                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/PinChangeInterrupt/src",
+                "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/TimerOne",
+                "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/PinChangeInterrupt/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/variants/mega",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -24,11 +24,11 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/include",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/src",
+                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/include",
+                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/TimerOne",
-                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/PinChangeInterrupt/src",
+                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/TimerOne",
+                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_glowny/.pio/libdeps/megaatmega2560/PinChangeInterrupt/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/variants/mega",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",

@@ -36,10 +36,10 @@ public:
         WELCOME_MSG_REQ = 1,
         WELCOME_MSG_REP = 2,
 
-        CONF_REQ = 8,
-        CONF_REP = 9,
-        MOVE_REQ = 10,
-        MOVE_REP = 11,
+        CONF_MSG_REQ = 8,
+        CONF_MSG_REP = 9,
+        MOVE_MSG_REQ = 10,
+        MOVE_MSG_REP = 11,
         LAST_REQ = 12,
         LAST_REP = 13,
         MEASURENT_REP = 14,
@@ -48,21 +48,6 @@ public:
         INV_MSG = 16,
 
     } CMD;
-
-    typedef enum _status {
-        START_XY,
-        START_X,
-        END_X,
-        START_Y,
-        END_Y,
-        END_XY,
-        START_R,
-        END_R,
-        ERROR_XY,
-        ERROR_R
-    } StatusWork;
-
-
 
     /**
      * Możliwe statusy odpowiedzi
@@ -77,7 +62,10 @@ public:
         MOVEHOME_REPLY,
         POSITION_REPLY,
         RESET_REPLY,
-        CONF_INT_REPLY
+        CONF_INT_REPLY,
+        MEASURENT_REPLY,
+        CONF_MEGA_REPLY,
+        MULTIMETR_REPLY
     } ParseReply;
 
     /**
@@ -88,7 +76,7 @@ public:
 
 
     static QByteArray configMotorMsg(short silnik, bool en, bool reverse, int maxSteps, int baseSteps, int delayStep);
-
+    static QByteArray configKontrolerMsg();
     /**
      * @brief setPositionHome
      * @param addr - adres kontrolera 1-9 silnik
@@ -106,6 +94,7 @@ public:
 
     static QByteArray resetSterownik(uint8_t addr);
     
+    static QByteArray setMultiCmd(const QString & cmd);
 
     /**
      * @brief getParseReply zwraca typ sparsowanej wiadomości
@@ -132,6 +121,9 @@ public:
 
 
     int getSilnik() const;
+    bool isKontroler() { return silnik == 0;}
+
+    unsigned int getSteps() const;
 
 protected:
 
@@ -144,6 +136,8 @@ private:
 
 
     int silnik;
+    unsigned int steps;
+
 
 
 };
