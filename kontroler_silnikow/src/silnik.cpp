@@ -7,7 +7,7 @@ Motor::Motor() :
     reverseMotor(false)
     ,enableAlways(true)
 	,maxSteps(1000)
-    ,delayImp(150)
+    ,delayImp(1500)
     ,baseSteps(10)
 	,isRun(false)
 	,newPosition(false)
@@ -25,10 +25,7 @@ Motor::Motor() :
 
 void Motor::init()
 {
-  	pinMode(KRANCPIN, INPUT_PULLUP);
-	pinMode(DIRPIN, OUTPUT);
-	pinMode(PULSEPIN, OUTPUT);
-	Timer1.setPeriod(delayImp);
+	
 }
 
 
