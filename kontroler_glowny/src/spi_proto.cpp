@@ -33,11 +33,12 @@ SPIMessage::~SPIMessage()
 
 }
 
-void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, MessageSerial * msg)
+void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, MessageSerial * msg)
 {
     this->addr = addr;
     this->ssPin = ssPin;
     this->stopPin = stopPin;
+    this->movePin = movePin;
     this->msg = msg;
     progressMsg[0] = (MessageSerial::PROGRESS_REQ << 4) & 0xf0;
     progressMsg[1] = (uint8_t)((addr << 4) & 0xf0);
@@ -246,7 +247,7 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len, bool home)
     Serial1.print(ssPin);
     Serial1.print(" StopPin=");
     Serial1.print(stopPin);
-    Serial1.println(home ? " Home" : "Move ");
+    Serial1.println(home ? " Home" : " Move ");
 #endif  
     digitalWrite(ssPin, LOW);
     SPI.transfer(msg, len);
@@ -256,6 +257,8 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len, bool home)
 
 void SPIMessage::sendProgressMsg()
 {
+    if (digitalRead(movePin) == HIGH)
+        return;
 #ifdef DEBUG
     Serial1.print("Send progres msg ");
     Serial1.print("motor = ");
@@ -264,7 +267,7 @@ void SPIMessage::sendProgressMsg()
     Serial1.println(ssPin);
 #endif
     uint8_t sendMsg[3];
-    memcpy(progressMsg, sendMsg, 3);
+    memcpy(sendMsg, progressMsg, 3);
     actJob = JOB_PROGRESS;
     digitalWrite(ssPin, LOW);
     SPI.transfer(sendMsg, 3);

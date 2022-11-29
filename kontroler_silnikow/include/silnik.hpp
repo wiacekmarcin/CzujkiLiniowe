@@ -48,6 +48,7 @@ private:
 
     static constexpr uint8_t DIRPIN = 8;
     static constexpr uint8_t PULSEPIN = 9;
+    static constexpr uint8_t MOVEPIN = 5;
 
     bool reverseMotor;
     bool enableAlways;

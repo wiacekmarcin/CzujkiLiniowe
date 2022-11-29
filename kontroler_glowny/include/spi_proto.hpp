@@ -21,7 +21,7 @@ class SPIMessage
 public:
     SPIMessage();
     ~SPIMessage();
-    void init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, MessageSerial * msg);
+    void init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, MessageSerial * msg);
 
     void sendReplyMsg();
     void sendProgressMsg();
@@ -31,11 +31,12 @@ public:
     void moveSteps(uint8_t *msg, uint8_t len, bool home);
     void stop();
     void checkIsDone();
-    inline volatile void setFinish() { finishedJob = true; }
+    inline volatile void setFinish() { Serial1.print("F:A=");Serial1.println(addr); finishedJob = true; }
 private:
     uint8_t addr;
     uint8_t ssPin;
     uint8_t stopPin;
+    uint8_t movePin;
     uint8_t replyMsg[20];
     uint8_t progressMsg[3];
     uint8_t echoMsg[3];

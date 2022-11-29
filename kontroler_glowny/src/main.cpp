@@ -9,12 +9,9 @@ MessageSerial msg;
 
 #define DEBUG
 
-#define TempPin 22
-
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
-constexpr uint8_t maxNumSter2 = 1;
 constexpr uint8_t resetPins = 53;
 constexpr uint8_t ssPins[maxNumSter]    = {32,33,34,35,36,37,38,39,40};
 constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,10};
@@ -28,7 +25,7 @@ static void configurationLocal();
 static void welcomeMsg();
 static void configuration();
 static void moveSteps();
-
+static void sendProgressMsg(uint8_t index);
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
 volatile bool timeout = false;
@@ -41,11 +38,10 @@ static void phex(uint8_t b)
     Serial1.print(b, HEX);
 }
 
-
+volatile short checkProgres = 0;
 void timerHandler()
 {
-    //timeout = true;
-    //Serial1.println("IRQ T");
+    checkProgres = maxNumSter + 1;
 }
 
 
@@ -89,12 +85,13 @@ void setup (void)
     pinMode(MOSI, OUTPUT);
     digitalWrite(MOSI, LOW);
 
-    for (uint8_t p = 0; p < maxNumSter2; ++p) {
+    for (uint8_t p = 0; p < maxNumSter; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
-        //pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
+        pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
+        pinMode(movePins[p], INPUT);
         attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], FALLING);
-        motors[p].init(p+1, ssPins[p], stopPins[p], &msg);
+        motors[p].init(p+1, ssPins[p], stopPins[p], movePins[p], &msg);
     }
 
     Serial.begin(115200);
@@ -103,12 +100,11 @@ void setup (void)
 #endif    
     //delay(1000);
 
-    //Timer1.initialize(10000000);
-    //Timer1.attachInterrupt(timerHandler);
+    Timer1.initialize(500000);
+    Timer1.attachInterrupt(timerHandler);
 
 
     digitalWrite(resetPins, HIGH);
-    digitalWrite(26, LOW);
 }  // end of setup
 
 
@@ -117,6 +113,8 @@ uint8_t indexMotorReply = 0;
 
 MessageSerial::Work actWork = MessageSerial::NOP;
 bool runLoop = false;
+uint32_t loopsCnt = 5000000;
+uint8_t cntIsFinishCnt = 0;
 void loop (void)
 {
 
@@ -130,84 +128,20 @@ void loop (void)
     default: break;
     }
 
-    if (timeout) {
-        if (indexMotor == 0) {
-            motors[indexMotor].sendProgressMsg();
-    if (runLoop) {
-        //przerwanie od konca pracy z sterownika
-        /*
-        if (finishJob[kontId]) {
-            finishJob[kontId] = false;
-            if (actJob[kontId] == JOB_HOME_RETURN) {
-                //TODO send command with steps
-            } else if (actJob[kontId] == JOB_POSITIONING) {
-                //TODO send command with steps
-            }
-            actJob[kontId] = JOB_NOP;
-        }
-        ++kontId;
-        */
-        //przerwanie od timera
-        if (readMsr) {
-            readMsr = false;
-            
-            //mjob = SEND_CURR;
-            mjob = M_SEND_VALS;
-
-            return;
-        }
-        /*
-        if (mjob == SEND_CURR) {
-            Serial1.write("CURR?");
-            mjob = WAIT_CURR;
-            readLastChar = millis();
-            return;
-        }
-
-        }
-        //else
-        //    delayMicroseconds(200);
-        
-    
-        if (++indexMotor == 9) {
-            timeout = false;
-            indexMotor = 0;
-        if (mjob == SEND_VOLT) {
-            Serial1.write("VOLT?");
-            mjob = WAIT_VOLT;
-            readLastChar = millis();
-            return;
-        }
-
-        if (mjob == WAIT_VOLT) {
-            if (Serial1.available()) {
-                uint8_t c = Serial1.read();
-                //TODO addMsg
-                readLastChar = millis();
-            } else {
-                if (millis() - readLastChar > 50)
-                mjob = M_SEND_VALS;
-            }
-            return;
-        }
-        */
-        if (mjob == M_SEND_VALS) {
-            msg.sendMeasuremnt();
-            mjob = MEAS_NOP;
-            return;
-        }
+    loopsCnt--;
+    if (loopsCnt < 10) {
+        loopsCnt = 5000000;
+        Serial1.println("Czekam na komende");
     }
 
-    motors[indexMotorReply++].checkIsDone();
+    if (checkProgres > 0) {
+        --checkProgres;
+        sendProgressMsg(checkProgres);
+    }
 
-    if (indexMotorReply == 9) {
-        indexMotorReply = 0;
-    }    
+    motors[cntIsFinishCnt++ % 9].checkIsDone();
 }
-    if (actWork == MessageSerial::CONFIGURATION_LOCAL) {
-        runLoop = true;
-        return;
-    }
+
 
 void readSerial()
 {
@@ -247,6 +181,9 @@ void welcomeMsg()
 
 void configuration()
 {
+#ifdef DEBUG
+    Serial1.println("Konfiguracja Msg");
+#endif  
     uint8_t motor = msg.getAddress()-1;
     motors[motor].setConfiguration(msg.msg(), msg.len());
     motors[motor].sendConfiguration(true);
@@ -255,6 +192,9 @@ void configuration()
 
 void moveSteps()
 {
+#ifdef DEBUG
+    Serial1.println("Ruch Msg");
+#endif 
     uint8_t motor = msg.getAddress()-1;
     motors[motor].moveSteps(msg.msg(), msg.len(), (msg.getOptions() & 0x01) == 0x01);
     actWork = MessageSerial::NOP;
@@ -262,6 +202,9 @@ void moveSteps()
 
 void sendProgressMsg(uint8_t index)
 {
+#ifdef DEBUG
+    //Serial1.println("Progress Msg");
+#endif 
     motors[index].sendProgressMsg();
 }
 

@@ -44,7 +44,7 @@ bool MessageSerial::check(unsigned char c)
 #endif
         if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
 #ifdef DEBUG_SERIAL            
-        Serial.println("ECHO_CLEAR_REQ");
+        Serial1.println("ECHO_CLEAR_REQ");
 #endif
             posCmd = 0;
             bool r = parseRozkaz();
@@ -52,7 +52,7 @@ bool MessageSerial::check(unsigned char c)
                 reset();
                 sendError("ZLY ROZKAZ");
 #ifdef DEBUG_SERIAL                    
-                Serial.println("ZLY ROZKAZ");
+                Serial1.println("ZLY ROZKAZ");
 #endif                
             }
             return true;
@@ -63,8 +63,8 @@ bool MessageSerial::check(unsigned char c)
         crc.add(data[1]);
         address = (data[1] >> 4) & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial.print("ADDRR=");
-        Serial.println(address);
+        Serial1.print("ADDRR=");
+        Serial1.println(address);
 #endif 
         return false;
     }
@@ -83,8 +83,8 @@ bool MessageSerial::check(unsigned char c)
             posCmd = 0;
             bool r = parseRozkaz();
 #ifdef DEBUG_SERIAL
-            Serial.print("actWork=");                    
-            Serial.println(actWork, DEC);
+            Serial1.print("actWork=");                    
+            Serial1.println(actWork, DEC);
 #endif  
             if (!r) {
                 reset();

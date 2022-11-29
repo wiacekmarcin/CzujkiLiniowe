@@ -47,6 +47,7 @@ void Motor::setStop(bool hard)
 	if (hard) {
 		globalPos = 0;
 	}
+	digitalWrite(MOVEPIN, LOW);
 	isRun = false;
 	isMove = false;
 }
@@ -61,6 +62,7 @@ bool Motor::impulse()
 		Timer1.stop();
 		isRun = false;
 		isMove = false;
+		digitalWrite(MOVEPIN, LOW);
 		return true;
 	}
 	return false;
@@ -97,6 +99,7 @@ void Motor::moveHome()
 	globalPos = maxSteps;
 	newPosition = 0;
 	diff = -1;
+	digitalWrite(MOVEPIN, HIGH);
 	Timer1.start();
 	isRun = true;
 }
@@ -105,6 +108,7 @@ void Motor::movePosition(uint32_t pos)
 {
 	isMoveHome = false;
 	isMove = true;
+	
 	
 	setDir(true);
 	
@@ -130,6 +134,7 @@ void Motor::movePosition(uint32_t pos)
 		setDir(false);
 		Serial.println("right");
 	}
+	digitalWrite(MOVEPIN, HIGH);
 	Timer1.start();
 	isRun = true;
 }
