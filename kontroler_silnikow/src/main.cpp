@@ -116,7 +116,7 @@ uint32_t getMaxSteps(DebugWorkMode d)
 
 inline void setBusy(bool busy)
 {
-	digitalWrite(BUSYPIN, busy ? HIGH : LOW);
+	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
 	if (!busy)
 		SPDR = FB;
 }
@@ -164,11 +164,11 @@ void setup()
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
 	pinMode(KRANCPIN, INPUT);
-	pinMode(STOPPIN, INPUT);
+	pinMode(STOPPIN, INPUT_PULLUP);
 	pinMode(MOVEPIN, OUTPUT);
 
 	digitalWrite(ENPIN, LOW);
-	digitalWrite(MOVEPIN, LOW);
+	digitalWrite(MOVEPIN, HIGH);
 	Serial.begin(115200);
 
 	isDebugMode = digitalRead(DEBUGPIN) == LOW;
@@ -648,7 +648,7 @@ void configurationRequest(uint8_t addr, Result status)
 	sendPos = 0;
 #ifdef DEBUG
 	Serial.print("Send ");
-	for (int i = 0; i < 4; ++i)
+	for (int i = 0; i < 4 ; ++i)
 		phex2(sendBuff[i]);
 	Serial.println("");
 #endif // DEBUG	
@@ -656,7 +656,7 @@ void configurationRequest(uint8_t addr, Result status)
 	setBusy(false);
 #ifdef DEBUG
 	Serial.println("BUSY OFF");
-#endif // DEBUG	
+#endif // DEBUG	 
 	
 }
 

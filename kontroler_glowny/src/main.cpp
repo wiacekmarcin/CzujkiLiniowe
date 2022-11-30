@@ -14,7 +14,7 @@ MessageSerial msg;
 constexpr uint8_t maxNumSter = 9;
 constexpr uint8_t resetPins = 53;
 constexpr uint8_t ssPins[maxNumSter]    = {32,33,34,35,36,37,38,39,40};
-constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,10};
+constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,15};
 constexpr uint8_t stopPins[maxNumSter]  = {30,29,28,27,26,25,24,23,22};
 constexpr uint8_t movePins[maxNumSter]  = {41,42,43,44,45,46,47,48,49};
 
@@ -41,7 +41,7 @@ static void phex(uint8_t b)
 volatile short checkProgres = 0;
 void timerHandler()
 {
-    checkProgres = maxNumSter + 1;
+    checkProgres = maxNumSter;
 }
 
 
@@ -88,9 +88,9 @@ void setup (void)
     for (uint8_t p = 0; p < maxNumSter; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
         pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
-        pinMode(busyPins[p], INPUT);
-        pinMode(movePins[p], INPUT);
-        attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], FALLING);
+        pinMode(busyPins[p], INPUT_PULLUP);
+        pinMode(movePins[p], INPUT_PULLUP);
+        attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
         motors[p].init(p+1, ssPins[p], stopPins[p], movePins[p], &msg);
     }
 
@@ -100,7 +100,7 @@ void setup (void)
 #endif    
     //delay(1000);
 
-    Timer1.initialize(500000);
+    Timer1.initialize(5000000);
     Timer1.attachInterrupt(timerHandler);
 
 
@@ -135,8 +135,7 @@ void loop (void)
     }
 
     if (checkProgres > 0) {
-        --checkProgres;
-        sendProgressMsg(checkProgres);
+        motors[--checkProgres].sendProgressMsg();
     }
 
     motors[cntIsFinishCnt++ % 9].checkIsDone();
@@ -199,14 +198,5 @@ void moveSteps()
     motors[motor].moveSteps(msg.msg(), msg.len(), (msg.getOptions() & 0x01) == 0x01);
     actWork = MessageSerial::NOP;
 }
-
-void sendProgressMsg(uint8_t index)
-{
-#ifdef DEBUG
-    //Serial1.println("Progress Msg");
-#endif 
-    motors[index].sendProgressMsg();
-}
-
 
 
