@@ -218,7 +218,7 @@ bool SerialWorkerSter::connectToSerialJob()
 bool SerialWorkerSter::checkIdentJob()
 {
     QByteArray msg("*IDN?\n", 6);
-    DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg));
+    DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg.data()));
     write(msg, 100);
 
     QString s;
