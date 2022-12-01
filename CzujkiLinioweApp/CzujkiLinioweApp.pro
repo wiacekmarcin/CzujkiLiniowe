@@ -9,9 +9,9 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    Testowa2Comy/sterownik.cpp \
-    Testowa2Comy/zasilacz.cpp \
-    Testowa2Comy/zasilaczwidget.cpp \
+    sterownik.cpp \
+    zasilacz.cpp \
+    zasilaczwidget.cpp \
     badaniedane.cpp \
     crc8.cpp \
     debugdialog.cpp \
@@ -24,7 +24,7 @@ SOURCES += \
     serialdevice.cpp \
     serialmessage.cpp \
     sterownikustawieniawidget.cpp \
-    testmiernikadlg.cpp \
+    testzasilaczadlg.cpp \
     teststerownikadlg.cpp \
     ustawienia.cpp \
     ustawienia_gen.cpp \
@@ -32,9 +32,9 @@ SOURCES += \
     ustawienianapedow.cpp
 
 HEADERS += \
-    Testowa2Comy/sterownik.h \
-    Testowa2Comy/zasilacz.h \
-    Testowa2Comy/zasilaczwidget.h \
+    sterownik.h \
+    zasilacz.h \
+    zasilaczwidget.h \
     badaniedane.h \
     crc8.h \
     debugdialog.h \
@@ -46,7 +46,7 @@ HEADERS += \
     serialdevice.h \
     serialmessage.h \
     sterownikustawieniawidget.h \
-    testmiernikadlg.h \
+    testzasilaczadlg.h \
     teststerownikadlg.h \
     ustawienia.h \
     ustawienia_gen.h \
@@ -54,7 +54,7 @@ HEADERS += \
     ustawienianapedow.h
 
 FORMS += \
-    Testowa2Comy/zasilaczwidget.ui \
+    zasilaczwidget.ui \
     debugdialog.ui \
     mainwindow.ui \
     parametrybadania.ui \
@@ -62,7 +62,7 @@ FORMS += \
     parametrybadania2.ui \
     parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
-    testmiernikadlg.ui \
+    testzasilaczadlg.ui \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \
     ustawienianapedow.ui

@@ -254,7 +254,7 @@ bool SerialWorkerZas::connectToSerialJob()
 bool SerialWorkerZas::checkIdentJob()
 {
     QByteArray msg("*IDN?\n", 6);
-    DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg));
+    DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg.data()));
     auto s = write(msg, 100, 1000, true);
     if (s.isEmpty()) {
         emit kontrolerConfigured(false, Zasilacz::IDENT_FAILD);
@@ -562,7 +562,7 @@ void Zasilacz::getOutput()
 
 void Zasilacz::getValueJob(const SerialZasilacz::TaskExt &actTask, KindValueType kind, const QString & debug, const QString & function)
 {
-    DEBUGSER(QString("Sprawdzam %1 [%2] [%3]").arg(debug).arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg));
+    DEBUGSER(QString("Sprawdzam %1 [%2] [%3]").arg(debug).arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 1000, actTask.waitForRead);
     if (s.isEmpty()) {
         emit error(QString("Pusta odpowiedź na %1").arg(function));
@@ -614,13 +614,13 @@ void Zasilacz::getCurrentMeasJob(const SerialZasilacz::TaskExt &actTask)
 
 void Zasilacz::setParamJob(const SerialZasilacz::TaskExt &actTask)
 {
-    DEBUGSER(QString("Zapisuje parametr [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg));
+    DEBUGSER(QString("Zapisuje parametr [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 10, actTask.waitForRead);
 }
 
 void Zasilacz::getOutputJob(const SerialZasilacz::TaskExt &actTask)
 {
-    DEBUGSER(QString("Sprawdzam ustawione wyjście [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg));
+    DEBUGSER(QString("Sprawdzam ustawione wyjście [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 1000, actTask.waitForRead);
     if (s.isEmpty()) {
         emit error(QString("Pusta odpowiedź na %1").arg(__PRETTY_FUNCTION__));

@@ -873,6 +873,7 @@ bool UstawieniaGen::checkMotorOdwrocObroty(const QString & val)
     if (val.isEmpty()) return false;
     
     bool v = QVariant::fromValue(val).toBool();
+    (void)v;
     return true;
 
 }

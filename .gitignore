@@ -4,6 +4,6 @@
 .vscode/launch.json
 .vscode/ipch
 kontroler_silnikow/src/build/*
-CzujkiLinioweApp/build-*
-build-CzujkiLinioweApp-Desktop-*/*
-build-CzujkiLinioweApp-Desktop-Debug/.qmake.stash
+CzujkiLinioweApp/build*
+build-CzujkiLinioweApp-Desktop*/*
+
