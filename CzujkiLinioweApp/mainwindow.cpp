@@ -3,6 +3,8 @@
 
 #include "parametrybadania.h"
 #include "parametrykalibracyjnedlg.h"
+#include "testmiernikadlg.h"
+
 
 #include <QDebug>
 #define SETCONF(N) ui->base##N->setText(u.getBaseStepsSilnik##N()); \
@@ -238,3 +240,11 @@ void MainWindow::on_pbCmdSend_clicked()
         return;
     ui->multi_request->append(QString(ui->multi_cmd->text())+QString("\n"));
 }
+
+void MainWindow::on_actionTestMiernika_triggered()
+{
+    TestMiernika * dlg = new TestMiernika(this);
+    dlg->exec();
+    delete dlg;
+}
+

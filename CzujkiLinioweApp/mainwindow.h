@@ -66,7 +66,7 @@ private slots:
     void on_pbUstawPos_9_clicked();
     void pbUstawPos_clicked(int silnik, const float &x, const float &ratio);
 
-    void on_pbCmdSend_clicked();
+    void on_actionTestMiernika_triggered();
 
 private:
     Ui::MainWindow *ui;

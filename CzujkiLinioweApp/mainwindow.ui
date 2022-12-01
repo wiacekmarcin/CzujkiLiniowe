@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1301</width>
-    <height>645</height>
+    <height>702</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1021,63 +1021,7 @@ bazowa</string>
      <widget class="QTextBrowser" name="textBrowser"/>
     </item>
     <item row="3" column="0">
-     <widget class="QWidget" name="widget" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>0</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QGroupBox" name="groupBox">
-         <property name="title">
-          <string>Miernik</string>
-         </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="1">
-           <widget class="QLineEdit" name="multi_cmd"/>
-          </item>
-          <item row="1" column="3">
-           <widget class="QTextEdit" name="multi_reply"/>
-          </item>
-          <item row="0" column="3">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>Odpowiedź</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>Komendy:</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="2">
-           <widget class="QPushButton" name="pbCmdSend">
-            <property name="text">
-             <string>Wyślij</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0" colspan="3">
-           <widget class="QTextEdit" name="multi_request"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
-      </layout>
+     <widget class="QWidget" name="widgetMiernik" native="true">
      </widget>
     </item>
     <item row="1" column="0">
@@ -1217,7 +1161,7 @@ bazowa</string>
      <x>0</x>
      <y>0</y>
      <width>1301</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuDebug">
@@ -1238,6 +1182,9 @@ bazowa</string>
      <string>Opcje</string>
     </property>
     <addaction name="actionParametryKalibracyjne"/>
+    <addaction name="separator"/>
+    <addaction name="actionTestMiernika"/>
+    <addaction name="actionTestSterownikaDlg"/>
    </widget>
    <addaction name="menuDebug"/>
    <addaction name="menuOpcje"/>
@@ -1345,6 +1292,16 @@ bazowa</string>
   <action name="actionParametryKalibracyjne">
    <property name="text">
     <string>Parametry Kalibracyjne</string>
+   </property>
+  </action>
+  <action name="actionTestMiernika">
+   <property name="text">
+    <string>Test Miernika</string>
+   </property>
+  </action>
+  <action name="actionTestSterownikaDlg">
+   <property name="text">
+    <string>Test Sterownika</string>
    </property>
   </action>
  </widget>

@@ -148,14 +148,14 @@ void setup()
 {
 
 	pinMode(BUSYPIN, OUTPUT);
-	setBusy(false);
+	//setBusy(false);
 
 	pinMode(DEBUGPIN, INPUT);
 	pinMode(DBG3, INPUT);
 	pinMode(DBG2, INPUT);
 	pinMode(DBG1, INPUT);
 
-	pinMode(SS, INPUT);
+	pinMode(SS, INPUT_PULLUP);
 	pinMode(SCK, INPUT);
 	pinMode(MOSI, INPUT);
 	pinMode(MISO, OUTPUT);
@@ -189,12 +189,13 @@ void setup()
 #ifdef DEBUG_PINDEBUG
 	return;
 #endif
+	return ;
 
-	Timer1.attachInterrupt(motorImpulse);
-	Timer1.initialize(125000);
+	//Timer1.attachInterrupt(motorImpulse);
+	//Timer1.initialize(125000);
 
-	mot.init();
-	msg.init();
+	//mot.init();
+	//msg.init();
 
 	pinMode(MISO, OUTPUT); // Sets MISO as OUTPUT (Have to Send data to Master IN
 
@@ -208,10 +209,10 @@ void setup()
 	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
 	sendBuff[1] = 10;
 
-	attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
-	attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
+	//attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
+	//attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
 
-	setBusy(false);
+	//setBusy(false);
 
 	mot.setDir(false);
 }
@@ -244,6 +245,11 @@ uint32_t middleSteps = 0;
 uint32_t timeDelay = 0;
 void loop()
 {
+	digitalWrite(BUSYPIN, digitalRead(SS));
+	digitalWrite(MOVEPIN, digitalRead(STOPPIN));
+
+	return;
+
 	if (isDebugMode)
 	{
 		debugModeFun();
@@ -256,6 +262,38 @@ void loop()
 		return;
 	}
 #endif
+
+	digitalWrite(BUSYPIN, digitalRead(SS));
+	digitalWrite(MOVEPIN, digitalRead(STOPPIN));
+
+	return;
+
+
+	if (received) {
+		if (recvPos == 3 && recvBuff[0] == 0x00) {
+			received = false;
+			setBusy(true);
+			Serial.print("Odebralem echo=");
+			Serial.println(recvBuff[1] >> 4, DEC);
+			sendBuff[1] = 0x03;
+			sendBuff[2] = 0x01;
+			sendBuff[3] = recvBuff[1];
+			CRC8 c;
+    		c.reset();
+			c.add(recvBuff[2]);
+			c.add(recvBuff[3]);
+			sendBuff[4] = c.getCRC();
+			sendPos = 0;
+			setBusy(false);
+			digitalWrite(MOVEPIN, LOW);
+		}
+		else if (recvPos == 20 && recvBuff[0] == 0xC0) {
+			Serial.print("Odebralem last=");
+			Serial.println(recvBuff[1] >> 4, DEC);
+		}
+	}
+	return;
+
 
 	if (received) // Logic to SET LED ON OR OFF depending upon the value recerived from master
 	{

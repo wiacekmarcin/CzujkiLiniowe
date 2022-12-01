@@ -33,12 +33,13 @@ SPIMessage::~SPIMessage()
 
 }
 
-void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, MessageSerial * msg)
+void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, const uint8_t busyPin, MessageSerial * msg)
 {
     this->addr = addr;
     this->ssPin = ssPin;
     this->stopPin = stopPin;
     this->movePin = movePin;
+    this->busyPin = busyPin;
     this->msg = msg;
     progressMsg[0] = (MessageSerial::PROGRESS_REQ << 4) & 0xf0;
     progressMsg[1] = (uint8_t)((addr << 4) & 0xf0);
@@ -56,7 +57,7 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     replyMsg[2] = c.getCRC();
     for (uint8_t b=3; b<20; ++b)
     {
-        replyMsg[b] = b;
+        replyMsg[b] = ((b-3) << 4) + addr;
     }
 
     c.reset();
@@ -97,24 +98,21 @@ void SPIMessage::sendReplyMsg()
 {
     actJob = JOB_RESPONSE;
 #ifdef DEBUG
-    Serial1.println("Send Reply Msg");
-    Serial1.print("motor = ");
+    Serial.print("M");
     Serial1.print(addr, DEC);
-    Serial1.print(" SSPin=");
-    Serial1.println(ssPin);
+    Serial1.print(" Send Reply Msg : [");
+    for (uint8_t s = 0; s < 20; s++) {
+        phex(replyMsg[s]);
+    }
+    Serial1.print("]");
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
     
-    digitalWrite(ssPin, LOW);
-    
-    SPI.transfer(msgLocal, 20);
-    digitalWrite(ssPin, HIGH);    
+    sendSpiMsg(msgLocal, 20);
 
 #ifdef DEBUG
-    Serial1.print("Recv message LEN=");
-    Serial1.print(msgLocal[0], DEC);
-    Serial1.print(" Msg =");
+    Serial1.print("Recv message [");
     phex(msgLocal[0]);
     phex(msgLocal[1]);
     phex(msgLocal[2]);
@@ -125,14 +123,12 @@ void SPIMessage::sendReplyMsg()
     phex(msgLocal[7]);
     phex(msgLocal[8]);
     phex(msgLocal[9]);
-    Serial1.println("");
-    Serial1.print(" actJob=");
-    Serial1.println(actJob);
+    Serial1.println("]");
 
 #endif 
     if (msgLocal[0] == 0x0A && msgLocal[1] < 20) {
 #ifdef DEBUG
-        Serial1.println("Send Rep msg to PC");
+        //Serial1.println("Send Rep msg to PC");
 #endif    
         Serial.write(echoMsg, 3);
 
@@ -143,39 +139,35 @@ void SPIMessage::sendReplyMsg()
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
-    Serial1.println("Send ECHO Msg");
-    Serial1.print("motor = ");
+    Serial.print("M");
     Serial1.print(addr, DEC);
-    Serial1.print(" SSPin=");
-    Serial1.println(ssPin);
+    Serial1.print(" Send ECHO Msg : [");
+    for (uint8_t s = 0; s < 3; s++) {
+        phex(echoMsg[s]);
+    }
+    Serial1.print("]");
 #endif 
     uint8_t msgLocal[3];
     memcpy(msgLocal, echoMsg, 3);
-    digitalWrite(ssPin, LOW);
-    SPI.transfer(msgLocal, 3);
-    digitalWrite(ssPin, HIGH);    
+    sendSpiMsg(msgLocal, 3);
 
 #ifdef DEBUG
-    Serial1.print("Recv message LEN=");
-    Serial1.print(msgLocal[0], DEC);
-    Serial1.print(" Msg =");
+    Serial1.print("Recv message [");
     phex(msgLocal[0]);
     phex(msgLocal[1]);
     phex(msgLocal[2]);
     phex(msgLocal[3]);
     phex(msgLocal[4]);
-    Serial1.println("");
-    Serial1.print(" actJob=");
-    Serial1.println(actJob);
+    Serial1.println("]");
 #endif
 
     if (actJob == JOB_ECHO && msgLocal[0] == 0x0A && msgLocal[1] == 0x10) {
 #ifdef DEBUG
-        Serial1.println("Send msg to PC ECHO");
+        //Serial1.println("Send msg to PC ECHO");
 #endif    
         Serial.write(echoRepMsg, 3);
 
-        sendConfiguration(false);
+        //sendConfiguration(false);
         actJob = JOB_RESPONSE;
        
     } else 
@@ -213,9 +205,7 @@ void SPIMessage::sendConfiguration(bool send2Pc)
     }
     Serial1.println("]");
 #endif
-    digitalWrite(ssPin, LOW);
-    SPI.transfer(sendMsg, confLen);
-    digitalWrite(ssPin, HIGH);
+    sendSpiMsg(sendMsg, confLen);
     if (send2Pc)
         msg->sendConfigDoneMsg(addr);  
 }
@@ -248,11 +238,8 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len, bool home)
     Serial1.print(" StopPin=");
     Serial1.print(stopPin);
     Serial1.println(home ? " Home" : " Move ");
-#endif  
-    digitalWrite(ssPin, LOW);
-    SPI.transfer(msg, len);
-    digitalWrite(ssPin, HIGH);
-    //msg->
+#endif
+    sendSpiMsg(msg, len);  
 }
 
 void SPIMessage::sendProgressMsg()
@@ -269,9 +256,7 @@ void SPIMessage::sendProgressMsg()
     uint8_t sendMsg[3];
     memcpy(sendMsg, progressMsg, 3);
     actJob = JOB_PROGRESS;
-    digitalWrite(ssPin, LOW);
-    SPI.transfer(sendMsg, 3);
-    digitalWrite(ssPin, HIGH);
+    sendSpiMsg(sendMsg, 3);
 }
 
 void SPIMessage::checkIsDone()
@@ -302,4 +287,13 @@ void SPIMessage::checkIsDone()
     }
 
     sendReplyMsg();
+}
+
+void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
+{
+    while (isFinish())
+        ;
+    digitalWrite(ssPin, LOW);
+    SPI.transfer(bytes, cnt);
+    digitalWrite(ssPin, HIGH);
 }
