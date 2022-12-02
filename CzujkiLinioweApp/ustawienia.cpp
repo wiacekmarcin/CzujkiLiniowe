@@ -8,6 +8,15 @@ char Ustawienia::firmnazwa[]="Kolodziejczyk";
 Ustawienia::Ustawienia() :
     UstawieniaGen()
 {
+    if (!check()) {
+        save();
+        sync();
+    }
+}
 
+Ustawienia::~Ustawienia()
+{
+    save();
+    sync();
 }
 

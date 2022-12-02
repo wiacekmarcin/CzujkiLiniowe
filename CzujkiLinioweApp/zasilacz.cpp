@@ -215,6 +215,7 @@ bool SerialWorkerZas::connectToSerialJob()
         short found = 0;
         for (const auto & port : getComPorts())
         {
+            qDebug() << port;
             if (port.count() != 7)
                 continue;
 
@@ -224,7 +225,7 @@ bool SerialWorkerZas::connectToSerialJob()
             if (vendor.isEmpty() || product.isEmpty())
                 continue;
 
-            if (vendor != "67b" || product != "2303")
+            if (vendor != "67b" || product != "23a3")
                 continue;
 
             ++found;

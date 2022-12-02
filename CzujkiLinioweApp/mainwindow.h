@@ -28,7 +28,6 @@ protected slots:
 
 private slots:
     void on_actionOtw_rz_okno_triggered();
-    void on_pbConnect_clicked();
 
     void sd_error(QString s);
     void sd_debug(QString d);

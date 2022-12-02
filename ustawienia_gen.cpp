@@ -9,12 +9,12 @@ UstawieniaGen::UstawieniaGen() :
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
-    //load();
+    load();
 }
 
 UstawieniaGen::~UstawieniaGen()
 {
-    save();
+    
 }
         
 
@@ -110,6 +110,10 @@ void UstawieniaGen::load()
 	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5").toString());
 	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5").toString());
 	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5").toString());
+	serialDeviceZasilaczVendor = settings.value("Zasilacz/Vendor").toString();
+	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product").toString();
+	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor").toString();
+	serialDeviceSterownikProduct = settings.value("Sterownik/Product").toString();
 }
 
 void UstawieniaGen::save()
@@ -204,6 +208,10 @@ void UstawieniaGen::save()
 	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(filtr655_A_5));
 	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(filtr655_B_5));
 	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(filtr655_C_5));
+	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(serialDeviceZasilaczVendor));
+	settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct));
+	settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor));
+	settings.setValue("Sterownik/Product", QVariant::fromValue(serialDeviceSterownikProduct));
 }
 
 bool UstawieniaGen::check()
@@ -298,6 +306,10 @@ bool UstawieniaGen::check()
 	if (!checkFilterValue(settings.value("Filtr_655_A/Pos5").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_655_B/Pos5").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_655_C/Pos5").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Zasilacz/Vendor").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Zasilacz/Product").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Sterownik/Vendor").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Sterownik/Product").toString())) return false;
 	return true;
 }
 
@@ -873,6 +885,7 @@ bool UstawieniaGen::checkMotorOdwrocObroty(const QString & val)
     if (val.isEmpty()) return false;
     
     bool v = QVariant::fromValue(val).toBool();
+    (void)v;
     return true;
 
 }
@@ -1661,5 +1674,59 @@ void UstawieniaGen::setFiltr(const int & fala, const char & nrTarczy, const shor
 	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr655_C_4(val);
 	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr655_C_5(val);
 	else Q_ASSERT(true);
-	 return 0.0;
+}
+
+QString UstawieniaGen::getSerialDeviceZasilaczVendor() const
+{
+	return serialDeviceZasilaczVendor;
+}
+
+void UstawieniaGen::setSerialDeviceZasilaczVendor(const QString & value)
+{
+	serialDeviceZasilaczVendor = value;
+	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceZasilaczProduct() const
+{
+	return serialDeviceZasilaczProduct;
+}
+
+void UstawieniaGen::setSerialDeviceZasilaczProduct(const QString & value)
+{
+	serialDeviceZasilaczProduct = value;
+	settings.setValue("Zasilacz/Product", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceSterownikVendor() const
+{
+	return serialDeviceSterownikVendor;
+}
+
+void UstawieniaGen::setSerialDeviceSterownikVendor(const QString & value)
+{
+	serialDeviceSterownikVendor = value;
+	settings.setValue("Sterownik/Vendor", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceSterownikProduct() const
+{
+	return serialDeviceSterownikProduct;
+}
+
+void UstawieniaGen::setSerialDeviceSterownikProduct(const QString & value)
+{
+	serialDeviceSterownikProduct = value;
+	settings.setValue("Sterownik/Product", QVariant::fromValue(value));
+}
+
+bool UstawieniaGen::checkSerialDeviceIdentString const
+{
+	
+    if (val.isEmpty()) return false;
+    
+    bool v = QVariant::fromValue(val).toBool();
+    (void)v;
+    return true;
+
 }

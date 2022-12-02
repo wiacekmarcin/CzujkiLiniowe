@@ -9,6 +9,7 @@ class Ustawienia : public UstawieniaGen
 {
 public:
     Ustawienia();
+    ~Ustawienia();
 
 private:
 

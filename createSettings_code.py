@@ -241,7 +241,46 @@ public:
         cont += "\n\telse Q_ASSERT(true);"
         fset_c = "void %s::setFiltr(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)" % self.className
         self.c_sources.append("%s\n{\n%s\n}" % (fset_c, cont))
+
+    def addDevice(self, nameVal, path):
+        localVal = "serialDevice%s" % (self.cName(nameVal))
+        typeVal = "QString"
+        self.h_private_values.append("%s %s;" % (typeVal, localVal))
+        fget = "%s getSerialDevice%s() const" % (typeVal, self.cName(nameVal))
+        fset = "void setSerialDevice%s(const %s & %s)" % (self.cName(nameVal), typeVal, nameVal)
+       
+        fget_c = "%s %s::getSerialDevice%s() const" % (typeVal, self.className, self.cName(nameVal))
+        fset_c = "void %s::setSerialDevice%s(const %s & value)" % (self.className, self.cName(nameVal), typeVal)
+        f_check = "checkSerialDeviceIdentString" 
+
+        self.h_public_fun.append(fget + ";");
+        self.h_public_fun.append(fset + ";");
         
+        settPath = path
+        
+        #m_ratioSilnik1 = settings.value("Ratio_1", m_ratioSilnik1).toString();
+        self.c_load.append('%s = settings.value("%s").toString();' % (localVal, settPath))
+        
+        #settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1));
+        self.c_save.append('settings.setValue("%s", QVariant::fromValue(%s));' % (settPath, localVal))
+        
+        #checkMotor(settings.value("%s").toQString())
+        self.c_check.append(f_check + '(settings.value("%s").toString())' % settPath)
+        
+        #QString Ustawienia::getRatioSilnik1() const { return m_ratioSilnik1; }
+        self.c_sources.append("%s\n{\n\treturn %s;\n}" % (fget_c, localVal))
+        
+        #void Ustawienia::setRatioSilnik1(const QString & value) { m_ratioSilnik1 = value; settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1)); }
+        self.c_sources.append('%s\n{\n\t%s = value;\n\tsettings.setValue("%s", QVariant::fromValue(value));\n}' % (fset_c, localVal, settPath))
+
+        
+        
+    def addDevideSummary(self, content):
+        f_check = "checkSerialDeviceIdentString" 
+
+        self.h_protected_fun.append("bool %s(const QString & val) const;" % f_check)
+        self.c_sources.append("bool %s::%s const\n{\n\t%s\n}" % (self.className, f_check, content()))            
+
 def checkNazwaContent() :
     return """
     if (val.isEmpty()) return false;
@@ -264,6 +303,7 @@ def checkBoolContent() :
     if (val.isEmpty()) return false;
     
     bool v = QVariant::fromValue(val).toBool();
+    (void)v;
     return true;
 """
 
@@ -307,6 +347,12 @@ def addFiltrSett(fala):
 addFiltrSett(880)
 addFiltrSett(655)
 u.addSummFiltr(checkDoubleContent)
+
+u.addDevice("zasilaczVendor", "Zasilacz/Vendor")
+u.addDevice("zasilaczProduct", "Zasilacz/Product")
+u.addDevice("sterownikVendor", "Sterownik/Vendor")
+u.addDevice("sterownikProduct", "Sterownik/Product")
+u.addDevideSummary(checkBoolContent)
 
 u.createHeader()
 u.createSource()

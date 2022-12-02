@@ -15,6 +15,7 @@ public:
     void load();
     void save();
     bool check();
+    void sync() { settings.sync(); }
 
 protected:
     QSettings settings;
@@ -306,7 +307,7 @@ public:
 	double getFiltr655_B(const short & nrPos) const { return getFiltr(655, 'B', nrPos); }
 	double getFiltr655_C(const short & nrPos) const { return getFiltr(655, 'C', nrPos); }
 	double getFiltr880(const char & nrTarczy, const short & nrPos) const { return getFiltr(880, nrTarczy, nrPos); }
-	double getFiltr665(const char & nrTarczy, const short & nrPos) const { return getFiltr(665, nrTarczy, nrPos); }
+	double getFiltr655(const char & nrTarczy, const short & nrPos) const { return getFiltr(655, nrTarczy, nrPos); }
 	void setFiltr880_A(const short & nrPos, const double & val) { setFiltr(880, 'A', nrPos, val); }
 	void setFiltr880_B(const short & nrPos, const double & val) { setFiltr(880, 'B', nrPos, val); }
 	void setFiltr880_C(const short & nrPos, const double & val) { setFiltr(880, 'C', nrPos, val); }
@@ -314,7 +315,15 @@ public:
 	void setFiltr655_B(const short & nrPos, const double & val) { setFiltr(655, 'B', nrPos, val); }
 	void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }
 	void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }
-	void setFiltr665(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(665, nrTarczy, nrPos, val); }
+	void setFiltr655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(655, nrTarczy, nrPos, val); }
+	QString getSerialDeviceZasilaczVendor() const;
+	void setSerialDeviceZasilaczVendor(const QString & zasilaczVendor);
+	QString getSerialDeviceZasilaczProduct() const;
+	void setSerialDeviceZasilaczProduct(const QString & zasilaczProduct);
+	QString getSerialDeviceSterownikVendor() const;
+	void setSerialDeviceSterownikVendor(const QString & sterownikVendor);
+	QString getSerialDeviceSterownikProduct() const;
+	void setSerialDeviceSterownikProduct(const QString & sterownikProduct);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenie(const QString & val);
@@ -325,6 +334,7 @@ protected:
 	bool checkFilterValue(const QString & val);
 	double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;
 	void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
+	bool checkSerialDeviceIdentString(const QString & val) const;
 private:
 
 	QString motorNazwa1;
@@ -417,5 +427,9 @@ private:
 	double filtr655_A_5;
 	double filtr655_B_5;
 	double filtr655_C_5;
+	QString serialDeviceZasilaczVendor;
+	QString serialDeviceZasilaczProduct;
+	QString serialDeviceSterownikVendor;
+	QString serialDeviceSterownikProduct;
 };
 #endif

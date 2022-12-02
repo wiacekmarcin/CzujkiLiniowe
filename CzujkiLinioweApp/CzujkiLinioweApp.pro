@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     sterownik.cpp \
     zasilacz.cpp \
-    zasilaczwidget.cpp \
     badaniedane.cpp \
     crc8.cpp \
     debugdialog.cpp \
@@ -34,7 +33,6 @@ SOURCES += \
 HEADERS += \
     sterownik.h \
     zasilacz.h \
-    zasilaczwidget.h \
     badaniedane.h \
     crc8.h \
     debugdialog.h \
@@ -54,7 +52,6 @@ HEADERS += \
     ustawienianapedow.h
 
 FORMS += \
-    zasilaczwidget.ui \
     debugdialog.ui \
     mainwindow.ui \
     parametrybadania.ui \

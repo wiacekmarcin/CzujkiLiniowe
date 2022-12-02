@@ -1,17 +1,47 @@
 #include "testzasilaczadlg.h"
 #include "ui_testzasilaczadlg.h"
 
+#include <QMessageBox>
+
 TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestZasilaczaDlg)
   , u(ust)
 {
     ui->setupUi(this);
+
+    zas.setThread(&zasThr);
+
+    connect(&zas, &Zasilacz::error, this, &TestZasilaczaDlg::errorZasilacz);
+    connect(&zas, &Zasilacz::debug, this, &TestZasilaczaDlg::debugZasilacz);
+    connect(&zas, &Zasilacz::kontrolerConfigured, this, &TestZasilaczaDlg::configuredZasilacz);
+    connect(&zas, &Zasilacz::kontrolerSerialNo, this, &TestZasilaczaDlg::serialNoZasilacz);
+    connect(&zas, &Zasilacz::deviceName, this, &TestZasilaczaDlg::deviceNameZasilacz);
+    connect(&zas, &Zasilacz::value, this, &TestZasilaczaDlg::valueZasilacz);
+
+
+    connect(ui->pbZasOpen, &QPushButton::clicked, this, &TestZasilaczaDlg::openZasilacz);
+    connect(ui->pbZasClose, &QPushButton::clicked, this, &TestZasilaczaDlg::closeZasilacz);
+
+
+    ui->leCurrLim->setVisible(false);
+    ui->leCurrSet->setVisible(false);
+    ui->leVoltLim->setVisible(false);
+    ui->leVoltSet->setVisible(false);
+    ui->tbSave->setEnabled(false);
+    ui->tbCancel->setEnabled(false);
+
+    ui->pbZasClose->setDisabled(true);
+    ui->frame->setDisabled(true);
+
+    ui->zasilaczKomendy->setDisabled(true);
+
 }
 
 TestZasilaczaDlg::~TestZasilaczaDlg()
 {
     delete ui;
+    //zas.closeDevice(false);
 }
 
 void TestZasilaczaDlg::on_pbCmdSend_clicked()
@@ -19,4 +49,146 @@ void TestZasilaczaDlg::on_pbCmdSend_clicked()
     //if (ui->multi_cmd->text().isEmpty())
     //    return;
     //ui->multi_request->append(QString(ui->multi_cmd->text())+QString("\n"));
+}
+
+
+void TestZasilaczaDlg::errorZasilacz(QString s)
+{
+    QMessageBox::critical(this, "Zasilacz", s);
+    //showStatusMessage(QString("Błąd : ") + s);
+}
+
+void TestZasilaczaDlg::debugZasilacz(QString d)
+{
+    qDebug() << d;
+}
+
+void TestZasilaczaDlg::configuredZasilacz(bool success, int state)
+{
+    qDebug() << success << state;
+    switch(state) {
+    case Zasilacz::NO_FOUND:
+        QMessageBox::warning(this, "Zasilacz sterowany", "Nie znaleziono podłączonego zasilacza");
+        break;
+    case Zasilacz::FOUND:
+        break;
+    case Zasilacz::TO_MANY_FOUND:
+        QMessageBox::warning(this, "Zasilacz sterowany", "Za dużo urządzeń podłączonych do portu USB");
+        break;
+    case Zasilacz::NO_OPEN:
+        QMessageBox::warning(this, "Zasilacz sterowany", "Nie udało się otworzyć urządzenia. Sprawdź czy inne programy nie używają portu. Odłącz kabel USB i podłącz ponownie. Jeżeli to nie pomoże uruchom ponownie komputer zachowując wczęsniej dane.");
+        break;
+    case Zasilacz::OPEN:
+        break;
+    case Zasilacz::NO_READ:
+        QMessageBox::warning(this, "Zasilacz sterowany", "Nie udało się czytać z urządzenia. Sprawdź czy inne programy nie używają portu. Odłącz kabel USB i podłącz ponownie. Jeżeli to nie pomoże uruchom ponownie komputer zachowując wczęsniej dane.");
+        break;
+    case Zasilacz::IDENT_FAILD:
+        QMessageBox::warning(this, "Zasilacz sterowany", "Do portu zostało podłączone nieprawidłowe urządzenie");
+        break;
+    case Zasilacz::IDENT_OK:
+        break;
+    case Zasilacz::ALL_OK:
+        ui->pbZasOpen->setDisabled(true);
+        ui->pbZasClose->setDisabled(false);
+        ui->frame->setDisabled(false);
+        ui->zasilaczKomendy->setDisabled(false);
+        break;
+    case Zasilacz::CLOSE:
+        ui->pbZasClose->setDisabled(true);
+        ui->frame->setDisabled(true);
+        ui->zasilaczKomendy->setDisabled(true);
+        ui->pbZasOpen->setDisabled(false);
+        break;
+    }
+}
+
+void TestZasilaczaDlg::serialNoZasilacz(QString s)
+{
+    ui->lZasIdent->setText(s);
+}
+
+void TestZasilaczaDlg::deviceNameZasilacz(QString name)
+{
+    ui->lZasSterPort->setText(name);
+}
+
+void TestZasilaczaDlg::valueZasilacz(int kind, int value)
+{
+    switch(kind) {
+        case Zasilacz::VOLTAGE_SET:
+            ui->mVoltage->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::CURRENT_SET:
+            ui->mCurrent->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::VOLTAGE_LIMIT:
+            ui->mVoltageLimit->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::CURRENT_LIMIT:
+            ui->mCurrentLimit->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::VOLTAGE_MEAS:
+            ui->mVoltageMeas->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::CURRENT_MEAS:
+            ui->mCurrentMeas->setText(QString::number(0.001*value, 'f', 3)); break;
+        case Zasilacz::OUTPUT:
+            break;
+    }
+}
+
+void TestZasilaczaDlg::openZasilacz()
+{
+    zas.connectToDevice();
+}
+
+void TestZasilaczaDlg::closeZasilacz()
+{
+    zas.closeDevice(true);
+}
+
+void TestZasilaczaDlg::on_tbChange_clicked()
+{
+    ui->tbChange->setEnabled(true);
+    ui->tbCancel->setEnabled(true);
+    ui->tbSave->setEnabled(true);
+
+    ui->leCurrLim->setVisible(true);
+    ui->leCurrSet->setVisible(true);
+    ui->leVoltLim->setVisible(true);
+    ui->leVoltSet->setVisible(true);
+
+    ui->leVoltSet->setText(ui->mVoltage->text());
+    ui->leVoltLim->setText(ui->mVoltageLimit->text());
+    ui->leCurrSet->setText(ui->mCurrent->text());
+    ui->leCurrLim->setText(ui->mCurrentLimit->text());
+}
+
+
+void TestZasilaczaDlg::on_tbSave_clicked()
+{
+    ui->tbSave->setEnabled(false);
+    ui->tbCancel->setEnabled(false);
+    ui->tbSave->setEnabled(true);
+
+    ui->leCurrLim->setVisible(false);
+    ui->leCurrSet->setVisible(false);
+    ui->leVoltLim->setVisible(false);
+    ui->leVoltSet->setVisible(false);
+
+
+    zas.setCurrent(ui->leCurrSet->text().toFloat()*1000);
+    zas.setVoltage(ui->leVoltSet->text().toFloat()*1000);
+    zas.setCurrentLimit(ui->leCurrLim->text().toFloat()*1000);
+    zas.setVoltageLimit(ui->leVoltLim->text().toFloat()*1000);
+}
+
+
+void TestZasilaczaDlg::on_tbCancel_clicked()
+{
+    ui->tbSave->setEnabled(false);
+    ui->tbCancel->setEnabled(false);
+    ui->tbSave->setEnabled(true);
+
+
+    ui->leCurrLim->setVisible(false);
+    ui->leCurrSet->setVisible(false);
+    ui->leVoltLim->setVisible(false);
+    ui->leVoltSet->setVisible(false);
 }
