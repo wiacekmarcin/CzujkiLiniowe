@@ -143,7 +143,9 @@ void SerialWorkerZas::run()
             sd->setParamJob(actTask);
             break;
 
-
+        case SerialZasilacz::OTHER:
+            write(actTask.msg, 1000, 1000, true, false);
+            break;
 
         case SerialZasilacz::DISCONNECT:
             closeDeviceJob();
@@ -268,7 +270,8 @@ bool SerialWorkerZas::checkIdentJob()
     return true;
 }
 
-QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentWaitWriteTimeout, int currentReadWaitTimeout, bool read)
+QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentWaitWriteTimeout,
+                                  int currentReadWaitTimeout, bool read, bool emitError)
 {
     if (currentRequest.size() > 0) {
         DEBUGSER("Sending bytes....");
@@ -296,7 +299,8 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
         return responseData;
     } else {
         DEBUGSER(QString("Timeout Read %1").arg(currentReadWaitTimeout));
-        emit error(QString("Nie udało się odczytać z RS zasilacza"));
+        if (emitError)
+            emit error(QString("Nie udało się odczytać z RS zasilacza"));
         return QByteArray();
     }
 }

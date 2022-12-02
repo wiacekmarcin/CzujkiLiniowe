@@ -29,6 +29,7 @@ typedef enum _task {
 
 struct TaskExt
 {
+    TaskExt() : TaskExt(IDLE, QByteArray()) {}
     TaskExt(TaskId _task, const QByteArray & _msg) :
         task(_task),
         msg(_msg)

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1303</width>
+    <width>1463</width>
     <height>574</height>
    </rect>
   </property>
@@ -25,38 +25,6 @@
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout_2">
-        <item row="0" column="3">
-         <widget class="QLabel" name="head3">
-          <property name="text">
-           <string>Ilość dodatkowych
-kroków przy bazie</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="6">
-         <widget class="QCheckBox" name="enable5">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="2">
-         <widget class="QLineEdit" name="maxSteps1">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="6">
-         <widget class="QCheckBox" name="enable8">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
         <item row="6" column="2">
          <widget class="QLineEdit" name="maxSteps6">
           <property name="text">
@@ -67,17 +35,10 @@ kroków przy bazie</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="5">
+        <item row="8" column="6">
          <widget class="QCheckBox" name="obrot8">
           <property name="text">
            <string>lewe</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="6">
-         <widget class="QCheckBox" name="enable7">
-          <property name="text">
-           <string>Tylko ruch</string>
           </property>
          </widget>
         </item>
@@ -91,7 +52,7 @@ kroków przy bazie</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="5">
+        <item row="5" column="6">
          <widget class="QCheckBox" name="obrot5">
           <property name="text">
            <string>lewe</string>
@@ -115,14 +76,14 @@ kroków przy bazie</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="5">
+        <item row="3" column="6">
          <widget class="QCheckBox" name="obrot3">
           <property name="text">
            <string>lewe</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="4">
+        <item row="7" column="5">
          <widget class="QLineEdit" name="delay7">
           <property name="text">
            <string/>
@@ -149,55 +110,13 @@ kroków przy bazie</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="4">
+        <item row="9" column="5">
          <widget class="QLineEdit" name="delay9">
           <property name="text">
            <string/>
           </property>
           <property name="maxLength">
            <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="6">
-         <widget class="QCheckBox" name="enable2">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="7">
-         <widget class="QLineEdit" name="ratio3">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="7">
-         <widget class="QLineEdit" name="ratio1">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="6">
-         <widget class="QCheckBox" name="enable1">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="7">
-         <widget class="QLineEdit" name="ratio8">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="6">
-         <widget class="QCheckBox" name="enable9">
-          <property name="text">
-           <string>Tylko ruch</string>
           </property>
          </widget>
         </item>
@@ -215,20 +134,6 @@ kroków przy bazie</string>
           </property>
           <property name="maxLength">
            <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="7">
-         <widget class="QLineEdit" name="ratio7">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="7">
-         <widget class="QLineEdit" name="ratio2">
-          <property name="maxLength">
-           <number>12</number>
           </property>
          </widget>
         </item>
@@ -252,231 +157,10 @@ kroków przy bazie</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="5">
+        <item row="6" column="6">
          <widget class="QCheckBox" name="obrot6">
           <property name="text">
            <string>lewe</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="5">
-         <widget class="QCheckBox" name="obrot4">
-          <property name="text">
-           <string>lewe</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QLineEdit" name="base3">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="4">
-         <widget class="QLabel" name="head4">
-          <property name="text">
-           <string>Odstęp między
-impulsami w
-mikrosekundach</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="6">
-         <widget class="QCheckBox" name="enable6">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="6">
-         <widget class="QCheckBox" name="enable4">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="4">
-         <widget class="QLineEdit" name="delay2">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="4">
-         <widget class="QLineEdit" name="delay3">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="4">
-         <widget class="QLineEdit" name="delay8">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="4">
-         <widget class="QLineEdit" name="delay1">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="3">
-         <widget class="QLineEdit" name="base2">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="7">
-         <widget class="QLineEdit" name="ratio4">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="et5">
-          <property name="text">
-           <string>M5</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="7">
-         <widget class="QLineEdit" name="ratio5">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="3">
-         <widget class="QLineEdit" name="base8">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="et2">
-          <property name="text">
-           <string>M2</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="7">
-         <widget class="QLabel" name="head6">
-          <property name="text">
-           <string>Ilość kroków
-na 1mm/st</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="3">
-         <widget class="QLineEdit" name="base5">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="5">
-         <widget class="QCheckBox" name="obrot2">
-          <property name="text">
-           <string>lewe</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="5">
-         <widget class="QCheckBox" name="obrot7">
-          <property name="text">
-           <string>lewe</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="6" colspan="2">
-         <widget class="QPushButton" name="pbSetConfiguration">
-          <property name="text">
-           <string>Ustaw konfigurację</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="4">
-         <widget class="QLineEdit" name="delay5">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="et8">
-          <property name="text">
-           <string>M8</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6">
-         <widget class="QLabel" name="label">
-          <property name="text">
-           <string>Czy sygnał
-enable tylko przed
-ruchem</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="3">
-         <widget class="QLineEdit" name="base6">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QLineEdit" name="base7">
-          <property name="text">
-           <string/>
-          </property>
-          <property name="maxLength">
-           <number>32767</number>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="head2">
-          <property name="text">
-           <string>Maksymalna
-ilość kroków</string>
           </property>
          </widget>
         </item>
@@ -490,28 +174,21 @@ ilość kroków</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="5">
+        <item row="9" column="6">
          <widget class="QCheckBox" name="obrot9">
           <property name="text">
            <string>lewe</string>
           </property>
          </widget>
         </item>
-        <item row="1" column="5">
+        <item row="1" column="6">
          <widget class="QCheckBox" name="obrot1">
           <property name="text">
            <string>lewe</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="7">
-         <widget class="QLineEdit" name="ratio9">
-          <property name="maxLength">
-           <number>12</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="4">
+        <item row="4" column="5">
          <widget class="QLineEdit" name="delay4">
           <property name="text">
            <string/>
@@ -548,7 +225,7 @@ ilość kroków</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="4">
+        <item row="6" column="5">
          <widget class="QLineEdit" name="delay6">
           <property name="text">
            <string/>
@@ -565,24 +242,10 @@ ilość kroków</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="6">
-         <widget class="QCheckBox" name="enable3">
-          <property name="text">
-           <string>Tylko ruch</string>
-          </property>
-         </widget>
-        </item>
         <item row="7" column="0">
          <widget class="QLabel" name="et7">
           <property name="text">
            <string>M7</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="7">
-         <widget class="QLineEdit" name="ratio6">
-          <property name="maxLength">
-           <number>12</number>
           </property>
          </widget>
         </item>
@@ -593,7 +256,7 @@ ilość kroków</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="5">
+        <item row="0" column="6">
          <widget class="QLabel" name="heaad5">
           <property name="text">
            <string>Obroty silnika</string>
@@ -636,6 +299,313 @@ ilość kroków</string>
         </item>
         <item row="9" column="1">
          <widget class="QLineEdit" name="motorName9"/>
+        </item>
+        <item row="4" column="6">
+         <widget class="QCheckBox" name="obrot4">
+          <property name="text">
+           <string>lewe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QLineEdit" name="base3">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="5">
+         <widget class="QLabel" name="head4">
+          <property name="text">
+           <string>Odstęp między
+impulsami w
+mikrosekundach</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="5">
+         <widget class="QLineEdit" name="delay2">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="5">
+         <widget class="QLineEdit" name="delay3">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="5">
+         <widget class="QLineEdit" name="delay8">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="5">
+         <widget class="QLineEdit" name="delay1">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLineEdit" name="base2">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="et5">
+          <property name="text">
+           <string>M5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QLineEdit" name="base8">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="et2">
+          <property name="text">
+           <string>M2</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QLineEdit" name="base5">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6">
+         <widget class="QCheckBox" name="obrot2">
+          <property name="text">
+           <string>lewe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="6">
+         <widget class="QCheckBox" name="obrot7">
+          <property name="text">
+           <string>lewe</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="7" colspan="2">
+         <widget class="QPushButton" name="pbSetConfiguration">
+          <property name="text">
+           <string>Ustaw konfigurację</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="5">
+         <widget class="QLineEdit" name="delay5">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="et8">
+          <property name="text">
+           <string>M8</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QLineEdit" name="base6">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QLineEdit" name="base7">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="head2">
+          <property name="text">
+           <string>Maksymalna
+ilość kroków</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="head3">
+          <property name="text">
+           <string>Ilość dodatkowych
+kroków przy bazie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="2">
+         <widget class="QLineEdit" name="maxSteps1">
+          <property name="text">
+           <string/>
+          </property>
+          <property name="maxLength">
+           <number>32767</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="4">
+         <widget class="QLabel" name="label_9">
+          <property name="text">
+           <string>Ilość kroków
+do środka</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QLabel" name="label_10">
+          <property name="text">
+           <string>Nazwa</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="4">
+         <widget class="QLineEdit" name="srodekKroki1"/>
+        </item>
+        <item row="2" column="4">
+         <widget class="QLineEdit" name="srodekKroki2"/>
+        </item>
+        <item row="3" column="4">
+         <widget class="QLineEdit" name="srodekKroki3"/>
+        </item>
+        <item row="4" column="4">
+         <widget class="QLineEdit" name="srodekKroki4"/>
+        </item>
+        <item row="5" column="4">
+         <widget class="QLineEdit" name="srodekKroki5"/>
+        </item>
+        <item row="6" column="4">
+         <widget class="QLineEdit" name="srodekKroki6"/>
+        </item>
+        <item row="7" column="4">
+         <widget class="QLineEdit" name="srodekKroki7"/>
+        </item>
+        <item row="8" column="4">
+         <widget class="QLineEdit" name="srodekKroki8"/>
+        </item>
+        <item row="9" column="4">
+         <widget class="QLineEdit" name="srodekKroki9"/>
+        </item>
+        <item row="0" column="7">
+         <widget class="QLabel" name="head6">
+          <property name="text">
+           <string>Ilość kroków
+na 1mm/st</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="7">
+         <widget class="QLineEdit" name="ratio1">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="7">
+         <widget class="QLineEdit" name="ratio2">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="7">
+         <widget class="QLineEdit" name="ratio3">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="7">
+         <widget class="QLineEdit" name="ratio4">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="7">
+         <widget class="QLineEdit" name="ratio5">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="7">
+         <widget class="QLineEdit" name="ratio6">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="7">
+         <widget class="QLineEdit" name="ratio7">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="7">
+         <widget class="QLineEdit" name="ratio8">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="7">
+         <widget class="QLineEdit" name="ratio9">
+          <property name="maxLength">
+           <number>12</number>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>
@@ -1046,13 +1016,7 @@ bazowa</string>
        </layout>
       </widget>
      </item>
-     <item row="3" column="1">
-      <widget class="QTextBrowser" name="textBrowser"/>
-     </item>
-     <item row="3" column="0">
-      <widget class="QWidget" name="widgetZasilacz" native="true"/>
-     </item>
-     <item row="1" column="0">
+     <item row="1" column="0" colspan="2">
       <widget class="QFrame" name="frame_2">
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
@@ -1135,53 +1099,31 @@ bazowa</string>
        </layout>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QFrame" name="frame_4">
-       <property name="frameShape">
-        <enum>QFrame::StyledPanel</enum>
-       </property>
-       <property name="frameShadow">
-        <enum>QFrame::Raised</enum>
-       </property>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QCheckBox" name="rbMultimetr">
-          <property name="text">
-           <string>Multimetr</string>
-          </property>
-          <property name="checkable">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_7">
-          <property name="text">
-           <string>Napięcie:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="voltage">
-          <property name="readOnly">
-           <bool>true</bool>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLabel" name="label_8">
-          <property name="text">
-           <string>Prąd:</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="current"/>
-        </item>
-       </layout>
-      </widget>
-     </item>
     </layout>
+   </item>
+   <item>
+    <widget class="QFrame" name="frame_4">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QTextEdit" name="dbg1"/>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="dbg2"/>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="dbg3"/>
+      </item>
+      <item>
+       <widget class="QTextEdit" name="dbg4"/>
+      </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <widget class="QDialogButtonBox" name="buttonBox">
@@ -1241,24 +1183,6 @@ bazowa</string>
   <tabstop>obrot7</tabstop>
   <tabstop>obrot8</tabstop>
   <tabstop>obrot9</tabstop>
-  <tabstop>enable1</tabstop>
-  <tabstop>enable2</tabstop>
-  <tabstop>enable3</tabstop>
-  <tabstop>enable4</tabstop>
-  <tabstop>enable5</tabstop>
-  <tabstop>enable6</tabstop>
-  <tabstop>enable7</tabstop>
-  <tabstop>enable8</tabstop>
-  <tabstop>enable9</tabstop>
-  <tabstop>ratio1</tabstop>
-  <tabstop>ratio2</tabstop>
-  <tabstop>ratio3</tabstop>
-  <tabstop>ratio4</tabstop>
-  <tabstop>ratio5</tabstop>
-  <tabstop>ratio6</tabstop>
-  <tabstop>ratio7</tabstop>
-  <tabstop>ratio8</tabstop>
-  <tabstop>ratio9</tabstop>
   <tabstop>pbSetConfiguration</tabstop>
   <tabstop>pbHome_1</tabstop>
   <tabstop>isHome_1</tabstop>
@@ -1302,10 +1226,6 @@ bazowa</string>
   <tabstop>rbFound</tabstop>
   <tabstop>rbAuth</tabstop>
   <tabstop>rbConf_2</tabstop>
-  <tabstop>textBrowser</tabstop>
-  <tabstop>rbMultimetr</tabstop>
-  <tabstop>voltage</tabstop>
-  <tabstop>current</tabstop>
  </tabstops>
  <resources/>
  <connections>

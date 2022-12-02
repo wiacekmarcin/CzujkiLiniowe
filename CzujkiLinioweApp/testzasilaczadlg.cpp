@@ -2,6 +2,7 @@
 #include "ui_testzasilaczadlg.h"
 
 #include <QMessageBox>
+#include <QDebug>
 
 TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *parent) :
     QDialog(parent),
@@ -37,9 +38,9 @@ TestZasilaczaDlg::~TestZasilaczaDlg()
 
 void TestZasilaczaDlg::on_pbCmdSend_clicked()
 {
-    //if (ui->multi_cmd->text().isEmpty())
-    //    return;
-    //ui->multi_request->append(QString(ui->multi_cmd->text())+QString("\n"));
+    if (ui->zasilacz_cmd->text().isEmpty())
+        return;
+    //
 }
 
 

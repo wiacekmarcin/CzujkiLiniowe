@@ -36,11 +36,13 @@ typedef enum _task {
     GET_CURRENT_MEAS,
     SET_OUTPUT,
     GET_OUTPUT,
+    OTHER,
     DISCONNECT,
 } TaskId;
 
 struct TaskExt
 {
+    TaskExt() : TaskExt(IDLE, QByteArray(), false) { }
     TaskExt(TaskId _task, const QByteArray & _msg, bool _waitForRead) :
         task(_task)
         , msg(_msg)
