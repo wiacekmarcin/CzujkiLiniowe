@@ -3,23 +3,13 @@
 
 #include <QMessageBox>
 
-TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, QWidget *parent) :
+TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestZasilaczaDlg)
   , u(ust)
-  , zas(ust, this)
+  , z(zas)
 {
     ui->setupUi(this);
-
-    zas.setThread(&zasThr);
-
-    connect(&zas, &Zasilacz::error, this, &TestZasilaczaDlg::errorZasilacz);
-    connect(&zas, &Zasilacz::debug, this, &TestZasilaczaDlg::debugZasilacz);
-    connect(&zas, &Zasilacz::kontrolerConfigured, this, &TestZasilaczaDlg::configuredZasilacz);
-    connect(&zas, &Zasilacz::kontrolerSerialNo, this, &TestZasilaczaDlg::serialNoZasilacz);
-    connect(&zas, &Zasilacz::deviceName, this, &TestZasilaczaDlg::deviceNameZasilacz);
-    connect(&zas, &Zasilacz::value, this, &TestZasilaczaDlg::valueZasilacz);
-
 
     connect(ui->pbZasOpen, &QPushButton::clicked, this, &TestZasilaczaDlg::openZasilacz);
     connect(ui->pbZasClose, &QPushButton::clicked, this, &TestZasilaczaDlg::closeZasilacz);
@@ -136,12 +126,24 @@ void TestZasilaczaDlg::valueZasilacz(int kind, int value)
 
 void TestZasilaczaDlg::openZasilacz()
 {
-    zas.connectToDevice();
+    z->connectToDevice();
 }
 
 void TestZasilaczaDlg::closeZasilacz()
 {
-    zas.closeDevice(true);
+    z->closeDevice(true);
+}
+
+void TestZasilaczaDlg::sendMsg(const QString &msg)
+{
+    QString oldText = ui->zasilacz_request->toPlainText(); // or toHtml()
+    ui->zasilacz_request->setPlainText(msg + oldText);
+}
+
+void TestZasilaczaDlg::recvMsg(const QString &msg)
+{
+    QString oldText = ui->zasilacz_reply->toPlainText(); // or toHtml()
+    ui->zasilacz_reply->setPlainText(msg + oldText);
 }
 
 void TestZasilaczaDlg::on_tbChange_clicked()
@@ -174,10 +176,10 @@ void TestZasilaczaDlg::on_tbSave_clicked()
     ui->leVoltSet->setVisible(false);
 
 
-    zas.setCurrent(ui->leCurrSet->text().toFloat()*1000);
-    zas.setVoltage(ui->leVoltSet->text().toFloat()*1000);
-    zas.setCurrentLimit(ui->leCurrLim->text().toFloat()*1000);
-    zas.setVoltageLimit(ui->leVoltLim->text().toFloat()*1000);
+    z->setCurrent(ui->leCurrSet->text().toFloat()*1000);
+    z->setVoltage(ui->leVoltSet->text().toFloat()*1000);
+    z->setCurrentLimit(ui->leCurrLim->text().toFloat()*1000);
+    z->setVoltageLimit(ui->leVoltLim->text().toFloat()*1000);
 }
 
 

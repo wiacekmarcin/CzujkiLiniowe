@@ -15,7 +15,7 @@ class TestZasilaczaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestZasilaczaDlg(Ustawienia * ust, QWidget *parent = nullptr);
+    explicit TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *parent = nullptr);
     ~TestZasilaczaDlg();
 
     typedef enum _serialZasWork
@@ -26,17 +26,21 @@ public:
             SEND_CURR
         } SerialZasWork;
 
-private slots:
-
     void errorZasilacz(QString s);
     void debugZasilacz(QString d);
     void configuredZasilacz(bool success, int state);
     void serialNoZasilacz(QString s);
     void deviceNameZasilacz(QString name);
     void valueZasilacz(int kind, int value);
+    void sendMsg(const QString & msg);
+    void recvMsg(const QString & msg);
+
+private slots:
 
     void openZasilacz();
     void closeZasilacz();
+
+
 
     void on_tbChange_clicked();
     void on_tbSave_clicked();
@@ -54,8 +58,7 @@ protected slots:
 private:
     Ui::TestZasilaczaDlg *ui;
     Ustawienia * u;
-    Zasilacz zas;
-    QThread zasThr;
+    Zasilacz * z;
 };
 
 #endif // TESTZASILACZADLG_H

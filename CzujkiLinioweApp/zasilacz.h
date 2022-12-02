@@ -87,6 +87,8 @@ signals:
     void error(QString s);
     void kontrolerConfigured(bool success, int state);
     void kontrolerSerialNo(QString s);
+    void sendMsg(QString msg);
+    void recvMsg(QString msg);
 
 protected:
     /**
@@ -182,7 +184,8 @@ signals:
     void kontrolerSerialNo(QString s);
     void deviceName(QString name);
     void value(int kind, int value);
-
+    void sendMsg(QString msg);
+    void recvMsg(QString msg);
 
 protected:
     /********************************** INNE FUNKCJE *************************/

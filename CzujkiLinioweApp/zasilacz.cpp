@@ -32,6 +32,8 @@ SerialWorkerZas::SerialWorkerZas(Zasilacz *device):
     connect(this, &SerialWorkerZas::error, device, &Zasilacz::error, Qt::QueuedConnection);
     connect(this, &SerialWorkerZas::kontrolerConfigured, device, &Zasilacz::kontrolerConfigured, Qt::QueuedConnection);
     connect(this, &SerialWorkerZas::kontrolerSerialNo, device, &Zasilacz::kontrolerSerialNo, Qt::QueuedConnection);
+    connect(this, &SerialWorkerZas::sendMsg, device, &Zasilacz::sendMsg, Qt::QueuedConnection);
+    connect(this, &SerialWorkerZas::recvMsg, device, &Zasilacz::recvMsg, Qt::QueuedConnection);
 }
 
 SerialWorkerZas::~SerialWorkerZas()
@@ -276,6 +278,7 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
             emit error(QString("Nie udało się zapisać do RS zasilacza"));
             return QByteArray();
         }
+        emit sendMsg(currentRequest.constData());
         DEBUGSER(QString("Write %1 bytes [%2]").arg(sendBytes).arg(currentRequest.constData()));
     }
 
@@ -288,6 +291,7 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
         responseData = m_serialPort->readAll();
         while (m_serialPort->waitForReadyRead(10))
             responseData += m_serialPort->readAll();
+        emit recvMsg(responseData.constData());
         DEBUGSER(QString("Read %1 [%2]").arg(responseData.size()).arg(responseData.constData()));
         return responseData;
     } else {
