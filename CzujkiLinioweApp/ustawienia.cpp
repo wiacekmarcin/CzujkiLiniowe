@@ -9,9 +9,12 @@ Ustawienia::Ustawienia() :
     UstawieniaGen()
 {
     if (!check()) {
+        load();
         save();
         sync();
     }
+    save();
+    sync();
 }
 
 Ustawienia::~Ustawienia()

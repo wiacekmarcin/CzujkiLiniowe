@@ -128,10 +128,10 @@ void UstawieniaGen::load()
 	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5", QVariant::fromValue(6.98)).toString());
 	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5", QVariant::fromValue(1.97)).toString());
 	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5", QVariant::fromValue(1.97)).toString());
-	serialDeviceZasilaczVendor = settings.value("Zasilacz/Vendor", QVariant::fromValue(QString("67b")).toString();
-	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3")).toString();
-	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("2341")).toString();
-	serialDeviceSterownikProduct = settings.value("Sterownik/Product", QVariant::fromValue(QString("42")).toString();
+	serialDeviceZasilaczVendor = settings.value("Zasilacz/Vendor", QVariant::fromValue(QString("67b"))).toString();
+	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3"))).toString();
+	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("2341"))).toString();
+	serialDeviceSterownikProduct = settings.value("Sterownik/Product", QVariant::fromValue(QString("42"))).toString();
 }
 
 void UstawieniaGen::save()
@@ -244,10 +244,10 @@ void UstawieniaGen::save()
 	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(filtr655_A_5));
 	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(filtr655_B_5));
 	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(filtr655_C_5));
-	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(serialDeviceZasilaczVendor)));
-	settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct)));
-	settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor)));
-	settings.setValue("Sterownik/Product", QVariant::fromValue(serialDeviceSterownikProduct)));
+	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(serialDeviceZasilaczVendor));
+	settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct));
+	settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor));
+	settings.setValue("Sterownik/Product", QVariant::fromValue(serialDeviceSterownikProduct));
 }
 
 bool UstawieniaGen::check()
