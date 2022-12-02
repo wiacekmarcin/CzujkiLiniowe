@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/zasilacz">
+        <file alias="zasilacz_notconnected">icon_055500_256__gray1.png</file>
+        <file alias="zasilacz_off">icon_055500_256_green1.png</file>
+        <file alias="zasilacz_error">icon_055500_256_red1.png</file>
+        <file alias="zasilacz_on">icon_055500_256_blue1.png</file>
+    </qresource>
+    <qresource prefix="/sterownik">
+        <file alias="sterownik_on">machine_blue.png</file>
+        <file alias="sterownik_off">machine_gray.png</file>
+    </qresource>
+</RCC>

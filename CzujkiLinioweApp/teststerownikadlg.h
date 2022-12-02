@@ -45,6 +45,7 @@ protected slots:
     void on_pbUstawPos_8_clicked();
     void on_pbUstawPos_9_clicked();
     void pbUstawPos_clicked(int silnik, const float &x, const float &ratio);
+    void on_pbConnect_clicked();
 
 private:
     Ui::TestSterownikaDlg *ui;

@@ -13,9 +13,7 @@
   <property name="windowTitle">
    <string>Czujniki Lioniowe</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
-   
-  </widget>
+  <widget class="QWidget" name="centralwidget"/>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
@@ -70,6 +68,9 @@
    <addaction name="actionZapiszJako"/>
    <addaction name="separator"/>
    <addaction name="actionUsunBadanie"/>
+   <addaction name="separator"/>
+   <addaction name="actionZasilacz"/>
+   <addaction name="actionSterownik"/>
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="text">
@@ -165,7 +166,33 @@
     <string>Test Sterownika</string>
    </property>
   </action>
+  <action name="actionZasilacz">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/zasilacz/zasilacz_notconnected</normaloff>
+     <normalon>:/zasilacz/zasilacz_on</normalon>
+     <disabledoff>:/zasilacz/zasilacz_notconnected</disabledoff>
+     <disabledon>:/zasilacz/zasilacz_notconnected</disabledon>
+     <selectedoff>:/zasilacz/zasilacz_off</selectedoff>
+     <selectedon>:/zasilacz/zasilacz_off</selectedon>:/zasilacz/zasilacz_notconnected</iconset>
+   </property>
+   <property name="text">
+    <string>Zasilacz</string>
+   </property>
+  </action>
+  <action name="actionSterownik">
+   <property name="icon">
+    <iconset resource="icons.qrc">
+     <normaloff>:/sterownik/sterownik_off</normaloff>
+     <normalon>:/sterownik/sterownik_on</normalon>:/sterownik/sterownik_off</iconset>
+   </property>
+   <property name="text">
+    <string>Sterownik</string>
+   </property>
+  </action>
  </widget>
- <resources/>
+ <resources>
+  <include location="icons.qrc"/>
+ </resources>
  <connections/>
 </ui>

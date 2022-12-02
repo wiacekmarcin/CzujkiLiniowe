@@ -143,7 +143,10 @@ void TestSterownikaDlg::sd_setPositionDone(bool home, bool success)
 
 }
 
-
+void TestSterownikaDlg::on_pbConnect_clicked()
+{
+    sd->connectToDevice();
+}
 
 #define PBHOME(N) void TestSterownikaDlg::on_pbHome_##N##_clicked() \
 { pbHome_clicked(N); }

@@ -6,7 +6,7 @@
 #include "parametrykalibracyjnedlg.h"
 #include "testzasilaczadlg.h"
 
-
+#include <QIcon>
 #include <QDebug>
 
 
@@ -32,6 +32,18 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &SerialDevice::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
     connect(sd, &SerialDevice::deviceName, this, &MainWindow::sd_deviceName);
     connect(sd, &SerialDevice::setPositionDone, this, &MainWindow::sd_setPositionDone);
+
+    QIcon icon5(QString::fromUtf8(":/zasilacz/zasilacz_on"));
+
+    //icon5.addFile(QString::fromUtf8(":/zasilacz/zasilacz_off"), QSize(), QIcon::Normal, QIcon::Off);
+    //icon5.addFile(QString::fromUtf8(":/zasilacz/zasilacz_on"), QSize(), QIcon::Normal, QIcon::On);
+    //icon5.addFile(QString::fromUtf8(":/zasilacz/zasilacz_notconnected"), QSize(), QIcon::Disabled, QIcon::Off);
+    //icon5.addFile(QString::fromUtf8(":/zasilacz/zasilacz_notconnected"), QSize(), QIcon::Disabled, QIcon::On);
+    //ui->actionZasilacz->setIcon(icon5);
+    ui->actionZasilacz->setEnabled(true);
+    ui->toolBar->setIconSize(QSize(32,32));
+    QIcon icon6(QString::fromUtf8(":/sterownik/sterownik_on"));
+    ui->actionSterownik->setIcon(icon6);
 }
 
 MainWindow::~MainWindow()
@@ -50,11 +62,6 @@ void MainWindow::on_actionOtw_rz_okno_triggered()
         dbgDlg->hide();
 }
 
-
-void MainWindow::on_pbConnect_clicked()
-{
-    sd->connectToDevice();
-}
 
 void MainWindow::sd_error(QString s)
 {
