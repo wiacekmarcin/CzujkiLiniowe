@@ -99,7 +99,7 @@ public:
         cfile.write("\n\n".join([f for f in self.c_sources]))
         cfile.close()
         
-    def addMotor(self, nrMotor, nameVal, typeVal, path, convF):
+    def addMotor(self, nrMotor, nameVal, typeVal, path, convF, devVal):
         localVal = "motor%s%d" % (self.cName(nameVal), nrMotor)
         self.h_private_values.append("%s %s;" % (typeVal, localVal))
         fget = "%s getMotor%s%d() const" % (typeVal, self.cName(nameVal), nrMotor)
@@ -116,7 +116,7 @@ public:
         settPath = path + "%d" % nrMotor + "/" + self.cName(nameVal)
         
         #m_ratioSilnik1 = settings.value("Ratio_1", m_ratioSilnik1).toString();
-        self.c_load.append('%s = %s(settings.value("%s").toString());' % (localVal, convF, settPath))
+        self.c_load.append('%s = %s(settings.value("%s", QVariant::fromValue(%s)).toString());' % (localVal, convF, settPath, devVal))
         
         #settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1));
         self.c_save.append('settings.setValue("%s", QVariant::fromValue(%s));' % (settPath, localVal))
@@ -158,7 +158,7 @@ public:
         self.c_sources.append("%s\n{\n%s\n}" % (fcheck_c, cont))
         
         
-    def addFiltr(self, fala, nrTarczy, nrPozycji, path):
+    def addFiltr(self, fala, nrTarczy, nrPozycji, path, devVal):
         localVal = "filtr%d_%c_%d" % (fala, nrTarczy, nrPozycji)
         localFunName = self.cName(localVal)
         self.h_private_values.append("double %s;" % localVal)
@@ -176,7 +176,7 @@ public:
         settPath = path + "%d_%c" % (fala, nrTarczy) + "/Pos%d" % nrPozycji
         
         #m_ratioSilnik1 = settings.value("Ratio_1", m_ratioSilnik1).toString();
-        self.c_load.append('%s = toDouble(settings.value("%s").toString());' % (localVal, settPath))
+        self.c_load.append('%s = toDouble(settings.value("%s", QVariant::fromValue(%s)).toString());' % (localVal, settPath, devVal))
         
         #settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1));
         self.c_save.append('settings.setValue("%s", QVariant::fromValue(%s));' % (settPath, localVal))
@@ -242,7 +242,7 @@ public:
         fset_c = "void %s::setFiltr(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)" % self.className
         self.c_sources.append("%s\n{\n%s\n}" % (fset_c, cont))
 
-    def addDevice(self, nameVal, path):
+    def addDevice(self, nameVal, path, defVal):
         localVal = "serialDevice%s" % (self.cName(nameVal))
         typeVal = "QString"
         self.h_private_values.append("%s %s;" % (typeVal, localVal))
@@ -259,7 +259,7 @@ public:
         settPath = path
         
         #m_ratioSilnik1 = settings.value("Ratio_1", m_ratioSilnik1).toString();
-        self.c_load.append('%s = settings.value("%s").toString();' % (localVal, settPath))
+        self.c_load.append('%s = settings.value("%s", QVariant::fromValue(%s)).toString();' % (localVal, settPath, defVal))
         
         #settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1));
         self.c_save.append('settings.setValue("%s", QVariant::fromValue(%s));' % (settPath, localVal))
@@ -279,7 +279,7 @@ public:
         f_check = "checkSerialDeviceIdentString" 
 
         self.h_protected_fun.append("bool %s(const QString & val) const;" % f_check)
-        self.c_sources.append("bool %s::%s const\n{\n\t%s\n}" % (self.className, f_check, content()))            
+        self.c_sources.append("bool %s::%s(const QString & val) const\n{\n\t%s\n}" % (self.className, f_check, content()))            
 
 def checkNazwaContent() :
     return """
@@ -325,35 +325,146 @@ checkFuns["maksPredkosc"] = checkDoubleContent
 checkFuns["odwrocObroty"] = checkBoolContent
 checkFuns["opoznienieImp"] = checkUnsignedIntContent
 checkFuns["maksIloscKrokow"] = checkUnsignedIntContent
+checkFuns["iloscKrokowBaza"] = checkUnsignedIntContent
+checkFuns["iloscKrokowSrodek"] = checkUnsignedIntContent
+
+motordefVals = {
+    1 : {
+        "nazwa" : 'QString("M1")',
+        "przelozenie" : 1.1,
+        "maksPredkosc" : 2.1,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1251,
+        "maksIloscKrokow" : 1001,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    2 : {
+        "nazwa" : 'QString("M2")',
+        "przelozenie" : 1.2,
+        "maksPredkosc" : 2.2,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1252,
+        "maksIloscKrokow" : 1002,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    3 : {
+        "nazwa" : 'QString("M3")',
+        "przelozenie" : 1.3,
+        "maksPredkosc" : 2.3,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1253,
+        "maksIloscKrokow" : 1003,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    4 : {
+        "nazwa" : 'QString("M4")',
+        "przelozenie" : 1.4,
+        "maksPredkosc" : 2.4,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1254,
+        "maksIloscKrokow" : 1004,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    5 : {
+        "nazwa" : 'QString("M5")',
+        "przelozenie" : 1.5,
+        "maksPredkosc" : 2.5,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1255,
+        "maksIloscKrokow" : 1005,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    6 : {
+        "nazwa" : 'QString("M6")',
+        "przelozenie" : 1.6,
+        "maksPredkosc" : 2.6,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1256,
+        "maksIloscKrokow" : 1006,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    7 : {
+        "nazwa" : 'QString("M7")',
+        "przelozenie" : 1.7,
+        "maksPredkosc" : 2.7,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1257,
+        "maksIloscKrokow" : 1007,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    8 : {
+        "nazwa" : 'QString("M8")',
+        "przelozenie" : 1.8,
+        "maksPredkosc" : 2.8,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1258,
+        "maksIloscKrokow" : 1008,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+    9 : {
+        "nazwa" : 'QString("M9")',
+        "przelozenie" : 1.9,
+        "maksPredkosc" : 2.9,
+        "odwrocObroty" : "false",
+        "opoznienieImp" : 1259,
+        "maksIloscKrokow" : 1009,
+        "iloscKrokowBaza" : 0,
+        "iloscKrokowSrodek" : 0
+    },
+}
+
+defFiltrVals = {
+    655: {
+        'A': [0, 0.21, 0.4, 0.62, 0.83, 6.98],
+        'B': [0, 0.1, 0.98, 1.35, 3.3, 1.97],
+        'C': [0, 0.1, 4.28, 8.79, 7.6, 1.97],
+    },
+    880 : {
+        'A': [0, 0.22, 1.02, 0.59, 0.82, 6.39],
+        'B': [0, 0.1, 1.02, 2, 3.02, 6.43],
+        'C': [0, 0.09, 3.94, 8.04, 11.94, 3.06]
+    }
+}
 
 u = UstawieniaCode()
-def motorSett(nazwa, typ, fun, checkFuns): 
+def motorSett(nazwa, typ, fun, checkFuns, devVals): 
     for i in range(1,10):
-        u.addMotor(i, nazwa, typ, "Silnik-", fun)
+        u.addMotor(i, nazwa, typ, "Silnik-", fun, devVals[i][nazwa])
     u.addSummMotor(nazwa, typ, fun, checkFuns)
 
-motorSett("nazwa", "QString", "toQString", checkFuns)
-motorSett("przelozenie", "double", "toDouble", checkFuns)
-motorSett("maksPredkosc", "double", "toDouble", checkFuns)
-motorSett("odwrocObroty", "bool", "toBool", checkFuns)
-motorSett("opoznienieImp", "int", "toUInt", checkFuns)
-motorSett("maksIloscKrokow", "int", "toUInt", checkFuns)
+motorSett("nazwa", "QString", "toQString", checkFuns, motordefVals)
+motorSett("przelozenie", "double", "toDouble", checkFuns, motordefVals)
+motorSett("maksPredkosc", "double", "toDouble", checkFuns, motordefVals)
+motorSett("odwrocObroty", "bool", "toBool", checkFuns, motordefVals)
+motorSett("opoznienieImp", "int", "toUInt", checkFuns, motordefVals)
+motorSett("maksIloscKrokow", "int", "toUInt", checkFuns, motordefVals)
+motorSett("iloscKrokowBaza", "int", "toUInt", checkFuns, motordefVals)
+motorSett("iloscKrokowSrodek", "int", "toUInt", checkFuns, motordefVals)
 
-def addFiltrSett(fala):
+def addFiltrSett(fala, defFiltrVals):
     for i in range(0, 6):
         for c in ['A', 'B', 'C']:
-            u.addFiltr(fala, c, i, "Filtr_")
+            u.addFiltr(fala, c, i, "Filtr_", defFiltrVals[fala][c][i])
             
-addFiltrSett(880)
-addFiltrSett(655)
+addFiltrSett(880, defFiltrVals)
+addFiltrSett(655, defFiltrVals)
 u.addSummFiltr(checkDoubleContent)
 
-u.addDevice("zasilaczVendor", "Zasilacz/Vendor")
-u.addDevice("zasilaczProduct", "Zasilacz/Product")
-u.addDevice("sterownikVendor", "Sterownik/Vendor")
-u.addDevice("sterownikProduct", "Sterownik/Product")
+u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
+u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
+u.addDevice("sterownikVendor", "Sterownik/Vendor", 'QString("2341")')
+u.addDevice("sterownikProduct", "Sterownik/Product", 'QString("42")')
 u.addDevideSummary(checkBoolContent)
 
 u.createHeader()
 u.createSource()
 
+#/*"67b"*/ || product != sd->getProduct() /*"23a3"*/)

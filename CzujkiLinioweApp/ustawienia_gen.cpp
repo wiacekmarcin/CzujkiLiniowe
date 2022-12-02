@@ -2,7 +2,7 @@
 #include "ustawienia_gen.h"
 
 #include <QApplication>
-#include <QDebug>
+
 UstawieniaGen::UstawieniaGen() :
     settings(QApplication::applicationFilePath() + ".ini", QSettings::IniFormat)
 {
@@ -14,102 +14,124 @@ UstawieniaGen::UstawieniaGen() :
 
 UstawieniaGen::~UstawieniaGen()
 {
-
+    
 }
         
 
 void UstawieniaGen::load()
 {
-	motorNazwa1 = toQString(settings.value("Silnik-1/Nazwa").toString());
-	motorNazwa2 = toQString(settings.value("Silnik-2/Nazwa").toString());
-	motorNazwa3 = toQString(settings.value("Silnik-3/Nazwa").toString());
-	motorNazwa4 = toQString(settings.value("Silnik-4/Nazwa").toString());
-	motorNazwa5 = toQString(settings.value("Silnik-5/Nazwa").toString());
-	motorNazwa6 = toQString(settings.value("Silnik-6/Nazwa").toString());
-	motorNazwa7 = toQString(settings.value("Silnik-7/Nazwa").toString());
-	motorNazwa8 = toQString(settings.value("Silnik-8/Nazwa").toString());
-	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa").toString());
-	motorPrzelozenie1 = toDouble(settings.value("Silnik-1/Przelozenie").toString());
-	motorPrzelozenie2 = toDouble(settings.value("Silnik-2/Przelozenie").toString());
-	motorPrzelozenie3 = toDouble(settings.value("Silnik-3/Przelozenie").toString());
-	motorPrzelozenie4 = toDouble(settings.value("Silnik-4/Przelozenie").toString());
-	motorPrzelozenie5 = toDouble(settings.value("Silnik-5/Przelozenie").toString());
-	motorPrzelozenie6 = toDouble(settings.value("Silnik-6/Przelozenie").toString());
-	motorPrzelozenie7 = toDouble(settings.value("Silnik-7/Przelozenie").toString());
-	motorPrzelozenie8 = toDouble(settings.value("Silnik-8/Przelozenie").toString());
-	motorPrzelozenie9 = toDouble(settings.value("Silnik-9/Przelozenie").toString());
-	motorMaksPredkosc1 = toDouble(settings.value("Silnik-1/MaksPredkosc").toString());
-	motorMaksPredkosc2 = toDouble(settings.value("Silnik-2/MaksPredkosc").toString());
-	motorMaksPredkosc3 = toDouble(settings.value("Silnik-3/MaksPredkosc").toString());
-	motorMaksPredkosc4 = toDouble(settings.value("Silnik-4/MaksPredkosc").toString());
-	motorMaksPredkosc5 = toDouble(settings.value("Silnik-5/MaksPredkosc").toString());
-	motorMaksPredkosc6 = toDouble(settings.value("Silnik-6/MaksPredkosc").toString());
-	motorMaksPredkosc7 = toDouble(settings.value("Silnik-7/MaksPredkosc").toString());
-	motorMaksPredkosc8 = toDouble(settings.value("Silnik-8/MaksPredkosc").toString());
-	motorMaksPredkosc9 = toDouble(settings.value("Silnik-9/MaksPredkosc").toString());
-	motorOdwrocObroty1 = toBool(settings.value("Silnik-1/OdwrocObroty").toString());
-	motorOdwrocObroty2 = toBool(settings.value("Silnik-2/OdwrocObroty").toString());
-	motorOdwrocObroty3 = toBool(settings.value("Silnik-3/OdwrocObroty").toString());
-	motorOdwrocObroty4 = toBool(settings.value("Silnik-4/OdwrocObroty").toString());
-	motorOdwrocObroty5 = toBool(settings.value("Silnik-5/OdwrocObroty").toString());
-	motorOdwrocObroty6 = toBool(settings.value("Silnik-6/OdwrocObroty").toString());
-	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty").toString());
-	motorOdwrocObroty8 = toBool(settings.value("Silnik-8/OdwrocObroty").toString());
-	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty").toString());
-	motorOpoznienieImp1 = toUInt(settings.value("Silnik-1/OpoznienieImp").toString());
-	motorOpoznienieImp2 = toUInt(settings.value("Silnik-2/OpoznienieImp").toString());
-	motorOpoznienieImp3 = toUInt(settings.value("Silnik-3/OpoznienieImp").toString());
-	motorOpoznienieImp4 = toUInt(settings.value("Silnik-4/OpoznienieImp").toString());
-	motorOpoznienieImp5 = toUInt(settings.value("Silnik-5/OpoznienieImp").toString());
-	motorOpoznienieImp6 = toUInt(settings.value("Silnik-6/OpoznienieImp").toString());
-	motorOpoznienieImp7 = toUInt(settings.value("Silnik-7/OpoznienieImp").toString());
-	motorOpoznienieImp8 = toUInt(settings.value("Silnik-8/OpoznienieImp").toString());
-	motorOpoznienieImp9 = toUInt(settings.value("Silnik-9/OpoznienieImp").toString());
-	motorMaksIloscKrokow1 = toUInt(settings.value("Silnik-1/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow2 = toUInt(settings.value("Silnik-2/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow3 = toUInt(settings.value("Silnik-3/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow4 = toUInt(settings.value("Silnik-4/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow5 = toUInt(settings.value("Silnik-5/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow6 = toUInt(settings.value("Silnik-6/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow7 = toUInt(settings.value("Silnik-7/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow8 = toUInt(settings.value("Silnik-8/MaksIloscKrokow").toString());
-	motorMaksIloscKrokow9 = toUInt(settings.value("Silnik-9/MaksIloscKrokow").toString());
-	filtr880_A_0 = toDouble(settings.value("Filtr_880_A/Pos0").toString());
-	filtr880_B_0 = toDouble(settings.value("Filtr_880_B/Pos0").toString());
-	filtr880_C_0 = toDouble(settings.value("Filtr_880_C/Pos0").toString());
-	filtr880_A_1 = toDouble(settings.value("Filtr_880_A/Pos1").toString());
-	filtr880_B_1 = toDouble(settings.value("Filtr_880_B/Pos1").toString());
-	filtr880_C_1 = toDouble(settings.value("Filtr_880_C/Pos1").toString());
-	filtr880_A_2 = toDouble(settings.value("Filtr_880_A/Pos2").toString());
-	filtr880_B_2 = toDouble(settings.value("Filtr_880_B/Pos2").toString());
-	filtr880_C_2 = toDouble(settings.value("Filtr_880_C/Pos2").toString());
-	filtr880_A_3 = toDouble(settings.value("Filtr_880_A/Pos3").toString());
-	filtr880_B_3 = toDouble(settings.value("Filtr_880_B/Pos3").toString());
-	filtr880_C_3 = toDouble(settings.value("Filtr_880_C/Pos3").toString());
-	filtr880_A_4 = toDouble(settings.value("Filtr_880_A/Pos4").toString());
-	filtr880_B_4 = toDouble(settings.value("Filtr_880_B/Pos4").toString());
-	filtr880_C_4 = toDouble(settings.value("Filtr_880_C/Pos4").toString());
-	filtr880_A_5 = toDouble(settings.value("Filtr_880_A/Pos5").toString());
-	filtr880_B_5 = toDouble(settings.value("Filtr_880_B/Pos5").toString());
-	filtr880_C_5 = toDouble(settings.value("Filtr_880_C/Pos5").toString());
-	filtr655_A_0 = toDouble(settings.value("Filtr_655_A/Pos0").toString());
-	filtr655_B_0 = toDouble(settings.value("Filtr_655_B/Pos0").toString());
-	filtr655_C_0 = toDouble(settings.value("Filtr_655_C/Pos0").toString());
-	filtr655_A_1 = toDouble(settings.value("Filtr_655_A/Pos1").toString());
-	filtr655_B_1 = toDouble(settings.value("Filtr_655_B/Pos1").toString());
-	filtr655_C_1 = toDouble(settings.value("Filtr_655_C/Pos1").toString());
-	filtr655_A_2 = toDouble(settings.value("Filtr_655_A/Pos2").toString());
-	filtr655_B_2 = toDouble(settings.value("Filtr_655_B/Pos2").toString());
-	filtr655_C_2 = toDouble(settings.value("Filtr_655_C/Pos2").toString());
-	filtr655_A_3 = toDouble(settings.value("Filtr_655_A/Pos3").toString());
-	filtr655_B_3 = toDouble(settings.value("Filtr_655_B/Pos3").toString());
-	filtr655_C_3 = toDouble(settings.value("Filtr_655_C/Pos3").toString());
-	filtr655_A_4 = toDouble(settings.value("Filtr_655_A/Pos4").toString());
-	filtr655_B_4 = toDouble(settings.value("Filtr_655_B/Pos4").toString());
-	filtr655_C_4 = toDouble(settings.value("Filtr_655_C/Pos4").toString());
-	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5").toString());
-	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5").toString());
-	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5").toString());
+	motorNazwa1 = toQString(settings.value("Silnik-1/Nazwa", QVariant::fromValue(QString("M1"))).toString());
+	motorNazwa2 = toQString(settings.value("Silnik-2/Nazwa", QVariant::fromValue(QString("M2"))).toString());
+	motorNazwa3 = toQString(settings.value("Silnik-3/Nazwa", QVariant::fromValue(QString("M3"))).toString());
+	motorNazwa4 = toQString(settings.value("Silnik-4/Nazwa", QVariant::fromValue(QString("M4"))).toString());
+	motorNazwa5 = toQString(settings.value("Silnik-5/Nazwa", QVariant::fromValue(QString("M5"))).toString());
+	motorNazwa6 = toQString(settings.value("Silnik-6/Nazwa", QVariant::fromValue(QString("M6"))).toString());
+	motorNazwa7 = toQString(settings.value("Silnik-7/Nazwa", QVariant::fromValue(QString("M7"))).toString());
+	motorNazwa8 = toQString(settings.value("Silnik-8/Nazwa", QVariant::fromValue(QString("M8"))).toString());
+	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa", QVariant::fromValue(QString("M9"))).toString());
+	motorPrzelozenie1 = toDouble(settings.value("Silnik-1/Przelozenie", QVariant::fromValue(1.1)).toString());
+	motorPrzelozenie2 = toDouble(settings.value("Silnik-2/Przelozenie", QVariant::fromValue(1.2)).toString());
+	motorPrzelozenie3 = toDouble(settings.value("Silnik-3/Przelozenie", QVariant::fromValue(1.3)).toString());
+	motorPrzelozenie4 = toDouble(settings.value("Silnik-4/Przelozenie", QVariant::fromValue(1.4)).toString());
+	motorPrzelozenie5 = toDouble(settings.value("Silnik-5/Przelozenie", QVariant::fromValue(1.5)).toString());
+	motorPrzelozenie6 = toDouble(settings.value("Silnik-6/Przelozenie", QVariant::fromValue(1.6)).toString());
+	motorPrzelozenie7 = toDouble(settings.value("Silnik-7/Przelozenie", QVariant::fromValue(1.7)).toString());
+	motorPrzelozenie8 = toDouble(settings.value("Silnik-8/Przelozenie", QVariant::fromValue(1.8)).toString());
+	motorPrzelozenie9 = toDouble(settings.value("Silnik-9/Przelozenie", QVariant::fromValue(1.9)).toString());
+	motorMaksPredkosc1 = toDouble(settings.value("Silnik-1/MaksPredkosc", QVariant::fromValue(2.1)).toString());
+	motorMaksPredkosc2 = toDouble(settings.value("Silnik-2/MaksPredkosc", QVariant::fromValue(2.2)).toString());
+	motorMaksPredkosc3 = toDouble(settings.value("Silnik-3/MaksPredkosc", QVariant::fromValue(2.3)).toString());
+	motorMaksPredkosc4 = toDouble(settings.value("Silnik-4/MaksPredkosc", QVariant::fromValue(2.4)).toString());
+	motorMaksPredkosc5 = toDouble(settings.value("Silnik-5/MaksPredkosc", QVariant::fromValue(2.5)).toString());
+	motorMaksPredkosc6 = toDouble(settings.value("Silnik-6/MaksPredkosc", QVariant::fromValue(2.6)).toString());
+	motorMaksPredkosc7 = toDouble(settings.value("Silnik-7/MaksPredkosc", QVariant::fromValue(2.7)).toString());
+	motorMaksPredkosc8 = toDouble(settings.value("Silnik-8/MaksPredkosc", QVariant::fromValue(2.8)).toString());
+	motorMaksPredkosc9 = toDouble(settings.value("Silnik-9/MaksPredkosc", QVariant::fromValue(2.9)).toString());
+	motorOdwrocObroty1 = toBool(settings.value("Silnik-1/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty2 = toBool(settings.value("Silnik-2/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty3 = toBool(settings.value("Silnik-3/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty4 = toBool(settings.value("Silnik-4/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty5 = toBool(settings.value("Silnik-5/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty6 = toBool(settings.value("Silnik-6/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty8 = toBool(settings.value("Silnik-8/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOpoznienieImp1 = toUInt(settings.value("Silnik-1/OpoznienieImp", QVariant::fromValue(1251)).toString());
+	motorOpoznienieImp2 = toUInt(settings.value("Silnik-2/OpoznienieImp", QVariant::fromValue(1252)).toString());
+	motorOpoznienieImp3 = toUInt(settings.value("Silnik-3/OpoznienieImp", QVariant::fromValue(1253)).toString());
+	motorOpoznienieImp4 = toUInt(settings.value("Silnik-4/OpoznienieImp", QVariant::fromValue(1254)).toString());
+	motorOpoznienieImp5 = toUInt(settings.value("Silnik-5/OpoznienieImp", QVariant::fromValue(1255)).toString());
+	motorOpoznienieImp6 = toUInt(settings.value("Silnik-6/OpoznienieImp", QVariant::fromValue(1256)).toString());
+	motorOpoznienieImp7 = toUInt(settings.value("Silnik-7/OpoznienieImp", QVariant::fromValue(1257)).toString());
+	motorOpoznienieImp8 = toUInt(settings.value("Silnik-8/OpoznienieImp", QVariant::fromValue(1258)).toString());
+	motorOpoznienieImp9 = toUInt(settings.value("Silnik-9/OpoznienieImp", QVariant::fromValue(1259)).toString());
+	motorMaksIloscKrokow1 = toUInt(settings.value("Silnik-1/MaksIloscKrokow", QVariant::fromValue(1001)).toString());
+	motorMaksIloscKrokow2 = toUInt(settings.value("Silnik-2/MaksIloscKrokow", QVariant::fromValue(1002)).toString());
+	motorMaksIloscKrokow3 = toUInt(settings.value("Silnik-3/MaksIloscKrokow", QVariant::fromValue(1003)).toString());
+	motorMaksIloscKrokow4 = toUInt(settings.value("Silnik-4/MaksIloscKrokow", QVariant::fromValue(1004)).toString());
+	motorMaksIloscKrokow5 = toUInt(settings.value("Silnik-5/MaksIloscKrokow", QVariant::fromValue(1005)).toString());
+	motorMaksIloscKrokow6 = toUInt(settings.value("Silnik-6/MaksIloscKrokow", QVariant::fromValue(1006)).toString());
+	motorMaksIloscKrokow7 = toUInt(settings.value("Silnik-7/MaksIloscKrokow", QVariant::fromValue(1007)).toString());
+	motorMaksIloscKrokow8 = toUInt(settings.value("Silnik-8/MaksIloscKrokow", QVariant::fromValue(1008)).toString());
+	motorMaksIloscKrokow9 = toUInt(settings.value("Silnik-9/MaksIloscKrokow", QVariant::fromValue(1009)).toString());
+	motorIloscKrokowBaza1 = toUInt(settings.value("Silnik-1/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza2 = toUInt(settings.value("Silnik-2/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza3 = toUInt(settings.value("Silnik-3/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza4 = toUInt(settings.value("Silnik-4/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza5 = toUInt(settings.value("Silnik-5/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza6 = toUInt(settings.value("Silnik-6/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza7 = toUInt(settings.value("Silnik-7/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza8 = toUInt(settings.value("Silnik-8/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowBaza9 = toUInt(settings.value("Silnik-9/IloscKrokowBaza", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek1 = toUInt(settings.value("Silnik-1/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek2 = toUInt(settings.value("Silnik-2/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek3 = toUInt(settings.value("Silnik-3/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek4 = toUInt(settings.value("Silnik-4/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek5 = toUInt(settings.value("Silnik-5/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek6 = toUInt(settings.value("Silnik-6/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek7 = toUInt(settings.value("Silnik-7/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek8 = toUInt(settings.value("Silnik-8/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	motorIloscKrokowSrodek9 = toUInt(settings.value("Silnik-9/IloscKrokowSrodek", QVariant::fromValue(0)).toString());
+	filtr880_A_0 = toDouble(settings.value("Filtr_880_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr880_B_0 = toDouble(settings.value("Filtr_880_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr880_C_0 = toDouble(settings.value("Filtr_880_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr880_A_1 = toDouble(settings.value("Filtr_880_A/Pos1", QVariant::fromValue(0.22)).toString());
+	filtr880_B_1 = toDouble(settings.value("Filtr_880_B/Pos1", QVariant::fromValue(0.1)).toString());
+	filtr880_C_1 = toDouble(settings.value("Filtr_880_C/Pos1", QVariant::fromValue(0.09)).toString());
+	filtr880_A_2 = toDouble(settings.value("Filtr_880_A/Pos2", QVariant::fromValue(1.02)).toString());
+	filtr880_B_2 = toDouble(settings.value("Filtr_880_B/Pos2", QVariant::fromValue(1.02)).toString());
+	filtr880_C_2 = toDouble(settings.value("Filtr_880_C/Pos2", QVariant::fromValue(3.94)).toString());
+	filtr880_A_3 = toDouble(settings.value("Filtr_880_A/Pos3", QVariant::fromValue(0.59)).toString());
+	filtr880_B_3 = toDouble(settings.value("Filtr_880_B/Pos3", QVariant::fromValue(2)).toString());
+	filtr880_C_3 = toDouble(settings.value("Filtr_880_C/Pos3", QVariant::fromValue(8.04)).toString());
+	filtr880_A_4 = toDouble(settings.value("Filtr_880_A/Pos4", QVariant::fromValue(0.82)).toString());
+	filtr880_B_4 = toDouble(settings.value("Filtr_880_B/Pos4", QVariant::fromValue(3.02)).toString());
+	filtr880_C_4 = toDouble(settings.value("Filtr_880_C/Pos4", QVariant::fromValue(11.94)).toString());
+	filtr880_A_5 = toDouble(settings.value("Filtr_880_A/Pos5", QVariant::fromValue(6.39)).toString());
+	filtr880_B_5 = toDouble(settings.value("Filtr_880_B/Pos5", QVariant::fromValue(6.43)).toString());
+	filtr880_C_5 = toDouble(settings.value("Filtr_880_C/Pos5", QVariant::fromValue(3.06)).toString());
+	filtr655_A_0 = toDouble(settings.value("Filtr_655_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr655_B_0 = toDouble(settings.value("Filtr_655_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr655_C_0 = toDouble(settings.value("Filtr_655_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr655_A_1 = toDouble(settings.value("Filtr_655_A/Pos1", QVariant::fromValue(0.21)).toString());
+	filtr655_B_1 = toDouble(settings.value("Filtr_655_B/Pos1", QVariant::fromValue(0.1)).toString());
+	filtr655_C_1 = toDouble(settings.value("Filtr_655_C/Pos1", QVariant::fromValue(0.1)).toString());
+	filtr655_A_2 = toDouble(settings.value("Filtr_655_A/Pos2", QVariant::fromValue(0.4)).toString());
+	filtr655_B_2 = toDouble(settings.value("Filtr_655_B/Pos2", QVariant::fromValue(0.98)).toString());
+	filtr655_C_2 = toDouble(settings.value("Filtr_655_C/Pos2", QVariant::fromValue(4.28)).toString());
+	filtr655_A_3 = toDouble(settings.value("Filtr_655_A/Pos3", QVariant::fromValue(0.62)).toString());
+	filtr655_B_3 = toDouble(settings.value("Filtr_655_B/Pos3", QVariant::fromValue(1.35)).toString());
+	filtr655_C_3 = toDouble(settings.value("Filtr_655_C/Pos3", QVariant::fromValue(8.79)).toString());
+	filtr655_A_4 = toDouble(settings.value("Filtr_655_A/Pos4", QVariant::fromValue(0.83)).toString());
+	filtr655_B_4 = toDouble(settings.value("Filtr_655_B/Pos4", QVariant::fromValue(3.3)).toString());
+	filtr655_C_4 = toDouble(settings.value("Filtr_655_C/Pos4", QVariant::fromValue(7.6)).toString());
+	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5", QVariant::fromValue(6.98)).toString());
+	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5", QVariant::fromValue(1.97)).toString());
+	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5", QVariant::fromValue(1.97)).toString());
+    serialDeviceZasilaczVendor = settings.value("Zasilacz/Vendor", QVariant::fromValue(QString("67b"))).toString();
+    serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3"))).toString();
+    serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("2341"))).toString();
+    serialDeviceSterownikProduct = settings.value("Sterownik/Product", QVariant::fromValue(QString("42"))).toString();
 }
 
 void UstawieniaGen::save()
@@ -168,6 +190,24 @@ void UstawieniaGen::save()
 	settings.setValue("Silnik-7/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow7));
 	settings.setValue("Silnik-8/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow8));
 	settings.setValue("Silnik-9/MaksIloscKrokow", QVariant::fromValue(motorMaksIloscKrokow9));
+	settings.setValue("Silnik-1/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza1));
+	settings.setValue("Silnik-2/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza2));
+	settings.setValue("Silnik-3/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza3));
+	settings.setValue("Silnik-4/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza4));
+	settings.setValue("Silnik-5/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza5));
+	settings.setValue("Silnik-6/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza6));
+	settings.setValue("Silnik-7/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza7));
+	settings.setValue("Silnik-8/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza8));
+	settings.setValue("Silnik-9/IloscKrokowBaza", QVariant::fromValue(motorIloscKrokowBaza9));
+	settings.setValue("Silnik-1/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek1));
+	settings.setValue("Silnik-2/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek2));
+	settings.setValue("Silnik-3/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek3));
+	settings.setValue("Silnik-4/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek4));
+	settings.setValue("Silnik-5/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek5));
+	settings.setValue("Silnik-6/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek6));
+	settings.setValue("Silnik-7/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek7));
+	settings.setValue("Silnik-8/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek8));
+	settings.setValue("Silnik-9/IloscKrokowSrodek", QVariant::fromValue(motorIloscKrokowSrodek9));
 	settings.setValue("Filtr_880_A/Pos0", QVariant::fromValue(filtr880_A_0));
 	settings.setValue("Filtr_880_B/Pos0", QVariant::fromValue(filtr880_B_0));
 	settings.setValue("Filtr_880_C/Pos0", QVariant::fromValue(filtr880_C_0));
@@ -204,6 +244,10 @@ void UstawieniaGen::save()
 	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(filtr655_A_5));
 	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(filtr655_B_5));
 	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(filtr655_C_5));
+    settings.setValue("Zasilacz/Vendor", QVariant::fromValue(serialDeviceZasilaczVendor));
+    settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct));
+    settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor));
+    settings.setValue("Sterownik/Product", QVariant::fromValue(serialDeviceSterownikProduct));
 }
 
 bool UstawieniaGen::check()
@@ -262,6 +306,24 @@ bool UstawieniaGen::check()
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-7/MaksIloscKrokow").toString())) return false;
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-8/MaksIloscKrokow").toString())) return false;
 	if (!checkMotorMaksIloscKrokow(settings.value("Silnik-9/MaksIloscKrokow").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-1/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-2/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-3/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-4/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-5/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-6/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-7/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-8/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowBaza(settings.value("Silnik-9/IloscKrokowBaza").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-1/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-2/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-3/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-4/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-5/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-6/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-7/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-8/IloscKrokowSrodek").toString())) return false;
+	if (!checkMotorIloscKrokowSrodek(settings.value("Silnik-9/IloscKrokowSrodek").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_880_A/Pos0").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_880_B/Pos0").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_880_C/Pos0").toString())) return false;
@@ -298,6 +360,10 @@ bool UstawieniaGen::check()
 	if (!checkFilterValue(settings.value("Filtr_655_A/Pos5").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_655_B/Pos5").toString())) return false;
 	if (!checkFilterValue(settings.value("Filtr_655_C/Pos5").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Zasilacz/Vendor").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Zasilacz/Product").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Sterownik/Vendor").toString())) return false;
+	if (!checkSerialDeviceIdentString(settings.value("Sterownik/Product").toString())) return false;
 	return true;
 }
 
@@ -1170,6 +1236,298 @@ bool UstawieniaGen::checkMotorMaksIloscKrokow(const QString & val)
 
 }
 
+int UstawieniaGen::getMotorIloscKrokowBaza1() const
+{
+	return motorIloscKrokowBaza1;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza1(const int & value)
+{
+	motorIloscKrokowBaza1 = value;
+	settings.setValue("Silnik-1/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza2() const
+{
+	return motorIloscKrokowBaza2;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza2(const int & value)
+{
+	motorIloscKrokowBaza2 = value;
+	settings.setValue("Silnik-2/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza3() const
+{
+	return motorIloscKrokowBaza3;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza3(const int & value)
+{
+	motorIloscKrokowBaza3 = value;
+	settings.setValue("Silnik-3/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza4() const
+{
+	return motorIloscKrokowBaza4;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza4(const int & value)
+{
+	motorIloscKrokowBaza4 = value;
+	settings.setValue("Silnik-4/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza5() const
+{
+	return motorIloscKrokowBaza5;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza5(const int & value)
+{
+	motorIloscKrokowBaza5 = value;
+	settings.setValue("Silnik-5/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza6() const
+{
+	return motorIloscKrokowBaza6;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza6(const int & value)
+{
+	motorIloscKrokowBaza6 = value;
+	settings.setValue("Silnik-6/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza7() const
+{
+	return motorIloscKrokowBaza7;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza7(const int & value)
+{
+	motorIloscKrokowBaza7 = value;
+	settings.setValue("Silnik-7/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza8() const
+{
+	return motorIloscKrokowBaza8;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza8(const int & value)
+{
+	motorIloscKrokowBaza8 = value;
+	settings.setValue("Silnik-8/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza9() const
+{
+	return motorIloscKrokowBaza9;
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza9(const int & value)
+{
+	motorIloscKrokowBaza9 = value;
+	settings.setValue("Silnik-9/IloscKrokowBaza", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowBaza(const short & nrMotor) const
+{
+	switch(nrMotor) {
+	case 1 : return getMotorIloscKrokowBaza1();
+	case 2 : return getMotorIloscKrokowBaza2();
+	case 3 : return getMotorIloscKrokowBaza3();
+	case 4 : return getMotorIloscKrokowBaza4();
+	case 5 : return getMotorIloscKrokowBaza5();
+	case 6 : return getMotorIloscKrokowBaza6();
+	case 7 : return getMotorIloscKrokowBaza7();
+	case 8 : return getMotorIloscKrokowBaza8();
+	case 9 : return getMotorIloscKrokowBaza9();
+	default: return toUInt(QString());
+	}
+
+}
+
+void UstawieniaGen::setMotorIloscKrokowBaza(const short & nrMotor, const int & iloscKrokowBaza)
+{
+	switch(nrMotor) {
+	case 1 : setMotorIloscKrokowBaza1(iloscKrokowBaza); break;
+	case 2 : setMotorIloscKrokowBaza2(iloscKrokowBaza); break;
+	case 3 : setMotorIloscKrokowBaza3(iloscKrokowBaza); break;
+	case 4 : setMotorIloscKrokowBaza4(iloscKrokowBaza); break;
+	case 5 : setMotorIloscKrokowBaza5(iloscKrokowBaza); break;
+	case 6 : setMotorIloscKrokowBaza6(iloscKrokowBaza); break;
+	case 7 : setMotorIloscKrokowBaza7(iloscKrokowBaza); break;
+	case 8 : setMotorIloscKrokowBaza8(iloscKrokowBaza); break;
+	case 9 : setMotorIloscKrokowBaza9(iloscKrokowBaza); break;
+	default: break;
+	}
+
+}
+
+bool UstawieniaGen::checkMotorIloscKrokowBaza(const QString & val)
+{
+
+    if (val.isEmpty()) return false;
+    
+    bool ok;
+    int v = val.toInt(&ok);
+    if (!ok || v <= 0)
+        return false;
+    return ok;
+
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek1() const
+{
+	return motorIloscKrokowSrodek1;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek1(const int & value)
+{
+	motorIloscKrokowSrodek1 = value;
+	settings.setValue("Silnik-1/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek2() const
+{
+	return motorIloscKrokowSrodek2;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek2(const int & value)
+{
+	motorIloscKrokowSrodek2 = value;
+	settings.setValue("Silnik-2/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek3() const
+{
+	return motorIloscKrokowSrodek3;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek3(const int & value)
+{
+	motorIloscKrokowSrodek3 = value;
+	settings.setValue("Silnik-3/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek4() const
+{
+	return motorIloscKrokowSrodek4;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek4(const int & value)
+{
+	motorIloscKrokowSrodek4 = value;
+	settings.setValue("Silnik-4/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek5() const
+{
+	return motorIloscKrokowSrodek5;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek5(const int & value)
+{
+	motorIloscKrokowSrodek5 = value;
+	settings.setValue("Silnik-5/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek6() const
+{
+	return motorIloscKrokowSrodek6;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek6(const int & value)
+{
+	motorIloscKrokowSrodek6 = value;
+	settings.setValue("Silnik-6/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek7() const
+{
+	return motorIloscKrokowSrodek7;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek7(const int & value)
+{
+	motorIloscKrokowSrodek7 = value;
+	settings.setValue("Silnik-7/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek8() const
+{
+	return motorIloscKrokowSrodek8;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek8(const int & value)
+{
+	motorIloscKrokowSrodek8 = value;
+	settings.setValue("Silnik-8/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek9() const
+{
+	return motorIloscKrokowSrodek9;
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek9(const int & value)
+{
+	motorIloscKrokowSrodek9 = value;
+	settings.setValue("Silnik-9/IloscKrokowSrodek", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorIloscKrokowSrodek(const short & nrMotor) const
+{
+	switch(nrMotor) {
+	case 1 : return getMotorIloscKrokowSrodek1();
+	case 2 : return getMotorIloscKrokowSrodek2();
+	case 3 : return getMotorIloscKrokowSrodek3();
+	case 4 : return getMotorIloscKrokowSrodek4();
+	case 5 : return getMotorIloscKrokowSrodek5();
+	case 6 : return getMotorIloscKrokowSrodek6();
+	case 7 : return getMotorIloscKrokowSrodek7();
+	case 8 : return getMotorIloscKrokowSrodek8();
+	case 9 : return getMotorIloscKrokowSrodek9();
+	default: return toUInt(QString());
+	}
+
+}
+
+void UstawieniaGen::setMotorIloscKrokowSrodek(const short & nrMotor, const int & iloscKrokowSrodek)
+{
+	switch(nrMotor) {
+	case 1 : setMotorIloscKrokowSrodek1(iloscKrokowSrodek); break;
+	case 2 : setMotorIloscKrokowSrodek2(iloscKrokowSrodek); break;
+	case 3 : setMotorIloscKrokowSrodek3(iloscKrokowSrodek); break;
+	case 4 : setMotorIloscKrokowSrodek4(iloscKrokowSrodek); break;
+	case 5 : setMotorIloscKrokowSrodek5(iloscKrokowSrodek); break;
+	case 6 : setMotorIloscKrokowSrodek6(iloscKrokowSrodek); break;
+	case 7 : setMotorIloscKrokowSrodek7(iloscKrokowSrodek); break;
+	case 8 : setMotorIloscKrokowSrodek8(iloscKrokowSrodek); break;
+	case 9 : setMotorIloscKrokowSrodek9(iloscKrokowSrodek); break;
+	default: break;
+	}
+
+}
+
+bool UstawieniaGen::checkMotorIloscKrokowSrodek(const QString & val)
+{
+
+    if (val.isEmpty()) return false;
+    
+    bool ok;
+    int v = val.toInt(&ok);
+    if (!ok || v <= 0)
+        return false;
+    return ok;
+
+}
+
 double UstawieniaGen::getFiltr880_A_0() const
 {
 	return filtr880_A_0;
@@ -1662,4 +2020,59 @@ void UstawieniaGen::setFiltr(const int & fala, const char & nrTarczy, const shor
 	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr655_C_4(val);
 	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr655_C_5(val);
 	else Q_ASSERT(true);
+}
+
+QString UstawieniaGen::getSerialDeviceZasilaczVendor() const
+{
+	return serialDeviceZasilaczVendor;
+}
+
+void UstawieniaGen::setSerialDeviceZasilaczVendor(const QString & value)
+{
+	serialDeviceZasilaczVendor = value;
+	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceZasilaczProduct() const
+{
+	return serialDeviceZasilaczProduct;
+}
+
+void UstawieniaGen::setSerialDeviceZasilaczProduct(const QString & value)
+{
+	serialDeviceZasilaczProduct = value;
+	settings.setValue("Zasilacz/Product", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceSterownikVendor() const
+{
+	return serialDeviceSterownikVendor;
+}
+
+void UstawieniaGen::setSerialDeviceSterownikVendor(const QString & value)
+{
+	serialDeviceSterownikVendor = value;
+	settings.setValue("Sterownik/Vendor", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceSterownikProduct() const
+{
+	return serialDeviceSterownikProduct;
+}
+
+void UstawieniaGen::setSerialDeviceSterownikProduct(const QString & value)
+{
+	serialDeviceSterownikProduct = value;
+	settings.setValue("Sterownik/Product", QVariant::fromValue(value));
+}
+
+bool UstawieniaGen::checkSerialDeviceIdentString(const QString & val) const
+{
+	
+    if (val.isEmpty()) return false;
+    
+    bool v = QVariant::fromValue(val).toBool();
+    (void)v;
+    return true;
+
 }

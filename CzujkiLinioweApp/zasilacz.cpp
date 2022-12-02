@@ -225,7 +225,7 @@ bool SerialWorkerZas::connectToSerialJob()
             if (vendor.isEmpty() || product.isEmpty())
                 continue;
 
-            if (vendor != "67b" || product != "23a3")
+            if (vendor != sd->getVendor() /*"67b"*/ || product != sd->getProduct() /*"23a3"*/)
                 continue;
 
             ++found;
@@ -349,16 +349,27 @@ void Zasilacz::closeDevice(bool waitForDone)
     }
 }
 
+QString Zasilacz::getProduct()
+{
+    return u->getSerialDeviceZasilaczProduct();
+}
+
+QString Zasilacz::getVendor()
+{
+    return u->getSerialDeviceZasilaczVendor();
+}
+
 void Zasilacz::debugFun(const QString &log)
 {
     emit debug(log);
 }
 
-Zasilacz::Zasilacz(QObject *parent):
+Zasilacz::Zasilacz(Ustawienia *ust, QObject *parent):
     QObject(parent),
     m_connected(false),  m_worker(this),
     readMeas(this),
-    cntTimeout(9)
+    cntTimeout(9),
+    u(ust)
 {
     readMeas.setInterval(10000);
     connect(&readMeas, &QTimer::timeout, this, &Zasilacz::timeout100ms);

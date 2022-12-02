@@ -1,6 +1,7 @@
 #ifndef ZASILACZ_H
 #define ZASILACZ_H
 
+#include "ustawienia.h"
 #include <QThread>
 #include <QMutex>
 #include <QThread>
@@ -120,7 +121,7 @@ class Zasilacz : public QObject
 {
     Q_OBJECT
 public:
-    explicit Zasilacz(QObject *parent = nullptr);
+    explicit Zasilacz(Ustawienia * ust, QObject *parent = nullptr);
     ~Zasilacz();
 
     typedef enum _statusConn {
@@ -162,11 +163,15 @@ public:
     void setOutput(bool on);
     void getOutput();
     void closeDevice(bool waitForDone);
+    QString getProduct();
+    QString getVendor();
 protected:
 
     bool connected();
     void setConnected(bool connected);
     void setStop();
+
+
 private slots:
     void timeout100ms();
 signals:
@@ -221,6 +226,8 @@ private:
 
     QTimer readMeas;
     short cntTimeout;
+
+    Ustawienia * u;
 };
 
 

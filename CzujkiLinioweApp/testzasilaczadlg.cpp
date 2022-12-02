@@ -7,6 +7,7 @@ TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestZasilaczaDlg)
   , u(ust)
+  , zas(ust, this)
 {
     ui->setupUi(this);
 

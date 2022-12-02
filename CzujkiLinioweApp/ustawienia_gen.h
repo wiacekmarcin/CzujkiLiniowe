@@ -15,7 +15,6 @@ public:
     void load();
     void save();
     bool check();
-
     void sync() { settings.sync(); }
 
 protected:
@@ -193,6 +192,64 @@ public:
 	inline void setMotorMaksIloscKrokow9(const QString & maksIloscKrokow9) { setMotorMaksIloscKrokow9(toUInt(maksIloscKrokow9)); }
 	int getMotorMaksIloscKrokow(const short & nrMotor) const;
 	void setMotorMaksIloscKrokow(const short & nrMotor, const int & maksIloscKrokow);
+	int getMotorIloscKrokowBaza1() const;
+	void setMotorIloscKrokowBaza1(const int & iloscKrokowBaza1);
+	inline void setMotorIloscKrokowBaza1(const QString & iloscKrokowBaza1) { setMotorIloscKrokowBaza1(toUInt(iloscKrokowBaza1)); }
+	int getMotorIloscKrokowBaza2() const;
+	void setMotorIloscKrokowBaza2(const int & iloscKrokowBaza2);
+	inline void setMotorIloscKrokowBaza2(const QString & iloscKrokowBaza2) { setMotorIloscKrokowBaza2(toUInt(iloscKrokowBaza2)); }
+	int getMotorIloscKrokowBaza3() const;
+	void setMotorIloscKrokowBaza3(const int & iloscKrokowBaza3);
+	inline void setMotorIloscKrokowBaza3(const QString & iloscKrokowBaza3) { setMotorIloscKrokowBaza3(toUInt(iloscKrokowBaza3)); }
+	int getMotorIloscKrokowBaza4() const;
+	void setMotorIloscKrokowBaza4(const int & iloscKrokowBaza4);
+	inline void setMotorIloscKrokowBaza4(const QString & iloscKrokowBaza4) { setMotorIloscKrokowBaza4(toUInt(iloscKrokowBaza4)); }
+	int getMotorIloscKrokowBaza5() const;
+	void setMotorIloscKrokowBaza5(const int & iloscKrokowBaza5);
+	inline void setMotorIloscKrokowBaza5(const QString & iloscKrokowBaza5) { setMotorIloscKrokowBaza5(toUInt(iloscKrokowBaza5)); }
+	int getMotorIloscKrokowBaza6() const;
+	void setMotorIloscKrokowBaza6(const int & iloscKrokowBaza6);
+	inline void setMotorIloscKrokowBaza6(const QString & iloscKrokowBaza6) { setMotorIloscKrokowBaza6(toUInt(iloscKrokowBaza6)); }
+	int getMotorIloscKrokowBaza7() const;
+	void setMotorIloscKrokowBaza7(const int & iloscKrokowBaza7);
+	inline void setMotorIloscKrokowBaza7(const QString & iloscKrokowBaza7) { setMotorIloscKrokowBaza7(toUInt(iloscKrokowBaza7)); }
+	int getMotorIloscKrokowBaza8() const;
+	void setMotorIloscKrokowBaza8(const int & iloscKrokowBaza8);
+	inline void setMotorIloscKrokowBaza8(const QString & iloscKrokowBaza8) { setMotorIloscKrokowBaza8(toUInt(iloscKrokowBaza8)); }
+	int getMotorIloscKrokowBaza9() const;
+	void setMotorIloscKrokowBaza9(const int & iloscKrokowBaza9);
+	inline void setMotorIloscKrokowBaza9(const QString & iloscKrokowBaza9) { setMotorIloscKrokowBaza9(toUInt(iloscKrokowBaza9)); }
+	int getMotorIloscKrokowBaza(const short & nrMotor) const;
+	void setMotorIloscKrokowBaza(const short & nrMotor, const int & iloscKrokowBaza);
+	int getMotorIloscKrokowSrodek1() const;
+	void setMotorIloscKrokowSrodek1(const int & iloscKrokowSrodek1);
+	inline void setMotorIloscKrokowSrodek1(const QString & iloscKrokowSrodek1) { setMotorIloscKrokowSrodek1(toUInt(iloscKrokowSrodek1)); }
+	int getMotorIloscKrokowSrodek2() const;
+	void setMotorIloscKrokowSrodek2(const int & iloscKrokowSrodek2);
+	inline void setMotorIloscKrokowSrodek2(const QString & iloscKrokowSrodek2) { setMotorIloscKrokowSrodek2(toUInt(iloscKrokowSrodek2)); }
+	int getMotorIloscKrokowSrodek3() const;
+	void setMotorIloscKrokowSrodek3(const int & iloscKrokowSrodek3);
+	inline void setMotorIloscKrokowSrodek3(const QString & iloscKrokowSrodek3) { setMotorIloscKrokowSrodek3(toUInt(iloscKrokowSrodek3)); }
+	int getMotorIloscKrokowSrodek4() const;
+	void setMotorIloscKrokowSrodek4(const int & iloscKrokowSrodek4);
+	inline void setMotorIloscKrokowSrodek4(const QString & iloscKrokowSrodek4) { setMotorIloscKrokowSrodek4(toUInt(iloscKrokowSrodek4)); }
+	int getMotorIloscKrokowSrodek5() const;
+	void setMotorIloscKrokowSrodek5(const int & iloscKrokowSrodek5);
+	inline void setMotorIloscKrokowSrodek5(const QString & iloscKrokowSrodek5) { setMotorIloscKrokowSrodek5(toUInt(iloscKrokowSrodek5)); }
+	int getMotorIloscKrokowSrodek6() const;
+	void setMotorIloscKrokowSrodek6(const int & iloscKrokowSrodek6);
+	inline void setMotorIloscKrokowSrodek6(const QString & iloscKrokowSrodek6) { setMotorIloscKrokowSrodek6(toUInt(iloscKrokowSrodek6)); }
+	int getMotorIloscKrokowSrodek7() const;
+	void setMotorIloscKrokowSrodek7(const int & iloscKrokowSrodek7);
+	inline void setMotorIloscKrokowSrodek7(const QString & iloscKrokowSrodek7) { setMotorIloscKrokowSrodek7(toUInt(iloscKrokowSrodek7)); }
+	int getMotorIloscKrokowSrodek8() const;
+	void setMotorIloscKrokowSrodek8(const int & iloscKrokowSrodek8);
+	inline void setMotorIloscKrokowSrodek8(const QString & iloscKrokowSrodek8) { setMotorIloscKrokowSrodek8(toUInt(iloscKrokowSrodek8)); }
+	int getMotorIloscKrokowSrodek9() const;
+	void setMotorIloscKrokowSrodek9(const int & iloscKrokowSrodek9);
+	inline void setMotorIloscKrokowSrodek9(const QString & iloscKrokowSrodek9) { setMotorIloscKrokowSrodek9(toUInt(iloscKrokowSrodek9)); }
+	int getMotorIloscKrokowSrodek(const short & nrMotor) const;
+	void setMotorIloscKrokowSrodek(const short & nrMotor, const int & iloscKrokowSrodek);
 	double getFiltr880_A_0() const;
 	void setFiltr880_A_0(const double & val);
 	inline void setFiltr880_A_0(const QString & vals) { setFiltr880_A_0(toDouble(vals)); }
@@ -317,6 +374,14 @@ public:
 	void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }
 	void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }
 	void setFiltr655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(655, nrTarczy, nrPos, val); }
+	QString getSerialDeviceZasilaczVendor() const;
+	void setSerialDeviceZasilaczVendor(const QString & zasilaczVendor);
+	QString getSerialDeviceZasilaczProduct() const;
+	void setSerialDeviceZasilaczProduct(const QString & zasilaczProduct);
+	QString getSerialDeviceSterownikVendor() const;
+	void setSerialDeviceSterownikVendor(const QString & sterownikVendor);
+	QString getSerialDeviceSterownikProduct() const;
+	void setSerialDeviceSterownikProduct(const QString & sterownikProduct);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenie(const QString & val);
@@ -324,9 +389,12 @@ protected:
 	bool checkMotorOdwrocObroty(const QString & val);
 	bool checkMotorOpoznienieImp(const QString & val);
 	bool checkMotorMaksIloscKrokow(const QString & val);
+	bool checkMotorIloscKrokowBaza(const QString & val);
+	bool checkMotorIloscKrokowSrodek(const QString & val);
 	bool checkFilterValue(const QString & val);
 	double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;
 	void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
+	bool checkSerialDeviceIdentString(const QString & val) const;
 private:
 
 	QString motorNazwa1;
@@ -383,6 +451,24 @@ private:
 	int motorMaksIloscKrokow7;
 	int motorMaksIloscKrokow8;
 	int motorMaksIloscKrokow9;
+	int motorIloscKrokowBaza1;
+	int motorIloscKrokowBaza2;
+	int motorIloscKrokowBaza3;
+	int motorIloscKrokowBaza4;
+	int motorIloscKrokowBaza5;
+	int motorIloscKrokowBaza6;
+	int motorIloscKrokowBaza7;
+	int motorIloscKrokowBaza8;
+	int motorIloscKrokowBaza9;
+	int motorIloscKrokowSrodek1;
+	int motorIloscKrokowSrodek2;
+	int motorIloscKrokowSrodek3;
+	int motorIloscKrokowSrodek4;
+	int motorIloscKrokowSrodek5;
+	int motorIloscKrokowSrodek6;
+	int motorIloscKrokowSrodek7;
+	int motorIloscKrokowSrodek8;
+	int motorIloscKrokowSrodek9;
 	double filtr880_A_0;
 	double filtr880_B_0;
 	double filtr880_C_0;
@@ -419,5 +505,9 @@ private:
 	double filtr655_A_5;
 	double filtr655_B_5;
 	double filtr655_C_5;
+	QString serialDeviceZasilaczVendor;
+	QString serialDeviceZasilaczProduct;
+	QString serialDeviceSterownikVendor;
+	QString serialDeviceSterownikProduct;
 };
 #endif
