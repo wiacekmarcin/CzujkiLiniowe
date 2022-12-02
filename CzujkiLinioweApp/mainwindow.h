@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include "debugdialog.h"
 #include "ustawienia.h"
-#include "serialdevice.h"
+#include "sterownik.h"
 #include "zasilacz.h"
 #include <QThread>
 
@@ -55,7 +55,7 @@ private slots:
 private:
     Ui::MainWindow *ui;
     Ustawienia u;
-    SerialDevice * sd;
+    Sterownik * sd;
     QThread sdThreadW;
     QThread sdThreadR;
     DebugDialog * dbgDlg;

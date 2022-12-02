@@ -1,7 +1,7 @@
 #ifndef TESTSTEROWNIKADLG_H
 #define TESTSTEROWNIKADLG_H
 
-#include "serialdevice.h"
+#include "sterownik.h"
 #include "ustawienia.h"
 #include <QDialog>
 
@@ -14,7 +14,7 @@ class TestSterownikaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestSterownikaDlg(Ustawienia *ust, SerialDevice *sdv, QWidget *parent = nullptr);
+    explicit TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *parent = nullptr);
     ~TestSterownikaDlg();
 
     void sd_kontrolerConfigured(bool success, int state);
@@ -50,7 +50,7 @@ protected slots:
 private:
     Ui::TestSterownikaDlg *ui;
     Ustawienia * u;
-    SerialDevice *sd;
+    Sterownik *sd;
 };
 
 #endif // TESTSTEROWNIKADLG_H
