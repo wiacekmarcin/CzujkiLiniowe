@@ -63,14 +63,13 @@ void TestSterownikaDlg::sd_deviceName(QString name)
 
 void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
 {
-    ui->textBrowser->insertPlainText(QString("success=%1, state=%2").arg(success).arg(state));
+    //ui->textBrowser->insertPlainText(QString("success=%1, state=%2").arg(success).arg(state));
     switch(state) {
     case SerialDevice::NO_FOUND:
         ui->rbFound->setEnabled(false);
         ui->rbFound->setChecked(false);
         ui->rbAuth->setEnabled(false);
         ui->rbConf_2->setEnabled(false);
-        ui->rbMultimetr->setEnabled(false);
         ui->frame_3->setEnabled(false);
         ui->pbConnect->setEnabled(true);
         ui->pbDisconnect->setEnabled(false);
@@ -117,8 +116,6 @@ void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
         ui->rbAuth->setChecked(false);
         ui->rbConf_2->setEnabled(false);
         ui->rbConf_2->setChecked(false);
-        ui->rbMultimetr->setEnabled(false);
-        ui->rbMultimetr->setChecked(false);
         ui->frame_3->setEnabled(false);
         ui->pbConnect->setEnabled(true);
         ui->pbDisconnect->setEnabled(false);

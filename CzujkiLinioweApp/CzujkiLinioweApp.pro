@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     sterownik.cpp \
+    teststanowiskadlg.cpp \
     zasilacz.cpp \
     badaniedane.cpp \
     crc8.cpp \
@@ -32,6 +33,7 @@ SOURCES += \
 
 HEADERS += \
     sterownik.h \
+    teststanowiskadlg.h \
     zasilacz.h \
     badaniedane.h \
     crc8.h \
@@ -59,6 +61,7 @@ FORMS += \
     parametrybadania2.ui \
     parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
+    teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \

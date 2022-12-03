@@ -238,3 +238,16 @@ void MainWindow::on_actionTestSterownikaDlg_triggered()
     dlgSterSign = nullptr;
 }
 
+
+void MainWindow::on_actionNoweBadanie_triggered()
+{
+    ParametryBadania * dlg = new ParametryBadania(this);
+    dlg->exec();
+}
+
+
+void MainWindow::on_actionStartTestu_triggered()
+{
+
+}
+

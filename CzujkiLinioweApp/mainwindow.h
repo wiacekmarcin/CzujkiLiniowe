@@ -52,6 +52,8 @@ private slots:
 
     void on_actionTestSterownikaDlg_triggered();
 
+    void on_actionNoweBadanie_triggered();
+
 private:
     Ui::MainWindow *ui;
     Ustawienia u;

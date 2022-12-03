@@ -6,6 +6,7 @@ ParametryBadania::ParametryBadania(QWidget *parent) :
     ui(new Ui::ParametryBadania)
 {
     ui->setupUi(this);
+    ui->error->setVisible(false);
 }
 
 ParametryBadania::~ParametryBadania()
