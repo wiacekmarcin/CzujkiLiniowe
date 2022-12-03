@@ -245,11 +245,6 @@ uint32_t middleSteps = 0;
 uint32_t timeDelay = 0;
 void loop()
 {
-	digitalWrite(BUSYPIN, digitalRead(SS));
-	digitalWrite(MOVEPIN, digitalRead(STOPPIN));
-
-	return;
-
 	if (isDebugMode)
 	{
 		debugModeFun();
@@ -263,39 +258,8 @@ void loop()
 	}
 #endif
 
-	digitalWrite(BUSYPIN, digitalRead(SS));
-	digitalWrite(MOVEPIN, digitalRead(STOPPIN));
 
-	return;
-
-
-	if (received) {
-		if (recvPos == 3 && recvBuff[0] == 0x00) {
-			received = false;
-			setBusy(true);
-			Serial.print("Odebralem echo=");
-			Serial.println(recvBuff[1] >> 4, DEC);
-			sendBuff[1] = 0x03;
-			sendBuff[2] = 0x01;
-			sendBuff[3] = recvBuff[1];
-			CRC8 c;
-    		c.reset();
-			c.add(recvBuff[2]);
-			c.add(recvBuff[3]);
-			sendBuff[4] = c.getCRC();
-			sendPos = 0;
-			setBusy(false);
-			digitalWrite(MOVEPIN, LOW);
-		}
-		else if (recvPos == 20 && recvBuff[0] == 0xC0) {
-			Serial.print("Odebralem last=");
-			Serial.println(recvBuff[1] >> 4, DEC);
-		}
-	}
-	return;
-
-
-	if (received) // Logic to SET LED ON OR OFF depending upon the value recerived from master
+	if (received) 
 	{
 #ifdef DEBUG		
 		Serial.print("REC.BEG actProcess=");
@@ -417,6 +381,7 @@ void loop()
 #endif		
 		actProcess = 0;
 		recvPos = 0;
+		sendPos = 0;
 		received = false;
 		Serial.println("REC.END");
 	}

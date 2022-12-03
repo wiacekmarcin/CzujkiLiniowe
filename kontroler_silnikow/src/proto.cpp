@@ -146,11 +146,11 @@ Result Message::parse()
     }
     
     if (cmdMsg == CONF_REQ) {
-        r.data.conf.reverse = (dataCmd[0] & 0x01) == 0x01;
-        r.data.conf.enableAlways = (dataCmd[0] & 0x02) == 0x02;
-        r.data.conf.maxStep = toNumber32(dataCmd[1], dataCmd[2], dataCmd[3], dataCmd[4]);
-        r.data.conf.baseSteps = toNumber16(dataCmd[5], dataCmd[6]);
-        r.data.conf.delayImp = toNumber16(dataCmd[7], dataCmd[8]);
+        r.data.conf.reverse = (options & 0x01) == 0x01;
+        r.data.conf.maxStep = toNumber24(dataCmd[1], dataCmd[2], dataCmd[3]);
+        r.data.conf.baseSteps = toNumber24(dataCmd[4], dataCmd[5], dataCmd[6]);
+        r.data.conf.delayImp = toNumber24(dataCmd[7], dataCmd[8], dataCmd[9]);
+        r.data.conf.middleSteps = toNumber24(dataCmd[7], dataCmd[8], dataCmd[9]);
         return r;
     }
 
@@ -171,6 +171,11 @@ Result Message::parse()
 uint32_t Message::toNumber32(uint8_t n4, uint8_t n3, uint8_t n2, uint8_t n1)
 {
     return ((uint32_t) 0) | ( ((uint32_t)n4) << 24 ) | ( ((uint32_t)n3) << 16 ) | ( ((uint32_t)n2) << 8 ) | n1;
+}
+
+uint32_t Message::toNumber24(uint8_t n3, uint8_t n2, uint8_t n1)
+{
+    return ((uint32_t) 0) | ( ( ((uint32_t)n3) << 16 ) | ( ((uint32_t)n2) << 8 ) | n1;
 }
 
 uint16_t Message::toNumber16(uint8_t n2, uint8_t n1)

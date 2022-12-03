@@ -8,10 +8,10 @@
         {
             "name": "PlatformIO",
             "includePath": [
-                "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/include",
-                "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/src",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
+                "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                 "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",
@@ -23,10 +23,10 @@
             "browse": {
                 "limitSymbolsToIncludedHeaders": true,
                 "path": [
-                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/include",
-                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/src",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/include",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/src",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/SPI/src",
-                    "/home/marcin/devel/CzujnikiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
+                    "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/libdeps/pro16MHzatmega328/TimerOne",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/cores/arduino",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/variants/eightanaloginputs",
                     "/home/marcin/.platformio/packages/framework-arduino-avr/libraries/EEPROM/src",

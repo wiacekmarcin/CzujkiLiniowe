@@ -26,10 +26,10 @@ typedef struct _result {
         /* data */
         struct {
             bool reverse;
-            bool enableAlways;
             uint32_t maxStep;
-            uint16_t delayImp;
-            uint16_t baseSteps;
+            uint32_t delayImp;
+            uint32_t baseSteps;
+            uint32_t middleSteps;
         } conf;
 
         struct {
@@ -66,6 +66,7 @@ protected:
 
 private:
     uint32_t toNumber32(uint8_t n4, uint8_t n3, uint8_t n2, uint8_t n1);
+    uint32_t toNumber24(uint8_t n3, uint8_t n2, uint8_t n1);
     uint16_t toNumber16(uint8_t n2, uint8_t n1);
 
     bool startMsg;

@@ -61,7 +61,6 @@ private:
     int32_t newPosition;
     short diff;
 
-    bool canMove;
     volatile int32_t globalPos;
 
     bool wasHome;

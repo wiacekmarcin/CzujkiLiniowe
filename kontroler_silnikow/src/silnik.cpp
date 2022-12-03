@@ -12,7 +12,6 @@ Motor::Motor() :
 	,isRun(false)
 	,newPosition(false)
 	,diff(0)
-	,canMove(true)
     ,globalPos(0)
 	,wasHome(false)
 	,highlevel(false)
@@ -42,7 +41,6 @@ void Motor::setDir(bool back)
 
 void Motor::setStop(bool hard)
 {
-	canMove = false;
 	Timer1.stop();
 	if (hard) {
 		globalPos = 0;
@@ -116,7 +114,6 @@ void Motor::movePosition(uint32_t pos)
 	newPosition = pos;
 	diff = -1;
 
-	canMove = true;
 	Serial.print("1. globalPos");
 	Serial.println(globalPos, DEC);
 
