@@ -251,3 +251,9 @@ void MainWindow::on_actionStartTestu_triggered()
 
 }
 
+
+void MainWindow::on_actionTestStanowiska_triggered()
+{
+
+}
+

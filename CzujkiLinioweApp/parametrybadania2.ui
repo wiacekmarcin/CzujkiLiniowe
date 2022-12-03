@@ -1020,7 +1020,7 @@ Czujki</string>
            </property>
            <property name="text">
             <string>Czujki zostaną posortowane według czułosci
-po zakończeniu badań powtarzalności</string>
+po zakończeniu badań odtwarzalności</string>
            </property>
           </widget>
          </item>

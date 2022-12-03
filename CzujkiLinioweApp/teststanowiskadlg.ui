@@ -7,211 +7,329 @@
     <x>0</x>
     <y>0</y>
     <width>901</width>
-    <height>725</height>
+    <height>684</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
-   <item row="0" column="0" colspan="2">
-    <widget class="QFrame" name="frame_top">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
+   <item row="5" column="0" colspan="2">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
      </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
-      <item>
-       <widget class="QLabel" name="head">
-        <property name="font">
-         <font>
-          <pointsize>14</pointsize>
-          <bold>true</bold>
-         </font>
-        </property>
-        <property name="text">
-         <string>Testowanie stanowiska</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QGroupBox" name="groupBox_polaczenia">
+   <item row="1" column="1" rowspan="4">
+    <widget class="QGroupBox" name="groupBox_2">
      <property name="title">
-      <string>Połączenie</string>
+      <string>Sterowanie napędami</string>
      </property>
-     <layout class="QFormLayout" name="formLayout">
-      <item row="0" column="0">
-       <widget class="QLabel" name="lzasilacz">
-        <property name="text">
-         <string>Zasilacz :</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>BRAK POŁĄCZENIA</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lSterownik">
-        <property name="text">
-         <string>Sterownik</string>
-        </property>
-       </widget>
+     <layout class="QGridLayout" name="gridLayout_2">
+      <item row="11" column="3">
+       <widget class="QLineEdit" name="lineEdit_20"/>
       </item>
       <item row="1" column="1">
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>BRAK POŁĄCZENIA</string>
-        </property>
-       </widget>
+       <widget class="QLineEdit" name="lineEdit_5"/>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="2" column="0">
-    <widget class="QGroupBox" name="groupBox_zasilanie">
-     <property name="title">
-      <string>Zasilanie czujki</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout">
-      <item row="0" column="3">
-       <widget class="QLabel" name="lvoltunit">
-        <property name="text">
-         <string>[V]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLineEdit" name="volt2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
+      <item row="4" column="3">
+       <widget class="QLineEdit" name="lineEdit_12"/>
       </item>
       <item row="1" column="2">
-       <widget class="QLineEdit" name="currLimit2">
-        <property name="readOnly">
-         <bool>true</bool>
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>[*]</string>
         </property>
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="lcurrlimit">
+       <widget class="QLabel" name="label_10">
         <property name="text">
-         <string>Ograniczenie prądu</string>
+         <string>Oś pionowa</string>
         </property>
        </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLineEdit" name="lineEdit_16"/>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="lineEdit_10"/>
       </item>
       <item row="1" column="3">
-       <widget class="QLabel" name="lcurrunit">
+       <widget class="QLineEdit" name="lineEdit_6"/>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_19">
         <property name="text">
-         <string>[mA]</string>
+         <string>Tarcza C</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QLineEdit" name="volt1"/>
+      <item row="6" column="3">
+       <widget class="QLineEdit" name="lineEdit_14"/>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_3">
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_35">
         <property name="text">
-         <string>Prąd zadziałania</string>
+         <string>Oś pozioma</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLabel" name="label_6">
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_18">
         <property name="text">
-         <string>[mA]</string>
+         <string>Tarcza B</string>
         </property>
        </widget>
       </item>
       <item row="2" column="3">
-       <widget class="QLabel" name="label_5">
+       <widget class="QLineEdit" name="lineEdit_8"/>
+      </item>
+      <item row="5" column="4">
+       <widget class="QLabel" name="label_24">
         <property name="text">
-         <string>[mA]</string>
+         <string>[*/min]</string>
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="lvolt">
+      <item row="6" column="4">
+       <widget class="QLabel" name="label_25">
         <property name="text">
-         <string>Napięcie</string>
+         <string>[*/min]</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="currLimit1"/>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_21">
+        <property name="text">
+         <string>[*]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_17">
+        <property name="text">
+         <string>Tarcza A</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_20">
+        <property name="text">
+         <string>[*]</string>
+        </property>
+       </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QLineEdit" name="lineEdit_2">
-        <property name="readOnly">
-         <bool>true</bool>
+       <widget class="QLabel" name="label_14">
+        <property name="text">
+         <string>[*]</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="lineEdit_4">
-        <property name="readOnly">
-         <bool>true</bool>
+      <item row="9" column="0">
+       <widget class="QLabel" name="label_28">
+        <property name="text">
+         <string>Oś pozioma</string>
         </property>
        </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="lineEdit_17"/>
+      </item>
+      <item row="0" column="0" colspan="5">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Napęd 1 - części składowej</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="lineEdit_13"/>
+      </item>
+      <item row="10" column="0" colspan="5">
+       <widget class="QLabel" name="label_33">
+        <property name="text">
+         <string>Napęd 3 - części składowej</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Os pozioma</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="4">
+       <widget class="QLabel" name="label_31">
+        <property name="text">
+         <string>[*/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="label_30">
+        <property name="text">
+         <string>[*]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0" colspan="5">
+       <widget class="QLabel" name="label_16">
+        <property name="text">
+         <string>Napęd zespołu filrów</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>[*/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>[*]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>Oś pionowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>Oś pionowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="lineEdit_9"/>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="lineEdit_7"/>
       </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="label_4">
+      <item row="7" column="0" colspan="5">
+       <widget class="QLabel" name="label_26">
         <property name="text">
-         <string>Prąd dupaszczalny</string>
+         <string>Napęd 2 - części składowej</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
         </property>
        </widget>
       </item>
-      <item row="4" column="0" colspan="4">
-       <widget class="QCheckBox" name="checkBox">
+      <item row="8" column="4">
+       <widget class="QLabel" name="label_32">
         <property name="text">
-         <string>Włącz zasilanie czujki</string>
+         <string>[*/min]</string>
         </property>
        </widget>
       </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Sposób sygnalizacji alarmu</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QCheckBox" name="checkBox_2">
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_11"/>
+      </item>
+      <item row="9" column="3">
+       <widget class="QLineEdit" name="lineEdit_18"/>
+      </item>
+      <item row="12" column="3">
+       <widget class="QLineEdit" name="lineEdit_22"/>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLabel" name="label_29">
         <property name="text">
-         <string>Centrala lub przekaźnik NO</string>
+         <string>[*]</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_3">
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="lineEdit_15"/>
+      </item>
+      <item row="4" column="4">
+       <widget class="QLabel" name="label_23">
         <property name="text">
-         <string>Przekroczenie prądu zadziałania</string>
+         <string>[*/min]</string>
         </property>
        </widget>
       </item>
-      <item>
-       <widget class="QCheckBox" name="checkBox_4">
+      <item row="12" column="1">
+       <widget class="QLineEdit" name="lineEdit_21"/>
+      </item>
+      <item row="14" column="1">
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_15">
         <property name="text">
-         <string>Przekrocznie prądu maksymalnego</string>
+         <string>[*/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="lineEdit_19"/>
+      </item>
+      <item row="13" column="0" colspan="5">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="2">
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>[mm]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="4">
+       <widget class="QLabel" name="label_42">
+        <property name="text">
+         <string>[mm/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="2">
+       <widget class="QLabel" name="label_43">
+        <property name="text">
+         <string>[mm]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="4">
+       <widget class="QLabel" name="label_44">
+        <property name="text">
+         <string>[mm/min]</string>
         </property>
        </widget>
       </item>
@@ -316,179 +434,249 @@
      </layout>
     </widget>
    </item>
-   <item row="1" column="1" rowspan="4">
-    <widget class="QGroupBox" name="groupBox_2">
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Sterowanie napędami</string>
+      <string>Sposób sygnalizacji alarmu</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit_5"/>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLineEdit" name="lineEdit_13"/>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLineEdit" name="lineEdit_12"/>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="checkBox_2">
         <property name="text">
-         <string>Os pozioma</string>
+         <string>Centrala lub przekaźnik NO</string>
         </property>
        </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_11">
+      <item>
+       <widget class="QCheckBox" name="checkBox_3">
         <property name="text">
-         <string>[*]</string>
+         <string>Przekroczenie prądu zadziałania</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="0" colspan="5">
-       <widget class="QLabel" name="label_16">
+      <item>
+       <widget class="QCheckBox" name="checkBox_4">
         <property name="text">
-         <string>Napęd zespołu filrów</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Oś pionowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="lineEdit_10"/>
-      </item>
-      <item row="6" column="2">
-       <widget class="QLabel" name="label_22">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="lineEdit_6"/>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Tarcza C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QLineEdit" name="lineEdit_14"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_18">
-        <property name="text">
-         <string>Tarcza B</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="lineEdit_8"/>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="lineEdit_9"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="lineEdit_7"/>
-      </item>
-      <item row="5" column="4">
-       <widget class="QLabel" name="label_24">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="label_21">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_11"/>
-      </item>
-      <item row="6" column="4">
-       <widget class="QLabel" name="label_25">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>Tarcza A</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_20">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="4">
-       <widget class="QLabel" name="label_23">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Napęd 1 - części składowej</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0" colspan="5">
-       <widget class="QLabel" name="label_26">
-        <property name="text">
-         <string>Napęd 2 - części składowej</string>
+         <string>Przekrocznie prądu maksymalnego</string>
         </property>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
+   <item row="1" column="0">
+    <widget class="QGroupBox" name="groupBox_polaczenia">
+     <property name="title">
+      <string>Połączenie</string>
      </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     <layout class="QFormLayout" name="formLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="lzasilacz">
+        <property name="text">
+         <string>Zasilacz :</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>BRAK POŁĄCZENIA</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lSterownik">
+        <property name="text">
+         <string>Sterownik</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="label_2">
+        <property name="text">
+         <string>BRAK POŁĄCZENIA</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="0" column="0" colspan="2">
+    <widget class="QFrame" name="frame_top">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
      </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLabel" name="head">
+        <property name="font">
+         <font>
+          <pointsize>14</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>Testowanie stanowiska</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0">
+    <widget class="QGroupBox" name="groupBox_zasilanie">
+     <property name="title">
+      <string>Zasilanie czujki</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="currLimit2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="volt2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lcurrlimit">
+        <property name="text">
+         <string>Ograniczenie prądu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="4">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Włącz zasilanie czujki</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="volt1"/>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="lineEdit"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Prąd dupaszczalny</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="lvoltunit">
+        <property name="text">
+         <string>[V]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_39">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="lcurrunit">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>Prąd zadziałania</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_36">
+        <property name="text">
+         <string>Nowa wartość</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_37">
+        <property name="text">
+         <string>Aktualna wartość</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLabel" name="label_5">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lvolt">
+        <property name="text">
+         <string>Napięcie</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="currLimit1"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_4">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLabel" name="label_38">
+        <property name="text">
+         <string>[V]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="lineEdit_23"/>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLineEdit" name="lineEdit_24"/>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="label_40">
+        <property name="text">
+         <string>Wartość mierzone</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

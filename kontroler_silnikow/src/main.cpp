@@ -87,11 +87,13 @@ uint32_t getDelayImp(DebugWorkMode d)
 	case PIONOWA:
 		return 50;
 	case KATOWA:
-		return 125000;
+		return 1000;
 	case KOLOWA:
-		return 200;
+		return 60;
 	case POZIOMA:
 		return 250;
+	case 3:
+		return 200;
 	default:
 		return 1000000;
 	}
@@ -109,6 +111,8 @@ uint32_t getMaxSteps(DebugWorkMode d)
 		return 32000;
 	case POZIOMA:
 		return 25000;
+	case 3:
+		return 3200;
 	default:
 		return 1000000;
 	}
@@ -183,7 +187,8 @@ void setup()
 		maxSteps = getMaxSteps(dbgWorkMode);
 		if (dbgWorkMode == CHECKKRANC)
 			digitalWrite(ENPIN, HIGH);
-
+		else
+			digitalWrite(ENPIN, LOW);
 		return;
 	}
 #ifdef DEBUG_PINDEBUG
@@ -243,8 +248,15 @@ unsigned long actTime = 0, prevTime = 0;
 uint32_t steps = 0xffffffff;
 uint32_t middleSteps = 0;
 uint32_t timeDelay = 0;
+
+
+bool czujkaInit = false;
+
 void loop()
 {
+
+	
+
 	if (isDebugMode)
 	{
 		debugModeFun();
@@ -500,7 +512,7 @@ void debugModeFun()
 		Serial.println(debugDir);
 	}
 
-	if (dbgWorkMode == KATOWA && steps == middleSteps && steps > 0)
+	if (false && dbgWorkMode == KATOWA && steps == middleSteps && steps > 0)
 	{
 		Serial.print("Srodek (kroki= ");
 		Serial.print(steps);
@@ -624,8 +636,6 @@ void configurationRequest(uint8_t addr, Result status)
 	Serial.println("Konfiguracja:");
 	Serial.print("reverse=");
 	Serial.println(status.data.conf.reverse, DEC);
-	Serial.print("en=");
-	Serial.println(status.data.conf.enableAlways, DEC);
 	Serial.print("max=");
 	Serial.println(status.data.conf.maxStep, DEC);
 	Serial.print("base=");

@@ -54,6 +54,10 @@ private slots:
 
     void on_actionNoweBadanie_triggered();
 
+    void on_actionStartTestu_triggered();
+
+    void on_actionTestStanowiska_triggered();
+
 private:
     Ui::MainWindow *ui;
     Ustawienia u;

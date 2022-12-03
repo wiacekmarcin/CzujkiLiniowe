@@ -175,7 +175,7 @@ uint32_t Message::toNumber32(uint8_t n4, uint8_t n3, uint8_t n2, uint8_t n1)
 
 uint32_t Message::toNumber24(uint8_t n3, uint8_t n2, uint8_t n1)
 {
-    return ((uint32_t) 0) | ( ( ((uint32_t)n3) << 16 ) | ( ((uint32_t)n2) << 8 ) | n1;
+    return ((uint32_t) 0) | ( ((uint32_t)n3) << 16 ) | ( ((uint32_t)n2) << 8 ) | n1;
 }
 
 uint16_t Message::toNumber16(uint8_t n2, uint8_t n1)

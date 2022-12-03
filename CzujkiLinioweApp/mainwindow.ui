@@ -493,9 +493,11 @@
      <string>Opcje</string>
     </property>
     <addaction name="actionParametryKalibracyjne"/>
+    <addaction name="actionTestStanowiska"/>
     <addaction name="separator"/>
     <addaction name="actionTestZasilacza"/>
     <addaction name="actionTestSterownikaDlg"/>
+    <addaction name="separator"/>
    </widget>
    <widget class="QMenu" name="menuPomiar">
     <property name="title">
@@ -655,6 +657,11 @@
    </property>
    <property name="text">
     <string>Start Testu</string>
+   </property>
+  </action>
+  <action name="actionTestStanowiska">
+   <property name="text">
+    <string>Testowanie Stanowiska</string>
    </property>
   </action>
  </widget>
