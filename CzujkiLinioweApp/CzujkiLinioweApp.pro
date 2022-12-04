@@ -35,7 +35,10 @@ SOURCES += \
     ustawienia.cpp \
     ustawienia_gen.cpp \
     ustawieniafiltrow.cpp \
-    ustawienianapedow.cpp
+    ustawienianapedow.cpp \
+    test5zasilanieczujki.cpp \
+    test6polaczeniesterownika.cpp \
+    test7stabilizacjaczujki.cpp
 
 HEADERS += \
     danebadania.h \
@@ -63,7 +66,10 @@ HEADERS += \
     ustawienia.h \
     ustawienia_gen.h \
     ustawieniafiltrow.h \
-    ustawienianapedow.h
+    ustawienianapedow.h \
+    test5zasilanieczujki.h \
+    test6polaczeniesterownika.h \
+    test7stabilizacjaczujki.h
 
 FORMS += \
     debugdialog.ui \
@@ -82,7 +88,10 @@ FORMS += \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \
     ustawienianapedow.ui \
-    wybortestu.ui
+    wybortestu.ui \
+    test5zasilanieczujki.ui \
+    test6polaczeniesterownika.ui \
+    test7stabilizacjaczujki.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts
