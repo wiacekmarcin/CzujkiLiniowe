@@ -47,64 +47,64 @@ public:
 	void setMotorNazwa9(const QString & nazwa9);
 	QString getMotorNazwa(const short & nrMotor) const;
 	void setMotorNazwa(const short & nrMotor, const QString & nazwa);
-	double getMotorPrzelozenie1() const;
-	void setMotorPrzelozenie1(const double & przelozenie1);
-	inline void setMotorPrzelozenie1(const QString & przelozenie1) { setMotorPrzelozenie1(toDouble(przelozenie1)); }
-	double getMotorPrzelozenie2() const;
-	void setMotorPrzelozenie2(const double & przelozenie2);
-	inline void setMotorPrzelozenie2(const QString & przelozenie2) { setMotorPrzelozenie2(toDouble(przelozenie2)); }
-	double getMotorPrzelozenie3() const;
-	void setMotorPrzelozenie3(const double & przelozenie3);
-	inline void setMotorPrzelozenie3(const QString & przelozenie3) { setMotorPrzelozenie3(toDouble(przelozenie3)); }
-	double getMotorPrzelozenie4() const;
-	void setMotorPrzelozenie4(const double & przelozenie4);
-	inline void setMotorPrzelozenie4(const QString & przelozenie4) { setMotorPrzelozenie4(toDouble(przelozenie4)); }
-	double getMotorPrzelozenie5() const;
-	void setMotorPrzelozenie5(const double & przelozenie5);
-	inline void setMotorPrzelozenie5(const QString & przelozenie5) { setMotorPrzelozenie5(toDouble(przelozenie5)); }
-	double getMotorPrzelozenie6() const;
-	void setMotorPrzelozenie6(const double & przelozenie6);
-	inline void setMotorPrzelozenie6(const QString & przelozenie6) { setMotorPrzelozenie6(toDouble(przelozenie6)); }
-	double getMotorPrzelozenie7() const;
-	void setMotorPrzelozenie7(const double & przelozenie7);
-	inline void setMotorPrzelozenie7(const QString & przelozenie7) { setMotorPrzelozenie7(toDouble(przelozenie7)); }
-	double getMotorPrzelozenie8() const;
-	void setMotorPrzelozenie8(const double & przelozenie8);
-	inline void setMotorPrzelozenie8(const QString & przelozenie8) { setMotorPrzelozenie8(toDouble(przelozenie8)); }
-	double getMotorPrzelozenie9() const;
-	void setMotorPrzelozenie9(const double & przelozenie9);
-	inline void setMotorPrzelozenie9(const QString & przelozenie9) { setMotorPrzelozenie9(toDouble(przelozenie9)); }
-	double getMotorPrzelozenie(const short & nrMotor) const;
-	void setMotorPrzelozenie(const short & nrMotor, const double & przelozenie);
-	double getMotorMaksPredkosc1() const;
-	void setMotorMaksPredkosc1(const double & maksPredkosc1);
-	inline void setMotorMaksPredkosc1(const QString & maksPredkosc1) { setMotorMaksPredkosc1(toDouble(maksPredkosc1)); }
-	double getMotorMaksPredkosc2() const;
-	void setMotorMaksPredkosc2(const double & maksPredkosc2);
-	inline void setMotorMaksPredkosc2(const QString & maksPredkosc2) { setMotorMaksPredkosc2(toDouble(maksPredkosc2)); }
-	double getMotorMaksPredkosc3() const;
-	void setMotorMaksPredkosc3(const double & maksPredkosc3);
-	inline void setMotorMaksPredkosc3(const QString & maksPredkosc3) { setMotorMaksPredkosc3(toDouble(maksPredkosc3)); }
-	double getMotorMaksPredkosc4() const;
-	void setMotorMaksPredkosc4(const double & maksPredkosc4);
-	inline void setMotorMaksPredkosc4(const QString & maksPredkosc4) { setMotorMaksPredkosc4(toDouble(maksPredkosc4)); }
-	double getMotorMaksPredkosc5() const;
-	void setMotorMaksPredkosc5(const double & maksPredkosc5);
-	inline void setMotorMaksPredkosc5(const QString & maksPredkosc5) { setMotorMaksPredkosc5(toDouble(maksPredkosc5)); }
-	double getMotorMaksPredkosc6() const;
-	void setMotorMaksPredkosc6(const double & maksPredkosc6);
-	inline void setMotorMaksPredkosc6(const QString & maksPredkosc6) { setMotorMaksPredkosc6(toDouble(maksPredkosc6)); }
-	double getMotorMaksPredkosc7() const;
-	void setMotorMaksPredkosc7(const double & maksPredkosc7);
-	inline void setMotorMaksPredkosc7(const QString & maksPredkosc7) { setMotorMaksPredkosc7(toDouble(maksPredkosc7)); }
-	double getMotorMaksPredkosc8() const;
-	void setMotorMaksPredkosc8(const double & maksPredkosc8);
-	inline void setMotorMaksPredkosc8(const QString & maksPredkosc8) { setMotorMaksPredkosc8(toDouble(maksPredkosc8)); }
-	double getMotorMaksPredkosc9() const;
-	void setMotorMaksPredkosc9(const double & maksPredkosc9);
-	inline void setMotorMaksPredkosc9(const QString & maksPredkosc9) { setMotorMaksPredkosc9(toDouble(maksPredkosc9)); }
-	double getMotorMaksPredkosc(const short & nrMotor) const;
-	void setMotorMaksPredkosc(const short & nrMotor, const double & maksPredkosc);
+	double getMotorPrzelozenieImpJedn1() const;
+	void setMotorPrzelozenieImpJedn1(const double & przelozenieImpJedn1);
+	inline void setMotorPrzelozenieImpJedn1(const QString & przelozenieImpJedn1) { setMotorPrzelozenieImpJedn1(toDouble(przelozenieImpJedn1)); }
+	double getMotorPrzelozenieImpJedn2() const;
+	void setMotorPrzelozenieImpJedn2(const double & przelozenieImpJedn2);
+	inline void setMotorPrzelozenieImpJedn2(const QString & przelozenieImpJedn2) { setMotorPrzelozenieImpJedn2(toDouble(przelozenieImpJedn2)); }
+	double getMotorPrzelozenieImpJedn3() const;
+	void setMotorPrzelozenieImpJedn3(const double & przelozenieImpJedn3);
+	inline void setMotorPrzelozenieImpJedn3(const QString & przelozenieImpJedn3) { setMotorPrzelozenieImpJedn3(toDouble(przelozenieImpJedn3)); }
+	double getMotorPrzelozenieImpJedn4() const;
+	void setMotorPrzelozenieImpJedn4(const double & przelozenieImpJedn4);
+	inline void setMotorPrzelozenieImpJedn4(const QString & przelozenieImpJedn4) { setMotorPrzelozenieImpJedn4(toDouble(przelozenieImpJedn4)); }
+	double getMotorPrzelozenieImpJedn5() const;
+	void setMotorPrzelozenieImpJedn5(const double & przelozenieImpJedn5);
+	inline void setMotorPrzelozenieImpJedn5(const QString & przelozenieImpJedn5) { setMotorPrzelozenieImpJedn5(toDouble(przelozenieImpJedn5)); }
+	double getMotorPrzelozenieImpJedn6() const;
+	void setMotorPrzelozenieImpJedn6(const double & przelozenieImpJedn6);
+	inline void setMotorPrzelozenieImpJedn6(const QString & przelozenieImpJedn6) { setMotorPrzelozenieImpJedn6(toDouble(przelozenieImpJedn6)); }
+	double getMotorPrzelozenieImpJedn7() const;
+	void setMotorPrzelozenieImpJedn7(const double & przelozenieImpJedn7);
+	inline void setMotorPrzelozenieImpJedn7(const QString & przelozenieImpJedn7) { setMotorPrzelozenieImpJedn7(toDouble(przelozenieImpJedn7)); }
+	double getMotorPrzelozenieImpJedn8() const;
+	void setMotorPrzelozenieImpJedn8(const double & przelozenieImpJedn8);
+	inline void setMotorPrzelozenieImpJedn8(const QString & przelozenieImpJedn8) { setMotorPrzelozenieImpJedn8(toDouble(przelozenieImpJedn8)); }
+	double getMotorPrzelozenieImpJedn9() const;
+	void setMotorPrzelozenieImpJedn9(const double & przelozenieImpJedn9);
+	inline void setMotorPrzelozenieImpJedn9(const QString & przelozenieImpJedn9) { setMotorPrzelozenieImpJedn9(toDouble(przelozenieImpJedn9)); }
+	double getMotorPrzelozenieImpJedn(const short & nrMotor) const;
+	void setMotorPrzelozenieImpJedn(const short & nrMotor, const double & przelozenieImpJedn);
+	int getMotorMinOdstepImp1() const;
+	void setMotorMinOdstepImp1(const int & minOdstepImp1);
+	inline void setMotorMinOdstepImp1(const QString & minOdstepImp1) { setMotorMinOdstepImp1(toUInt(minOdstepImp1)); }
+	int getMotorMinOdstepImp2() const;
+	void setMotorMinOdstepImp2(const int & minOdstepImp2);
+	inline void setMotorMinOdstepImp2(const QString & minOdstepImp2) { setMotorMinOdstepImp2(toUInt(minOdstepImp2)); }
+	int getMotorMinOdstepImp3() const;
+	void setMotorMinOdstepImp3(const int & minOdstepImp3);
+	inline void setMotorMinOdstepImp3(const QString & minOdstepImp3) { setMotorMinOdstepImp3(toUInt(minOdstepImp3)); }
+	int getMotorMinOdstepImp4() const;
+	void setMotorMinOdstepImp4(const int & minOdstepImp4);
+	inline void setMotorMinOdstepImp4(const QString & minOdstepImp4) { setMotorMinOdstepImp4(toUInt(minOdstepImp4)); }
+	int getMotorMinOdstepImp5() const;
+	void setMotorMinOdstepImp5(const int & minOdstepImp5);
+	inline void setMotorMinOdstepImp5(const QString & minOdstepImp5) { setMotorMinOdstepImp5(toUInt(minOdstepImp5)); }
+	int getMotorMinOdstepImp6() const;
+	void setMotorMinOdstepImp6(const int & minOdstepImp6);
+	inline void setMotorMinOdstepImp6(const QString & minOdstepImp6) { setMotorMinOdstepImp6(toUInt(minOdstepImp6)); }
+	int getMotorMinOdstepImp7() const;
+	void setMotorMinOdstepImp7(const int & minOdstepImp7);
+	inline void setMotorMinOdstepImp7(const QString & minOdstepImp7) { setMotorMinOdstepImp7(toUInt(minOdstepImp7)); }
+	int getMotorMinOdstepImp8() const;
+	void setMotorMinOdstepImp8(const int & minOdstepImp8);
+	inline void setMotorMinOdstepImp8(const QString & minOdstepImp8) { setMotorMinOdstepImp8(toUInt(minOdstepImp8)); }
+	int getMotorMinOdstepImp9() const;
+	void setMotorMinOdstepImp9(const int & minOdstepImp9);
+	inline void setMotorMinOdstepImp9(const QString & minOdstepImp9) { setMotorMinOdstepImp9(toUInt(minOdstepImp9)); }
+	int getMotorMinOdstepImp(const short & nrMotor) const;
+	void setMotorMinOdstepImp(const short & nrMotor, const int & minOdstepImp);
 	bool getMotorOdwrocObroty1() const;
 	void setMotorOdwrocObroty1(const bool & odwrocObroty1);
 	inline void setMotorOdwrocObroty1(const QString & odwrocObroty1) { setMotorOdwrocObroty1(toBool(odwrocObroty1)); }
@@ -134,122 +134,122 @@ public:
 	inline void setMotorOdwrocObroty9(const QString & odwrocObroty9) { setMotorOdwrocObroty9(toBool(odwrocObroty9)); }
 	bool getMotorOdwrocObroty(const short & nrMotor) const;
 	void setMotorOdwrocObroty(const short & nrMotor, const bool & odwrocObroty);
-	int getMotorOpoznienieImp1() const;
-	void setMotorOpoznienieImp1(const int & opoznienieImp1);
-	inline void setMotorOpoznienieImp1(const QString & opoznienieImp1) { setMotorOpoznienieImp1(toUInt(opoznienieImp1)); }
-	int getMotorOpoznienieImp2() const;
-	void setMotorOpoznienieImp2(const int & opoznienieImp2);
-	inline void setMotorOpoznienieImp2(const QString & opoznienieImp2) { setMotorOpoznienieImp2(toUInt(opoznienieImp2)); }
-	int getMotorOpoznienieImp3() const;
-	void setMotorOpoznienieImp3(const int & opoznienieImp3);
-	inline void setMotorOpoznienieImp3(const QString & opoznienieImp3) { setMotorOpoznienieImp3(toUInt(opoznienieImp3)); }
-	int getMotorOpoznienieImp4() const;
-	void setMotorOpoznienieImp4(const int & opoznienieImp4);
-	inline void setMotorOpoznienieImp4(const QString & opoznienieImp4) { setMotorOpoznienieImp4(toUInt(opoznienieImp4)); }
-	int getMotorOpoznienieImp5() const;
-	void setMotorOpoznienieImp5(const int & opoznienieImp5);
-	inline void setMotorOpoznienieImp5(const QString & opoznienieImp5) { setMotorOpoznienieImp5(toUInt(opoznienieImp5)); }
-	int getMotorOpoznienieImp6() const;
-	void setMotorOpoznienieImp6(const int & opoznienieImp6);
-	inline void setMotorOpoznienieImp6(const QString & opoznienieImp6) { setMotorOpoznienieImp6(toUInt(opoznienieImp6)); }
-	int getMotorOpoznienieImp7() const;
-	void setMotorOpoznienieImp7(const int & opoznienieImp7);
-	inline void setMotorOpoznienieImp7(const QString & opoznienieImp7) { setMotorOpoznienieImp7(toUInt(opoznienieImp7)); }
-	int getMotorOpoznienieImp8() const;
-	void setMotorOpoznienieImp8(const int & opoznienieImp8);
-	inline void setMotorOpoznienieImp8(const QString & opoznienieImp8) { setMotorOpoznienieImp8(toUInt(opoznienieImp8)); }
-	int getMotorOpoznienieImp9() const;
-	void setMotorOpoznienieImp9(const int & opoznienieImp9);
-	inline void setMotorOpoznienieImp9(const QString & opoznienieImp9) { setMotorOpoznienieImp9(toUInt(opoznienieImp9)); }
-	int getMotorOpoznienieImp(const short & nrMotor) const;
-	void setMotorOpoznienieImp(const short & nrMotor, const int & opoznienieImp);
-	int getMotorMaksIloscKrokow1() const;
-	void setMotorMaksIloscKrokow1(const int & maksIloscKrokow1);
-	inline void setMotorMaksIloscKrokow1(const QString & maksIloscKrokow1) { setMotorMaksIloscKrokow1(toUInt(maksIloscKrokow1)); }
-	int getMotorMaksIloscKrokow2() const;
-	void setMotorMaksIloscKrokow2(const int & maksIloscKrokow2);
-	inline void setMotorMaksIloscKrokow2(const QString & maksIloscKrokow2) { setMotorMaksIloscKrokow2(toUInt(maksIloscKrokow2)); }
-	int getMotorMaksIloscKrokow3() const;
-	void setMotorMaksIloscKrokow3(const int & maksIloscKrokow3);
-	inline void setMotorMaksIloscKrokow3(const QString & maksIloscKrokow3) { setMotorMaksIloscKrokow3(toUInt(maksIloscKrokow3)); }
-	int getMotorMaksIloscKrokow4() const;
-	void setMotorMaksIloscKrokow4(const int & maksIloscKrokow4);
-	inline void setMotorMaksIloscKrokow4(const QString & maksIloscKrokow4) { setMotorMaksIloscKrokow4(toUInt(maksIloscKrokow4)); }
-	int getMotorMaksIloscKrokow5() const;
-	void setMotorMaksIloscKrokow5(const int & maksIloscKrokow5);
-	inline void setMotorMaksIloscKrokow5(const QString & maksIloscKrokow5) { setMotorMaksIloscKrokow5(toUInt(maksIloscKrokow5)); }
-	int getMotorMaksIloscKrokow6() const;
-	void setMotorMaksIloscKrokow6(const int & maksIloscKrokow6);
-	inline void setMotorMaksIloscKrokow6(const QString & maksIloscKrokow6) { setMotorMaksIloscKrokow6(toUInt(maksIloscKrokow6)); }
-	int getMotorMaksIloscKrokow7() const;
-	void setMotorMaksIloscKrokow7(const int & maksIloscKrokow7);
-	inline void setMotorMaksIloscKrokow7(const QString & maksIloscKrokow7) { setMotorMaksIloscKrokow7(toUInt(maksIloscKrokow7)); }
-	int getMotorMaksIloscKrokow8() const;
-	void setMotorMaksIloscKrokow8(const int & maksIloscKrokow8);
-	inline void setMotorMaksIloscKrokow8(const QString & maksIloscKrokow8) { setMotorMaksIloscKrokow8(toUInt(maksIloscKrokow8)); }
-	int getMotorMaksIloscKrokow9() const;
-	void setMotorMaksIloscKrokow9(const int & maksIloscKrokow9);
-	inline void setMotorMaksIloscKrokow9(const QString & maksIloscKrokow9) { setMotorMaksIloscKrokow9(toUInt(maksIloscKrokow9)); }
-	int getMotorMaksIloscKrokow(const short & nrMotor) const;
-	void setMotorMaksIloscKrokow(const short & nrMotor, const int & maksIloscKrokow);
-	int getMotorIloscKrokowBaza1() const;
-	void setMotorIloscKrokowBaza1(const int & iloscKrokowBaza1);
-	inline void setMotorIloscKrokowBaza1(const QString & iloscKrokowBaza1) { setMotorIloscKrokowBaza1(toUInt(iloscKrokowBaza1)); }
-	int getMotorIloscKrokowBaza2() const;
-	void setMotorIloscKrokowBaza2(const int & iloscKrokowBaza2);
-	inline void setMotorIloscKrokowBaza2(const QString & iloscKrokowBaza2) { setMotorIloscKrokowBaza2(toUInt(iloscKrokowBaza2)); }
-	int getMotorIloscKrokowBaza3() const;
-	void setMotorIloscKrokowBaza3(const int & iloscKrokowBaza3);
-	inline void setMotorIloscKrokowBaza3(const QString & iloscKrokowBaza3) { setMotorIloscKrokowBaza3(toUInt(iloscKrokowBaza3)); }
-	int getMotorIloscKrokowBaza4() const;
-	void setMotorIloscKrokowBaza4(const int & iloscKrokowBaza4);
-	inline void setMotorIloscKrokowBaza4(const QString & iloscKrokowBaza4) { setMotorIloscKrokowBaza4(toUInt(iloscKrokowBaza4)); }
-	int getMotorIloscKrokowBaza5() const;
-	void setMotorIloscKrokowBaza5(const int & iloscKrokowBaza5);
-	inline void setMotorIloscKrokowBaza5(const QString & iloscKrokowBaza5) { setMotorIloscKrokowBaza5(toUInt(iloscKrokowBaza5)); }
-	int getMotorIloscKrokowBaza6() const;
-	void setMotorIloscKrokowBaza6(const int & iloscKrokowBaza6);
-	inline void setMotorIloscKrokowBaza6(const QString & iloscKrokowBaza6) { setMotorIloscKrokowBaza6(toUInt(iloscKrokowBaza6)); }
-	int getMotorIloscKrokowBaza7() const;
-	void setMotorIloscKrokowBaza7(const int & iloscKrokowBaza7);
-	inline void setMotorIloscKrokowBaza7(const QString & iloscKrokowBaza7) { setMotorIloscKrokowBaza7(toUInt(iloscKrokowBaza7)); }
-	int getMotorIloscKrokowBaza8() const;
-	void setMotorIloscKrokowBaza8(const int & iloscKrokowBaza8);
-	inline void setMotorIloscKrokowBaza8(const QString & iloscKrokowBaza8) { setMotorIloscKrokowBaza8(toUInt(iloscKrokowBaza8)); }
-	int getMotorIloscKrokowBaza9() const;
-	void setMotorIloscKrokowBaza9(const int & iloscKrokowBaza9);
-	inline void setMotorIloscKrokowBaza9(const QString & iloscKrokowBaza9) { setMotorIloscKrokowBaza9(toUInt(iloscKrokowBaza9)); }
-	int getMotorIloscKrokowBaza(const short & nrMotor) const;
-	void setMotorIloscKrokowBaza(const short & nrMotor, const int & iloscKrokowBaza);
-	int getMotorIloscKrokowSrodek1() const;
-	void setMotorIloscKrokowSrodek1(const int & iloscKrokowSrodek1);
-	inline void setMotorIloscKrokowSrodek1(const QString & iloscKrokowSrodek1) { setMotorIloscKrokowSrodek1(toUInt(iloscKrokowSrodek1)); }
-	int getMotorIloscKrokowSrodek2() const;
-	void setMotorIloscKrokowSrodek2(const int & iloscKrokowSrodek2);
-	inline void setMotorIloscKrokowSrodek2(const QString & iloscKrokowSrodek2) { setMotorIloscKrokowSrodek2(toUInt(iloscKrokowSrodek2)); }
-	int getMotorIloscKrokowSrodek3() const;
-	void setMotorIloscKrokowSrodek3(const int & iloscKrokowSrodek3);
-	inline void setMotorIloscKrokowSrodek3(const QString & iloscKrokowSrodek3) { setMotorIloscKrokowSrodek3(toUInt(iloscKrokowSrodek3)); }
-	int getMotorIloscKrokowSrodek4() const;
-	void setMotorIloscKrokowSrodek4(const int & iloscKrokowSrodek4);
-	inline void setMotorIloscKrokowSrodek4(const QString & iloscKrokowSrodek4) { setMotorIloscKrokowSrodek4(toUInt(iloscKrokowSrodek4)); }
-	int getMotorIloscKrokowSrodek5() const;
-	void setMotorIloscKrokowSrodek5(const int & iloscKrokowSrodek5);
-	inline void setMotorIloscKrokowSrodek5(const QString & iloscKrokowSrodek5) { setMotorIloscKrokowSrodek5(toUInt(iloscKrokowSrodek5)); }
-	int getMotorIloscKrokowSrodek6() const;
-	void setMotorIloscKrokowSrodek6(const int & iloscKrokowSrodek6);
-	inline void setMotorIloscKrokowSrodek6(const QString & iloscKrokowSrodek6) { setMotorIloscKrokowSrodek6(toUInt(iloscKrokowSrodek6)); }
-	int getMotorIloscKrokowSrodek7() const;
-	void setMotorIloscKrokowSrodek7(const int & iloscKrokowSrodek7);
-	inline void setMotorIloscKrokowSrodek7(const QString & iloscKrokowSrodek7) { setMotorIloscKrokowSrodek7(toUInt(iloscKrokowSrodek7)); }
-	int getMotorIloscKrokowSrodek8() const;
-	void setMotorIloscKrokowSrodek8(const int & iloscKrokowSrodek8);
-	inline void setMotorIloscKrokowSrodek8(const QString & iloscKrokowSrodek8) { setMotorIloscKrokowSrodek8(toUInt(iloscKrokowSrodek8)); }
-	int getMotorIloscKrokowSrodek9() const;
-	void setMotorIloscKrokowSrodek9(const int & iloscKrokowSrodek9);
-	inline void setMotorIloscKrokowSrodek9(const QString & iloscKrokowSrodek9) { setMotorIloscKrokowSrodek9(toUInt(iloscKrokowSrodek9)); }
-	int getMotorIloscKrokowSrodek(const short & nrMotor) const;
-	void setMotorIloscKrokowSrodek(const short & nrMotor, const int & iloscKrokowSrodek);
+	int getMotorCzasMiedzyImp1() const;
+	void setMotorCzasMiedzyImp1(const int & czasMiedzyImp1);
+	inline void setMotorCzasMiedzyImp1(const QString & czasMiedzyImp1) { setMotorCzasMiedzyImp1(toUInt(czasMiedzyImp1)); }
+	int getMotorCzasMiedzyImp2() const;
+	void setMotorCzasMiedzyImp2(const int & czasMiedzyImp2);
+	inline void setMotorCzasMiedzyImp2(const QString & czasMiedzyImp2) { setMotorCzasMiedzyImp2(toUInt(czasMiedzyImp2)); }
+	int getMotorCzasMiedzyImp3() const;
+	void setMotorCzasMiedzyImp3(const int & czasMiedzyImp3);
+	inline void setMotorCzasMiedzyImp3(const QString & czasMiedzyImp3) { setMotorCzasMiedzyImp3(toUInt(czasMiedzyImp3)); }
+	int getMotorCzasMiedzyImp4() const;
+	void setMotorCzasMiedzyImp4(const int & czasMiedzyImp4);
+	inline void setMotorCzasMiedzyImp4(const QString & czasMiedzyImp4) { setMotorCzasMiedzyImp4(toUInt(czasMiedzyImp4)); }
+	int getMotorCzasMiedzyImp5() const;
+	void setMotorCzasMiedzyImp5(const int & czasMiedzyImp5);
+	inline void setMotorCzasMiedzyImp5(const QString & czasMiedzyImp5) { setMotorCzasMiedzyImp5(toUInt(czasMiedzyImp5)); }
+	int getMotorCzasMiedzyImp6() const;
+	void setMotorCzasMiedzyImp6(const int & czasMiedzyImp6);
+	inline void setMotorCzasMiedzyImp6(const QString & czasMiedzyImp6) { setMotorCzasMiedzyImp6(toUInt(czasMiedzyImp6)); }
+	int getMotorCzasMiedzyImp7() const;
+	void setMotorCzasMiedzyImp7(const int & czasMiedzyImp7);
+	inline void setMotorCzasMiedzyImp7(const QString & czasMiedzyImp7) { setMotorCzasMiedzyImp7(toUInt(czasMiedzyImp7)); }
+	int getMotorCzasMiedzyImp8() const;
+	void setMotorCzasMiedzyImp8(const int & czasMiedzyImp8);
+	inline void setMotorCzasMiedzyImp8(const QString & czasMiedzyImp8) { setMotorCzasMiedzyImp8(toUInt(czasMiedzyImp8)); }
+	int getMotorCzasMiedzyImp9() const;
+	void setMotorCzasMiedzyImp9(const int & czasMiedzyImp9);
+	inline void setMotorCzasMiedzyImp9(const QString & czasMiedzyImp9) { setMotorCzasMiedzyImp9(toUInt(czasMiedzyImp9)); }
+	int getMotorCzasMiedzyImp(const short & nrMotor) const;
+	void setMotorCzasMiedzyImp(const short & nrMotor, const int & czasMiedzyImp);
+	int getMotorMaksIloscImp1() const;
+	void setMotorMaksIloscImp1(const int & maksIloscImp1);
+	inline void setMotorMaksIloscImp1(const QString & maksIloscImp1) { setMotorMaksIloscImp1(toUInt(maksIloscImp1)); }
+	int getMotorMaksIloscImp2() const;
+	void setMotorMaksIloscImp2(const int & maksIloscImp2);
+	inline void setMotorMaksIloscImp2(const QString & maksIloscImp2) { setMotorMaksIloscImp2(toUInt(maksIloscImp2)); }
+	int getMotorMaksIloscImp3() const;
+	void setMotorMaksIloscImp3(const int & maksIloscImp3);
+	inline void setMotorMaksIloscImp3(const QString & maksIloscImp3) { setMotorMaksIloscImp3(toUInt(maksIloscImp3)); }
+	int getMotorMaksIloscImp4() const;
+	void setMotorMaksIloscImp4(const int & maksIloscImp4);
+	inline void setMotorMaksIloscImp4(const QString & maksIloscImp4) { setMotorMaksIloscImp4(toUInt(maksIloscImp4)); }
+	int getMotorMaksIloscImp5() const;
+	void setMotorMaksIloscImp5(const int & maksIloscImp5);
+	inline void setMotorMaksIloscImp5(const QString & maksIloscImp5) { setMotorMaksIloscImp5(toUInt(maksIloscImp5)); }
+	int getMotorMaksIloscImp6() const;
+	void setMotorMaksIloscImp6(const int & maksIloscImp6);
+	inline void setMotorMaksIloscImp6(const QString & maksIloscImp6) { setMotorMaksIloscImp6(toUInt(maksIloscImp6)); }
+	int getMotorMaksIloscImp7() const;
+	void setMotorMaksIloscImp7(const int & maksIloscImp7);
+	inline void setMotorMaksIloscImp7(const QString & maksIloscImp7) { setMotorMaksIloscImp7(toUInt(maksIloscImp7)); }
+	int getMotorMaksIloscImp8() const;
+	void setMotorMaksIloscImp8(const int & maksIloscImp8);
+	inline void setMotorMaksIloscImp8(const QString & maksIloscImp8) { setMotorMaksIloscImp8(toUInt(maksIloscImp8)); }
+	int getMotorMaksIloscImp9() const;
+	void setMotorMaksIloscImp9(const int & maksIloscImp9);
+	inline void setMotorMaksIloscImp9(const QString & maksIloscImp9) { setMotorMaksIloscImp9(toUInt(maksIloscImp9)); }
+	int getMotorMaksIloscImp(const short & nrMotor) const;
+	void setMotorMaksIloscImp(const short & nrMotor, const int & maksIloscImp);
+	int getMotorIloscImpBaza1() const;
+	void setMotorIloscImpBaza1(const int & iloscImpBaza1);
+	inline void setMotorIloscImpBaza1(const QString & iloscImpBaza1) { setMotorIloscImpBaza1(toUInt(iloscImpBaza1)); }
+	int getMotorIloscImpBaza2() const;
+	void setMotorIloscImpBaza2(const int & iloscImpBaza2);
+	inline void setMotorIloscImpBaza2(const QString & iloscImpBaza2) { setMotorIloscImpBaza2(toUInt(iloscImpBaza2)); }
+	int getMotorIloscImpBaza3() const;
+	void setMotorIloscImpBaza3(const int & iloscImpBaza3);
+	inline void setMotorIloscImpBaza3(const QString & iloscImpBaza3) { setMotorIloscImpBaza3(toUInt(iloscImpBaza3)); }
+	int getMotorIloscImpBaza4() const;
+	void setMotorIloscImpBaza4(const int & iloscImpBaza4);
+	inline void setMotorIloscImpBaza4(const QString & iloscImpBaza4) { setMotorIloscImpBaza4(toUInt(iloscImpBaza4)); }
+	int getMotorIloscImpBaza5() const;
+	void setMotorIloscImpBaza5(const int & iloscImpBaza5);
+	inline void setMotorIloscImpBaza5(const QString & iloscImpBaza5) { setMotorIloscImpBaza5(toUInt(iloscImpBaza5)); }
+	int getMotorIloscImpBaza6() const;
+	void setMotorIloscImpBaza6(const int & iloscImpBaza6);
+	inline void setMotorIloscImpBaza6(const QString & iloscImpBaza6) { setMotorIloscImpBaza6(toUInt(iloscImpBaza6)); }
+	int getMotorIloscImpBaza7() const;
+	void setMotorIloscImpBaza7(const int & iloscImpBaza7);
+	inline void setMotorIloscImpBaza7(const QString & iloscImpBaza7) { setMotorIloscImpBaza7(toUInt(iloscImpBaza7)); }
+	int getMotorIloscImpBaza8() const;
+	void setMotorIloscImpBaza8(const int & iloscImpBaza8);
+	inline void setMotorIloscImpBaza8(const QString & iloscImpBaza8) { setMotorIloscImpBaza8(toUInt(iloscImpBaza8)); }
+	int getMotorIloscImpBaza9() const;
+	void setMotorIloscImpBaza9(const int & iloscImpBaza9);
+	inline void setMotorIloscImpBaza9(const QString & iloscImpBaza9) { setMotorIloscImpBaza9(toUInt(iloscImpBaza9)); }
+	int getMotorIloscImpBaza(const short & nrMotor) const;
+	void setMotorIloscImpBaza(const short & nrMotor, const int & iloscImpBaza);
+	int getMotorIloscImpSrodek1() const;
+	void setMotorIloscImpSrodek1(const int & iloscImpSrodek1);
+	inline void setMotorIloscImpSrodek1(const QString & iloscImpSrodek1) { setMotorIloscImpSrodek1(toUInt(iloscImpSrodek1)); }
+	int getMotorIloscImpSrodek2() const;
+	void setMotorIloscImpSrodek2(const int & iloscImpSrodek2);
+	inline void setMotorIloscImpSrodek2(const QString & iloscImpSrodek2) { setMotorIloscImpSrodek2(toUInt(iloscImpSrodek2)); }
+	int getMotorIloscImpSrodek3() const;
+	void setMotorIloscImpSrodek3(const int & iloscImpSrodek3);
+	inline void setMotorIloscImpSrodek3(const QString & iloscImpSrodek3) { setMotorIloscImpSrodek3(toUInt(iloscImpSrodek3)); }
+	int getMotorIloscImpSrodek4() const;
+	void setMotorIloscImpSrodek4(const int & iloscImpSrodek4);
+	inline void setMotorIloscImpSrodek4(const QString & iloscImpSrodek4) { setMotorIloscImpSrodek4(toUInt(iloscImpSrodek4)); }
+	int getMotorIloscImpSrodek5() const;
+	void setMotorIloscImpSrodek5(const int & iloscImpSrodek5);
+	inline void setMotorIloscImpSrodek5(const QString & iloscImpSrodek5) { setMotorIloscImpSrodek5(toUInt(iloscImpSrodek5)); }
+	int getMotorIloscImpSrodek6() const;
+	void setMotorIloscImpSrodek6(const int & iloscImpSrodek6);
+	inline void setMotorIloscImpSrodek6(const QString & iloscImpSrodek6) { setMotorIloscImpSrodek6(toUInt(iloscImpSrodek6)); }
+	int getMotorIloscImpSrodek7() const;
+	void setMotorIloscImpSrodek7(const int & iloscImpSrodek7);
+	inline void setMotorIloscImpSrodek7(const QString & iloscImpSrodek7) { setMotorIloscImpSrodek7(toUInt(iloscImpSrodek7)); }
+	int getMotorIloscImpSrodek8() const;
+	void setMotorIloscImpSrodek8(const int & iloscImpSrodek8);
+	inline void setMotorIloscImpSrodek8(const QString & iloscImpSrodek8) { setMotorIloscImpSrodek8(toUInt(iloscImpSrodek8)); }
+	int getMotorIloscImpSrodek9() const;
+	void setMotorIloscImpSrodek9(const int & iloscImpSrodek9);
+	inline void setMotorIloscImpSrodek9(const QString & iloscImpSrodek9) { setMotorIloscImpSrodek9(toUInt(iloscImpSrodek9)); }
+	int getMotorIloscImpSrodek(const short & nrMotor) const;
+	void setMotorIloscImpSrodek(const short & nrMotor, const int & iloscImpSrodek);
 	double getFiltr880_A_0() const;
 	void setFiltr880_A_0(const double & val);
 	inline void setFiltr880_A_0(const QString & vals) { setFiltr880_A_0(toDouble(vals)); }
@@ -382,15 +382,31 @@ public:
 	void setSerialDeviceSterownikVendor(const QString & sterownikVendor);
 	QString getSerialDeviceSterownikProduct() const;
 	void setSerialDeviceSterownikProduct(const QString & sterownikProduct);
+	int getMinNapiecieCzujki() const;
+	void setMinNapiecieCzujki(const int & minNapiecieCzujki);
+	int getMaxNapiecieCzujki() const;
+	void setMaxNapiecieCzujki(const int & maxNapiecieCzujki);
+	int getMinCzasStabCzujki() const;
+	void setMinCzasStabCzujki(const int & minCzasStabCzujki);
+	int getMaxCzasStabCzujki() const;
+	void setMaxCzasStabCzujki(const int & maxCzasStabCzujki);
+	double getMinPrzekrPradZasCzujki() const;
+	void setMinPrzekrPradZasCzujki(const double & minPrzekrPradZasCzujki);
+	double getMaxPrzekrPradZasCzujki() const;
+	void setMaxPrzekrPradZasCzujki(const double & maxPrzekrPradZasCzujki);
+	int getMinCzasPoZmianieFiltra() const;
+	void setMinCzasPoZmianieFiltra(const int & minCzasPoZmianieFiltra);
+	int getMaxCzasPoZmianieFiltra() const;
+	void setMaxCzasPoZmianieFiltra(const int & maxCzasPoZmianieFiltra);
 protected:
 	bool checkMotorNazwa(const QString & val);
-	bool checkMotorPrzelozenie(const QString & val);
-	bool checkMotorMaksPredkosc(const QString & val);
+	bool checkMotorPrzelozenieImpJedn(const QString & val);
+	bool checkMotorMinOdstepImp(const QString & val);
 	bool checkMotorOdwrocObroty(const QString & val);
-	bool checkMotorOpoznienieImp(const QString & val);
-	bool checkMotorMaksIloscKrokow(const QString & val);
-	bool checkMotorIloscKrokowBaza(const QString & val);
-	bool checkMotorIloscKrokowSrodek(const QString & val);
+	bool checkMotorCzasMiedzyImp(const QString & val);
+	bool checkMotorMaksIloscImp(const QString & val);
+	bool checkMotorIloscImpBaza(const QString & val);
+	bool checkMotorIloscImpSrodek(const QString & val);
 	bool checkFilterValue(const QString & val);
 	double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;
 	void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
@@ -406,24 +422,24 @@ private:
 	QString motorNazwa7;
 	QString motorNazwa8;
 	QString motorNazwa9;
-	double motorPrzelozenie1;
-	double motorPrzelozenie2;
-	double motorPrzelozenie3;
-	double motorPrzelozenie4;
-	double motorPrzelozenie5;
-	double motorPrzelozenie6;
-	double motorPrzelozenie7;
-	double motorPrzelozenie8;
-	double motorPrzelozenie9;
-	double motorMaksPredkosc1;
-	double motorMaksPredkosc2;
-	double motorMaksPredkosc3;
-	double motorMaksPredkosc4;
-	double motorMaksPredkosc5;
-	double motorMaksPredkosc6;
-	double motorMaksPredkosc7;
-	double motorMaksPredkosc8;
-	double motorMaksPredkosc9;
+	double motorPrzelozenieImpJedn1;
+	double motorPrzelozenieImpJedn2;
+	double motorPrzelozenieImpJedn3;
+	double motorPrzelozenieImpJedn4;
+	double motorPrzelozenieImpJedn5;
+	double motorPrzelozenieImpJedn6;
+	double motorPrzelozenieImpJedn7;
+	double motorPrzelozenieImpJedn8;
+	double motorPrzelozenieImpJedn9;
+	int motorMinOdstepImp1;
+	int motorMinOdstepImp2;
+	int motorMinOdstepImp3;
+	int motorMinOdstepImp4;
+	int motorMinOdstepImp5;
+	int motorMinOdstepImp6;
+	int motorMinOdstepImp7;
+	int motorMinOdstepImp8;
+	int motorMinOdstepImp9;
 	bool motorOdwrocObroty1;
 	bool motorOdwrocObroty2;
 	bool motorOdwrocObroty3;
@@ -433,42 +449,42 @@ private:
 	bool motorOdwrocObroty7;
 	bool motorOdwrocObroty8;
 	bool motorOdwrocObroty9;
-	int motorOpoznienieImp1;
-	int motorOpoznienieImp2;
-	int motorOpoznienieImp3;
-	int motorOpoznienieImp4;
-	int motorOpoznienieImp5;
-	int motorOpoznienieImp6;
-	int motorOpoznienieImp7;
-	int motorOpoznienieImp8;
-	int motorOpoznienieImp9;
-	int motorMaksIloscKrokow1;
-	int motorMaksIloscKrokow2;
-	int motorMaksIloscKrokow3;
-	int motorMaksIloscKrokow4;
-	int motorMaksIloscKrokow5;
-	int motorMaksIloscKrokow6;
-	int motorMaksIloscKrokow7;
-	int motorMaksIloscKrokow8;
-	int motorMaksIloscKrokow9;
-	int motorIloscKrokowBaza1;
-	int motorIloscKrokowBaza2;
-	int motorIloscKrokowBaza3;
-	int motorIloscKrokowBaza4;
-	int motorIloscKrokowBaza5;
-	int motorIloscKrokowBaza6;
-	int motorIloscKrokowBaza7;
-	int motorIloscKrokowBaza8;
-	int motorIloscKrokowBaza9;
-	int motorIloscKrokowSrodek1;
-	int motorIloscKrokowSrodek2;
-	int motorIloscKrokowSrodek3;
-	int motorIloscKrokowSrodek4;
-	int motorIloscKrokowSrodek5;
-	int motorIloscKrokowSrodek6;
-	int motorIloscKrokowSrodek7;
-	int motorIloscKrokowSrodek8;
-	int motorIloscKrokowSrodek9;
+	int motorCzasMiedzyImp1;
+	int motorCzasMiedzyImp2;
+	int motorCzasMiedzyImp3;
+	int motorCzasMiedzyImp4;
+	int motorCzasMiedzyImp5;
+	int motorCzasMiedzyImp6;
+	int motorCzasMiedzyImp7;
+	int motorCzasMiedzyImp8;
+	int motorCzasMiedzyImp9;
+	int motorMaksIloscImp1;
+	int motorMaksIloscImp2;
+	int motorMaksIloscImp3;
+	int motorMaksIloscImp4;
+	int motorMaksIloscImp5;
+	int motorMaksIloscImp6;
+	int motorMaksIloscImp7;
+	int motorMaksIloscImp8;
+	int motorMaksIloscImp9;
+	int motorIloscImpBaza1;
+	int motorIloscImpBaza2;
+	int motorIloscImpBaza3;
+	int motorIloscImpBaza4;
+	int motorIloscImpBaza5;
+	int motorIloscImpBaza6;
+	int motorIloscImpBaza7;
+	int motorIloscImpBaza8;
+	int motorIloscImpBaza9;
+	int motorIloscImpSrodek1;
+	int motorIloscImpSrodek2;
+	int motorIloscImpSrodek3;
+	int motorIloscImpSrodek4;
+	int motorIloscImpSrodek5;
+	int motorIloscImpSrodek6;
+	int motorIloscImpSrodek7;
+	int motorIloscImpSrodek8;
+	int motorIloscImpSrodek9;
 	double filtr880_A_0;
 	double filtr880_B_0;
 	double filtr880_C_0;
@@ -509,5 +525,13 @@ private:
 	QString serialDeviceZasilaczProduct;
 	QString serialDeviceSterownikVendor;
 	QString serialDeviceSterownikProduct;
+	int minNapiecieCzujki;
+	int maxNapiecieCzujki;
+	int minCzasStabCzujki;
+	int maxCzasStabCzujki;
+	double minPrzekrPradZasCzujki;
+	double maxPrzekrPradZasCzujki;
+	int minCzasPoZmianieFiltra;
+	int maxCzasPoZmianieFiltra;
 };
 #endif

@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "danebadania.h"
 #include "debugdialog.h"
 #include "ustawienia.h"
 #include "serialdevice.h"
@@ -49,18 +50,22 @@ private slots:
     void on_actionParametryKalibracyjne_triggered();
     void on_actionTestZasilacza_triggered();
     void on_pbDisconnect_clicked();
-
     void on_actionTestSterownikaDlg_triggered();
-
     void on_actionNoweBadanie_triggered();
-
     void on_actionStartTestu_triggered();
-
     void on_actionTestStanowiska_triggered();
+    void on_actionZapiszZadanie_triggered();
+    void on_actionZapiszJako_triggered();
+
+    void on_actionOtworzBadanie_triggered();
+
+protected:
+    void saveFile();
 
 private:
     Ui::MainWindow *ui;
     Ustawienia u;
+    DaneBadania b;
     SerialDevice * sd;
     QThread sdThreadW;
     QThread sdThreadR;
@@ -72,5 +77,6 @@ private:
 
     Zasilacz * zas;
     QThread zasThr;
+    QString fileDaneBadania;
 };
 #endif // MAINWINDOW_H

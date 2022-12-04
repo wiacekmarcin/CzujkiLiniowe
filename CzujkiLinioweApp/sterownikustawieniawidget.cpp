@@ -3,10 +3,10 @@
 #include "ustawienia.h"
 
 #define SETCONF(N) ui->base##N->setText(0); \
-                   ui->delay##N->setText(QString::number(u->getMotorOpoznienieImp##N())); \
-                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscKrokow##N())); \
+                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
+                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
-                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenie##N()))
+                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N()))
 
 SterownikUstawieniaWidget::SterownikUstawieniaWidget(QWidget *parent) :
     QWidget(parent),
@@ -35,10 +35,10 @@ void SterownikUstawieniaWidget::init(Ustawienia *u)
 }
 
 #define WRITECONF(N) /*u->setBaseStepsSilnik##N(ui->base##N->text());*/ \
-                     u->setMotorOpoznienieImp##N(ui->delay##N->text()); \
-                     u->setMotorMaksIloscKrokow##N(ui->maxSteps##N->text()); \
+                     u->setMotorCzasMiedzyImp##N(ui->delay##N->text()); \
+                     u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
-                     u->setMotorPrzelozenie##N(ui->ratio##N->text())
+                     u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text())
 
 void SterownikUstawieniaWidget::on_pbSetConfiguration_clicked()
 {

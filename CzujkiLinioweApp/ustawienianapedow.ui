@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1067</width>
+    <width>708</width>
     <height>349</height>
    </rect>
   </property>
@@ -14,7 +14,86 @@
    <string>Form</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="3">
+   <item row="8" column="1">
+    <widget class="QLineEdit" name="nazwa_8">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="2">
+    <widget class="QLineEdit" name="speedMax1_8">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="4">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Prędkość</string>
+     </property>
+    </widget>
+   </item>
+   <item row="10" column="2">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item row="1" column="1">
+    <widget class="QLineEdit" name="nazwa_1">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="2">
     <widget class="QLineEdit" name="speedMax1_2">
      <property name="minimumSize">
       <size>
@@ -30,126 +109,8 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="1">
-    <widget class="QLineEdit" name="nazwa_4">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>300</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <widget class="QLabel" name="lnazwa_4">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M4</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="1">
-    <widget class="QLineEdit" name="nazwa_3">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>300</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="2">
-    <widget class="QLabel" name="lunit1_7">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="3">
-    <widget class="QLineEdit" name="speedMax1_6">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="4">
-    <widget class="QLabel" name="lunit2_8">
-     <property name="text">
-      <string>*/min</string>
-     </property>
-    </widget>
-   </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="lnazwa_8">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M8</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="4">
-    <widget class="QLabel" name="lunit2_9">
-     <property name="text">
-      <string>*/min</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="4">
+   <item row="2" column="3">
     <widget class="QLabel" name="lunit2_2">
-     <property name="text">
-      <string>*/min</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="4">
-    <widget class="QLabel" name="lunit2_5">
      <property name="text">
       <string>*/min</string>
      </property>
@@ -173,69 +134,8 @@
      </property>
     </widget>
    </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="lnazwa_6">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M6</string>
-     </property>
-    </widget>
-   </item>
-   <item row="3" column="2">
-    <widget class="QLabel" name="lunit1_3">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="lnazwa_1">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M1</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="0">
-    <widget class="QLabel" name="lnazwa_9">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M9</string>
-     </property>
-    </widget>
-   </item>
-   <item row="1" column="1">
-    <widget class="QLineEdit" name="nazwa_1">
+   <item row="3" column="1">
+    <widget class="QLineEdit" name="nazwa_3">
      <property name="minimumSize">
       <size>
        <width>300</width>
@@ -253,27 +153,8 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="2">
-    <widget class="QLabel" name="lunit1_4">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1">
-    <widget class="QLabel" name="head1">
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Opis</string>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="3">
-    <widget class="QLineEdit" name="speedMax1_7">
+   <item row="9" column="2">
+    <widget class="QLineEdit" name="speedMax1_9">
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -285,51 +166,41 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLineEdit" name="nazwa_7">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
      </property>
     </widget>
    </item>
    <item row="6" column="2">
-    <widget class="QLabel" name="lunit1_6">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="1">
-    <widget class="QLineEdit" name="nazwa_2">
+    <widget class="QLineEdit" name="speedMax1_6">
      <property name="minimumSize">
       <size>
-       <width>300</width>
+       <width>150</width>
        <height>0</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
-       <width>300</width>
+       <width>150</width>
        <height>16777215</height>
       </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="1">
-    <widget class="QLineEdit" name="nazwa_5">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>300</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
      </property>
     </widget>
    </item>
@@ -352,8 +223,228 @@
      </property>
     </widget>
    </item>
-   <item row="9" column="3">
-    <widget class="QLineEdit" name="speedMax1_9">
+   <item row="4" column="1">
+    <widget class="QLineEdit" name="nazwa_4">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QLabel" name="head1">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Opis</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="1">
+    <widget class="QLineEdit" name="nazwa_9">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="3">
+    <widget class="QLabel" name="lunit2_8">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="4">
+    <widget class="QLineEdit" name="speed1"/>
+   </item>
+   <item row="5" column="3">
+    <widget class="QLabel" name="lunit2_5">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="2" colspan="2">
+    <widget class="QLabel" name="head3">
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Prędkość maksymalna</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0">
+    <widget class="QLabel" name="lnazwa_4">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M4</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0">
+    <widget class="QLabel" name="lnazwa_8">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M8</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="0">
+    <widget class="QLabel" name="lnazwa_5">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M5</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLabel" name="lnazwa_3">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M3</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="3">
+    <widget class="QLabel" name="lunit2_4">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="lnazwa_6">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M6</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="1">
+    <widget class="QLineEdit" name="nazwa_5">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="0">
+    <widget class="QLabel" name="lnazwa_9">
+     <property name="maximumSize">
+      <size>
+       <width>26</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>M9</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="3">
+    <widget class="QLabel" name="lunit2_6">
+     <property name="text">
+      <string>mm/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <widget class="QLineEdit" name="speedMax1_4">
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -368,31 +459,66 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="2">
-    <widget class="QLabel" name="lunit1_1">
+   <item row="9" column="3">
+    <widget class="QLabel" name="lunit2_9">
      <property name="text">
-      <string>*/kroki</string>
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1">
+    <widget class="QLineEdit" name="nazwa_2">
+     <property name="minimumSize">
+      <size>
+       <width>300</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>300</width>
+       <height>16777215</height>
+      </size>
+     </property>
+     <property name="maxLength">
+      <number>100</number>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="2">
+    <widget class="QLineEdit" name="speedMax1_7">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="2">
+    <widget class="QLineEdit" name="speedMax1_3">
+     <property name="minimumSize">
+      <size>
+       <width>150</width>
+       <height>0</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>150</width>
+       <height>16777215</height>
+      </size>
      </property>
     </widget>
    </item>
    <item row="1" column="3">
-    <widget class="QLineEdit" name="speedMax1_1">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="7" column="4">
-    <widget class="QLabel" name="lunit2_7">
+    <widget class="QLabel" name="lunit2_1">
      <property name="text">
       <string>*/min</string>
      </property>
@@ -417,7 +543,21 @@
     </widget>
    </item>
    <item row="3" column="3">
-    <widget class="QLineEdit" name="speedMax1_3">
+    <widget class="QLabel" name="lunit2_3">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="3">
+    <widget class="QLabel" name="lunit2_7">
+     <property name="text">
+      <string>mm/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="2">
+    <widget class="QLineEdit" name="speedMax1_1">
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -432,54 +572,25 @@
      </property>
     </widget>
    </item>
-   <item row="1" column="4">
-    <widget class="QLabel" name="lunit2_1">
-     <property name="text">
-      <string>*/min</string>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="2">
-    <widget class="QLabel" name="lunit1_2">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="1">
-    <widget class="QLineEdit" name="nazwa_9">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
+   <item row="1" column="0">
+    <widget class="QLabel" name="lnazwa_1">
      <property name="maximumSize">
       <size>
-       <width>300</width>
+       <width>26</width>
        <height>16777215</height>
       </size>
      </property>
-     <property name="maxLength">
-      <number>100</number>
+     <property name="font">
+      <font>
+       <bold>true</bold>
+      </font>
      </property>
-    </widget>
-   </item>
-   <item row="6" column="4">
-    <widget class="QLabel" name="lunit2_6">
      <property name="text">
-      <string>*/min</string>
+      <string>M1</string>
      </property>
     </widget>
    </item>
-   <item row="8" column="2">
-    <widget class="QLabel" name="lunit1_8">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="3">
+   <item row="5" column="2">
     <widget class="QLineEdit" name="speedMax1_5">
      <property name="minimumSize">
       <size>
@@ -495,164 +606,92 @@
      </property>
     </widget>
    </item>
-   <item row="5" column="2">
-    <widget class="QLabel" name="lunit1_5">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="4">
-    <widget class="QLabel" name="lunit2_4">
+   <item row="1" column="5">
+    <widget class="QLabel" name="label_2">
      <property name="text">
       <string>*/min</string>
      </property>
     </widget>
+   </item>
+   <item row="2" column="5">
+    <widget class="QLabel" name="label_3">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="5">
+    <widget class="QLabel" name="label_4">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="5">
+    <widget class="QLabel" name="label_5">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="5" column="5">
+    <widget class="QLabel" name="label_6">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="6" column="5">
+    <widget class="QLabel" name="label_7">
+     <property name="text">
+      <string>mm/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="5">
+    <widget class="QLabel" name="label_8">
+     <property name="text">
+      <string>mm/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="5">
+    <widget class="QLabel" name="label_9">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="9" column="5">
+    <widget class="QLabel" name="label_10">
+     <property name="text">
+      <string>*/min</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="4">
+    <widget class="QLineEdit" name="speed2"/>
    </item>
    <item row="3" column="4">
-    <widget class="QLabel" name="lunit2_3">
-     <property name="text">
-      <string>*/min</string>
-     </property>
-    </widget>
+    <widget class="QLineEdit" name="speed3"/>
    </item>
-   <item row="0" column="3" colspan="2">
-    <widget class="QLabel" name="head3">
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>Prędkość maksymalna</string>
-     </property>
-    </widget>
+   <item row="4" column="4">
+    <widget class="QLineEdit" name="speed4"/>
    </item>
-   <item row="8" column="1">
-    <widget class="QLineEdit" name="nazwa_8">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>300</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
-     </property>
-    </widget>
+   <item row="5" column="4">
+    <widget class="QLineEdit" name="speed5"/>
    </item>
-   <item row="10" column="3">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
+   <item row="6" column="4">
+    <widget class="QLineEdit" name="speed6"/>
    </item>
-   <item row="7" column="1">
-    <widget class="QLineEdit" name="nazwa_7">
-     <property name="minimumSize">
-      <size>
-       <width>300</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>300</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="maxLength">
-      <number>100</number>
-     </property>
-    </widget>
+   <item row="7" column="4">
+    <widget class="QLineEdit" name="speed7"/>
    </item>
-   <item row="3" column="0">
-    <widget class="QLabel" name="lnazwa_3">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M3</string>
-     </property>
-    </widget>
+   <item row="8" column="4">
+    <widget class="QLineEdit" name="speed8"/>
    </item>
-   <item row="8" column="3">
-    <widget class="QLineEdit" name="speedMax1_8">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="3">
-    <widget class="QLineEdit" name="speedMax1_4">
-     <property name="minimumSize">
-      <size>
-       <width>150</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="maximumSize">
-      <size>
-       <width>150</width>
-       <height>16777215</height>
-      </size>
-     </property>
-    </widget>
-   </item>
-   <item row="9" column="2">
-    <widget class="QLabel" name="lunit1_9">
-     <property name="text">
-      <string>*/kroki</string>
-     </property>
-    </widget>
-   </item>
-   <item row="5" column="0">
-    <widget class="QLabel" name="lnazwa_5">
-     <property name="maximumSize">
-      <size>
-       <width>26</width>
-       <height>16777215</height>
-      </size>
-     </property>
-     <property name="font">
-      <font>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>M5</string>
-     </property>
-    </widget>
+   <item row="9" column="4">
+    <widget class="QLineEdit" name="speed9"/>
    </item>
   </layout>
  </widget>

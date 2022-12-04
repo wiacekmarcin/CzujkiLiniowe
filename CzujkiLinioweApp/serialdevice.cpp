@@ -275,8 +275,8 @@ bool SerialDevice::configureDevice(bool wlcmmsg)
     for (short i = 1 ; i < 10; ++i) {
         QByteArray msgBA = SerialMessage::configMotorMsg(
             i, true, ust->getMotorOdwrocObroty(i),
-            ust->getMotorMaksIloscKrokow(i), 0,
-            ust->getMotorOpoznienieImp(i));
+            ust->getMotorMaksIloscImp(i), 0,
+            ust->getMotorCzasMiedzyImp(i));
 
         if (!write(msgBA, 500)) {
             emit kontrolerConfigured(false, PARAMS_FAILD);

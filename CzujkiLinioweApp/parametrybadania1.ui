@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>914</width>
-    <height>397</height>
+    <height>427</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -39,6 +39,37 @@
       </item>
       <item row="1" column="1">
        <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+      <item row="2" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QPushButton" name="pbOdblokuj">
+          <property name="text">
+           <string>Odblokuj</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pbZmienHaslo">
+          <property name="text">
+           <string>Zmień hasło</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </widget>
@@ -138,7 +169,7 @@
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="text">
-         <string>Czas pomiędzy zmiana tłumienia filtra</string>
+         <string>Czas pomiędzy zmianami tłumienia filtra</string>
         </property>
        </widget>
       </item>
@@ -155,6 +186,19 @@
          </widget>
         </item>
        </layout>
+      </item>
+      <item row="2" column="1">
+       <spacer name="verticalSpacer_2">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -246,13 +290,26 @@
          <widget class="QLineEdit" name="pradAlarmu"/>
         </item>
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="lunitCurrent">
           <property name="text">
            <string>mA (4-200)</string>
           </property>
          </widget>
         </item>
        </layout>
+      </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>
@@ -274,6 +331,24 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>numerZlecenia</tabstop>
+  <tabstop>numerTestu</tabstop>
+  <tabstop>osobaOdpowiedzialna</tabstop>
+  <tabstop>uwagi</tabstop>
+  <tabstop>rbInsideSupply</tabstop>
+  <tabstop>napiecieZasilaniain</tabstop>
+  <tabstop>rbCentralSupply</tabstop>
+  <tabstop>typCentraliSygnalizacji</tabstop>
+  <tabstop>czasStabilizacjiCzujki</tabstop>
+  <tabstop>rbAlarmPrzekaznik</tabstop>
+  <tabstop>rbPrad</tabstop>
+  <tabstop>pradAlarmu</tabstop>
+  <tabstop>dlugoscFali</tabstop>
+  <tabstop>czasPomiedzyZmianamifiltra</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
  <slots>

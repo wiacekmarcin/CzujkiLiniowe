@@ -9,10 +9,11 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    danebadania.cpp \
+    danebadania_gen.cpp \
     sterownik.cpp \
     teststanowiskadlg.cpp \
     zasilacz.cpp \
-    badaniedane.cpp \
     crc8.cpp \
     debugdialog.cpp \
     main.cpp \
@@ -32,10 +33,11 @@ SOURCES += \
     ustawienianapedow.cpp
 
 HEADERS += \
+    danebadania.h \
+    danebadania_gen.h \
     sterownik.h \
     teststanowiskadlg.h \
     zasilacz.h \
-    badaniedane.h \
     crc8.h \
     debugdialog.h \
     mainwindow.h \

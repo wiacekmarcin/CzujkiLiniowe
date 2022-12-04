@@ -15,9 +15,8 @@ UstawieniaNapedow::~UstawieniaNapedow()
 }
 
 #define READ_M(N)   ui->nazwa_##N->setText(ust->getMotorNazwa##N());\
-                    ui->ratio_##N->setText(QString::number(ust->getMotorPrzelozenie##N())); \
-                    ui->reverse_##N->setChecked(ust->getMotorOdwrocObroty##N()); \
-                    ui->maxSteep_##N->setText(QString::number(ust->getMotorMaksIloscKrokow##N()));
+                    ui->speedMax1_##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorMinOdstepImp##N()))); \
+                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImp##N()))); \
 
 #define READ_MOTORS     READ_M(1) \
                         READ_M(2) \
@@ -37,10 +36,8 @@ void UstawieniaNapedow::setUstawienia(Ustawienia *u)
 }
 
 
-#define WRITE_M(N)  ust->setMotorNazwa##N(ui->nazwa_##N->text());\
-                    ust->setMotorPrzelozenie##N(ui->ratio_##N->text()); \
-                    ust->setMotorOdwrocObroty##N(ui->reverse_##N->isChecked()); \
-                    ust->setMotorMaksIloscKrokow##N(ui->maxSteep_##N->text());
+#define WRITE_M(N)  ust->setMotorNazwa##N(ui->nazwa_##N->text());
+
 
 #define WRITE_MOTORS    WRITE_M(1) \
                         WRITE_M(2) \

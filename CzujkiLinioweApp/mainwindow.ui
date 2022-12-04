@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Czujniki Lioniowe</string>
+   <string>Czujniki Liniowe</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -483,6 +483,7 @@
     <addaction name="actionOtworzBadanie"/>
     <addaction name="actionZapiszZadanie"/>
     <addaction name="actionZapiszJako"/>
+    <addaction name="actionZamknijBadanie"/>
     <addaction name="actionUsunBadanie"/>
     <addaction name="separator"/>
     <addaction name="actionOtw_rz_okno"/>
@@ -492,6 +493,8 @@
     <property name="title">
      <string>Opcje</string>
     </property>
+    <addaction name="actionParametryBadania"/>
+    <addaction name="separator"/>
     <addaction name="actionParametryKalibracyjne"/>
     <addaction name="actionTestStanowiska"/>
     <addaction name="separator"/>
@@ -528,6 +531,8 @@
    <addaction name="actionZapiszZadanie"/>
    <addaction name="actionZapiszJako"/>
    <addaction name="separator"/>
+   <addaction name="actionParametryBadania"/>
+   <addaction name="actionZamknijBadanie"/>
    <addaction name="actionUsunBadanie"/>
    <addaction name="separator"/>
    <addaction name="actionZasilacz"/>
@@ -653,7 +658,8 @@
   </action>
   <action name="actionStartTestu">
    <property name="icon">
-    <iconset theme="media-playback-start"/>
+    <iconset theme="media-playback-start">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Start Testu</string>
@@ -662,6 +668,22 @@
   <action name="actionTestStanowiska">
    <property name="text">
     <string>Testowanie Stanowiska</string>
+   </property>
+  </action>
+  <action name="actionParametryBadania">
+   <property name="icon">
+    <iconset theme="accessories-text-editor"/>
+   </property>
+   <property name="text">
+    <string>Parametry Badania</string>
+   </property>
+  </action>
+  <action name="actionZamknijBadanie">
+   <property name="icon">
+    <iconset theme="window-close"/>
+   </property>
+   <property name="text">
+    <string>Zamknij Badanie</string>
    </property>
   </action>
  </widget>

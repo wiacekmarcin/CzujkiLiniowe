@@ -3,10 +3,10 @@
 #include "ustawienia.h"
 #include "serialdevice.h"
 #define SETCONF(N) /*ui->base##N->setText(u->getBaseStepsSilnik##N());*/ \
-                   ui->delay##N->setText(QString::number(u->getMotorOpoznienieImp##N())); \
-                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscKrokow##N())); \
+                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
+                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
-                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenie##N())); \
+                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
                    /*ui->enable##N->setChecked(u->getEnableSilnik##N());*/
 
 #define SETCONF_ALL SETCONF(1) \
@@ -35,10 +35,10 @@ TestSterownikaDlg::~TestSterownikaDlg()
 }
 
 #define WRITECONF(N) /*u->setBaseStepsSilnik##N(ui->base##N->text()); */\
-                     u->setMotorOpoznienieImp##N(ui->delay##N->text()); \
-                     u->setMotorMaksIloscKrokow##N(ui->maxSteps##N->text()); \
+                     u->setMotorCzasMiedzyImp##N(ui->delay##N->text()); \
+                     u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
-                     u->setMotorPrzelozenie##N(ui->ratio##N->text()); \
+                     u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
                      /*u.setEnableSilnik##N(ui->enable##N->isChecked());*/
 
 #define WRITECONF_ALL WRITECONF(1) \
@@ -176,7 +176,7 @@ void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const float & x, const fl
 }
 
 #define PBSETPOS(N) void TestSterownikaDlg::on_pbUstawPos_##N##_clicked() \
-{ pbUstawPos_clicked(N, ui->posX_##N->text().toFloat(), u->getMotorPrzelozenie##N()); }
+{ pbUstawPos_clicked(N, ui->posX_##N->text().toFloat(), u->getMotorPrzelozenieImpJedn##N()); }
 
 PBSETPOS(1)
 PBSETPOS(2)

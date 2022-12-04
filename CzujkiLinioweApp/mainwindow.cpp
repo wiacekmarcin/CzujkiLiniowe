@@ -8,7 +8,11 @@
 
 #include <QIcon>
 #include <QDebug>
-
+#include <QDate>
+#include <QTime>
+#include <QFileDialog>
+#include <QStandardPaths>
+#include <QFileInfo>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -16,6 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     , sd(nullptr)
     , dlgMierSignal(nullptr)
     , dlgSterSign(nullptr)
+    , fileDaneBadania("")
 
 {
     ui->setupUi(this);
@@ -197,7 +202,7 @@ void MainWindow::zas_recvMsg(const QString &msg)
 
 void MainWindow::on_actionParametry_Badania_triggered()
 {
-    ParametryBadania * dlg = new ParametryBadania(this);
+    ParametryBadania * dlg = new ParametryBadania(u, &b, this);
     dlg->exec();
 
 }
@@ -241,7 +246,14 @@ void MainWindow::on_actionTestSterownikaDlg_triggered()
 
 void MainWindow::on_actionNoweBadanie_triggered()
 {
-    ParametryBadania * dlg = new ParametryBadania(this);
+    QString fileName = QString("BadanieCzujki_%1%2.dat").arg(QDate::currentDate().toString("yyyyMMdd"),
+                                                             QTime::currentTime().toString("HHmmss"));
+    QFileInfo fi(QDir(QStandardPaths::displayName(QStandardPaths::DocumentsLocation)), fileName);
+    fileDaneBadania = fi.absoluteFilePath();
+    setWindowTitle("");
+    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    setWindowModified(true);
+    ParametryBadania * dlg = new ParametryBadania(u, &b, this);
     dlg->exec();
 }
 
@@ -255,5 +267,54 @@ void MainWindow::on_actionStartTestu_triggered()
 void MainWindow::on_actionTestStanowiska_triggered()
 {
 
+}
+
+
+void MainWindow::on_actionZapiszZadanie_triggered()
+{
+    if (fileDaneBadania.isEmpty()) {
+        on_actionZapiszJako_triggered();
+        return;
+    }
+    saveFile();
+}
+
+
+void MainWindow::on_actionZapiszJako_triggered()
+{
+    qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Zachowaj dane w pliku"),
+                               QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+                               tr("Badania (*.dat)"));
+    if (fileName.isEmpty())
+        return;
+
+    fileDaneBadania = fileName;
+    QFileInfo fi(fileName);
+    setWindowTitle("");
+    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    saveFile();
+}
+
+void MainWindow::saveFile()
+{
+    b.save(fileDaneBadania);
+    setWindowModified(false);
+}
+
+
+void MainWindow::on_actionOtworzBadanie_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Otwórz badanie"),
+                                                    QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+                                                    tr("Badania (*.dat)"));
+    if (fileName.isEmpty())
+        return;
+    fileDaneBadania = fileName;
+    QFileInfo fi(fileName);
+    setWindowTitle("");
+    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    setWindowModified(false);
+    b.load(fileDaneBadania);
 }
 

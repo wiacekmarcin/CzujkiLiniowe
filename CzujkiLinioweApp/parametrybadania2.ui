@@ -36,39 +36,49 @@
         </item>
         <item>
          <property name="text">
-          <string>Nadajnik-Dobiornik + Reflektor</string>
+          <string>Nadajnik-obiornik + Reflektor</string>
          </property>
         </item>
        </widget>
       </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="typNadajnika"/>
+      <item row="1" column="0">
+       <widget class="QLabel" name="lproducent">
+        <property name="text">
+         <string>Producent</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="producent"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="ltypnadajnika">
+       <widget class="QLabel" name="ltyppierwszy">
         <property name="text">
          <string>Typ nadajnika</string>
         </property>
        </widget>
       </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="typPierwszy"/>
+      </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="ltypodbiornika">
+       <widget class="QLabel" name="ltypdrugi">
         <property name="text">
          <string>Typ odbiornika</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="typOdbiornika"/>
+       <widget class="QLineEdit" name="typDrugi"/>
       </item>
-      <item row="5" column="0">
+      <item row="4" column="0">
        <widget class="QLabel" name="lrozstawienieminimalne">
         <property name="text">
          <string>Rozstawienie minimalne</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="1">
+      <item row="4" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLineEdit" name="rozstawienieMinimalne"/>
@@ -82,14 +92,14 @@
         </item>
        </layout>
       </item>
-      <item row="6" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="lrozstawieniemaksymalne">
         <property name="text">
-         <string>Rozstawienei maksymalne</string>
+         <string>Rozstawienie maksymalne</string>
         </property>
        </widget>
       </item>
-      <item row="6" column="1">
+      <item row="5" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QLineEdit" name="rozstawienieMaksymalne"/>
@@ -103,24 +113,7 @@
         </item>
        </layout>
       </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="lproducent">
-        <property name="text">
-         <string>Producent</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="ltypreflektor">
-        <property name="text">
-         <string>Typ Reflektora</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="typReflektora"/>
-      </item>
-      <item row="7" column="0" colspan="2">
+      <item row="6" column="0" colspan="2">
        <widget class="Line" name="line_1">
         <property name="minimumSize">
          <size>
@@ -136,10 +129,7 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="producent"/>
-      </item>
-      <item row="8" column="0" colspan="2">
+      <item row="7" column="0" colspan="2">
        <widget class="QWidget" name="widget" native="true">
         <property name="minimumSize">
          <size>
@@ -160,40 +150,6 @@
          <property name="bottomMargin">
           <number>0</number>
          </property>
-         <item row="4" column="4">
-          <widget class="QLineEdit" name="nad_ospionowa"/>
-         </item>
-         <item row="5" column="5">
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>[*]</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="4" colspan="2">
-          <widget class="QLabel" name="lnadajnik">
-           <property name="text">
-            <string>Nadajnika</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="3" rowspan="3">
-          <widget class="Line" name="line">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="5">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>[*]</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="4">
-          <widget class="QLineEdit" name="nad_ospozioma"/>
-         </item>
          <item row="4" column="0">
           <widget class="QLabel" name="lospionowa">
            <property name="text">
@@ -201,44 +157,21 @@
            </property>
           </widget>
          </item>
-         <item row="5" column="2">
-          <widget class="QLabel" name="lunitospozioma">
+         <item row="5" column="6">
+          <widget class="QLabel" name="label_2">
            <property name="text">
             <string>[*]</string>
            </property>
           </widget>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="lospozioma">
-           <property name="text">
-            <string>Oś pozioma</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QLineEdit" name="odb_ospozioma"/>
-         </item>
-         <item row="3" column="1" colspan="2">
-          <widget class="QLabel" name="lodbiornik">
-           <property name="text">
-            <string>Odbiornika</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QLineEdit" name="odb_ospionowa"/>
-         </item>
-         <item row="4" column="2">
-          <widget class="QLabel" name="lunitpionowa">
+         <item row="4" column="6">
+          <widget class="QLabel" name="label">
            <property name="text">
             <string>[*]</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" colspan="6">
+         <item row="1" column="0" colspan="7">
           <widget class="QLabel" name="lcaption">
            <property name="text">
             <string>Maksymalna kątowa niewspółosiowość</string>
@@ -248,7 +181,30 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0" colspan="6">
+         <item row="5" column="1">
+          <widget class="QLineEdit" name="pierwszy_ospozioma"/>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="lunitpionowa">
+           <property name="text">
+            <string>[*]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="5">
+          <widget class="QLineEdit" name="drugi_ospionowa"/>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="lospozioma">
+           <property name="text">
+            <string>Oś pozioma</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="pierwszy_ospionowa"/>
+         </item>
+         <item row="2" column="0" colspan="7">
           <widget class="Line" name="line_2">
            <property name="minimumSize">
             <size>
@@ -264,6 +220,40 @@
            </property>
           </widget>
          </item>
+         <item row="3" column="4" rowspan="3">
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="5" colspan="2">
+          <widget class="QLabel" name="ldrugi">
+           <property name="text">
+            <string>Odbiornik</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="5">
+          <widget class="QLineEdit" name="drugi_ospozioma"/>
+         </item>
+         <item row="5" column="2">
+          <widget class="QLabel" name="lunitospozioma">
+           <property name="text">
+            <string>[*]</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1" colspan="2">
+          <widget class="QLabel" name="lpierwszy">
+           <property name="text">
+            <string>Nadajnik</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
@@ -275,721 +265,60 @@
      <property name="title">
       <string>Numery fabryczne</string>
      </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <item row="5" column="0">
-       <widget class="QLineEdit" name="lcz4">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
         </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>4</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2" rowspan="2">
-       <widget class="QLabel" name="hnadajnik">
-        <property name="text">
-         <string>Numer nadajnika</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLineEdit" name="lcz2">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>2</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="odbiornik5">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QLineEdit" name="odbiornik7">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLineEdit" name="lcz7">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>7</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="odbiornik2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLineEdit" name="lcz1">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>1</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLineEdit" name="nadajnik4">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="odbiornik4">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLineEdit" name="lcz5">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>5</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLineEdit" name="reflektor2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0" colspan="4">
-       <widget class="QWidget" name="widget_2" native="true">
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>119</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>Ilość zdefiniowanych czujek</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="ilosc_czujek">
+        <layout class="QGridLayout" name="gridLayoutNumerCzujek">
+         <item row="0" column="0">
+          <widget class="QLabel" name="hlp">
            <property name="minimumSize">
             <size>
-             <width>15</width>
+             <width>20</width>
              <height>0</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>40</width>
+             <width>30</width>
              <height>16777215</height>
             </size>
            </property>
            <property name="text">
-            <string>0</string>
+            <string>Ozn.
+Czujki</string>
            </property>
           </widget>
          </item>
-         <item>
-          <spacer name="horizontalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
+         <item row="0" column="1">
+          <widget class="QLabel" name="hpierwszy">
+           <property name="text">
+            <string>Numer odbiornika</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>118</width>
-             <height>20</height>
-            </size>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
            </property>
-          </spacer>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="hdrugi">
+           <property name="text">
+            <string>Numer nadajnika</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
       </item>
-      <item row="8" column="2">
-       <widget class="QLineEdit" name="nadajnik7">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QLineEdit" name="reflektor5">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QLineEdit" name="odbiornik6">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="odbiornik3">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLineEdit" name="nadajnik1"/>
-      </item>
-      <item row="7" column="2">
-       <widget class="QLineEdit" name="nadajnik6">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="3">
-       <widget class="QLineEdit" name="reflektor7">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0" rowspan="2">
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>Ozn.
-Czujki</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="odbiornik1">
-        <property name="font">
-         <font>
-          <pointsize>10</pointsize>
-         </font>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLineEdit" name="lcz3">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>3</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="3">
-       <widget class="QLineEdit" name="reflektor6">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLineEdit" name="reflektor4">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QLineEdit" name="nadajnik5">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="nadajnik2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLineEdit" name="lcz6">
-        <property name="minimumSize">
-         <size>
-          <width>20</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>20</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="palette">
-         <palette>
-          <active>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </active>
-          <inactive>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>255</red>
-              <green>255</green>
-              <blue>255</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </inactive>
-          <disabled>
-           <colorrole role="Base">
-            <brush brushstyle="SolidPattern">
-             <color alpha="255">
-              <red>239</red>
-              <green>239</green>
-              <blue>239</blue>
-             </color>
-            </brush>
-           </colorrole>
-          </disabled>
-         </palette>
-        </property>
-        <property name="text">
-         <string>6</string>
-        </property>
-        <property name="frame">
-         <bool>true</bool>
-        </property>
-        <property name="echoMode">
-         <enum>QLineEdit::Normal</enum>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1" rowspan="2">
-       <widget class="QLabel" name="hodbiornik">
-        <property name="text">
-         <string>Numer odbiornika</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLineEdit" name="nadajnik3">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="reflektor1"/>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLineEdit" name="reflektor3">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="3" rowspan="2">
-       <widget class="QLabel" name="hreflektor">
-        <property name="text">
-         <string>Numer reflektora</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="10" column="0" colspan="4">
+      <item>
        <widget class="QWidget" name="widget_3" native="true">
         <layout class="QFormLayout" name="formLayout_2">
          <item row="0" column="0">
@@ -1027,6 +356,19 @@ po zakończeniu badań odtwarzalności</string>
         </layout>
        </widget>
       </item>
+      <item>
+       <spacer name="verticalSpacer">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
      </layout>
     </widget>
    </item>
@@ -1035,44 +377,10 @@ po zakończeniu badań odtwarzalności</string>
  <tabstops>
   <tabstop>comboBox</tabstop>
   <tabstop>producent</tabstop>
-  <tabstop>typNadajnika</tabstop>
-  <tabstop>typOdbiornika</tabstop>
-  <tabstop>typReflektora</tabstop>
+  <tabstop>typPierwszy</tabstop>
+  <tabstop>typDrugi</tabstop>
   <tabstop>rozstawienieMinimalne</tabstop>
   <tabstop>rozstawienieMaksymalne</tabstop>
-  <tabstop>odb_ospionowa</tabstop>
-  <tabstop>odb_ospozioma</tabstop>
-  <tabstop>nad_ospionowa</tabstop>
-  <tabstop>nad_ospozioma</tabstop>
-  <tabstop>lcz1</tabstop>
-  <tabstop>odbiornik1</tabstop>
-  <tabstop>nadajnik1</tabstop>
-  <tabstop>reflektor1</tabstop>
-  <tabstop>lcz2</tabstop>
-  <tabstop>odbiornik2</tabstop>
-  <tabstop>nadajnik2</tabstop>
-  <tabstop>reflektor2</tabstop>
-  <tabstop>lcz3</tabstop>
-  <tabstop>odbiornik3</tabstop>
-  <tabstop>nadajnik3</tabstop>
-  <tabstop>reflektor3</tabstop>
-  <tabstop>lcz4</tabstop>
-  <tabstop>odbiornik4</tabstop>
-  <tabstop>nadajnik4</tabstop>
-  <tabstop>reflektor4</tabstop>
-  <tabstop>lcz5</tabstop>
-  <tabstop>odbiornik5</tabstop>
-  <tabstop>nadajnik5</tabstop>
-  <tabstop>reflektor5</tabstop>
-  <tabstop>lcz6</tabstop>
-  <tabstop>odbiornik6</tabstop>
-  <tabstop>nadajnik6</tabstop>
-  <tabstop>reflektor6</tabstop>
-  <tabstop>lcz7</tabstop>
-  <tabstop>odbiornik7</tabstop>
-  <tabstop>nadajnik7</tabstop>
-  <tabstop>reflektor7</tabstop>
-  <tabstop>ilosc_czujek</tabstop>
  </tabstops>
  <resources/>
  <connections/>

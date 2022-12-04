@@ -92,9 +92,10 @@ public:
         cfile.write("\n".join(["\t"+f for f in self.c_load]))
         cfile.write("\n}\n\nvoid %s::save()\n{\n" % self.className)
         cfile.write("\n".join(["\t"+f for f in self.c_save]))
-        cfile.write("\n}\n\nbool %s::check()\n{\n" % self.className)
-        cfile.write("\n".join(["\tif (!%s) return false;" % f for f in self.c_check]))
-        cfile.write("\n\treturn true;\n}\n\n")
+        cfile.write("\n}\n\n")
+        #cfile.write("bool %s::check()\n{\n" % self.className)
+        #cfile.write("\n".join(["\tif (!%s) return false;" % f for f in self.c_check]))
+        #cfile.write("\n\treturn true;\n}\n\n")
         
         cfile.write("\n\n".join([f for f in self.c_sources]))
         cfile.close()
@@ -281,7 +282,40 @@ public:
         self.h_protected_fun.append("bool %s(const QString & val) const;" % f_check)
         self.c_sources.append("bool %s::%s(const QString & val) const\n{\n\t%s\n}" % (self.className, f_check, content()))            
 
-def checkNazwaContent() :
+    def addZakresy(self, nameVal, type, convVal, path, defVal, checkFun):
+        localVal = nameVal
+        typeVal = type
+        self.h_private_values.append("%s %s;" % (typeVal, localVal))
+        fget = "%s get%s() const" % (typeVal, self.cName(nameVal))
+        fset = "void set%s(const %s & %s)" % (self.cName(nameVal), typeVal, nameVal)
+       
+        fget_c = "%s %s::get%s() const" % (typeVal, self.className, self.cName(nameVal))
+        fset_c = "void %s::set%s(const %s & value)" % (self.className, self.cName(nameVal), typeVal)
+        #f_check = "checkSerialDeviceIdentString" 
+
+        self.h_public_fun.append(fget + ";");
+        self.h_public_fun.append(fset + ";");
+        
+        settPath = path
+        
+        #m_ratioSilnik1 = settings.value("Ratio_1", m_ratioSilnik1).toString();
+        self.c_load.append('%s = %s(settings.value("%s", QVariant::fromValue(%s)).toString());' % (localVal, convVal, settPath, defVal))
+        
+        #settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1));
+        self.c_save.append('settings.setValue("%s", QVariant::fromValue(%s));' % (settPath, localVal))
+        
+        #checkMotor(settings.value("%s").toQString())
+        #self.c_check.append(f_check + '(settings.value("%s").toString())' % settPath)
+        
+        #QString Ustawienia::getRatioSilnik1() const { return m_ratioSilnik1; }
+        self.c_sources.append("%s\n{\n\treturn %s;\n}" % (fget_c, localVal))
+        
+        #void Ustawienia::setRatioSilnik1(const QString & value) { m_ratioSilnik1 = value; settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1)); }
+        self.c_sources.append('%s\n{\n\t%s = value;\n\tsettings.setValue("%s", QVariant::fromValue(value));\n}' % (fset_c, localVal, settPath))
+
+
+
+def checkQStringContent() :
     return """
     if (val.isEmpty()) return false;
     return true;
@@ -319,105 +353,115 @@ def checkUnsignedIntContent() :
 """
 
 checkFuns = {}
-checkFuns["nazwa"] = checkNazwaContent
-checkFuns["przelozenie"] = checkDoubleContent
-checkFuns["maksPredkosc"] = checkDoubleContent
+checkFuns["nazwa"] = checkQStringContent
+checkFuns["przelozenieImpJedn"] = checkDoubleContent
+checkFuns["minOdstepImp"] = checkUnsignedIntContent
 checkFuns["odwrocObroty"] = checkBoolContent
-checkFuns["opoznienieImp"] = checkUnsignedIntContent
-checkFuns["maksIloscKrokow"] = checkUnsignedIntContent
-checkFuns["iloscKrokowBaza"] = checkUnsignedIntContent
-checkFuns["iloscKrokowSrodek"] = checkUnsignedIntContent
+checkFuns["czasMiedzyImp"] = checkUnsignedIntContent
+checkFuns["maksIloscImp"] = checkUnsignedIntContent
+checkFuns["iloscImpBaza"] = checkUnsignedIntContent
+checkFuns["iloscImpSrodek"] = checkUnsignedIntContent
+checkFuns["jednostka"] = checkUnsignedIntContent
 
 motordefVals = {
     1 : {
         "nazwa" : 'QString("M1")',
-        "przelozenie" : 1.1,
-        "maksPredkosc" : 2.1,
+        "przelozenieImpJedn" : 0.028,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1251,
-        "maksIloscKrokow" : 1001,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 10000000,
+        "maksIloscImp" : 1001,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 350,
+        "jednostka" : "*",
     },
     2 : {
         "nazwa" : 'QString("M2")',
-        "przelozenie" : 1.2,
-        "maksPredkosc" : 2.2,
+        "przelozenieImpJedn" : 0.028,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1252,
-        "maksIloscKrokow" : 1002,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 10000000,
+        "maksIloscImp" : 1002,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 350,
+        "jednostka" : "*",
     },
     3 : {
         "nazwa" : 'QString("M3")',
-        "przelozenie" : 1.3,
-        "maksPredkosc" : 2.3,
+        "przelozenieImpJedn" : 84.4527,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1253,
-        "maksIloscKrokow" : 1003,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 60,
+        "maksIloscImp" : 31003,
+        "iloscImpBaza" : 260,
+        "iloscImpSrodek" : 0,
+        "jednostka" : "*",
     },
     4 : {
         "nazwa" : 'QString("M4")',
-        "przelozenie" : 1.4,
-        "maksPredkosc" : 2.4,
+        "przelozenieImpJedn" : 84.4527,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1254,
-        "maksIloscKrokow" : 1004,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 60,
+        "maksIloscImp" : 31004,
+        "iloscImpBaza" : 260,
+        "iloscImpSrodek" : 0,
+        "jednostka" : "*",
     },
     5 : {
         "nazwa" : 'QString("M5")',
-        "przelozenie" : 1.5,
-        "maksPredkosc" : 2.5,
+        "przelozenieImpJedn" : 84.4527,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1255,
-        "maksIloscKrokow" : 1005,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 60,
+        "maksIloscImp" : 31005,
+        "iloscImpBaza" : 260,
+        "iloscImpSrodek" : 0,
+        "jednostka" : "*",
     },
     6 : {
         "nazwa" : 'QString("M6")',
-        "przelozenie" : 1.6,
-        "maksPredkosc" : 2.6,
+        "przelozenieImpJedn" : 1.6,
+        "minOdstepImp" : 2.6,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1256,
-        "maksIloscKrokow" : 1006,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 1256,
+        "maksIloscImp" : 1006,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 0,
+        "jednostka" : "mm",
     },
     7 : {
         "nazwa" : 'QString("M7")',
-        "przelozenie" : 1.7,
-        "maksPredkosc" : 2.7,
+        "przelozenieImpJedn" : 1.7,
+        "minOdstepImp" : 2.7,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1257,
-        "maksIloscKrokow" : 1007,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 1257,
+        "maksIloscImp" : 1007,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 0,
+        "jednostka" : "mm",
     },
     8 : {
         "nazwa" : 'QString("M8")',
-        "przelozenie" : 1.8,
-        "maksPredkosc" : 2.8,
+        "przelozenieImpJedn" : 0.028,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1258,
-        "maksIloscKrokow" : 1008,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 10000000,
+        "maksIloscImp" : 1008,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 350,
+        "jednostka" : "*",
     },
     9 : {
         "nazwa" : 'QString("M9")',
-        "przelozenie" : 1.9,
-        "maksPredkosc" : 2.9,
+        "przelozenieImpJedn" : 0.028,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
-        "opoznienieImp" : 1259,
-        "maksIloscKrokow" : 1009,
-        "iloscKrokowBaza" : 0,
-        "iloscKrokowSrodek" : 0
+        "czasMiedzyImp" : 10000000,
+        "maksIloscImp" : 1009,
+        "iloscImpBaza" : 0,
+        "iloscImpSrodek" : 350,
+        "jednostka" : "*",
     },
 }
 
@@ -441,13 +485,13 @@ def motorSett(nazwa, typ, fun, checkFuns, devVals):
     u.addSummMotor(nazwa, typ, fun, checkFuns)
 
 motorSett("nazwa", "QString", "toQString", checkFuns, motordefVals)
-motorSett("przelozenie", "double", "toDouble", checkFuns, motordefVals)
-motorSett("maksPredkosc", "double", "toDouble", checkFuns, motordefVals)
+motorSett("przelozenieImpJedn", "double", "toDouble", checkFuns, motordefVals)
+motorSett("minOdstepImp", "int", "toUInt", checkFuns, motordefVals)
 motorSett("odwrocObroty", "bool", "toBool", checkFuns, motordefVals)
-motorSett("opoznienieImp", "int", "toUInt", checkFuns, motordefVals)
-motorSett("maksIloscKrokow", "int", "toUInt", checkFuns, motordefVals)
-motorSett("iloscKrokowBaza", "int", "toUInt", checkFuns, motordefVals)
-motorSett("iloscKrokowSrodek", "int", "toUInt", checkFuns, motordefVals)
+motorSett("czasMiedzyImp", "int", "toUInt", checkFuns, motordefVals)
+motorSett("maksIloscImp", "int", "toUInt", checkFuns, motordefVals)
+motorSett("iloscImpBaza", "int", "toUInt", checkFuns, motordefVals)
+motorSett("iloscImpSrodek", "int", "toUInt", checkFuns, motordefVals)
 
 def addFiltrSett(fala, defFiltrVals):
     for i in range(0, 6):
@@ -462,7 +506,22 @@ u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
 u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
 u.addDevice("sterownikVendor", "Sterownik/Vendor", 'QString("2341")')
 u.addDevice("sterownikProduct", "Sterownik/Product", 'QString("42")')
-u.addDevideSummary(checkBoolContent)
+u.addDevideSummary(checkQStringContent)
+
+u.addZakresy("minNapiecieCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MinimalneNapiecie", '2.0', checkDoubleContent)
+u.addZakresy("maxNapiecieCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MaksymalneNapiecie", '30.0', checkDoubleContent)
+
+u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MinimalnyCzasStabilizacji", '10', checkUnsignedIntContent)
+u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MaksymalnyCzasStabilizacji", '3600', checkUnsignedIntContent)
+
+u.addZakresy("minPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-Alarm/MinimalnyPrzekroczonyPradZasilania", '4.0', checkDoubleContent)
+u.addZakresy("maxPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-Alarm/MaksymalnyPrzekroczonyPradZasilania", '200.0', checkDoubleContent)
+
+u.addZakresy("minCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
+u.addZakresy("maxCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
+
+#u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
+#u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
 u.createHeader()
 u.createSource()

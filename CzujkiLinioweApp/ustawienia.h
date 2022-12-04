@@ -10,7 +10,7 @@ class Ustawienia : public UstawieniaGen
 public:
     Ustawienia();
     ~Ustawienia();
-
+    static double wyliczPredkosc(const double & ratioImpJedn, const double & impTime);
 private:
 
     static char appnazwa[];
