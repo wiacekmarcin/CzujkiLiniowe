@@ -12,7 +12,12 @@ SOURCES += \
     danebadania.cpp \
     danebadania_gen.cpp \
     sterownik.cpp \
+    test1parametrytestu.cpp \
+    test2potwierdzenie.cpp \
+    test3sprawdzenie.cpp \
+    test4montaz.cpp \
     teststanowiskadlg.cpp \
+    wybortestu.cpp \
     zasilacz.cpp \
     crc8.cpp \
     debugdialog.cpp \
@@ -36,7 +41,12 @@ HEADERS += \
     danebadania.h \
     danebadania_gen.h \
     sterownik.h \
+    test1parametrytestu.h \
+    test2potwierdzenie.h \
+    test3sprawdzenie.h \
+    test4montaz.h \
     teststanowiskadlg.h \
+    wybortestu.h \
     zasilacz.h \
     crc8.h \
     debugdialog.h \
@@ -63,11 +73,16 @@ FORMS += \
     parametrybadania2.ui \
     parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
+    test1parametrytestu.ui \
+    test2potwierdzenie.ui \
+    test3sprawdzenie.ui \
+    test4montaz.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \
-    ustawienianapedow.ui
+    ustawienianapedow.ui \
+    wybortestu.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts

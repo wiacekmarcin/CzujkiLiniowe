@@ -5,6 +5,7 @@
 #include "parametrybadania.h"
 #include "parametrykalibracyjnedlg.h"
 #include "testzasilaczadlg.h"
+#include "wybortestu.h"
 
 #include <QIcon>
 #include <QDebug>
@@ -260,7 +261,8 @@ void MainWindow::on_actionNoweBadanie_triggered()
 
 void MainWindow::on_actionStartTestu_triggered()
 {
-
+    WyborTestu *dlg1 = new WyborTestu(this);
+    dlg1->exec();
 }
 
 
