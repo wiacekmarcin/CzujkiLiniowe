@@ -12,11 +12,12 @@ MessageSerial msg;
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
-constexpr uint8_t resetPins = 53;
-constexpr uint8_t ssPins[maxNumSter]    = {32,33,34,35,36,37,38,39,40};
+constexpr uint8_t resetPin = 49;
+
+constexpr uint8_t ssPins[maxNumSter]    = {31,32,33,34,35,36,37,38,39};
 constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,15};
 constexpr uint8_t stopPins[maxNumSter]  = {30,29,28,27,26,25,24,23,22};
-constexpr uint8_t movePins[maxNumSter]  = {41,42,43,44,45,46,47,48,49};
+constexpr uint8_t movePins[maxNumSter]  = {40,41,42,43,44,45,46,47,48};
 
 SPIMessage motors[maxNumSter];
 
@@ -25,7 +26,7 @@ static void configurationLocal();
 static void welcomeMsg();
 static void configuration();
 static void moveSteps();
-static void sendProgressMsg(uint8_t index);
+//static void sendProgressMsg(uint8_t index);
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
 volatile bool timeout = false;
@@ -44,13 +45,14 @@ void timerHandler()
     checkProgres = maxNumSter;
 }
 
+volatile uint16_t busyLowMaks = 0x0000;
+
 
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
-    motors[N].setFinish();\
-    Serial1.print("F");\
-    Serial1.println(N);\
+    bitSet(busyLowMaks, N); \
+    /*motors[N].setFinish();*/\
 }
 
 FINISHJOB(0)
@@ -69,12 +71,25 @@ isr_bust_fun funptr[maxNumSter] = {isrFinishJob0, isrFinishJob1, isrFinishJob2, 
 
 void setup (void)
 {
-    pinMode(resetPins, OUTPUT); 
-    digitalWrite(resetPins, LOW);
+    pinMode(resetPin, OUTPUT); 
+    digitalWrite(resetPin, LOW);
     delay(50);
-    digitalWrite(resetPins, HIGH);
-    delay(1450);
+    digitalWrite(resetPin, HIGH);
+    pinMode(tempPin, OUTPUT);
+    Serial.begin(115200);
+#ifdef DEBUG    
+    Serial1.begin(115200);
+#endif  
+    digitalWrite(tempPin, LOW);
+
+    //delay(1450);
     
+    /* piny SPI */
+    pinMode(SCK, OUTPUT);
+    digitalWrite(SCK, LOW);
+    pinMode(MISO, INPUT);
+    pinMode(MOSI, OUTPUT);
+    digitalWrite(MOSI, LOW);
     // Put SCK, MOSI, SS pins into output mode
     // also put SCK, MOSI into LOW state, and SS into HIGH state.
     // Then put SPI hardware into Master mode and turn SPI on
@@ -82,26 +97,20 @@ void setup (void)
     //
     SPI.setClockDivider(SPI_CLOCK_DIV128);
 
-    /* piny SPI */
-    pinMode(SCK, OUTPUT);
-    digitalWrite(SCK, LOW);
-    pinMode(MISO, INPUT);
-    pinMode(MOSI, OUTPUT);
-    digitalWrite(MOSI, LOW);
+    
 
     for (uint8_t p = 0; p < maxNumSter; ++p) {
+        if (p+1 != 9)
+            continue;
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
         pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
         pinMode(movePins[p], INPUT);
-        //attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
+        attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
         motors[p].init(p+1, ssPins[p], stopPins[p], movePins[p], busyPins[p],&msg);
     }
 
-    Serial.begin(115200);
-#ifdef DEBUG    
-    Serial1.begin(115200);
-#endif    
+   
     //delay(1000);
 
     Timer1.initialize(5000000);
@@ -122,180 +131,54 @@ uint32_t loopsCnt = 500000;
 uint8_t cntIsFinishCnt = 0;
 uint8_t FirstLoop = 10;
 
-#define SKIP_MOD 
 
-void readAll() {
-    Serial1.print("BUSY:");
-    for (uint8_t p = 0 ; p < 9; ++p) {
-        Serial1.print(digitalRead(busyPins[p]), DEC);
-        Serial1.print(" ");
-    }
-    Serial1.print("\nMOVE:");
-    for (uint8_t m = 0 ; m < 9; ++m) {
-        Serial1.print(digitalRead(movePins[m]), DEC);
-        Serial1.print(" ");
-    }
-    Serial1.println();
-}
-
-
+#define PULSE(P) digitalWrite(P, HIGH); delay(10); digitalWrite(P, LOW); delay(10);
+unsigned long prevMillis = 0;
+bool sendEchoMsg = false;
 void loop (void)
 {
-    for (uint8_t mod = 0; mod < 9 ; ++mod) {
-        SKIP_MOD
-        //Serial1.print("M");
-        //Serial1.print(mod+1);
-        //Serial1.println(" SS LOW");
-        digitalWrite(ssPins[mod], LOW);
-        delayMicroseconds(40);
-        if (digitalRead(busyPins[mod]) != LOW) {
-            Serial.print("M");
-            Serial.print(mod+1);
-            Serial.print(" SS LOW - ");
-            Serial.println("SS/BUSY LOW ERR\n");
-            //delay(5000);
-        }
-        //Serial.print("BEF:");
-        //readAll();
-        //delay(2000);
-        //Serial.print("AFT2s:");
-        //readAll();
-        
-        //Serial.print("M");
-        //Serial.print(mod+1);
-        //Serial.println(" SS HIGH");
-        digitalWrite(ssPins[mod], HIGH);
-        delayMicroseconds(40);
-        if (digitalRead(busyPins[mod]) != HIGH) {
-            Serial.print("M");
-            Serial.print(mod+1);
-            Serial.print(" SS LOW - ");
-            Serial.println("SS/BUSY HIGH ERR\n");
-            //delay(5000);
-        }
-        //Serial.print("BEF:");
-        //readAll();
-        //delay(2000);
-        //Serial.print("AFT2s:");
-        //readAll();
-        
-        //Serial.print("M");
-        //Serial.print(mod+1);
-        //Serial.println(" STOP LOW");
-        digitalWrite(stopPins[mod], LOW);
-        delayMicroseconds(40);
-        if (digitalRead(movePins[mod]) != LOW) {
-            Serial.print("M");
-            Serial.print(mod+1);
-            Serial.print(" STOP LOW -");
-            Serial.println("STOP/MOVE LOW ERR\n");
-            //delay(5000);
-        }
-        
-        //Serial.print("BEF:");
-        //readAll();
-        //delay(2000);
-        //Serial.print("AFT2s:");
-        //readAll();
-       
 
-        //Serial.print("M");
-        //Serial.print(mod+1);
-        //Serial.println(" STOP HIGH");
-        digitalWrite(stopPins[mod], HIGH);
-        delayMicroseconds(40);
-        if (digitalRead(movePins[mod]) != HIGH) {
-            Serial.print("M");
-            Serial.print(mod+1);
-            Serial.print(" STOP HIGH - ");
-            Serial.println("STOP/MOVE HIGH ERR\n");
-            //delay(5000);
+    if (busyLowMaks) {
+        for (unsigned int n = 0; n < 9; ++n) {
+            if (bitRead(busyLowMaks, n)) {
+                bitClear(busyLowMaks, n);
+                Serial1.print(millis());
+                Serial1.print(" IRQ:");
+                Serial1.println(n+1);
+            }
+            if (n + 1 == 9) {
+                if (!sendEchoMsg) {
+                    sendEchoMsg = true;
+                    digitalWrite(tempPin, HIGH);
+                    motors[n].sendEchoMsg();
+                    digitalWrite(tempPin, LOW);
+                }
+                else {
+                    Serial1.print(millis());
+                    Serial1.println(" Odp na echo");
+                }
+                
+            }
         }
-        //Serial.print("BEF:");
-        //readAll();
-        //delay(2000);
-        //Serial.print("AFT2s:");
-        //readAll();
-
+    } else {
+        if (millis() - prevMillis > 500) {
+            Serial1.println("Brak przerwań");
+            prevMillis = millis();
+        }
     }
 
-    return;
+    if (checkProgres) {
+        Serial1.println("Reset ALL");
+        digitalWrite(resetPin, LOW);
+        delay(50);
+        digitalWrite(resetPin, HIGH);
 
-    for (uint8_t mod = 0; mod < 9 ; ++mod) {
-        SKIP_MOD
-        Serial1.print("M");
-        Serial1.print(mod+1);
-        Serial1.println(" BUSY LOW");
-        digitalWrite(ssPins[mod], LOW);
-        if (digitalRead(busyPins[mod]) != LOW) {
-            //Serial1.print("SS/BUSY LOW ERR\n");
-            //delay(5000);
-        }
-        delay(200);
-    }
-
-    for (uint8_t mod = 0; mod < 9 ; ++mod) {
-        SKIP_MOD
-        Serial1.print("M");
-        Serial1.print(mod+1);
-        Serial1.println(" BUSY HIGH");
-        digitalWrite(ssPins[mod], HIGH);
-        if (digitalRead(busyPins[mod]) != HIGH) {
-            //Serial1.print("SS/BUSY HIGH ERR\n");
-            //delay(5000);
-        }
-        delay(200);
-    }
-        
-    for (uint8_t mod = 0; mod < 9 ; ++mod) {
-        SKIP_MOD
-        Serial1.print("M");
-        Serial1.print(mod+1);
-        Serial1.println(" STOP LOW");
-        digitalWrite(stopPins[mod], LOW);
-        if (digitalRead(movePins[mod]) != LOW) {
-            //Serial1.print("STOP/MOVE LOW ERR\n");
-            //delay(5000);
-        }
-        delay(200);
-    }
-
-    for (uint8_t mod = 0; mod < 9 ; ++mod) {
-        SKIP_MOD
-        Serial1.print("M");
-        Serial1.print(mod+1);
-        Serial1.println(" STOP HIGH");
-        digitalWrite(stopPins[mod], HIGH);
-        if (digitalRead(movePins[mod]) != HIGH) {
-            //Serial1.print("STOP/MOVE HIGH ERR\n");
-            //delay(5000);
-        }
-        delay(200);
+        //DEBUG;
+        checkProgres = 0;
     }
 
 
-
-    return;
-
-    if (FirstLoop--) {
-        FirstLoop = false;
-           Serial.println("Wysylam do 6");
-           motors[5].sendEchoMsg(); 
-           delay(500);
-           motors[5].sendReplyMsg();
-           delay(5000);
-           Serial.println("Wysylam do 7");
-           motors[6].sendEchoMsg(); 
-           delay(500);
-           motors[6].sendReplyMsg();
-           delay(5000);
-           Serial.println("Wysylam do 8");
-           motors[7].sendEchoMsg(); 
-           delay(500);
-           motors[7].sendReplyMsg();
-           delay(20000);
-    }
-
+    return ;
 
     return ;
     readSerial();
@@ -378,5 +261,6 @@ void moveSteps()
     motors[motor].moveSteps(msg.msg(), msg.len(), (msg.getOptions() & 0x01) == 0x01);
     actWork = MessageSerial::NOP;
 }
+
 
 
