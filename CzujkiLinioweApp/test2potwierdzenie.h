@@ -4,7 +4,7 @@
 #include <QDialog>
 
 namespace Ui {
-class Test2Potwierdzenie;
+    class Test2Potwierdzenie;
 }
 
 class Test2Potwierdzenie : public QDialog

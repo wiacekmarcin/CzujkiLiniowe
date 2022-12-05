@@ -92,42 +92,78 @@ void UstawieniaGen::load()
 	motorIloscImpSrodek7 = toUInt(settings.value("Silnik-7/IloscImpSrodek", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek8 = toUInt(settings.value("Silnik-8/IloscImpSrodek", QVariant::fromValue(350)).toString());
 	motorIloscImpSrodek9 = toUInt(settings.value("Silnik-9/IloscImpSrodek", QVariant::fromValue(350)).toString());
-	filtr880_A_0 = toDouble(settings.value("Filtr_880_A/Pos0", QVariant::fromValue(0)).toString());
-	filtr880_B_0 = toDouble(settings.value("Filtr_880_B/Pos0", QVariant::fromValue(0)).toString());
-	filtr880_C_0 = toDouble(settings.value("Filtr_880_C/Pos0", QVariant::fromValue(0)).toString());
-	filtr880_A_1 = toDouble(settings.value("Filtr_880_A/Pos1", QVariant::fromValue(0.22)).toString());
-	filtr880_B_1 = toDouble(settings.value("Filtr_880_B/Pos1", QVariant::fromValue(0.1)).toString());
-	filtr880_C_1 = toDouble(settings.value("Filtr_880_C/Pos1", QVariant::fromValue(0.09)).toString());
-	filtr880_A_2 = toDouble(settings.value("Filtr_880_A/Pos2", QVariant::fromValue(1.02)).toString());
-	filtr880_B_2 = toDouble(settings.value("Filtr_880_B/Pos2", QVariant::fromValue(1.02)).toString());
-	filtr880_C_2 = toDouble(settings.value("Filtr_880_C/Pos2", QVariant::fromValue(3.94)).toString());
-	filtr880_A_3 = toDouble(settings.value("Filtr_880_A/Pos3", QVariant::fromValue(0.59)).toString());
-	filtr880_B_3 = toDouble(settings.value("Filtr_880_B/Pos3", QVariant::fromValue(2)).toString());
-	filtr880_C_3 = toDouble(settings.value("Filtr_880_C/Pos3", QVariant::fromValue(8.04)).toString());
-	filtr880_A_4 = toDouble(settings.value("Filtr_880_A/Pos4", QVariant::fromValue(0.82)).toString());
-	filtr880_B_4 = toDouble(settings.value("Filtr_880_B/Pos4", QVariant::fromValue(3.02)).toString());
-	filtr880_C_4 = toDouble(settings.value("Filtr_880_C/Pos4", QVariant::fromValue(11.94)).toString());
-	filtr880_A_5 = toDouble(settings.value("Filtr_880_A/Pos5", QVariant::fromValue(6.39)).toString());
-	filtr880_B_5 = toDouble(settings.value("Filtr_880_B/Pos5", QVariant::fromValue(6.43)).toString());
-	filtr880_C_5 = toDouble(settings.value("Filtr_880_C/Pos5", QVariant::fromValue(3.06)).toString());
-	filtr655_A_0 = toDouble(settings.value("Filtr_655_A/Pos0", QVariant::fromValue(0)).toString());
-	filtr655_B_0 = toDouble(settings.value("Filtr_655_B/Pos0", QVariant::fromValue(0)).toString());
-	filtr655_C_0 = toDouble(settings.value("Filtr_655_C/Pos0", QVariant::fromValue(0)).toString());
-	filtr655_A_1 = toDouble(settings.value("Filtr_655_A/Pos1", QVariant::fromValue(0.21)).toString());
-	filtr655_B_1 = toDouble(settings.value("Filtr_655_B/Pos1", QVariant::fromValue(0.1)).toString());
-	filtr655_C_1 = toDouble(settings.value("Filtr_655_C/Pos1", QVariant::fromValue(0.1)).toString());
-	filtr655_A_2 = toDouble(settings.value("Filtr_655_A/Pos2", QVariant::fromValue(0.4)).toString());
-	filtr655_B_2 = toDouble(settings.value("Filtr_655_B/Pos2", QVariant::fromValue(0.98)).toString());
-	filtr655_C_2 = toDouble(settings.value("Filtr_655_C/Pos2", QVariant::fromValue(4.28)).toString());
-	filtr655_A_3 = toDouble(settings.value("Filtr_655_A/Pos3", QVariant::fromValue(0.62)).toString());
-	filtr655_B_3 = toDouble(settings.value("Filtr_655_B/Pos3", QVariant::fromValue(1.35)).toString());
-	filtr655_C_3 = toDouble(settings.value("Filtr_655_C/Pos3", QVariant::fromValue(8.79)).toString());
-	filtr655_A_4 = toDouble(settings.value("Filtr_655_A/Pos4", QVariant::fromValue(0.83)).toString());
-	filtr655_B_4 = toDouble(settings.value("Filtr_655_B/Pos4", QVariant::fromValue(3.3)).toString());
-	filtr655_C_4 = toDouble(settings.value("Filtr_655_C/Pos4", QVariant::fromValue(7.6)).toString());
-	filtr655_A_5 = toDouble(settings.value("Filtr_655_A/Pos5", QVariant::fromValue(6.98)).toString());
-	filtr655_B_5 = toDouble(settings.value("Filtr_655_B/Pos5", QVariant::fromValue(1.97)).toString());
-	filtr655_C_5 = toDouble(settings.value("Filtr_655_C/Pos5", QVariant::fromValue(1.97)).toString());
+	filtr_db_880_A_0 = toDouble(settings.value("Filtr_db_880_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_880_B_0 = toDouble(settings.value("Filtr_db_880_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_880_C_0 = toDouble(settings.value("Filtr_db_880_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_880_A_1 = toDouble(settings.value("Filtr_db_880_A/Pos1", QVariant::fromValue(0.1)).toString());
+	filtr_db_880_B_1 = toDouble(settings.value("Filtr_db_880_B/Pos1", QVariant::fromValue(0.2)).toString());
+	filtr_db_880_C_1 = toDouble(settings.value("Filtr_db_880_C/Pos1", QVariant::fromValue(1.0)).toString());
+	filtr_db_880_A_2 = toDouble(settings.value("Filtr_db_880_A/Pos2", QVariant::fromValue(0.2)).toString());
+	filtr_db_880_B_2 = toDouble(settings.value("Filtr_db_880_B/Pos2", QVariant::fromValue(0.4)).toString());
+	filtr_db_880_C_2 = toDouble(settings.value("Filtr_db_880_C/Pos2", QVariant::fromValue(2.0)).toString());
+	filtr_db_880_A_3 = toDouble(settings.value("Filtr_db_880_A/Pos3", QVariant::fromValue(0.3)).toString());
+	filtr_db_880_B_3 = toDouble(settings.value("Filtr_db_880_B/Pos3", QVariant::fromValue(0.5)).toString());
+	filtr_db_880_C_3 = toDouble(settings.value("Filtr_db_880_C/Pos3", QVariant::fromValue(3.0)).toString());
+	filtr_db_880_A_4 = toDouble(settings.value("Filtr_db_880_A/Pos4", QVariant::fromValue(0.4)).toString());
+	filtr_db_880_B_4 = toDouble(settings.value("Filtr_db_880_B/Pos4", QVariant::fromValue(6.0)).toString());
+	filtr_db_880_C_4 = toDouble(settings.value("Filtr_db_880_C/Pos4", QVariant::fromValue(4.0)).toString());
+	filtr_db_880_A_5 = toDouble(settings.value("Filtr_db_880_A/Pos5", QVariant::fromValue(13.0)).toString());
+	filtr_db_880_B_5 = toDouble(settings.value("Filtr_db_880_B/Pos5", QVariant::fromValue(7.0)).toString());
+	filtr_db_880_C_5 = toDouble(settings.value("Filtr_db_880_C/Pos5", QVariant::fromValue(5.0)).toString());
+	filtr_db_655_A_0 = toDouble(settings.value("Filtr_db_655_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_655_B_0 = toDouble(settings.value("Filtr_db_655_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_655_C_0 = toDouble(settings.value("Filtr_db_655_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr_db_655_A_1 = toDouble(settings.value("Filtr_db_655_A/Pos1", QVariant::fromValue(0.1)).toString());
+	filtr_db_655_B_1 = toDouble(settings.value("Filtr_db_655_B/Pos1", QVariant::fromValue(0.2)).toString());
+	filtr_db_655_C_1 = toDouble(settings.value("Filtr_db_655_C/Pos1", QVariant::fromValue(1.0)).toString());
+	filtr_db_655_A_2 = toDouble(settings.value("Filtr_db_655_A/Pos2", QVariant::fromValue(0.2)).toString());
+	filtr_db_655_B_2 = toDouble(settings.value("Filtr_db_655_B/Pos2", QVariant::fromValue(0.4)).toString());
+	filtr_db_655_C_2 = toDouble(settings.value("Filtr_db_655_C/Pos2", QVariant::fromValue(2.0)).toString());
+	filtr_db_655_A_3 = toDouble(settings.value("Filtr_db_655_A/Pos3", QVariant::fromValue(0.3)).toString());
+	filtr_db_655_B_3 = toDouble(settings.value("Filtr_db_655_B/Pos3", QVariant::fromValue(0.5)).toString());
+	filtr_db_655_C_3 = toDouble(settings.value("Filtr_db_655_C/Pos3", QVariant::fromValue(3.0)).toString());
+	filtr_db_655_A_4 = toDouble(settings.value("Filtr_db_655_A/Pos4", QVariant::fromValue(0.4)).toString());
+	filtr_db_655_B_4 = toDouble(settings.value("Filtr_db_655_B/Pos4", QVariant::fromValue(6.0)).toString());
+	filtr_db_655_C_4 = toDouble(settings.value("Filtr_db_655_C/Pos4", QVariant::fromValue(4.0)).toString());
+	filtr_db_655_A_5 = toDouble(settings.value("Filtr_db_655_A/Pos5", QVariant::fromValue(13.0)).toString());
+	filtr_db_655_B_5 = toDouble(settings.value("Filtr_db_655_B/Pos5", QVariant::fromValue(7.0)).toString());
+	filtr_db_655_C_5 = toDouble(settings.value("Filtr_db_655_C/Pos5", QVariant::fromValue(5.0)).toString());
+	filtr_prc_880_A_0 = toDouble(settings.value("Filtr_percent_880_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_0 = toDouble(settings.value("Filtr_percent_880_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_0 = toDouble(settings.value("Filtr_percent_880_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_880_A_1 = toDouble(settings.value("Filtr_percent_880_A/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_1 = toDouble(settings.value("Filtr_percent_880_B/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_1 = toDouble(settings.value("Filtr_percent_880_C/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_880_A_2 = toDouble(settings.value("Filtr_percent_880_A/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_2 = toDouble(settings.value("Filtr_percent_880_B/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_2 = toDouble(settings.value("Filtr_percent_880_C/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_880_A_3 = toDouble(settings.value("Filtr_percent_880_A/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_3 = toDouble(settings.value("Filtr_percent_880_B/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_3 = toDouble(settings.value("Filtr_percent_880_C/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_880_A_4 = toDouble(settings.value("Filtr_percent_880_A/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_4 = toDouble(settings.value("Filtr_percent_880_B/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_4 = toDouble(settings.value("Filtr_percent_880_C/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_880_A_5 = toDouble(settings.value("Filtr_percent_880_A/Pos5", QVariant::fromValue(0)).toString());
+	filtr_prc_880_B_5 = toDouble(settings.value("Filtr_percent_880_B/Pos5", QVariant::fromValue(0)).toString());
+	filtr_prc_880_C_5 = toDouble(settings.value("Filtr_percent_880_C/Pos5", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_0 = toDouble(settings.value("Filtr_percent_655_A/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_0 = toDouble(settings.value("Filtr_percent_655_B/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_0 = toDouble(settings.value("Filtr_percent_655_C/Pos0", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_1 = toDouble(settings.value("Filtr_percent_655_A/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_1 = toDouble(settings.value("Filtr_percent_655_B/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_1 = toDouble(settings.value("Filtr_percent_655_C/Pos1", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_2 = toDouble(settings.value("Filtr_percent_655_A/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_2 = toDouble(settings.value("Filtr_percent_655_B/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_2 = toDouble(settings.value("Filtr_percent_655_C/Pos2", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_3 = toDouble(settings.value("Filtr_percent_655_A/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_3 = toDouble(settings.value("Filtr_percent_655_B/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_3 = toDouble(settings.value("Filtr_percent_655_C/Pos3", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_4 = toDouble(settings.value("Filtr_percent_655_A/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_4 = toDouble(settings.value("Filtr_percent_655_B/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_4 = toDouble(settings.value("Filtr_percent_655_C/Pos4", QVariant::fromValue(0)).toString());
+	filtr_prc_655_A_5 = toDouble(settings.value("Filtr_percent_655_A/Pos5", QVariant::fromValue(0)).toString());
+	filtr_prc_655_B_5 = toDouble(settings.value("Filtr_percent_655_B/Pos5", QVariant::fromValue(0)).toString());
+	filtr_prc_655_C_5 = toDouble(settings.value("Filtr_percent_655_C/Pos5", QVariant::fromValue(0)).toString());
 	serialDeviceZasilaczVendor = settings.value("Zasilacz/Vendor", QVariant::fromValue(QString("67b"))).toString();
 	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3"))).toString();
 	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("2341"))).toString();
@@ -216,42 +252,78 @@ void UstawieniaGen::save()
 	settings.setValue("Silnik-7/IloscImpSrodek", QVariant::fromValue(motorIloscImpSrodek7));
 	settings.setValue("Silnik-8/IloscImpSrodek", QVariant::fromValue(motorIloscImpSrodek8));
 	settings.setValue("Silnik-9/IloscImpSrodek", QVariant::fromValue(motorIloscImpSrodek9));
-	settings.setValue("Filtr_880_A/Pos0", QVariant::fromValue(filtr880_A_0));
-	settings.setValue("Filtr_880_B/Pos0", QVariant::fromValue(filtr880_B_0));
-	settings.setValue("Filtr_880_C/Pos0", QVariant::fromValue(filtr880_C_0));
-	settings.setValue("Filtr_880_A/Pos1", QVariant::fromValue(filtr880_A_1));
-	settings.setValue("Filtr_880_B/Pos1", QVariant::fromValue(filtr880_B_1));
-	settings.setValue("Filtr_880_C/Pos1", QVariant::fromValue(filtr880_C_1));
-	settings.setValue("Filtr_880_A/Pos2", QVariant::fromValue(filtr880_A_2));
-	settings.setValue("Filtr_880_B/Pos2", QVariant::fromValue(filtr880_B_2));
-	settings.setValue("Filtr_880_C/Pos2", QVariant::fromValue(filtr880_C_2));
-	settings.setValue("Filtr_880_A/Pos3", QVariant::fromValue(filtr880_A_3));
-	settings.setValue("Filtr_880_B/Pos3", QVariant::fromValue(filtr880_B_3));
-	settings.setValue("Filtr_880_C/Pos3", QVariant::fromValue(filtr880_C_3));
-	settings.setValue("Filtr_880_A/Pos4", QVariant::fromValue(filtr880_A_4));
-	settings.setValue("Filtr_880_B/Pos4", QVariant::fromValue(filtr880_B_4));
-	settings.setValue("Filtr_880_C/Pos4", QVariant::fromValue(filtr880_C_4));
-	settings.setValue("Filtr_880_A/Pos5", QVariant::fromValue(filtr880_A_5));
-	settings.setValue("Filtr_880_B/Pos5", QVariant::fromValue(filtr880_B_5));
-	settings.setValue("Filtr_880_C/Pos5", QVariant::fromValue(filtr880_C_5));
-	settings.setValue("Filtr_655_A/Pos0", QVariant::fromValue(filtr655_A_0));
-	settings.setValue("Filtr_655_B/Pos0", QVariant::fromValue(filtr655_B_0));
-	settings.setValue("Filtr_655_C/Pos0", QVariant::fromValue(filtr655_C_0));
-	settings.setValue("Filtr_655_A/Pos1", QVariant::fromValue(filtr655_A_1));
-	settings.setValue("Filtr_655_B/Pos1", QVariant::fromValue(filtr655_B_1));
-	settings.setValue("Filtr_655_C/Pos1", QVariant::fromValue(filtr655_C_1));
-	settings.setValue("Filtr_655_A/Pos2", QVariant::fromValue(filtr655_A_2));
-	settings.setValue("Filtr_655_B/Pos2", QVariant::fromValue(filtr655_B_2));
-	settings.setValue("Filtr_655_C/Pos2", QVariant::fromValue(filtr655_C_2));
-	settings.setValue("Filtr_655_A/Pos3", QVariant::fromValue(filtr655_A_3));
-	settings.setValue("Filtr_655_B/Pos3", QVariant::fromValue(filtr655_B_3));
-	settings.setValue("Filtr_655_C/Pos3", QVariant::fromValue(filtr655_C_3));
-	settings.setValue("Filtr_655_A/Pos4", QVariant::fromValue(filtr655_A_4));
-	settings.setValue("Filtr_655_B/Pos4", QVariant::fromValue(filtr655_B_4));
-	settings.setValue("Filtr_655_C/Pos4", QVariant::fromValue(filtr655_C_4));
-	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(filtr655_A_5));
-	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(filtr655_B_5));
-	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(filtr655_C_5));
+	settings.setValue("Filtr_db_880_A/Pos0", QVariant::fromValue(filtr_db_880_A_0));
+	settings.setValue("Filtr_db_880_B/Pos0", QVariant::fromValue(filtr_db_880_B_0));
+	settings.setValue("Filtr_db_880_C/Pos0", QVariant::fromValue(filtr_db_880_C_0));
+	settings.setValue("Filtr_db_880_A/Pos1", QVariant::fromValue(filtr_db_880_A_1));
+	settings.setValue("Filtr_db_880_B/Pos1", QVariant::fromValue(filtr_db_880_B_1));
+	settings.setValue("Filtr_db_880_C/Pos1", QVariant::fromValue(filtr_db_880_C_1));
+	settings.setValue("Filtr_db_880_A/Pos2", QVariant::fromValue(filtr_db_880_A_2));
+	settings.setValue("Filtr_db_880_B/Pos2", QVariant::fromValue(filtr_db_880_B_2));
+	settings.setValue("Filtr_db_880_C/Pos2", QVariant::fromValue(filtr_db_880_C_2));
+	settings.setValue("Filtr_db_880_A/Pos3", QVariant::fromValue(filtr_db_880_A_3));
+	settings.setValue("Filtr_db_880_B/Pos3", QVariant::fromValue(filtr_db_880_B_3));
+	settings.setValue("Filtr_db_880_C/Pos3", QVariant::fromValue(filtr_db_880_C_3));
+	settings.setValue("Filtr_db_880_A/Pos4", QVariant::fromValue(filtr_db_880_A_4));
+	settings.setValue("Filtr_db_880_B/Pos4", QVariant::fromValue(filtr_db_880_B_4));
+	settings.setValue("Filtr_db_880_C/Pos4", QVariant::fromValue(filtr_db_880_C_4));
+	settings.setValue("Filtr_db_880_A/Pos5", QVariant::fromValue(filtr_db_880_A_5));
+	settings.setValue("Filtr_db_880_B/Pos5", QVariant::fromValue(filtr_db_880_B_5));
+	settings.setValue("Filtr_db_880_C/Pos5", QVariant::fromValue(filtr_db_880_C_5));
+	settings.setValue("Filtr_db_655_A/Pos0", QVariant::fromValue(filtr_db_655_A_0));
+	settings.setValue("Filtr_db_655_B/Pos0", QVariant::fromValue(filtr_db_655_B_0));
+	settings.setValue("Filtr_db_655_C/Pos0", QVariant::fromValue(filtr_db_655_C_0));
+	settings.setValue("Filtr_db_655_A/Pos1", QVariant::fromValue(filtr_db_655_A_1));
+	settings.setValue("Filtr_db_655_B/Pos1", QVariant::fromValue(filtr_db_655_B_1));
+	settings.setValue("Filtr_db_655_C/Pos1", QVariant::fromValue(filtr_db_655_C_1));
+	settings.setValue("Filtr_db_655_A/Pos2", QVariant::fromValue(filtr_db_655_A_2));
+	settings.setValue("Filtr_db_655_B/Pos2", QVariant::fromValue(filtr_db_655_B_2));
+	settings.setValue("Filtr_db_655_C/Pos2", QVariant::fromValue(filtr_db_655_C_2));
+	settings.setValue("Filtr_db_655_A/Pos3", QVariant::fromValue(filtr_db_655_A_3));
+	settings.setValue("Filtr_db_655_B/Pos3", QVariant::fromValue(filtr_db_655_B_3));
+	settings.setValue("Filtr_db_655_C/Pos3", QVariant::fromValue(filtr_db_655_C_3));
+	settings.setValue("Filtr_db_655_A/Pos4", QVariant::fromValue(filtr_db_655_A_4));
+	settings.setValue("Filtr_db_655_B/Pos4", QVariant::fromValue(filtr_db_655_B_4));
+	settings.setValue("Filtr_db_655_C/Pos4", QVariant::fromValue(filtr_db_655_C_4));
+	settings.setValue("Filtr_db_655_A/Pos5", QVariant::fromValue(filtr_db_655_A_5));
+	settings.setValue("Filtr_db_655_B/Pos5", QVariant::fromValue(filtr_db_655_B_5));
+	settings.setValue("Filtr_db_655_C/Pos5", QVariant::fromValue(filtr_db_655_C_5));
+	settings.setValue("Filtr_percent_880_A/Pos0", QVariant::fromValue(filtr_prc_880_A_0));
+	settings.setValue("Filtr_percent_880_B/Pos0", QVariant::fromValue(filtr_prc_880_B_0));
+	settings.setValue("Filtr_percent_880_C/Pos0", QVariant::fromValue(filtr_prc_880_C_0));
+	settings.setValue("Filtr_percent_880_A/Pos1", QVariant::fromValue(filtr_prc_880_A_1));
+	settings.setValue("Filtr_percent_880_B/Pos1", QVariant::fromValue(filtr_prc_880_B_1));
+	settings.setValue("Filtr_percent_880_C/Pos1", QVariant::fromValue(filtr_prc_880_C_1));
+	settings.setValue("Filtr_percent_880_A/Pos2", QVariant::fromValue(filtr_prc_880_A_2));
+	settings.setValue("Filtr_percent_880_B/Pos2", QVariant::fromValue(filtr_prc_880_B_2));
+	settings.setValue("Filtr_percent_880_C/Pos2", QVariant::fromValue(filtr_prc_880_C_2));
+	settings.setValue("Filtr_percent_880_A/Pos3", QVariant::fromValue(filtr_prc_880_A_3));
+	settings.setValue("Filtr_percent_880_B/Pos3", QVariant::fromValue(filtr_prc_880_B_3));
+	settings.setValue("Filtr_percent_880_C/Pos3", QVariant::fromValue(filtr_prc_880_C_3));
+	settings.setValue("Filtr_percent_880_A/Pos4", QVariant::fromValue(filtr_prc_880_A_4));
+	settings.setValue("Filtr_percent_880_B/Pos4", QVariant::fromValue(filtr_prc_880_B_4));
+	settings.setValue("Filtr_percent_880_C/Pos4", QVariant::fromValue(filtr_prc_880_C_4));
+	settings.setValue("Filtr_percent_880_A/Pos5", QVariant::fromValue(filtr_prc_880_A_5));
+	settings.setValue("Filtr_percent_880_B/Pos5", QVariant::fromValue(filtr_prc_880_B_5));
+	settings.setValue("Filtr_percent_880_C/Pos5", QVariant::fromValue(filtr_prc_880_C_5));
+	settings.setValue("Filtr_percent_655_A/Pos0", QVariant::fromValue(filtr_prc_655_A_0));
+	settings.setValue("Filtr_percent_655_B/Pos0", QVariant::fromValue(filtr_prc_655_B_0));
+	settings.setValue("Filtr_percent_655_C/Pos0", QVariant::fromValue(filtr_prc_655_C_0));
+	settings.setValue("Filtr_percent_655_A/Pos1", QVariant::fromValue(filtr_prc_655_A_1));
+	settings.setValue("Filtr_percent_655_B/Pos1", QVariant::fromValue(filtr_prc_655_B_1));
+	settings.setValue("Filtr_percent_655_C/Pos1", QVariant::fromValue(filtr_prc_655_C_1));
+	settings.setValue("Filtr_percent_655_A/Pos2", QVariant::fromValue(filtr_prc_655_A_2));
+	settings.setValue("Filtr_percent_655_B/Pos2", QVariant::fromValue(filtr_prc_655_B_2));
+	settings.setValue("Filtr_percent_655_C/Pos2", QVariant::fromValue(filtr_prc_655_C_2));
+	settings.setValue("Filtr_percent_655_A/Pos3", QVariant::fromValue(filtr_prc_655_A_3));
+	settings.setValue("Filtr_percent_655_B/Pos3", QVariant::fromValue(filtr_prc_655_B_3));
+	settings.setValue("Filtr_percent_655_C/Pos3", QVariant::fromValue(filtr_prc_655_C_3));
+	settings.setValue("Filtr_percent_655_A/Pos4", QVariant::fromValue(filtr_prc_655_A_4));
+	settings.setValue("Filtr_percent_655_B/Pos4", QVariant::fromValue(filtr_prc_655_B_4));
+	settings.setValue("Filtr_percent_655_C/Pos4", QVariant::fromValue(filtr_prc_655_C_4));
+	settings.setValue("Filtr_percent_655_A/Pos5", QVariant::fromValue(filtr_prc_655_A_5));
+	settings.setValue("Filtr_percent_655_B/Pos5", QVariant::fromValue(filtr_prc_655_B_5));
+	settings.setValue("Filtr_percent_655_C/Pos5", QVariant::fromValue(filtr_prc_655_C_5));
 	settings.setValue("Zasilacz/Vendor", QVariant::fromValue(serialDeviceZasilaczVendor));
 	settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct));
 	settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor));
@@ -1427,403 +1499,799 @@ bool UstawieniaGen::checkMotorIloscImpSrodek(const QString & val)
 
 }
 
-double UstawieniaGen::getFiltr880_A_0() const
+double UstawieniaGen::getFiltr_db_880_A_0() const
 {
-	return filtr880_A_0;
+	return filtr_db_880_A_0;
 }
 
-void UstawieniaGen::setFiltr880_A_0(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_0(const double & value)
 {
-	filtr880_A_0 = value;
-	settings.setValue("Filtr_880_A/Pos0", QVariant::fromValue(value));
+	filtr_db_880_A_0 = value;
+	settings.setValue("Filtr_db_880_A/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_0() const
+double UstawieniaGen::getFiltr_db_880_B_0() const
 {
-	return filtr880_B_0;
+	return filtr_db_880_B_0;
 }
 
-void UstawieniaGen::setFiltr880_B_0(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_0(const double & value)
 {
-	filtr880_B_0 = value;
-	settings.setValue("Filtr_880_B/Pos0", QVariant::fromValue(value));
+	filtr_db_880_B_0 = value;
+	settings.setValue("Filtr_db_880_B/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_0() const
+double UstawieniaGen::getFiltr_db_880_C_0() const
 {
-	return filtr880_C_0;
+	return filtr_db_880_C_0;
 }
 
-void UstawieniaGen::setFiltr880_C_0(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_0(const double & value)
 {
-	filtr880_C_0 = value;
-	settings.setValue("Filtr_880_C/Pos0", QVariant::fromValue(value));
+	filtr_db_880_C_0 = value;
+	settings.setValue("Filtr_db_880_C/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_A_1() const
+double UstawieniaGen::getFiltr_db_880_A_1() const
 {
-	return filtr880_A_1;
+	return filtr_db_880_A_1;
 }
 
-void UstawieniaGen::setFiltr880_A_1(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_1(const double & value)
 {
-	filtr880_A_1 = value;
-	settings.setValue("Filtr_880_A/Pos1", QVariant::fromValue(value));
+	filtr_db_880_A_1 = value;
+	settings.setValue("Filtr_db_880_A/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_1() const
+double UstawieniaGen::getFiltr_db_880_B_1() const
 {
-	return filtr880_B_1;
+	return filtr_db_880_B_1;
 }
 
-void UstawieniaGen::setFiltr880_B_1(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_1(const double & value)
 {
-	filtr880_B_1 = value;
-	settings.setValue("Filtr_880_B/Pos1", QVariant::fromValue(value));
+	filtr_db_880_B_1 = value;
+	settings.setValue("Filtr_db_880_B/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_1() const
+double UstawieniaGen::getFiltr_db_880_C_1() const
 {
-	return filtr880_C_1;
+	return filtr_db_880_C_1;
 }
 
-void UstawieniaGen::setFiltr880_C_1(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_1(const double & value)
 {
-	filtr880_C_1 = value;
-	settings.setValue("Filtr_880_C/Pos1", QVariant::fromValue(value));
+	filtr_db_880_C_1 = value;
+	settings.setValue("Filtr_db_880_C/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_A_2() const
+double UstawieniaGen::getFiltr_db_880_A_2() const
 {
-	return filtr880_A_2;
+	return filtr_db_880_A_2;
 }
 
-void UstawieniaGen::setFiltr880_A_2(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_2(const double & value)
 {
-	filtr880_A_2 = value;
-	settings.setValue("Filtr_880_A/Pos2", QVariant::fromValue(value));
+	filtr_db_880_A_2 = value;
+	settings.setValue("Filtr_db_880_A/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_2() const
+double UstawieniaGen::getFiltr_db_880_B_2() const
 {
-	return filtr880_B_2;
+	return filtr_db_880_B_2;
 }
 
-void UstawieniaGen::setFiltr880_B_2(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_2(const double & value)
 {
-	filtr880_B_2 = value;
-	settings.setValue("Filtr_880_B/Pos2", QVariant::fromValue(value));
+	filtr_db_880_B_2 = value;
+	settings.setValue("Filtr_db_880_B/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_2() const
+double UstawieniaGen::getFiltr_db_880_C_2() const
 {
-	return filtr880_C_2;
+	return filtr_db_880_C_2;
 }
 
-void UstawieniaGen::setFiltr880_C_2(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_2(const double & value)
 {
-	filtr880_C_2 = value;
-	settings.setValue("Filtr_880_C/Pos2", QVariant::fromValue(value));
+	filtr_db_880_C_2 = value;
+	settings.setValue("Filtr_db_880_C/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_A_3() const
+double UstawieniaGen::getFiltr_db_880_A_3() const
 {
-	return filtr880_A_3;
+	return filtr_db_880_A_3;
 }
 
-void UstawieniaGen::setFiltr880_A_3(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_3(const double & value)
 {
-	filtr880_A_3 = value;
-	settings.setValue("Filtr_880_A/Pos3", QVariant::fromValue(value));
+	filtr_db_880_A_3 = value;
+	settings.setValue("Filtr_db_880_A/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_3() const
+double UstawieniaGen::getFiltr_db_880_B_3() const
 {
-	return filtr880_B_3;
+	return filtr_db_880_B_3;
 }
 
-void UstawieniaGen::setFiltr880_B_3(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_3(const double & value)
 {
-	filtr880_B_3 = value;
-	settings.setValue("Filtr_880_B/Pos3", QVariant::fromValue(value));
+	filtr_db_880_B_3 = value;
+	settings.setValue("Filtr_db_880_B/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_3() const
+double UstawieniaGen::getFiltr_db_880_C_3() const
 {
-	return filtr880_C_3;
+	return filtr_db_880_C_3;
 }
 
-void UstawieniaGen::setFiltr880_C_3(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_3(const double & value)
 {
-	filtr880_C_3 = value;
-	settings.setValue("Filtr_880_C/Pos3", QVariant::fromValue(value));
+	filtr_db_880_C_3 = value;
+	settings.setValue("Filtr_db_880_C/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_A_4() const
+double UstawieniaGen::getFiltr_db_880_A_4() const
 {
-	return filtr880_A_4;
+	return filtr_db_880_A_4;
 }
 
-void UstawieniaGen::setFiltr880_A_4(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_4(const double & value)
 {
-	filtr880_A_4 = value;
-	settings.setValue("Filtr_880_A/Pos4", QVariant::fromValue(value));
+	filtr_db_880_A_4 = value;
+	settings.setValue("Filtr_db_880_A/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_4() const
+double UstawieniaGen::getFiltr_db_880_B_4() const
 {
-	return filtr880_B_4;
+	return filtr_db_880_B_4;
 }
 
-void UstawieniaGen::setFiltr880_B_4(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_4(const double & value)
 {
-	filtr880_B_4 = value;
-	settings.setValue("Filtr_880_B/Pos4", QVariant::fromValue(value));
+	filtr_db_880_B_4 = value;
+	settings.setValue("Filtr_db_880_B/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_4() const
+double UstawieniaGen::getFiltr_db_880_C_4() const
 {
-	return filtr880_C_4;
+	return filtr_db_880_C_4;
 }
 
-void UstawieniaGen::setFiltr880_C_4(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_4(const double & value)
 {
-	filtr880_C_4 = value;
-	settings.setValue("Filtr_880_C/Pos4", QVariant::fromValue(value));
+	filtr_db_880_C_4 = value;
+	settings.setValue("Filtr_db_880_C/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_A_5() const
+double UstawieniaGen::getFiltr_db_880_A_5() const
 {
-	return filtr880_A_5;
+	return filtr_db_880_A_5;
 }
 
-void UstawieniaGen::setFiltr880_A_5(const double & value)
+void UstawieniaGen::setFiltr_db_880_A_5(const double & value)
 {
-	filtr880_A_5 = value;
-	settings.setValue("Filtr_880_A/Pos5", QVariant::fromValue(value));
+	filtr_db_880_A_5 = value;
+	settings.setValue("Filtr_db_880_A/Pos5", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_B_5() const
+double UstawieniaGen::getFiltr_db_880_B_5() const
 {
-	return filtr880_B_5;
+	return filtr_db_880_B_5;
 }
 
-void UstawieniaGen::setFiltr880_B_5(const double & value)
+void UstawieniaGen::setFiltr_db_880_B_5(const double & value)
 {
-	filtr880_B_5 = value;
-	settings.setValue("Filtr_880_B/Pos5", QVariant::fromValue(value));
+	filtr_db_880_B_5 = value;
+	settings.setValue("Filtr_db_880_B/Pos5", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr880_C_5() const
+double UstawieniaGen::getFiltr_db_880_C_5() const
 {
-	return filtr880_C_5;
+	return filtr_db_880_C_5;
 }
 
-void UstawieniaGen::setFiltr880_C_5(const double & value)
+void UstawieniaGen::setFiltr_db_880_C_5(const double & value)
 {
-	filtr880_C_5 = value;
-	settings.setValue("Filtr_880_C/Pos5", QVariant::fromValue(value));
+	filtr_db_880_C_5 = value;
+	settings.setValue("Filtr_db_880_C/Pos5", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_0() const
+double UstawieniaGen::getFiltr_db_655_A_0() const
 {
-	return filtr655_A_0;
+	return filtr_db_655_A_0;
 }
 
-void UstawieniaGen::setFiltr655_A_0(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_0(const double & value)
 {
-	filtr655_A_0 = value;
-	settings.setValue("Filtr_655_A/Pos0", QVariant::fromValue(value));
+	filtr_db_655_A_0 = value;
+	settings.setValue("Filtr_db_655_A/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_0() const
+double UstawieniaGen::getFiltr_db_655_B_0() const
 {
-	return filtr655_B_0;
+	return filtr_db_655_B_0;
 }
 
-void UstawieniaGen::setFiltr655_B_0(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_0(const double & value)
 {
-	filtr655_B_0 = value;
-	settings.setValue("Filtr_655_B/Pos0", QVariant::fromValue(value));
+	filtr_db_655_B_0 = value;
+	settings.setValue("Filtr_db_655_B/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_0() const
+double UstawieniaGen::getFiltr_db_655_C_0() const
 {
-	return filtr655_C_0;
+	return filtr_db_655_C_0;
 }
 
-void UstawieniaGen::setFiltr655_C_0(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_0(const double & value)
 {
-	filtr655_C_0 = value;
-	settings.setValue("Filtr_655_C/Pos0", QVariant::fromValue(value));
+	filtr_db_655_C_0 = value;
+	settings.setValue("Filtr_db_655_C/Pos0", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_1() const
+double UstawieniaGen::getFiltr_db_655_A_1() const
 {
-	return filtr655_A_1;
+	return filtr_db_655_A_1;
 }
 
-void UstawieniaGen::setFiltr655_A_1(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_1(const double & value)
 {
-	filtr655_A_1 = value;
-	settings.setValue("Filtr_655_A/Pos1", QVariant::fromValue(value));
+	filtr_db_655_A_1 = value;
+	settings.setValue("Filtr_db_655_A/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_1() const
+double UstawieniaGen::getFiltr_db_655_B_1() const
 {
-	return filtr655_B_1;
+	return filtr_db_655_B_1;
 }
 
-void UstawieniaGen::setFiltr655_B_1(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_1(const double & value)
 {
-	filtr655_B_1 = value;
-	settings.setValue("Filtr_655_B/Pos1", QVariant::fromValue(value));
+	filtr_db_655_B_1 = value;
+	settings.setValue("Filtr_db_655_B/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_1() const
+double UstawieniaGen::getFiltr_db_655_C_1() const
 {
-	return filtr655_C_1;
+	return filtr_db_655_C_1;
 }
 
-void UstawieniaGen::setFiltr655_C_1(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_1(const double & value)
 {
-	filtr655_C_1 = value;
-	settings.setValue("Filtr_655_C/Pos1", QVariant::fromValue(value));
+	filtr_db_655_C_1 = value;
+	settings.setValue("Filtr_db_655_C/Pos1", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_2() const
+double UstawieniaGen::getFiltr_db_655_A_2() const
 {
-	return filtr655_A_2;
+	return filtr_db_655_A_2;
 }
 
-void UstawieniaGen::setFiltr655_A_2(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_2(const double & value)
 {
-	filtr655_A_2 = value;
-	settings.setValue("Filtr_655_A/Pos2", QVariant::fromValue(value));
+	filtr_db_655_A_2 = value;
+	settings.setValue("Filtr_db_655_A/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_2() const
+double UstawieniaGen::getFiltr_db_655_B_2() const
 {
-	return filtr655_B_2;
+	return filtr_db_655_B_2;
 }
 
-void UstawieniaGen::setFiltr655_B_2(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_2(const double & value)
 {
-	filtr655_B_2 = value;
-	settings.setValue("Filtr_655_B/Pos2", QVariant::fromValue(value));
+	filtr_db_655_B_2 = value;
+	settings.setValue("Filtr_db_655_B/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_2() const
+double UstawieniaGen::getFiltr_db_655_C_2() const
 {
-	return filtr655_C_2;
+	return filtr_db_655_C_2;
 }
 
-void UstawieniaGen::setFiltr655_C_2(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_2(const double & value)
 {
-	filtr655_C_2 = value;
-	settings.setValue("Filtr_655_C/Pos2", QVariant::fromValue(value));
+	filtr_db_655_C_2 = value;
+	settings.setValue("Filtr_db_655_C/Pos2", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_3() const
+double UstawieniaGen::getFiltr_db_655_A_3() const
 {
-	return filtr655_A_3;
+	return filtr_db_655_A_3;
 }
 
-void UstawieniaGen::setFiltr655_A_3(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_3(const double & value)
 {
-	filtr655_A_3 = value;
-	settings.setValue("Filtr_655_A/Pos3", QVariant::fromValue(value));
+	filtr_db_655_A_3 = value;
+	settings.setValue("Filtr_db_655_A/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_3() const
+double UstawieniaGen::getFiltr_db_655_B_3() const
 {
-	return filtr655_B_3;
+	return filtr_db_655_B_3;
 }
 
-void UstawieniaGen::setFiltr655_B_3(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_3(const double & value)
 {
-	filtr655_B_3 = value;
-	settings.setValue("Filtr_655_B/Pos3", QVariant::fromValue(value));
+	filtr_db_655_B_3 = value;
+	settings.setValue("Filtr_db_655_B/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_3() const
+double UstawieniaGen::getFiltr_db_655_C_3() const
 {
-	return filtr655_C_3;
+	return filtr_db_655_C_3;
 }
 
-void UstawieniaGen::setFiltr655_C_3(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_3(const double & value)
 {
-	filtr655_C_3 = value;
-	settings.setValue("Filtr_655_C/Pos3", QVariant::fromValue(value));
+	filtr_db_655_C_3 = value;
+	settings.setValue("Filtr_db_655_C/Pos3", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_4() const
+double UstawieniaGen::getFiltr_db_655_A_4() const
 {
-	return filtr655_A_4;
+	return filtr_db_655_A_4;
 }
 
-void UstawieniaGen::setFiltr655_A_4(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_4(const double & value)
 {
-	filtr655_A_4 = value;
-	settings.setValue("Filtr_655_A/Pos4", QVariant::fromValue(value));
+	filtr_db_655_A_4 = value;
+	settings.setValue("Filtr_db_655_A/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_4() const
+double UstawieniaGen::getFiltr_db_655_B_4() const
 {
-	return filtr655_B_4;
+	return filtr_db_655_B_4;
 }
 
-void UstawieniaGen::setFiltr655_B_4(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_4(const double & value)
 {
-	filtr655_B_4 = value;
-	settings.setValue("Filtr_655_B/Pos4", QVariant::fromValue(value));
+	filtr_db_655_B_4 = value;
+	settings.setValue("Filtr_db_655_B/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_4() const
+double UstawieniaGen::getFiltr_db_655_C_4() const
 {
-	return filtr655_C_4;
+	return filtr_db_655_C_4;
 }
 
-void UstawieniaGen::setFiltr655_C_4(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_4(const double & value)
 {
-	filtr655_C_4 = value;
-	settings.setValue("Filtr_655_C/Pos4", QVariant::fromValue(value));
+	filtr_db_655_C_4 = value;
+	settings.setValue("Filtr_db_655_C/Pos4", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_A_5() const
+double UstawieniaGen::getFiltr_db_655_A_5() const
 {
-	return filtr655_A_5;
+	return filtr_db_655_A_5;
 }
 
-void UstawieniaGen::setFiltr655_A_5(const double & value)
+void UstawieniaGen::setFiltr_db_655_A_5(const double & value)
 {
-	filtr655_A_5 = value;
-	settings.setValue("Filtr_655_A/Pos5", QVariant::fromValue(value));
+	filtr_db_655_A_5 = value;
+	settings.setValue("Filtr_db_655_A/Pos5", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_B_5() const
+double UstawieniaGen::getFiltr_db_655_B_5() const
 {
-	return filtr655_B_5;
+	return filtr_db_655_B_5;
 }
 
-void UstawieniaGen::setFiltr655_B_5(const double & value)
+void UstawieniaGen::setFiltr_db_655_B_5(const double & value)
 {
-	filtr655_B_5 = value;
-	settings.setValue("Filtr_655_B/Pos5", QVariant::fromValue(value));
+	filtr_db_655_B_5 = value;
+	settings.setValue("Filtr_db_655_B/Pos5", QVariant::fromValue(value));
 }
 
-double UstawieniaGen::getFiltr655_C_5() const
+double UstawieniaGen::getFiltr_db_655_C_5() const
 {
-	return filtr655_C_5;
+	return filtr_db_655_C_5;
 }
 
-void UstawieniaGen::setFiltr655_C_5(const double & value)
+void UstawieniaGen::setFiltr_db_655_C_5(const double & value)
 {
-	filtr655_C_5 = value;
-	settings.setValue("Filtr_655_C/Pos5", QVariant::fromValue(value));
+	filtr_db_655_C_5 = value;
+	settings.setValue("Filtr_db_655_C/Pos5", QVariant::fromValue(value));
 }
 
-bool UstawieniaGen::checkFilterValue(const QString & val)
+double UstawieniaGen::getFiltr_prc_880_A_0() const
+{
+	return filtr_prc_880_A_0;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_0(const double & value)
+{
+	filtr_prc_880_A_0 = value;
+	settings.setValue("Filtr_percent_880_A/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_0() const
+{
+	return filtr_prc_880_B_0;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_0(const double & value)
+{
+	filtr_prc_880_B_0 = value;
+	settings.setValue("Filtr_percent_880_B/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_0() const
+{
+	return filtr_prc_880_C_0;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_0(const double & value)
+{
+	filtr_prc_880_C_0 = value;
+	settings.setValue("Filtr_percent_880_C/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_A_1() const
+{
+	return filtr_prc_880_A_1;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_1(const double & value)
+{
+	filtr_prc_880_A_1 = value;
+	settings.setValue("Filtr_percent_880_A/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_1() const
+{
+	return filtr_prc_880_B_1;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_1(const double & value)
+{
+	filtr_prc_880_B_1 = value;
+	settings.setValue("Filtr_percent_880_B/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_1() const
+{
+	return filtr_prc_880_C_1;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_1(const double & value)
+{
+	filtr_prc_880_C_1 = value;
+	settings.setValue("Filtr_percent_880_C/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_A_2() const
+{
+	return filtr_prc_880_A_2;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_2(const double & value)
+{
+	filtr_prc_880_A_2 = value;
+	settings.setValue("Filtr_percent_880_A/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_2() const
+{
+	return filtr_prc_880_B_2;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_2(const double & value)
+{
+	filtr_prc_880_B_2 = value;
+	settings.setValue("Filtr_percent_880_B/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_2() const
+{
+	return filtr_prc_880_C_2;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_2(const double & value)
+{
+	filtr_prc_880_C_2 = value;
+	settings.setValue("Filtr_percent_880_C/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_A_3() const
+{
+	return filtr_prc_880_A_3;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_3(const double & value)
+{
+	filtr_prc_880_A_3 = value;
+	settings.setValue("Filtr_percent_880_A/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_3() const
+{
+	return filtr_prc_880_B_3;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_3(const double & value)
+{
+	filtr_prc_880_B_3 = value;
+	settings.setValue("Filtr_percent_880_B/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_3() const
+{
+	return filtr_prc_880_C_3;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_3(const double & value)
+{
+	filtr_prc_880_C_3 = value;
+	settings.setValue("Filtr_percent_880_C/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_A_4() const
+{
+	return filtr_prc_880_A_4;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_4(const double & value)
+{
+	filtr_prc_880_A_4 = value;
+	settings.setValue("Filtr_percent_880_A/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_4() const
+{
+	return filtr_prc_880_B_4;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_4(const double & value)
+{
+	filtr_prc_880_B_4 = value;
+	settings.setValue("Filtr_percent_880_B/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_4() const
+{
+	return filtr_prc_880_C_4;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_4(const double & value)
+{
+	filtr_prc_880_C_4 = value;
+	settings.setValue("Filtr_percent_880_C/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_A_5() const
+{
+	return filtr_prc_880_A_5;
+}
+
+void UstawieniaGen::setFiltr_prc_880_A_5(const double & value)
+{
+	filtr_prc_880_A_5 = value;
+	settings.setValue("Filtr_percent_880_A/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_B_5() const
+{
+	return filtr_prc_880_B_5;
+}
+
+void UstawieniaGen::setFiltr_prc_880_B_5(const double & value)
+{
+	filtr_prc_880_B_5 = value;
+	settings.setValue("Filtr_percent_880_B/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_880_C_5() const
+{
+	return filtr_prc_880_C_5;
+}
+
+void UstawieniaGen::setFiltr_prc_880_C_5(const double & value)
+{
+	filtr_prc_880_C_5 = value;
+	settings.setValue("Filtr_percent_880_C/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_0() const
+{
+	return filtr_prc_655_A_0;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_0(const double & value)
+{
+	filtr_prc_655_A_0 = value;
+	settings.setValue("Filtr_percent_655_A/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_0() const
+{
+	return filtr_prc_655_B_0;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_0(const double & value)
+{
+	filtr_prc_655_B_0 = value;
+	settings.setValue("Filtr_percent_655_B/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_0() const
+{
+	return filtr_prc_655_C_0;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_0(const double & value)
+{
+	filtr_prc_655_C_0 = value;
+	settings.setValue("Filtr_percent_655_C/Pos0", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_1() const
+{
+	return filtr_prc_655_A_1;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_1(const double & value)
+{
+	filtr_prc_655_A_1 = value;
+	settings.setValue("Filtr_percent_655_A/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_1() const
+{
+	return filtr_prc_655_B_1;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_1(const double & value)
+{
+	filtr_prc_655_B_1 = value;
+	settings.setValue("Filtr_percent_655_B/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_1() const
+{
+	return filtr_prc_655_C_1;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_1(const double & value)
+{
+	filtr_prc_655_C_1 = value;
+	settings.setValue("Filtr_percent_655_C/Pos1", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_2() const
+{
+	return filtr_prc_655_A_2;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_2(const double & value)
+{
+	filtr_prc_655_A_2 = value;
+	settings.setValue("Filtr_percent_655_A/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_2() const
+{
+	return filtr_prc_655_B_2;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_2(const double & value)
+{
+	filtr_prc_655_B_2 = value;
+	settings.setValue("Filtr_percent_655_B/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_2() const
+{
+	return filtr_prc_655_C_2;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_2(const double & value)
+{
+	filtr_prc_655_C_2 = value;
+	settings.setValue("Filtr_percent_655_C/Pos2", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_3() const
+{
+	return filtr_prc_655_A_3;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_3(const double & value)
+{
+	filtr_prc_655_A_3 = value;
+	settings.setValue("Filtr_percent_655_A/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_3() const
+{
+	return filtr_prc_655_B_3;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_3(const double & value)
+{
+	filtr_prc_655_B_3 = value;
+	settings.setValue("Filtr_percent_655_B/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_3() const
+{
+	return filtr_prc_655_C_3;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_3(const double & value)
+{
+	filtr_prc_655_C_3 = value;
+	settings.setValue("Filtr_percent_655_C/Pos3", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_4() const
+{
+	return filtr_prc_655_A_4;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_4(const double & value)
+{
+	filtr_prc_655_A_4 = value;
+	settings.setValue("Filtr_percent_655_A/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_4() const
+{
+	return filtr_prc_655_B_4;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_4(const double & value)
+{
+	filtr_prc_655_B_4 = value;
+	settings.setValue("Filtr_percent_655_B/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_4() const
+{
+	return filtr_prc_655_C_4;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_4(const double & value)
+{
+	filtr_prc_655_C_4 = value;
+	settings.setValue("Filtr_percent_655_C/Pos4", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_A_5() const
+{
+	return filtr_prc_655_A_5;
+}
+
+void UstawieniaGen::setFiltr_prc_655_A_5(const double & value)
+{
+	filtr_prc_655_A_5 = value;
+	settings.setValue("Filtr_percent_655_A/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_B_5() const
+{
+	return filtr_prc_655_B_5;
+}
+
+void UstawieniaGen::setFiltr_prc_655_B_5(const double & value)
+{
+	filtr_prc_655_B_5 = value;
+	settings.setValue("Filtr_percent_655_B/Pos5", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getFiltr_prc_655_C_5() const
+{
+	return filtr_prc_655_C_5;
+}
+
+void UstawieniaGen::setFiltr_prc_655_C_5(const double & value)
+{
+	filtr_prc_655_C_5 = value;
+	settings.setValue("Filtr_percent_655_C/Pos5", QVariant::fromValue(value));
+}
+
+bool UstawieniaGen::checkFilterdbValue(const QString & val)
 {
 
     if (val.isEmpty()) return false;
@@ -1836,88 +2304,186 @@ bool UstawieniaGen::checkFilterValue(const QString & val)
 
 }
 
-double UstawieniaGen::getFiltr(const int & fala, const char & nrTarczy, const short & nrPos) const
+double UstawieniaGen::getFiltr_db(const int & fala, const char & nrTarczy, const short & nrPos) const
 {
 	if (false) ;
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return getFiltr880_A_0();
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return getFiltr880_A_1();
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return getFiltr880_A_2();
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return getFiltr880_A_3();
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return getFiltr880_A_4();
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return getFiltr880_A_5();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return getFiltr880_B_0();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return getFiltr880_B_1();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return getFiltr880_B_2();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return getFiltr880_B_3();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return getFiltr880_B_4();
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return getFiltr880_B_5();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return getFiltr880_C_0();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return getFiltr880_C_1();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return getFiltr880_C_2();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return getFiltr880_C_3();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return getFiltr880_C_4();
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return getFiltr880_C_5();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return getFiltr655_A_0();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return getFiltr655_A_1();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return getFiltr655_A_2();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return getFiltr655_A_3();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return getFiltr655_A_4();
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return getFiltr655_A_5();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return getFiltr655_B_0();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return getFiltr655_B_1();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return getFiltr655_B_2();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return getFiltr655_B_3();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return getFiltr655_B_4();
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return getFiltr655_B_5();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return getFiltr655_C_0();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return getFiltr655_C_1();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return getFiltr655_C_2();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return getFiltr655_C_3();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return getFiltr655_C_4();
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return getFiltr655_C_5();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return getFiltr_db_880_A_0();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return getFiltr_db_880_A_1();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return getFiltr_db_880_A_2();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return getFiltr_db_880_A_3();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return getFiltr_db_880_A_4();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return getFiltr_db_880_A_5();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return getFiltr_db_880_B_0();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return getFiltr_db_880_B_1();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return getFiltr_db_880_B_2();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return getFiltr_db_880_B_3();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return getFiltr_db_880_B_4();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return getFiltr_db_880_B_5();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return getFiltr_db_880_C_0();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return getFiltr_db_880_C_1();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return getFiltr_db_880_C_2();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return getFiltr_db_880_C_3();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return getFiltr_db_880_C_4();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return getFiltr_db_880_C_5();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return getFiltr_db_655_A_0();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return getFiltr_db_655_A_1();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return getFiltr_db_655_A_2();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return getFiltr_db_655_A_3();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return getFiltr_db_655_A_4();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return getFiltr_db_655_A_5();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return getFiltr_db_655_B_0();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return getFiltr_db_655_B_1();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return getFiltr_db_655_B_2();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return getFiltr_db_655_B_3();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return getFiltr_db_655_B_4();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return getFiltr_db_655_B_5();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return getFiltr_db_655_C_0();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return getFiltr_db_655_C_1();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return getFiltr_db_655_C_2();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return getFiltr_db_655_C_3();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return getFiltr_db_655_C_4();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return getFiltr_db_655_C_5();
 	else Q_ASSERT(true);
 	 return 0.0;
 }
 
-void UstawieniaGen::setFiltr(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)
+void UstawieniaGen::setFiltr_db(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)
 {
 	if (false) ;
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return setFiltr880_A_0(val);
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return setFiltr880_A_1(val);
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return setFiltr880_A_2(val);
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return setFiltr880_A_3(val);
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return setFiltr880_A_4(val);
-	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return setFiltr880_A_5(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return setFiltr880_B_0(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return setFiltr880_B_1(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return setFiltr880_B_2(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return setFiltr880_B_3(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return setFiltr880_B_4(val);
-	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return setFiltr880_B_5(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return setFiltr880_C_0(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return setFiltr880_C_1(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return setFiltr880_C_2(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return setFiltr880_C_3(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return setFiltr880_C_4(val);
-	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return setFiltr880_C_5(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return setFiltr655_A_0(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return setFiltr655_A_1(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return setFiltr655_A_2(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return setFiltr655_A_3(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return setFiltr655_A_4(val);
-	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return setFiltr655_A_5(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return setFiltr655_B_0(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return setFiltr655_B_1(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return setFiltr655_B_2(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return setFiltr655_B_3(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return setFiltr655_B_4(val);
-	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return setFiltr655_B_5(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return setFiltr655_C_0(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return setFiltr655_C_1(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return setFiltr655_C_2(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return setFiltr655_C_3(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr655_C_4(val);
-	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr655_C_5(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return setFiltr_db_880_A_0(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return setFiltr_db_880_A_1(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return setFiltr_db_880_A_2(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return setFiltr_db_880_A_3(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return setFiltr_db_880_A_4(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return setFiltr_db_880_A_5(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return setFiltr_db_880_B_0(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return setFiltr_db_880_B_1(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return setFiltr_db_880_B_2(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return setFiltr_db_880_B_3(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return setFiltr_db_880_B_4(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return setFiltr_db_880_B_5(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return setFiltr_db_880_C_0(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return setFiltr_db_880_C_1(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return setFiltr_db_880_C_2(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return setFiltr_db_880_C_3(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return setFiltr_db_880_C_4(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return setFiltr_db_880_C_5(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return setFiltr_db_655_A_0(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return setFiltr_db_655_A_1(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return setFiltr_db_655_A_2(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return setFiltr_db_655_A_3(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return setFiltr_db_655_A_4(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return setFiltr_db_655_A_5(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return setFiltr_db_655_B_0(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return setFiltr_db_655_B_1(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return setFiltr_db_655_B_2(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return setFiltr_db_655_B_3(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return setFiltr_db_655_B_4(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return setFiltr_db_655_B_5(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return setFiltr_db_655_C_0(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return setFiltr_db_655_C_1(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return setFiltr_db_655_C_2(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return setFiltr_db_655_C_3(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr_db_655_C_4(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr_db_655_C_5(val);
+	else Q_ASSERT(true);
+}
+
+bool UstawieniaGen::checkFilterprcValue(const QString & val)
+{
+
+    if (val.isEmpty()) return false;
+    
+    bool ok;
+    double v = val.toDouble(&ok);
+    if (!ok || v < 0.0)
+        return false;
+    return true;
+
+}
+
+double UstawieniaGen::getFiltr_prc(const int & fala, const char & nrTarczy, const short & nrPos) const
+{
+	if (false) ;
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return getFiltr_prc_880_A_0();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return getFiltr_prc_880_A_1();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return getFiltr_prc_880_A_2();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return getFiltr_prc_880_A_3();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return getFiltr_prc_880_A_4();
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return getFiltr_prc_880_A_5();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return getFiltr_prc_880_B_0();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return getFiltr_prc_880_B_1();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return getFiltr_prc_880_B_2();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return getFiltr_prc_880_B_3();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return getFiltr_prc_880_B_4();
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return getFiltr_prc_880_B_5();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return getFiltr_prc_880_C_0();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return getFiltr_prc_880_C_1();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return getFiltr_prc_880_C_2();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return getFiltr_prc_880_C_3();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return getFiltr_prc_880_C_4();
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return getFiltr_prc_880_C_5();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return getFiltr_prc_655_A_0();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return getFiltr_prc_655_A_1();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return getFiltr_prc_655_A_2();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return getFiltr_prc_655_A_3();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return getFiltr_prc_655_A_4();
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return getFiltr_prc_655_A_5();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return getFiltr_prc_655_B_0();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return getFiltr_prc_655_B_1();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return getFiltr_prc_655_B_2();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return getFiltr_prc_655_B_3();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return getFiltr_prc_655_B_4();
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return getFiltr_prc_655_B_5();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return getFiltr_prc_655_C_0();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return getFiltr_prc_655_C_1();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return getFiltr_prc_655_C_2();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return getFiltr_prc_655_C_3();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return getFiltr_prc_655_C_4();
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return getFiltr_prc_655_C_5();
+	else Q_ASSERT(true);
+	 return 0.0;
+}
+
+void UstawieniaGen::setFiltr_prc(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)
+{
+	if (false) ;
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 0) return setFiltr_prc_880_A_0(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 1) return setFiltr_prc_880_A_1(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 2) return setFiltr_prc_880_A_2(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 3) return setFiltr_prc_880_A_3(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 4) return setFiltr_prc_880_A_4(val);
+	else if (fala == 880 && nrTarczy == 'A' && nrPos == 5) return setFiltr_prc_880_A_5(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 0) return setFiltr_prc_880_B_0(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 1) return setFiltr_prc_880_B_1(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 2) return setFiltr_prc_880_B_2(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 3) return setFiltr_prc_880_B_3(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 4) return setFiltr_prc_880_B_4(val);
+	else if (fala == 880 && nrTarczy == 'B' && nrPos == 5) return setFiltr_prc_880_B_5(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 0) return setFiltr_prc_880_C_0(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 1) return setFiltr_prc_880_C_1(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 2) return setFiltr_prc_880_C_2(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 3) return setFiltr_prc_880_C_3(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 4) return setFiltr_prc_880_C_4(val);
+	else if (fala == 880 && nrTarczy == 'C' && nrPos == 5) return setFiltr_prc_880_C_5(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 0) return setFiltr_prc_655_A_0(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 1) return setFiltr_prc_655_A_1(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 2) return setFiltr_prc_655_A_2(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 3) return setFiltr_prc_655_A_3(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 4) return setFiltr_prc_655_A_4(val);
+	else if (fala == 655 && nrTarczy == 'A' && nrPos == 5) return setFiltr_prc_655_A_5(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 0) return setFiltr_prc_655_B_0(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 1) return setFiltr_prc_655_B_1(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 2) return setFiltr_prc_655_B_2(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 3) return setFiltr_prc_655_B_3(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 4) return setFiltr_prc_655_B_4(val);
+	else if (fala == 655 && nrTarczy == 'B' && nrPos == 5) return setFiltr_prc_655_B_5(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 0) return setFiltr_prc_655_C_0(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 1) return setFiltr_prc_655_C_1(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 2) return setFiltr_prc_655_C_2(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 3) return setFiltr_prc_655_C_3(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 4) return setFiltr_prc_655_C_4(val);
+	else if (fala == 655 && nrTarczy == 'C' && nrPos == 5) return setFiltr_prc_655_C_5(val);
 	else Q_ASSERT(true);
 }
 

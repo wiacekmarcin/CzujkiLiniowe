@@ -33,7 +33,9 @@ DaneBadania::DaneBadania()
                 << "Odporność na uderzenie";
     for (int p = 0 ; p < nazwyTestow.size(); ++p)
     {
-
+        Test t;
+        t.setId(p);
+        t.setName(nazwyTestow.at(p));
     }
 
 }

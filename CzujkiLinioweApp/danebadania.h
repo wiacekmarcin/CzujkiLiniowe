@@ -9,12 +9,13 @@
 #include <QString>
 
 class Test {
+public:
     Test();
 
     friend QDataStream &operator<<(QDataStream &out, const Test &dane);
     friend QDataStream &operator>>(QDataStream &in, Test &dane);
 
-public:
+
     short getId() const;
     void setId(short newId);
 
@@ -84,12 +85,12 @@ public:
     QString getNumberSecondCzujkiSorted(unsigned int index);
     QPair<QString, QString> getNumberCzujkiSorted(unsigned int index);
     void clearNumberCzujki();
-signals:
-
+    QString getNameTest(short id);
 
 private:
     QVector<QPair<QString, QString> > numbersCzujki;
     QVector<short> sortedId;
+    QVector<QPair<short, QString>> kindTest;
     QVector<Test> tests;
 };
 

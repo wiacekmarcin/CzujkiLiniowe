@@ -3,7 +3,7 @@
 
 Test2Potwierdzenie::Test2Potwierdzenie(QWidget *parent) :
     QDialog(parent),
-    ui(new Test2Potwierdzenie)
+    ui(new Ui::Test2Potwierdzenie)
 {
     ui->setupUi(this);
 }

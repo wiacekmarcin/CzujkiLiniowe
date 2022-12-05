@@ -250,130 +250,254 @@ public:
 	inline void setMotorIloscImpSrodek9(const QString & iloscImpSrodek9) { setMotorIloscImpSrodek9(toUInt(iloscImpSrodek9)); }
 	int getMotorIloscImpSrodek(const short & nrMotor) const;
 	void setMotorIloscImpSrodek(const short & nrMotor, const int & iloscImpSrodek);
-	double getFiltr880_A_0() const;
-	void setFiltr880_A_0(const double & val);
-	inline void setFiltr880_A_0(const QString & vals) { setFiltr880_A_0(toDouble(vals)); }
-	double getFiltr880_B_0() const;
-	void setFiltr880_B_0(const double & val);
-	inline void setFiltr880_B_0(const QString & vals) { setFiltr880_B_0(toDouble(vals)); }
-	double getFiltr880_C_0() const;
-	void setFiltr880_C_0(const double & val);
-	inline void setFiltr880_C_0(const QString & vals) { setFiltr880_C_0(toDouble(vals)); }
-	double getFiltr880_A_1() const;
-	void setFiltr880_A_1(const double & val);
-	inline void setFiltr880_A_1(const QString & vals) { setFiltr880_A_1(toDouble(vals)); }
-	double getFiltr880_B_1() const;
-	void setFiltr880_B_1(const double & val);
-	inline void setFiltr880_B_1(const QString & vals) { setFiltr880_B_1(toDouble(vals)); }
-	double getFiltr880_C_1() const;
-	void setFiltr880_C_1(const double & val);
-	inline void setFiltr880_C_1(const QString & vals) { setFiltr880_C_1(toDouble(vals)); }
-	double getFiltr880_A_2() const;
-	void setFiltr880_A_2(const double & val);
-	inline void setFiltr880_A_2(const QString & vals) { setFiltr880_A_2(toDouble(vals)); }
-	double getFiltr880_B_2() const;
-	void setFiltr880_B_2(const double & val);
-	inline void setFiltr880_B_2(const QString & vals) { setFiltr880_B_2(toDouble(vals)); }
-	double getFiltr880_C_2() const;
-	void setFiltr880_C_2(const double & val);
-	inline void setFiltr880_C_2(const QString & vals) { setFiltr880_C_2(toDouble(vals)); }
-	double getFiltr880_A_3() const;
-	void setFiltr880_A_3(const double & val);
-	inline void setFiltr880_A_3(const QString & vals) { setFiltr880_A_3(toDouble(vals)); }
-	double getFiltr880_B_3() const;
-	void setFiltr880_B_3(const double & val);
-	inline void setFiltr880_B_3(const QString & vals) { setFiltr880_B_3(toDouble(vals)); }
-	double getFiltr880_C_3() const;
-	void setFiltr880_C_3(const double & val);
-	inline void setFiltr880_C_3(const QString & vals) { setFiltr880_C_3(toDouble(vals)); }
-	double getFiltr880_A_4() const;
-	void setFiltr880_A_4(const double & val);
-	inline void setFiltr880_A_4(const QString & vals) { setFiltr880_A_4(toDouble(vals)); }
-	double getFiltr880_B_4() const;
-	void setFiltr880_B_4(const double & val);
-	inline void setFiltr880_B_4(const QString & vals) { setFiltr880_B_4(toDouble(vals)); }
-	double getFiltr880_C_4() const;
-	void setFiltr880_C_4(const double & val);
-	inline void setFiltr880_C_4(const QString & vals) { setFiltr880_C_4(toDouble(vals)); }
-	double getFiltr880_A_5() const;
-	void setFiltr880_A_5(const double & val);
-	inline void setFiltr880_A_5(const QString & vals) { setFiltr880_A_5(toDouble(vals)); }
-	double getFiltr880_B_5() const;
-	void setFiltr880_B_5(const double & val);
-	inline void setFiltr880_B_5(const QString & vals) { setFiltr880_B_5(toDouble(vals)); }
-	double getFiltr880_C_5() const;
-	void setFiltr880_C_5(const double & val);
-	inline void setFiltr880_C_5(const QString & vals) { setFiltr880_C_5(toDouble(vals)); }
-	double getFiltr655_A_0() const;
-	void setFiltr655_A_0(const double & val);
-	inline void setFiltr655_A_0(const QString & vals) { setFiltr655_A_0(toDouble(vals)); }
-	double getFiltr655_B_0() const;
-	void setFiltr655_B_0(const double & val);
-	inline void setFiltr655_B_0(const QString & vals) { setFiltr655_B_0(toDouble(vals)); }
-	double getFiltr655_C_0() const;
-	void setFiltr655_C_0(const double & val);
-	inline void setFiltr655_C_0(const QString & vals) { setFiltr655_C_0(toDouble(vals)); }
-	double getFiltr655_A_1() const;
-	void setFiltr655_A_1(const double & val);
-	inline void setFiltr655_A_1(const QString & vals) { setFiltr655_A_1(toDouble(vals)); }
-	double getFiltr655_B_1() const;
-	void setFiltr655_B_1(const double & val);
-	inline void setFiltr655_B_1(const QString & vals) { setFiltr655_B_1(toDouble(vals)); }
-	double getFiltr655_C_1() const;
-	void setFiltr655_C_1(const double & val);
-	inline void setFiltr655_C_1(const QString & vals) { setFiltr655_C_1(toDouble(vals)); }
-	double getFiltr655_A_2() const;
-	void setFiltr655_A_2(const double & val);
-	inline void setFiltr655_A_2(const QString & vals) { setFiltr655_A_2(toDouble(vals)); }
-	double getFiltr655_B_2() const;
-	void setFiltr655_B_2(const double & val);
-	inline void setFiltr655_B_2(const QString & vals) { setFiltr655_B_2(toDouble(vals)); }
-	double getFiltr655_C_2() const;
-	void setFiltr655_C_2(const double & val);
-	inline void setFiltr655_C_2(const QString & vals) { setFiltr655_C_2(toDouble(vals)); }
-	double getFiltr655_A_3() const;
-	void setFiltr655_A_3(const double & val);
-	inline void setFiltr655_A_3(const QString & vals) { setFiltr655_A_3(toDouble(vals)); }
-	double getFiltr655_B_3() const;
-	void setFiltr655_B_3(const double & val);
-	inline void setFiltr655_B_3(const QString & vals) { setFiltr655_B_3(toDouble(vals)); }
-	double getFiltr655_C_3() const;
-	void setFiltr655_C_3(const double & val);
-	inline void setFiltr655_C_3(const QString & vals) { setFiltr655_C_3(toDouble(vals)); }
-	double getFiltr655_A_4() const;
-	void setFiltr655_A_4(const double & val);
-	inline void setFiltr655_A_4(const QString & vals) { setFiltr655_A_4(toDouble(vals)); }
-	double getFiltr655_B_4() const;
-	void setFiltr655_B_4(const double & val);
-	inline void setFiltr655_B_4(const QString & vals) { setFiltr655_B_4(toDouble(vals)); }
-	double getFiltr655_C_4() const;
-	void setFiltr655_C_4(const double & val);
-	inline void setFiltr655_C_4(const QString & vals) { setFiltr655_C_4(toDouble(vals)); }
-	double getFiltr655_A_5() const;
-	void setFiltr655_A_5(const double & val);
-	inline void setFiltr655_A_5(const QString & vals) { setFiltr655_A_5(toDouble(vals)); }
-	double getFiltr655_B_5() const;
-	void setFiltr655_B_5(const double & val);
-	inline void setFiltr655_B_5(const QString & vals) { setFiltr655_B_5(toDouble(vals)); }
-	double getFiltr655_C_5() const;
-	void setFiltr655_C_5(const double & val);
-	inline void setFiltr655_C_5(const QString & vals) { setFiltr655_C_5(toDouble(vals)); }
-	double getFiltr880_A(const short & nrPos) const { return getFiltr(880, 'A', nrPos); }
-	double getFiltr880_B(const short & nrPos) const { return getFiltr(880, 'B', nrPos); }
-	double getFiltr880_C(const short & nrPos) const { return getFiltr(880, 'C', nrPos); }
-	double getFiltr655_A(const short & nrPos) const { return getFiltr(655, 'A', nrPos); }
-	double getFiltr655_B(const short & nrPos) const { return getFiltr(655, 'B', nrPos); }
-	double getFiltr655_C(const short & nrPos) const { return getFiltr(655, 'C', nrPos); }
-	double getFiltr880(const char & nrTarczy, const short & nrPos) const { return getFiltr(880, nrTarczy, nrPos); }
-	double getFiltr655(const char & nrTarczy, const short & nrPos) const { return getFiltr(655, nrTarczy, nrPos); }
-	void setFiltr880_A(const short & nrPos, const double & val) { setFiltr(880, 'A', nrPos, val); }
-	void setFiltr880_B(const short & nrPos, const double & val) { setFiltr(880, 'B', nrPos, val); }
-	void setFiltr880_C(const short & nrPos, const double & val) { setFiltr(880, 'C', nrPos, val); }
-	void setFiltr655_A(const short & nrPos, const double & val) { setFiltr(655, 'A', nrPos, val); }
-	void setFiltr655_B(const short & nrPos, const double & val) { setFiltr(655, 'B', nrPos, val); }
-	void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }
-	void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }
-	void setFiltr655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(655, nrTarczy, nrPos, val); }
+	double getFiltr_db_880_A_0() const;
+	void setFiltr_db_880_A_0(const double & val);
+	inline void setFiltr_db_880_A_0(const QString & vals) { setFiltr_db_880_A_0(toDouble(vals)); }
+	double getFiltr_db_880_B_0() const;
+	void setFiltr_db_880_B_0(const double & val);
+	inline void setFiltr_db_880_B_0(const QString & vals) { setFiltr_db_880_B_0(toDouble(vals)); }
+	double getFiltr_db_880_C_0() const;
+	void setFiltr_db_880_C_0(const double & val);
+	inline void setFiltr_db_880_C_0(const QString & vals) { setFiltr_db_880_C_0(toDouble(vals)); }
+	double getFiltr_db_880_A_1() const;
+	void setFiltr_db_880_A_1(const double & val);
+	inline void setFiltr_db_880_A_1(const QString & vals) { setFiltr_db_880_A_1(toDouble(vals)); }
+	double getFiltr_db_880_B_1() const;
+	void setFiltr_db_880_B_1(const double & val);
+	inline void setFiltr_db_880_B_1(const QString & vals) { setFiltr_db_880_B_1(toDouble(vals)); }
+	double getFiltr_db_880_C_1() const;
+	void setFiltr_db_880_C_1(const double & val);
+	inline void setFiltr_db_880_C_1(const QString & vals) { setFiltr_db_880_C_1(toDouble(vals)); }
+	double getFiltr_db_880_A_2() const;
+	void setFiltr_db_880_A_2(const double & val);
+	inline void setFiltr_db_880_A_2(const QString & vals) { setFiltr_db_880_A_2(toDouble(vals)); }
+	double getFiltr_db_880_B_2() const;
+	void setFiltr_db_880_B_2(const double & val);
+	inline void setFiltr_db_880_B_2(const QString & vals) { setFiltr_db_880_B_2(toDouble(vals)); }
+	double getFiltr_db_880_C_2() const;
+	void setFiltr_db_880_C_2(const double & val);
+	inline void setFiltr_db_880_C_2(const QString & vals) { setFiltr_db_880_C_2(toDouble(vals)); }
+	double getFiltr_db_880_A_3() const;
+	void setFiltr_db_880_A_3(const double & val);
+	inline void setFiltr_db_880_A_3(const QString & vals) { setFiltr_db_880_A_3(toDouble(vals)); }
+	double getFiltr_db_880_B_3() const;
+	void setFiltr_db_880_B_3(const double & val);
+	inline void setFiltr_db_880_B_3(const QString & vals) { setFiltr_db_880_B_3(toDouble(vals)); }
+	double getFiltr_db_880_C_3() const;
+	void setFiltr_db_880_C_3(const double & val);
+	inline void setFiltr_db_880_C_3(const QString & vals) { setFiltr_db_880_C_3(toDouble(vals)); }
+	double getFiltr_db_880_A_4() const;
+	void setFiltr_db_880_A_4(const double & val);
+	inline void setFiltr_db_880_A_4(const QString & vals) { setFiltr_db_880_A_4(toDouble(vals)); }
+	double getFiltr_db_880_B_4() const;
+	void setFiltr_db_880_B_4(const double & val);
+	inline void setFiltr_db_880_B_4(const QString & vals) { setFiltr_db_880_B_4(toDouble(vals)); }
+	double getFiltr_db_880_C_4() const;
+	void setFiltr_db_880_C_4(const double & val);
+	inline void setFiltr_db_880_C_4(const QString & vals) { setFiltr_db_880_C_4(toDouble(vals)); }
+	double getFiltr_db_880_A_5() const;
+	void setFiltr_db_880_A_5(const double & val);
+	inline void setFiltr_db_880_A_5(const QString & vals) { setFiltr_db_880_A_5(toDouble(vals)); }
+	double getFiltr_db_880_B_5() const;
+	void setFiltr_db_880_B_5(const double & val);
+	inline void setFiltr_db_880_B_5(const QString & vals) { setFiltr_db_880_B_5(toDouble(vals)); }
+	double getFiltr_db_880_C_5() const;
+	void setFiltr_db_880_C_5(const double & val);
+	inline void setFiltr_db_880_C_5(const QString & vals) { setFiltr_db_880_C_5(toDouble(vals)); }
+	double getFiltr_db_655_A_0() const;
+	void setFiltr_db_655_A_0(const double & val);
+	inline void setFiltr_db_655_A_0(const QString & vals) { setFiltr_db_655_A_0(toDouble(vals)); }
+	double getFiltr_db_655_B_0() const;
+	void setFiltr_db_655_B_0(const double & val);
+	inline void setFiltr_db_655_B_0(const QString & vals) { setFiltr_db_655_B_0(toDouble(vals)); }
+	double getFiltr_db_655_C_0() const;
+	void setFiltr_db_655_C_0(const double & val);
+	inline void setFiltr_db_655_C_0(const QString & vals) { setFiltr_db_655_C_0(toDouble(vals)); }
+	double getFiltr_db_655_A_1() const;
+	void setFiltr_db_655_A_1(const double & val);
+	inline void setFiltr_db_655_A_1(const QString & vals) { setFiltr_db_655_A_1(toDouble(vals)); }
+	double getFiltr_db_655_B_1() const;
+	void setFiltr_db_655_B_1(const double & val);
+	inline void setFiltr_db_655_B_1(const QString & vals) { setFiltr_db_655_B_1(toDouble(vals)); }
+	double getFiltr_db_655_C_1() const;
+	void setFiltr_db_655_C_1(const double & val);
+	inline void setFiltr_db_655_C_1(const QString & vals) { setFiltr_db_655_C_1(toDouble(vals)); }
+	double getFiltr_db_655_A_2() const;
+	void setFiltr_db_655_A_2(const double & val);
+	inline void setFiltr_db_655_A_2(const QString & vals) { setFiltr_db_655_A_2(toDouble(vals)); }
+	double getFiltr_db_655_B_2() const;
+	void setFiltr_db_655_B_2(const double & val);
+	inline void setFiltr_db_655_B_2(const QString & vals) { setFiltr_db_655_B_2(toDouble(vals)); }
+	double getFiltr_db_655_C_2() const;
+	void setFiltr_db_655_C_2(const double & val);
+	inline void setFiltr_db_655_C_2(const QString & vals) { setFiltr_db_655_C_2(toDouble(vals)); }
+	double getFiltr_db_655_A_3() const;
+	void setFiltr_db_655_A_3(const double & val);
+	inline void setFiltr_db_655_A_3(const QString & vals) { setFiltr_db_655_A_3(toDouble(vals)); }
+	double getFiltr_db_655_B_3() const;
+	void setFiltr_db_655_B_3(const double & val);
+	inline void setFiltr_db_655_B_3(const QString & vals) { setFiltr_db_655_B_3(toDouble(vals)); }
+	double getFiltr_db_655_C_3() const;
+	void setFiltr_db_655_C_3(const double & val);
+	inline void setFiltr_db_655_C_3(const QString & vals) { setFiltr_db_655_C_3(toDouble(vals)); }
+	double getFiltr_db_655_A_4() const;
+	void setFiltr_db_655_A_4(const double & val);
+	inline void setFiltr_db_655_A_4(const QString & vals) { setFiltr_db_655_A_4(toDouble(vals)); }
+	double getFiltr_db_655_B_4() const;
+	void setFiltr_db_655_B_4(const double & val);
+	inline void setFiltr_db_655_B_4(const QString & vals) { setFiltr_db_655_B_4(toDouble(vals)); }
+	double getFiltr_db_655_C_4() const;
+	void setFiltr_db_655_C_4(const double & val);
+	inline void setFiltr_db_655_C_4(const QString & vals) { setFiltr_db_655_C_4(toDouble(vals)); }
+	double getFiltr_db_655_A_5() const;
+	void setFiltr_db_655_A_5(const double & val);
+	inline void setFiltr_db_655_A_5(const QString & vals) { setFiltr_db_655_A_5(toDouble(vals)); }
+	double getFiltr_db_655_B_5() const;
+	void setFiltr_db_655_B_5(const double & val);
+	inline void setFiltr_db_655_B_5(const QString & vals) { setFiltr_db_655_B_5(toDouble(vals)); }
+	double getFiltr_db_655_C_5() const;
+	void setFiltr_db_655_C_5(const double & val);
+	inline void setFiltr_db_655_C_5(const QString & vals) { setFiltr_db_655_C_5(toDouble(vals)); }
+	double getFiltr_prc_880_A_0() const;
+	void setFiltr_prc_880_A_0(const double & val);
+	inline void setFiltr_prc_880_A_0(const QString & vals) { setFiltr_prc_880_A_0(toDouble(vals)); }
+	double getFiltr_prc_880_B_0() const;
+	void setFiltr_prc_880_B_0(const double & val);
+	inline void setFiltr_prc_880_B_0(const QString & vals) { setFiltr_prc_880_B_0(toDouble(vals)); }
+	double getFiltr_prc_880_C_0() const;
+	void setFiltr_prc_880_C_0(const double & val);
+	inline void setFiltr_prc_880_C_0(const QString & vals) { setFiltr_prc_880_C_0(toDouble(vals)); }
+	double getFiltr_prc_880_A_1() const;
+	void setFiltr_prc_880_A_1(const double & val);
+	inline void setFiltr_prc_880_A_1(const QString & vals) { setFiltr_prc_880_A_1(toDouble(vals)); }
+	double getFiltr_prc_880_B_1() const;
+	void setFiltr_prc_880_B_1(const double & val);
+	inline void setFiltr_prc_880_B_1(const QString & vals) { setFiltr_prc_880_B_1(toDouble(vals)); }
+	double getFiltr_prc_880_C_1() const;
+	void setFiltr_prc_880_C_1(const double & val);
+	inline void setFiltr_prc_880_C_1(const QString & vals) { setFiltr_prc_880_C_1(toDouble(vals)); }
+	double getFiltr_prc_880_A_2() const;
+	void setFiltr_prc_880_A_2(const double & val);
+	inline void setFiltr_prc_880_A_2(const QString & vals) { setFiltr_prc_880_A_2(toDouble(vals)); }
+	double getFiltr_prc_880_B_2() const;
+	void setFiltr_prc_880_B_2(const double & val);
+	inline void setFiltr_prc_880_B_2(const QString & vals) { setFiltr_prc_880_B_2(toDouble(vals)); }
+	double getFiltr_prc_880_C_2() const;
+	void setFiltr_prc_880_C_2(const double & val);
+	inline void setFiltr_prc_880_C_2(const QString & vals) { setFiltr_prc_880_C_2(toDouble(vals)); }
+	double getFiltr_prc_880_A_3() const;
+	void setFiltr_prc_880_A_3(const double & val);
+	inline void setFiltr_prc_880_A_3(const QString & vals) { setFiltr_prc_880_A_3(toDouble(vals)); }
+	double getFiltr_prc_880_B_3() const;
+	void setFiltr_prc_880_B_3(const double & val);
+	inline void setFiltr_prc_880_B_3(const QString & vals) { setFiltr_prc_880_B_3(toDouble(vals)); }
+	double getFiltr_prc_880_C_3() const;
+	void setFiltr_prc_880_C_3(const double & val);
+	inline void setFiltr_prc_880_C_3(const QString & vals) { setFiltr_prc_880_C_3(toDouble(vals)); }
+	double getFiltr_prc_880_A_4() const;
+	void setFiltr_prc_880_A_4(const double & val);
+	inline void setFiltr_prc_880_A_4(const QString & vals) { setFiltr_prc_880_A_4(toDouble(vals)); }
+	double getFiltr_prc_880_B_4() const;
+	void setFiltr_prc_880_B_4(const double & val);
+	inline void setFiltr_prc_880_B_4(const QString & vals) { setFiltr_prc_880_B_4(toDouble(vals)); }
+	double getFiltr_prc_880_C_4() const;
+	void setFiltr_prc_880_C_4(const double & val);
+	inline void setFiltr_prc_880_C_4(const QString & vals) { setFiltr_prc_880_C_4(toDouble(vals)); }
+	double getFiltr_prc_880_A_5() const;
+	void setFiltr_prc_880_A_5(const double & val);
+	inline void setFiltr_prc_880_A_5(const QString & vals) { setFiltr_prc_880_A_5(toDouble(vals)); }
+	double getFiltr_prc_880_B_5() const;
+	void setFiltr_prc_880_B_5(const double & val);
+	inline void setFiltr_prc_880_B_5(const QString & vals) { setFiltr_prc_880_B_5(toDouble(vals)); }
+	double getFiltr_prc_880_C_5() const;
+	void setFiltr_prc_880_C_5(const double & val);
+	inline void setFiltr_prc_880_C_5(const QString & vals) { setFiltr_prc_880_C_5(toDouble(vals)); }
+	double getFiltr_prc_655_A_0() const;
+	void setFiltr_prc_655_A_0(const double & val);
+	inline void setFiltr_prc_655_A_0(const QString & vals) { setFiltr_prc_655_A_0(toDouble(vals)); }
+	double getFiltr_prc_655_B_0() const;
+	void setFiltr_prc_655_B_0(const double & val);
+	inline void setFiltr_prc_655_B_0(const QString & vals) { setFiltr_prc_655_B_0(toDouble(vals)); }
+	double getFiltr_prc_655_C_0() const;
+	void setFiltr_prc_655_C_0(const double & val);
+	inline void setFiltr_prc_655_C_0(const QString & vals) { setFiltr_prc_655_C_0(toDouble(vals)); }
+	double getFiltr_prc_655_A_1() const;
+	void setFiltr_prc_655_A_1(const double & val);
+	inline void setFiltr_prc_655_A_1(const QString & vals) { setFiltr_prc_655_A_1(toDouble(vals)); }
+	double getFiltr_prc_655_B_1() const;
+	void setFiltr_prc_655_B_1(const double & val);
+	inline void setFiltr_prc_655_B_1(const QString & vals) { setFiltr_prc_655_B_1(toDouble(vals)); }
+	double getFiltr_prc_655_C_1() const;
+	void setFiltr_prc_655_C_1(const double & val);
+	inline void setFiltr_prc_655_C_1(const QString & vals) { setFiltr_prc_655_C_1(toDouble(vals)); }
+	double getFiltr_prc_655_A_2() const;
+	void setFiltr_prc_655_A_2(const double & val);
+	inline void setFiltr_prc_655_A_2(const QString & vals) { setFiltr_prc_655_A_2(toDouble(vals)); }
+	double getFiltr_prc_655_B_2() const;
+	void setFiltr_prc_655_B_2(const double & val);
+	inline void setFiltr_prc_655_B_2(const QString & vals) { setFiltr_prc_655_B_2(toDouble(vals)); }
+	double getFiltr_prc_655_C_2() const;
+	void setFiltr_prc_655_C_2(const double & val);
+	inline void setFiltr_prc_655_C_2(const QString & vals) { setFiltr_prc_655_C_2(toDouble(vals)); }
+	double getFiltr_prc_655_A_3() const;
+	void setFiltr_prc_655_A_3(const double & val);
+	inline void setFiltr_prc_655_A_3(const QString & vals) { setFiltr_prc_655_A_3(toDouble(vals)); }
+	double getFiltr_prc_655_B_3() const;
+	void setFiltr_prc_655_B_3(const double & val);
+	inline void setFiltr_prc_655_B_3(const QString & vals) { setFiltr_prc_655_B_3(toDouble(vals)); }
+	double getFiltr_prc_655_C_3() const;
+	void setFiltr_prc_655_C_3(const double & val);
+	inline void setFiltr_prc_655_C_3(const QString & vals) { setFiltr_prc_655_C_3(toDouble(vals)); }
+	double getFiltr_prc_655_A_4() const;
+	void setFiltr_prc_655_A_4(const double & val);
+	inline void setFiltr_prc_655_A_4(const QString & vals) { setFiltr_prc_655_A_4(toDouble(vals)); }
+	double getFiltr_prc_655_B_4() const;
+	void setFiltr_prc_655_B_4(const double & val);
+	inline void setFiltr_prc_655_B_4(const QString & vals) { setFiltr_prc_655_B_4(toDouble(vals)); }
+	double getFiltr_prc_655_C_4() const;
+	void setFiltr_prc_655_C_4(const double & val);
+	inline void setFiltr_prc_655_C_4(const QString & vals) { setFiltr_prc_655_C_4(toDouble(vals)); }
+	double getFiltr_prc_655_A_5() const;
+	void setFiltr_prc_655_A_5(const double & val);
+	inline void setFiltr_prc_655_A_5(const QString & vals) { setFiltr_prc_655_A_5(toDouble(vals)); }
+	double getFiltr_prc_655_B_5() const;
+	void setFiltr_prc_655_B_5(const double & val);
+	inline void setFiltr_prc_655_B_5(const QString & vals) { setFiltr_prc_655_B_5(toDouble(vals)); }
+	double getFiltr_prc_655_C_5() const;
+	void setFiltr_prc_655_C_5(const double & val);
+	inline void setFiltr_prc_655_C_5(const QString & vals) { setFiltr_prc_655_C_5(toDouble(vals)); }
+	double getFiltr_db_880_A(const short & nrPos) const { return getFiltr_db(880, 'A', nrPos); }
+	double getFiltr_db_880_B(const short & nrPos) const { return getFiltr_db(880, 'B', nrPos); }
+	double getFiltr_db_880_C(const short & nrPos) const { return getFiltr_db(880, 'C', nrPos); }
+	double getFiltr_db_655_A(const short & nrPos) const { return getFiltr_db(655, 'A', nrPos); }
+	double getFiltr_db_655_B(const short & nrPos) const { return getFiltr_db(655, 'B', nrPos); }
+	double getFiltr_db_655_C(const short & nrPos) const { return getFiltr_db(655, 'C', nrPos); }
+	double getFiltr_db_880(const char & nrTarczy, const short & nrPos) const { return getFiltr_db(880, nrTarczy, nrPos); }
+	double getFiltr_db_655(const char & nrTarczy, const short & nrPos) const { return getFiltr_db(655, nrTarczy, nrPos); }
+	void setFiltr_db_880_A(const short & nrPos, const double & val) { setFiltr_db(880, 'A', nrPos, val); }
+	void setFiltr_db_880_B(const short & nrPos, const double & val) { setFiltr_db(880, 'B', nrPos, val); }
+	void setFiltr_db_880_C(const short & nrPos, const double & val) { setFiltr_db(880, 'C', nrPos, val); }
+	void setFiltr_db_655_A(const short & nrPos, const double & val) { setFiltr_db(655, 'A', nrPos, val); }
+	void setFiltr_db_655_B(const short & nrPos, const double & val) { setFiltr_db(655, 'B', nrPos, val); }
+	void setFiltr_db_655_C(const short & nrPos, const double & val) { setFiltr_db(655, 'C', nrPos, val); }
+	void setFiltr_db_880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_db(880, nrTarczy, nrPos, val); }
+	void setFiltr_db_655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_db(655, nrTarczy, nrPos, val); }
+	double getFiltr_prc_880_A(const short & nrPos) const { return getFiltr_prc(880, 'A', nrPos); }
+	double getFiltr_prc_880_B(const short & nrPos) const { return getFiltr_prc(880, 'B', nrPos); }
+	double getFiltr_prc_880_C(const short & nrPos) const { return getFiltr_prc(880, 'C', nrPos); }
+	double getFiltr_prc_655_A(const short & nrPos) const { return getFiltr_prc(655, 'A', nrPos); }
+	double getFiltr_prc_655_B(const short & nrPos) const { return getFiltr_prc(655, 'B', nrPos); }
+	double getFiltr_prc_655_C(const short & nrPos) const { return getFiltr_prc(655, 'C', nrPos); }
+	double getFiltr_prc_880(const char & nrTarczy, const short & nrPos) const { return getFiltr_prc(880, nrTarczy, nrPos); }
+	double getFiltr_prc_655(const char & nrTarczy, const short & nrPos) const { return getFiltr_prc(655, nrTarczy, nrPos); }
+	void setFiltr_prc_880_A(const short & nrPos, const double & val) { setFiltr_prc(880, 'A', nrPos, val); }
+	void setFiltr_prc_880_B(const short & nrPos, const double & val) { setFiltr_prc(880, 'B', nrPos, val); }
+	void setFiltr_prc_880_C(const short & nrPos, const double & val) { setFiltr_prc(880, 'C', nrPos, val); }
+	void setFiltr_prc_655_A(const short & nrPos, const double & val) { setFiltr_prc(655, 'A', nrPos, val); }
+	void setFiltr_prc_655_B(const short & nrPos, const double & val) { setFiltr_prc(655, 'B', nrPos, val); }
+	void setFiltr_prc_655_C(const short & nrPos, const double & val) { setFiltr_prc(655, 'C', nrPos, val); }
+	void setFiltr_prc_880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_prc(880, nrTarczy, nrPos, val); }
+	void setFiltr_prc_655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_prc(655, nrTarczy, nrPos, val); }
 	QString getSerialDeviceZasilaczVendor() const;
 	void setSerialDeviceZasilaczVendor(const QString & zasilaczVendor);
 	QString getSerialDeviceZasilaczProduct() const;
@@ -407,9 +531,12 @@ protected:
 	bool checkMotorMaksIloscImp(const QString & val);
 	bool checkMotorIloscImpBaza(const QString & val);
 	bool checkMotorIloscImpSrodek(const QString & val);
-	bool checkFilterValue(const QString & val);
-	double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;
-	void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
+	bool checkFilterdbValue(const QString & val);
+	double getFiltr_db(const int& fala, const char & nrTarczy, const short & nrPos) const;
+	void setFiltr_db(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
+	bool checkFilterprcValue(const QString & val);
+	double getFiltr_prc(const int& fala, const char & nrTarczy, const short & nrPos) const;
+	void setFiltr_prc(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);
 	bool checkSerialDeviceIdentString(const QString & val) const;
 private:
 
@@ -485,42 +612,78 @@ private:
 	int motorIloscImpSrodek7;
 	int motorIloscImpSrodek8;
 	int motorIloscImpSrodek9;
-	double filtr880_A_0;
-	double filtr880_B_0;
-	double filtr880_C_0;
-	double filtr880_A_1;
-	double filtr880_B_1;
-	double filtr880_C_1;
-	double filtr880_A_2;
-	double filtr880_B_2;
-	double filtr880_C_2;
-	double filtr880_A_3;
-	double filtr880_B_3;
-	double filtr880_C_3;
-	double filtr880_A_4;
-	double filtr880_B_4;
-	double filtr880_C_4;
-	double filtr880_A_5;
-	double filtr880_B_5;
-	double filtr880_C_5;
-	double filtr655_A_0;
-	double filtr655_B_0;
-	double filtr655_C_0;
-	double filtr655_A_1;
-	double filtr655_B_1;
-	double filtr655_C_1;
-	double filtr655_A_2;
-	double filtr655_B_2;
-	double filtr655_C_2;
-	double filtr655_A_3;
-	double filtr655_B_3;
-	double filtr655_C_3;
-	double filtr655_A_4;
-	double filtr655_B_4;
-	double filtr655_C_4;
-	double filtr655_A_5;
-	double filtr655_B_5;
-	double filtr655_C_5;
+	double filtr_db_880_A_0;
+	double filtr_db_880_B_0;
+	double filtr_db_880_C_0;
+	double filtr_db_880_A_1;
+	double filtr_db_880_B_1;
+	double filtr_db_880_C_1;
+	double filtr_db_880_A_2;
+	double filtr_db_880_B_2;
+	double filtr_db_880_C_2;
+	double filtr_db_880_A_3;
+	double filtr_db_880_B_3;
+	double filtr_db_880_C_3;
+	double filtr_db_880_A_4;
+	double filtr_db_880_B_4;
+	double filtr_db_880_C_4;
+	double filtr_db_880_A_5;
+	double filtr_db_880_B_5;
+	double filtr_db_880_C_5;
+	double filtr_db_655_A_0;
+	double filtr_db_655_B_0;
+	double filtr_db_655_C_0;
+	double filtr_db_655_A_1;
+	double filtr_db_655_B_1;
+	double filtr_db_655_C_1;
+	double filtr_db_655_A_2;
+	double filtr_db_655_B_2;
+	double filtr_db_655_C_2;
+	double filtr_db_655_A_3;
+	double filtr_db_655_B_3;
+	double filtr_db_655_C_3;
+	double filtr_db_655_A_4;
+	double filtr_db_655_B_4;
+	double filtr_db_655_C_4;
+	double filtr_db_655_A_5;
+	double filtr_db_655_B_5;
+	double filtr_db_655_C_5;
+	double filtr_prc_880_A_0;
+	double filtr_prc_880_B_0;
+	double filtr_prc_880_C_0;
+	double filtr_prc_880_A_1;
+	double filtr_prc_880_B_1;
+	double filtr_prc_880_C_1;
+	double filtr_prc_880_A_2;
+	double filtr_prc_880_B_2;
+	double filtr_prc_880_C_2;
+	double filtr_prc_880_A_3;
+	double filtr_prc_880_B_3;
+	double filtr_prc_880_C_3;
+	double filtr_prc_880_A_4;
+	double filtr_prc_880_B_4;
+	double filtr_prc_880_C_4;
+	double filtr_prc_880_A_5;
+	double filtr_prc_880_B_5;
+	double filtr_prc_880_C_5;
+	double filtr_prc_655_A_0;
+	double filtr_prc_655_B_0;
+	double filtr_prc_655_C_0;
+	double filtr_prc_655_A_1;
+	double filtr_prc_655_B_1;
+	double filtr_prc_655_C_1;
+	double filtr_prc_655_A_2;
+	double filtr_prc_655_B_2;
+	double filtr_prc_655_C_2;
+	double filtr_prc_655_A_3;
+	double filtr_prc_655_B_3;
+	double filtr_prc_655_C_3;
+	double filtr_prc_655_A_4;
+	double filtr_prc_655_B_4;
+	double filtr_prc_655_C_4;
+	double filtr_prc_655_A_5;
+	double filtr_prc_655_B_5;
+	double filtr_prc_655_C_5;
 	QString serialDeviceZasilaczVendor;
 	QString serialDeviceZasilaczProduct;
 	QString serialDeviceSterownikVendor;

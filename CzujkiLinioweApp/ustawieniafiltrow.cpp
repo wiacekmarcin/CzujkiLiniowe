@@ -15,7 +15,7 @@ UstawieniaFiltrow::~UstawieniaFiltrow()
     delete ui;
 }
 
-#define READ_FILTR(D,T,P) ui->f_##D##_##T##P->setText(QString::number(ust->getFiltr##D##_##T##_##P()));
+#define READ_FILTR(D,T,P) ui->f_##D##_##T##P->setText(QString::number(ust->getFiltr_db_##D##_##T##_##P()));
 
 #define READ_FILTR_T(D, T) READ_FILTR(D, T, 0) \
                           READ_FILTR(D, T, 1) \
@@ -40,7 +40,7 @@ void UstawieniaFiltrow::setUstawienia(Ustawienia *u)
 }
 
 
-#define WRITE_FILTR(D,T,P) ust->setFiltr##D##_##T##_##P(ui->f_##D##_##T##P->text());
+#define WRITE_FILTR(D,T,P) ust->setFiltr_db_##D##_##T##_##P(ui->f_##D##_##T##P->text());
 
 #define WRITE_FILTR_T(D, T) WRITE_FILTR(D, T, 0) \
                             WRITE_FILTR(D, T, 1) \

@@ -13,7 +13,7 @@ class Test1ParametryTestu : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test1ParametryTestu(DaneBadania * badanie, QWidget *parent = nullptr);
+    explicit Test1ParametryTestu(DaneBadania * badanie, short TestId, short CzujkaId, QWidget *parent = nullptr);
     ~Test1ParametryTestu();
 
 private:

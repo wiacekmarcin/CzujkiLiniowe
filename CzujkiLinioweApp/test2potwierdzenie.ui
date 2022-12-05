@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ParametryTestu2Potwierdzenie</class>
- <widget class="QDialog" name="ParametryTestu2Potwierdzenie">
+ <class>Test2Potwierdzenie</class>
+ <widget class="QDialog" name="Test2Potwierdzenie">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -308,7 +308,8 @@
          <string>Dalej</string>
         </property>
         <property name="icon">
-         <iconset theme="media-playback-start"/>
+         <iconset theme="media-playback-start">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -318,7 +319,8 @@
          <string>Przerwij</string>
         </property>
         <property name="icon">
-         <iconset theme="media-playback-stop"/>
+         <iconset theme="media-playback-stop">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>

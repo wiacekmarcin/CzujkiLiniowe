@@ -159,8 +159,8 @@ public:
         self.c_sources.append("%s\n{\n%s\n}" % (fcheck_c, cont))
         
         
-    def addFiltr(self, fala, nrTarczy, nrPozycji, path, devVal):
-        localVal = "filtr%d_%c_%d" % (fala, nrTarczy, nrPozycji)
+    def addFiltr(self, fala, nrTarczy, nrPozycji, path, devVal, suffix):
+        localVal = "filtr_%s_%d_%c_%d" % (suffix, fala, nrTarczy, nrPozycji)
         localFunName = self.cName(localVal)
         self.h_private_values.append("double %s;" % localVal)
         
@@ -169,7 +169,7 @@ public:
         fset2 = "inline void set%s(const QString & vals) { set%s(toDouble(vals)); }" % (localFunName, localFunName)
         fget_c = "double %s::get%s() const" % (self.className, localFunName)
         fset_c = "void %s::set%s(const double & value)" % (self.className, localFunName)
-        f_check = "checkFilterValue"
+        f_check = "checkFilter%sValue" % suffix
         self.h_public_fun.append(fget + ";");
         self.h_public_fun.append(fset + ";");
         self.h_public_fun.append(fset2);
@@ -191,35 +191,34 @@ public:
         #void Ustawienia::setRatioSilnik1(const QString & value) { m_ratioSilnik1 = value; settings.setValue("Ratio_1", QVariant::fromValue(m_ratioSilnik1)); }
         self.c_sources.append('%s\n{\n\t%s = value;\n\tsettings.setValue("%s", QVariant::fromValue(value));\n}' % (fset_c, localVal, settPath))
         
-    def addSummFiltr(self, checkFun):
-        #QString Ustawienia::getRatioSilnik(uint key) const
-        self.h_public_fun.append("double getFiltr880_A(const short & nrPos) const { return getFiltr(880, 'A', nrPos); }") 
-        self.h_public_fun.append("double getFiltr880_B(const short & nrPos) const { return getFiltr(880, 'B', nrPos); }") 
-        self.h_public_fun.append("double getFiltr880_C(const short & nrPos) const { return getFiltr(880, 'C', nrPos); }") 
+    def addSummFiltr(self, checkFun, suffix):
+        self.h_public_fun.append("double getFiltr_%s_880_A(const short & nrPos) const { return getFiltr_%s(880, 'A', nrPos); }" % (suffix, suffix)) 
+        self.h_public_fun.append("double getFiltr_%s_880_B(const short & nrPos) const { return getFiltr_%s(880, 'B', nrPos); }" % (suffix, suffix)) 
+        self.h_public_fun.append("double getFiltr_%s_880_C(const short & nrPos) const { return getFiltr_%s(880, 'C', nrPos); }" % (suffix, suffix)) 
         
-        self.h_public_fun.append("double getFiltr655_A(const short & nrPos) const { return getFiltr(655, 'A', nrPos); }") 
-        self.h_public_fun.append("double getFiltr655_B(const short & nrPos) const { return getFiltr(655, 'B', nrPos); }") 
-        self.h_public_fun.append("double getFiltr655_C(const short & nrPos) const { return getFiltr(655, 'C', nrPos); }") 
+        self.h_public_fun.append("double getFiltr_%s_655_A(const short & nrPos) const { return getFiltr_%s(655, 'A', nrPos); }" % (suffix, suffix)) 
+        self.h_public_fun.append("double getFiltr_%s_655_B(const short & nrPos) const { return getFiltr_%s(655, 'B', nrPos); }" % (suffix, suffix)) 
+        self.h_public_fun.append("double getFiltr_%s_655_C(const short & nrPos) const { return getFiltr_%s(655, 'C', nrPos); }" % (suffix, suffix)) 
         
-        self.h_public_fun.append("double getFiltr880(const char & nrTarczy, const short & nrPos) const { return getFiltr(880, nrTarczy, nrPos); }") 
-        self.h_public_fun.append("double getFiltr655(const char & nrTarczy, const short & nrPos) const { return getFiltr(655, nrTarczy, nrPos); }")
+        self.h_public_fun.append("double getFiltr_%s_880(const char & nrTarczy, const short & nrPos) const { return getFiltr_%s(880, nrTarczy, nrPos); }" % (suffix, suffix)) 
+        self.h_public_fun.append("double getFiltr_%s_655(const char & nrTarczy, const short & nrPos) const { return getFiltr_%s(655, nrTarczy, nrPos); }" % (suffix, suffix))
         
-        self.h_public_fun.append("void setFiltr880_A(const short & nrPos, const double & val) { setFiltr(880, 'A', nrPos, val); }") 
-        self.h_public_fun.append("void setFiltr880_B(const short & nrPos, const double & val) { setFiltr(880, 'B', nrPos, val); }")
-        self.h_public_fun.append("void setFiltr880_C(const short & nrPos, const double & val) { setFiltr(880, 'C', nrPos, val); }")
+        self.h_public_fun.append("void setFiltr_%s_880_A(const short & nrPos, const double & val) { setFiltr_%s(880, 'A', nrPos, val); }" % (suffix, suffix)) 
+        self.h_public_fun.append("void setFiltr_%s_880_B(const short & nrPos, const double & val) { setFiltr_%s(880, 'B', nrPos, val); }" % (suffix, suffix))
+        self.h_public_fun.append("void setFiltr_%s_880_C(const short & nrPos, const double & val) { setFiltr_%s(880, 'C', nrPos, val); }" % (suffix, suffix))
         
-        self.h_public_fun.append("void setFiltr655_A(const short & nrPos, const double & val) { setFiltr(655, 'A', nrPos, val); }")
-        self.h_public_fun.append("void setFiltr655_B(const short & nrPos, const double & val) { setFiltr(655, 'B', nrPos, val); }")
-        self.h_public_fun.append("void setFiltr655_C(const short & nrPos, const double & val) { setFiltr(655, 'C', nrPos, val); }")
+        self.h_public_fun.append("void setFiltr_%s_655_A(const short & nrPos, const double & val) { setFiltr_%s(655, 'A', nrPos, val); }" % (suffix, suffix))
+        self.h_public_fun.append("void setFiltr_%s_655_B(const short & nrPos, const double & val) { setFiltr_%s(655, 'B', nrPos, val); }" % (suffix, suffix))
+        self.h_public_fun.append("void setFiltr_%s_655_C(const short & nrPos, const double & val) { setFiltr_%s(655, 'C', nrPos, val); }" % (suffix, suffix))
         
-        self.h_public_fun.append("void setFiltr880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(880, nrTarczy, nrPos, val); }") 
-        self.h_public_fun.append("void setFiltr655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr(655, nrTarczy, nrPos, val); }")
-
-        self.h_protected_fun.append("bool checkFilterValue(const QString & val);")
-        self.h_protected_fun.append("double getFiltr(const int& fala, const char & nrTarczy, const short & nrPos) const;")
-        self.h_protected_fun.append("void setFiltr(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);")
+        self.h_public_fun.append("void setFiltr_%s_880(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_%s(880, nrTarczy, nrPos, val); }" % (suffix, suffix)) 
+        self.h_public_fun.append("void setFiltr_%s_655(const char & nrTarczy, const short & nrPos, const double & val) { setFiltr_%s(655, nrTarczy, nrPos, val); }" % (suffix, suffix))
+        
+        self.h_protected_fun.append("bool checkFilter%sValue(const QString & val);" % suffix)
+        self.h_protected_fun.append("double getFiltr_%s(const int& fala, const char & nrTarczy, const short & nrPos) const;" % suffix)
+        self.h_protected_fun.append("void setFiltr_%s(const int& fala, const char & nrTarczy, const short & nrPos, const double & val);" % suffix)
             
-        fcheck_c = "bool %s::checkFilterValue(const QString & val)" % self.className
+        fcheck_c = "bool %s::checkFilter%sValue(const QString & val)" % (self.className, suffix)
         cont = checkFun()
         self.c_sources.append("%s\n{\n%s\n}" % (fcheck_c, cont))
         
@@ -227,20 +226,20 @@ public:
         for d in [880, 655]:
             for c in ['A', 'B', 'C']:
                 for p in [0,1,2,3,4,5]:
-                    cont += "\n\telse if (fala == %d && nrTarczy == '%c' && nrPos == %d) return getFiltr%d_%c_%d();" % (d, c, p, d, c, p)
+                    cont += "\n\telse if (fala == %d && nrTarczy == '%c' && nrPos == %d) return getFiltr_%s_%d_%c_%d();" % (d, c, p, suffix, d, c, p)
         
         cont += "\n\telse Q_ASSERT(true);\n\t return 0.0;"
-        fget_c = "double %s::getFiltr(const int & fala, const char & nrTarczy, const short & nrPos) const" % self.className
+        fget_c = "double %s::getFiltr_%s(const int & fala, const char & nrTarczy, const short & nrPos) const" % (self.className, suffix)
         self.c_sources.append("%s\n{\n%s\n}" % (fget_c, cont))
         
         cont = "\tif (false) ;"
         for d in [880, 655]:
             for c in ['A', 'B', 'C']:
                 for p in [0,1,2,3,4,5]:
-                    cont += "\n\telse if (fala == %d && nrTarczy == '%c' && nrPos == %d) return setFiltr%d_%c_%d(val);" % (d, c, p, d, c, p)
+                    cont += "\n\telse if (fala == %d && nrTarczy == '%c' && nrPos == %d) return setFiltr_%s_%d_%c_%d(val);" % (d, c, p, suffix, d, c, p)
         
         cont += "\n\telse Q_ASSERT(true);"
-        fset_c = "void %s::setFiltr(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)" % self.className
+        fset_c = "void %s::setFiltr_%s(const int & fala, const char & nrTarczy, const short & nrPos, const double & val)" % (self.className, suffix)
         self.c_sources.append("%s\n{\n%s\n}" % (fset_c, cont))
 
     def addDevice(self, nameVal, path, defVal):
@@ -465,16 +464,29 @@ motordefVals = {
     },
 }
 
-defFiltrVals = {
+defFiltrValsdb = {
     655: {
-        'A': [0, 0.21, 0.4, 0.62, 0.83, 6.98],
-        'B': [0, 0.1, 0.98, 1.35, 3.3, 1.97],
-        'C': [0, 0.1, 4.28, 8.79, 7.6, 1.97],
+        'A': [0, 0.1, 0.2, 0.3, 0.4, 13.0],
+        'B': [0, 0.2, 0.4, 0.5, 6.0, 7.0],
+        'C': [0, 1.0, 2.0, 3.0, 4.0, 5.0],
     },
     880 : {
-        'A': [0, 0.22, 1.02, 0.59, 0.82, 6.39],
-        'B': [0, 0.1, 1.02, 2, 3.02, 6.43],
-        'C': [0, 0.09, 3.94, 8.04, 11.94, 3.06]
+        'A': [0, 0.1, 0.2, 0.3, 0.4, 13.0],
+        'B': [0, 0.2, 0.4, 0.5, 6.0, 7.0],
+        'C': [0, 1.0, 2.0, 3.0, 4.0, 5.0],
+    }
+}
+
+defFiltrValsPer = {
+    655: {
+        'A': [0, 0, 0, 0, 0, 0],
+        'B': [0, 0, 0, 0, 0, 0],
+        'C': [0, 0, 0, 0, 0, 0],
+    },
+    880 : {
+        'A': [0, 0, 0, 0, 0, 0],
+        'B': [0, 0, 0, 0, 0, 0],
+        'C': [0, 0, 0, 0, 0, 0]
     }
 }
 
@@ -493,14 +505,17 @@ motorSett("maksIloscImp", "int", "toUInt", checkFuns, motordefVals)
 motorSett("iloscImpBaza", "int", "toUInt", checkFuns, motordefVals)
 motorSett("iloscImpSrodek", "int", "toUInt", checkFuns, motordefVals)
 
-def addFiltrSett(fala, defFiltrVals):
+def addFiltrSett(fala, defFiltrVals, path, suffix):
     for i in range(0, 6):
         for c in ['A', 'B', 'C']:
-            u.addFiltr(fala, c, i, "Filtr_", defFiltrVals[fala][c][i])
+            u.addFiltr(fala, c, i, path, defFiltrVals[fala][c][i], suffix)
             
-addFiltrSett(880, defFiltrVals)
-addFiltrSett(655, defFiltrVals)
-u.addSummFiltr(checkDoubleContent)
+addFiltrSett(880, defFiltrValsdb, "Filtr_db_", "db")
+addFiltrSett(655, defFiltrValsdb, "Filtr_db_", "db")
+addFiltrSett(880, defFiltrValsPer, "Filtr_percent_", "prc")
+addFiltrSett(655, defFiltrValsPer, "Filtr_percent_", "prc")
+u.addSummFiltr(checkDoubleContent, "db")
+u.addSummFiltr(checkDoubleContent, "prc")
 
 u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
 u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
