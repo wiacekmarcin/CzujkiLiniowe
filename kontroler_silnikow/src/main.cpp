@@ -26,13 +26,14 @@
 #define DBG2 A2
 #define DBG3 A3
 
+//dx dx dx dx dx d3 d2 d1
 typedef enum _debugWorkMode
 {
-	PIONOWA = 0,
-	KATOWA = 1,
-	KOLOWA = 2,
-	POZIOMA = 4,
-	CHECKKRANC = 7,
+	CHECKKRANC = 0, //brak zworek
+	KATOWA = 1, //d3 pierwsza od procka
+	KOLOWA = 2, //d2 druga od procka
+	POZIOMA = 4, //d3 trzecia od procka
+	PIONOWA = 7, //wszystkie zworki
 	UNKNOWN = 8
 } DebugWorkMode;
 
@@ -68,6 +69,17 @@ static void printSendBuf();
 static void debugModeFun2();
 #endif
 
+
+void setBusy(bool busy)
+{
+	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
+	if (!busy) {
+		SPDR = FB;
+		sendPos = 0;
+		sendBuff[0] = 0;
+	}
+}
+
 /**
  * M1 DIR=1 w prawo do nadajnika kroki 782(dla dir=0) / 778 (dla dir=1)
  * M2 DIR=1 do góry kroki 650
@@ -79,7 +91,6 @@ static void debugModeFun2();
  * M8 DIR=1 w prawo od odbiornika 1307 / 973 / 996
  * M9 DIR=1 dp dolu Kroki 826(dla dir=0) / 797(dla dir=1) 2 wdrugim przypadku 802 do 831
  */
-
 uint32_t getDelayImp(DebugWorkMode d)
 {
 	switch (d)
@@ -92,8 +103,6 @@ uint32_t getDelayImp(DebugWorkMode d)
 		return 60;
 	case POZIOMA:
 		return 250;
-	case 3:
-		return 200;
 	default:
 		return 1000000;
 	}
@@ -111,18 +120,9 @@ uint32_t getMaxSteps(DebugWorkMode d)
 		return 32000;
 	case POZIOMA:
 		return 25000;
-	case 3:
-		return 3200;
 	default:
 		return 1000000;
 	}
-}
-
-inline void setBusy(bool busy)
-{
-	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
-	if (!busy)
-		SPDR = FB;
 }
 
 void setStopSoft()
@@ -152,7 +152,7 @@ void setup()
 {
 
 	pinMode(BUSYPIN, OUTPUT);
-	//setBusy(false);
+	setBusy(false);
 
 	pinMode(DEBUGPIN, INPUT);
 	pinMode(DBG3, INPUT);
@@ -194,7 +194,6 @@ void setup()
 #ifdef DEBUG_PINDEBUG
 	return;
 #endif
-	return ;
 
 	//Timer1.attachInterrupt(motorImpulse);
 	//Timer1.initialize(125000);
@@ -217,8 +216,8 @@ void setup()
 	//attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
 	//attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
 
-	//setBusy(false);
-
+	setBusy(false);
+	Serial.println("\nSTART");
 	mot.setDir(false);
 }
 
@@ -240,7 +239,7 @@ int8_t skipCharCnt = -1;
 
 bool highlevel = false;
 
-uint32_t loops = 0;
+int32_t loops = 0;
 int delImp = 20;
 
 bool debugDir = false;
@@ -254,9 +253,6 @@ bool czujkaInit = false;
 
 void loop()
 {
-
-	
-
 	if (isDebugMode)
 	{
 		debugModeFun();
@@ -270,148 +266,155 @@ void loop()
 	}
 #endif
 
-
-	if (received) 
-	{
-#ifdef DEBUG		
-		Serial.print("REC.BEG actProcess=");
-		Serial.print(actProcess, DEC);
-		Serial.print(" recvPos=");
-		Serial.println(recvPos, DEC);
-#endif
-		while (recvPos > 0 && actProcess < recvPos)
-		{
-#ifdef DEBUG			
-			Serial.print(actProcess + 1, DEC);
-			Serial.print("/");
-			Serial.print(recvPos, DEC);
-			Serial.print(" CHAR=");
-			phex2(recvBuff[actProcess]);
-#endif			
-			if (skipCharCnt >= 0)
-			{
-#ifdef DEBUG				
-				Serial.print(" Skip");
-				Serial.print(" (");
-				Serial.print(skipCharCnt, DEC);
-				Serial.println(")");
-#endif				
-				if (skipCharCnt == 0)
-				{
-#ifdef DEBUG					
-					Serial.println("BUSY OFF");
-#endif	
-					sendPos = 0;
-					msg.clear();
-					setBusy(false);
-				
-				} 
-				actProcess++;
-				--skipCharCnt;
-				continue;
-			}
-#ifdef DEBUG
-			Serial.println(" Proc");
-#endif			
-
-			if (!msg.add(recvBuff[actProcess++]))
-				continue;
-#ifdef DEBUG
-			Serial.println("BUSY ON");
-#endif			
-			setBusy(true);
-
-			Result status = msg.parse();
-
-			if (!status.ok)
-			{
-#ifdef DEBUG								
-				Serial.println("CMD:Nie poprawna wiadomosc");
-				Serial.println("BUSY OFF");
-#endif				
-				msg.clear();
-				setBusy(false);
-				continue;
-			}
-
-			uint8_t addr = msg.getAddr();
-			switch (msg.getMsgCmd())
-			{
-			case LAST_REQ:
-			{
-#ifdef DEBUG				
-				Serial.println("CMD:LAST");
-#endif				
-				for (uint8_t i = maxBuff; i > 0; --i)
-					sendBuff[i] = i;
-				skipCharCnt = 16;
-				break;
-			}
-
-			case ECHO_REQ:
-			{
-				echoRequestFun(addr);
-				break;
-			}
-
-			case PROGRESS_REQ:
-			{
-				progressRequestFun(addr);
-				break;
-			}
-
-			case CONF_REQ:
-			{
-				configurationRequest(addr, status);
-				break;
-			}
-
-			case MOVE_REQ:
-			{
-				moveRequest(addr, status.data.move.isHome, status.data.move.steps);
-				break;
-			}
-
-			default:
-			{
-#ifdef DEBUG				
-				Serial.println("CMD:Uknonwn");
-				Serial.println("BUSY OFF");
-#endif				
-				msg.clear();
-				setBusy(false);
-				break;
-			}
-
-			} // switch
-		}	  // while
-#ifdef DEBUG
-		Serial.print("AFTER WHILE actProcess=");
-		Serial.print(actProcess, DEC);
-		Serial.print(" recvPos=");
-		Serial.println(recvPos, DEC);
-#endif		
-		actProcess = 0;
-		recvPos = 0;
-		sendPos = 0;
-		received = false;
-		Serial.println("REC.END");
-	}
-
-	if (sendStopPos)
+	/*if (sendStopPos)
 	{
 		Serial.println("PIN STOP");
 		setBusy(true);
 		sendStopPos = false;
 		setBusy(false);
 	}
-
-	if (loops <= 10)
+	*/
+	
+	if (--loops <= 10)
 	{
-		loops = 50000000;
+		loops = 500000;
 		Serial.println("Czekam");
 	}
-	--loops;
+
+	if (!received)
+		return;
+
+	
+#ifdef DEBUG		
+	Serial.print("1.Start Rec/Act:[");
+	Serial.print(actProcess, DEC);
+	Serial.print(",");
+	Serial.print(recvPos, DEC);
+	Serial.println("]");
+#endif
+	while (recvPos > 0 && actProcess < recvPos)
+	{
+#ifdef DEBUG
+		Serial.println("\n----------");
+		Serial.print("2.Act/Rec:[");
+		Serial.print(actProcess, DEC);
+		Serial.print(",");
+		Serial.print(recvPos, DEC);
+		Serial.print("]=");			
+		phex2(recvBuff[actProcess]);
+#endif			
+		if (skipCharCnt >= 0)
+		{
+#ifdef DEBUG				
+			Serial.print(" Skip");
+			Serial.print(" (");
+			Serial.print(skipCharCnt, DEC);
+			Serial.println(")");
+#endif				
+			if (skipCharCnt == 0)
+			{
+#ifdef DEBUG					
+				Serial.println("END SKIP, BUSY OFF");
+#endif			
+				sendPos = 0;
+				msg.clear();
+				setBusy(false);
+			} 
+			++actProcess;
+			--skipCharCnt;
+			continue;
+		}
+#ifdef DEBUG
+		Serial.println(" Proc");
+#endif			
+		if (!msg.add(recvBuff[actProcess++])) {
+#ifdef DEBUG			
+			Serial.println("Potrzebny kolejny znak");
+#endif			
+			continue;
+		}
+#ifdef DEBUG		
+		Serial.println("Mam wiadomosc");
+		Serial.println("BUSY ON");
+#endif			
+		setBusy(true);
+
+		Result status = msg.parse();
+		if (!status.ok)
+		{
+#ifdef DEBUG								
+			Serial.println("CMD:Nie poprawna wiadomosc");
+			Serial.println("BUSY OFF");
+#endif				
+			msg.clear();
+			setBusy(false);
+			continue;
+		}
+
+		uint8_t addr = msg.getAddr();
+#ifdef DEBUG								
+			Serial.print("ADDR:");
+			Serial.println(addr);
+#endif			
+		switch (msg.getMsgCmd())
+		{
+		case LAST_REQ:
+		{
+#ifdef DEBUG				
+			Serial.println("CMD:LAST");
+#endif				
+			skipCharCnt = 16;
+			break;
+		}
+
+		case ECHO_REQ:
+		{
+			echoRequestFun(addr);
+			break;
+		}
+
+		case PROGRESS_REQ:
+		{
+			progressRequestFun(addr);
+			break;
+		}
+
+		case CONF_REQ:
+		{
+			configurationRequest(addr, status);
+			break;
+		}
+
+		case MOVE_REQ:
+		{
+			moveRequest(addr, status.data.move.isHome, status.data.move.steps);
+			break;
+		}
+
+		default:
+		{
+#ifdef DEBUG				
+			Serial.println("CMD:Uknonwn");
+			Serial.println("BUSY OFF");
+#endif				
+			msg.clear();
+			setBusy(false);
+			break;
+		}
+
+		} // switch
+	}	  // while
+#ifdef DEBUG
+	Serial.print("3. Act/Rec:[");
+	Serial.print(actProcess, DEC);
+	Serial.print(",");
+	Serial.print(recvPos, DEC);
+	Serial.println("]");
+#endif		
+	actProcess = 0;
+	recvPos = 0;
+	received = false;
+	Serial.println("END.LOOP");
 }
 
 DebugWorkMode conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1)
@@ -427,8 +430,8 @@ DebugWorkMode conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1)
 	Serial.print(d2);
 	Serial.print(" d1=");
 	Serial.print(d1);
-	Serial.print(" b=");
-	Serial.print(b);
+	Serial.print(" d=");
+	Serial.println(isDebugMode);
 #endif
 	switch (b)
 	{
