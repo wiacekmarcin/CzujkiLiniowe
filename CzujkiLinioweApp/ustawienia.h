@@ -5,17 +5,29 @@
 #include <QString>
 #include <QSettings>
 
+struct UkladFiltrow {
+    short A,B,C;
+};
+
 class Ustawienia : public UstawieniaGen
 {
 public:
     Ustawienia();
     ~Ustawienia();
     static double wyliczPredkosc(const double & ratioImpJedn, const double & impTime);
+
+    QList<QStringList> getTlumienia655() const;
+    QList<QStringList> getTlumienia880() const;
+protected:
+    void loadListUstawienFiltra();
+    void saveListUstawienFiltra();
 private:
 
     static char appnazwa[];
     static char firmnazwa[];
 
+    QMap<QString,UkladFiltrow> listaUstawienFiltra655;
+    QMap<QString,UkladFiltrow> listaUstawienFiltra880;
 };
 
 #endif // USTAWIENIA_H

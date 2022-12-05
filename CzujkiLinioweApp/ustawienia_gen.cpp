@@ -9,7 +9,7 @@ UstawieniaGen::UstawieniaGen() :
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
-    load();
+    //load();
 }
 
 UstawieniaGen::~UstawieniaGen()
