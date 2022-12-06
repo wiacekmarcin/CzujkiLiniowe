@@ -52,17 +52,18 @@ volatile uint8_t sendPos;
 volatile bool sendStopPos = false;
 
 const uint8_t FB = 0x0A;
-
+uint8_t address = 15;
 static void debugModeFun();
-static void echoRequestFun(uint8_t addr);
-static void progressRequestFun(uint8_t addr);
-static void configurationRequest(uint8_t addr, Result status);
-static void moveRequest(uint8_t addr, bool isHome, uint32_t steps);
+static void echoRequestFun(uint8_t address);
+static void progressRequestFun(uint8_t address);
+static void configurationRequest(uint8_t address, Result status);
+static void moveRequest(uint8_t address, bool isHome, uint32_t steps, uint32_t delay);
+static void emptyMove(uint8_t of);
 static DebugWorkMode conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1);
 
 #ifdef DEBUG
 static void phex2(uint8_t b);
-static void printSendBuf();
+
 #endif
 
 #ifdef DEBUG_PINDEBUG
@@ -76,8 +77,13 @@ void setBusy(bool busy)
 	if (!busy) {
 		SPDR = FB;
 		sendPos = 0;
-		sendBuff[0] = 0;
 	}
+}
+
+volatile bool createStopResponse;
+void setCreateStopMessageFun()
+{
+	createStopResponse = true;
 }
 
 /**
@@ -127,16 +133,12 @@ uint32_t getMaxSteps(DebugWorkMode d)
 
 void setStopSoft()
 {
-	sendStopPos = true;
 	mot.setStop(false);
-	Timer1.stop();
 }
 
 void setStopHard()
 {
-	sendStopPos = true;
 	mot.setStop(true);
-	Timer1.stop();
 }
 
 void motorImpulse()
@@ -159,7 +161,7 @@ void setup()
 	pinMode(DBG2, INPUT);
 	pinMode(DBG1, INPUT);
 
-	pinMode(SS, INPUT_PULLUP);
+	pinMode(SS, INPUT);
 	pinMode(SCK, INPUT);
 	pinMode(MOSI, INPUT);
 	pinMode(MISO, OUTPUT);
@@ -168,7 +170,7 @@ void setup()
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
 	pinMode(KRANCPIN, INPUT);
-	pinMode(STOPPIN, INPUT_PULLUP);
+	pinMode(STOPPIN, INPUT);
 	pinMode(MOVEPIN, OUTPUT);
 
 	digitalWrite(ENPIN, LOW);
@@ -195,26 +197,33 @@ void setup()
 	return;
 #endif
 
-	//Timer1.attachInterrupt(motorImpulse);
-	//Timer1.initialize(125000);
+	Timer1.attachInterrupt(motorImpulse);
+	Timer1.initialize(125000);
 
-	//mot.init();
-	//msg.init();
+	mot.init();
+	msg.init();
 
 	pinMode(MISO, OUTPUT); // Sets MISO as OUTPUT (Have to Send data to Master IN
 
 	for (uint8_t i = 0; i < maxBuff; ++i)
 	{
-		recvBuff[2*i] = 2*i;
-		recvBuff[2*i+1] = 2*i+1;
-		sendBuff[i] = 16 + i;
+		recvBuff[2*i] = 0;
+		recvBuff[2*i+1] = 0;
+		sendBuff[i] = 0;
 	}
 
-	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
-	sendBuff[1] = 10;
+	sendBuff[0] = 3;
+	sendBuff[1] = (ECHO_REP << 4) & 0xf0;
+	sendBuff[2] = 0xf8; //0xf - adres nie wiadomo 0x80 odpowiedz z mini
+	sendBuff[2] |= (uint8_t)dbgWorkMode & 0x07;
+	CRC8 c;
+    c.reset();
+    c.add(sendBuff[1]);
+	c.add(sendBuff[2]);
+    sendBuff[3] = c.getCRC();
 
-	//attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
-	//attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
+	attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
+	attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
 
 	setBusy(false);
 	Serial.println("\nSTART");
@@ -225,7 +234,7 @@ ISR(SPI_STC_vect) // Inerrrput routine function
 {
 	recvBuff[recvPos] = SPDR; // Value received from master if store in variable slavereceived
 	SPDR = sendBuff[sendPos];
-	recvPos = (recvPos + 1) & 0x1f;
+	recvPos = (recvPos + 1) & 0x3f;
 	sendPos = (sendPos + 1) & 0x1f;
 	received = true;
 }
@@ -266,38 +275,28 @@ void loop()
 	}
 #endif
 
-	/*if (sendStopPos)
-	{
-		Serial.println("PIN STOP");
-		setBusy(true);
-		sendStopPos = false;
-		setBusy(false);
-	}
-	*/
-	
-	if (--loops <= 10)
-	{
-		loops = 500000;
-		Serial.println("Czekam");
-	}
 
 	if (!received)
 		return;
 
+	if (createStopResponse) {
+		
+	}
 	
-#ifdef DEBUG		
+	
+#ifdef DEBUG_EXT		
 	Serial.print("1.Start Rec/Act:[");
-	Serial.print(actProcess, DEC);
+	Serial.print(actProcess+1, DEC);
 	Serial.print(",");
 	Serial.print(recvPos, DEC);
 	Serial.println("]");
+	Serial.println("----------");
 #endif
 	while (recvPos > 0 && actProcess < recvPos)
 	{
-#ifdef DEBUG
-		Serial.println("\n----------");
+#ifdef DEBUG_EXT
 		Serial.print("2.Act/Rec:[");
-		Serial.print(actProcess, DEC);
+		Serial.print(actProcess+1, DEC);
 		Serial.print(",");
 		Serial.print(recvPos, DEC);
 		Serial.print("]=");			
@@ -305,7 +304,7 @@ void loop()
 #endif			
 		if (skipCharCnt >= 0)
 		{
-#ifdef DEBUG				
+#ifdef DEBUG_EXT				
 			Serial.print(" Skip");
 			Serial.print(" (");
 			Serial.print(skipCharCnt, DEC);
@@ -313,7 +312,7 @@ void loop()
 #endif				
 			if (skipCharCnt == 0)
 			{
-#ifdef DEBUG					
+#ifdef DEBUG
 				Serial.println("END SKIP, BUSY OFF");
 #endif			
 				sendPos = 0;
@@ -324,18 +323,14 @@ void loop()
 			--skipCharCnt;
 			continue;
 		}
-#ifdef DEBUG
+#ifdef DEBUG_EXT
 		Serial.println(" Proc");
 #endif			
 		if (!msg.add(recvBuff[actProcess++])) {
-#ifdef DEBUG			
-			Serial.println("Potrzebny kolejny znak");
-#endif			
 			continue;
 		}
 #ifdef DEBUG		
-		Serial.println("Mam wiadomosc");
-		Serial.println("BUSY ON");
+		Serial.println("Mam wiadomosc. BUSY ON");
 #endif			
 		setBusy(true);
 
@@ -343,25 +338,24 @@ void loop()
 		if (!status.ok)
 		{
 #ifdef DEBUG								
-			Serial.println("CMD:Nie poprawna wiadomosc");
-			Serial.println("BUSY OFF");
+			Serial.println("CMD:Nie poprawna wiadomosc. BUSY OFF");
 #endif				
 			msg.clear();
 			setBusy(false);
 			continue;
 		}
 
-		uint8_t addr = msg.getAddr();
-#ifdef DEBUG								
+		address = msg.getAddr();
+#ifdef DEBUG_EXT								
 			Serial.print("ADDR:");
-			Serial.println(addr);
+			Serial.println(address);
 #endif			
 		switch (msg.getMsgCmd())
 		{
 		case LAST_REQ:
 		{
 #ifdef DEBUG				
-			Serial.println("CMD:LAST");
+			Serial.println(" CMD:LAST");
 #endif				
 			skipCharCnt = 16;
 			break;
@@ -369,32 +363,60 @@ void loop()
 
 		case ECHO_REQ:
 		{
-			echoRequestFun(addr);
+#ifdef DEBUG				
+			Serial.println(" CMD:REQUEST");
+#endif
+			echoRequestFun(address);
+#ifdef DEBUG			
+			Serial.println("BUSY OFF");
+#endif			
+			setBusy(false);
 			break;
 		}
 
 		case PROGRESS_REQ:
 		{
-			progressRequestFun(addr);
+#ifdef DEBUG				
+			Serial.println(" CMD:PROGRESS");
+#endif			
+			progressRequestFun(address);
+#ifdef DEBUG			
+			Serial.println("BUSY OFF");
+#endif			
+			setBusy(false);
 			break;
 		}
 
 		case CONF_REQ:
 		{
-			configurationRequest(addr, status);
+#ifdef DEBUG				
+			Serial.println(" CMD:CONFIGURATION");
+#endif						
+			configurationRequest(address, status);
+#ifdef DEBUG			
+			Serial.println("BUSY OFF");
+#endif			
+			setBusy(false);
 			break;
 		}
 
 		case MOVE_REQ:
 		{
-			moveRequest(addr, status.data.move.isHome, status.data.move.steps);
+#ifdef DEBUG				
+			Serial.println(" CMD:MOVE");
+#endif						
+			moveRequest(address, status.data.move.isHome, status.data.move.steps, status.data.move.speed);
+#ifdef DEBUG			
+			Serial.println("BUSY OFF");
+#endif			
+			setBusy(false);
 			break;
 		}
 
 		default:
 		{
 #ifdef DEBUG				
-			Serial.println("CMD:Uknonwn");
+			Serial.println("CMD:Uknonwn. BUSY OFF");
 			Serial.println("BUSY OFF");
 #endif				
 			msg.clear();
@@ -404,17 +426,19 @@ void loop()
 
 		} // switch
 	}	  // while
-#ifdef DEBUG
+#ifdef DEBUG_EXT
+	Serial.println("---------");
 	Serial.print("3. Act/Rec:[");
 	Serial.print(actProcess, DEC);
 	Serial.print(",");
 	Serial.print(recvPos, DEC);
 	Serial.println("]");
+	Serial.println("END.LOOP");
 #endif		
 	actProcess = 0;
 	recvPos = 0;
 	received = false;
-	Serial.println("END.LOOP");
+	
 }
 
 DebugWorkMode conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1)
@@ -562,45 +586,39 @@ void debugModeFun2()
 }
 #endif
 
-void echoRequestFun(uint8_t addr)
+void echoRequestFun(uint8_t address)
 {
-#ifdef DEBUG
-	Serial.println("CMD:ECHO");
-	printSendBuf();
-#endif // DEBUG
-	
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = 3;
 	sendBuff[1] = (ECHO_REP << 4) & 0xf0;
-	sendBuff[2] = ((addr << 4) & 0xf0) | 0x08;
+	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 5;
-	sendBuff[5] = 0xff;
+#ifdef DEBUG	
+	Serial.print("Send [0A");
+	for (int i = 0; i < 4; ++i)
+		phex2(sendBuff[i]);
+	Serial.println("]");
+#endif	
 	sendPos = 0;
 	msg.clear();
-	setBusy(false);
-#ifdef DEBUG	
-	Serial.println("BUSY OFF");
-#endif	
 }
 
-void progressRequestFun(uint8_t addr)
+void progressRequestFun(uint8_t address)
 {
-#ifdef DEBUG
-	Serial.println("CMD:PROGRESS");
-	printSendBuf();
-#endif	
 	CRC8 crc;
 	crc.restart();
-	sendBuff[0] = 0x07;
+	sendBuff[0] = 7;
 	sendBuff[1] = ((PROGRESS_REP << 4) & 0xf0) | 0x04;
-	sendBuff[2] = ((addr << 4) & 0xf0) | 0x08;
-	if (mot.getIsMoveHome())
+	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
+	if (mot.isMove())
 		sendBuff[2] |= 0x04;
+	if (mot.isHomeMove())
+		sendBuff[2] |= 0x02;
 	crc.add(sendBuff[1]);
+	crc.add(sendBuff[2]);
 	int32_t pos = mot.getGlobalPos();
 #ifdef DEBUG
 	Serial.print("POS=");
@@ -615,27 +633,20 @@ void progressRequestFun(uint8_t addr)
 	crc.add(sendBuff[5]);
 	crc.add(sendBuff[6]);
 	sendBuff[7] = crc.getCRC();
-	sendBuff[8] = 0;
-	sendBuff[9] = 0xff;
 	sendPos = 0;
 #ifdef DEBUG	
-	Serial.print("Send ");
+	Serial.print("Send [0A");
 	for (int i = 0; i < 8; ++i)
 		phex2(sendBuff[i]);
-	Serial.println("");
+	Serial.println("]");
 #endif	
 	msg.clear();
-	setBusy(false);
-#ifdef DEBUG		
-	Serial.println("BUSY OFF");
-#endif	
 }
 
-void configurationRequest(uint8_t addr, Result status)
+void configurationRequest(uint8_t address, Result status)
 {
 #ifdef DEBUG	
 	Serial.println("CMD:CONF");
-	printSendBuf();
 	Serial.println("Konfiguracja:");
 	Serial.print("reverse=");
 	Serial.println(status.data.conf.reverse, DEC);
@@ -643,85 +654,125 @@ void configurationRequest(uint8_t addr, Result status)
 	Serial.println(status.data.conf.maxStep, DEC);
 	Serial.print("base=");
 	Serial.println(status.data.conf.baseSteps, DEC);
-	Serial.print("delay=");
-	Serial.println(status.data.conf.delayImp, DEC);
+	Serial.print("middle=");
+	Serial.println(status.data.conf.middleSteps, DEC);
 #endif	
 	mot.setReverseMotor(status.data.conf.reverse);
 	mot.setMaxSteps(status.data.conf.maxStep);
 	mot.setBaseSteps(status.data.conf.baseSteps);
-	mot.setDelayImp(status.data.conf.delayImp);
-	Timer1.setPeriod(status.data.conf.delayImp);
+	mot.setMiddleSteps(status.data.conf.middleSteps);
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = 3;
 	sendBuff[1] = (CONF_REP << 4) & 0xf0;
-	sendBuff[2] = ((addr << 4) & 0xf0) | 0x08;
+	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 0;
-	sendBuff[5] = 0xff;
 	sendPos = 0;
 #ifdef DEBUG
-	Serial.print("Send ");
+	Serial.print("Send [0A");
 	for (int i = 0; i < 4 ; ++i)
 		phex2(sendBuff[i]);
-	Serial.println("");
+	Serial.println("]");
 #endif // DEBUG	
 	msg.clear();
-	setBusy(false);
-#ifdef DEBUG
-	Serial.println("BUSY OFF");
-#endif // DEBUG	 
-	
+
 }
 
-void moveRequest(uint8_t addr, bool isHome, uint32_t steps)
+void moveRequest(uint8_t address, bool isHome, uint32_t steps, uint32_t delayImp)
 {
 #ifdef DEBUG
-	Serial.println("CMD:MOVE");
-	printSendBuf();
 	Serial.print("Ruch. Home = ");
 	Serial.print(isHome ? "Tak" : "Nie");
 	Serial.print(" Kroki = ");
-	Serial.println(steps, DEC);
-#endif	
+	Serial.print(steps, DEC);
+	Serial.print(" Interwal = ");
+	Serial.println(delayImp, DEC);
+#endif
+	Timer1.stop();
+	Timer1.setPeriod(delayImp)	;
+	Timer1.start();
+	bool wasMove = true;
 	if (isHome)
-	{
 		mot.moveHome();
-	}
 	else
-	{
-		mot.movePosition(steps);
-	}
+		wasMove = mot.movePosition(steps);
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = 3;
 	sendBuff[1] = (MOVE_REP << 4) & 0xf0;
-	sendBuff[2] = ((addr << 4) & 0xf0) | 0x08;
+	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
 	if (isHome)
-		sendBuff[2] |= 0x01;
+		sendBuff[2] += 1;
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 0;
-	sendBuff[5] = 0xff;
+
 	sendPos = 0;
 #ifdef DEBUG
-	Serial.print("Send ");
-	for (int i = 0; i < 6; ++i)
+	Serial.print("Send [0A");
+	for (int i = 0; i < 4; ++i)
 		phex2(sendBuff[i]);
-	Serial.println("");
+	Serial.println("]");
 #endif // DEBUG	
 
+	if (!wasMove)
+		emptyMove(3);
+
 	msg.clear();
-	setBusy(false);
+
 #ifdef DEBUG
 	Serial.println("BUSY OFF");
 #endif // DEBUG	
 	
 }
 
+void emptyMove(uint8_t of)
+{
+#ifdef DEBUG
+	Serial.print("Stop Ruch. Czy home:");
+	Serial.print(mot.isHome() ? "Tak" : "Nie");
+	Serial.print(" Kroki = ");
+	Serial.print(mot.getStepsAll(), DEC);
+	Serial.print(" Pozycja = ");
+	Serial.print(mot.getGlobalPos(), DEC);
+	Serial.print(" Przerwany");
+	Serial.println(mot.isInterrupted());
+#endif
+	
+	CRC8 crc;
+	crc.restart();
+	sendBuff[0] += 8;
+	sendBuff[1+of] = ((MOVE_REP << 4) & 0xf0 ) | 8;
+	sendBuff[2+of] = ((address << 4) & 0xf0) | 0x08;
+	if (mot.isHome())
+		sendBuff[2+of] += 1;
+	
+	if (mot.isInterrupted())
+		sendBuff[2+of] += 2;
+	uint32_t gp = mot.getGlobalPos();
+	uint32_t ap = mot.getStepsAll();
+	sendBuff[3+of] = (uint8_t)((gp >> 24) & 0xff);
+	sendBuff[4+of] = (uint8_t)((gp >> 16) & 0xff);
+	sendBuff[5+of] = (uint8_t)((gp >> 8) & 0xff);
+	sendBuff[6+of] = (uint8_t)(gp & 0xff);
+	sendBuff[7+of] = (uint8_t)((ap >> 24) & 0xff);
+	sendBuff[8+of] = (uint8_t)((ap >> 16) & 0xff);
+	sendBuff[9+of] = (uint8_t)((ap >> 8) & 0xff);
+	sendBuff[10+of] = (uint8_t)(ap & 0xff);
+
+	for (int i = 1; i < 11 ; ++i)
+		crc.add(sendBuff[1+of]);
+	sendBuff[12+of] = crc.getCRC();
+#ifdef DEBUG
+	Serial.print("Send [0A");
+	for (int i = 0; i < 13; ++i)
+		phex2(sendBuff[i+of]);
+	Serial.println("]");
+#endif // DEBUG	
+}
+ 
 #ifdef DEBUG
 void phex2(uint8_t b)
 {
@@ -731,12 +782,5 @@ void phex2(uint8_t b)
 	Serial.print(b, HEX);
 }
 
-void printSendBuf()
-{
-	Serial.print("Send ");
-	for (uint8_t i = 0; i < maxBuff; ++i)
-		phex2(sendBuff[i]);
-	Serial.println("");
-}
-
 #endif
+

@@ -55,19 +55,25 @@ while True:
     		continue
 
 
-    	delayStep = int(raw_input('Podaj opoznienie krokow:'))
-    	if delayStep < 0:
+    	middleStep = int(raw_input('Podaj ilosc krokow do srodka:'))
+    	if middleStep < 0:
     		continue
 
-        bytes = [ ((0x02 if en else  0x00) | ( 0x01 if rev else  0x00)),
-        	  ((maxSteps >> 24) & 0xff),
+        bytes = [ 
+			  ((maxSteps >> 24) & 0xff),
     	  	  ((maxSteps >> 16) & 0xff),
 	          ((maxSteps >> 8) & 0xff),
 	          (maxSteps  & 0xff),
+	          ((baseSteps >> 24) & 0xff),
+    	  	  ((baseSteps >> 16) & 0xff),
 	          ((baseSteps >> 8) & 0xff),
 	          (baseSteps  & 0xff),
-	          ((delayStep >> 8) & 0xff),
-		      (delayStep  & 0xff) ]  
+			  ((middleStep >> 24) & 0xff),
+    	  	  ((middleStep >> 16) & 0xff),
+	          ((middleStep >> 8) & 0xff),
+	          (middleStep  & 0xff)
+		]
+        opt = 1 if rev == 't' else 0
         cmd = [0x80 | len(bytes), (m  << 4 ) | opt] + bytes
     		
         hash = crc8.crc8()
@@ -86,6 +92,7 @@ while True:
         m = int(raw_input('Wybierz silnik [1-9]:'))
         if m < 1 or m > 9 :
             continue
+        speed = int(raw_input("Podaj predkosc: "))
     	opt = 0
         steps = 0
     	if i == '4':
@@ -96,7 +103,11 @@ while True:
     	bytes = [ ((steps >> 24) & 0xff),
         	  	  ((steps >> 16) & 0xff),
     	          ((steps >> 8) & 0xff),
-    	          (steps  & 0xff)]    
+    	          (steps  & 0xff),
+				  ((speed >> 24) & 0xff),
+        	  	  ((speed >> 16) & 0xff),
+    	          ((speed >> 8) & 0xff),
+    	          (speed  & 0xff)]    
         cmd = [0xa0 | len(bytes), (m << 4 ) | opt] + bytes
         hash = crc8.crc8()
 

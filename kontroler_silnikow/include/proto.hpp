@@ -27,7 +27,6 @@ typedef struct _result {
         struct {
             bool reverse;
             uint32_t maxStep;
-            uint32_t delayImp;
             uint32_t baseSteps;
             uint32_t middleSteps;
         } conf;
@@ -35,6 +34,7 @@ typedef struct _result {
         struct {
             bool isHome;
             uint32_t steps;
+            uint32_t speed;
         } move;
     } data;
 } Result;

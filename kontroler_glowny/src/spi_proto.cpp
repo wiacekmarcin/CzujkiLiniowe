@@ -11,6 +11,13 @@ static void phex(uint8_t b)
     Serial1.print(b, HEX);
 }
 
+static void phex0(uint8_t b)
+{
+    Serial.print(" ");
+    if (b < 16)
+        Serial.print("0");
+    Serial.print(b, HEX);
+}
 
 
 SPIMessage::SPIMessage()
@@ -23,7 +30,6 @@ SPIMessage::SPIMessage()
 , echoRepMsg{0, 0, 0}
 , confLen(0)
 , confMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-, finishedJob(false)
 {
     actJob = JOB_ECHO;
 }
@@ -75,40 +81,42 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     echoRepMsg[2] = c.getCRC();
 
     c.reset();
-    confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 0x09;
+    confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 12;
     confMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x00;
     confMsg[2] = 0;
     confMsg[3] = 0;
     confMsg[4] = 0;
-    confMsg[5] = 0x01;
-    confMsg[6] = 0x90;
+    confMsg[5] = 0;
+    confMsg[6] = 0;
     confMsg[7] = 0;
-    confMsg[8] = 0x0a;
-    confMsg[9] = 0x03;
-    confMsg[10] = 0xe8;
+    confMsg[8] = 0;
+    confMsg[9] = 0;
+    confMsg[10] = 0;
+    confMsg[11] = 0;
+    confMsg[12] = 0;
+    confMsg[13] = 0;
+    confMsg[14] = 0;
 
-    for (uint8_t z = 0; z < 11; ++z) {
+    for (uint8_t z = 0; z < 15; ++z) {
         c.add(confMsg[z]);
     }
-    confMsg[11] = c.getCRC();
-    confLen = 12;
+    confMsg[15] = c.getCRC();
+    confLen = 16;
 }
 
 void SPIMessage::sendReplyMsg()
 {
-    actJob = JOB_RESPONSE;
 #ifdef DEBUG
-    Serial.print("M");
+    Serial1.print("M");
     Serial1.print(addr, DEC);
     Serial1.print(" Send Reply Msg : [");
     for (uint8_t s = 0; s < 20; s++) {
         phex(replyMsg[s]);
     }
-    Serial1.print("]");
+    Serial1.println("]");
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
-    
     sendSpiMsg(msgLocal, 20);
 
 #ifdef DEBUG
@@ -126,54 +134,34 @@ void SPIMessage::sendReplyMsg()
     Serial1.println("]");
 
 #endif 
-    if (msgLocal[0] == 0x0A && msgLocal[1] < 20) {
+    if (msgLocal[0] == 0x0A && msgLocal[1] == 0x03 && msgLocal[2] == 0x10 && msgLocal[3] == 0xf9 && msgLocal[4] == 0x09) {
 #ifdef DEBUG
-        //Serial1.println("Send Rep msg to PC");
-#endif    
-        Serial.write(echoMsg, 3);
-
-        //sendConfiguration(false);
+        Serial1.println("Send ModiRep msg to PC");
+#endif  
+        Serial.write(echoRepMsg, 3);
+    } else {
+    #ifdef DEBUG
+        Serial1.println("Send Rep msg to PC");
+#endif  
+        Serial.write(msgLocal+2, msgLocal[1]);
     }
 }
 
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
-    Serial.print("M");
+    Serial1.print("M");
     Serial1.print(addr, DEC);
     Serial1.print(" Send ECHO Msg : [");
     for (uint8_t s = 0; s < 3; s++) {
         phex(echoMsg[s]);
     }
-    Serial1.print("]");
+    Serial1.println("]");
 #endif 
     uint8_t msgLocal[3];
     memcpy(msgLocal, echoMsg, 3);
     sendSpiMsg(msgLocal, 3);
-
-#ifdef DEBUG
-    Serial1.print("Recv message [");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    phex(msgLocal[3]);
-    phex(msgLocal[4]);
-    Serial1.println("]");
-#endif
-
-    if (actJob == JOB_ECHO && msgLocal[0] == 0x0A && msgLocal[1] == 0x10) {
-#ifdef DEBUG
-        //Serial1.println("Send msg to PC ECHO");
-#endif    
-        Serial.write(echoRepMsg, 3);
-
-        //sendConfiguration(false);
-        actJob = JOB_RESPONSE;
-       
-    } else 
-        actJob = JOB_NOP;
 }
-
 
 void SPIMessage::setConfiguration(uint8_t *config, uint8_t len)
 {
@@ -186,16 +174,11 @@ void SPIMessage::sendConfiguration(bool send2Pc)
 #ifdef DEBUG
     Serial1.println("Send Configuration ");
     Serial1.print("motor = ");
-    Serial1.print(addr, DEC);
-    Serial1.print(" SSPin=");
-    Serial1.print(ssPin);
-    Serial1.print(" StopPin=");
-    Serial1.println(stopPin);
+    Serial1.println(addr, DEC);
 #endif  
     digitalWrite(stopPin, LOW);
     uint8_t sendMsg[confLen];
     memcpy(sendMsg, confMsg, confLen);
-    actJob = JOB_CONFIGURATION;
     digitalWrite(stopPin, HIGH);
 
 #ifdef DEBUG
@@ -224,76 +207,50 @@ void SPIMessage::stop()
     digitalWrite(stopPin, HIGH);   
 }
 
-void SPIMessage::moveSteps(uint8_t *msg, uint8_t len, bool home)
+void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
 {
     digitalWrite(stopPin, LOW);
-    actJob = home ? JOB_HOME_RETURN : JOB_POSITIONING ; 
+    delayMicroseconds(20);
     digitalWrite(stopPin, HIGH);
 #ifdef DEBUG
-    Serial1.print("Send steps ");
-    Serial1.print("motor = ");
+    Serial1.print("M");
     Serial1.print(addr, DEC);
-    Serial1.print(" SSPin=");
-    Serial1.print(ssPin);
-    Serial1.print(" StopPin=");
-    Serial1.print(stopPin);
-    Serial1.println(home ? " Home" : " Move ");
+    Serial1.print(" Send Steps Msg : [");
+    for (uint8_t s = 0; s < len; s++) {
+        phex(msg[s]);
+    }
+    Serial1.println("]");
 #endif
     sendSpiMsg(msg, len);  
 }
 
 void SPIMessage::sendProgressMsg()
 {
-    if (digitalRead(movePin) == HIGH)
-        return;
-#ifdef DEBUG
-    Serial1.print("Send progres msg ");
-    Serial1.print("motor = ");
-    Serial1.print(addr, DEC);
-    Serial1.print(" SSPin=");
-    Serial1.println(ssPin);
-#endif
-    uint8_t sendMsg[3];
-    memcpy(sendMsg, progressMsg, 3);
-    actJob = JOB_PROGRESS;
-    sendSpiMsg(sendMsg, 3);
-}
-
-void SPIMessage::checkIsDone()
-{
-    if (!finishedJob)
-        return;
-
-#ifdef DEBUG
-    Serial1.print("CheckIsDone ");
-    Serial1.print("motor = ");
-    Serial1.print(addr, DEC);
-    Serial1.print(" finishJob=");
-    Serial1.print(finishedJob);
-    Serial1.print(" actJob=");
-    Serial1.println(actJob);
-#endif
-
-    finishedJob = false;
-
-    if (actJob == JOB_RESPONSE) {
-        actJob = JOB_NOP;
-        return;
-    }
-
-    if (actJob == JOB_ECHO) {
+    if (digitalRead(movePin) == HIGH) {
         sendEchoMsg();
         return;
     }
-
-    sendReplyMsg();
+#ifdef DEBUG
+    Serial1.print("M");
+    Serial1.print(addr, DEC);
+    Serial1.print(" Send PROGRESS Msg : [");
+    for (uint8_t s = 0; s < 3; s++) {
+        phex(progressMsg[s]);
+    }
+    Serial1.println("]");
+#endif
+    uint8_t sendMsg[3];
+    memcpy(sendMsg, progressMsg, 3);
+    sendSpiMsg(sendMsg, 3);
 }
 
 void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
 {
-    while (isFinish())
-        ;
+
+    digitalWrite(SS, LOW);
     digitalWrite(ssPin, LOW);
+    delayMicroseconds(40);
     SPI.transfer(bytes, cnt);
     digitalWrite(ssPin, HIGH);
+    digitalWrite(SS, HIGH);
 }

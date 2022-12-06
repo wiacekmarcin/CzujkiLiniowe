@@ -28,13 +28,11 @@ public:
     void sendEchoMsg();
     void setConfiguration(uint8_t config[], uint8_t confLen);
     void sendConfiguration(bool send2Pc);
-    void moveSteps(uint8_t *msg, uint8_t len, bool home);
+    void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
-    void checkIsDone();
-    inline volatile void setFinish() { finishedJob = true; }
-    inline bool isFinish() { return digitalRead(busyPin) == LOW; }
 
-    protected:
+
+protected:
     void sendSpiMsg(uint8_t * bytes, uint8_t cnt);
 private:
     uint8_t addr;
@@ -48,7 +46,6 @@ private:
     uint8_t echoRepMsg[3];
     uint8_t confLen;
     uint8_t confMsg[18];
-    bool finishedJob;
     MessageSerial * msg;
     actJobType actJob;
 };

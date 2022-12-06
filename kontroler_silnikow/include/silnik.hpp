@@ -3,17 +3,14 @@
 
 #include <Arduino.h>
 
-/**
- * silniki przy filtrach 
- * 640 w bazie
- * 30 400 krokow
- * 
- */
 
-
-
-
-
+typedef enum moveState {
+    IDLE,
+    HOME_NOMINAL, // pierwszy ruch do krancowki
+    HOME_BASE, // ruch o base krokow
+    HOME_MIDDLE, //ruch do srodka
+    MOVE_POS,
+} moveStateType;
 class Motor
 {
 
@@ -22,7 +19,7 @@ public:
 
     void setStop(bool hard);
     void moveHome();
-    void movePosition(uint32_t pos);
+    bool movePosition(uint32_t pos);
 
     void init();
 
@@ -32,17 +29,21 @@ public:
     void setMaxSteps(uint32_t maxSteps) { this->maxSteps = maxSteps; }
     void setDelayImp(uint16_t delayImp) { this->delayImp = delayImp; }
     void setBaseSteps(uint16_t baseSteps) { this->baseSteps = baseSteps; }
+    void setMiddleSteps(uint16_t middleSteps) { this->middleSteps = middleSteps; }
 
     int32_t getGlobalPos() const { return globalPos; }
-    bool getIsMoveHome() const { return isMoveHome; }
+    bool isMove() const { return mstate != IDLE; }
+    bool isHomeMove() const { return mstate != IDLE && mstate != MOVE_POS; }
 
-    bool impulse();
-
-    void print();
+    void impulse();
 
     static constexpr uint8_t KRANCPIN = 2;
 
     void setDir(bool back);
+
+    bool isHome() { return home; }
+    bool isInterrupted() { return interrupted = 0; }
+    int32_t getStepsAll() const { return allSteps; }
 
 private:
 
@@ -51,26 +52,28 @@ private:
     static constexpr uint8_t MOVEPIN = 5;
 
     bool reverseMotor;
-    bool enableAlways;
 
     uint32_t maxSteps;
-    uint16_t delayImp;
-    uint16_t baseSteps;
+    uint32_t baseSteps;
+    volatile uint32_t middleSteps;
+
+    uint32_t delayImp;
+    volatile uint8_t impTimer;
 
     volatile bool isRun;
-    int32_t newPosition;
-    short diff;
-
     volatile int32_t globalPos;
-
-    bool wasHome;
+    short diff;
+    
+    int32_t newPosition;
     volatile bool highlevel;
 
-    bool isMoveHome;
+    moveStateType mstate; 
     volatile uint32_t actSteps;
 
-    uint8_t cntPrint;
-    bool isMove;
+    bool home;
+    bool interrupted;
+    uint32_t allSteps;
+
 
 };
 

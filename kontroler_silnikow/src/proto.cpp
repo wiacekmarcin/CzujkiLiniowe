@@ -2,6 +2,9 @@
 #include <SPI.h>
 #include "crc8.hpp"
 
+//#define DEBUG
+
+#ifdef DEBUG
 void phex(uint8_t b)
 {
     Serial.print(" ");
@@ -9,7 +12,7 @@ void phex(uint8_t b)
         Serial.print("0");
     Serial.print(b, HEX);
 }
-
+#endif // DEBUG
 
 Message::Message():
     lenMsg(0)
@@ -110,29 +113,41 @@ Result Message::parse()
     r.ok = true;
 
     c.reset();
+#ifdef DEBUG    
     Serial.print("Parse  ");
+#endif    
     for (int i=0; i< lenMsg + restMsgCnt-1; ++i ) {
+#ifdef DEBUG        
         Serial.print(recvBuff[i], HEX);
         Serial.print(" ");
+#endif        
         c.add(recvBuff[i]);
     }
-        
+#ifdef DEBUG        
     Serial.println(crcMsg, HEX);    
+#endif    
     if (c.getCRC() != crcMsg) {
+        
         Serial.print("invalid crc ");
+        Serial.print(crcMsg, HEX);
+        Serial.print("!=");
         Serial.println(c.getCRC(), HEX);
+
         r.ok = false;
         return r;
     }
-    
+#ifdef DEBUG    
     Serial.print("cmdMsg=");
     Serial.print(cmdMsg, DEC);
     Serial.print(" lenMsg");
     Serial.print(lenMsg, DEC);
     Serial.print(" addr=");
     Serial.println(addrMsg, DEC);
+#endif    
     if (cmdMsg == LAST_REQ) {
+#ifdef DEBUG        
         Serial.println("17 znakow do pominiecia");
+#endif        
         skipChars = 17;
         return r;
     }
@@ -147,10 +162,9 @@ Result Message::parse()
     
     if (cmdMsg == CONF_REQ) {
         r.data.conf.reverse = (options & 0x01) == 0x01;
-        r.data.conf.maxStep = toNumber24(dataCmd[1], dataCmd[2], dataCmd[3]);
-        r.data.conf.baseSteps = toNumber24(dataCmd[4], dataCmd[5], dataCmd[6]);
-        r.data.conf.delayImp = toNumber24(dataCmd[7], dataCmd[8], dataCmd[9]);
-        r.data.conf.middleSteps = toNumber24(dataCmd[7], dataCmd[8], dataCmd[9]);
+        r.data.conf.maxStep = toNumber32(dataCmd[0], dataCmd[1], dataCmd[2], dataCmd[3]);
+        r.data.conf.baseSteps = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);
+        r.data.conf.middleSteps = toNumber32(dataCmd[8], dataCmd[9], dataCmd[10], dataCmd[11]);
         return r;
     }
 
@@ -160,10 +174,12 @@ Result Message::parse()
             r.data.move.steps = 0;
         else    
             r.data.move.steps = toNumber32(dataCmd[0], dataCmd[1], dataCmd[2], dataCmd[3]);
+        r.data.move.speed = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);    
         return r;
     }
-
+#ifdef DEBUG
     Serial.println("Nieznana wiadomosc");
+#endif    
     r.ok = false;
     return r;
 }

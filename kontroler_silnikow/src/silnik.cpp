@@ -3,23 +3,25 @@
 #include <TimerOne.h>
 extern Message msg;
 
+//#define DEBUG
+
+extern void setCreateStopMessageFun();
+
 Motor::Motor() :
     reverseMotor(false)
-    ,enableAlways(true)
-	,maxSteps(1000)
-    ,delayImp(1500)
-    ,baseSteps(10)
-	,isRun(false)
-	,newPosition(false)
+	,maxSteps(0)
+    ,baseSteps(0)
+	,middleSteps(0)
+	,delayImp(0)
+	,impTimer(0)
+	,globalPos(0)
 	,diff(0)
-    ,globalPos(0)
-	,wasHome(false)
+	,newPosition(false)
 	,highlevel(false)
-	,isMoveHome(false)
+    ,mstate(IDLE)
 	,actSteps(0)
 {
-	cntPrint = 1;
-    isMove = false;
+	    
 }
 
 void Motor::init()
@@ -27,6 +29,7 @@ void Motor::init()
 	
 }
 
+volatile char chDir = '-';
 
 //DIR REV
 // 0    0   => 0
@@ -41,97 +44,141 @@ void Motor::setDir(bool back)
 
 void Motor::setStop(bool hard)
 {
-	Timer1.stop();
 	if (hard) {
-		globalPos = 0;
+#ifdef DEBUG		
+		Serial.print('K');
+#endif		
+		if (mstate == HOME_NOMINAL) {
+			globalPos = baseSteps;
+			mstate = HOME_BASE;
+#ifdef DEBUG			
+			chDir = '_';
+			Serial.print("\nI: globalPos=");
+			Serial.print(globalPos);
+			Serial.print("\tnewPosition=");
+			Serial.println(newPosition);
+#endif			
+		}
+	} else {
+#ifdef DEBUG		
+		Serial.print('S');
+#endif			
+		mstate = IDLE;
+		interrupted = true;
+		digitalWrite(MOVEPIN, HIGH);
+		setCreateStopMessageFun();
 	}
-	digitalWrite(MOVEPIN, HIGH);
-	isRun = false;
-	isMove = false;
+	
 }
 
-bool Motor::impulse()
+void Motor::impulse()
 {
+	if (impTimer++ % 8)
+		return;
+
+	impTimer = 0;
+	if (mstate == IDLE)
+		return;	 
+	
 	highlevel = !highlevel;
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
 	globalPos += diff;
-
+	++allSteps;
+#ifdef DEBUG
+	Serial.print(chDir);
+#endif // DEBUG
+	
 	if (globalPos == newPosition || ++actSteps == maxSteps) {
-		Timer1.stop();
-		isRun = false;
-		isMove = false;
-		digitalWrite(MOVEPIN, HIGH);
-		return true;
+#ifdef DEBUG		
+		Serial.print("\nI: globalPos=");
+		Serial.print(globalPos);
+		Serial.print("\tnewPosition=");
+		Serial.print(newPosition);
+		Serial.print("\tactSteps=");
+		Serial.print(actSteps);
+		Serial.print("\tdiff=");
+		Serial.println(diff);
+#endif		
+		if (mstate == HOME_BASE) {
+			mstate = HOME_MIDDLE;
+			actSteps = 0;
+			newPosition = middleSteps;
+			setDir(true);
+			diff = 1;
+#ifdef DEBUG			
+			chDir='+';
+			Serial.print("HM: globalPos=");
+			Serial.print(globalPos);
+			Serial.print("newPosition=");
+			Serial.println(newPosition);
+#endif			
+		} else {
+#ifdef DEBUG			
+			Serial.print("\nE: globalPos=");
+			Serial.print(globalPos);
+			Serial.print("\tnewPosition=");
+			Serial.println(newPosition);
+#endif			
+			mstate = IDLE;
+			digitalWrite(MOVEPIN, HIGH);
+			interrupted = actSteps >= maxSteps;
+		}
 	}
-	return false;
+	
 }
 
-void Motor::print()
-{
-	if (isMove || cntPrint > 0) {
-		Serial.print("r= ");
-		Serial.print(isRun, DEC);
-		Serial.print(" a= ");
-		Serial.print(actSteps, DEC);
-		Serial.print(" m= ");
-		Serial.print(maxSteps, DEC);
-		Serial.print(" n= ");
-		Serial.print(newPosition, DEC);
-		Serial.print(" g= ");
-		Serial.println(globalPos, DEC);
-	}
-	if (!isMove && cntPrint > 0)
-		--cntPrint;
-	if (isMove)
-		cntPrint = 1;
-}
 
 void Motor::moveHome()
 {
-	isMoveHome = true;
-	isMove = true;
-
-	setDir(true);
-	
+	mstate = HOME_NOMINAL;
 	actSteps = 0;
 	globalPos = maxSteps;
 	newPosition = 0;
 	diff = -1;
+	home = true;
+    interrupted = false;
+    allSteps = 0;
+#ifdef DEBUG
+	chDir = '-';
+	Serial.print("\nI: globalPos=");
+	Serial.print(globalPos);
+	Serial.print("\tnewPosition=");
+	Serial.print(actSteps);
+	Serial.print("\tactSteps=");
+	Serial.print(actSteps);
+	Serial.print("\tmaxSteps=");
+	Serial.print(maxSteps);
+	Serial.print("\tdiff=");
+	Serial.println(diff);
+#endif	
 	digitalWrite(MOVEPIN, LOW);
-	Timer1.start();
-	isRun = true;
 }
 
-void Motor::movePosition(uint32_t pos) 
+bool Motor::movePosition(uint32_t pos) 
 {
-	isMoveHome = false;
-	isMove = true;
-	
-	
-	setDir(true);
-	
 	actSteps = 0;
 	newPosition = pos;
 	diff = -1;
-
-	Serial.print("1. globalPos");
-	Serial.println(globalPos, DEC);
-
+	home = false;
+    interrupted = false;
+    allSteps = 0;
 
 	if (pos == globalPos) {
-		Serial.println("pos = globalpos");
-		return;
+		return false;
 	} else if (pos > globalPos) {
 		diff = 1;
+#ifdef DEBUG		
+		chDir = '+';
+#endif		
 		setDir(true);
-		Serial.println("left");
 	} else if (pos < globalPos) {
-		actSteps = globalPos - pos;
 		diff = -1;
+#ifdef DEBUG		
+		chDir = '-';
+#endif		
 		setDir(false);
-		Serial.println("right");
 	}
 	digitalWrite(MOVEPIN, LOW);
-	Timer1.start();
-	isRun = true;
+	mstate = MOVE_POS;
+	return true;
 }
