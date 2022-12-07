@@ -78,5 +78,6 @@ private:
     Zasilacz * zas;
     QThread zasThr;
     QString fileDaneBadania;
+
 };
 #endif // MAINWINDOW_H

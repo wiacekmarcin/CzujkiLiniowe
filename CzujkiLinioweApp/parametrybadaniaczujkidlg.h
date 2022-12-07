@@ -1,5 +1,5 @@
-#ifndef PARAMETRYBADANIA2_H
-#define PARAMETRYBADANIA2_H
+#ifndef PARAMETRYBADANIACZUJKIDLG_H
+#define PARAMETRYBADANIACZUJKIDLG_H
 
 #include "danebadania.h"
 #include "ustawienia.h"
@@ -10,26 +10,30 @@
 class QLineEdit;
 class QLabel;
 namespace Ui {
-class ParametryBadania2;
+class ParametryBadaniaCzujkiDlg;
 }
 
-class ParametryBadania2 : public QWidget
+class ParametryBadaniaCzujkiDlg : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ParametryBadania2(QWidget *parent = nullptr);
-    ~ParametryBadania2();
+    explicit ParametryBadaniaCzujkiDlg(QWidget *parent = nullptr);
+    ~ParametryBadaniaCzujkiDlg();
     void init(const Ustawienia & u, DaneBadania * badanie, QLabel *err);
     bool check();
     void save(DaneBadania * badanie);
 protected:
     void switchOdbiornikReflektor(bool odbiornik);
+    void czujkaNrEdited(short id);
+    void showInfo7Number(bool show);
+    void showInfoSorted(bool sorted);
+    void showError(const QString & err);
 private slots:
-    void on_comboBox_currentIndexChanged(int index);
+    void changeTypUkladu(int index);
 
 private:
-    Ui::ParametryBadania2 *ui;
+    Ui::ParametryBadaniaCzujkiDlg *ui;
     static constexpr char etTypNadajnika[] = { "Typ nadajnika" };
     static constexpr char etTypNadajnikaOdbiornika[] = { "Typ nadajnika-odbiornika" };
     static constexpr char etTypOdbiornika[] = { "Typ odbiornika" };
@@ -50,9 +54,12 @@ private:
     static const char* etPierwszy[2];
     static const char* etDrugi[2];
 
+    static const short maxNumCzujek = 7;
+
     QVector<QPair<QLineEdit*, QLineEdit*>> m_numbers;
     DaneBadania * badanie;
     QLabel * errorLabel;
+    bool testOdtwarzalnosci;
 };
 
-#endif // PARAMETRYBADANIA2_H
+#endif // PARAMETRYBADANIACZUJKIDLG_H

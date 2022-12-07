@@ -80,7 +80,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Parametry testu - sprawdzenie </string>
+         <string>Parametry testu - Powierdzenie narażenia</string>
         </property>
        </widget>
       </item>
@@ -95,7 +95,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Nazwa testu</string>
+      <string>Nazwa testu [Ten ekran nie pojawi się dla badań odwarzalności, powatarzalności, katowych , zasilania</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -251,7 +251,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Czy wybrana czujka została podana zewnetrznym czynników, które mogą mieć szkodliwy wpływ na działanie</string>
+      <string>Czy wybrana czujka została podana na narażenia zewnetrznych czynników, zgodnie z nazwą testu</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

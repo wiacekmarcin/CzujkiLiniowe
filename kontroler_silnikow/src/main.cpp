@@ -73,10 +73,19 @@ static void debugModeFun2();
 
 void setBusy(bool busy)
 {
+#ifdef DEBUG	
+	if (!busy) {
+		Serial.print("Buffor [");
+		for (int i = 0; i < maxBuff; ++i)
+			phex2(sendBuff[i]);
+		Serial.println("]");
+	}
+#endif	
 	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
 	if (!busy) {
 		SPDR = FB;
 		sendPos = 0;
+
 	}
 }
 
@@ -227,7 +236,7 @@ void setup()
 
 	setBusy(false);
 	Serial.println("\nSTART");
-	mot.setDir(false);
+	mot.setDirBase(true);
 }
 
 ISR(SPI_STC_vect) // Inerrrput routine function
@@ -355,7 +364,11 @@ void loop()
 		case LAST_REQ:
 		{
 #ifdef DEBUG				
-			Serial.println(" CMD:LAST");
+	Serial.println(" CMD:LAST");
+	Serial.print("Sending :");
+	for (int i = 0; i < 20 ; ++i)
+		phex2(sendBuff[i]);
+	Serial.println("]");
 #endif				
 			skipCharCnt = 16;
 			break;
@@ -695,7 +708,7 @@ void moveRequest(uint8_t address, bool isHome, uint32_t steps, uint32_t delayImp
 	Timer1.start();
 	bool wasMove = true;
 	if (isHome)
-		mot.moveHome();
+		wasMove = mot.moveHome();
 	else
 		wasMove = mot.movePosition(steps);
 	CRC8 crc;
@@ -718,14 +731,10 @@ void moveRequest(uint8_t address, bool isHome, uint32_t steps, uint32_t delayImp
 #endif // DEBUG	
 
 	if (!wasMove)
-		emptyMove(3);
+		emptyMove(4);
 
 	msg.clear();
 
-#ifdef DEBUG
-	Serial.println("BUSY OFF");
-#endif // DEBUG	
-	
 }
 
 void emptyMove(uint8_t of)
@@ -751,6 +760,9 @@ void emptyMove(uint8_t of)
 	
 	if (mot.isInterrupted())
 		sendBuff[2+of] += 2;
+
+	if (mot.isBaseError())
+		sendBuff[2+of] += 4;
 	uint32_t gp = mot.getGlobalPos();
 	uint32_t ap = mot.getStepsAll();
 	sendBuff[3+of] = (uint8_t)((gp >> 24) & 0xff);

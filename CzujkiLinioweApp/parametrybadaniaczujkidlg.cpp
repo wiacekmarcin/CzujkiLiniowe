@@ -1,31 +1,45 @@
-#include "parametrybadania2.h"
-#include "ui_parametrybadania2.h"
+#include "parametrybadaniaczujkidlg.h"
+#include "ui_parametrybadaniaczujkidlg.h"
 
 #include <QBrush>
 
-const char* ParametryBadania2::etTypPierwszy[2] = { ParametryBadania2::etTypOdbiornika, ParametryBadania2::etTypNadajnikaOdbiornika };
-const char* ParametryBadania2::etTypDrugi[2] = { ParametryBadania2::etTypNadajnika, ParametryBadania2::etTypReflektora };
-const char* ParametryBadania2::etPierwszy[2] = { ParametryBadania2::etOdbiornika, ParametryBadania2::etNadajnikaOdbiornika };
-const char* ParametryBadania2::etDrugi[2] = { ParametryBadania2::etNadajnika, ParametryBadania2::etReflektora };
-const char* ParametryBadania2::etNumerPierwszy[2] = { ParametryBadania2::etNumerOdbiornika, ParametryBadania2::etNumerNadajnikaOdiornika };
-const char* ParametryBadania2::etNumerDrugi[2] = { ParametryBadania2::etNumerNadajnika, ParametryBadania2::etNumerReflektora };
+#define DEFVAL
 
-ParametryBadania2::ParametryBadania2(QWidget *parent) :
+const char* ParametryBadaniaCzujkiDlg::etTypPierwszy[2] = { ParametryBadaniaCzujkiDlg::etTypOdbiornika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
+const char* ParametryBadaniaCzujkiDlg::etTypDrugi[2] = { ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypReflektora };
+const char* ParametryBadaniaCzujkiDlg::etPierwszy[2] = { ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
+const char* ParametryBadaniaCzujkiDlg::etDrugi[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
+const char* ParametryBadaniaCzujkiDlg::etNumerPierwszy[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
+const char* ParametryBadaniaCzujkiDlg::etNumerDrugi[2] = { ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
+
+ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::ParametryBadania2)
+    ui(new Ui::ParametryBadaniaCzujkiDlg)
+    ,testOdtwarzalnosci(false)
 {
     ui->setupUi(this);
 
 
     switchOdbiornikReflektor(ui->comboBox->currentIndex() == 0);
+
+    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [this](int id) { this->changeTypUkladu(id); this->check(); });
+    connect(ui->producent, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->typPierwszy, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->typDrugi, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->rozstawienieMinimalne, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->rozstawienieMaksymalne, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->pierwszy_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->pierwszy_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->drugi_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->drugi_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
 }
 
-ParametryBadania2::~ParametryBadania2()
+ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()
 {
     delete ui;
 }
 
-void ParametryBadania2::init(const Ustawienia &u, DaneBadania *badanie, QLabel *err)
+void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, DaneBadania *badanie, QLabel *err)
 {
     (void)u;
     errorLabel = err;
@@ -39,9 +53,9 @@ void ParametryBadania2::init(const Ustawienia &u, DaneBadania *badanie, QLabel *
     palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
 
 
-    for (short nrCz = 0; nrCz < 7; ++nrCz)
+    for (short nrCz = 0; nrCz < maxNumCzujek; ++nrCz)
     {
-        QLineEdit * n = new QLineEdit(ui->frame);
+        QLineEdit * n = new QLineEdit(ui->frameCzujki);
         n->setObjectName(QString("PorzadkowyNumer%1").arg(nrCz+1));
         n->setPalette(palette);
         n->setFrame(true);
@@ -53,21 +67,26 @@ void ParametryBadania2::init(const Ustawienia &u, DaneBadania *badanie, QLabel *
         n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-        QLineEdit * p = new QLineEdit(ui->frame);
+        QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
         p->setReadOnly(nrCz > 0);
         p->setEnabled(nrCz == 0);
         p->setText(badanie->getNumberFirstCzujkiNominal(nrCz));
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
+        connect(p, &QLineEdit::textChanged, [this, nrCz](const QString &) {
+            this->czujkaNrEdited(nrCz);
+        });
 
 
-        QLineEdit * d = new QLineEdit(ui->frame);
+        QLineEdit * d = new QLineEdit(ui->frameCzujki);
         d->setObjectName(QString("drugiNumer%1").arg(nrCz+1));
         d->setReadOnly(nrCz > 0);
         d->setEnabled(nrCz == 0);
         d->setText(badanie->getNumberSecondCzujkiNominal(nrCz));
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
-
+        connect(d, &QLineEdit::textChanged, [this, nrCz](const QString &) {
+            this->czujkaNrEdited(nrCz);
+        });
         m_numbers.push_back(qMakePair(p,d));
     }
 
@@ -83,10 +102,38 @@ void ParametryBadania2::init(const Ustawienia &u, DaneBadania *badanie, QLabel *
     ui->drugi_ospionowa->setText(QString::number(badanie->getMaksKatowaNieWspolPionDrugiejCzuj()));
     ui->drugi_ospozioma->setText(QString::number(badanie->getMaksKatowaNieWspolPozDrugiejCzuj()));
 
+
+    showInfoSorted(false);
+    //ui->lcontext->setText(QString("Zgodnie z normą ilość czujek powinna być równa %1").arg(maxNumCzujek));
+
+#ifdef DEFVAL
+    ui->typPierwszy->setText("Rodzaj nadajnika");
+    ui->producent->setText("Producent");
+    ui->typDrugi->setText("Rodzaj odbiornika");
+    ui->rozstawienieMinimalne->setText("1.0");
+    ui->rozstawienieMaksymalne->setText("10.0");
+    ui->pierwszy_ospozioma->setText("0.51");
+    ui->pierwszy_ospionowa->setText("0.52");
+    ui->drugi_ospozioma->setText("0.53");
+    ui->drugi_ospionowa->setText("0.54");
+
+    auto cw1 = m_numbers.at(0);
+    cw1.first->setText("Nadajnik1");
+    cw1.second->setText("Odbiornik1");
+
+    auto cw2 = m_numbers.at(1);
+    cw2.first->setText("Nadajnik2");
+    cw2.second->setText("Odbiornik2");
+#endif
+
+
 }
 
-bool ParametryBadania2::check()
+bool ParametryBadaniaCzujkiDlg::check()
 {
+    if (errorLabel == nullptr)
+        return true;
+    errorLabel->setText("");
     if (ui->producent->text().isEmpty()) {
         errorLabel->setText("Pole 'Producent' nie może być puste");
         return false;
@@ -181,11 +228,25 @@ bool ParametryBadania2::check()
             return false;
         }
     }
+    bool noempty = false;
+    for (short id = m_numbers.size(); id > 0; --id) {
+        auto v = m_numbers.at(id-1);
+        bool empty = v.first->text().isEmpty() && v.second->text().isEmpty();
+        if (!empty)
+            noempty = true;
+        else {
+            if (noempty) {
+                errorLabel->setText(QString("Nie prawidłowe dane dla czujek w wierszu %1 w tabeli numery fabryczne").
+                                    arg(id));
+                return false;
+            }
+        }
+    }
 
     return true;
 }
 
-void ParametryBadania2::save(DaneBadania *badanie)
+void ParametryBadaniaCzujkiDlg::save(DaneBadania *badanie)
 {
     badanie->setSystemOdbiornikNadajnik(ui->comboBox->currentIndex() == 0);
     badanie->setProducentCzujki(ui->producent->text());
@@ -207,7 +268,7 @@ void ParametryBadania2::save(DaneBadania *badanie)
     }
 }
 
-void ParametryBadania2::switchOdbiornikReflektor(bool odbiornik)
+void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
 {
     short ind = odbiornik ? 0 : 1;
     ui->ltyppierwszy->setText(QString(etTypPierwszy[ind]));
@@ -218,7 +279,75 @@ void ParametryBadania2::switchOdbiornikReflektor(bool odbiornik)
     ui->hdrugi->setText(QString(etNumerDrugi[ind]));
 }
 
-void ParametryBadania2::on_comboBox_currentIndexChanged(int index)
+void ParametryBadaniaCzujkiDlg::czujkaNrEdited(short id)
+{
+    bool noempty = false;
+    short numCzujek = 0;
+    bool actRowEmpty = true;
+    for (short i = m_numbers.size(); i > 0; --i) {
+        auto v = m_numbers.at(i-1);
+        bool empty = v.first->text().isEmpty() && v.second->text().isEmpty();
+        if (i-1 == id)
+            actRowEmpty = empty;
+        if (!empty) {
+            noempty = true;
+            ++numCzujek;
+        } else {
+            if (noempty) {
+                showError("Nie może być pustych rekordów. Numery czujek należy wprowadzać po kolei.");
+                ui->iloscczujek->setText("?");
+                return;
+            }
+        }
+    }
+    ui->iloscczujek->setText(QString::number(numCzujek));
+    showError("");
+
+    if (!actRowEmpty) {
+        showInfo7Number(numCzujek != m_numbers.size());
+        if (id == m_numbers.size()-1)
+            return;
+        auto wid = m_numbers.at(id+1);
+        wid.first->setEnabled(true);
+        wid.second->setEnabled(true);
+        wid.first->setReadOnly(false);
+        wid.second->setReadOnly(false);
+    } else {
+        if (id == m_numbers.size()-2)
+            return;
+        auto nex = m_numbers.at(id+1);
+        nex.first->setEnabled(false);
+        nex.second->setEnabled(false);
+        nex.first->setReadOnly(true);
+        nex.second->setReadOnly(true);
+    }
+}
+
+void ParametryBadaniaCzujkiDlg::showInfo7Number(bool show)
+{
+    ui->lContext2->setVisible(show);
+    ui->lUwaga2->setVisible(show);
+}
+
+void ParametryBadaniaCzujkiDlg::showInfoSorted(bool sorted)
+{
+    testOdtwarzalnosci = sorted;
+    if (sorted)
+        ui->lcontext->setText("Czujki <u>zostały</u> posortowane według czułości zgodnie z normą");
+    else
+        ui->lcontext->setText("Czujki <u>zostaną</u> posortowane według czułości po zakończeniu badań odtwarzalności");
+
+}
+
+void ParametryBadaniaCzujkiDlg::showError(const QString &err)
+{
+    ui->lError->setVisible(!err.isEmpty());
+    ui->error->setVisible(!err.isEmpty());
+    ui->error->setText(err);
+    showInfo7Number(!err.isEmpty());
+}
+
+void ParametryBadaniaCzujkiDlg::changeTypUkladu(int index)
 {
     if (index == 0) {
         switchOdbiornikReflektor(true);
@@ -227,4 +356,5 @@ void ParametryBadania2::on_comboBox_currentIndexChanged(int index)
         switchOdbiornikReflektor(false);
     }
 }
+
 

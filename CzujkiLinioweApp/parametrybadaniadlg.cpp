@@ -1,9 +1,9 @@
-#include "parametrybadania.h"
-#include "ui_parametrybadania.h"
+#include "parametrybadaniadlg.h"
+#include "ui_parametrybadaniadlg.h"
 
-ParametryBadania::ParametryBadania(const Ustawienia & u, DaneBadania *d, QWidget *parent) :
+ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, DaneBadania *d, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ParametryBadania),
+    ui(new Ui::ParametryBadaniaDlg),
     dane(d),
     checkValidTmr(this)
 {
@@ -12,18 +12,18 @@ ParametryBadania::ParametryBadania(const Ustawienia & u, DaneBadania *d, QWidget
     ui->tabBadanie->init(u, d, ui->error);
     ui->tabCzujki->init(u, d, ui->error);
 
-    connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadania::checkValid);
+    connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);
     checkValidTmr.setInterval(1000);
     checkValidTmr.start();
 }
 
-ParametryBadania::~ParametryBadania()
+ParametryBadaniaDlg::~ParametryBadaniaDlg()
 {
     checkValidTmr.stop();
     delete ui;
 }
 
-void ParametryBadania::checkValid()
+void ParametryBadaniaDlg::checkValid()
 {
     bool valid = false;
     if (ui->tabWidget->currentWidget() == ui->tabBadanie) {
@@ -37,9 +37,30 @@ void ParametryBadania::checkValid()
 
 }
 
-void ParametryBadania::on_pbOK_clicked()
+void ParametryBadaniaDlg::on_pbOK_clicked()
 {
     ui->tabBadanie->save(dane);
     ui->tabCzujki->save(dane);
+    accept();
+}
+
+
+void ParametryBadaniaDlg::on_pbCancel_clicked()
+{
+    qDebug() << "clicked";
+    reject();
+}
+
+
+void ParametryBadaniaDlg::on_pbCancel_pressed()
+{
+    qDebug() << "pressed";
+    reject();
+}
+
+
+void ParametryBadaniaDlg::on_pbOK_pressed()
+{
+    on_pbOK_clicked();
 }
 

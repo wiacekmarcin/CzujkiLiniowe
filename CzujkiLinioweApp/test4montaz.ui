@@ -22,7 +22,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Czy wybrana czujka została podana zewnetrznym czynników, które mogą mieć szkodliwy wpływ na działanie</string>
+      <string>Należy zamontować czujkę na stanowisku oraz upewnić się, że ramiona poziome nie znajdują się w pozycji skrajnej</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -82,12 +82,11 @@
         <property name="font">
          <font>
           <pointsize>17</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>Parametry testu - sprawdzenie </string>
+         <string>Parametry testu - montaż czujki na stanowisku</string>
         </property>
        </widget>
       </item>
@@ -99,7 +98,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -196,7 +194,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -210,7 +207,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>

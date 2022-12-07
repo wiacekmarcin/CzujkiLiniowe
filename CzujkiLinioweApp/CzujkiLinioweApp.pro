@@ -11,6 +11,9 @@ CONFIG += c++17
 SOURCES += \
     danebadania.cpp \
     danebadania_gen.cpp \
+    parametrybadaniaczujkidlg.cpp \
+    parametrybadaniadlg.cpp \
+    parametrybadaniaogolnedlg.cpp \
     sterownik.cpp \
     test1parametrytestu.cpp \
     test2potwierdzenie.cpp \
@@ -23,9 +26,6 @@ SOURCES += \
     debugdialog.cpp \
     main.cpp \
     mainwindow.cpp \
-    parametrybadania.cpp \
-    parametrybadania1.cpp \
-    parametrybadania2.cpp \
     parametrykalibracyjnedlg.cpp \
     serialdevice.cpp \
     serialmessage.cpp \
@@ -43,6 +43,9 @@ SOURCES += \
 HEADERS += \
     danebadania.h \
     danebadania_gen.h \
+    parametrybadaniaczujkidlg.h \
+    parametrybadaniadlg.h \
+    parametrybadaniaogolnedlg.h \
     sterownik.h \
     test1parametrytestu.h \
     test2potwierdzenie.h \
@@ -54,9 +57,6 @@ HEADERS += \
     crc8.h \
     debugdialog.h \
     mainwindow.h \
-    parametrybadania.h \
-    parametrybadania1.h \
-    parametrybadania2.h \
     parametrykalibracyjnedlg.h \
     serialdevice.h \
     serialmessage.h \
@@ -74,9 +74,9 @@ HEADERS += \
 FORMS += \
     debugdialog.ui \
     mainwindow.ui \
-    parametrybadania.ui \
-    parametrybadania1.ui \
-    parametrybadania2.ui \
+    parametrybadaniaczujkidlg.ui \
+    parametrybadaniadlg.ui \
+    parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
     test1parametrytestu.ui \

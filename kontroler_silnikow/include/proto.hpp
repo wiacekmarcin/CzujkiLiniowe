@@ -81,7 +81,6 @@ private:
     static constexpr uint8_t msgCnt = 15;
     static constexpr uint8_t maxBuff = restMsgCnt + msgCnt;
     uint8_t recvBuff[maxBuff];
-    uint8_t sendBuff[maxBuff];
     uint8_t recvPos;
     uint8_t sendPos;
     uint8_t dataCmd[15];

@@ -38,7 +38,6 @@ void Message::clear()
 {
     for (uint8_t i = 0; i < maxBuff; ++i) {
         recvBuff[i] = 0;
-        sendBuff[i] = 0;
     }
     recvPos = 0;
     startMsg = false;
@@ -78,31 +77,6 @@ bool Message::add(uint8_t b)
     } else {
         dataCmd[posData++] = b;
         return false;
-    }
-}
-
-void Message::addSteps(bool success, uint32_t steps)
-{
-    
-    sendBuff[sendPos++]	= success;
-    sendBuff[sendPos++]	= 0xff & (steps >> 24);
-	sendBuff[sendPos++]	= 0xff & (steps >> 16);
-	sendBuff[sendPos++]	= 0xff & (steps >> 8);
-	sendBuff[sendPos++]	= 0xff & steps; 
-    sendBuff[0] = (sendBuff[0] & 0xf0) | ( 5 & 0x0f );
-
-    CRC8 c;
-    c.reset();
-    for (int i=0; i<sendPos; ++i )
-        c.add(*(sendBuff+i));
-    sendBuff[sendPos++] = c.getCRC();
-}
-
-void Message::copy(volatile uint8_t * tab)
-{
-    uint8_t * p = sendBuff;
-    for (uint8_t i = 0; i < maxBuff; i++) {
-        *(tab++) = *(p++);
     }
 }
 

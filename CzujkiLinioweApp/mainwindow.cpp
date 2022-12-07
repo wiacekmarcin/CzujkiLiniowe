@@ -2,7 +2,7 @@
 #include "teststerownikadlg.h"
 #include "ui_mainwindow.h"
 
-#include "parametrybadania.h"
+#include "parametrybadaniadlg.h"
 #include "parametrykalibracyjnedlg.h"
 #include "testzasilaczadlg.h"
 #include "wybortestu.h"
@@ -34,6 +34,13 @@ MainWindow::MainWindow(QWidget *parent)
     dbgDlg = new DebugDialog(this);
     dbgDlg->hide();
     showDebug = false;
+
+    ui->actionStartTestu->setEnabled(false);
+    ui->actionParametryBadania->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->actionZapiszJako->setEnabled(false);
+    ui->actionZapiszZadanie->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
 
     connect(sd, &SerialDevice::error, this, &MainWindow::sd_error);
     connect(sd, &SerialDevice::debug, this, &MainWindow::sd_debug);
@@ -203,7 +210,7 @@ void MainWindow::zas_recvMsg(const QString &msg)
 
 void MainWindow::on_actionParametry_Badania_triggered()
 {
-    ParametryBadania * dlg = new ParametryBadania(u, &b, this);
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
     dlg->exec();
 
 }
@@ -254,8 +261,20 @@ void MainWindow::on_actionNoweBadanie_triggered()
     setWindowTitle("");
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(true);
-    ParametryBadania * dlg = new ParametryBadania(u, &b, this);
-    dlg->exec();
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
+    if (dlg->exec() == QDialog::Rejected) {
+        fileDaneBadania = "";
+        setWindowTitle("Czujniki Liniowe");
+        setWindowModified(false);
+        return;
+    }
+
+    ui->actionStartTestu->setEnabled(false);
+    ui->actionParametryBadania->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->actionZapiszJako->setEnabled(false);
+    ui->actionZapiszZadanie->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
 }
 
 

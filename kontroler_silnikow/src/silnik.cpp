@@ -3,9 +3,25 @@
 #include <TimerOne.h>
 extern Message msg;
 
-//#define DEBUG
+#define DEBUG
+#define SD(T) Serial.print(T);
+#define SDN(T) Serial.print(T);
+#define SD2(T,P) Serial.print(T,P);
+#define SDN2(T,P) Serial.print(T,P);
+
+#define SDP(T, V) SD(T); SD(V);
+#define SDPN(T, V) SD(T); SDN(V);
 
 extern void setCreateStopMessageFun();
+
+//TODO
+//dla ramiona chodzacych katowo na kierunku góra dól ramię opadnie grawitacyjnie do jednej krańcówki
+// dla pozostalych 
+
+
+
+
+
 
 Motor::Motor() :
     reverseMotor(false)
@@ -20,6 +36,11 @@ Motor::Motor() :
 	,highlevel(false)
     ,mstate(IDLE)
 	,actSteps(0)
+	,home(false)
+	,interrupted(false)
+	,allSteps(0)
+	,baseErr(false)
+	,firstHome(true)
 {
 	    
 }
@@ -29,17 +50,18 @@ void Motor::init()
 	
 }
 
-volatile char chDir = '-';
+volatile char chDir = '>';
 
 //DIR REV
 // 0    0   => 0
 // 0    1   => 1
 // 1    0   => 1
 // 1    1   => 0
-void Motor::setDir(bool back)
+void Motor::setDirBase(bool back)
 {
 	bool out = back ^ reverseMotor;
 	digitalWrite(DIRPIN, out);
+	diff = back ? -1 : 1;
 }
 
 void Motor::setStop(bool hard)
@@ -52,16 +74,14 @@ void Motor::setStop(bool hard)
 			globalPos = baseSteps;
 			mstate = HOME_BASE;
 #ifdef DEBUG			
-			chDir = '_';
-			Serial.print("\nI: globalPos=");
-			Serial.print(globalPos);
-			Serial.print("\tnewPosition=");
-			Serial.println(newPosition);
+			chDir = '-';
+			SDP("\nI: globalPos=", globalPos);
+			SDPN(" newPosition=", newPosition);
 #endif			
 		}
 	} else {
 #ifdef DEBUG		
-		Serial.print('S');
+		SD('S');
 #endif			
 		mstate = IDLE;
 		interrupted = true;
@@ -84,52 +104,79 @@ void Motor::impulse()
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
 	globalPos += diff;
 	++allSteps;
+	++actSteps;
 #ifdef DEBUG
-	Serial.print(chDir);
+	SD(chDir);
 #endif // DEBUG
 	
-	if (globalPos == newPosition || ++actSteps == maxSteps) {
+	if (globalPos == newPosition || actSteps == maxSteps) {
+		Timer1.stop(); //to moze chwile trwac
 #ifdef DEBUG		
-		Serial.print("\nI: globalPos=");
-		Serial.print(globalPos);
-		Serial.print("\tnewPosition=");
-		Serial.print(newPosition);
-		Serial.print("\tactSteps=");
-		Serial.print(actSteps);
-		Serial.print("\tdiff=");
-		Serial.println(diff);
+		SDP("\nI: globalPos=", globalPos);SDP(" newPosition=", newPosition);SDP(" actSteps=", actSteps);SDPN(" diff=", diff);
 #endif		
 		if (mstate == HOME_BASE) {
 			mstate = HOME_MIDDLE;
 			actSteps = 0;
 			newPosition = middleSteps;
-			setDir(true);
-			diff = 1;
+			setDirBase(false);
 #ifdef DEBUG			
-			chDir='+';
-			Serial.print("HM: globalPos=");
-			Serial.print(globalPos);
-			Serial.print("newPosition=");
-			Serial.println(newPosition);
+			chDir='>';		SDP("HM: globalPos=",globalPos);SDPN("newPosition=", newPosition);
 #endif			
-		} else {
+		} else if (mstate == MOVE_HOME_BASE) {
+			mstate = HOME_NOMINAL;
+			actSteps = 0;
+			newPosition = 0;
+			setDirBase(true);
+		}
+		else {
 #ifdef DEBUG			
-			Serial.print("\nE: globalPos=");
-			Serial.print(globalPos);
-			Serial.print("\tnewPosition=");
-			Serial.println(newPosition);
+			SD("\nE: globalPos=");SD(globalPos);SD("\tnewPosition=");SDN(newPosition);
 #endif			
 			mstate = IDLE;
 			digitalWrite(MOVEPIN, HIGH);
-			interrupted = actSteps >= maxSteps;
+			if (!interrupted && actSteps >= maxSteps)
+				interrupted = true;
 		}
+		Timer1.start();
 	}
 	
 }
 
 
-void Motor::moveHome()
+bool Motor::moveHome()
 {
+	if (digitalRead(KRANCPIN) == LOW) {
+		if (firstHome) {
+			//jestesmy na krancu ale nie wiemy ktorym
+			mstate = IDLE;
+			baseErr = true;
+#ifdef DEBUG			
+			chDir = '<';
+			SDN("\nI: Stan nie ustalony. Pierwsze uruchomienie");
+#endif				
+			return false;
+		} else {
+			mstate = MOVE_HOME_BASE;     // przehodzimy do od razu do ustawienia 
+			actSteps = 0;
+			newPosition = middleSteps;
+			globalPos = 0;
+			diff = 1;
+			home = true;
+			interrupted = false;
+			allSteps = 0;
+			baseErr = false; 
+			firstHome = false;
+#ifdef DEBUG			
+			chDir = '>';
+			SDP("globalPos=", globalPos);
+			SDPN(" newPosition=", newPosition);
+#endif	
+			digitalWrite(MOVEPIN, LOW);
+			return true;
+		} 
+	}
+
+	
 	mstate = HOME_NOMINAL;
 	actSteps = 0;
 	globalPos = maxSteps;
@@ -138,20 +185,25 @@ void Motor::moveHome()
 	home = true;
     interrupted = false;
     allSteps = 0;
+	baseErr = false; 
+	firstHome = false;
+	
+
 #ifdef DEBUG
 	chDir = '-';
-	Serial.print("\nI: globalPos=");
-	Serial.print(globalPos);
-	Serial.print("\tnewPosition=");
-	Serial.print(actSteps);
-	Serial.print("\tactSteps=");
-	Serial.print(actSteps);
-	Serial.print("\tmaxSteps=");
-	Serial.print(maxSteps);
-	Serial.print("\tdiff=");
-	Serial.println(diff);
+	SD("\nI: globalPos=");
+	SD(globalPos);
+	SD("\tnewPosition=");
+	SD(actSteps);
+	SD("\tactSteps=");
+	SD(actSteps);
+	SD("\tmaxSteps=");
+	SD(maxSteps);
+	SD("\tdiff=");
+	SDN(diff);
 #endif	
 	digitalWrite(MOVEPIN, LOW);
+	return true;
 }
 
 bool Motor::movePosition(uint32_t pos) 
@@ -170,13 +222,13 @@ bool Motor::movePosition(uint32_t pos)
 #ifdef DEBUG		
 		chDir = '+';
 #endif		
-		setDir(true);
+		setDirBase(true);
 	} else if (pos < globalPos) {
 		diff = -1;
 #ifdef DEBUG		
 		chDir = '-';
 #endif		
-		setDir(false);
+		setDirBase(false);
 	}
 	digitalWrite(MOVEPIN, LOW);
 	mstate = MOVE_POS;

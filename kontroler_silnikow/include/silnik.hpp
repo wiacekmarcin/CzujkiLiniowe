@@ -10,6 +10,7 @@ typedef enum moveState {
     HOME_BASE, // ruch o base krokow
     HOME_MIDDLE, //ruch do srodka
     MOVE_POS,
+    MOVE_HOME_BASE,
 } moveStateType;
 class Motor
 {
@@ -18,7 +19,7 @@ public:
     Motor();
 
     void setStop(bool hard);
-    void moveHome();
+    bool moveHome();
     bool movePosition(uint32_t pos);
 
     void init();
@@ -39,11 +40,12 @@ public:
 
     static constexpr uint8_t KRANCPIN = 2;
 
-    void setDir(bool back);
+    void setDirBase(bool back);
 
-    bool isHome() { return home; }
-    bool isInterrupted() { return interrupted = 0; }
+    bool isHome() const { return home; }
+    bool isInterrupted() const { return interrupted; }
     int32_t getStepsAll() const { return allSteps; }
+    bool isBaseError() const { return baseErr; }
 
 private:
 
@@ -73,6 +75,8 @@ private:
     bool home;
     bool interrupted;
     uint32_t allSteps;
+    bool baseErr;
+    bool firstHome;
 
 
 };

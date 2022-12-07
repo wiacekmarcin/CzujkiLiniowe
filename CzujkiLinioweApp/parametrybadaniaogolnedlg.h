@@ -1,5 +1,5 @@
-#ifndef PARAMETRYBADANIA1_H
-#define PARAMETRYBADANIA1_H
+#ifndef PARAMETRYBADANIAOGOLNEDLG_H
+#define PARAMETRYBADANIAOGOLNEDLG_H
 
 #include <QDialog>
 #include <QLabel>
@@ -7,18 +7,18 @@
 #include "ustawienia.h"
 #include "danebadania.h"
 namespace Ui {
-class ParametryBadania1;
+class ParametryBadaniaOgolneDlg;
 }
 
-class ParametryBadania;
+class ParametryBadaniaDlg;
 
-class ParametryBadania1 : public QDialog
+class ParametryBadaniaOgolneDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit ParametryBadania1(QWidget *parent = nullptr);
-    ~ParametryBadania1();
+    explicit ParametryBadaniaOgolneDlg(QWidget *parent = nullptr);
+    ~ParametryBadaniaOgolneDlg();
 
     void init(const Ustawienia & u, DaneBadania * badanie, QLabel * errLab);
     void save(DaneBadania * badanie);
@@ -47,7 +47,7 @@ private slots:
     void on_rbPrad_toggled(bool checked);
 
 private:
-    Ui::ParametryBadania1 *ui;
+    Ui::ParametryBadaniaOgolneDlg *ui;
     DaneBadania * badanie;
     QLabel * errorLabel;
     unsigned minVolt;
@@ -60,4 +60,4 @@ private:
     unsigned maxCzasZmianyFiltra;
 };
 
-#endif // PARAMETRYBADANIA1_H
+#endif // PARAMETRYBADANIAOGOLNEDLG_H

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ParametryBadania</class>
- <widget class="QDialog" name="ParametryBadania">
+ <class>ParametryBadaniaDlg</class>
+ <widget class="QDialog" name="ParametryBadaniaDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>629</width>
-    <height>320</height>
+    <width>916</width>
+    <height>487</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -29,12 +29,12 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="ParametryBadania1" name="tabBadanie">
+     <widget class="ParametryBadaniaOgolneDlg" name="tabBadanie">
       <attribute name="title">
        <string>Badanie</string>
       </attribute>
      </widget>
-     <widget class="ParametryBadania2" name="tabCzujki">
+     <widget class="ParametryBadaniaCzujkiDlg" name="tabCzujki">
       <attribute name="title">
        <string>Czujki</string>
       </attribute>
@@ -78,15 +78,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ParametryBadania1</class>
+   <class>ParametryBadaniaOgolneDlg</class>
    <extends>QWidget</extends>
-   <header>parametrybadania1.h</header>
+   <header>parametrybadaniaogolnedlg.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>ParametryBadania2</class>
+   <class>ParametryBadaniaCzujkiDlg</class>
    <extends>QWidget</extends>
-   <header>parametrybadania2.h</header>
+   <header>parametrybadaniaczujkidlg.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

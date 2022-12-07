@@ -487,7 +487,6 @@
     <addaction name="actionUsunBadanie"/>
     <addaction name="separator"/>
     <addaction name="actionOtw_rz_okno"/>
-    <addaction name="actionParametry_Badania"/>
    </widget>
    <widget class="QMenu" name="menuOpcje">
     <property name="title">
@@ -672,7 +671,8 @@
   </action>
   <action name="actionParametryBadania">
    <property name="icon">
-    <iconset theme="accessories-text-editor"/>
+    <iconset theme="accessories-text-editor">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Parametry Badania</string>
@@ -680,7 +680,8 @@
   </action>
   <action name="actionZamknijBadanie">
    <property name="icon">
-    <iconset theme="window-close"/>
+    <iconset theme="window-close">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Zamknij Badanie</string>

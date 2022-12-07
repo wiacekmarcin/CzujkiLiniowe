@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ParametryBadania2</class>
- <widget class="QWidget" name="ParametryBadania2">
+ <class>ParametryBadaniaCzujkiDlg</class>
+ <widget class="QWidget" name="ParametryBadaniaCzujkiDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -267,7 +267,7 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QFrame" name="frame">
+       <widget class="QFrame" name="frameCzujki">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -319,10 +319,10 @@ Czujki</string>
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_3" native="true">
+       <widget class="QWidget" name="widgetSortowanie" native="true">
         <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="label_4">
+         <item row="3" column="0">
+          <widget class="QLabel" name="luwaga">
            <property name="font">
             <font>
              <pointsize>14</pointsize>
@@ -337,8 +337,8 @@ Czujki</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
-          <widget class="QLabel" name="label_9">
+         <item row="3" column="1">
+          <widget class="QLabel" name="lcontext">
            <property name="font">
             <font>
              <pointsize>12</pointsize>
@@ -348,26 +348,104 @@ Czujki</string>
             <string notr="true">color:rgb(26, 95, 180)</string>
            </property>
            <property name="text">
-            <string>Czujki zostaną posortowane według czułosci
-po zakończeniu badań odtwarzalności</string>
+            <string>Czujki zostaną posortowane zgodnie z normą</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="lError">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:red</string>
+           </property>
+           <property name="text">
+            <string>UWAGA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QLabel" name="error">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:red</string>
+           </property>
+           <property name="text">
+            <string>Wartości numerów dla czujki są puste </string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Ilość czujek</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="iloscczujek">
+           <property name="maximumSize">
+            <size>
+             <width>30</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="lUwaga2">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:magenta</string>
+           </property>
+           <property name="text">
+            <string>UWAGA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QLabel" name="lContext2">
+           <property name="font">
+            <font>
+             <pointsize>12</pointsize>
+            </font>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">color:magenta</string>
+           </property>
+           <property name="text">
+            <string>Zgodnie z normą ilość czujek
+powinna być równa 7</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
            </property>
           </widget>
          </item>
         </layout>
        </widget>
-      </item>
-      <item>
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>
@@ -381,6 +459,10 @@ po zakończeniu badań odtwarzalności</string>
   <tabstop>typDrugi</tabstop>
   <tabstop>rozstawienieMinimalne</tabstop>
   <tabstop>rozstawienieMaksymalne</tabstop>
+  <tabstop>pierwszy_ospionowa</tabstop>
+  <tabstop>pierwszy_ospozioma</tabstop>
+  <tabstop>drugi_ospionowa</tabstop>
+  <tabstop>drugi_ospozioma</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ParametryBadania1</class>
- <widget class="QWidget" name="ParametryBadania1">
+ <class>ParametryBadaniaOgolneDlg</class>
+ <widget class="QWidget" name="ParametryBadaniaOgolneDlg">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="password1"/>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="lhaslo2">
@@ -38,7 +38,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="password2"/>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -212,7 +212,7 @@
       <item row="0" column="0">
        <widget class="QRadioButton" name="rbInsideSupply">
         <property name="text">
-         <string>Z wbudowanego zasilacza napięciem</string>
+         <string>Z  zasilacza,  napięciem:</string>
         </property>
        </widget>
       </item>
@@ -346,8 +346,8 @@
   <tabstop>pradAlarmu</tabstop>
   <tabstop>dlugoscFali</tabstop>
   <tabstop>czasPomiedzyZmianamifiltra</tabstop>
-  <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit_3</tabstop>
+  <tabstop>password1</tabstop>
+  <tabstop>password2</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -1,19 +1,34 @@
-#include "parametrybadania1.h"
-#include "ui_parametrybadania1.h"
+#include "parametrybadaniaogolnedlg.h"
+#include "ui_parametrybadaniaogolnedlg.h"
 
-ParametryBadania1::ParametryBadania1(QWidget *parent) :
+#define DEFVAL
+
+ParametryBadaniaOgolneDlg::ParametryBadaniaOgolneDlg(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ParametryBadania1)
+    ui(new Ui::ParametryBadaniaOgolneDlg)
 {
     ui->setupUi(this);
+
+    connect(ui->password1, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->password2, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->numerZlecenia, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->numerTestu, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->osobaOdpowiedzialna, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->czasPomiedzyZmianamifiltra, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->napiecieZasilaniain, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->typCentraliSygnalizacji, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->czasStabilizacjiCzujki, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->pradAlarmu, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+
+
 }
 
-ParametryBadania1::~ParametryBadania1()
+ParametryBadaniaOgolneDlg::~ParametryBadaniaOgolneDlg()
 {
     delete ui;
 }
 
-void ParametryBadania1::init(const Ustawienia &u, DaneBadania *badanie, QLabel * err)
+void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, DaneBadania *badanie, QLabel * err)
 {
     errorLabel = err;
     minVolt = u.getMinNapiecieCzujki();
@@ -64,9 +79,22 @@ void ParametryBadania1::init(const Ustawienia &u, DaneBadania *badanie, QLabel *
     ui->czasPomiedzyZmianamifiltra->setText(QString::number(badanie->getCzasPomZmianaTlumenia_s()));
     ui->dlugoscFali->setCurrentText(QString::number(badanie->getDlugoscFaliFiltrow()));
     check();
+
+#ifdef DEFVAL
+    ui->numerZlecenia->setText("Numer zlecenia");
+    ui->numerTestu->setText("Numer Testu");
+    ui->osobaOdpowiedzialna->setText("Osoba odpowiedzialna");
+    ui->czasPomiedzyZmianamifiltra->setText("10");;
+    ui->napiecieZasilaniain->setText("12.0");
+    ui->typCentraliSygnalizacji->setText("Centrala sygnalizacji");
+    ui->czasStabilizacjiCzujki->setText("15");
+    ui->pradAlarmu->setText("50");
+    ui->rbInsideSupply->setChecked(true);
+    ui->rbPrad->setChecked(true);
+#endif
 }
 
-void ParametryBadania1::save(DaneBadania *badanie)
+void ParametryBadaniaOgolneDlg::save(DaneBadania *badanie)
 {
     badanie->setNumerZlecenia(ui->numerZlecenia->text());
     badanie->setNumerTestu(ui->numerTestu->text());
@@ -95,8 +123,10 @@ void ParametryBadania1::save(DaneBadania *badanie)
     badanie->setCzasStabilizacjiCzujki_s(ui->czasPomiedzyZmianamifiltra->text().toUInt());
 }
 
-bool ParametryBadania1::check()
+bool ParametryBadaniaOgolneDlg::check()
 {
+    if (errorLabel == nullptr)
+        return true;
     errorLabel->setText("");
     if (ui->numerZlecenia->text().isEmpty()) {
         errorLabel->setText("Pole 'Numer zlecenia' nie może być puste");
@@ -207,100 +237,100 @@ bool ParametryBadania1::check()
     return true;
 }
 
-void ParametryBadania1::setWewnetrznyZasilacz(bool inside)
+void ParametryBadaniaOgolneDlg::setWewnetrznyZasilacz(bool inside)
 {
     ui->napiecieZasilaniain->setEnabled(inside);
     ui->typCentraliSygnalizacji->setEnabled(!inside);
 }
 
-void ParametryBadania1::setWyzwolenieAlarmu(bool przekaznik)
+void ParametryBadaniaOgolneDlg::setWyzwolenieAlarmu(bool przekaznik)
 {
     ui->pradAlarmu->setEnabled(!przekaznik);
 }
 
-void ParametryBadania1::on_numerZlecenia_editingFinished()
+void ParametryBadaniaOgolneDlg::on_numerZlecenia_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_numerTestu_editingFinished()
+void ParametryBadaniaOgolneDlg::on_numerTestu_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_osobaOdpowiedzialna_editingFinished()
+void ParametryBadaniaOgolneDlg::on_osobaOdpowiedzialna_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_uwagi_textChanged()
+void ParametryBadaniaOgolneDlg::on_uwagi_textChanged()
 {
     check();
 }
 
 
-void ParametryBadania1::on_napiecieZasilaniain_editingFinished()
+void ParametryBadaniaOgolneDlg::on_napiecieZasilaniain_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_typCentraliSygnalizacji_editingFinished()
+void ParametryBadaniaOgolneDlg::on_typCentraliSygnalizacji_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_czasStabilizacjiCzujki_editingFinished()
+void ParametryBadaniaOgolneDlg::on_czasStabilizacjiCzujki_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_pradAlarmu_editingFinished()
+void ParametryBadaniaOgolneDlg::on_pradAlarmu_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_dlugoscFali_currentIndexChanged(int index)
+void ParametryBadaniaOgolneDlg::on_dlugoscFali_currentIndexChanged(int index)
 {
     (void)index;
     check();
 }
 
 
-void ParametryBadania1::on_czasPomiedzyZmianamifiltra_editingFinished()
+void ParametryBadaniaOgolneDlg::on_czasPomiedzyZmianamifiltra_editingFinished()
 {
     check();
 }
 
 
-void ParametryBadania1::on_rbInsideSupply_toggled(bool checked)
+void ParametryBadaniaOgolneDlg::on_rbInsideSupply_toggled(bool checked)
 {
     setWewnetrznyZasilacz(checked);
     check();
 }
 
 
-void ParametryBadania1::on_rbCentralSupply_toggled(bool checked)
+void ParametryBadaniaOgolneDlg::on_rbCentralSupply_toggled(bool checked)
 {
     setWewnetrznyZasilacz(!checked);
     check();
 }
 
 
-void ParametryBadania1::on_rbAlarmPrzekaznik_toggled(bool checked)
+void ParametryBadaniaOgolneDlg::on_rbAlarmPrzekaznik_toggled(bool checked)
 {
     setWyzwolenieAlarmu(checked);
     check();
 }
 
 
-void ParametryBadania1::on_rbPrad_toggled(bool checked)
+void ParametryBadaniaOgolneDlg::on_rbPrad_toggled(bool checked)
 {
     setWyzwolenieAlarmu(!checked);
     check();
