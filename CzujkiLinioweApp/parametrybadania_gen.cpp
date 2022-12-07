@@ -1,10 +1,10 @@
 
-#include "danebadania_gen.h"
+#include "parametrybadania_gen.h"
 
 #include <QApplication>
 
 
-QDataStream &operator<<(QDataStream &out, const DaneBadaniaGen &d)
+QDataStream &operator<<(QDataStream &out, const ParametryBadaniaGen &d)
 {
     QDataStream::FloatingPointPrecision prev = out.floatingPointPrecision();
     out.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -13,7 +13,7 @@ QDataStream &operator<<(QDataStream &out, const DaneBadaniaGen &d)
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, DaneBadaniaGen &d)
+QDataStream &operator>>(QDataStream &in, ParametryBadaniaGen &d)
 {
     QDataStream::FloatingPointPrecision prev = in.floatingPointPrecision();
     in.setFloatingPointPrecision(QDataStream::SinglePrecision);
@@ -22,18 +22,18 @@ QDataStream &operator>>(QDataStream &in, DaneBadaniaGen &d)
     return in;
 }
 
-DaneBadaniaGen::DaneBadaniaGen() 
+ParametryBadaniaGen::ParametryBadaniaGen() 
 {
     change = false;
 }
 
-DaneBadaniaGen::~DaneBadaniaGen()
+ParametryBadaniaGen::~ParametryBadaniaGen()
 {
     
 }
         
 
-void DaneBadaniaGen::load(QDataStream &in)
+void ParametryBadaniaGen::load(QDataStream &in)
 {
     in   >> numerZlecenia
 		 >> numerTestu
@@ -61,7 +61,7 @@ void DaneBadaniaGen::load(QDataStream &in)
 		 >> iloscCzujek ;
 }
 
-void DaneBadaniaGen::save(QDataStream &out) const
+void ParametryBadaniaGen::save(QDataStream &out) const
 {
     out  << numerZlecenia
 		 << numerTestu
@@ -88,265 +88,265 @@ void DaneBadaniaGen::save(QDataStream &out) const
 		 << maksKatowaNieWspolPozDrugiejCzuj
 		 << iloscCzujek ;
 }
-QString DaneBadaniaGen::getNumerZlecenia() const
+QString ParametryBadaniaGen::getNumerZlecenia() const
 {
 	return numerZlecenia;
 }
 
-void DaneBadaniaGen::setNumerZlecenia(const QString & value)
+void ParametryBadaniaGen::setNumerZlecenia(const QString & value)
 {
 	numerZlecenia = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getNumerTestu() const
+QString ParametryBadaniaGen::getNumerTestu() const
 {
 	return numerTestu;
 }
 
-void DaneBadaniaGen::setNumerTestu(const QString & value)
+void ParametryBadaniaGen::setNumerTestu(const QString & value)
 {
 	numerTestu = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getOsobaOdpowiedzialna() const
+QString ParametryBadaniaGen::getOsobaOdpowiedzialna() const
 {
 	return osobaOdpowiedzialna;
 }
 
-void DaneBadaniaGen::setOsobaOdpowiedzialna(const QString & value)
+void ParametryBadaniaGen::setOsobaOdpowiedzialna(const QString & value)
 {
 	osobaOdpowiedzialna = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getUwagi() const
+QString ParametryBadaniaGen::getUwagi() const
 {
 	return uwagi;
 }
 
-void DaneBadaniaGen::setUwagi(const QString & value)
+void ParametryBadaniaGen::setUwagi(const QString & value)
 {
 	uwagi = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getHaslo() const
+QString ParametryBadaniaGen::getHaslo() const
 {
 	return haslo;
 }
 
-void DaneBadaniaGen::setHaslo(const QString & value)
+void ParametryBadaniaGen::setHaslo(const QString & value)
 {
 	haslo = value;
 	change = true;
 }
 
-bool DaneBadaniaGen::getZasCzujekWbudZasilacz() const
+bool ParametryBadaniaGen::getZasCzujekWbudZasilacz() const
 {
 	return zasCzujekWbudZasilacz;
 }
 
-void DaneBadaniaGen::setZasCzujekWbudZasilacz(const bool & value)
+void ParametryBadaniaGen::setZasCzujekWbudZasilacz(const bool & value)
 {
 	zasCzujekWbudZasilacz = value;
 	change = true;
 }
 
-unsigned int DaneBadaniaGen::getNapiecieZasCzujki_mV() const
+unsigned int ParametryBadaniaGen::getNapiecieZasCzujki_mV() const
 {
 	return napiecieZasCzujki_mV;
 }
 
-void DaneBadaniaGen::setNapiecieZasCzujki_mV(const unsigned int & value)
+void ParametryBadaniaGen::setNapiecieZasCzujki_mV(const unsigned int & value)
 {
 	napiecieZasCzujki_mV = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getTypCentraliSygnPoz() const
+QString ParametryBadaniaGen::getTypCentraliSygnPoz() const
 {
 	return typCentraliSygnPoz;
 }
 
-void DaneBadaniaGen::setTypCentraliSygnPoz(const QString & value)
+void ParametryBadaniaGen::setTypCentraliSygnPoz(const QString & value)
 {
 	typCentraliSygnPoz = value;
 	change = true;
 }
 
-unsigned int DaneBadaniaGen::getCzasStabilizacjiCzujki_s() const
+unsigned int ParametryBadaniaGen::getCzasStabilizacjiCzujki_s() const
 {
 	return czasStabilizacjiCzujki_s;
 }
 
-void DaneBadaniaGen::setCzasStabilizacjiCzujki_s(const unsigned int & value)
+void ParametryBadaniaGen::setCzasStabilizacjiCzujki_s(const unsigned int & value)
 {
 	czasStabilizacjiCzujki_s = value;
 	change = true;
 }
 
-bool DaneBadaniaGen::getWyzwalanieAlarmuPrzekaznik() const
+bool ParametryBadaniaGen::getWyzwalanieAlarmuPrzekaznik() const
 {
 	return wyzwalanieAlarmuPrzekaznik;
 }
 
-void DaneBadaniaGen::setWyzwalanieAlarmuPrzekaznik(const bool & value)
+void ParametryBadaniaGen::setWyzwalanieAlarmuPrzekaznik(const bool & value)
 {
 	wyzwalanieAlarmuPrzekaznik = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getPrzekroczeniePraduZasilania_mA() const
+QString ParametryBadaniaGen::getPrzekroczeniePraduZasilania_mA() const
 {
 	return przekroczeniePraduZasilania_mA;
 }
 
-void DaneBadaniaGen::setPrzekroczeniePraduZasilania_mA(const QString & value)
+void ParametryBadaniaGen::setPrzekroczeniePraduZasilania_mA(const QString & value)
 {
 	przekroczeniePraduZasilania_mA = value;
 	change = true;
 }
 
-unsigned int DaneBadaniaGen::getDlugoscFaliFiltrow() const
+unsigned int ParametryBadaniaGen::getDlugoscFaliFiltrow() const
 {
 	return dlugoscFaliFiltrow;
 }
 
-void DaneBadaniaGen::setDlugoscFaliFiltrow(const unsigned int & value)
+void ParametryBadaniaGen::setDlugoscFaliFiltrow(const unsigned int & value)
 {
 	dlugoscFaliFiltrow = value;
 	change = true;
 }
 
-unsigned int DaneBadaniaGen::getCzasPomZmianaTlumenia_s() const
+unsigned int ParametryBadaniaGen::getCzasPomZmianaTlumenia_s() const
 {
 	return czasPomZmianaTlumenia_s;
 }
 
-void DaneBadaniaGen::setCzasPomZmianaTlumenia_s(const unsigned int & value)
+void ParametryBadaniaGen::setCzasPomZmianaTlumenia_s(const unsigned int & value)
 {
 	czasPomZmianaTlumenia_s = value;
 	change = true;
 }
 
-bool DaneBadaniaGen::getSystemOdbiornikNadajnik() const
+bool ParametryBadaniaGen::getSystemOdbiornikNadajnik() const
 {
 	return systemOdbiornikNadajnik;
 }
 
-void DaneBadaniaGen::setSystemOdbiornikNadajnik(const bool & value)
+void ParametryBadaniaGen::setSystemOdbiornikNadajnik(const bool & value)
 {
 	systemOdbiornikNadajnik = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getProducentCzujki() const
+QString ParametryBadaniaGen::getProducentCzujki() const
 {
 	return producentCzujki;
 }
 
-void DaneBadaniaGen::setProducentCzujki(const QString & value)
+void ParametryBadaniaGen::setProducentCzujki(const QString & value)
 {
 	producentCzujki = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getTypPierwszejCzujki() const
+QString ParametryBadaniaGen::getTypPierwszejCzujki() const
 {
 	return typPierwszejCzujki;
 }
 
-void DaneBadaniaGen::setTypPierwszejCzujki(const QString & value)
+void ParametryBadaniaGen::setTypPierwszejCzujki(const QString & value)
 {
 	typPierwszejCzujki = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getTypDrugiejCzujki() const
+QString ParametryBadaniaGen::getTypDrugiejCzujki() const
 {
 	return typDrugiejCzujki;
 }
 
-void DaneBadaniaGen::setTypDrugiejCzujki(const QString & value)
+void ParametryBadaniaGen::setTypDrugiejCzujki(const QString & value)
 {
 	typDrugiejCzujki = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getRozstawienieMinCzujki() const
+QString ParametryBadaniaGen::getRozstawienieMinCzujki() const
 {
 	return rozstawienieMinCzujki;
 }
 
-void DaneBadaniaGen::setRozstawienieMinCzujki(const QString & value)
+void ParametryBadaniaGen::setRozstawienieMinCzujki(const QString & value)
 {
 	rozstawienieMinCzujki = value;
 	change = true;
 }
 
-QString DaneBadaniaGen::getRozstawienieMaxCzujki() const
+QString ParametryBadaniaGen::getRozstawienieMaxCzujki() const
 {
 	return rozstawienieMaxCzujki;
 }
 
-void DaneBadaniaGen::setRozstawienieMaxCzujki(const QString & value)
+void ParametryBadaniaGen::setRozstawienieMaxCzujki(const QString & value)
 {
 	rozstawienieMaxCzujki = value;
 	change = true;
 }
 
-double DaneBadaniaGen::getMaksKatowaNieWspolPionPierwszejCzuj() const
+double ParametryBadaniaGen::getMaksKatowaNieWspolPionPierwszejCzuj() const
 {
 	return maksKatowaNieWspolPionPierwszejCzuj;
 }
 
-void DaneBadaniaGen::setMaksKatowaNieWspolPionPierwszejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPionPierwszejCzuj(const double & value)
 {
 	maksKatowaNieWspolPionPierwszejCzuj = value;
 	change = true;
 }
 
-double DaneBadaniaGen::getMaksKatowaNieWspolPozPierwszejCzuj() const
+double ParametryBadaniaGen::getMaksKatowaNieWspolPozPierwszejCzuj() const
 {
 	return maksKatowaNieWspolPozPierwszejCzuj;
 }
 
-void DaneBadaniaGen::setMaksKatowaNieWspolPozPierwszejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPozPierwszejCzuj(const double & value)
 {
 	maksKatowaNieWspolPozPierwszejCzuj = value;
 	change = true;
 }
 
-double DaneBadaniaGen::getMaksKatowaNieWspolPionDrugiejCzuj() const
+double ParametryBadaniaGen::getMaksKatowaNieWspolPionDrugiejCzuj() const
 {
 	return maksKatowaNieWspolPionDrugiejCzuj;
 }
 
-void DaneBadaniaGen::setMaksKatowaNieWspolPionDrugiejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPionDrugiejCzuj(const double & value)
 {
 	maksKatowaNieWspolPionDrugiejCzuj = value;
 	change = true;
 }
 
-double DaneBadaniaGen::getMaksKatowaNieWspolPozDrugiejCzuj() const
+double ParametryBadaniaGen::getMaksKatowaNieWspolPozDrugiejCzuj() const
 {
 	return maksKatowaNieWspolPozDrugiejCzuj;
 }
 
-void DaneBadaniaGen::setMaksKatowaNieWspolPozDrugiejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPozDrugiejCzuj(const double & value)
 {
 	maksKatowaNieWspolPozDrugiejCzuj = value;
 	change = true;
 }
 
-unsigned short DaneBadaniaGen::getIloscCzujek() const
+unsigned short ParametryBadaniaGen::getIloscCzujek() const
 {
 	return iloscCzujek;
 }
 
-void DaneBadaniaGen::setIloscCzujek(const unsigned short & value)
+void ParametryBadaniaGen::setIloscCzujek(const unsigned short & value)
 {
 	iloscCzujek = value;
 	change = true;

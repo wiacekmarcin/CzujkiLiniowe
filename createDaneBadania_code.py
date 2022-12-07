@@ -1,10 +1,10 @@
-
+import os
 
 class UstawieniaCode:
     def __init__(self):
-        self.className = "DaneBadaniaGen";
-        self.h_filename = "danebadania_gen.h"
-        self.c_filename = "danebadania_gen.cpp"
+        self.className = "ParametryBadaniaGen";
+        self.h_filename = "parametrybadania_gen.h"
+        self.c_filename = "parametrybadania_gen.cpp"
         self.h_HEAD_2 = "\n};\n#endif"
         self.h_public_fun = []
         self.h_protected_fun = []
@@ -16,8 +16,8 @@ class UstawieniaCode:
         self.sserout = ''
         self.sserin = ''
         self.h_HEAD_1 = """
-#ifndef DANEBADANIAGEN_H
-#define DANEBADANIAGEN_H
+#ifndef PARAMETRYBADANIAGEN_H
+#define PARAMETRYBADANIAGEN_H
 
 #include <QString>
 #include <QSettings>
@@ -181,5 +181,7 @@ u.addValue("unsigned short", "iloscCzujek");
 
 u.createHeader()
 u.createSource()
+
+os.system("mv parametrybadania_gen* CzujkiLinioweApp/")
 
 #/*"67b"*/ || product != sd->getProduct() /*"23a3"*/)
