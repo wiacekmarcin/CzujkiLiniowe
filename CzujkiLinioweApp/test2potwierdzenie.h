@@ -3,6 +3,8 @@
 
 #include <QDialog>
 
+#include "danetestu.h"
+
 namespace Ui {
     class Test2Potwierdzenie;
 }
@@ -12,7 +14,7 @@ class Test2Potwierdzenie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test2Potwierdzenie(QWidget *parent = nullptr);
+    explicit Test2Potwierdzenie(const DaneTestu & test, QWidget *parent = nullptr);
     ~Test2Potwierdzenie();
 
 private:

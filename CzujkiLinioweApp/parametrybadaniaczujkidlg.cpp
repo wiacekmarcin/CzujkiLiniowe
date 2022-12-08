@@ -67,7 +67,7 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
         n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-        auto row = badanie->getNumberCzujki(nrCz);
+        auto row = badanie->getNumeryCzujki(nrCz);
 
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
@@ -275,12 +275,16 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setMaksKatowaNieWspolPozDrugiejCzuj(ui->drugi_ospozioma->text().toDouble());
 
     badanie->clearNumberCzujki();
+    short num = 0;
     for (short i=0; i<m_numbers.size(); ++i)
     {
+
         if (m_numbers[i].first->text().isEmpty() && m_numbers[i].second->text().isEmpty())
             continue;
-        badanie->addNumberCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
+        ++num;
+        badanie->addNumeryCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
     }
+    badanie->setIloscCzujek(num);
 }
 
 void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)

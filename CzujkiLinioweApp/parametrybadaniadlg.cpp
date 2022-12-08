@@ -15,6 +15,10 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, ParametryBadania 
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);
     checkValidTmr.setInterval(1000);
     checkValidTmr.start();
+    connect(ui->pbOK, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
+    connect(ui->pbOK, &QPushButton::pressed, this, [this]() { this->pbOK_clicked(); });
+    connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
 }
 
 ParametryBadaniaDlg::~ParametryBadaniaDlg()
@@ -37,7 +41,7 @@ void ParametryBadaniaDlg::checkValid()
 
 }
 
-void ParametryBadaniaDlg::on_pbOK_clicked()
+void ParametryBadaniaDlg::pbOK_clicked()
 {
     ui->tabBadanie->save(dane);
     ui->tabCzujki->save(dane);
@@ -45,22 +49,12 @@ void ParametryBadaniaDlg::on_pbOK_clicked()
 }
 
 
-void ParametryBadaniaDlg::on_pbCancel_clicked()
+void ParametryBadaniaDlg::pbCancel_clicked()
 {
     qDebug() << "clicked";
     reject();
 }
 
 
-void ParametryBadaniaDlg::on_pbCancel_pressed()
-{
-    qDebug() << "pressed";
-    reject();
-}
 
-
-void ParametryBadaniaDlg::on_pbOK_pressed()
-{
-    on_pbOK_clicked();
-}
 

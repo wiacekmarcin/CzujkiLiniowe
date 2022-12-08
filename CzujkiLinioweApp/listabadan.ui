@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>ProceduraTestowa</class>
- <widget class="QWidget" name="ProceduraTestowa">
+ <class>ListaBadan</class>
+ <widget class="QWidget" name="ListaBadan">
   <property name="geometry">
    <rect>
     <x>0</x>

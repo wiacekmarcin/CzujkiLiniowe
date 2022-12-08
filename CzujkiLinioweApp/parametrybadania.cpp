@@ -18,6 +18,7 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPozPierwszejCzuj(0.0);
     setMaksKatowaNieWspolPozDrugiejCzuj(0.0);
     setSystemOdbiornikNadajnik(true);
+    setOdtwarzalnosc(false);
 }
 
 void ParametryBadania::load(const QString &fileName)
@@ -46,66 +47,66 @@ void ParametryBadania::save(const QString &fileName)
     file.close();
 }
 
-void ParametryBadania::addNumberCzujki(const QString &first, const QString &second)
+void ParametryBadania::addNumeryCzujki(const QString &first, const QString &second)
 {
     numbersCzujki.push_back(qMakePair(first, second));
 }
 
-QString ParametryBadania::getNumberFirstCzujkiNominal(unsigned int index)
+QString ParametryBadania::getNumerPierwszyCzujkiNominal(unsigned int index) const
 {
     if (index >= numbersCzujki.size())
         return QString();
     return numbersCzujki[index].first;
 }
 
-QString ParametryBadania::getNumberSecondCzujkiNominal(unsigned int index)
+QString ParametryBadania::getNumerDrugiCzujkiNominal(unsigned int index) const
 {
     if (index >= numbersCzujki.size())
         return QString();
     return numbersCzujki[index].second;
 }
 
-QPair<QString, QString> ParametryBadania::getNumberCzujkiNominal(unsigned int index)
+QPair<QString, QString> ParametryBadania::getNumeryCzujkiNominal(unsigned int index) const
 {
     if (index >= numbersCzujki.size())
         return qMakePair(QString(), QString());
     return numbersCzujki[index];
 }
 
-QString ParametryBadania::getNumberFirstCzujkiSorted(unsigned int index)
+QString ParametryBadania::getNumerPierwszyCzujkiSorted(unsigned int index) const
 {
     if (index >= sortedId.size())
         return QString();
-    return getNumberFirstCzujkiNominal(sortedId[index]);
+    return getNumerPierwszyCzujkiNominal(sortedId[index]);
 }
 
-QString ParametryBadania::getNumberSecondCzujkiSorted(unsigned int index)
+QString ParametryBadania::getNumerDrugiCzujkiSorted(unsigned int index) const
 {
     if (index >= sortedId.size())
         return QString();
-    return getNumberSecondCzujkiNominal(sortedId[index]);
+    return getNumerDrugiCzujkiNominal(sortedId[index]);
 }
 
-QPair<QString, QString> ParametryBadania::getNumberCzujkiSorted(unsigned int index)
+QPair<QString, QString> ParametryBadania::getNumeryCzujkiSorted(unsigned int index) const
 {
     if (index >= sortedId.size())
         return qMakePair(QString(), QString());
-    return getNumberCzujkiNominal(sortedId[index]);
+    return getNumeryCzujkiNominal(sortedId[index]);
 }
 
-QString ParametryBadania::getNumberFirst(unsigned int index)
+QString ParametryBadania::getNumerPierwszyCzujki(unsigned int index) const
 {
-    return odtwarzalnosc ? getNumberFirstCzujkiSorted(index) : getNumberFirstCzujkiSorted(index);
+    return odtwarzalnosc ? getNumerPierwszyCzujkiSorted(index) : getNumerPierwszyCzujkiNominal(index);
 }
 
-QString ParametryBadania::getNumberSecondCzujki(unsigned int index)
+QString ParametryBadania::getNumerDrugiCzujki(unsigned int index) const
 {
-    return odtwarzalnosc ? getNumberSecondCzujkiSorted(index) : getNumberSecondCzujkiSorted(index);
+    return odtwarzalnosc ? getNumerDrugiCzujkiSorted(index) : getNumerDrugiCzujkiNominal(index);
 }
 
-QPair<QString, QString> ParametryBadania::getNumberCzujki(unsigned int index)
+QPair<QString, QString> ParametryBadania::getNumeryCzujki(unsigned int index) const
 {
-    return odtwarzalnosc ? getNumberCzujkiSorted(index) : getNumberCzujkiSorted(index);
+    return odtwarzalnosc ? getNumeryCzujkiSorted(index) : getNumeryCzujkiNominal(index);
 }
 
 

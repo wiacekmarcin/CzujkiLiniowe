@@ -9,7 +9,7 @@ struct ListaTestow {
     QStringList nazwyTestow;
     bool odtwarzalnosc;
     QSet<short> wykonane;
-    QSet<short> proccess;
+    short proccess;
     QSet<short> visible;
 };
 
@@ -19,17 +19,8 @@ class DaneTestu : public QObject
 public:
     explicit DaneTestu(QObject *parent = nullptr);
 
-signals:
-
-};
-
-class Test {
-public:
-    Test();
-
-    friend QDataStream &operator<<(QDataStream &out, const Test &dane);
-    friend QDataStream &operator>>(QDataStream &in, Test &dane);
-
+    friend QDataStream &operator<<(QDataStream &out, const DaneTestu &dane);
+    friend QDataStream &operator>>(QDataStream &in, DaneTestu &dane);
 
     short getId() const;
     void setId(short newId);
@@ -64,6 +55,12 @@ public:
     const QString &getNumerDrugi() const;
     void setNumerDrugi(const QString &newNumerDrugi);
 
+
+
+    const QList<short> &getNumerWybranejCzujki() const;
+    void setNumerWybranejCzujki(const QList<short> &newNumerWybranejCzujki);
+    void addNumerWybranejCzujki(short id);
+
 private:
     short id;
     QString name;
@@ -76,7 +73,7 @@ private:
     QString uwagi;
     QString numerPierwszy;
     QString numerDrugi;
+    QList<short> numerWybranejCzujki;
 };
-
 
 #endif // DANETESTU_H

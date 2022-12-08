@@ -27,7 +27,7 @@ DaneTestu::DaneTestu(QObject *parent)
 
 }
 
-QDataStream &operator<<(QDataStream &out, const Test &dane)
+QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
 {
     out << dane.id
         << dane.name
@@ -40,11 +40,12 @@ QDataStream &operator<<(QDataStream &out, const Test &dane)
         << dane.uwagi
         << dane.numerPierwszy
         << dane.numerDrugi
+        << dane.numerWybranejCzujki
            ;
     return out;
 }
 
-QDataStream &operator>>(QDataStream &in, Test &dane)
+QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
 {
     in  >> dane.id
         >> dane.name
@@ -57,116 +58,132 @@ QDataStream &operator>>(QDataStream &in, Test &dane)
         >> dane.uwagi
         >> dane.numerPierwszy
         >> dane.numerDrugi
+        >> dane.numerWybranejCzujki
             ;
     return in;
 }
 
-short Test::getId() const
+short DaneTestu::getId() const
 {
     return id;
 }
 
-void Test::setId(short newId)
+void DaneTestu::setId(short newId)
 {
     id = newId;
 }
 
-const QString &Test::getName() const
+const QString &DaneTestu::getName() const
 {
     return name;
 }
 
-void Test::setName(const QString &newName)
+void DaneTestu::setName(const QString &newName)
 {
     name = newName;
 }
 
-bool Test::getWykonany() const
+bool DaneTestu::getWykonany() const
 {
     return wykonany;
 }
 
-void Test::setWykonany(bool newWykonany)
+void DaneTestu::setWykonany(bool newWykonany)
 {
     wykonany = newWykonany;
 }
 
-const QString &Test::getOsobaWykonujaca() const
+const QString &DaneTestu::getOsobaWykonujaca() const
 {
     return osobaWykonujaca;
 }
 
-void Test::setOsobaWykonujaca(const QString &newOsobaWykonujaca)
+void DaneTestu::setOsobaWykonujaca(const QString &newOsobaWykonujaca)
 {
     osobaWykonujaca = newOsobaWykonujaca;
 }
 
-const QString &Test::getRozpoczeto() const
+const QString &DaneTestu::getRozpoczeto() const
 {
     return rozpoczeto;
 }
 
-void Test::setRozpoczeto(const QString &newRozpoczeto)
+void DaneTestu::setRozpoczeto(const QString &newRozpoczeto)
 {
     rozpoczeto = newRozpoczeto;
 }
 
-const QString &Test::getTemperatura() const
+const QString &DaneTestu::getTemperatura() const
 {
     return temperatura;
 }
 
-void Test::setTemperatura(const QString &newTemperatura)
+void DaneTestu::setTemperatura(const QString &newTemperatura)
 {
     temperatura = newTemperatura;
 }
 
-const QString &Test::getWilgotnosc() const
+const QString &DaneTestu::getWilgotnosc() const
 {
     return wilgotnosc;
 }
 
-void Test::setWilgotnosc(const QString &newWilgotnosc)
+void DaneTestu::setWilgotnosc(const QString &newWilgotnosc)
 {
     wilgotnosc = newWilgotnosc;
 }
 
-const QString &Test::getCisnienie() const
+const QString &DaneTestu::getCisnienie() const
 {
     return cisnienie;
 }
 
-void Test::setCisnienie(const QString &newCisnienie)
+void DaneTestu::setCisnienie(const QString &newCisnienie)
 {
     cisnienie = newCisnienie;
 }
 
-const QString &Test::getUwagi() const
+const QString &DaneTestu::getUwagi() const
 {
     return uwagi;
 }
 
-void Test::setUwagi(const QString &newUwagi)
+void DaneTestu::setUwagi(const QString &newUwagi)
 {
     uwagi = newUwagi;
 }
 
-const QString &Test::getNumerPierwszy() const
+const QString &DaneTestu::getNumerPierwszy() const
 {
     return numerPierwszy;
 }
 
-void Test::setNumerPierwszy(const QString &newNumerPierwszy)
+void DaneTestu::setNumerPierwszy(const QString &newNumerPierwszy)
 {
     numerPierwszy = newNumerPierwszy;
 }
 
-const QString &Test::getNumerDrugi() const
+const QString &DaneTestu::getNumerDrugi() const
 {
     return numerDrugi;
 }
 
-void Test::setNumerDrugi(const QString &newNumerDrugi)
+void DaneTestu::setNumerDrugi(const QString &newNumerDrugi)
 {
     numerDrugi = newNumerDrugi;
+}
+
+const QList<short> &DaneTestu::getNumerWybranejCzujki() const
+{
+    return numerWybranejCzujki;
+}
+
+void DaneTestu::setNumerWybranejCzujki(const QList<short> &newNumerWybranejCzujki)
+{
+    numerWybranejCzujki = newNumerWybranejCzujki;
+}
+
+void DaneTestu::addNumerWybranejCzujki(short id)
+{
+    numerWybranejCzujki.append(id);
 }

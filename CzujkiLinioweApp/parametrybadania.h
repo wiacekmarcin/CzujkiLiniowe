@@ -21,18 +21,18 @@ public:
     void load(const QString & fileName);
     void save(const QString & fileName);
 
-    void addNumberCzujki(const QString & first, const QString & second);
-    QString getNumberFirstCzujkiNominal(unsigned int index);
-    QString getNumberSecondCzujkiNominal(unsigned int index);
-    QPair<QString, QString> getNumberCzujkiNominal(unsigned int index);
+    void addNumeryCzujki(const QString & first, const QString & second);
+    QString getNumerPierwszyCzujkiNominal(unsigned int index) const;
+    QString getNumerDrugiCzujkiNominal(unsigned int index) const;
+    QPair<QString, QString> getNumeryCzujkiNominal(unsigned int index) const;
 
-    QString getNumberFirstCzujkiSorted(unsigned int index);
-    QString getNumberSecondCzujkiSorted(unsigned int index);
-    QPair<QString, QString> getNumberCzujkiSorted(unsigned int index);
+    QString getNumerPierwszyCzujkiSorted(unsigned int index) const;
+    QString getNumerDrugiCzujkiSorted(unsigned int index) const;
+    QPair<QString, QString> getNumeryCzujkiSorted(unsigned int index) const;
 
-    QString getNumberFirst(unsigned int index);
-    QString getNumberSecondCzujki(unsigned int index);
-    QPair<QString, QString> getNumberCzujki(unsigned int index);
+    QString getNumerPierwszyCzujki(unsigned int index) const;
+    QString getNumerDrugiCzujki(unsigned int index) const;
+    QPair<QString, QString> getNumeryCzujki(unsigned int index) const;
 
 
     void clearNumberCzujki();

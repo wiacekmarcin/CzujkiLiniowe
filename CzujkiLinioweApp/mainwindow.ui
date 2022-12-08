@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>Czujniki Liniowe</string>
   </property>
-  <widget class="ProceduraTestowa" name="centralwidget">
+  <widget class="ListaBadan" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3"/>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -240,9 +240,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>ProceduraTestowa</class>
+   <class>ListaBadan</class>
    <extends>QWidget</extends>
-   <header>proceduratestowa.h</header>
+   <header>listabadan.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

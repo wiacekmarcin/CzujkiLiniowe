@@ -10,6 +10,7 @@ CONFIG += c++17
 
 SOURCES += \
     danetestu.cpp \
+    listabadan.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -44,6 +45,7 @@ SOURCES += \
 
 HEADERS += \
     danetestu.h \
+    listabadan.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -77,12 +79,12 @@ HEADERS += \
 
 FORMS += \
     debugdialog.ui \
+    listabadan.ui \
     mainwindow.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
-    proceduratestowa.ui \
     sterownikustawieniawidget.ui \
     test1parametrytestu.ui \
     test2potwierdzenie.ui \

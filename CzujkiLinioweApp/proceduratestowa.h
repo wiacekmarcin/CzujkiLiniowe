@@ -2,21 +2,18 @@
 #define PROCEDURATESTOWA_H
 
 #include <QWidget>
-
-namespace Ui {
-class ProceduraTestowa;
-}
-
-class ProceduraTestowa : public QWidget
+#include "danetestu.h"
+#include "parametrybadania.h"
+class ProceduraTestowa
 {
-    Q_OBJECT
-
 public:
-    explicit ProceduraTestowa(QWidget *parent = nullptr);
-    ~ProceduraTestowa();
-
+    ProceduraTestowa(QWidget * widget);
+    void startBadanie(short id, const QString &nameTest, const ParametryBadania &b);
+protected:
+    void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b);
 private:
-    Ui::ProceduraTestowa *ui;
+    QWidget* parent;
+    DaneTestu dane;
 };
 
 #endif // PROCEDURATESTOWA_H

@@ -3,6 +3,8 @@
 
 #include <QDialog>
 #include "parametrybadania.h"
+#include "danetestu.h"
+
 
 //TODO
 //Osoba odpowiedzialna za test to bedzie ta samo co w parametrrach testu, bez mozliwosci edycji
@@ -27,12 +29,20 @@ class Test1ParametryTestu : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test1ParametryTestu(ParametryBadania * badanie, short TestId, short CzujkaId, QWidget *parent = nullptr);
+    explicit Test1ParametryTestu(const ParametryBadania & badanie,
+                                 DaneTestu * test, short nrTestu,
+                                 QWidget *parent = nullptr);
     ~Test1ParametryTestu();
-
+protected:
+    void check();
+    void pbOK_clicked();
+    void pbCancel_clicked();
+private slots:
+    void changeCzujka(int index);
 private:
     Ui::Test1ParametryTestu *ui;
-    ParametryBadania * badanie;
+    DaneTestu * test;
+
 };
 
 #endif // TEST1PARAMETRYTESTU_H

@@ -19,13 +19,8 @@ public:
     ~ParametryBadaniaDlg();
 private slots:
     void checkValid();
-    void on_pbOK_clicked();
-
-    void on_pbCancel_clicked();
-
-    void on_pbCancel_pressed();
-
-    void on_pbOK_pressed();
+    void pbOK_clicked();
+    void pbCancel_clicked();
 
 private:
     Ui::ParametryBadaniaDlg *ui;

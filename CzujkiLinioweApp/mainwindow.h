@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "danetestu.h"
 #include "parametrybadania.h"
 #include "debugdialog.h"
 #include "ustawienia.h"
@@ -78,6 +79,7 @@ private:
     Zasilacz * zas;
     QThread zasThr;
     QString fileDaneBadania;
+    ListaTestow lt;
 
 };
 #endif // MAINWINDOW_H

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
+    <width>1041</width>
     <height>461</height>
    </rect>
   </property>
@@ -152,7 +152,7 @@
        </widget>
       </item>
       <item row="4" column="1" colspan="5">
-       <widget class="QTextEdit" name="textEdit"/>
+       <widget class="QTextEdit" name="uwagi"/>
       </item>
      </layout>
     </widget>
@@ -173,6 +173,25 @@
         </property>
        </widget>
       </item>
+      <item row="1" column="1" colspan="2">
+       <widget class="QLineEdit" name="typPierwszy">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
@@ -187,8 +206,34 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1" colspan="2">
-       <widget class="QLineEdit" name="typPierwszy"/>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="typDrugi">
+        <property name="minimumSize">
+         <size>
+          <width>200</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="cbCzujka"/>
+      </item>
+      <item row="0" column="2" colspan="4">
+       <widget class="QLabel" name="lUwagaWyborCzujek">
+        <property name="text">
+         <string>Uwaga.&lt;dla testu 0 / odtwarzalnosc&gt; , [Zamontuj kolejna czujkę z serii] / &lt;Dla pozostalych testow&gt; [&quot;Wybierz czujke zgdonie z normą : xx&quot;</string>
+        </property>
+       </widget>
       </item>
       <item row="1" column="3">
        <spacer name="horizontalSpacer_4">
@@ -202,19 +247,6 @@
          </size>
         </property>
        </spacer>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="cbCzujka"/>
-      </item>
-      <item row="1" column="5">
-       <widget class="QLineEdit" name="typDrugi"/>
-      </item>
-      <item row="0" column="2" colspan="4">
-       <widget class="QLabel" name="lUwagaWyborCzujek">
-        <property name="text">
-         <string>Uwaga.&lt;dla testu 0 / odtwarzalnosc&gt; , [Zamontuj kolejna czujkę z serii] / &lt;Dla pozostalych testow&gt; [&quot;Wybierz czujke zgdonie z normą : xx&quot;</string>
-        </property>
-       </widget>
       </item>
      </layout>
     </widget>
