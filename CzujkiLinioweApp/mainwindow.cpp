@@ -71,6 +71,8 @@ MainWindow::MainWindow(QWidget *parent)
     //ui->toolBar->setIconSize(QSize(32,32));
     //QIcon icon6(QString::fromUtf8(":/sterownik/sterownik_on"));
     //ui->actionSterownik->setIcon(icon6);
+
+    ui->centralwidget->setVisible(false);
 }
 
 MainWindow::~MainWindow()
@@ -269,12 +271,13 @@ void MainWindow::on_actionNoweBadanie_triggered()
         return;
     }
 
-    ui->actionStartTestu->setEnabled(false);
-    ui->actionParametryBadania->setEnabled(false);
-    ui->actionUsunBadanie->setEnabled(false);
-    ui->actionZapiszJako->setEnabled(false);
-    ui->actionZapiszZadanie->setEnabled(false);
-    ui->actionUsunBadanie->setEnabled(false);
+    ui->actionStartTestu->setEnabled(true);
+    ui->actionParametryBadania->setEnabled(true);
+    ui->actionUsunBadanie->setEnabled(true);
+    ui->actionZapiszJako->setEnabled(true);
+    ui->actionZapiszZadanie->setEnabled(true);
+    ui->actionUsunBadanie->setEnabled(true);
+    ui->centralwidget->setVisible(true);
 }
 
 

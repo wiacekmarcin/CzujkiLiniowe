@@ -1,7 +1,7 @@
 #include "parametrybadaniadlg.h"
 #include "ui_parametrybadaniadlg.h"
 
-ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, DaneBadania *d, QWidget *parent) :
+ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, ParametryBadania *d, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ParametryBadaniaDlg),
     dane(d),

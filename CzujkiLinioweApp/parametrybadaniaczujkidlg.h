@@ -1,7 +1,7 @@
 #ifndef PARAMETRYBADANIACZUJKIDLG_H
 #define PARAMETRYBADANIACZUJKIDLG_H
 
-#include "danebadania.h"
+#include "parametrybadania.h"
 #include "ustawienia.h"
 
 #include <QWidget>
@@ -20,9 +20,9 @@ class ParametryBadaniaCzujkiDlg : public QWidget
 public:
     explicit ParametryBadaniaCzujkiDlg(QWidget *parent = nullptr);
     ~ParametryBadaniaCzujkiDlg();
-    void init(const Ustawienia & u, DaneBadania * badanie, QLabel *err);
+    void init(const Ustawienia & u, ParametryBadania * badanie, QLabel *err);
     bool check();
-    void save(DaneBadania * badanie);
+    void save(ParametryBadania * badanie);
 protected:
     void switchOdbiornikReflektor(bool odbiornik);
     void czujkaNrEdited(short id);
@@ -57,7 +57,7 @@ private:
     static const short maxNumCzujek = 7;
 
     QVector<QPair<QLineEdit*, QLineEdit*>> m_numbers;
-    DaneBadania * badanie;
+    ParametryBadania * badanie;
     QLabel * errorLabel;
     bool testOdtwarzalnosci;
 };

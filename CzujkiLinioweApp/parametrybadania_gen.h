@@ -1,17 +1,17 @@
 
-#ifndef DANEBADANIAGEN_H
-#define DANEBADANIAGEN_H
+#ifndef PARAMETRYBADANIAGEN_H
+#define PARAMETRYBADANIAGEN_H
 
 #include <QString>
 #include <QSettings>
 #include <QObject>
 #include <QDataStream>
 
-class DaneBadaniaGen
+class ParametryBadaniaGen
 {
 public:
-    DaneBadaniaGen();
-    ~DaneBadaniaGen();
+    ParametryBadaniaGen();
+    ~ParametryBadaniaGen();
 
 protected:
     void load(QDataStream &in);
@@ -19,8 +19,8 @@ protected:
     bool change;
 public:    
 
-    friend QDataStream &operator<<(QDataStream &, const DaneBadaniaGen &);
-    friend QDataStream &operator>>(QDataStream &, DaneBadaniaGen &);
+    friend QDataStream &operator<<(QDataStream &, const ParametryBadaniaGen &);
+    friend QDataStream &operator>>(QDataStream &, ParametryBadaniaGen &);
 /********** GET SET **********/
 	QString getNumerZlecenia() const;
 	void setNumerZlecenia(const QString & numerZlecenia);

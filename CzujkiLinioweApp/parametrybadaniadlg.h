@@ -1,7 +1,7 @@
 #ifndef PARAMETRYBADANIADLG_H
 #define PARAMETRYBADANIADLG_H
 
-#include "danebadania.h"
+#include "parametrybadania.h"
 #include "qtimer.h"
 #include "ustawienia.h"
 #include <QDialog>
@@ -15,7 +15,7 @@ class ParametryBadaniaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit ParametryBadaniaDlg(const Ustawienia &u, DaneBadania * d, QWidget *parent = nullptr);
+    explicit ParametryBadaniaDlg(const Ustawienia &u, ParametryBadania * d, QWidget *parent = nullptr);
     ~ParametryBadaniaDlg();
 private slots:
     void checkValid();
@@ -29,7 +29,7 @@ private slots:
 
 private:
     Ui::ParametryBadaniaDlg *ui;
-    DaneBadania * dane;
+    ParametryBadania * dane;
     QTimer checkValidTmr;
 };
 

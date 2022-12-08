@@ -1,10 +1,10 @@
-
+import os
 
 class UstawieniaCode:
     def __init__(self):
-        self.className = "DaneBadaniaGen";
-        self.h_filename = "danebadania_gen.h"
-        self.c_filename = "danebadania_gen.cpp"
+        self.className = "ParametryBadaniaGen";
+        self.h_filename = "parametrybadania_gen.h"
+        self.c_filename = "parametrybadania_gen.cpp"
         self.h_HEAD_2 = "\n};\n#endif"
         self.h_public_fun = []
         self.h_protected_fun = []
@@ -16,8 +16,8 @@ class UstawieniaCode:
         self.sserout = ''
         self.sserin = ''
         self.h_HEAD_1 = """
-#ifndef DANEBADANIAGEN_H
-#define DANEBADANIAGEN_H
+#ifndef PARAMETRYBADANIAGEN_H
+#define PARAMETRYBADANIAGEN_H
 
 #include <QString>
 #include <QSettings>
@@ -97,7 +97,7 @@ void %(className)s::save(QDataStream &out) const
         return val[0].upper() + val[1:]
     
     def createHeader(self):
-        hfile = open(self.h_filename, "w")
+        hfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
         hfile.write(self.h_HEAD_1)
         hfile.write("\n".join(["\t"+f for f in self.h_public_fun]))
         hfile.write("\nprotected:\n")
@@ -110,7 +110,7 @@ void %(className)s::save(QDataStream &out) const
         hfile.close()
         
     def createSource(self):
-        cfile = open(self.c_filename, "w")
+        cfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
         cfile.write(self.c_include)
         cfile.write(self.static_c % { 'className' : self.className,
             'in'  : '\n\t\t'.join([' >> %s' % f for f in self.serin]),
@@ -181,5 +181,6 @@ u.addValue("unsigned short", "iloscCzujek");
 
 u.createHeader()
 u.createSource()
+
 
 #/*"67b"*/ || product != sd->getProduct() /*"23a3"*/)

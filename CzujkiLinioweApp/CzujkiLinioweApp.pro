@@ -9,11 +9,13 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    danebadania.cpp \
-    danebadania_gen.cpp \
+    danetestu.cpp \
+    parametrybadania.cpp \
+    parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
+    proceduratestowa.cpp \
     sterownik.cpp \
     test1parametrytestu.cpp \
     test2potwierdzenie.cpp \
@@ -41,11 +43,13 @@ SOURCES += \
     test7stabilizacjaczujki.cpp
 
 HEADERS += \
-    danebadania.h \
-    danebadania_gen.h \
+    danetestu.h \
+    parametrybadania.h \
+    parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
+    proceduratestowa.h \
     sterownik.h \
     test1parametrytestu.h \
     test2potwierdzenie.h \
@@ -78,6 +82,7 @@ FORMS += \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
+    proceduratestowa.ui \
     sterownikustawieniawidget.ui \
     test1parametrytestu.ui \
     test2potwierdzenie.ui \

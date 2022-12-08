@@ -39,7 +39,7 @@ ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()
     delete ui;
 }
 
-void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, DaneBadania *badanie, QLabel *err)
+void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *badanie, QLabel *err)
 {
     (void)u;
     errorLabel = err;
@@ -67,22 +67,25 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, DaneBadania *badanie, 
         n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
+        auto row = badanie->getNumberCzujki(nrCz);
+
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
         p->setReadOnly(nrCz > 0);
         p->setEnabled(nrCz == 0);
-        p->setText(badanie->getNumberFirstCzujkiNominal(nrCz));
+        p->setText(row.first);
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
         connect(p, &QLineEdit::textChanged, [this, nrCz](const QString &) {
             this->czujkaNrEdited(nrCz);
         });
 
 
+
         QLineEdit * d = new QLineEdit(ui->frameCzujki);
         d->setObjectName(QString("drugiNumer%1").arg(nrCz+1));
         d->setReadOnly(nrCz > 0);
         d->setEnabled(nrCz == 0);
-        d->setText(badanie->getNumberSecondCzujkiNominal(nrCz));
+        d->setText(row.second);
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
         connect(d, &QLineEdit::textChanged, [this, nrCz](const QString &) {
             this->czujkaNrEdited(nrCz);
@@ -102,9 +105,21 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, DaneBadania *badanie, 
     ui->drugi_ospionowa->setText(QString::number(badanie->getMaksKatowaNieWspolPionDrugiejCzuj()));
     ui->drugi_ospozioma->setText(QString::number(badanie->getMaksKatowaNieWspolPozDrugiejCzuj()));
 
-
-    showInfoSorted(false);
-    //ui->lcontext->setText(QString("Zgodnie z normą ilość czujek powinna być równa %1").arg(maxNumCzujek));
+    bool o = badanie->getOdtwarzalnosc();
+    showInfoSorted(o);
+    ui->typPierwszy->setReadOnly(o);
+    ui->producent->setReadOnly(o);
+    ui->typDrugi->setReadOnly(o);
+    ui->rozstawienieMinimalne->setReadOnly(o);
+    ui->rozstawienieMaksymalne->setReadOnly(o);
+    ui->pierwszy_ospozioma->setReadOnly(o);
+    ui->pierwszy_ospionowa->setReadOnly(o);
+    ui->drugi_ospozioma->setReadOnly(o);
+    ui->drugi_ospionowa->setReadOnly(o);
+    for( auto le : m_numbers ) {
+        le.first->setReadOnly(o);
+        le.second->setReadOnly(o);
+    }
 
 #ifdef DEFVAL
     ui->typPierwszy->setText("Rodzaj nadajnika");
@@ -246,7 +261,7 @@ bool ParametryBadaniaCzujkiDlg::check()
     return true;
 }
 
-void ParametryBadaniaCzujkiDlg::save(DaneBadania *badanie)
+void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 {
     badanie->setSystemOdbiornikNadajnik(ui->comboBox->currentIndex() == 0);
     badanie->setProducentCzujki(ui->producent->text());

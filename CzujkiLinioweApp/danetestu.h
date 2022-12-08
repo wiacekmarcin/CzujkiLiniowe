@@ -1,12 +1,27 @@
-#ifndef DANEBADANIA_H
-#define DANEBADANIA_H
+#ifndef DANETESTU_H
+#define DANETESTU_H
 
 #include <QObject>
-#include "danebadania_gen.h"
+#include <QSet>
 
-#include <QVector>
-#include <QPair>
-#include <QString>
+struct ListaTestow {
+    ListaTestow();
+    QStringList nazwyTestow;
+    bool odtwarzalnosc;
+    QSet<short> wykonane;
+    QSet<short> proccess;
+    QSet<short> visible;
+};
+
+class DaneTestu : public QObject
+{
+    Q_OBJECT
+public:
+    explicit DaneTestu(QObject *parent = nullptr);
+
+signals:
+
+};
 
 class Test {
 public:
@@ -64,34 +79,4 @@ private:
 };
 
 
-class DaneBadania : public QObject, public DaneBadaniaGen
-{
-    Q_OBJECT
-
-public:
-    explicit DaneBadania();
-
-    friend QDataStream &operator<<(QDataStream &out, const DaneBadania &dane);
-    friend QDataStream &operator>>(QDataStream &in, DaneBadania &dane);
-
-    void load(const QString & fileName);
-    void save(const QString & fileName);
-
-    void addNumberCzujki(const QString & first, const QString & second);
-    QString getNumberFirstCzujkiNominal(unsigned int index);
-    QString getNumberSecondCzujkiNominal(unsigned int index);
-    QPair<QString, QString> getNumberCzujkiNominal(unsigned int index);
-    QString getNumberFirstCzujkiSorted(unsigned int index);
-    QString getNumberSecondCzujkiSorted(unsigned int index);
-    QPair<QString, QString> getNumberCzujkiSorted(unsigned int index);
-    void clearNumberCzujki();
-    QString getNameTest(short id);
-
-private:
-    QVector<QPair<QString, QString> > numbersCzujki;
-    QVector<short> sortedId;
-    QVector<QPair<short, QString>> kindTest;
-    QVector<Test> tests;
-};
-
-#endif // DANEBADANIA_H
+#endif // DANETESTU_H

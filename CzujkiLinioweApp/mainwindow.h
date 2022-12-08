@@ -2,7 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "danebadania.h"
+#include "parametrybadania.h"
 #include "debugdialog.h"
 #include "ustawienia.h"
 #include "serialdevice.h"
@@ -65,7 +65,7 @@ protected:
 private:
     Ui::MainWindow *ui;
     Ustawienia u;
-    DaneBadania b;
+    ParametryBadania b;
     SerialDevice * sd;
     QThread sdThreadW;
     QThread sdThreadR;

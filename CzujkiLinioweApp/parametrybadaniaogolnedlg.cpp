@@ -28,7 +28,7 @@ ParametryBadaniaOgolneDlg::~ParametryBadaniaOgolneDlg()
     delete ui;
 }
 
-void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, DaneBadania *badanie, QLabel * err)
+void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, ParametryBadania *badanie, QLabel * err)
 {
     errorLabel = err;
     minVolt = u.getMinNapiecieCzujki();
@@ -80,6 +80,20 @@ void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, DaneBadania *badanie, 
     ui->dlugoscFali->setCurrentText(QString::number(badanie->getDlugoscFaliFiltrow()));
     check();
 
+    bool o = badanie->getOdtwarzalnosc();
+
+    ui->numerZlecenia->setReadOnly(o);
+    ui->numerTestu->setReadOnly(o);
+    ui->osobaOdpowiedzialna->setReadOnly(o);
+    ui->czasPomiedzyZmianamifiltra->setReadOnly(o);
+    ui->napiecieZasilaniain->setReadOnly(o);
+    ui->typCentraliSygnalizacji->setReadOnly(o);
+    ui->czasStabilizacjiCzujki->setReadOnly(o);
+    ui->pradAlarmu->setReadOnly(o);
+    ui->rbInsideSupply->setCheckable(!o);
+    ui->rbPrad->setCheckable(!o);
+
+
 #ifdef DEFVAL
     ui->numerZlecenia->setText("Numer zlecenia");
     ui->numerTestu->setText("Numer Testu");
@@ -94,7 +108,7 @@ void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, DaneBadania *badanie, 
 #endif
 }
 
-void ParametryBadaniaOgolneDlg::save(DaneBadania *badanie)
+void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
 {
     badanie->setNumerZlecenia(ui->numerZlecenia->text());
     badanie->setNumerTestu(ui->numerTestu->text());
@@ -248,66 +262,11 @@ void ParametryBadaniaOgolneDlg::setWyzwolenieAlarmu(bool przekaznik)
     ui->pradAlarmu->setEnabled(!przekaznik);
 }
 
-void ParametryBadaniaOgolneDlg::on_numerZlecenia_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_numerTestu_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_osobaOdpowiedzialna_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_uwagi_textChanged()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_napiecieZasilaniain_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_typCentraliSygnalizacji_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_czasStabilizacjiCzujki_editingFinished()
-{
-    check();
-}
-
-
-void ParametryBadaniaOgolneDlg::on_pradAlarmu_editingFinished()
-{
-    check();
-}
-
-
 void ParametryBadaniaOgolneDlg::on_dlugoscFali_currentIndexChanged(int index)
 {
     (void)index;
     check();
 }
-
-
-void ParametryBadaniaOgolneDlg::on_czasPomiedzyZmianamifiltra_editingFinished()
-{
-    check();
-}
-
 
 void ParametryBadaniaOgolneDlg::on_rbInsideSupply_toggled(bool checked)
 {
