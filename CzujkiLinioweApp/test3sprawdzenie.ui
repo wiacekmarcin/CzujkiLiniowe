@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
+    <width>1009</width>
     <height>493</height>
    </rect>
   </property>
@@ -24,7 +24,7 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="infonext">
         <property name="font">
          <font>
           <pointsize>14</pointsize>
@@ -66,7 +66,7 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="title">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -88,14 +88,14 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Nazwa testu [Ten ekran nie pojawi się dla badań odwarzalności, powatarzalności, katowych , zasilania</string>
+      <string>Nazwa testu</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -103,7 +103,7 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLabel" name="label_14">
+    <widget class="QLabel" name="numerPierwszy">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -175,7 +175,7 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QLabel" name="label_15">
+    <widget class="QLabel" name="numerDrugi">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -195,7 +195,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Wybrany odbiornika: </string>
+      <string>Wybrany Nadajnik: </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -203,7 +203,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="lOsobaWykonujacaTest">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -218,7 +218,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QLabel" name="label_13">
+    <widget class="QLabel" name="osobaWykonujacaTest">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -231,7 +231,7 @@
     </widget>
    </item>
    <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="testName">
      <property name="font">
       <font>
        <pointsize>14</pointsize>

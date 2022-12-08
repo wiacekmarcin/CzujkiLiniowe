@@ -20,6 +20,9 @@ WyborTestu::WyborTestu(const ListaTestow & testy, bool powtarzalnosc, QWidget *p
         radio.append(qMakePair(s, radioButton));
         radioButton->setEnabled(s == 0 ? !powtarzalnosc : powtarzalnosc);
         ui->gridLayout->addWidget(radioButton, s, 0, 1, 1);
+        if (s == 0 && !powtarzalnosc) {
+            radioButton->setChecked(true);
+        }
 
         QCheckBox * checkbox = new QCheckBox(ui->groupBox);
         checkbox->setObjectName(QString("checkbox%1").arg(s));
@@ -33,8 +36,11 @@ WyborTestu::WyborTestu(const ListaTestow & testy, bool powtarzalnosc, QWidget *p
         ui->gridLayout->addWidget(checkbox, s, 1, 1, 1);
     }
 
+
     connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->reject(); });
     connect(ui->pbNext, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->reject(); });
+    connect(ui->pbNext, &QPushButton::pressed, this, [this]() { this->accept(); });
 }
 
 WyborTestu::~WyborTestu()

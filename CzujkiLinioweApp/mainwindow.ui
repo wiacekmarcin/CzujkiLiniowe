@@ -86,6 +86,7 @@
    <addaction name="separator"/>
    <addaction name="actionZasilacz"/>
    <addaction name="actionSterownik"/>
+   <addaction name="actionStartTestu"/>
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="text">

@@ -3,6 +3,8 @@
 #include "danetestu.h"
 #include <QDate>
 #include <QTime>
+#include <QMessageBox>
+#define DEFVAL
 
 #define SETREADONLY(w) w->setReadOnly(true);
 
@@ -32,6 +34,13 @@ Test1ParametryTestu::Test1ParametryTestu(const ParametryBadania & badanie, DaneT
     } else {
         const QString dataWyk = QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm");
         ui->dataRozpoczecia->setText(dataWyk);
+#ifdef DEFVAL
+        ui->osobaWykonujaca->setText("Osoba wykonująca Test");
+        ui->wilgotnosc->setText("99.3");
+        ui->cisnienie->setText("1005");
+        ui->temperatura->setText("21.5");
+        ui->uwagi->setPlainText("Uwagi");
+#endif
     }
     switch(test->getId())
     {
@@ -50,13 +59,29 @@ Test1ParametryTestu::Test1ParametryTestu(const ParametryBadania & badanie, DaneT
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
     }
 
+    if (badanie.getSystemOdbiornikNadajnik()) { //odb <-> nad
+        ui->ePierwszy->setText("Nadajnik");
+        ui->eDrugi->setText("Odbiornik");
+    } else { //odb+nad <-> ref
+        ui->ePierwszy->setText("Nadajnik+Odbiornik");
+        ui->eDrugi->setText("Reflektor");
+    }
+
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbDalej, &QPushButton::pressed, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
+    connect(ui->osobaWykonujaca, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
+    connect(ui->wilgotnosc, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
+    connect(ui->cisnienie, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
+    connect(ui->temperatura, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
 
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &Test1ParametryTestu::changeCzujka);
     ui->cbCzujka->setCurrentIndex(0);
+    changeCzujka(0);
+    check();
+
+
 }
 
 Test1ParametryTestu::~Test1ParametryTestu()
@@ -67,21 +92,66 @@ Test1ParametryTestu::~Test1ParametryTestu()
 void Test1ParametryTestu::check()
 {
     if (ui->osobaWykonujaca->text().isEmpty()) {
-
-
+        ui->errorLab->setText("Pole 'Osoba Wykonująca test' nie może być puste");
+        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+        return;
     }
-    if (ui->wilgotnosc->text().isEmpty()) {
 
-
-    }
-    if (ui->cisnienie->text().isEmpty()) {
-
-
-    }
     if (ui->temperatura->text().isEmpty()) {
-
-
+        ui->errorLab->setText("Pole 'Temperatura' nie może być puste");
+        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+        return;
+    } else {
+        bool ok;
+        double val = ui->temperatura->text().toDouble(&ok);
+        if (!ok) {
+            ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        } else if (val < -70 || val > 70 ){
+            ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        }
     }
+
+    if (ui->wilgotnosc->text().isEmpty()) {
+        ui->errorLab->setText("Pole 'Wilgotność' nie może być puste");
+        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+        return;
+    } else {
+        bool ok;
+        double val = ui->wilgotnosc->text().toDouble(&ok);
+        if (!ok) {
+            ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        } else if (val < 0 || val > 100 ){
+            ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        }
+    }
+
+    if (ui->cisnienie->text().isEmpty()) {
+        ui->errorLab->setText("Pole 'Ciśnienie' nie może być puste");
+        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+        return;
+    } else {
+        bool ok;
+        double val = ui->cisnienie->text().toDouble(&ok);
+        if (!ok) {
+            ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        } else if (val < 900 || val > 1100 ){
+            ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        }
+    }
+    ui->errorLab->setText("Dane sa prawidłowe");
+    ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
 }
 
 void Test1ParametryTestu::pbOK_clicked()
@@ -89,7 +159,7 @@ void Test1ParametryTestu::pbOK_clicked()
     test->setCisnienie(ui->cisnienie->text());
     test->setRozpoczeto(ui->dataRozpoczecia->text());
     test->setOsobaWykonujaca(ui->osobaWykonujaca->text());
-    test->setWilgotnosc(ui->dataRozpoczecia->text());
+    test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
     test->setNumerPierwszy(ui->typPierwszy->text());
@@ -100,7 +170,9 @@ void Test1ParametryTestu::pbOK_clicked()
 
 void Test1ParametryTestu::pbCancel_clicked()
 {
-    reject();
+    int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()), "Czy napewno chcesz przerwać badanie");
+    if (ret == QMessageBox::Yes)
+        reject();
 }
 
 void Test1ParametryTestu::changeCzujka(int index)

@@ -14,6 +14,9 @@ class ParametryBadania : public QObject, public ParametryBadaniaGen
 
 public:
     explicit ParametryBadania();
+    ParametryBadania(const ParametryBadania & e);
+    ParametryBadania & operator=(const ParametryBadania & e);
+
 
     friend QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane);
     friend QDataStream &operator>>(QDataStream &in, ParametryBadania &dane);

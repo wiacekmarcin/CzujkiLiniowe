@@ -2,7 +2,8 @@
 #define TEST3SPRAWDZENIE_H
 
 #include <QDialog>
-
+#include "parametrybadania.h"
+#include "danetestu.h"
 namespace Ui {
 class Test3Sprawdzenie;
 }
@@ -12,9 +13,11 @@ class Test3Sprawdzenie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test3Sprawdzenie(QWidget *parent = nullptr);
+    explicit Test3Sprawdzenie(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent = nullptr);
     ~Test3Sprawdzenie();
 
+protected:
+    void pbCancel_clicked();
 private:
     Ui::Test3Sprawdzenie *ui;
 };

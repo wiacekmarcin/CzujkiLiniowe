@@ -21,6 +21,28 @@ ParametryBadania::ParametryBadania()
     setOdtwarzalnosc(false);
 }
 
+ParametryBadania::ParametryBadania(const ParametryBadania &e):
+    ParametryBadaniaGen(e)
+{
+    this->odtwarzalnosc = e.odtwarzalnosc;
+    this->numbersCzujki.clear();
+    this->numbersCzujki = e.numbersCzujki;
+    this->sortedId.clear();
+    this->sortedId = e.sortedId;
+}
+
+ParametryBadania &ParametryBadania::operator=(const ParametryBadania &e)
+{
+    ParametryBadaniaGen::operator=(e);
+    this->odtwarzalnosc = e.odtwarzalnosc;
+    this->numbersCzujki.clear();
+    this->numbersCzujki = e.numbersCzujki;
+    this->sortedId.clear();
+    this->sortedId = e.sortedId;
+    return *this;
+}
+
+
 void ParametryBadania::load(const QString &fileName)
 {
     QFile file(fileName);

@@ -264,6 +264,7 @@ void MainWindow::on_actionNoweBadanie_triggered()
     setWindowTitle("");
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(true);
+    b = ParametryBadania();
     ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
     if (dlg->exec() == QDialog::Rejected) {
         fileDaneBadania = "";
@@ -290,7 +291,7 @@ void MainWindow::on_actionStartTestu_triggered()
     }
     short idTest = dlg1->getWyborTestu();
     delete dlg1;
-    ui->centralwidget->startBadanie(idTest, b);
+    ui->centralwidget->startBadanie(idTest, b,
 
 }
 
