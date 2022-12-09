@@ -18,6 +18,7 @@ SOURCES += \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
     proceduratestowa.cpp \
+    sterownik_worker.cpp \
     test1parametrytestu.cpp \
     test2potwierdzenie.cpp \
     test3sprawdzenie.cpp \
@@ -41,7 +42,8 @@ SOURCES += \
     ustawienia_gen.cpp \
     ustawieniafiltrow.cpp \
     ustawienianapedow.cpp \
-    test5zasilanieczujki.cpp
+    test5zasilanieczujki.cpp \
+    zasilacz_worker.cpp
 
 HEADERS += \
     danetestu.h \
@@ -53,6 +55,7 @@ HEADERS += \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
     proceduratestowa.h \
+    sterownik_worker.h \
     test1parametrytestu.h \
     test2potwierdzenie.h \
     test3sprawdzenie.h \
@@ -75,7 +78,8 @@ HEADERS += \
     ustawienia_gen.h \
     ustawieniafiltrow.h \
     ustawienianapedow.h \
-    test5zasilanieczujki.h
+    test5zasilanieczujki.h \
+    zasilacz_worker.h
 
 FORMS += \
     debugdialog.ui \

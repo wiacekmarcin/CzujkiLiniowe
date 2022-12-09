@@ -31,12 +31,12 @@ protected slots:
 private slots:
     void on_actionOtw_rz_okno_triggered();
 
-    void sd_error(QString s);
-    void sd_debug(QString d);
-    void sd_setParamsDone(bool success);
-    void sd_kontrolerConfigured(bool success, int state);
-    void sd_deviceName(QString name);
-    void sd_setPositionDone(bool home, bool success);
+    void ster_error(QString s);
+    void ster_debug(QString d);
+    void ster_setParamsDone(bool success);
+    void ster_kontrolerConfigured(bool success, int state);
+    void ster_deviceName(QString name);
+    void ster_setPositionDone(bool home, bool success);
 
     void zas_error(QString s);
     void zas_debug(QString d);
@@ -67,15 +67,15 @@ private:
     Ui::MainWindow *ui;
     Ustawienia u;
     ParametryBadania b;
-    //SerialDevice * sd;
+
     Sterownik * sd;
     QThread sdThreadW;
     QThread sdThreadR;
     DebugDialog * dbgDlg;
     bool showDebug;
 
-    TestZasilaczaDlg * dlgMierSignal;
-    TestSterownikaDlg * dlgSterSign;
+    TestZasilaczaDlg * dlgTestZas;
+    TestSterownikaDlg * dlgTestSter;
 
     Zasilacz * zas;
     QThread zasThr;

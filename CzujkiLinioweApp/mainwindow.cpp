@@ -20,16 +20,16 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , sd(nullptr)
-    , dlgMierSignal(nullptr)
-    , dlgSterSign(nullptr)
+    , dlgTestZas(nullptr)
+    , dlgTestSter(nullptr)
     , fileDaneBadania("")
 
 {
     ui->setupUi(this);
 
 
-    //sd = new Sterownik(&u, this);
-    //sd->setThread(&sdThreadW, &sdThreadR);
+    sd = new Sterownik(&u, this);
+    sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
 
@@ -44,17 +44,11 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionZapiszZadanie->setEnabled(false);
     ui->actionUsunBadanie->setEnabled(false);
 
-    //connect(sd, &SerialDevice::error, this, &MainWindow::sd_error);
-    //connect(sd, &SerialDevice::debug, this, &MainWindow::sd_debug);
-    //connect(sd, &SerialDevice::setParamsDone, this, &MainWindow::sd_setParamsDone);
-    //connect(sd, &SerialDevice::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
-    //connect(sd, &SerialDevice::deviceName, this, &MainWindow::sd_deviceName);
-    //connect(sd, &SerialDevice::setPositionDone, this, &MainWindow::sd_setPositionDone);
-    connect(sd, &Sterownik::error, this, &MainWindow::sd_error);
-    connect(sd, &Sterownik::debug, this, &MainWindow::sd_debug);
+    connect(sd, &Sterownik::error, this, &MainWindow::ster_error);
+    connect(sd, &Sterownik::debug, this, &MainWindow::ster_debug);
     //connect(sd, &Sterownik::setParamsDone, this, &MainWindow::sd_setParamsDone);
-    connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
-    connect(sd, &Sterownik::deviceName, this, &MainWindow::sd_deviceName);
+    connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::ster_kontrolerConfigured);
+    connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
     //connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
 
 
@@ -102,23 +96,27 @@ void MainWindow::on_actionOtw_rz_okno_triggered()
 }
 
 
-void MainWindow::sd_error(QString s)
+void MainWindow::ster_error(QString s)
 {
+    if (dlgTestSter)
+        dlgTestSter->sd_error(s);
     dbgDlg->add(s);
 }
 
-void MainWindow::sd_debug(QString d)
+void MainWindow::ster_debug(QString d)
 {
+    if(dlgTestSter)
+        dlgTestSter->sd_debug(d);
     dbgDlg->add(d);
 }
 
-void MainWindow::sd_setParamsDone(bool success)
+void MainWindow::ster_setParamsDone(bool success)
 {
-    if (dlgSterSign)
-        dlgSterSign->sd_setParamsDone(success);
+    if (dlgTestSter)
+        dlgTestSter->sd_setParamsDone(success);
 }
 
-void MainWindow::sd_kontrolerConfigured(bool success, int state)
+void MainWindow::ster_kontrolerConfigured(bool success, int state)
 {
 
     switch(state) {
@@ -151,71 +149,71 @@ void MainWindow::sd_kontrolerConfigured(bool success, int state)
         break;
     }
 
-    if (dlgSterSign)
-        dlgSterSign->sd_kontrolerConfigured(success, state);
+    if (dlgTestSter)
+        dlgTestSter->sd_kontrolerConfigured(success, state);
 }
 
-void MainWindow::sd_deviceName(QString name)
+void MainWindow::ster_deviceName(QString name)
 {
     //ui->namePort->setText(name);
-    if (dlgSterSign)
-        dlgSterSign->sd_deviceName(name);
+    if (dlgTestSter)
+        dlgTestSter->sd_deviceName(name);
 }
 
-void MainWindow::sd_setPositionDone(bool home, bool success)
+void MainWindow::ster_setPositionDone(bool home, bool success)
 {
-    if (dlgSterSign)
-        dlgSterSign->sd_setPositionDone(home, success);
+    if (dlgTestSter)
+        dlgTestSter->sd_setPositionDone(home, success);
 }
 
 void MainWindow::zas_error(QString s)
 {
     qDebug() << s;
-    if (dlgMierSignal)
-        dlgMierSignal->errorZasilacz(s);
+    if (dlgTestZas)
+        dlgTestZas->errorZasilacz(s);
 }
 
 void MainWindow::zas_debug(QString d)
 {
     qDebug() << d;
-    if (dlgMierSignal)
-        dlgMierSignal->debugZasilacz(d);
+    if (dlgTestZas)
+        dlgTestZas->debugZasilacz(d);
 }
 
 void MainWindow::zas_configured(bool success, int state)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->configuredZasilacz(success, state);
+    if (dlgTestZas)
+        dlgTestZas->configuredZasilacz(success, state);
 }
 
 void MainWindow::zas_serialNo(QString s)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->serialNoZasilacz(s);
+    if (dlgTestZas)
+        dlgTestZas->serialNoZasilacz(s);
 }
 
 void MainWindow::zas_deviceName(QString name)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->deviceNameZasilacz(name);
+    if (dlgTestZas)
+        dlgTestZas->deviceNameZasilacz(name);
 }
 
 void MainWindow::zas_value(int kind, int value)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->valueZasilacz(kind, value);
+    if (dlgTestZas)
+        dlgTestZas->valueZasilacz(kind, value);
 }
 
 void MainWindow::zas_sendMsg(const QString &msg)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->sendMsg(msg);
+    if (dlgTestZas)
+        dlgTestZas->sendMsg(msg);
 }
 
 void MainWindow::zas_recvMsg(const QString &msg)
 {
-    if (dlgMierSignal)
-        dlgMierSignal->recvMsg(msg);
+    if (dlgTestZas)
+        dlgTestZas->recvMsg(msg);
 }
 
 void MainWindow::on_actionParametry_Badania_triggered()
@@ -238,27 +236,27 @@ void MainWindow::on_actionParametryKalibracyjne_triggered()
 void MainWindow::on_pbDisconnect_clicked()
 {
     sd->closeDevice(true);
-    if (dlgSterSign)
-        dlgSterSign->disconnect();
+    if (dlgTestSter)
+        dlgTestSter->sd_disconnect();
 }
 
 void MainWindow::on_actionTestZasilacza_triggered()
 {
     TestZasilaczaDlg * dlg = new TestZasilaczaDlg(&u, zas, this);
-    dlgMierSignal = dlg;
+    dlgTestZas = dlg;
     dlg->exec();
     delete dlg;
-    dlgMierSignal = nullptr;
+    dlgTestZas = nullptr;
 }
 
 
 void MainWindow::on_actionTestSterownikaDlg_triggered()
 {
     TestSterownikaDlg * dlg = new TestSterownikaDlg(&u, sd, this);
-    dlgSterSign = dlg;
+    dlgTestSter = dlg;
     dlg->exec();
     delete dlg;
-    dlgSterSign = nullptr;
+    dlgTestSter = nullptr;
 }
 
 

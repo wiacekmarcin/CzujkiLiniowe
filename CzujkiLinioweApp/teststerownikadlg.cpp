@@ -1,7 +1,6 @@
 #include "teststerownikadlg.h"
 #include "ui_teststerownikadlg.h"
 #include "ustawienia.h"
-#include "serialdevice.h"
 #include "sterownik.h"
 
 #define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
@@ -9,7 +8,8 @@
                    ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
                    ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
-                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N()));
+                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N())); \
+                   ui->motorName##N->setText(u->getMotorNazwa##N());
 
 #define SETCONF_ALL SETCONF(1) \
                     SETCONF(2) \
@@ -21,6 +21,22 @@
                     SETCONF(8) \
                     SETCONF(9)
 
+#define CONN(N) connect(ui->pbHome_##N, &QPushButton::clicked, this, [this](){ this->pbHome_clicked(N); }); \
+                connect(ui->pbUstawPos_##N, &QPushButton::clicked, this, [this](){ this->pbUstawPos_clicked(N, ui->posX_##N->text(), ui->ratio##N->text()); }); \
+
+
+#define CONN_ALL CONN(1) \
+                 CONN(2) \
+                 CONN(3) \
+                 CONN(4) \
+                 CONN(5) \
+                 CONN(6) \
+                 CONN(7) \
+                 CONN(8) \
+                 CONN(9)
+
+#define CONN_STER(F) connect(sdv, &Sterownik::F , this, &TestSterownikaDlg::sd_##F)
+
 TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestSterownikaDlg),
@@ -29,6 +45,14 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
 {
     ui->setupUi(this);
     SETCONF_ALL
+
+    CONN_ALL
+
+    connect(ui->pbHomeAll, &QPushButton::clicked, this, &TestSterownikaDlg::pbHomeAll_clicked);
+    connect(ui->pbSetConfiguration, &QPushButton::clicked, this, &TestSterownikaDlg::pbSetConfiguration_clicked);
+    connect(ui->pbConnect, &QPushButton::clicked, this, &TestSterownikaDlg::pbConnect_clicked);
+
+    //if (sd->c)
 }
 
 TestSterownikaDlg::~TestSterownikaDlg()
@@ -41,7 +65,8 @@ TestSterownikaDlg::~TestSterownikaDlg()
                      u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
                      u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
-                     u->setMotorIloscImpSrodek##N(ui->srodekKroki##N->text());
+                     u->setMotorIloscImpSrodek##N(ui->srodekKroki##N->text()); \
+                     u->setMotorNazwa##N(ui->motorName##N->text());
 
 #define WRITECONF_ALL WRITECONF(1) \
                       WRITECONF(2) \
@@ -53,7 +78,7 @@ TestSterownikaDlg::~TestSterownikaDlg()
                       WRITECONF(8) \
                       WRITECONF(9)
 
-void TestSterownikaDlg::on_pbSetConfiguration_clicked()
+void TestSterownikaDlg::pbSetConfiguration_clicked()
 {
     WRITECONF_ALL
 }
@@ -65,7 +90,6 @@ void TestSterownikaDlg::sd_deviceName(QString name)
 
 void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
 {
-    //ui->textBrowser->insertPlainText(QString("success=%1, state=%2").arg(success).arg(state));
     switch(state) {
     case Sterownik::NO_FOUND:
         ui->rbFound->setEnabled(false);
@@ -132,7 +156,7 @@ void TestSterownikaDlg::sd_setParamsDone(bool success)
 
 }
 
-void TestSterownikaDlg::disconnect()
+void TestSterownikaDlg::sd_disconnect()
 {
 
 }
@@ -142,50 +166,33 @@ void TestSterownikaDlg::sd_setPositionDone(bool home, bool success)
 
 }
 
-void TestSterownikaDlg::on_pbConnect_clicked()
+void TestSterownikaDlg::pbConnect_clicked()
 {
     sd->connectToDevice();
 }
 
-#define PBHOME(N) void TestSterownikaDlg::on_pbHome_##N##_clicked() \
-{ pbHome_clicked(N); }
+void TestSterownikaDlg::sd_debug(const QString &d)
+{
+    ui->dbg1->append(d);
+}
 
-PBHOME(1)
-PBHOME(2)
-PBHOME(3)
-PBHOME(4)
-PBHOME(5)
-PBHOME(6)
-PBHOME(7)
-PBHOME(8)
-PBHOME(9)
-
+void TestSterownikaDlg::sd_error(const QString & e)
+{
+    ui->dbg2->append(e);
+}
 
 void TestSterownikaDlg::pbHome_clicked(int silnik)
 {
-    //sd->setPositionSilnik(silnik, true, 0);
+    qDebug() << silnik;
 }
 
-void TestSterownikaDlg::on_pbHomeAll_clicked()
+void TestSterownikaDlg::pbHomeAll_clicked()
 {
     for (int i=1; i<10; ++i)
         pbHome_clicked(i);
 }
 
-void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const float & x, const float & ratio)
+void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio)
 {
-    //sd->setPositionSilnik(silnik, false, x*ratio);
+    qDebug() << silnik << x << ratio;
 }
-
-#define PBSETPOS(N) void TestSterownikaDlg::on_pbUstawPos_##N##_clicked() \
-{ pbUstawPos_clicked(N, ui->posX_##N->text().toFloat(), u->getMotorPrzelozenieImpJedn##N()); }
-
-PBSETPOS(1)
-PBSETPOS(2)
-PBSETPOS(3)
-PBSETPOS(4)
-PBSETPOS(5)
-PBSETPOS(6)
-PBSETPOS(7)
-PBSETPOS(8)
-PBSETPOS(9)

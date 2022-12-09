@@ -21,31 +21,19 @@ public:
     void sd_deviceName(QString name);
     void sd_setPositionDone(bool home, bool success);
     void sd_setParamsDone(bool success);
-    void disconnect();
+    void sd_debug(const QString & d);
+    void sd_error(const QString & e);
+    void sd_disconnect();
+
 protected slots:
-    void on_pbSetConfiguration_clicked();
-    void on_pbHome_1_clicked();
-    void on_pbHome_2_clicked();
-    void on_pbHome_3_clicked();
-    void on_pbHome_4_clicked();
-    void on_pbHome_5_clicked();
-    void on_pbHome_6_clicked();
-    void on_pbHome_7_clicked();
-    void on_pbHome_8_clicked();
-    void on_pbHome_9_clicked();
+    void pbSetConfiguration_clicked();
+    void pbHomeAll_clicked();
+    void pbConnect_clicked();
+
+
+protected:
     void pbHome_clicked(int silnik);
-    void on_pbHomeAll_clicked();
-    void on_pbUstawPos_1_clicked();
-    void on_pbUstawPos_2_clicked();
-    void on_pbUstawPos_3_clicked();
-    void on_pbUstawPos_4_clicked();
-    void on_pbUstawPos_5_clicked();
-    void on_pbUstawPos_6_clicked();
-    void on_pbUstawPos_7_clicked();
-    void on_pbUstawPos_8_clicked();
-    void on_pbUstawPos_9_clicked();
-    void pbUstawPos_clicked(int silnik, const float &x, const float &ratio);
-    void on_pbConnect_clicked();
+    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio);
 
 private:
     Ui::TestSterownikaDlg *ui;
