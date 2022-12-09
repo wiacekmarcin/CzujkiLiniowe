@@ -1,4 +1,4 @@
-#include "sterownik.h"
+#include "serialdevice.h"
 #include <QTime>
 #include <QThread>
 #include <QSerialPortInfo>
@@ -8,28 +8,28 @@
 
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
-SerialWorkerReader::SerialWorkerReader(Sterownik * device):
+SterownikWorkerReader::SterownikWorkerReader(SterownikSerial* device):
     QThread(nullptr),
     sd(device)
 {
     runWorker = true;
-    connect(this, &SerialWorkerReader::debug, device, &Sterownik::debug, Qt::QueuedConnection);
+    connect(this, &SterownikWorkerReader::debug, device, &SterownikSerial::debug, Qt::QueuedConnection);
 }
 
-SerialWorkerReader::~SerialWorkerReader()
+SterownikWorkerReader::~SterownikWorkerReader()
 {
     mutex.lock();
     runWorker = false;
     mutex.unlock();
 }
 
-void SerialWorkerReader::setStop()
+void SterownikWorkerReader::setStop()
 {
     const QMutexLocker locker(&mutexRun);
     runWorker = false;
 }
 
-void SerialWorkerReader::run()
+void SterownikWorkerReader::run()
 {
     bool quit;
     QByteArray receiveData;
@@ -46,22 +46,22 @@ void SerialWorkerReader::run()
     } while (!quit);
 }
 
-void SerialWorkerReader::debugFun(const QString &s)
+void SterownikWorkerReader::debugFun(const QString &s)
 {
     emit debug(s);
 }
 
-SerialWorkerWriter::SerialWorkerWriter(Sterownik * device):
+SterownikWorkerWriter::SterownikWorkerWriter(SterownikSerial* device):
     QThread(nullptr),
     sd(device)
 {
     actTask = IDLE;
     runWorker = true;
 
-    connect(this, &SerialWorkerWriter::debug, device, &Sterownik::debug, Qt::QueuedConnection);
+    connect(this, &SterownikWorkerWriter::debug, device, &SterownikSerial::debug, Qt::QueuedConnection);
 }
 
-SerialWorkerWriter::~SerialWorkerWriter()
+SterownikWorkerWriter::~SterownikWorkerWriter()
 {
     mutex.lock();
     runWorker = false;
@@ -71,7 +71,7 @@ SerialWorkerWriter::~SerialWorkerWriter()
     wait(120000);
 }
 
-bool SerialWorkerWriter::command(Task curr, const QByteArray &data)
+bool SterownikWorkerWriter::command(Task curr, const QByteArray &data)
 {
     DEBUGSER(QString("New command %1 [%2]").arg(curr).arg(data.toHex().data()));
     {
@@ -86,7 +86,7 @@ bool SerialWorkerWriter::command(Task curr, const QByteArray &data)
     return true;
 }
 
-void SerialWorkerWriter::setStop()
+void SterownikWorkerWriter::setStop()
 {
     {
         const QMutexLocker locker(&mutexRun);
@@ -102,13 +102,13 @@ void SerialWorkerWriter::setStop()
     //wait();
 }
 
-void SerialWorkerWriter::setReset()
+void SterownikWorkerWriter::setReset()
 {
     const QMutexLocker locker(&mutex);
     futureTask.clear();
 }
 
-void SerialWorkerWriter::run()
+void SterownikWorkerWriter::run()
 {
     mutex.lock();
     short zadanie = actTask;
@@ -169,12 +169,12 @@ void SerialWorkerWriter::run()
    this->quit();
 }
 
-void SerialWorkerWriter::debugFun(const QString &s)
+void SterownikWorkerWriter::debugFun(const QString &s)
 {
     emit debug(s);
 }
 
-SerialWorkerWriter::Task SerialWorkerWriter::getActTask()
+SterownikWorkerWriter::Task SterownikWorkerWriter::getActTask()
 {
     Task ret;
     mutex.lock();
@@ -184,7 +184,7 @@ SerialWorkerWriter::Task SerialWorkerWriter::getActTask()
 }
 /**************************************************************************/
 
-Sterownik::Sterownik(Ustawienia *u, QObject *parent)
+SterownikSerial::SterownikSerial(Ustawienia *u, QObject *parent)
     : QObject(parent),
       m_portName(""), m_portNr(-1),
       m_connected(false),  m_writer(this), m_reader(this),
@@ -199,40 +199,40 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
 }
 
-Sterownik::~Sterownik()
+SterownikSerial::~SterownikSerial()
 {
     setStop();
     m_writer.wait();
     m_reader.wait();
 }
 
-void Sterownik::setThread(QThread *thrW, QThread *thrR)
+void SterownikSerial::setThread(QThread *thrW, QThread *thrR)
 {
     m_writer.moveToThread(thrW);
     m_writer.start();
-    m_writer.command(SerialWorkerWriter::IDLE, QByteArray());
+    m_writer.command(SterownikWorkerWriter::IDLE, QByteArray());
 
     m_reader.moveToThread(thrR);
     //start przy connect
 }
 
-void Sterownik::setStop()
+void SterownikSerial::setStop()
 {
     m_writer.setReset();
     m_writer.setStop();
     m_reader.setStop();
 }
 
-void Sterownik::connectToDevice()
+void SterownikSerial::connectToDevice()
 {
     if (connected()) {
         emit kontrolerConfigured(true, ALL_OK);
     } else {
-        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
+        m_writer.command(SterownikWorkerWriter::CONNECT, QByteArray());
     }
 }
 
-void Sterownik::setParams()
+void SterownikSerial::setParams()
 {
 
 
@@ -241,20 +241,20 @@ void Sterownik::setParams()
     }
 }
 
-void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps)
+void SterownikSerial::setPositionSilnik(int silnik, bool home, unsigned int steps)
 {
     if (!connected())
-        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
+        m_writer.command(SterownikWorkerWriter::CONNECT, QByteArray());
 
     if (home)
-        m_writer.command(SerialWorkerWriter::SET_HOME,
+        m_writer.command(SterownikWorkerWriter::SET_HOME,
                          SerialMessage::setPositionHome(silnik));
     else
-        m_writer.command(SerialWorkerWriter::SET_POSITION,
+        m_writer.command(SterownikWorkerWriter::SET_POSITION,
                          SerialMessage::setPosition(silnik,  steps));
 }
 
-bool Sterownik::configureDevice(bool wlcmmsg)
+bool SterownikSerial::configureDevice(bool wlcmmsg)
 {
     if (wlcmmsg) {
         if (!write(SerialMessage::welcomeMsg(), 200))
@@ -312,19 +312,19 @@ bool Sterownik::configureDevice(bool wlcmmsg)
     return true;
 }
 
-bool Sterownik::connected()
+bool SterownikSerial::connected()
 {
     const QMutexLocker locker(&connMutex);
     return m_connected;
 }
 
-void Sterownik::setConnected(bool connected)
+void SterownikSerial::setConnected(bool connected)
 {
     const QMutexLocker locker(&connMutex);
     m_connected = connected;
 }
 
-void Sterownik::closeDeviceJob()
+void SterownikSerial::closeDeviceJob()
 {
     DEBUGSER("CLOSING DEVICE");
     //setStop();
@@ -340,7 +340,7 @@ void Sterownik::closeDeviceJob()
     DEBUGSER("CLOSE DEVICE");
 }
 
-bool Sterownik::openDevice()
+bool SterownikSerial::openDevice()
 {
 #ifdef SERIALLINUX
     m_serialPort->setPort(QSerialPortInfo(m_portName));
@@ -414,24 +414,17 @@ bool Sterownik::openDevice()
 #endif
 }
 
-void Sterownik::setReset()
+void SterownikSerial::setReset()
 {
     /*
     if (connected()) {
-        m_writer.command(SerialWorkerWriter::RESET);
-        m_writer.command(SerialWorkerWriter::SET_PARAMS);
+        m_writer.command(SterownikWorkerWriter::RESET);
+        m_writer.command(SterownikWorkerWriter::SET_PARAMS);
     }
     */
 }
 
-void Sterownik::sendMultiCmd(const QString &cmd)
-{
-    if (!connected())
-        m_writer.command(SerialWorkerWriter::CONNECT, QByteArray());
-    m_writer.command(SerialWorkerWriter::MULTI_CMD, SerialMessage::setMultiCmd(cmd));
-}
-
-bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
+bool SterownikSerial::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
 {
 
 #ifdef SERIALLINUX
@@ -466,7 +459,7 @@ bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTime
 #endif
 }
 
-QByteArray Sterownik::read(int currentWaitReadTimeout)
+QByteArray SterownikSerial::read(int currentWaitReadTimeout)
 {
     QByteArray responseData ;
 #ifdef SERIALLINUX
@@ -544,7 +537,7 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
     return responseData;
 }
 
-SerialMessage Sterownik::parseMessage(QByteArray &reply)
+SerialMessage SterownikSerial::parseMessage(QByteArray &reply)
 {
     SerialMessage msg;
     if (!msg.parseCommand(reply)) {
@@ -584,23 +577,23 @@ SerialMessage Sterownik::parseMessage(QByteArray &reply)
     return msg;
 }
 
-void Sterownik::closeDevice(bool waitForDone)
+void SterownikSerial::closeDevice(bool waitForDone)
 {
     DEBUGSER(QString("close device %1").arg(waitForDone));
     if (waitForDone) {
-        m_writer.command(SerialWorkerWriter::DISCONNECT, QByteArray());
+        m_writer.command(SterownikWorkerWriter::DISCONNECT, QByteArray());
     } else {
         m_writer.setReset();
         closeDeviceJob();
     }
 }
 
-void Sterownik::debugFun(const QString &log)
+void SterownikSerial::debugFun(const QString &log)
 {
     emit debug(log);
 }
 
-void Sterownik::connectToSerialJob()
+void SterownikSerial::connectToSerialJob()
 {
     if (!connected()) {
         QString description;

@@ -67,7 +67,7 @@ private:
     Ui::MainWindow *ui;
     Ustawienia u;
     ParametryBadania b;
-    SerialDevice * sd;
+    //SerialDevice * sd;
     Sterownik * sd;
     QThread sdThreadW;
     QThread sdThreadR;

@@ -1,7 +1,7 @@
 #include "parametrybadaniaogolnedlg.h"
 #include "ui_parametrybadaniaogolnedlg.h"
 
-#define DEFVAL
+//#define DEFVAL
 
 ParametryBadaniaOgolneDlg::ParametryBadaniaOgolneDlg(QWidget *parent) :
     QDialog(parent),

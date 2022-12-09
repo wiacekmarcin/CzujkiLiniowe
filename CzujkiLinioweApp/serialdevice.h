@@ -14,14 +14,14 @@
 
 #define SERIALLINUX
 
-class Sterownik;
+class SterownikSerial;
 class QThread;
 
 class SterownikWorkerReader : public QThread
 {
     Q_OBJECT
 public:
-    explicit SterownikWorkerReader(Sterownik * device);
+    explicit SterownikWorkerReader(SterownikSerial *device);
     ~SterownikWorkerReader();
 
     /**
@@ -48,7 +48,7 @@ private:
 
     QMutex mutexRun;
     bool runWorker;
-    Sterownik * sd;
+    SterownikSerial * sd;
 };
 
 class SterownikWorkerWriter : public QThread
@@ -68,7 +68,7 @@ public:
         RESET,
     } Task;
 
-    explicit SterownikWorkerWriter(Sterownik * device);
+    explicit SterownikWorkerWriter(SterownikSerial * device);
     ~SterownikWorkerWriter();
 
     /**
@@ -112,7 +112,7 @@ private:
     QWaitCondition newTask;
     QMutex mutexRun;
     bool runWorker;
-    Sterownik * sd;
+    SterownikSerial * sd;
     QVector<QPair<Task,QByteArray>> futureTask;
 };
 
@@ -129,12 +129,12 @@ private:
  * @param m_maxStep - maksymalna ilosc krokow (R - rolety)
  * @param m_worker - obiekt który realizuje komunikację w wątku
  */
-class Sterownik : public QObject
+class SterownikSerial : public QObject
 {
     Q_OBJECT
 public:
-    explicit Sterownik(Ustawienia  *u, QObject *parent = nullptr);
-    ~Sterownik();
+    explicit SterownikSerial(Ustawienia  *u, QObject *parent = nullptr);
+    ~SterownikSerial();
 
     typedef enum _statusConn {
         NO_FOUND,
@@ -197,8 +197,6 @@ public:
     * @brief setReset
     */
     void setReset();
-
-    void sendMultiCmd(const QString & cmd);
 
 protected:
 

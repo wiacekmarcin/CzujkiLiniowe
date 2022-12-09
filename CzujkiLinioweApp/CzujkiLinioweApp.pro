@@ -18,7 +18,7 @@ SOURCES += \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
     proceduratestowa.cpp \
-    sterownik.cpp \
+    serialdevice.cpp \
     test1parametrytestu.cpp \
     test2potwierdzenie.cpp \
     test3sprawdzenie.cpp \
@@ -54,7 +54,7 @@ HEADERS += \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
     proceduratestowa.h \
-    sterownik.h \
+    serialdevice.h \
     test1parametrytestu.h \
     test2potwierdzenie.h \
     test3sprawdzenie.h \

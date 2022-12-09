@@ -4,12 +4,12 @@
 #include "serialdevice.h"
 #include "sterownik.h"
 
-#define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscKrokowBaza##N())); \
-                   ui->delay##N->setText(QString::number(u->getMotorOpoznienieImp##N())); \
-                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscKrokow##N())); \
+#define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
+                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
+                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
-                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenie##N())); \
-                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscKrokowSrodek##N()));
+                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
+                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N()));
 
 #define SETCONF_ALL SETCONF(1) \
                     SETCONF(2) \
@@ -36,12 +36,12 @@ TestSterownikaDlg::~TestSterownikaDlg()
     delete ui;
 }
 
-#define WRITECONF(N) u->setMotorIloscKrokowBaza##N(ui->base##N->text()); \
-                     u->setMotorOpoznienieImp##N(ui->delay##N->text()); \
-                     u->setMotorMaksIloscKrokow##N(ui->maxSteps##N->text()); \
+#define WRITECONF(N) u->setMotorIloscImpBaza##N(ui->base##N->text()); \
+                     u->setMotorCzasMiedzyImp##N(ui->delay##N->text()); \
+                     u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
-                     u->setMotorPrzelozenie##N(ui->ratio##N->text()); \
-                     u->setMotorIloscKrokowSrodek##N(ui->srodekKroki##N->text());
+                     u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
+                     u->setMotorIloscImpSrodek##N(ui->srodekKroki##N->text());
 
 #define WRITECONF_ALL WRITECONF(1) \
                       WRITECONF(2) \
@@ -98,15 +98,15 @@ void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
         break;
-    case Sterownik::PARAMS_FAILD:
-        ui->pbConnect->setEnabled(true);
-        ui->pbDisconnect->setEnabled(false);
+    //case Sterownik::PARAMS_FAILD:
+    //    ui->pbConnect->setEnabled(true);
+    //    ui->pbDisconnect->setEnabled(false);
         break;
-    case Sterownik::PARAMS_OK:
-        ui->rbConf_2->setChecked(true);
-        ui->pbConnect->setEnabled(false);
-        ui->pbDisconnect->setEnabled(true);
-        break;
+    //case Sterownik::PARAMS_OK:
+    //    ui->rbConf_2->setChecked(true);
+    //    ui->pbConnect->setEnabled(false);
+    //    ui->pbDisconnect->setEnabled(true);
+    //    break;
     case Sterownik::ALL_OK:
         ui->frame_3->setEnabled(true);
         ui->pbConnect->setEnabled(false);
@@ -163,7 +163,7 @@ PBHOME(9)
 
 void TestSterownikaDlg::pbHome_clicked(int silnik)
 {
-    sd->setPositionSilnik(silnik, true, 0);
+    //sd->setPositionSilnik(silnik, true, 0);
 }
 
 void TestSterownikaDlg::on_pbHomeAll_clicked()
@@ -174,7 +174,7 @@ void TestSterownikaDlg::on_pbHomeAll_clicked()
 
 void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const float & x, const float & ratio)
 {
-    sd->setPositionSilnik(silnik, false, x*ratio);
+    //sd->setPositionSilnik(silnik, false, x*ratio);
 }
 
 #define PBSETPOS(N) void TestSterownikaDlg::on_pbUstawPos_##N##_clicked() \

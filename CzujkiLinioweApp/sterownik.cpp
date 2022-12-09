@@ -11,7 +11,7 @@
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
 
-SerialWorkerSter::SerialWorkerSter(Sterownik *device):
+SerialWorkerSter2::SerialWorkerSter2(Sterownik *device):
     QThread(nullptr),
     actTask(SerialSterownik::TaskExt(SerialSterownik::IDLE, QByteArray())),
     sd(device),
@@ -20,13 +20,13 @@ SerialWorkerSter::SerialWorkerSter(Sterownik *device):
 
     runWorker = true;
 
-    connect(this, &SerialWorkerSter::debug, device, &Sterownik::debug, Qt::QueuedConnection);
-    connect(this, &SerialWorkerSter::deviceName, device, &Sterownik::deviceName, Qt::QueuedConnection);
-    connect(this, &SerialWorkerSter::error, device, &Sterownik::error, Qt::QueuedConnection);
-    connect(this, &SerialWorkerSter::kontrolerConfigured, device, &Sterownik::kontrolerConfigured, Qt::QueuedConnection);
+    connect(this, &SerialWorkerSter2::debug, device, &Sterownik::debug, Qt::QueuedConnection);
+    connect(this, &SerialWorkerSter2::deviceName, device, &Sterownik::deviceName, Qt::QueuedConnection);
+    connect(this, &SerialWorkerSter2::error, device, &Sterownik::error, Qt::QueuedConnection);
+    connect(this, &SerialWorkerSter2::kontrolerConfigured, device, &Sterownik::kontrolerConfigured, Qt::QueuedConnection);
 }
 
-SerialWorkerSter::~SerialWorkerSter()
+SerialWorkerSter2::~SerialWorkerSter2()
 {
     mutex.lock();
     runWorker = false;
@@ -36,7 +36,7 @@ SerialWorkerSter::~SerialWorkerSter()
     wait(120000);
 }
 
-bool SerialWorkerSter::command(SerialSterownik::TaskId curr, const QByteArray & msg)
+bool SerialWorkerSter2::command(SerialSterownik::TaskId curr, const QByteArray & msg)
 {
     DEBUGSER(QString("New command %1").arg(curr));
     {
@@ -51,7 +51,7 @@ bool SerialWorkerSter::command(SerialSterownik::TaskId curr, const QByteArray & 
     return true;
 }
 
-void SerialWorkerSter::setStop()
+void SerialWorkerSter2::setStop()
 {
     {
         const QMutexLocker locker(&mutexRun);
@@ -68,13 +68,13 @@ void SerialWorkerSter::setStop()
     //wait();
 }
 
-void SerialWorkerSter::setReset()
+void SerialWorkerSter2::setReset()
 {
     const QMutexLocker locker(&mutex);
     futureTask.clear();
 }
 
-void SerialWorkerSter::run()
+void SerialWorkerSter2::run()
 {
     mutex.lock();
     short zadanie;
@@ -123,7 +123,7 @@ void SerialWorkerSter::run()
    this->quit();
 }
 
-bool SerialWorkerSter::openDevice(const QString & portName)
+bool SerialWorkerSter2::openDevice(const QString & portName)
 {
     m_serialPort = new QSerialPort();
     m_serialPort->setPort(QSerialPortInfo(portName));
@@ -147,7 +147,7 @@ bool SerialWorkerSter::openDevice(const QString & portName)
     return true;
 
 }
-QList<QStringList> SerialWorkerSter::getComPorts()
+QList<QStringList> SerialWorkerSter2::getComPorts()
 {
     QString description;
     QString manufacturer;
@@ -172,7 +172,7 @@ QList<QStringList> SerialWorkerSter::getComPorts()
     return ports;
 }
 
-bool SerialWorkerSter::connectToSerialJob()
+bool SerialWorkerSter2::connectToSerialJob()
 {
     if (!sd->connected()) {
         QString vendor, product;
@@ -215,7 +215,7 @@ bool SerialWorkerSter::connectToSerialJob()
     return sd->connected();
 }
 
-bool SerialWorkerSter::checkIdentJob()
+bool SerialWorkerSter2::checkIdentJob()
 {
     QByteArray msg("*IDN?\n", 6);
     DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg.data()));
@@ -244,7 +244,7 @@ bool SerialWorkerSter::checkIdentJob()
     return true;
 }
 
-bool SerialWorkerSter::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
+bool SerialWorkerSter2::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
 {
     if (currentRequest.size() > 0) {
         DEBUGSER("Sending bytes....");
@@ -259,7 +259,7 @@ bool SerialWorkerSter::write(const QByteArray &currentRequest, int currentWaitWr
     return true;
 }
 
-void SerialWorkerSter::closeDeviceJob()
+void SerialWorkerSter2::closeDeviceJob()
 {
     DEBUGSER("CLOSING DEVICE");
     //setStop();
@@ -272,12 +272,12 @@ void SerialWorkerSter::closeDeviceJob()
     DEBUGSER("CLOSE DEVICE");
 }
 
-void SerialWorkerSter::debugFun(const QString &s)
+void SerialWorkerSter2::debugFun(const QString &s)
 {
     emit debug(s);
 }
 
-SerialSterownik::TaskId SerialWorkerSter::getActTaskId()
+SerialSterownik::TaskId SerialWorkerSter2::getActTaskId()
 {
     SerialSterownik::TaskId ret;
     mutex.lock();

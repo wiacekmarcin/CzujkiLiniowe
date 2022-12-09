@@ -39,15 +39,15 @@ struct TaskExt
     QByteArray msg;
 } ;
 
-} //namespace //serialZasilacz
+} //namespace
 
-class SerialWorkerSter : public QThread
+class SerialWorkerSter2 : public QThread
 {
     Q_OBJECT
 public:
 
-    explicit SerialWorkerSter(Sterownik * device);
-    ~SerialWorkerSter();
+    explicit SerialWorkerSter2(Sterownik * device);
+    ~SerialWorkerSter2();
 
     bool command(SerialSterownik::TaskId task, const QByteArray & msg);
 
@@ -163,7 +163,7 @@ protected:
 
     /*********************  JOBY ******************************************/
 protected:
-    friend class SerialWorkerSter;
+    friend class SerialWorkerSter2;
 
     /************************ JOBY **********************************/
 
@@ -180,7 +180,7 @@ private:
     /* Ustawienia obiektu */
     QMutex connMutex;
     bool m_connected;
-    SerialWorkerSter m_worker;
+    SerialWorkerSter2 m_worker;
 
     QTimer readMeas;
     short cntTimeout;

@@ -27,8 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    sd = new Sterownik(&u, this);
-    sd->setThread(&sdThreadW, &sdThreadR);
+
+    //sd = new Sterownik(&u, this);
+    //sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
 
@@ -43,18 +44,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->actionZapiszZadanie->setEnabled(false);
     ui->actionUsunBadanie->setEnabled(false);
 
-    connect(sd, &SerialDevice::error, this, &MainWindow::sd_error);
-    connect(sd, &SerialDevice::debug, this, &MainWindow::sd_debug);
-    connect(sd, &SerialDevice::setParamsDone, this, &MainWindow::sd_setParamsDone);
-    connect(sd, &SerialDevice::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
-    connect(sd, &SerialDevice::deviceName, this, &MainWindow::sd_deviceName);
-    connect(sd, &SerialDevice::setPositionDone, this, &MainWindow::sd_setPositionDone);
+    //connect(sd, &SerialDevice::error, this, &MainWindow::sd_error);
+    //connect(sd, &SerialDevice::debug, this, &MainWindow::sd_debug);
+    //connect(sd, &SerialDevice::setParamsDone, this, &MainWindow::sd_setParamsDone);
+    //connect(sd, &SerialDevice::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
+    //connect(sd, &SerialDevice::deviceName, this, &MainWindow::sd_deviceName);
+    //connect(sd, &SerialDevice::setPositionDone, this, &MainWindow::sd_setPositionDone);
     connect(sd, &Sterownik::error, this, &MainWindow::sd_error);
     connect(sd, &Sterownik::debug, this, &MainWindow::sd_debug);
-    connect(sd, &Sterownik::setParamsDone, this, &MainWindow::sd_setParamsDone);
+    //connect(sd, &Sterownik::setParamsDone, this, &MainWindow::sd_setParamsDone);
     connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
     connect(sd, &Sterownik::deviceName, this, &MainWindow::sd_deviceName);
-    connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
+    //connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
 
 
 
@@ -138,10 +139,10 @@ void MainWindow::sd_kontrolerConfigured(bool success, int state)
     case Sterownik::IDENT_OK:
 
         break;
-    case Sterownik::PARAMS_FAILD:
-        break;
-    case Sterownik::PARAMS_OK:
-        break;
+    //case Sterownik::PARAMS_FAILD:
+    //    break;
+    //case Sterownik::PARAMS_OK:
+    //    break;
     case Sterownik::ALL_OK:
         break;
     case Sterownik::CLOSE:
