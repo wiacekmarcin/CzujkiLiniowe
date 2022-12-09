@@ -8,185 +8,167 @@
 
 #include <QByteArray>
 #include <QVector>
-#include <QTimer>
-#include <QSerialPort>
 
+#include "serialmessage.h"
+#include "ustawienia.h"
+
+#define SERIALLINUX
 
 class Sterownik;
 class QThread;
 
-namespace SerialSterownik {
-
-typedef enum _task {
-    IDLE,
-    CONNECT,
-    SET_CONF,
-    SET_HOME,
-    SET_POSITION,
-    SET_STOP,
-    DISCONNECT
-} TaskId;
-
-struct TaskExt
-{
-    TaskExt() : TaskExt(IDLE, QByteArray()) {}
-    TaskExt(TaskId _task, const QByteArray & _msg) :
-        task(_task),
-        msg(_msg)
-    {}
-
-    TaskId task;
-    QByteArray msg;
-} ;
-
-} //namespace
-
-class SerialWorkerSter2 : public QThread
+class SterownikReader : public QThread
 {
     Q_OBJECT
 public:
+    explicit SterownikReader(Sterownik *device);
+    ~SterownikReader();
 
-    explicit SerialWorkerSter2(Sterownik * device);
-    ~SerialWorkerSter2();
-
-    bool command(SerialSterownik::TaskId task, const QByteArray & msg);
-
-    /**
-     * @brief setStop
-     * Zatrzymanie pracy workera
-     */
     void setStop();
-
-    /**
-     * @brief setReset - usuniecie pozostalych zadan
-     */
-    void setReset();
-
-    void closeDeviceJob();
-
-    bool write(const QByteArray & req, int currentWaitWriteTimeout);
-
-    SerialSterownik::TaskId getActTaskId();
-
-    static const char* const mapTask[];
 
 signals:
     void debug(QString);
-    void deviceName(QString);
-    void error(QString s);
-    void kontrolerConfigured(bool success, int state);
-
 
 protected:
-    /**
-     * @brief run
-     * Fukcja workera
-     */
     void run();
-
     void debugFun(const QString &s);
 
-    bool openDevice(const QString & portName);
-
-
-    QList<QStringList> getComPorts();
-
-
-    bool connectToSerialJob();
-    bool checkIdentJob();
 
 private:
-    SerialSterownik::TaskExt actTask;
+    QMutex mutex;
+
+    QMutex mutexRun;
+    bool runWorker;
+    Sterownik * sd;
+};
+
+class SterownikWriter : public QThread
+{
+    Q_OBJECT
+public:
+    /**
+     * Zadania,
+     */
+    typedef enum _task {
+        IDLE,
+        CONNECT,
+        SET_PARAMS,
+        SET_POSITION,
+        SET_HOME,
+        DISCONNECT,
+        RESET,
+    } Task;
+
+    explicit SterownikWriter(Sterownik * device);
+    ~SterownikWriter();
+
+    bool command(Task task, const QByteArray & data);
+    void setStop();
+    void setReset();
+    Task getActTask();
+
+signals:
+    void debug(QString);
+
+protected:
+    void run();
+    void debugFun(const QString &s);
+
+private:
+    Task actTask;
     QMutex mutex;
     QWaitCondition newTask;
     QMutex mutexRun;
     bool runWorker;
     Sterownik * sd;
-    QSerialPort * m_serialPort;
-    QVector<SerialSterownik::TaskExt> futureTask;
+    QVector<QPair<Task,QByteArray>> futureTask;
 };
+
 
 class Sterownik : public QObject
 {
     Q_OBJECT
 public:
-    explicit Sterownik(QObject *parent = nullptr);
+    explicit Sterownik(Ustawienia  *u, QObject *parent = nullptr);
     ~Sterownik();
 
     typedef enum _statusConn {
         NO_FOUND,
         FOUND,
-        TO_MANY_FOUND,
         NO_OPEN,
         OPEN,
         NO_READ,
         IDENT_FAILD,
         IDENT_OK,
+        PARAMS_FAILD,
+        PARAMS_OK,
         ALL_OK,
         CLOSE,
     } StateConn;
 
-    typedef enum _kindValue {
-        VOLTAGE_SET,
-        CURRENT_SET,
-        VOLTAGE_LIMIT,
-        CURRENT_LIMIT,
-        VOLTAGE_MEAS,
-        CURRENT_MEAS,
-        OUTPUT
-    } KindValueType;
-
-
-    void setThread(QThread * trh);
-    void connectToDevice();
+    void setThread(QThread * thrW, QThread *thrR);
     void closeDevice(bool waitForDone);
+    void connectToDevice();
+    void setParams();
+    void setPositionSilnik(int silnik, bool home, uint32_t steps = 0);
+    void setReset();
 
 protected:
 
     bool connected();
     void setConnected(bool connected);
     void setStop();
-signals:
 
+signals:
     void error(QString s);
     void debug(QString d);
+    void setParamsDone(int address, bool success, bool silnik);
     void kontrolerConfigured(bool success, int state);
     void deviceName(QString name);
-
-
+    void setPositionDone(bool home, bool success, unsigned int steps);
 
 protected:
     /********************************** INNE FUNKCJE *************************/
-
-
     void debugFun(const QString & fun);
 
     /*********************  JOBY ******************************************/
 protected:
-    friend class SerialWorkerSter2;
+    friend class SterownikWriter;
+    friend class SterownikReader;
 
     /************************ JOBY **********************************/
 
     void connectToSerialJob();
     void closeDeviceJob();
-    void checkIdentJob(const SerialSterownik::TaskExt & actTask);
 
     /***************************** Inne funkcje zwiazane z wiadaomosciamia ********************/
 
-
+   bool openDevice();
+   bool configureDevice(bool wlcmmsg);
+   bool write(const QByteArray & req, int currentWaitWriteTimeout);
+   QByteArray read(int currentWaitWriteTimeout);
+   SerialMessage parseMessage(QByteArray &reply);
 
 
 private:
     /* Ustawienia obiektu */
+    QString m_portName;
+    int m_portNr;
     QMutex connMutex;
     bool m_connected;
-    SerialWorkerSter2 m_worker;
+    SterownikWriter m_writer;
+    SterownikReader m_reader;
+    bool emitSignal;
+    Ustawienia * ust;
 
-    QTimer readMeas;
-    short cntTimeout;
+#ifdef SERIALLINUX
+    QSerialPort * m_serialPort;
+#endif
+
+    short m_silnik;
+    unsigned int m_steps;
 };
 
 
-#endif // ZASILACZ_H
 
-
+#endif // STEROWNIK_H
