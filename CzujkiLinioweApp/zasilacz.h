@@ -77,8 +77,9 @@ public:
 
     void closeDeviceJob();
 
-    QByteArray write(const QByteArray & req, int currentWaitWriteTimeout, int currentReadWaitTimeout,
-                     bool waitForRead, bool emitError = true);
+    QByteArray write(const QByteArray & req, int currentWaitWriteTimeout,
+                     int currentReadWaitTimeout, bool waitForRead,
+                     bool emitError = true);
 
     SerialZasilacz::TaskId getActTaskId();
 

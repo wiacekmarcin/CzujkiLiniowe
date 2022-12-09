@@ -1,5 +1,5 @@
-#ifndef SERIALDEVICE_H
-#define SERIALDEVICE_H
+#ifndef STEROWNIK_H
+#define STEROWNIK_H
 
 #include <QThread>
 #include <QMutex>
@@ -14,15 +14,15 @@
 
 #define SERIALLINUX
 
-class SerialDevice;
+class Sterownik;
 class QThread;
 
-class SerialWorkerReader : public QThread
+class SterownikWorkerReader : public QThread
 {
     Q_OBJECT
 public:
-    explicit SerialWorkerReader(SerialDevice * device);
-    ~SerialWorkerReader();
+    explicit SterownikWorkerReader(Sterownik * device);
+    ~SterownikWorkerReader();
 
     /**
      * @brief setStop
@@ -48,31 +48,15 @@ private:
 
     QMutex mutexRun;
     bool runWorker;
-    SerialDevice * sd;
+    Sterownik * sd;
 };
 
-
-
-/**
- * @brief The SerialWorker class
- * Klasa wątku w którym chodzi sterowanie dozownikime
- * Normalnie wątek jest zawieszony do czasu podania i
- * intrukcji za pomocą funkcji command.
- * @param actTask - aktualne wykonywane zadanie, na IDLE - wątek "wisi"
- * @param mutex - ustawianie zadania chronione mutexem
- * @param newTask - zmienna informujaca, że jest nowe zadanie
- * @param sd - pointer to device
- */
-class SerialWorkerWriter : public QThread
+class SterownikWorkerWriter : public QThread
 {
     Q_OBJECT
 public:
     /**
      * Zadania,
-     * IDLE -nic nierób, CONNECT - staraj się połączyć z urządzeniem, CONFIGURE - skonfiguruj urządzenie,
-     * RESET - resetuj sterownik silników, SET_PARAMS - ustaw parametry sterownika silników,
-     * SET_POSITION - ustaw konkretną pozycję dozownika, SET_HOME - ustaw dozownik w pozycji bazowej,
-     * SET_ROLETA - ustaw rolete, SET_ROLETA_HOME - zjedz roleta w dol
      */
     typedef enum _task {
         IDLE,
@@ -81,12 +65,11 @@ public:
         SET_POSITION,
         SET_HOME,
         DISCONNECT,
-        MULTI_CMD,
         RESET,
     } Task;
 
-    explicit SerialWorkerWriter(SerialDevice * device);
-    ~SerialWorkerWriter();
+    explicit SterownikWorkerWriter(Sterownik * device);
+    ~SterownikWorkerWriter();
 
     /**
      * @brief command
@@ -129,13 +112,13 @@ private:
     QWaitCondition newTask;
     QMutex mutexRun;
     bool runWorker;
-    SerialDevice * sd;
+    Sterownik * sd;
     QVector<QPair<Task,QByteArray>> futureTask;
 };
 
 
 /**
- * @brief The SerialDevice class
+ * @brief The Sterownik class
  * Klasa urzadzenia szeregowego, jest odpowiedzialna za sterowanie dozownikiem
  * @param m_portName - nazwa portu szeregowego
  * @param m_portNr - numer portu szeregowego na windowsie np 7 (czyli COM7)
@@ -146,12 +129,12 @@ private:
  * @param m_maxStep - maksymalna ilosc krokow (R - rolety)
  * @param m_worker - obiekt który realizuje komunikację w wątku
  */
-class SerialDevice : public QObject
+class Sterownik : public QObject
 {
     Q_OBJECT
 public:
-    explicit SerialDevice(Ustawienia  *u, QObject *parent = nullptr);
-    ~SerialDevice();
+    explicit Sterownik(Ustawienia  *u, QObject *parent = nullptr);
+    ~Sterownik();
 
     typedef enum _statusConn {
         NO_FOUND,
@@ -284,8 +267,8 @@ protected:
 
     /*********************  JOBY ******************************************/
 protected:
-    friend class SerialWorkerWriter;
-    friend class SerialWorkerReader;
+    friend class SterownikWorkerWriter;
+    friend class SterownikWorkerReader;
 
     /************************ JOBY **********************************/
 
@@ -340,8 +323,8 @@ private:
     int m_portNr;
     QMutex connMutex;
     bool m_connected;
-    SerialWorkerWriter m_writer;
-    SerialWorkerReader m_reader;
+    SterownikWorkerWriter m_writer;
+    SterownikWorkerReader m_reader;
     bool emitSignal;
     Ustawienia * ust;
 
@@ -355,4 +338,4 @@ private:
 
 
 
-#endif // SERIALDEVICE_H
+#endif // STEROWNIK_H

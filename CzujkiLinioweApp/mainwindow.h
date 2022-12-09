@@ -6,7 +6,7 @@
 #include "parametrybadania.h"
 #include "debugdialog.h"
 #include "ustawienia.h"
-#include "serialdevice.h"
+#include "sterownik.h"
 #include "zasilacz.h"
 #include <QThread>
 
@@ -68,6 +68,7 @@ private:
     Ustawienia u;
     ParametryBadania b;
     SerialDevice * sd;
+    Sterownik * sd;
     QThread sdThreadW;
     QThread sdThreadR;
     DebugDialog * dbgDlg;

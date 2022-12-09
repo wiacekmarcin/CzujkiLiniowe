@@ -27,7 +27,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    sd = new SerialDevice(&u, this);
+    sd = new Sterownik(&u, this);
     sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
@@ -49,6 +49,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &SerialDevice::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
     connect(sd, &SerialDevice::deviceName, this, &MainWindow::sd_deviceName);
     connect(sd, &SerialDevice::setPositionDone, this, &MainWindow::sd_setPositionDone);
+    connect(sd, &Sterownik::error, this, &MainWindow::sd_error);
+    connect(sd, &Sterownik::debug, this, &MainWindow::sd_debug);
+    connect(sd, &Sterownik::setParamsDone, this, &MainWindow::sd_setParamsDone);
+    connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::sd_kontrolerConfigured);
+    connect(sd, &Sterownik::deviceName, this, &MainWindow::sd_deviceName);
+    connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
 
 
 
@@ -115,30 +121,30 @@ void MainWindow::sd_kontrolerConfigured(bool success, int state)
 {
 
     switch(state) {
-    case SerialDevice::NO_FOUND:
+    case Sterownik::NO_FOUND:
 
         break;
-    case SerialDevice::FOUND:
+    case Sterownik::FOUND:
 
         break;
-    case SerialDevice::NO_OPEN:
-    case SerialDevice::NO_READ:
-    case SerialDevice::IDENT_FAILD:
+    case Sterownik::NO_OPEN:
+    case Sterownik::NO_READ:
+    case Sterownik::IDENT_FAILD:
         break;
 
-    case SerialDevice::OPEN:
+    case Sterownik::OPEN:
 
         break;
-    case SerialDevice::IDENT_OK:
+    case Sterownik::IDENT_OK:
 
         break;
-    case SerialDevice::PARAMS_FAILD:
+    case Sterownik::PARAMS_FAILD:
         break;
-    case SerialDevice::PARAMS_OK:
+    case Sterownik::PARAMS_OK:
         break;
-    case SerialDevice::ALL_OK:
+    case Sterownik::ALL_OK:
         break;
-    case SerialDevice::CLOSE:
+    case Sterownik::CLOSE:
         break;
     default:
         break;

@@ -1,13 +1,15 @@
-        #include "teststerownikadlg.h"
+#include "teststerownikadlg.h"
 #include "ui_teststerownikadlg.h"
 #include "ustawienia.h"
 #include "serialdevice.h"
-#define SETCONF(N) /*ui->base##N->setText(u->getBaseStepsSilnik##N());*/ \
-                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
-                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
+#include "sterownik.h"
+
+#define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscKrokowBaza##N())); \
+                   ui->delay##N->setText(QString::number(u->getMotorOpoznienieImp##N())); \
+                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscKrokow##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
-                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
-                   /*ui->enable##N->setChecked(u->getEnableSilnik##N());*/
+                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenie##N())); \
+                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscKrokowSrodek##N()));
 
 #define SETCONF_ALL SETCONF(1) \
                     SETCONF(2) \
@@ -19,7 +21,7 @@
                     SETCONF(8) \
                     SETCONF(9)
 
-TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, SerialDevice *sdv, QWidget *parent) :
+TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestSterownikaDlg),
     u(ust),
@@ -34,12 +36,12 @@ TestSterownikaDlg::~TestSterownikaDlg()
     delete ui;
 }
 
-#define WRITECONF(N) /*u->setBaseStepsSilnik##N(ui->base##N->text()); */\
-                     u->setMotorCzasMiedzyImp##N(ui->delay##N->text()); \
-                     u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
+#define WRITECONF(N) u->setMotorIloscKrokowBaza##N(ui->base##N->text()); \
+                     u->setMotorOpoznienieImp##N(ui->delay##N->text()); \
+                     u->setMotorMaksIloscKrokow##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
-                     u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
-                     /*u.setEnableSilnik##N(ui->enable##N->isChecked());*/
+                     u->setMotorPrzelozenie##N(ui->ratio##N->text()); \
+                     u->setMotorIloscKrokowSrodek##N(ui->srodekKroki##N->text());
 
 #define WRITECONF_ALL WRITECONF(1) \
                       WRITECONF(2) \
@@ -65,7 +67,7 @@ void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
 {
     //ui->textBrowser->insertPlainText(QString("success=%1, state=%2").arg(success).arg(state));
     switch(state) {
-    case SerialDevice::NO_FOUND:
+    case Sterownik::NO_FOUND:
         ui->rbFound->setEnabled(false);
         ui->rbFound->setChecked(false);
         ui->rbAuth->setEnabled(false);
@@ -74,43 +76,43 @@ void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
         ui->pbConnect->setEnabled(true);
         ui->pbDisconnect->setEnabled(false);
         break;
-    case SerialDevice::FOUND:
+    case Sterownik::FOUND:
         ui->rbFound->setChecked(true);
         ui->rbAuth->setEnabled(true);
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(false);
         break;
-    case SerialDevice::NO_OPEN:
-    case SerialDevice::NO_READ:
-    case SerialDevice::IDENT_FAILD:
+    case Sterownik::NO_OPEN:
+    case Sterownik::NO_READ:
+    case Sterownik::IDENT_FAILD:
         ui->pbConnect->setEnabled(true);
         ui->pbDisconnect->setEnabled(false);
         break;
-    case SerialDevice::OPEN:
+    case Sterownik::OPEN:
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
         break;
-    case SerialDevice::IDENT_OK:
+    case Sterownik::IDENT_OK:
         ui->rbAuth->setChecked(true);
         ui->rbConf_2->setEnabled(true);
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
         break;
-    case SerialDevice::PARAMS_FAILD:
+    case Sterownik::PARAMS_FAILD:
         ui->pbConnect->setEnabled(true);
         ui->pbDisconnect->setEnabled(false);
         break;
-    case SerialDevice::PARAMS_OK:
+    case Sterownik::PARAMS_OK:
         ui->rbConf_2->setChecked(true);
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
         break;
-    case SerialDevice::ALL_OK:
+    case Sterownik::ALL_OK:
         ui->frame_3->setEnabled(true);
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
         break;
-    case SerialDevice::CLOSE:
+    case Sterownik::CLOSE:
         ui->rbFound->setChecked(false);
         ui->rbAuth->setEnabled(false);
         ui->rbAuth->setChecked(false);

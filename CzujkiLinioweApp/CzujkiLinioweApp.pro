@@ -33,7 +33,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     parametrykalibracyjnedlg.cpp \
-    serialdevice.cpp \
+    sterownik.cpp \
     serialmessage.cpp \
     sterownikustawieniawidget.cpp \
     testzasilaczadlg.cpp \
@@ -68,7 +68,7 @@ HEADERS += \
     debugdialog.h \
     mainwindow.h \
     parametrykalibracyjnedlg.h \
-    serialdevice.h \
+    sterownik.h \
     serialmessage.h \
     sterownikustawieniawidget.h \
     testzasilaczadlg.h \
