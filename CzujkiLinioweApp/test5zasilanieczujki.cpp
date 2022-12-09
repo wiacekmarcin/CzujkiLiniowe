@@ -18,7 +18,7 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(const ParametryBadania &badanie, cons
     if (badanie.getZasCzujekWbudZasilacz()) {
         ui->info->setText("Czujka została zasilona. Należy ustawić maksymalną czułość na czujce.");
         ui->rodzajZasilania->setText("Zasilacz");
-        ui->napiecieUst->setText(QString::number(badanie.getZasCzujekWbudZasilacz()/1000.0, 'f', 3)+QString(" V"));
+        ui->napiecieUst->setText(QString::number(badanie.getNapiecieZasCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
         ui->napiecieMierz->setText("0.000");
         ui->pradMierz->setText("0.000");
         ui->lTypCentrali->setEnabled(false);

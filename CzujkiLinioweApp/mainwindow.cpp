@@ -291,7 +291,7 @@ void MainWindow::on_actionStartTestu_triggered()
     }
     short idTest = dlg1->getWyborTestu();
     delete dlg1;
-    ui->centralwidget->startBadanie(idTest, b, zas);
+    ui->centralwidget->startBadanie(idTest, b, u, zas);
 
 }
 

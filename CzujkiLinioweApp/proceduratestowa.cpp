@@ -23,7 +23,8 @@ ProceduraTestowa::~ProceduraTestowa()
 
 }
 
-void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b, Zasilacz * zas_)
+void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
+                                    const Ustawienia & ust, Zasilacz * zas_)
 {
     zas = zas_;
 
@@ -44,7 +45,7 @@ void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     //dodac okno o sprawdzaniu polaczenie ze sterownikiem
     switch(id) {
     case 0:
-        Odtwarzalnosc(id, nameTest, b);
+        Odtwarzalnosc(id, nameTest, b, ust);
         break;
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
@@ -54,7 +55,7 @@ void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
 
 }
 
-void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const ParametryBadania & b)
+void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const ParametryBadania & b, const Ustawienia & ust)
 {
     DaneTestu noweBadanie;
     noweBadanie.setId(id);
@@ -68,13 +69,15 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
         }
         delete dlg1;
 
-        Test2Potwierdzenie *dlg2 = new Test2Potwierdzenie(b, noweBadanie, parent);
-        if (!dlg2->exec()) {
+        if (nCz == 0) {
+            Test2Potwierdzenie *dlg2 = new Test2Potwierdzenie(b, noweBadanie, parent);
+            if (!dlg2->exec()) {
+                delete dlg2;
+                return ;
+            }
             delete dlg2;
-            return ;
         }
-        delete dlg2;
-#ifdef DEFVAL
+#if 0
         Test3Sprawdzenie *dlg3 = new Test3Sprawdzenie(b, noweBadanie, parent);
         if (!dlg3->exec()) {
             delete dlg3;
@@ -112,7 +115,7 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
         dlg6->exec();
         delete dlg6;
 
-        Test7Badanie *dlg7 = new Test7Badanie(b, noweBadanie, parent);
+        Test7Badanie *dlg7 = new Test7Badanie(b, noweBadanie, ust, parent);
         dlg7->exec();
         delete dlg7;
 

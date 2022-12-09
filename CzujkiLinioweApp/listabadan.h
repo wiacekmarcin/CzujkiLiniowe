@@ -6,6 +6,7 @@
 #include "parametrybadania.h"
 #include "danetestu.h"
 #include "proceduratestowa.h"
+#include "ustawienia.h"
 
 class Zasilacz;
 
@@ -20,7 +21,7 @@ class ListaBadan : public QWidget
 public:
     explicit ListaBadan(QWidget *parent = nullptr);
     ~ListaBadan();
-    void startBadanie(short id, const ParametryBadania & badanie, Zasilacz *zas);
+    void startBadanie(short id, const ParametryBadania & badanie, const Ustawienia &ust, Zasilacz *zas);
 
 private:
     Ui::ListaBadan *ui;
