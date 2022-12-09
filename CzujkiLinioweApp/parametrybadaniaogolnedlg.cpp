@@ -117,7 +117,7 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
 
     if (ui->rbInsideSupply->isChecked()) {
         badanie->setZasCzujekWbudZasilacz(true);
-        badanie->setNapiecieZasCzujki_mV(1000*ui->napiecieZasilaniain->text().toInt());
+        badanie->setNapiecieZasCzujki_mV(1000*ui->napiecieZasilaniain->text().toDouble());
     } else {
         badanie->setZasCzujekWbudZasilacz(false);
         badanie->setTypCentraliSygnPoz(ui->typCentraliSygnalizacji->text());

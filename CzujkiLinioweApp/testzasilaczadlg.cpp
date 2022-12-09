@@ -177,10 +177,10 @@ void TestZasilaczaDlg::on_tbSave_clicked()
     ui->leVoltSet->setVisible(false);
 
 
-    z->setCurrent(ui->leCurrSet->text().toFloat()*1000);
-    z->setVoltage(ui->leVoltSet->text().toFloat()*1000);
-    z->setCurrentLimit(ui->leCurrLim->text().toFloat()*1000);
-    z->setVoltageLimit(ui->leVoltLim->text().toFloat()*1000);
+    z->setCurrent_mA(ui->leCurrSet->text().toFloat()*1000);
+    z->setVoltage_mV(ui->leVoltSet->text().toFloat()*1000);
+    z->setCurrentLimit_mA(ui->leCurrLim->text().toFloat()*1000);
+    z->setVoltageLimit_mV(ui->leVoltLim->text().toFloat()*1000);
 }
 
 

@@ -155,10 +155,10 @@ public:
 
     void setThread(QThread * trh);
     void connectToDevice();
-    void setVoltage(const int & mvalue);
-    void setCurrent(const int & mvalue);
-    void setVoltageLimit(const int & mvalue);
-    void setCurrentLimit(const int & mvalue);
+    void setVoltage_mV(const int & mvalue);
+    void setCurrent_mA(const int & mvalue);
+    void setVoltageLimit_mV(const int & mvalue);
+    void setCurrentLimit_mA(const int & mvalue);
     void getVoltage();
     void getCurrent();
     void getVoltageLimit();

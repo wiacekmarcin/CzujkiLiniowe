@@ -4,7 +4,7 @@
 #include <QDate>
 #include <QTime>
 #include <QMessageBox>
-#define DEFVAL
+
 
 #define SETREADONLY(w) w->setReadOnly(true);
 

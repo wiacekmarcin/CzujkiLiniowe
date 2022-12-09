@@ -6,11 +6,12 @@ CONFIG += c++17
 
 # You can make your code fail to compile if it uses deprecated APIs.
 # In order to do so, uncomment the following line.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
+DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
+DEFINES += DEFVAL
 SOURCES += \
     danetestu.cpp \
     listabadan.cpp \
+    oczekiwanienaurzadzenia.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -22,6 +23,8 @@ SOURCES += \
     test2potwierdzenie.cpp \
     test3sprawdzenie.cpp \
     test4montaz.cpp \
+    test6stabilizacjaczujki.cpp \
+    test7badanie.cpp \
     teststanowiskadlg.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
@@ -39,13 +42,12 @@ SOURCES += \
     ustawienia_gen.cpp \
     ustawieniafiltrow.cpp \
     ustawienianapedow.cpp \
-    test5zasilanieczujki.cpp \
-    test6polaczeniesterownika.cpp \
-    test7stabilizacjaczujki.cpp
+    test5zasilanieczujki.cpp
 
 HEADERS += \
     danetestu.h \
     listabadan.h \
+    oczekiwanienaurzadzenia.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -57,6 +59,8 @@ HEADERS += \
     test2potwierdzenie.h \
     test3sprawdzenie.h \
     test4montaz.h \
+    test6stabilizacjaczujki.h \
+    test7badanie.h \
     teststanowiskadlg.h \
     wybortestu.h \
     zasilacz.h \
@@ -73,14 +77,13 @@ HEADERS += \
     ustawienia_gen.h \
     ustawieniafiltrow.h \
     ustawienianapedow.h \
-    test5zasilanieczujki.h \
-    test6polaczeniesterownika.h \
-    test7stabilizacjaczujki.h
+    test5zasilanieczujki.h
 
 FORMS += \
     debugdialog.ui \
     listabadan.ui \
     mainwindow.ui \
+    oczekiwanienaurzadzenia.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \
@@ -90,15 +93,15 @@ FORMS += \
     test2potwierdzenie.ui \
     test3sprawdzenie.ui \
     test4montaz.ui \
+    test6stabilizacjaczujki.ui \
+    test7badanie.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \
     ustawienianapedow.ui \
     wybortestu.ui \
-    test5zasilanieczujki.ui \
-    test6polaczeniesterownika.ui \
-    test7stabilizacjaczujki.ui
+    test5zasilanieczujki.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts

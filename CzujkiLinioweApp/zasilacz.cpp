@@ -108,7 +108,8 @@ void SerialWorkerZas::run()
             break;
 
         case SerialZasilacz::CONNECT:
-            connectToSerialJob();
+            if (!connectToSerialJob())
+                futureTask.clear();
             break;
 
         case SerialZasilacz::GET_VOLTAGE:
@@ -474,7 +475,7 @@ void Zasilacz::setThread(QThread *trh)
     m_worker.command(SerialZasilacz::IDLE, QByteArray(), false);
 }
 
-void Zasilacz::setVoltage(const int &mvalue)
+void Zasilacz::setVoltage_mV(const int &mvalue)
 {
     QByteArray cmd("VOLT ", 5);
     cmd += convertFloatValue(mvalue, 30000);
@@ -484,7 +485,7 @@ void Zasilacz::setVoltage(const int &mvalue)
     m_worker.command(SerialZasilacz::SET_VOLTAGE, cmd, false);
 }
 
-void Zasilacz::setCurrent(const int &mvalue)
+void Zasilacz::setCurrent_mA(const int &mvalue)
 {
     QByteArray cmd("CURR ", 5);
     cmd += convertFloatValue(mvalue, 5000);
@@ -494,7 +495,7 @@ void Zasilacz::setCurrent(const int &mvalue)
     m_worker.command(SerialZasilacz::SET_CURRENT, cmd, false);
 }
 
-void Zasilacz::setVoltageLimit(const int &mvalue)
+void Zasilacz::setVoltageLimit_mV(const int &mvalue)
 {
     QByteArray cmd("VOLT:LIM ", 9);
     cmd += convertFloatValue(mvalue, 31000);
@@ -504,7 +505,7 @@ void Zasilacz::setVoltageLimit(const int &mvalue)
     m_worker.command(SerialZasilacz::SET_VOLTAGE_LIMIT, cmd, false);
 }
 
-void Zasilacz::setCurrentLimit(const int &mvalue)
+void Zasilacz::setCurrentLimit_mA(const int &mvalue)
 {
     QByteArray cmd("CURR:LIM ", 9);
     cmd += convertFloatValue(mvalue, 5100);

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test6PolaczenieSterownika</class>
- <widget class="QDialog" name="Test6PolaczenieSterownika">
+ <class>Test6StabilizacjaCzujki</class>
+ <widget class="QDialog" name="Test6StabilizacjaCzujki">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -42,7 +42,7 @@
        <number>5</number>
       </property>
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="head">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -51,12 +51,12 @@
         </property>
         <property name="font">
          <font>
-          <pointsize>17</pointsize>
+          <pointsize>16</pointsize>
           <bold>true</bold>
          </font>
         </property>
         <property name="text">
-         <string>Parametry testu - sprawdzenie </string>
+         <string>Test - oczekiwanie na stabilizację czujki</string>
         </property>
        </widget>
       </item>
@@ -64,7 +64,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="eTestName">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -79,7 +79,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="testName">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -92,14 +92,27 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_6">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+   <item>
+    <widget class="QLabel" name="lczas">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
       </font>
      </property>
      <property name="text">
-      <string>Należy włączyć zasilanie skrzynki</string>
+      <string>Czas stabilizacji czujki</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -107,14 +120,18 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="czas">
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>48</pointsize>
+       <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string>Trwa oczekiwanie na połączenie ze sterownikiem.</string>
+      <string>00:00</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -122,14 +139,9 @@
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label_5">
-     <property name="font">
-      <font>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Trwa resetowanie urządzenia</string>
+    <widget class="QProgressBar" name="progressBar">
+     <property name="value">
+      <number>0</number>
      </property>
     </widget>
    </item>

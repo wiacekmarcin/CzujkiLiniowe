@@ -15,7 +15,10 @@ class Test5ZasilanieCzujki : public QDialog
 public:
     explicit Test5ZasilanieCzujki(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent = 0);
     ~Test5ZasilanieCzujki();
-
+    void setCurrent_mA(int mA);
+    void setVolage_mV(int mV);
+public slots:
+    void value(int kind, int value);
 protected:
     void pbCancel_clicked();
 private:
