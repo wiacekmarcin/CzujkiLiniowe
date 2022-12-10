@@ -77,7 +77,7 @@ void setup (void)
     digitalWrite(resetPin, LOW);
     delay(50);
     digitalWrite(resetPin, HIGH);
-    Serial.begin(115200);
+    Serial3.begin(115200);
 #ifdef DEBUG    
     Serial1.begin(115200);
 #endif  
@@ -100,8 +100,6 @@ void setup (void)
     
 
     for (uint8_t p = 0; p < maxNumSter; ++p) {
-        if (p+1 != 9)
-            continue;
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
         pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
@@ -111,13 +109,18 @@ void setup (void)
     }
 
    
-    //delay(1000);
+    delay(1500);
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        bitClear(activeBusy, n);
+        bitClear(acceptBusy, n); // send ma nie zglaszac busy bo inaczej sie zapetlimy
+        motors[n].sendReplyMsg();
+    }
+
 
     //Timer1.initialize((unsigned long) 500000000);
     //Timer1.attachInterrupt(timerHandler);
 
 
-    delay(100);
     
 }  // end of setup
 
@@ -142,7 +145,7 @@ void loop (void)
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
                 bitClear(activeBusy, n);
-                bitClear(acceptBusy, n);
+                bitClear(acceptBusy, n); // send ma nie zglaszac busy bo inaczej sie zapetlimy
                 motors[n].sendReplyMsg();
             }
         }
@@ -152,11 +155,6 @@ void loop (void)
         checkProgress = false;
         Serial1.println(" Send ECHO/PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
-            if (n+1 != 9) {
-                //motors[n].sendEchoMsg();
-                continue;
-            }
-            
             motors[n].sendProgressMsg();
         }
     }
@@ -174,21 +172,13 @@ void loop (void)
 
 void readSerial()
 {
-    if (Serial.available())  {
-        int c = Serial.read();
+    if (Serial3.available())  {
+        int c = Serial3.read();
         if (msg.check(c)) {
             actWork = msg.getStatusWork();
             return;
         }
     }
-}
-
-void configurationLocal()
-{
-#ifdef DEBUG
-    Serial1.println("Configuration Local");
-#endif        
-
 }
 
 void welcomeMsg()
@@ -201,6 +191,19 @@ void welcomeMsg()
     return;
 }
 
+void configurationLocal()
+{
+#ifdef DEBUG
+    Serial1.println("Configuration Local and send configuration");
+#endif            
+    msg.sendConfigLocalDoneMsg();
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        motors[n].sendConfiguration(true);
+        delayMicroseconds(100);
+    }
+    actWork = MessageSerial::NOP;
+}
+
 void configuration()
 {
 #ifdef DEBUG
@@ -208,7 +211,10 @@ void configuration()
 #endif  
     uint8_t motor = msg.getAddress()-1;
     motors[motor].setConfiguration(msg.msg(), msg.len());
-    motors[motor].sendConfiguration(true);
+#ifdef DEBUG
+    Serial1.print("Motor=");Serial1.print(motor);Serial1.print("isConn=");Serial1.println(motors[motor].isConnected());
+#endif  
+    msg.sendConfigDoneMsg(motor+1, motors[motor].isConnected());
     actWork = MessageSerial::NOP;
 }
 

@@ -32,7 +32,7 @@ protected slots:
 
 
 protected:
-    void pbHome_clicked(int silnik);
+    void pbHome_clicked(int silnik, const QString &impTime);
     void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio);
 
 private:

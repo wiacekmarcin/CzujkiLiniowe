@@ -42,7 +42,8 @@ class MessageSerial
     void reset();
 
     void sendWelcomeMsg();
-    void sendConfigDoneMsg(uint8_t addr);
+    void sendConfigDoneMsg(uint8_t addr, bool sucess);
+    void sendConfigLocalDoneMsg();
     void sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/);
 
     uint8_t getAddress() { return address ; }

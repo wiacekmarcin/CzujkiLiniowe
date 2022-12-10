@@ -36,14 +36,16 @@ void SterownikReader::run()
     QByteArray receiveData;
     do
     {
-        QByteArray responseData = sd->read(1000);
-        DEBUGSER(QString("[RECV] %1").arg(responseData.toHex(' ').data()));
-        receiveData.push_back(responseData);
-        sd->parseMessage(receiveData);
-
         mutexRun.lock();
         quit = !runWorker;
         mutexRun.unlock();
+
+        QByteArray responseData = sd->read(1000);
+        if (responseData.size() == 0)
+            continue;
+        DEBUGSER(QString("[RECV] %1").arg(responseData.toHex(' ').data()));
+        receiveData.push_back(responseData);
+        sd->parseMessage(receiveData);
     } while (!quit);
 }
 
@@ -112,6 +114,11 @@ void SterownikWriter::setReset()
     futureTask.clear();
 }
 
+void SterownikWriter::setStart()
+{
+    runWorker = true;
+}
+
 void SterownikWriter::run()
 {
     mutex.lock();
@@ -119,11 +126,12 @@ void SterownikWriter::run()
     QByteArray msg;
     mutex.unlock();
     bool quit = false;
-    DEBUGSER(QString("actTask = %1").arg(actTask));
+
     do {
         mutex.lock();
         if (futureTask.size() == 0) {
             actTask = IDLE;
+            DEBUGSER(QString("No Task"));
             newTask.wait(&mutex);
         } else {
             actTask = futureTask.front().first;
@@ -132,7 +140,7 @@ void SterownikWriter::run()
         }
         zadanie = actTask;
         mutex.unlock();
-
+        DEBUGSER(QString("actTask = %1").arg(zadanie));
         switch(zadanie) {
         case IDLE:
             break;

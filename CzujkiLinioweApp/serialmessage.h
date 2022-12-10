@@ -62,10 +62,7 @@ public:
         MOVEHOME_REPLY,
         POSITION_REPLY,
         RESET_REPLY,
-        CONF_INT_REPLY,
-        MEASURENT_REPLY,
         CONF_MEGA_REPLY,
-        MULTIMETR_REPLY
     } ParseReply;
 
     /**
@@ -75,14 +72,14 @@ public:
     static QByteArray welcomeMsg();
 
 
-    static QByteArray configMotorMsg(short silnik, bool en, bool reverse, int maxSteps, int baseSteps, int delayStep);
+    static QByteArray configMotorMsg(short silnik, bool reverse, int maxSteps, int baseSteps, int middleStep);
     static QByteArray configKontrolerMsg();
     /**
      * @brief setPositionHome
      * @param addr - adres kontrolera 1-9 silnik
      * @return bajty reprezentujące wiadomość
      */
-    static QByteArray setPositionHome(uint8_t addr);
+    static QByteArray setPositionHome(uint8_t addr, uint32_t imp);
 
     /**
      * @brief setPosition
@@ -90,10 +87,10 @@ public:
      * @param x - pozycja w krokach do ustawienia
      * @return bajty reprezentujące wiadomość
      */
-    static QByteArray setPosition(uint8_t addr, uint32_t x);
+    static QByteArray setPosition(uint8_t addr, uint32_t x, uint32_t imp);
 
     static QByteArray resetSterownik(uint8_t addr);
-    
+
     static QByteArray setMultiCmd(const QString & cmd);
 
     /**
@@ -125,6 +122,8 @@ public:
 
     unsigned int getSteps() const;
 
+    bool getActive() const;
+
 protected:
 
     bool checkHead(QByteArray &arr, uint8_t &addr, uint8_t &options, uint8_t & cmd, uint8_t & len, QByteArray & data);
@@ -137,6 +136,7 @@ private:
 
     int silnik;
     unsigned int steps;
+    bool active;
 
 
 

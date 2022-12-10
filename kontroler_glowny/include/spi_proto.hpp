@@ -28,8 +28,10 @@ public:
     void sendEchoMsg();
     void setConfiguration(uint8_t config[], uint8_t confLen);
     void sendConfiguration(bool send2Pc);
+    bool sendConfigurationWithResponse(uint16_t activeBusy);
     void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
+    inline bool isConnected() const { return connected; }
 
 
 protected:
@@ -48,6 +50,7 @@ private:
     uint8_t confMsg[18];
     MessageSerial * msg;
     actJobType actJob;
+    bool connected;
 };
 
 #endif

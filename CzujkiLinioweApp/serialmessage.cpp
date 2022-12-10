@@ -19,21 +19,24 @@ QByteArray SerialMessage::welcomeMsg()
     return prepareMessage(WELCOME_MSG_REQ, 0, 0, NULL, 0);
 }
 
-QByteArray SerialMessage::configMotorMsg(short silnik, bool alwaysEnable, bool reverse, int maxSteps, int baseSteps, int delayStep)
+QByteArray SerialMessage::configMotorMsg(short silnik, bool reverse, int maxSteps, int baseSteps, int middleStep)
 {
     uint8_t addr = silnik & 0x0f;;
-    uint8_t opt = 0;
+    uint8_t opt = reverse ? 1 : 0;
 
     uint8_t tab[] = {
-        (uint8_t) ((alwaysEnable ? 0x02 : 0x00) | (reverse ? 0x01 : 0x00)),
         (uint8_t) ((maxSteps >> 24) & 0xff),
         (uint8_t) ((maxSteps >> 16) & 0xff),
         (uint8_t) ((maxSteps >> 8) & 0xff),
         (uint8_t) (maxSteps  & 0xff),
+        (uint8_t) ((baseSteps >> 24) & 0xff),
+        (uint8_t) ((baseSteps >> 16) & 0xff),
         (uint8_t) ((baseSteps >> 8) & 0xff),
         (uint8_t) (baseSteps  & 0xff),
-        (uint8_t) ((delayStep >> 8) & 0xff),
-        (uint8_t) (delayStep  & 0xff)
+        (uint8_t) ((middleStep >> 24) & 0xff),
+        (uint8_t) ((middleStep >> 16) & 0xff),
+        (uint8_t) ((middleStep >> 8) & 0xff),
+        (uint8_t) (middleStep  & 0xff),
     };
 
     return prepareMessage(CONF_MSG_REQ, addr, opt, tab, sizeof(tab)/sizeof(uint8_t));
@@ -44,22 +47,30 @@ QByteArray SerialMessage::configKontrolerMsg()
     return prepareMessage(CONF_MSG_REQ, 0, 0, nullptr, 0);
 }
 
-QByteArray SerialMessage::setPositionHome(uint8_t addr)
+QByteArray SerialMessage::setPositionHome(uint8_t addr, uint32_t imp)
 {
-    uint8_t tab[4] = { 0x00, 0x00, 0x00, 0x00};
-    return prepareMessage(MOVE_MSG_REQ, addr, 0x01, tab, 4);
+    uint8_t tab[8] = { 0x00, 0x00, 0x00, 0x00,
+                       (uint8_t) ((imp >> 24) & 0xff),
+                       (uint8_t) ((imp >> 16) & 0xff),
+                       (uint8_t) ((imp >> 8) & 0xff),
+                       (uint8_t) (imp & 0xff)};
+    return prepareMessage(MOVE_MSG_REQ, addr, 0x01, tab, 8);
 }
 
-QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x)
+QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t imp)
 {
-    uint8_t tab[4] = {
+    uint8_t tab[8] = {
         (uint8_t) ((x >> 24) & 0xff),
         (uint8_t) ((x >> 16) & 0xff),
         (uint8_t) ((x >> 8) & 0xff),
-        (uint8_t) (x & 0xff)
+        (uint8_t) (x & 0xff),
+        (uint8_t) ((imp >> 24) & 0xff),
+        (uint8_t) ((imp >> 16) & 0xff),
+        (uint8_t) ((imp >> 8) & 0xff),
+        (uint8_t) (imp & 0xff)
     };
 
-    return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 4);
+    return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 8);
 }
 
 QByteArray SerialMessage::setMultiCmd(const QString &cmd)
@@ -149,10 +160,12 @@ bool SerialMessage::parseCommand(QByteArray &arr)
 
     switch (cmd) {
         case ECHO_CLEAR_REP:
+            qDebug() << "ECHO_CLEAR_REP";
             return true;
 
         case WELCOME_MSG_REP:
         {
+            qDebug() << "WELCOME_MSG_REP";
             if (len != 15) {
                 return false;
             }
@@ -171,13 +184,15 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         {
             silnik = addr;
             if (silnik == 0) {
-                //mega
+                active = (options & 0x01) == 0x01;
                 m_parseReply = CONF_MEGA_REPLY;
+                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active;
                 return true;
-            } else if (silnik == 10) {
-                m_parseReply = MULTIMETR_REPLY;
-            } else
-                m_parseReply = ((options & 0x01) == 0x01) ? CONF_INT_REPLY : CONF_REPLY;
+            } else if ( silnik < 10) {
+                m_parseReply = CONF_REPLY;
+                active = (options & 0x01) == 0x01;
+            }
+            qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active;
             return true;
         }
 
@@ -188,17 +203,14 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         else
             m_parseReply = POSITION_REPLY;
         steps = getNumber(data);
+            qDebug() << "MOVE_MSG_REP addr" << addr << " options =" << options;
         return true;
         }
 
-        case MEASURENT_REP:
-        {
-            m_parseReply = MEASURENT_REPLY;
-            return true;
-        }
-        
-        default:
+        default: {
+            qDebug() << "UNKNOWN cmd=" << cmd;
             return false;
+        }
     }
 
     return false;
@@ -231,6 +243,11 @@ SerialMessage::ParseReply SerialMessage::getParseReply() const
 uint32_t SerialMessage::getNumber(const QByteArray &data)
 {
     return ((data[0] & 0xff) << 24) +  ((data[1] & 0xff) << 16) + ((data[2] & 0xff) << 8) + (data[3] & 0xff);
+}
+
+bool SerialMessage::getActive() const
+{
+    return active;
 }
 
 unsigned int SerialMessage::getSteps() const

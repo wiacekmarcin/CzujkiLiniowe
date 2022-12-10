@@ -21,7 +21,7 @@
                     SETCONF(8) \
                     SETCONF(9)
 
-#define CONN(N) connect(ui->pbHome_##N, &QPushButton::clicked, this, [this](){ this->pbHome_clicked(N); }); \
+#define CONN(N) connect(ui->pbHome_##N, &QPushButton::clicked, this, [this](){ this->pbHome_clicked(N, this->ui->delay##N->text()); }); \
                 connect(ui->pbUstawPos_##N, &QPushButton::clicked, this, [this](){ this->pbUstawPos_clicked(N, ui->posX_##N->text(), ui->ratio##N->text()); }); \
 
 
@@ -184,15 +184,34 @@ void TestSterownikaDlg::sd_error(const QString & e)
     ui->dbg2->append(e);
 }
 
-void TestSterownikaDlg::pbHome_clicked(int silnik)
+void TestSterownikaDlg::pbHome_clicked(int silnik, const QString & impTime)
 {
-    qDebug() << silnik;
+    qDebug() << silnik << " home " << impTime;
+    bool ok;
+    unsigned int val = impTime.toUInt(&ok);
+    if (!ok)
+        val = 10000;
+    sd->setPositionSilnik(silnik, true, 0, val);
 }
 
 void TestSterownikaDlg::pbHomeAll_clicked()
 {
-    for (int i=1; i<10; ++i)
-        pbHome_clicked(i);
+    for (int i=1; i<10; ++i) {
+        QLineEdit * e = nullptr;
+        switch(i) {
+            case 1: e = ui->delay1; break;
+            case 2: e = ui->delay2; break;
+            case 3: e = ui->delay3; break;
+            case 4: e = ui->delay4; break;
+            case 5: e = ui->delay5; break;
+            case 6: e = ui->delay6; break;
+            case 7: e = ui->delay7; break;
+            case 8: e = ui->delay8; break;
+            case 9: e = ui->delay9; break;
+        }
+        if (e)
+            pbHome_clicked(i, e->text());
+    }
 }
 
 void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio)

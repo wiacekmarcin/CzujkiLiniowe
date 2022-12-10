@@ -13,7 +13,7 @@ MessageSerial::MessageSerial()
 
 void MessageSerial::init() 
 {
-    Serial.begin(115200); 
+    Serial3.begin(115200); 
     reset();
 }
 
@@ -132,7 +132,7 @@ void MessageSerial::sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint
     crc.restart();
     crc.add(sendData, len+2);
     sendData[len+2] = crc.getCRC();
-    Serial.write(sendData, len+3);
+    Serial3.write(sendData, len+3);
 }
 
 bool MessageSerial::parseRozkaz()
@@ -147,7 +147,7 @@ bool MessageSerial::parseRozkaz()
 
         case ECHO_CLEAR_REQ:
         {
-            Serial.write(ECHO_CLEAR_REP);
+            Serial3.write(ECHO_CLEAR_REP);
             actWork = NOP;
             return true;
         }
@@ -199,9 +199,14 @@ void MessageSerial::sendError(const char * err)
     sendMessage(ECHO_CLEAR_REP, 0x00, 0x01, sendData, i);
 }
 
-void MessageSerial::sendConfigDoneMsg(uint8_t addr)
+void MessageSerial::sendConfigLocalDoneMsg()
 {
-    sendMessage(CONF_REP, addr, 0x00, nullptr, 0);
+    sendMessage(CONF_REP, 0, 1, nullptr, 0);
+}
+
+void MessageSerial::sendConfigDoneMsg(uint8_t addr, bool suc)
+{
+    sendMessage(CONF_REP, addr, suc ? 1 : 0, nullptr, 0);
 }
 
 void MessageSerial::copyCmd(uint8_t *tab, uint8_t len)

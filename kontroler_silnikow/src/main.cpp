@@ -8,6 +8,7 @@
 #include "crc8.hpp"
 #include "proto.hpp"
 #include "silnik.hpp"
+#include "main.h"
 
 #define BUSYPIN A0
 #define STOPPIN 3
@@ -25,17 +26,6 @@
 #define DBG1 A1
 #define DBG2 A2
 #define DBG3 A3
-
-//dx dx dx dx dx d3 d2 d1
-typedef enum _debugWorkMode
-{
-	CHECKKRANC = 0, //brak zworek
-	KATOWA = 1, //d3 pierwsza od procka
-	KOLOWA = 2, //d2 druga od procka
-	POZIOMA = 4, //d3 trzecia od procka
-	PIONOWA = 7, //wszystkie zworki
-	UNKNOWN = 8
-} DebugWorkMode;
 
 DebugWorkMode dbgWorkMode = UNKNOWN;
 
@@ -112,7 +102,8 @@ uint32_t getDelayImp(DebugWorkMode d)
 	{
 	case PIONOWA:
 		return 50;
-	case KATOWA:
+	case KATOWA_POZ:
+	case KATOWA_PION:
 		return 1000;
 	case KOLOWA:
 		return 60;
@@ -129,7 +120,8 @@ uint32_t getMaxSteps(DebugWorkMode d)
 	{
 	case PIONOWA:
 		return 250000;
-	case KATOWA:
+	case KATOWA_POZ:
+	case KATOWA_PION:
 		return 1500;
 	case KOLOWA:
 		return 32000;
@@ -209,7 +201,7 @@ void setup()
 	Timer1.attachInterrupt(motorImpulse);
 	Timer1.initialize(125000);
 
-	mot.init();
+	mot.init(dbgWorkMode);
 	msg.init();
 
 	pinMode(MISO, OUTPUT); // Sets MISO as OUTPUT (Have to Send data to Master IN
@@ -474,8 +466,10 @@ DebugWorkMode conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1)
 	{
 	case PIONOWA:
 		return PIONOWA;
-	case KATOWA:
-		return KATOWA;
+	case KATOWA_PION:
+		return KATOWA_PION;
+	case KATOWA_POZ:
+		return KATOWA_POZ;
 	case KOLOWA:
 		return KOLOWA;
 	case POZIOMA:
@@ -552,7 +546,7 @@ void debugModeFun()
 		Serial.println(debugDir);
 	}
 
-	if (false && dbgWorkMode == KATOWA && steps == middleSteps && steps > 0)
+	if (false && (dbgWorkMode == KATOWA_PION || dbgWorkMode == KATOWA_POZ) && steps == middleSteps && steps > 0)
 	{
 		Serial.print("Srodek (kroki= ");
 		Serial.print(steps);
@@ -565,7 +559,7 @@ void debugModeFun()
 	digitalWrite(PULSEPIN, LOW);
 	delayMicroseconds(impDelay);
 	++steps;
-	if (dbgWorkMode == KATOWA && steps % 50 == 0)
+	if ((dbgWorkMode == KATOWA_PION || dbgWorkMode == KATOWA_POZ)  && steps % 50 == 0)
 	{
 		Serial.print(".");
 	}
@@ -674,6 +668,7 @@ void configurationRequest(uint8_t address, Result status)
 	mot.setMaxSteps(status.data.conf.maxStep);
 	mot.setBaseSteps(status.data.conf.baseSteps);
 	mot.setMiddleSteps(status.data.conf.middleSteps);
+	mot.setConfiguration();
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = 3;
@@ -708,7 +703,7 @@ void moveRequest(uint8_t address, bool isHome, uint32_t steps, uint32_t delayImp
 	Timer1.start();
 	bool wasMove = true;
 	if (isHome)
-		wasMove = mot.moveHome();
+		wasMove = mot.moveHome((uint8_t)dbgWorkMode);
 	else
 		wasMove = mot.movePosition(steps);
 	CRC8 crc;

@@ -519,9 +519,9 @@ u.addSummFiltr(checkDoubleContent, "prc")
 
 u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
 u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
-u.addDevice("sterownikVendor", "Sterownik/Vendor", 'QString("2341")')
-u.addDevice("sterownikProduct", "Sterownik/Product", 'QString("42")')
-u.addDevice("sterownikSerial", "Sterownik/Serial", 'QString("851363038373518041D1")')
+u.addDevice("sterownikVendor", "Sterownik/Vendor", 'QString("403")')
+u.addDevice("sterownikProduct", "Sterownik/Product", 'QString("6001")')
+u.addDevice("sterownikSerial", "Sterownik/Serial", 'QString("A10KV4VU")')
 u.addDevideSummary(checkQStringContent)
 
 u.addZakresy("minNapiecieCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MinimalneNapiecie", '2.0', checkDoubleContent)

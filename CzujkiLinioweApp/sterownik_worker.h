@@ -66,6 +66,7 @@ public:
     void setReset();
     Task getActTask();
 
+    void setStart();
 signals:
     void debug(QString);
 

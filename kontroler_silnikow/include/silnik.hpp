@@ -6,11 +6,11 @@
 
 typedef enum moveState {
     IDLE,
-    HOME_NOMINAL, // pierwszy ruch do krancowki
-    HOME_BASE, // ruch o base krokow
-    HOME_MIDDLE, //ruch do srodka
+    HOME_OD_BAZY,
+    HOME_DO_BAZY,
+    HOME_W_BAZIE,
+    HOME_DO_SRODKA,
     MOVE_POS,
-    MOVE_HOME_BASE,
 } moveStateType;
 class Motor
 {
@@ -19,10 +19,10 @@ public:
     Motor();
 
     void setStop(bool hard);
-    bool moveHome();
+    bool moveHome(uint8_t mode);
     bool movePosition(uint32_t pos);
 
-    void init();
+    void init(uint8_t mode);
 
     void setReverseMotor(bool rev) { reverseMotor = rev; }
     
@@ -46,6 +46,14 @@ public:
     bool isInterrupted() const { return interrupted; }
     int32_t getStepsAll() const { return allSteps; }
     bool isBaseError() const { return baseErr; }
+
+    void setConfiguration() { setConf = true; }
+
+protected:
+    bool moveHomePionowa();
+    bool moveHomePozioma();
+    bool moveHomeKatPionowy();
+    bool moveHomeKatPoziomy();
 
 private:
 
@@ -78,7 +86,8 @@ private:
     bool baseErr;
     bool firstHome;
 
-
+    bool setConf;
+    bool homePion;
 };
 
 #endif // __SILNIK_H__

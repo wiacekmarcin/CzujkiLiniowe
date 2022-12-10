@@ -34,7 +34,6 @@ Sterownik::~Sterownik()
 void Sterownik::setThread(QThread *thrW, QThread *thrR)
 {
     m_writer.moveToThread(thrW);
-    m_writer.start();
     m_writer.command(SterownikWriter::IDLE, QByteArray());
 
     m_reader.moveToThread(thrR);
@@ -53,6 +52,9 @@ void Sterownik::connectToDevice()
     if (connected()) {
         emit kontrolerConfigured(true, ALL_OK);
     } else {
+        m_writer.setReset();
+        m_writer.setStart();
+        m_writer.start();
         m_writer.command(SterownikWriter::CONNECT, QByteArray());
     }
 }
@@ -66,17 +68,17 @@ void Sterownik::setParams()
     }
 }
 
-void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps)
+void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, unsigned int impTime)
 {
     if (!connected())
         m_writer.command(SterownikWriter::CONNECT, QByteArray());
 
     if (home)
         m_writer.command(SterownikWriter::SET_HOME,
-                         SerialMessage::setPositionHome(silnik));
+                         SerialMessage::setPositionHome(silnik, impTime));
     else
         m_writer.command(SterownikWriter::SET_POSITION,
-                         SerialMessage::setPosition(silnik,  steps));
+                         SerialMessage::setPosition(silnik,  steps, impTime));
 }
 
 bool Sterownik::configureDevice(bool wlcmmsg)
@@ -97,11 +99,11 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         emit kontrolerConfigured(false, IDENT_OK);
     }
 
-    for (short i = 1 ; i < 10; ++i) {
+    for (short i = 1 ; i <= 9; ++i) {
         QByteArray msgBA = SerialMessage::configMotorMsg(
-            i, true, ust->getMotorOdwrocObroty(i),
-            ust->getMotorMaksIloscImp(i), 0,
-            ust->getMotorCzasMiedzyImp(i));
+            i, ust->getMotorOdwrocObroty(i),
+            ust->getMotorMaksIloscImp(i), ust->getMotorIloscImpBaza(i),
+            ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
             emit kontrolerConfigured(false, PARAMS_FAILD);
@@ -116,6 +118,9 @@ bool Sterownik::configureDevice(bool wlcmmsg)
             emit kontrolerConfigured(false, PARAMS_FAILD);
             return false;
         }
+        if (!msg.getActive())
+            qDebug() << "Motor " << i << "not active";
+
     }
 
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
@@ -128,9 +133,12 @@ bool Sterownik::configureDevice(bool wlcmmsg)
     SerialMessage msg;
     msg.parseCommand(reply);
 
-    if (msg.getParseReply() != SerialMessage::CONF_REPLY && msg.isKontroler()) {
+    if (msg.getParseReply() != SerialMessage::CONF_REPLY && !msg.isKontroler()) {
         emit kontrolerConfigured(false, PARAMS_FAILD);
         return false;
+    }
+    if (!msg.getActive()) {
+        qDebug() << "Glowny kontroler nieaktywny";
     }
 
     emit kontrolerConfigured(true, PARAMS_OK);
@@ -152,7 +160,6 @@ void Sterownik::setConnected(bool connected)
 void Sterownik::closeDeviceJob()
 {
     DEBUGSER("CLOSING DEVICE");
-    //setStop();
     m_reader.setStop();
     m_writer.setStop();
 #ifdef SERIALLINUX
@@ -167,6 +174,7 @@ void Sterownik::closeDeviceJob()
 #endif
     setConnected(false);
     emit kontrolerConfigured(false, CLOSE);
+    emit deviceName("");
     DEBUGSER("CLOSE DEVICE");
 }
 
@@ -289,19 +297,26 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 {
     QByteArray responseData ;
 #ifdef SERIALLINUX
+    qDebug() << "read";
     if (m_serialPort == nullptr)
         return QByteArray();
     if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
         responseData = m_serialPort->readAll();
+        qDebug() << "R=" << responseData.size();
+        if (responseData.size() > 0) {
+            return responseData;
+        }
         while (m_serialPort->waitForReadyRead(10) && currentWaitReadTimeout > 0) {
             QByteArray r = m_serialPort->readAll();
+            qDebug() << "r=" << r.size();
             if (r.size() == 0)
                 break;
             responseData += r;
             currentWaitReadTimeout -= 10;
         }
     }
-    DEBUGSER(QString("READ %1 bytes [%2]").arg(responseData.size()).arg(responseData.toHex(' ').constData()));
+    if (responseData.size() > 0)
+        DEBUGSER(QString("READ %1 bytes [%2]").arg(responseData.size()).arg(responseData.toHex(' ').constData()));
 #else
     unsigned char recvBuffor[20];
     //int readTimeout = currentReadWaitTimeout;
@@ -367,12 +382,14 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 
 SerialMessage Sterownik::parseMessage(QByteArray &reply)
 {
+    qDebug() << __FILE__ << __LINE__ << "ParseMessage";
     SerialMessage msg;
     if (!msg.parseCommand(reply)) {
         DEBUGSER(QString("Parse Msg faild %1").arg(msg.getParseReply()));
         return msg;
     }
     DEBUGSER(QString("Parse Msg success %1").arg(msg.getParseReply()));
+
     switch(msg.getParseReply())
     {
     case SerialMessage::INVALID_REPLY:
@@ -397,10 +414,6 @@ SerialMessage Sterownik::parseMessage(QByteArray &reply)
 
     case SerialMessage::RESET_REPLY:
         break;
-
-    case SerialMessage::CONF_INT_REPLY:
-        emit setParamsDone(msg.getSilnik(), true, true);
-        break;
     }
     return msg;
 }
@@ -415,6 +428,10 @@ void Sterownik::closeDevice(bool waitForDone)
         m_writer.setReset();
         closeDeviceJob();
     }
+    emit deviceName("");
+    m_portName = "";
+    m_portNr = -1;
+    setConnected(false);
 }
 
 void Sterownik::debugFun(const QString &log)

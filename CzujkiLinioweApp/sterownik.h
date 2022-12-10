@@ -40,7 +40,7 @@ public:
     void closeDevice(bool waitForDone);
     void connectToDevice();
     void setParams();
-    void setPositionSilnik(int silnik, bool home, uint32_t steps = 0);
+    void setPositionSilnik(int silnik, bool home, uint32_t steps, uint32_t impTime);
     void setReset();
     QString getProduct();
     QString getVendor();
