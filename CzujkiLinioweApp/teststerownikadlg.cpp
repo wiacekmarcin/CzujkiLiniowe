@@ -85,11 +85,13 @@ void TestSterownikaDlg::pbSetConfiguration_clicked()
 
 void TestSterownikaDlg::sd_deviceName(QString name)
 {
+    ui->dbg3->append(QString("deviceName name=%1").arg(name));
     ui->namePort->setText(name);
 }
 
 void TestSterownikaDlg::sd_kontrolerConfigured(bool success, int state)
 {
+    ui->dbg3->append(QString("kontrolerConfigured success=%1 state=%2").arg(success).arg(state));
     switch(state) {
     case Sterownik::NO_FOUND:
         ui->rbFound->setEnabled(false);
@@ -168,12 +170,13 @@ void TestSterownikaDlg::sd_setPositionDone(bool home, bool success)
 
 void TestSterownikaDlg::pbConnect_clicked()
 {
+    ui->dbg3->append(QString("Connect vendor=%1 product=%2").arg(sd->getVendor(), sd->getProduct()));
     sd->connectToDevice();
 }
 
 void TestSterownikaDlg::sd_debug(const QString &d)
 {
-    ui->dbg1->append(d);
+    ui->dbg1->append(d.sliced(20));
 }
 
 void TestSterownikaDlg::sd_error(const QString & e)

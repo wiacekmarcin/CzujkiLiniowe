@@ -506,6 +506,8 @@ public:
 	void setSerialDeviceSterownikVendor(const QString & sterownikVendor);
 	QString getSerialDeviceSterownikProduct() const;
 	void setSerialDeviceSterownikProduct(const QString & sterownikProduct);
+	QString getSerialDeviceSterownikSerial() const;
+	void setSerialDeviceSterownikSerial(const QString & sterownikSerial);
 	int getMinNapiecieCzujki() const;
 	void setMinNapiecieCzujki(const int & minNapiecieCzujki);
 	int getMaxNapiecieCzujki() const;
@@ -688,6 +690,7 @@ private:
 	QString serialDeviceZasilaczProduct;
 	QString serialDeviceSterownikVendor;
 	QString serialDeviceSterownikProduct;
+	QString serialDeviceSterownikSerial;
 	int minNapiecieCzujki;
 	int maxNapiecieCzujki;
 	int minCzasStabCzujki;

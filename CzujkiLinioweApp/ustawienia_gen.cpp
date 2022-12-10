@@ -9,7 +9,7 @@ UstawieniaGen::UstawieniaGen() :
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
-    //load();
+    load();
 }
 
 UstawieniaGen::~UstawieniaGen()
@@ -168,6 +168,7 @@ void UstawieniaGen::load()
 	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3"))).toString();
 	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("2341"))).toString();
 	serialDeviceSterownikProduct = settings.value("Sterownik/Product", QVariant::fromValue(QString("42"))).toString();
+	serialDeviceSterownikSerial = settings.value("Sterownik/Serial", QVariant::fromValue(QString("851363038373518041D1"))).toString();
 	minNapiecieCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MinimalneNapiecie", QVariant::fromValue(2.0)).toString());
 	maxNapiecieCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MaksymalneNapiecie", QVariant::fromValue(30.0)).toString());
 	minCzasStabCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MinimalnyCzasStabilizacji", QVariant::fromValue(10)).toString());
@@ -328,6 +329,7 @@ void UstawieniaGen::save()
 	settings.setValue("Zasilacz/Product", QVariant::fromValue(serialDeviceZasilaczProduct));
 	settings.setValue("Sterownik/Vendor", QVariant::fromValue(serialDeviceSterownikVendor));
 	settings.setValue("Sterownik/Product", QVariant::fromValue(serialDeviceSterownikProduct));
+	settings.setValue("Sterownik/Serial", QVariant::fromValue(serialDeviceSterownikSerial));
 	settings.setValue("ParamentryBadania-Czujka/MinimalneNapiecie", QVariant::fromValue(minNapiecieCzujki));
 	settings.setValue("ParamentryBadania-Czujka/MaksymalneNapiecie", QVariant::fromValue(maxNapiecieCzujki));
 	settings.setValue("ParamentryBadania-Czujka/MinimalnyCzasStabilizacji", QVariant::fromValue(minCzasStabCzujki));
@@ -2529,6 +2531,17 @@ void UstawieniaGen::setSerialDeviceSterownikProduct(const QString & value)
 {
 	serialDeviceSterownikProduct = value;
 	settings.setValue("Sterownik/Product", QVariant::fromValue(value));
+}
+
+QString UstawieniaGen::getSerialDeviceSterownikSerial() const
+{
+	return serialDeviceSterownikSerial;
+}
+
+void UstawieniaGen::setSerialDeviceSterownikSerial(const QString & value)
+{
+	serialDeviceSterownikSerial = value;
+	settings.setValue("Sterownik/Serial", QVariant::fromValue(value));
 }
 
 bool UstawieniaGen::checkSerialDeviceIdentString(const QString & val) const

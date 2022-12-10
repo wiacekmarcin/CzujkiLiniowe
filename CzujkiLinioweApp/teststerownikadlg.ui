@@ -1119,9 +1119,6 @@ bazowa</string>
       <item>
        <widget class="QTextEdit" name="dbg3"/>
       </item>
-      <item>
-       <widget class="QTextEdit" name="dbg4"/>
-      </item>
      </layout>
     </widget>
    </item>

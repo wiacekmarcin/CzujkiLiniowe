@@ -18,7 +18,7 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
     m_portNr = -1;
 #ifdef SERIALLINUX
-     m_serialPort = new QSerialPort();
+     m_serialPort = nullptr;
 #endif
 
 }
@@ -28,6 +28,7 @@ Sterownik::~Sterownik()
     setStop();
     m_writer.wait();
     m_reader.wait();
+
 }
 
 void Sterownik::setThread(QThread *thrW, QThread *thrR)
@@ -155,7 +156,11 @@ void Sterownik::closeDeviceJob()
     m_reader.setStop();
     m_writer.setStop();
 #ifdef SERIALLINUX
-    m_serialPort->close();
+    if (m_serialPort) {
+        m_serialPort->close();
+        delete m_serialPort;
+        m_serialPort = nullptr;
+    }
 #else
     RS232_CloseComport(m_portNr);
     m_portNr = -1;
@@ -168,19 +173,13 @@ void Sterownik::closeDeviceJob()
 bool Sterownik::openDevice()
 {
 #ifdef SERIALLINUX
+    m_serialPort = new QSerialPort();
+    if (m_serialPort == nullptr)
+        return false;
     m_serialPort->setPort(QSerialPortInfo(m_portName));
 
     emit deviceName(m_serialPort->portName());
 
-    m_serialPort->setBaudRate(QSerialPort::Baud115200);
-    m_serialPort->setDataBits(QSerialPort::Data8);
-    m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
-    m_serialPort->setParity(QSerialPort::NoParity);
-    m_serialPort->setStopBits(QSerialPort::OneStop);
-    m_serialPort->clear();
-    m_serialPort->clearError();
-    m_serialPort->flush();
-    m_serialPort->reset();
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
         emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
                    arg(m_serialPort->errorString()));
@@ -253,6 +252,8 @@ bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTime
 {
 
 #ifdef SERIALLINUX
+    if (m_serialPort == nullptr)
+        return false;
     if (currentRequest.size() > 0) {
 
         int sendBytes = m_serialPort->write(currentRequest);
@@ -288,6 +289,8 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 {
     QByteArray responseData ;
 #ifdef SERIALLINUX
+    if (m_serialPort == nullptr)
+        return QByteArray();
     if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
         responseData = m_serialPort->readAll();
         while (m_serialPort->waitForReadyRead(10) && currentWaitReadTimeout > 0) {
@@ -425,6 +428,8 @@ void Sterownik::connectToSerialJob()
         QString description;
         QString manufacturer;
         QString serialNumber;
+        QString vendorId;
+        QString productId;
 
         QString systemLocation = "";
         bool findDevice = false;
@@ -437,13 +442,14 @@ void Sterownik::connectToSerialJob()
             description = serialPortInfo.description();
             manufacturer = serialPortInfo.manufacturer();
             serialNumber = serialPortInfo.serialNumber();
-            DEBUGSER(QString("Znaleziono : [%1] DESC ").arg(serialPortInfo.portName()) + description + QString(" MENU ") + manufacturer + QString(" SERIAL") + serialNumber);
+            vendorId = serialPortInfo.hasVendorIdentifier() ? QString::number(serialPortInfo.vendorIdentifier(), 16) : "";
+            productId = serialPortInfo.hasProductIdentifier() ? QString::number(serialPortInfo.productIdentifier(), 16) : "";
+            DEBUGSER(QString("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
+                     description, manufacturer, serialNumber, vendorId, productId));
 
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
-                auto vendorId = serialPortInfo.vendorIdentifier();
-                auto productId = serialPortInfo.productIdentifier();
-                DEBUGSER(QString("Znaleziono kandydata %1 %2").arg(vendorId).arg(productId));
-                if (vendorId == 6790 && productId == 29987 /* && serialNumber == serialNumberKontroler */) {
+                if (vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber() ) {
+                    DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     m_portName = serialPortInfo.portName();
                     emit deviceName(m_portName);
                     emit kontrolerConfigured(false, FOUND);
@@ -484,5 +490,19 @@ void Sterownik::connectToSerialJob()
     if (emitSignal) emit kontrolerConfigured(true, ALL_OK);
 }
 
+QString Sterownik::getProduct()
+{
+    return ust->getSerialDeviceSterownikProduct();
+}
+
+QString Sterownik::getVendor()
+{
+    return ust->getSerialDeviceSterownikVendor();
+}
+
+QString Sterownik::getSerialNumber()
+{
+    return ust->getSerialDeviceSterownikSerial();
+}
 
 

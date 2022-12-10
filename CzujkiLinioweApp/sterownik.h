@@ -42,7 +42,9 @@ public:
     void setParams();
     void setPositionSilnik(int silnik, bool home, uint32_t steps = 0);
     void setReset();
-
+    QString getProduct();
+    QString getVendor();
+    QString getSerialNumber();
 protected:
 
     bool connected();

@@ -18,9 +18,9 @@ Ustawienia::Ustawienia() :
 
 Ustawienia::~Ustawienia()
 {
-    save();
-    saveListUstawienFiltra();
-    sync();
+    //save();
+    //saveListUstawienFiltra();
+    //sync();
 }
 
 double Ustawienia::wyliczPredkosc(const double &ratioImpJedn, const double &impTime)
