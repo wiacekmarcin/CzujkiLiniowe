@@ -16,12 +16,13 @@ ListaBadan::~ListaBadan()
     delete ui;
 }
 
-void ListaBadan::startBadanie(short id, const ParametryBadania & badanie, const Ustawienia & ust, Zasilacz *zas)
+void ListaBadan::startBadanie(short id, const ParametryBadania & badanie, const Ustawienia & ust,
+                              Zasilacz *zas, Sterownik * ster)
 {
 
 
     QString nameTest = "Nieznane Badanie";
     if (id < lt.nazwyTestow.size())
         nameTest = lt.nazwyTestow.at(id);
-    procedura.startBadanie(id, nameTest, badanie, ust, zas);
+    procedura.startBadanie(id, nameTest, badanie, ust, zas, ster);
 }

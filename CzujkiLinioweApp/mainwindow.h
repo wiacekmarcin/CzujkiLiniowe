@@ -12,7 +12,7 @@
 
 class TestZasilaczaDlg;
 class TestSterownikaDlg;
-
+class TestStanowiskaDlg;
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -34,13 +34,14 @@ private slots:
     void ster_error(QString s);
     void ster_debug(QString d);
     void ster_setParamsDone(bool success);
-    void ster_kontrolerConfigured(bool success, int state);
+    void ster_kontrolerConfigured(int state);
     void ster_deviceName(QString name);
     void ster_setPositionDone(bool home, bool success);
+    void ster_zdarzenieSilnik(short silnik, short zdarzenie);
 
     void zas_error(QString s);
     void zas_debug(QString d);
-    void zas_configured(bool success, int state);
+    void zas_configured(int state);
     void zas_serialNo(QString s);
     void zas_deviceName(QString name);
     void zas_value(int kind, int value);
@@ -76,6 +77,7 @@ private:
 
     TestZasilaczaDlg * dlgTestZas;
     TestSterownikaDlg * dlgTestSter;
+    TestStanowiskaDlg * dlgTestStan;
 
     Zasilacz * zas;
     QThread zasThr;

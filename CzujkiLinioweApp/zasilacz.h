@@ -66,6 +66,7 @@ public:
     void closeDevice(bool waitForDone);
     QString getProduct();
     QString getVendor();
+    bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
 protected:
 
     bool connected();
@@ -79,7 +80,7 @@ signals:
 
     void error(QString s);
     void debug(QString d);
-    void kontrolerConfigured(bool success, int state);
+    void kontrolerConfigured(int state);
     void kontrolerSerialNo(QString s);
     void deviceName(QString name);
     void value(int kind, int value);

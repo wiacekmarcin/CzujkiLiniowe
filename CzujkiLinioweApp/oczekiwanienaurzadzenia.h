@@ -16,7 +16,8 @@ public:
     explicit OczekiwanieNaUrzadzenia(QWidget *parent = nullptr);
     ~OczekiwanieNaUrzadzenia();
 public slots:
-    void zasilacz(bool success, int state);
+    void zasilacz(int state);
+    void sterownik(int state);
 private slots:
     void timeout();
 private:

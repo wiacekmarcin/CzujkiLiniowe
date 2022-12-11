@@ -98,6 +98,7 @@ void setup (void)
     SPI.setClockDivider(SPI_CLOCK_DIV128);
 
     
+    delay(1500);
 
     for (uint8_t p = 0; p < maxNumSter; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
@@ -108,17 +109,17 @@ void setup (void)
         motors[p].init(p+1, ssPins[p], stopPins[p], movePins[p], busyPins[p],&msg);
     }
 
-   
-    delay(1500);
+    activeBusy = 0x0000;
+    acceptBusy = 0x01ff;
+    
     for (unsigned int n = 0; n < maxNumSter; ++n) {
-        bitClear(activeBusy, n);
-        bitClear(acceptBusy, n); // send ma nie zglaszac busy bo inaczej sie zapetlimy
-        motors[n].sendReplyMsg();
+        motors[n].sendEchoMsg();
+        delay(150);
     }
+    Serial1.println("---------------------");
 
-
-    //Timer1.initialize((unsigned long) 500000000);
-    //Timer1.attachInterrupt(timerHandler);
+    Timer1.initialize((unsigned long) 500000000);
+    Timer1.attachInterrupt(timerHandler);
 
 
     
@@ -130,7 +131,7 @@ uint8_t indexMotorReply = 0;
 
 MessageSerial::Work actWork = MessageSerial::NOP;
 bool runLoop = false;
-uint32_t loopsCnt = 500000;
+uint32_t loopsCnt = 5000000;
 uint8_t cntIsFinishCnt = 0;
 uint8_t FirstLoop = 10;
 
@@ -140,24 +141,26 @@ unsigned long prevMillis = 0;
 volatile bool sendReplyMsg = false;
 void loop (void)
 {
-
     if (activeBusy) {
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
                 bitClear(activeBusy, n);
-                bitClear(acceptBusy, n); // send ma nie zglaszac busy bo inaczej sie zapetlimy
+                bitClear(acceptBusy, n); 
                 motors[n].sendReplyMsg();
             }
         }
     }
+
 
     if (checkProgress) {
         checkProgress = false;
         Serial1.println(" Send ECHO/PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             motors[n].sendProgressMsg();
+            delay(5);
         }
     }
+    
     readSerial();
         
     switch(actWork) {
@@ -165,7 +168,8 @@ void loop (void)
     case MessageSerial::CONFIGURATION: configuration(); break; 
     case MessageSerial::CONFIGURATION_LOCAL: configurationLocal(); break; 
     case MessageSerial::MOVE_REQUEST: moveSteps(); break;
-    default: break;
+    default:
+    break;
     }
 }
 
@@ -199,7 +203,7 @@ void configurationLocal()
     msg.sendConfigLocalDoneMsg();
     for (unsigned int n = 0; n < maxNumSter; ++n) {
         motors[n].sendConfiguration(true);
-        delayMicroseconds(100);
+        delayMicroseconds(10);
     }
     actWork = MessageSerial::NOP;
 }
@@ -215,6 +219,7 @@ void configuration()
     Serial1.print("Motor=");Serial1.print(motor);Serial1.print("isConn=");Serial1.println(motors[motor].isConnected());
 #endif  
     msg.sendConfigDoneMsg(motor+1, motors[motor].isConnected());
+    delay(100);
     actWork = MessageSerial::NOP;
 }
 

@@ -1,6 +1,7 @@
 #include "oczekiwanienaurzadzenia.h"
 #include "ui_oczekiwanienaurzadzenia.h"
 #include "zasilacz.h"
+#include "sterownik.h"
 #include <QTimer>
 
 OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(QWidget *parent) :
@@ -31,7 +32,7 @@ OczekiwanieNaUrzadzenia::~OczekiwanieNaUrzadzenia()
 }
 
 #define TSTOP(ERR) ui->statusZasilacz->setText(ERR); ui->progressBarZasilacz->setValue(maxCzas)
-void OczekiwanieNaUrzadzenia::zasilacz(bool success, int state)
+void OczekiwanieNaUrzadzenia::zasilacz(int state)
 {
     switch(state) {
         case Zasilacz::NO_FOUND:
@@ -44,8 +45,14 @@ void OczekiwanieNaUrzadzenia::zasilacz(bool success, int state)
             TSTOP("Nie znane urządzenie");  break;
         case Zasilacz::CLOSE:
             TSTOP("Urządzenie zamknięte");  break;
+        case Zasilacz::IDENT_OK:
         case Zasilacz::ALL_OK:
+            TSTOP("Urządzenie gotowe");
             zasilaczOk = true; break;
+        case Zasilacz::FOUND:
+            ui->statusZasilacz->setText("Urzadzenie znalezione. Trwa łączenie..."); break;
+        case Zasilacz::OPEN:
+            ui->statusZasilacz->setText("Urzadzenie połączone. Trwa identyfikacja..."); break;
         default:
             break;
     }
@@ -63,10 +70,42 @@ void OczekiwanieNaUrzadzenia::timeout()
         timer.stop();
         QTimer::singleShot(3000, this, [this]() {this->accept();});
     }
-    if (cntTmt == maxCzas) {
+    if (cntTmt == maxCzas || (ui->progressBarSterownik->value() == maxCzas &&
+                                ui->progressBarZasilacz->value() == maxCzas)) {
         timer.stop();
         ui->frameError->setVisible(true);
         ui->errorSterownik->setVisible(!sterownikOk);
         ui->errorZasilacz->setVisible(!zasilaczOk);
+    }
+}
+
+#define TSTOPSTER(ERR) ui->statusSterownik->setText(ERR); ui->progressBarSterownik->setValue(maxCzas)
+void OczekiwanieNaUrzadzenia::sterownik(int state)
+{
+    qDebug() << "Sterownik" << state;
+    switch(state) {
+        case Sterownik::NO_FOUND:
+            TSTOPSTER("Nie znaleziono urządzenia");  break;
+        case Sterownik::NO_OPEN:
+        case Sterownik::NO_READ:
+            TSTOPSTER("Błąd w komunikacji");  break;
+        case Sterownik::IDENT_FAILD:
+            TSTOPSTER("Nie znane urządzenie");  break;
+        case Sterownik::PARAMS_FAILD:
+            TSTOPSTER("Błąd konfiguracji");  break;
+        case Sterownik::CLOSE:
+            TSTOPSTER("Urządzenie zamknięte");  break;
+        case Sterownik::PARAMS_OK:
+        case Sterownik::ALL_OK:
+            TSTOPSTER("Urządzenie gotowe");
+            sterownikOk = true; break;
+        case Sterownik::FOUND:
+            ui->statusSterownik->setText("Urządzenie znalezione. Trwa łączenie...."); break;
+        case Sterownik::OPEN:
+            ui->statusSterownik->setText("Urządzenie połączone. Trwa identyfikacja..."); break;
+        case Sterownik::IDENT_OK:
+            ui->statusSterownik->setText("Urządzenie authoryzowane. Trwa konfigruacja..."); break;
+        default:
+            break;
     }
 }

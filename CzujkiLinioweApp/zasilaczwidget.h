@@ -29,7 +29,7 @@ private slots:
 
     void errorZasilacz(QString s);
     void debugZasilacz(QString d);
-    void configuredZasilacz(bool success, int state);
+    void configuredZasilacz(int state);
     void serialNoZasilacz(QString s);
     void deviceNameZasilacz(QString name);
     void valueZasilacz(int kind, int value);

@@ -7,6 +7,7 @@
 #include "testzasilaczadlg.h"
 #include "wybortestu.h"
 #include "danetestu.h"
+#include "teststanowiskadlg.h"
 
 #include <QIcon>
 #include <QDebug>
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     , sd(nullptr)
     , dlgTestZas(nullptr)
     , dlgTestSter(nullptr)
+    , dlgTestStan(nullptr)
     , fileDaneBadania("")
 
 {
@@ -46,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     connect(sd, &Sterownik::error, this, &MainWindow::ster_error);
     connect(sd, &Sterownik::debug, this, &MainWindow::ster_debug);
-    //connect(sd, &Sterownik::setParamsDone, this, &MainWindow::sd_setParamsDone);
+    connect(sd, &Sterownik::zdarzenieSilnik, this, &MainWindow::ster_zdarzenieSilnik);
     connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::ster_kontrolerConfigured);
     connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
     //connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
@@ -116,7 +118,7 @@ void MainWindow::ster_setParamsDone(bool success)
         dlgTestSter->sd_setParamsDone(success);
 }
 
-void MainWindow::ster_kontrolerConfigured(bool success, int state)
+void MainWindow::ster_kontrolerConfigured(int state)
 {
 
     switch(state) {
@@ -137,10 +139,10 @@ void MainWindow::ster_kontrolerConfigured(bool success, int state)
     case Sterownik::IDENT_OK:
 
         break;
-    //case Sterownik::PARAMS_FAILD:
-    //    break;
-    //case Sterownik::PARAMS_OK:
-    //    break;
+    case Sterownik::PARAMS_FAILD:
+        break;
+    case Sterownik::PARAMS_OK:
+        break;
     case Sterownik::ALL_OK:
         break;
     case Sterownik::CLOSE:
@@ -150,7 +152,7 @@ void MainWindow::ster_kontrolerConfigured(bool success, int state)
     }
 
     if (dlgTestSter)
-        dlgTestSter->sd_kontrolerConfigured(success, state);
+        dlgTestSter->sd_kontrolerConfigured(state);
 }
 
 void MainWindow::ster_deviceName(QString name)
@@ -164,6 +166,12 @@ void MainWindow::ster_setPositionDone(bool home, bool success)
 {
     if (dlgTestSter)
         dlgTestSter->sd_setPositionDone(home, success);
+}
+
+void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
+{
+    if (dlgTestSter)
+        dlgTestSter->sd_setZdarzenieSilnik(silnik, zdarzenie);
 }
 
 void MainWindow::zas_error(QString s)
@@ -180,28 +188,36 @@ void MainWindow::zas_debug(QString d)
         dlgTestZas->debugZasilacz(d);
 }
 
-void MainWindow::zas_configured(bool success, int state)
+void MainWindow::zas_configured(int state)
 {
     if (dlgTestZas)
-        dlgTestZas->configuredZasilacz(success, state);
+        dlgTestZas->configuredZasilacz(state);
+    if (dlgTestStan)
+        dlgTestStan->configuredZasilacz(state);
 }
 
 void MainWindow::zas_serialNo(QString s)
 {
     if (dlgTestZas)
         dlgTestZas->serialNoZasilacz(s);
+    if (dlgTestStan)
+        dlgTestStan->serialNoZasilacz(s);
 }
 
 void MainWindow::zas_deviceName(QString name)
 {
     if (dlgTestZas)
         dlgTestZas->deviceNameZasilacz(name);
+    if (dlgTestStan)
+        dlgTestStan->deviceNameZasilacz(name);
 }
 
 void MainWindow::zas_value(int kind, int value)
 {
     if (dlgTestZas)
         dlgTestZas->valueZasilacz(kind, value);
+    if (dlgTestStan)
+        dlgTestStan->valueZasilacz(kind, value);
 }
 
 void MainWindow::zas_sendMsg(const QString &msg)
@@ -242,20 +258,19 @@ void MainWindow::on_pbDisconnect_clicked()
 
 void MainWindow::on_actionTestZasilacza_triggered()
 {
-    TestZasilaczaDlg * dlg = new TestZasilaczaDlg(&u, zas, this);
-    dlgTestZas = dlg;
-    dlg->exec();
-    delete dlg;
+    dlgTestZas = new TestZasilaczaDlg(&u, zas, this);
+    dlgTestZas->exec();
+    delete dlgTestZas;
     dlgTestZas = nullptr;
 }
 
 
 void MainWindow::on_actionTestSterownikaDlg_triggered()
 {
-    TestSterownikaDlg * dlg = new TestSterownikaDlg(&u, sd, this);
-    dlgTestSter = dlg;
-    dlg->exec();
-    delete dlg;
+    dlgTestSter = new TestSterownikaDlg(&u, sd, this);
+    dlgTestSter;
+    dlgTestSter->exec();
+    delete dlgTestSter;
     dlgTestSter = nullptr;
 }
 
@@ -296,14 +311,17 @@ void MainWindow::on_actionStartTestu_triggered()
     }
     short idTest = dlg1->getWyborTestu();
     delete dlg1;
-    ui->centralwidget->startBadanie(idTest, b, u, zas);
+    ui->centralwidget->startBadanie(idTest, b, u, zas, sd);
 
 }
 
 
 void MainWindow::on_actionTestStanowiska_triggered()
 {
-
+    dlgTestStan = new TestStanowiskaDlg(zas, sd, this);
+    dlgTestStan->exec();
+    delete dlgTestStan;
+    dlgTestStan = nullptr;
 }
 
 

@@ -134,17 +134,30 @@ void SPIMessage::sendReplyMsg()
     phex(msgLocal[9]);
     Serial1.println("]");
 
-#endif 
-    if (msgLocal[0] == 0x0A && msgLocal[1] == 0x03 && msgLocal[2] == 0x10 && msgLocal[3] == 0xf9 && msgLocal[4] == 0xb6) {
+#endif
+    bool send2Pc = false;
+    if (msgLocal[0] == 0x0A && msgLocal[1] == 3 ) {
+        if (msgLocal[2] == 0x10 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-        Serial1.println("Connected");
+            Serial1.println("Connected");
 #endif  
-        connected = true;
-    } else if (msgLocal[0] == 0x0A && msgLocal[1] < 32) {
+            connected = true;
+            return;
+        }
+        if (msgLocal[2] == 0x90 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-        Serial1.println("Send Rep msg to PC");
+            Serial1.println("Send Rep msg to PC");
 #endif  
-        Serial3.write(msgLocal+2, msgLocal[1]);
+            Serial3.write(msgLocal+2, msgLocal[1]);
+            return;
+        }
+    } 
+    if (msgLocal[0] == 0x0A && msgLocal[1] == 7 && msgLocal[3] == 0x74 && ((msgLocal[4] >> 4) & 0x0f) == addr) {
+#ifdef DEBUG
+            Serial1.println("Send Rep msg to PC");
+#endif  
+            Serial3.write(msgLocal+2, msgLocal[1]);
+            return;
     }
 }
 
@@ -194,82 +207,6 @@ void SPIMessage::sendConfiguration(bool send2Pc)
         msg->sendConfigDoneMsg(addr, true);  
 }
 
-bool SPIMessage::sendConfigurationWithResponse(uint16_t activeBusy)
-{
-#ifdef DEBUG
-    Serial1.println("Send Configuration ");
-    Serial1.print("motor = ");
-    Serial1.println(addr, DEC);
-#endif  
-    digitalWrite(stopPin, LOW);
-    uint8_t sendMsg[confLen];
-    memcpy(sendMsg, confMsg, confLen);
-    digitalWrite(stopPin, HIGH);
-
-#ifdef DEBUG
-    Serial1.print("Send Msg: [");
-    for (uint8_t s = 0; s < confLen; s++) {
-        phex(sendMsg[s]);
-    }
-    Serial1.println("]");
-#endif
-    sendSpiMsg(sendMsg, confLen);
-    unsigned long waitCnt = 5000000;
-    while (!bitRead(activeBusy, addr-1) && waitCnt) {
-        --waitCnt;
-    }
-    bitClear(activeBusy, addr-1);
-#ifdef DEBUG
-    Serial1.print("Recv Busy after ");
-    Serial1.println(5000000-waitCnt);
-#endif
-
-    if (waitCnt == 0) {
-        return false;
-    }
-
-    
-#ifdef DEBUG
-    Serial1.print("M");
-    Serial1.print(addr, DEC);
-    Serial1.print(" Send Reply Msg : [");
-    for (uint8_t s = 0; s < 20; s++) {
-        phex(replyMsg[s]);
-    }
-    Serial1.println("]");
-#endif 
-    uint8_t msgLocal[20];
-    memcpy(msgLocal, replyMsg, 20);
-    sendSpiMsg(msgLocal, 20);
-
-#ifdef DEBUG
-    Serial1.print("Recv message [");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    phex(msgLocal[3]);
-    phex(msgLocal[4]);
-    phex(msgLocal[5]);
-    phex(msgLocal[6]);
-    phex(msgLocal[7]);
-    phex(msgLocal[8]);
-    phex(msgLocal[9]);
-    Serial1.println("]");
-#endif
-    return true;
-    /*if (msgLocal[0] == 0x0A && msgLocal[1] == 0x03 && msgLocal[2] == 0x10 && msgLocal[3] == 0xf9 && msgLocal[4] == 0x09) {
-#ifdef DEBUG
-        Serial1.println("Send ModiRep msg to PC");
-#endif  
-        Serial3.write(echoRepMsg, 3);
-    } else {
-    #ifdef DEBUG
-        Serial1.println("Send Rep msg to PC");
-#endif  
-        Serial3.write(msgLocal+2, msgLocal[1]);
-    }*/
-}
-
 void SPIMessage::stop()
 {
 #ifdef DEBUG
@@ -303,10 +240,11 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
 
 void SPIMessage::sendProgressMsg()
 {
-    if (digitalRead(movePin) == HIGH) {
-        sendEchoMsg();
-        return;
-    }
+    //if (digitalRead(movePin) == HIGH) {
+    //    Serial1.print("High na MOVE");
+    //    //sendEchoMsg();
+    //    return;
+    //}
 #ifdef DEBUG
     Serial1.print("M");
     Serial1.print(addr, DEC);

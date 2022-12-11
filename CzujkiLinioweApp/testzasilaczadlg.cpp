@@ -55,9 +55,8 @@ void TestZasilaczaDlg::debugZasilacz(QString d)
     qDebug() << d;
 }
 
-void TestZasilaczaDlg::configuredZasilacz(bool success, int state)
+void TestZasilaczaDlg::configuredZasilacz(int state)
 {
-    qDebug() << success << state;
     switch(state) {
     case Zasilacz::NO_FOUND:
         QMessageBox::warning(this, "Zasilacz sterowany", "Nie znaleziono podłączonego zasilacza");

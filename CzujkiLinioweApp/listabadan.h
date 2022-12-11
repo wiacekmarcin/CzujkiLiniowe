@@ -9,7 +9,7 @@
 #include "ustawienia.h"
 
 class Zasilacz;
-
+class Sterownik;
 namespace Ui {
 class ListaBadan;
 }
@@ -21,7 +21,7 @@ class ListaBadan : public QWidget
 public:
     explicit ListaBadan(QWidget *parent = nullptr);
     ~ListaBadan();
-    void startBadanie(short id, const ParametryBadania & badanie, const Ustawienia &ust, Zasilacz *zas);
+    void startBadanie(short id, const ParametryBadania & badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
 
 private:
     Ui::ListaBadan *ui;

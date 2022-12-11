@@ -174,11 +174,11 @@ bool SerialWorkerZas::openDevice(const QString & portName)
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
         emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error: %2")).arg(portName).
                    arg(m_serialPort->errorString()));
-        emit kontrolerConfigured(false, Zasilacz::NO_OPEN);
+        emit kontrolerConfigured(Zasilacz::NO_OPEN);
         return false;
     }
 
-    emit kontrolerConfigured(false, Zasilacz::OPEN);
+    emit kontrolerConfigured(Zasilacz::OPEN);
     m_serialPort->setBaudRate(QSerialPort::Baud115200);
     m_serialPort->setDataBits(QSerialPort::Data8);
     m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
@@ -235,10 +235,10 @@ bool SerialWorkerZas::connectToSerialJob()
 
             ++found;
             if (found > 1) {
-                emit kontrolerConfigured(false, Zasilacz::TO_MANY_FOUND);
+                emit kontrolerConfigured(Zasilacz::TO_MANY_FOUND);
             }
             else
-                emit kontrolerConfigured(false, Zasilacz::FOUND);
+                emit kontrolerConfigured(Zasilacz::FOUND);
 
             if (!openDevice(port.at(0))) {
                 continue;
@@ -252,7 +252,7 @@ bool SerialWorkerZas::connectToSerialJob()
         }
 
         if (!found)
-            emit kontrolerConfigured(false, Zasilacz::NO_FOUND);
+            emit kontrolerConfigured(Zasilacz::NO_FOUND);
     }
     return sd->connected();
 }
@@ -263,11 +263,11 @@ bool SerialWorkerZas::checkIdentJob()
     DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg.data()));
     auto s = write(msg, 100, 1000, true);
     if (s.isEmpty()) {
-        emit kontrolerConfigured(false, Zasilacz::IDENT_FAILD);
+        emit kontrolerConfigured(Zasilacz::IDENT_FAILD);
         return false;
     }
     emit kontrolerSerialNo(QString(s));
-    emit kontrolerConfigured(true, Zasilacz::ALL_OK);
+    emit kontrolerConfigured(Zasilacz::ALL_OK);
     return true;
 }
 
@@ -313,7 +313,7 @@ void SerialWorkerZas::closeDeviceJob()
 
     m_serialPort->close();
     sd->setConnected(false);
-    emit kontrolerConfigured(false, Zasilacz::CLOSE);
+    emit kontrolerConfigured(Zasilacz::CLOSE);
     delete m_serialPort;
     m_serialPort = nullptr;
     DEBUGSER("CLOSE DEVICE");

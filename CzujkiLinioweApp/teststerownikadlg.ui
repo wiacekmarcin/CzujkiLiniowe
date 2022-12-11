@@ -619,38 +619,17 @@ na 1mm/st</string>
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="3" column="0">
-         <widget class="QLabel" name="etsilnik_2">
+        <item row="7" column="0">
+         <widget class="QLabel" name="etsilnik_6">
           <property name="text">
-           <string>M2</string>
+           <string>M6</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="10">
-         <widget class="QLabel" name="actPos_4">
+        <item row="8" column="0">
+         <widget class="QLabel" name="etsilnik_7">
           <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="pbHome_5">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QLabel" name="head2_1">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_1">
-          <property name="text">
-           <string>Ustaw</string>
+           <string>M7</string>
           </property>
          </widget>
         </item>
@@ -661,80 +640,17 @@ na 1mm/st</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_1"/>
-        </item>
-        <item row="10" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_9">
+        <item row="7" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_6">
           <property name="text">
            <string>Ustaw</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="10">
-         <widget class="QLabel" name="actPos_9">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_7"/>
-        </item>
-        <item row="6" column="10">
-         <widget class="QLabel" name="actPos_5">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QPushButton" name="pbHome_6">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_9"/>
-        </item>
-        <item row="3" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_2">
+        <item row="4" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_3">
           <property name="text">
            <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_2"/>
-        </item>
-        <item row="2" column="3">
-         <widget class="QCheckBox" name="isHome_1">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="6" colspan="4">
-         <widget class="QLabel" name="head2_3">
-          <property name="text">
-           <string>Przesunięcie
-w mm/st</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="10">
-         <widget class="QLabel" name="actPos_8">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <widget class="QLabel" name="label_5">
-          <property name="text">
-           <string>Aktualna
-pozycja</string>
           </property>
          </widget>
         </item>
@@ -745,10 +661,27 @@ pozycja</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="10">
-         <widget class="QLabel" name="actPos_7">
+        <item row="8" column="3">
+         <widget class="QCheckBox" name="isHome_7">
           <property name="text">
-           <string>0</string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_4">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="1">
+         <widget class="QFrame" name="fr7">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
          </widget>
         </item>
@@ -760,121 +693,8 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_6"/>
-        </item>
-        <item row="7" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_6">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="10">
-         <widget class="QLabel" name="actPos_6">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_3">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="10">
-         <widget class="QLabel" name="actPos_3">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_2">
-          <property name="text">
-           <string>Baza</string>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="etsilnik_4">
-          <property name="text">
-           <string>M4</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_3"/>
-        </item>
-        <item row="5" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_4"/>
-        </item>
-        <item row="5" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_4">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="etsilnik_3">
-          <property name="text">
-           <string>M3</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="etsilnik_1">
-          <property name="text">
-           <string>M1</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_5"/>
-        </item>
-        <item row="6" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_5">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="3">
-         <widget class="QCheckBox" name="isHome_3">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
         <item row="10" column="3">
          <widget class="QCheckBox" name="isHome_9">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_8"/>
-        </item>
-        <item row="7" column="3">
-         <widget class="QCheckBox" name="isHome_6">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="3">
-         <widget class="QCheckBox" name="isHome_2">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3">
-         <widget class="QCheckBox" name="isHome_8">
           <property name="text">
            <string/>
           </property>
@@ -887,45 +707,55 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="etsilnik_5">
+        <item row="10" column="10">
+         <widget class="QLabel" name="actPos_9">
           <property name="text">
-           <string>M5</string>
+           <string>0</string>
           </property>
          </widget>
         </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="etsilnik_7">
+        <item row="2" column="0">
+         <widget class="QLabel" name="etsilnik_1">
           <property name="text">
-           <string>M7</string>
+           <string>M1</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="2">
-         <widget class="QPushButton" name="pbHome_9">
+        <item row="7" column="2">
+         <widget class="QPushButton" name="pbHome_6">
           <property name="text">
            <string>Powrót</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="pbHome_1">
+        <item row="9" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_8">
           <property name="text">
-           <string>Powrót</string>
+           <string>Ustaw</string>
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QPushButton" name="pbHome_3">
-          <property name="text">
-           <string>Powrót</string>
+        <item row="10" column="1">
+         <widget class="QFrame" name="fr9">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
          </widget>
         </item>
-        <item row="8" column="2">
-         <widget class="QPushButton" name="pbHome_7">
+        <item row="4" column="10">
+         <widget class="QLabel" name="actPos_3">
           <property name="text">
-           <string>Powrót</string>
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="etsilnik_2">
+          <property name="text">
+           <string>M2</string>
           </property>
          </widget>
         </item>
@@ -943,6 +773,61 @@ bazowa</string>
           </property>
          </widget>
         </item>
+        <item row="11" column="0" colspan="2">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Wszystkie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="0">
+         <widget class="QLabel" name="etsilnik_3">
+          <property name="text">
+           <string>M3</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="10">
+         <widget class="QLabel" name="actPos_8">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QCheckBox" name="isHome_3">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QFrame" name="fr4">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_5">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QFrame" name="fr3">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
         <item row="9" column="0">
          <widget class="QLabel" name="etsilnik_8">
           <property name="text">
@@ -950,17 +835,31 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="2">
-         <widget class="QPushButton" name="pbHome_8">
+        <item row="2" column="2">
+         <widget class="QPushButton" name="pbHome_1">
           <property name="text">
            <string>Powrót</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="0">
-         <widget class="QLabel" name="etsilnik_6">
+        <item row="9" column="3">
+         <widget class="QCheckBox" name="isHome_8">
           <property name="text">
-           <string>M6</string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="etsilnik_5">
+          <property name="text">
+           <string>M5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_2">
+          <property name="text">
+           <string>Ustaw</string>
           </property>
          </widget>
         </item>
@@ -971,24 +870,81 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="3">
-         <widget class="QCheckBox" name="isHome_4">
+        <item row="7" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_6"/>
+        </item>
+        <item row="4" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_3"/>
+        </item>
+        <item row="2" column="1">
+         <widget class="QFrame" name="fr1">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="10">
+         <widget class="QLabel" name="actPos_7">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="3">
+         <widget class="QCheckBox" name="isHome_6">
           <property name="text">
            <string/>
           </property>
          </widget>
         </item>
-        <item row="8" column="3">
-         <widget class="QCheckBox" name="isHome_7">
-          <property name="text">
-           <string/>
+        <item row="3" column="1">
+         <widget class="QFrame" name="fr2">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
-         <widget class="QCheckBox" name="isHome_5">
+        <item row="4" column="2">
+         <widget class="QPushButton" name="pbHome_3">
           <property name="text">
-           <string/>
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="10">
+         <widget class="QLabel" name="actPos_6">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_1"/>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="pbHome_5">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_1">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="2">
+         <widget class="QPushButton" name="pbHome_7">
+          <property name="text">
+           <string>Powrót</string>
           </property>
          </widget>
         </item>
@@ -999,17 +955,144 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="11" column="0">
-         <widget class="QLabel" name="label_3">
+        <item row="10" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_9"/>
+        </item>
+        <item row="10" column="8" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_9">
           <property name="text">
-           <string>Wszystkie</string>
+           <string>Ustaw</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_8">
+        <item row="6" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_5"/>
+        </item>
+        <item row="2" column="3">
+         <widget class="QCheckBox" name="isHome_1">
           <property name="text">
-           <string>Ustaw</string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2">
+         <widget class="QPushButton" name="pbHome_8">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QCheckBox" name="isHome_2">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="etsilnik_4">
+          <property name="text">
+           <string>M4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_4"/>
+        </item>
+        <item row="6" column="1">
+         <widget class="QFrame" name="fr5">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_8"/>
+        </item>
+        <item row="10" column="2">
+         <widget class="QPushButton" name="pbHome_9">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QFrame" name="fr8">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="6" colspan="4">
+         <widget class="QLabel" name="head2_3">
+          <property name="text">
+           <string>Przesunięcie
+w mm/st</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QCheckBox" name="isHome_5">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="10">
+         <widget class="QLabel" name="actPos_4">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_2"/>
+        </item>
+        <item row="8" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_7"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QFrame" name="fr6">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="10">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Aktualna
+pozycja</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="10">
+         <widget class="QLabel" name="actPos_5">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QCheckBox" name="isHome_4">
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0" colspan="2">
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Baza</string>
           </property>
          </widget>
         </item>
@@ -1073,6 +1156,13 @@ bazowa</string>
           </property>
           <property name="checkable">
            <bool>false</bool>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="rbOpen">
+          <property name="text">
+           <string>Otwarty</string>
           </property>
          </widget>
         </item>

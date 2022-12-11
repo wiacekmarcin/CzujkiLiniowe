@@ -1,5 +1,6 @@
 #include "proceduratestowa.h"
 #include "oczekiwanienaurzadzenia.h"
+#include "sterownik.h"
 #include "test1parametrytestu.h"
 #include "test2potwierdzenie.h"
 #include "test3sprawdzenie.h"
@@ -13,7 +14,8 @@
 
 ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
-    zas(nullptr)
+    zas(nullptr),
+    ster(nullptr)
 {
 
 }
@@ -24,14 +26,17 @@ ProceduraTestowa::~ProceduraTestowa()
 }
 
 void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
-                                    const Ustawienia & ust, Zasilacz * zas_)
+                                    const Ustawienia & ust, Zasilacz * zas_, Sterownik * ster_)
 {
     zas = zas_;
+    ster = ster_;
 
     OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(parent);
 
     dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
+    dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
     zas->connectToDevice();
+    ster->connectToDevice();
 
     if (!dlg->exec()) {
 #ifdef DEFVAL

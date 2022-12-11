@@ -36,15 +36,22 @@ public:
         CLOSE,
     } StateConn;
 
+    typedef enum _zdarzenieSilnika {
+        M_ACTIVE = 1,
+        M_NOACTIVE,
+    } ZdarzenieSilnikaEnum;
+
     void setThread(QThread * thrW, QThread *thrR);
     void closeDevice(bool waitForDone);
     void connectToDevice();
+    void disconnectDevice();
     void setParams();
     void setPositionSilnik(int silnik, bool home, uint32_t steps, uint32_t impTime);
     void setReset();
     QString getProduct();
     QString getVendor();
     QString getSerialNumber();
+    bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
 protected:
 
     bool connected();
@@ -55,9 +62,10 @@ signals:
     void error(QString s);
     void debug(QString d);
     void setParamsDone(int address, bool success, bool silnik);
-    void kontrolerConfigured(bool success, int state);
+    void kontrolerConfigured(int state);
     void deviceName(QString name);
     void setPositionDone(bool home, bool success, unsigned int steps);
+    void zdarzenieSilnik(short silnik, short zdarzenie);
 
 protected:
     /********************************** INNE FUNKCJE *************************/

@@ -88,7 +88,7 @@ signals:
     void debug(QString);
     void deviceName(QString);
     void error(QString s);
-    void kontrolerConfigured(bool success, int state);
+    void kontrolerConfigured(int state);
     void kontrolerSerialNo(QString s);
     void sendMsg(QString msg);
     void recvMsg(QString msg);

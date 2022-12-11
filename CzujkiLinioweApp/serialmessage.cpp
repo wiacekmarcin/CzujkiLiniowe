@@ -73,15 +73,6 @@ QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t i
     return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 8);
 }
 
-QByteArray SerialMessage::setMultiCmd(const QString &cmd)
-{
-    uint8_t tab[15];
-    uint8_t l = 0;
-    for (l = 0; l < 15 && l < cmd.size(); ++l) {
-        tab[l] = cmd.at(l).toLatin1();
-    }
-    return prepareMessage(CONF_MSG_REQ, 10, 0x00, tab, l);
-}
 /*
 QByteArray SerialMessage::resetSterownik(uint8_t addr)
 {

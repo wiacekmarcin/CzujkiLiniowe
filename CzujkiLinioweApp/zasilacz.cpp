@@ -137,7 +137,7 @@ QByteArray Zasilacz::convertFloatValue(const int &mval, const int & maxval)
 void Zasilacz::connectToDevice()
 {
     if (connected()) {
-        emit kontrolerConfigured(true, ALL_OK);
+        emit kontrolerConfigured(ALL_OK);
     } else {
         m_worker.command(SerialZasilacz::CONNECT, QByteArray(), false);
     }

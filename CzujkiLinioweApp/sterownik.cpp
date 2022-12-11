@@ -50,12 +50,21 @@ void Sterownik::setStop()
 void Sterownik::connectToDevice()
 {
     if (connected()) {
-        emit kontrolerConfigured(true, ALL_OK);
+        emit kontrolerConfigured(ALL_OK);
     } else {
         m_writer.setReset();
         m_writer.setStart();
         m_writer.start();
         m_writer.command(SterownikWriter::CONNECT, QByteArray());
+    }
+}
+
+void Sterownik::disconnectDevice()
+{
+    if (connected()) {
+        m_writer.command(SterownikWriter::DISCONNECT, QByteArray());
+    } else {
+        emit kontrolerConfigured(CLOSE);
     }
 }
 
@@ -92,11 +101,11 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         msg.parseCommand(reply);
 
         if (msg.getParseReply() != SerialMessage::WELCOME_REPLY) {
-            emit kontrolerConfigured(false, IDENT_FAILD);
+            emit kontrolerConfigured(IDENT_FAILD);
             return false;
         }
 
-        emit kontrolerConfigured(false, IDENT_OK);
+        emit kontrolerConfigured(IDENT_OK);
     }
 
     for (short i = 1 ; i <= 9; ++i) {
@@ -106,7 +115,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
             ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
-            emit kontrolerConfigured(false, PARAMS_FAILD);
+            emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
 
@@ -115,17 +124,15 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         msg.parseCommand(reply);
 
         if (msg.getParseReply() != SerialMessage::CONF_REPLY && msg.getSilnik() != i) {
-            emit kontrolerConfigured(false, PARAMS_FAILD);
+            emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
-        if (!msg.getActive())
-            qDebug() << "Motor " << i << "not active";
-
+        emit zdarzenieSilnik(i, msg.getActive() ? M_ACTIVE : M_NOACTIVE);
     }
 
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
     if (!write(msgBA, 500)) {
-        emit kontrolerConfigured(false, PARAMS_FAILD);
+        emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
 
@@ -134,14 +141,14 @@ bool Sterownik::configureDevice(bool wlcmmsg)
     msg.parseCommand(reply);
 
     if (msg.getParseReply() != SerialMessage::CONF_REPLY && !msg.isKontroler()) {
-        emit kontrolerConfigured(false, PARAMS_FAILD);
+        emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
     if (!msg.getActive()) {
         qDebug() << "Glowny kontroler nieaktywny";
     }
 
-    emit kontrolerConfigured(true, PARAMS_OK);
+    emit kontrolerConfigured(PARAMS_OK);
     return true;
 }
 
@@ -173,7 +180,7 @@ void Sterownik::closeDeviceJob()
     m_portNr = -1;
 #endif
     setConnected(false);
-    emit kontrolerConfigured(false, CLOSE);
+    emit kontrolerConfigured(CLOSE);
     emit deviceName("");
     DEBUGSER("CLOSE DEVICE");
 }
@@ -191,7 +198,7 @@ bool Sterownik::openDevice()
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
         emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
                    arg(m_serialPort->errorString()));
-        emit kontrolerConfigured(false, NO_OPEN);
+        emit kontrolerConfigured(NO_OPEN);
         return false;
     }
     m_serialPort->clear();
@@ -207,7 +214,7 @@ bool Sterownik::openDevice()
 
     QThread::currentThread()->sleep(2);
 
-    emit kontrolerConfigured(false, OPEN);
+    emit kontrolerConfigured(OPEN);
 
 
 
@@ -221,7 +228,7 @@ bool Sterownik::openDevice()
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
         DEBUGSER(QString("Error open Port"));
-        emit kontrolerConfigured(false, NO_OPEN);
+        emit kontrolerConfigured(NO_OPEN);
         return false;
     }
 
@@ -241,7 +248,7 @@ bool Sterownik::openDevice()
     int recv = RS232_PollComport(m_portNr, recvBuf, 1000);
     (void)recv;
 
-    emit kontrolerConfigured(false, OPEN);
+    emit kontrolerConfigured(OPEN);
     return true;
 #endif
 }
@@ -297,7 +304,6 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 {
     QByteArray responseData ;
 #ifdef SERIALLINUX
-    qDebug() << "read";
     if (m_serialPort == nullptr)
         return QByteArray();
     if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
@@ -469,7 +475,7 @@ void Sterownik::connectToSerialJob()
                     DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     m_portName = serialPortInfo.portName();
                     emit deviceName(m_portName);
-                    emit kontrolerConfigured(false, FOUND);
+                    emit kontrolerConfigured(FOUND);
                     systemLocation = serialPortInfo.systemLocation();
                     DEBUGSER(QString("Znaleziono urządzenie"));
                     findDevice = true;
@@ -478,7 +484,7 @@ void Sterownik::connectToSerialJob()
             }
         }
         if (!findDevice) {
-            emit kontrolerConfigured(false, NO_FOUND);
+            emit kontrolerConfigured(NO_FOUND);
             return;
         }
 
@@ -504,7 +510,7 @@ void Sterownik::connectToSerialJob()
        m_reader.start();
     }
 
-    if (emitSignal) emit kontrolerConfigured(true, ALL_OK);
+    if (emitSignal) emit kontrolerConfigured(ALL_OK);
 }
 
 QString Sterownik::getProduct()
