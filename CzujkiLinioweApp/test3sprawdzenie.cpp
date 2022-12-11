@@ -9,17 +9,17 @@
 
 #include <QMessageBox>
 
-Test3Sprawdzenie::Test3Sprawdzenie(const ParametryBadania &badanie, const DaneTestu & test, QWidget *parent) :
+Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test3Sprawdzenie)
 {
     ui->setupUi(this);
-    ui->osobaWykonujacaTest->setText(test.getOsobaWykonujaca());
-    ui->numerPierwszy->setText(test.getNumerPierwszy());
-    ui->numerDrugi->setText(test.getNumerDrugi());
-    ui->testName->setText(test.getName());
+    ui->osobaWykonujacaTest->setText(daneTestu.getOsobaWykonujaca());
+    ui->numerPierwszy->setText(daneTestu.getNumerPierwszy(nrPomiaru));
+    ui->numerDrugi->setText(daneTestu.getNumerDrugi(nrPomiaru));
+    ui->testName->setText(daneTestu.getName());
 
-    if (badanie.getSystemOdbiornikNadajnik()) { //odb <-> nad
+    if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad
         ui->ePierwszy->setText("Nadajnik");
         ui->eDrugi->setText("Odbiornik");
     } else { //odb+nad <-> ref
@@ -28,9 +28,7 @@ Test3Sprawdzenie::Test3Sprawdzenie(const ParametryBadania &badanie, const DaneTe
     }
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
-    connect(ui->pbDalej, &QPushButton::pressed, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
-    connect(ui->pbPrzerwij, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
 }
 
 Test3Sprawdzenie::~Test3Sprawdzenie()

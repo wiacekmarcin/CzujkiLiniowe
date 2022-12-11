@@ -13,7 +13,8 @@ class Test4Montaz : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test4Montaz(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent = nullptr);
+    explicit Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+                         QWidget *parent = nullptr);
     ~Test4Montaz();
 
 protected:

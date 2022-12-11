@@ -153,6 +153,8 @@ void MainWindow::ster_kontrolerConfigured(int state)
 
     if (dlgTestSter)
         dlgTestSter->sd_kontrolerConfigured(state);
+    if (dlgTestStan)
+        dlgTestStan->configuredSterownik(state);
 }
 
 void MainWindow::ster_deviceName(QString name)
@@ -160,6 +162,8 @@ void MainWindow::ster_deviceName(QString name)
     //ui->namePort->setText(name);
     if (dlgTestSter)
         dlgTestSter->sd_deviceName(name);
+    if (dlgTestStan)
+        dlgTestStan->deviceNameSter(name);
 }
 
 void MainWindow::ster_setPositionDone(bool home, bool success)
@@ -200,8 +204,6 @@ void MainWindow::zas_serialNo(QString s)
 {
     if (dlgTestZas)
         dlgTestZas->serialNoZasilacz(s);
-    if (dlgTestStan)
-        dlgTestStan->serialNoZasilacz(s);
 }
 
 void MainWindow::zas_deviceName(QString name)

@@ -1,7 +1,8 @@
 #include "test7badanie.h"
 #include "ui_test7badanie.h"
 
-Test7Badanie::Test7Badanie(const ParametryBadania &badanie, const DaneTestu &test, const Ustawienia & ust, QWidget *parent) :
+Test7Badanie::Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
+                           const ParametryBadania &daneBadania, const Ustawienia &ust, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test7Badanie),
     zmFiltraTmr(this),
@@ -12,17 +13,17 @@ Test7Badanie::Test7Badanie(const ParametryBadania &badanie, const DaneTestu &tes
 {
     ui->setupUi(this);
 
-    if (badanie.getDlugoscFaliFiltrow() == 880) {
+    if (daneBadania.getDlugoscFaliFiltrow() == 880) {
         tlumienia = ust.getTlumienia880();
     } else {
         tlumienia = ust.getTlumienia655();
     }
     maxTlum=tlumienia.size();
-    ui->dlugoscFali->setText(QString::number(badanie.getDlugoscFaliFiltrow()));
-    ui->testName->setText(test.getName());
-    ui->czas->setText(QString::number(badanie.getCzasPomZmianaTlumenia_s()) + QString(" s"));
+    ui->dlugoscFali->setText(QString::number(daneBadania.getDlugoscFaliFiltrow()));
+    ui->testName->setText(daneTestu.getName());
+    ui->czas->setText(QString::number(daneBadania.getCzasPomZmianaTlumenia_s()) + QString(" s"));
     connect(&zmFiltraTmr, &QTimer::timeout, this, &Test7Badanie::uplynalCzasPostojuFiltra);
-    zmFiltraTmr.setInterval(badanie.getCzasPomZmianaTlumenia_s()*1000);
+    zmFiltraTmr.setInterval(daneBadania.getCzasPomZmianaTlumenia_s()*1000);
     zmFiltraTmr.start();
 }
 

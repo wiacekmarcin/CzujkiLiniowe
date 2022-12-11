@@ -13,7 +13,7 @@ MessageSerial::MessageSerial()
 
 void MessageSerial::init() 
 {
-    Serial3.begin(115200); 
+    Serial2.begin(115200); 
     reset();
 }
 
@@ -132,7 +132,7 @@ void MessageSerial::sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint
     crc.restart();
     crc.add(sendData, len+2);
     sendData[len+2] = crc.getCRC();
-    Serial3.write(sendData, len+3);
+    Serial2.write(sendData, len+3);
 }
 
 bool MessageSerial::parseRozkaz()
@@ -147,7 +147,7 @@ bool MessageSerial::parseRozkaz()
 
         case ECHO_CLEAR_REQ:
         {
-            Serial3.write(ECHO_CLEAR_REP);
+            Serial2.write(ECHO_CLEAR_REP);
             actWork = NOP;
             return true;
         }

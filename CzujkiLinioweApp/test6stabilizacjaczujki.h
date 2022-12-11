@@ -14,7 +14,7 @@ class Test6StabilizacjaCzujki : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test6StabilizacjaCzujki(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent = 0);
+    explicit Test6StabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent = 0);
     ~Test6StabilizacjaCzujki();
 
 protected:

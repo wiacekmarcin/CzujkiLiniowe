@@ -19,6 +19,7 @@ SOURCES += \
     parametrybadaniaogolnedlg.cpp \
     proceduratestowa.cpp \
     sterownik_worker.cpp \
+    test0zerowanieurzadzenia.cpp \
     test1parametrytestu.cpp \
     test2potwierdzenie.cpp \
     test3sprawdzenie.cpp \
@@ -56,6 +57,7 @@ HEADERS += \
     parametrybadaniaogolnedlg.h \
     proceduratestowa.h \
     sterownik_worker.h \
+    test0zerowanieurzadzenia.h \
     test1parametrytestu.h \
     test2potwierdzenie.h \
     test3sprawdzenie.h \
@@ -91,6 +93,7 @@ FORMS += \
     parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
     sterownikustawieniawidget.ui \
+    test0zerowanieurzadzenia.ui \
     test1parametrytestu.ui \
     test2potwierdzenie.ui \
     test3sprawdzenie.ui \

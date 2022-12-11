@@ -18,12 +18,27 @@ public:
                       const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
 protected:
     void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
+
+private:
+    bool oczekiwanieNaUrzadzenie();
+    bool zerowanieSterownika();
+    bool parametryTestu(short nrBadania, DaneTestu * daneTestu, const ParametryBadania & b, const Ustawienia & ust);
+    bool potwierdzenieDanych(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool potwierdzenieNarazenia(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool montazCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    bool zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    void pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    void podsumowanie(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
 private:
     QWidget* parent;
     DaneTestu dane;
     Zasilacz * zas;
     Sterownik* ster;
     Ustawienia u;
+
+
+
 };
 
 #endif // PROCEDURATESTOWA_H

@@ -292,8 +292,11 @@ bool Motor::moveHome(uint8_t mode)
 	return true;
 }
 
-bool Motor::movePosition(uint32_t pos) 
+bool Motor::movePosition(uint8_t mode, uint32_t pos) 
 {
+
+	if (mode == KOLOWA)
+		moveFiltrPosiotion();
 	actSteps = 0;
 	newPosition = pos;
 	diff = -1;
@@ -388,5 +391,10 @@ bool Motor::moveHomeKatPoziomy()
 	diff = -1;
 	mstate = HOME_DO_BAZY;
 	digitalWrite(MOVEPIN, HIGH);
+	return true;
+}
+
+bool Motor::moveFiltrPosiotion()
+{
 	return true;
 }

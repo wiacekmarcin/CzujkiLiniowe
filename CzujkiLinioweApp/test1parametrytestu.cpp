@@ -8,16 +8,17 @@
 
 #define SETREADONLY(w) w->setReadOnly(true);
 
-Test1ParametryTestu::Test1ParametryTestu(const ParametryBadania & badanie, DaneTestu * test_, short nrTestu, QWidget *parent) :
+Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test1ParametryTestu),
-    test(test_)
+    test(test_),
+    nrPomiar(nrPomiar_)
 {
     ui->setupUi(this);
     ui->testName->setText(test->getName());
     ui->testName->setReadOnly(true);
 
-    if (nrTestu > 1) {
+    if (nrPomiar > 1) {
         SETREADONLY(ui->osobaWykonujaca);
         SETREADONLY(ui->wilgotnosc);
         SETREADONLY(ui->cisnienie);
@@ -44,8 +45,8 @@ Test1ParametryTestu::Test1ParametryTestu(const ParametryBadania & badanie, DaneT
     }
     switch(test->getId())
     {
-        case 0:
-            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrTestu)); break;
+        case REPRODUCIBILITY:
+            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar)); break;
         default:
             ui->lUwagaWyborCzujek->setText(QString("Wybierz dowolną czujkę")); break;
     }
@@ -68,9 +69,7 @@ Test1ParametryTestu::Test1ParametryTestu(const ParametryBadania & badanie, DaneT
     }
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
-    connect(ui->pbDalej, &QPushButton::pressed, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
-    connect(ui->pbPrzerwij, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->osobaWykonujaca, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->wilgotnosc, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->cisnienie, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
@@ -108,7 +107,7 @@ void Test1ParametryTestu::check()
             ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
-        } else if (val < -70 || val > 70 ){
+        } else if (val < 15 || val > 35 ){
             ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
@@ -126,7 +125,7 @@ void Test1ParametryTestu::check()
             ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
-        } else if (val < 0 || val > 100 ){
+        } else if (val < 25 || val > 75 ){
             ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
@@ -144,7 +143,7 @@ void Test1ParametryTestu::check()
             ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
-        } else if (val < 900 || val > 1100 ){
+        } else if (val < 860 || val > 1060 ){
             ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
@@ -162,9 +161,7 @@ void Test1ParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->setNumerPierwszy(ui->typPierwszy->text());
-    test->setNumerDrugi(ui->typDrugi->text());
-    test->addNumerWybranejCzujki(ui->cbCzujka->currentIndex());
+    test->addWybranaCzujka(ui->typPierwszy->text(), ui->typDrugi->text());
     accept();
 }
 
@@ -181,4 +178,8 @@ void Test1ParametryTestu::changeCzujka(int index)
     QStringList sl = v.toStringList();
     ui->typPierwszy->setText(sl.first());
     ui->typDrugi->setText(sl.last());
+    if (test->sprawdzCzyBadanaCzujka(sl.first(), sl.last())) {
+        ui->errorLab->setText("Wybrana czujka była już podana badaniu");
+        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+    }
 }

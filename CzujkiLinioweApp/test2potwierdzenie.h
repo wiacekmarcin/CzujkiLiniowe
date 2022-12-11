@@ -15,7 +15,8 @@ class Test2Potwierdzenie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test2Potwierdzenie(const ParametryBadania & badanie, const DaneTestu & test, QWidget *parent = nullptr);
+    explicit Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, const ParametryBadania & badanie,
+                                QWidget *parent = nullptr);
     ~Test2Potwierdzenie();
 protected:
     void pbCancel_clicked();

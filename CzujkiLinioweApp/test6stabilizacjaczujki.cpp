@@ -2,14 +2,14 @@
 #include "parametrybadania.h"
 #include "ui_test6stabilizacjaczujki.h"
 #include <QTimer>
-Test6StabilizacjaCzujki::Test6StabilizacjaCzujki(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent) :
+Test6StabilizacjaCzujki::Test6StabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test6StabilizacjaCzujki),
     timer(this)
 {
-    elapsedTime = badanie.getCzasStabilizacjiCzujki_s();
+    elapsedTime = daneBadania.getCzasStabilizacjiCzujki_s();
     ui->setupUi(this);
-    ui->testName->setText(test.getName());
+    ui->testName->setText(daneTestu.getName());
     ui->progressBar->setMaximum(elapsedTime);
     ui->progressBar->setValue(elapsedTime);
     ui->czas->setText(getMM_SS(elapsedTime));

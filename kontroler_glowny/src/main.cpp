@@ -77,7 +77,7 @@ void setup (void)
     digitalWrite(resetPin, LOW);
     delay(50);
     digitalWrite(resetPin, HIGH);
-    Serial3.begin(115200);
+    Serial2.begin(115200);
 #ifdef DEBUG    
     Serial1.begin(115200);
 #endif  
@@ -141,6 +141,7 @@ unsigned long prevMillis = 0;
 volatile bool sendReplyMsg = false;
 void loop (void)
 {
+    /*
     if (activeBusy) {
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
@@ -160,7 +161,7 @@ void loop (void)
             delay(5);
         }
     }
-    
+    */
     readSerial();
         
     switch(actWork) {
@@ -176,8 +177,10 @@ void loop (void)
 
 void readSerial()
 {
-    if (Serial3.available())  {
-        int c = Serial3.read();
+    if (Serial2.available())  {
+        int c = Serial2.read();
+        Serial1.println(c, HEX);
+        Serial.println(c, HEX);
         if (msg.check(c)) {
             actWork = msg.getStatusWork();
             return;
@@ -219,7 +222,7 @@ void configuration()
     Serial1.print("Motor=");Serial1.print(motor);Serial1.print("isConn=");Serial1.println(motors[motor].isConnected());
 #endif  
     msg.sendConfigDoneMsg(motor+1, motors[motor].isConnected());
-    delay(100);
+    delay(10);
     actWork = MessageSerial::NOP;
 }
 

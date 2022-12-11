@@ -27,6 +27,49 @@ DaneTestu::DaneTestu(QObject *parent)
 
 }
 
+QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
+{
+    out << dane.nrPomiaru
+        << dane.numerPierwszy
+        << dane.numerDrugi
+        << dane.value
+           ;
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
+{
+    in >> dane.nrPomiaru
+       >> dane.numerPierwszy
+       >> dane.numerDrugi
+       >> dane.value
+           ;
+    return in;
+}
+
+QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane)
+{
+    out << dane.size();
+    for (const auto & d : dane) {
+        out << d;
+    }
+    return out;
+}
+
+QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane)
+{
+    dane.clear();
+    unsigned int ss;
+    in >> ss;
+    DanePomiaru p;
+    for (unsigned int s = 0; s < ss; ++s)
+    {
+        in >> p;
+        dane.append(p);
+    }
+    return in;
+}
+
 QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
 {
     out << dane.id
@@ -38,9 +81,7 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.wilgotnosc
         << dane.cisnienie
         << dane.uwagi
-        << dane.numerPierwszy
-        << dane.numerDrugi
-        << dane.numerWybranejCzujki
+        << dane.daneWybranejCzujki
            ;
     return out;
 }
@@ -56,9 +97,7 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.wilgotnosc
         >> dane.cisnienie
         >> dane.uwagi
-        >> dane.numerPierwszy
-        >> dane.numerDrugi
-        >> dane.numerWybranejCzujki
+        >> dane.daneWybranejCzujki
             ;
     return in;
 }
@@ -153,37 +192,35 @@ void DaneTestu::setUwagi(const QString &newUwagi)
     uwagi = newUwagi;
 }
 
-const QString &DaneTestu::getNumerPierwszy() const
+QString DaneTestu::getNumerPierwszy(short nrPomiaru) const
 {
-    return numerPierwszy;
+    if (nrPomiaru - 1 > daneWybranejCzujki.size())
+        return QString();
+    return daneWybranejCzujki[nrPomiaru-1].numerPierwszy;
 }
 
-void DaneTestu::setNumerPierwszy(const QString &newNumerPierwszy)
+QString DaneTestu::getNumerDrugi(short nrPomiaru) const
 {
-    numerPierwszy = newNumerPierwszy;
+    if (nrPomiaru - 1 > daneWybranejCzujki.size())
+        return QString();
+    return daneWybranejCzujki[nrPomiaru-1].numerDrugi;
 }
 
-const QString &DaneTestu::getNumerDrugi() const
+void DaneTestu::addWybranaCzujka(const QString &pierwszy, const QString &drugi)
 {
-    return numerDrugi;
+    DanePomiaru nowyPomiar;
+    nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
+    nowyPomiar.numerPierwszy = pierwszy;
+    nowyPomiar.numerDrugi = drugi;
+    nowyPomiar.value = 0.0;
+    daneWybranejCzujki.append(nowyPomiar);
 }
 
-void DaneTestu::setNumerDrugi(const QString &newNumerDrugi)
+bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &pierwszy, const QString &drugi)
 {
-    numerDrugi = newNumerDrugi;
-}
-
-const QList<short> &DaneTestu::getNumerWybranejCzujki() const
-{
-    return numerWybranejCzujki;
-}
-
-void DaneTestu::setNumerWybranejCzujki(const QList<short> &newNumerWybranejCzujki)
-{
-    numerWybranejCzujki = newNumerWybranejCzujki;
-}
-
-void DaneTestu::addNumerWybranejCzujki(short id)
-{
-    numerWybranejCzujki.append(id);
+    for(auto czujka : daneWybranejCzujki) {
+        if (czujka.numerPierwszy == pierwszy && czujka.numerDrugi == drugi)
+            return true;
+    }
+    return false;
 }

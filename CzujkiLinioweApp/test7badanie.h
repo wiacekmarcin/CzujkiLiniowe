@@ -16,8 +16,8 @@ class Test7Badanie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test7Badanie(const ParametryBadania &badanie, const DaneTestu &test,
-                          const Ustawienia & ust, QWidget *parent = 0);
+    explicit Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
+                          const ParametryBadania &daneBadania, const Ustawienia &, QWidget *parent = 0);
     ~Test7Badanie();
 private slots:
     void uplynalCzasPostojuFiltra();

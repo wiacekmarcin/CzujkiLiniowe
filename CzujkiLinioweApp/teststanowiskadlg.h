@@ -17,15 +17,21 @@ class TestStanowiskaDlg : public QDialog
 public:
     explicit TestStanowiskaDlg(Zasilacz * zas, Sterownik * ster, QWidget *parent = nullptr);
     ~TestStanowiskaDlg();
-    void zas_serialNo(const QString & serial);
     void deviceNameZasilacz(const QString & serial);
     void valueZasilacz(int kind, int value);
-
+    void configuredZasilacz(int state);
+    void ster_zdarzenieSilnik(int );
+    void configuredSterownik(int state);
+    void deviceNameSter(const QString & serial);
+private slots:
+    void connect2Device();
 private:
     Ui::TestStanowiskaDlg *ui;
 
     Zasilacz *zas;
     Sterownik *ster;
+    QString zasilaczName;
+    QString sterownikName;
 };
 
 #endif // TESTSTANOWISKADLG_H

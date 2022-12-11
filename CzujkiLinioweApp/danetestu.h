@@ -4,6 +4,12 @@
 #include <QObject>
 #include <QSet>
 
+typedef enum _testId {
+    REPRODUCIBILITY = 0,
+    REPEATABILITY,
+    TOLERANCE_TO_BEAM_MISALIGNMENT
+} TestIdType;
+
 struct ListaTestow {
     ListaTestow();
     QStringList nazwyTestow;
@@ -12,6 +18,19 @@ struct ListaTestow {
     short proccess;
     QSet<short> visible;
 };
+
+class DanePomiaru {
+public:
+    QString numerPierwszy;
+    QString numerDrugi;
+    short nrPomiaru;
+    float value;
+};
+
+QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane);
+QDataStream &operator>>(QDataStream &in, DanePomiaru &dane);
+QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
+QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
 
 class DaneTestu : public QObject
 {
@@ -49,18 +68,11 @@ public:
     const QString &getUwagi() const;
     void setUwagi(const QString &newUwagi);
 
-    const QString &getNumerPierwszy() const;
-    void setNumerPierwszy(const QString &newNumerPierwszy);
+    QString getNumerPierwszy(short nrPomiaru) const;
+    QString getNumerDrugi(short nrPomiaru) const;
 
-    const QString &getNumerDrugi() const;
-    void setNumerDrugi(const QString &newNumerDrugi);
-
-
-
-    const QList<short> &getNumerWybranejCzujki() const;
-    void setNumerWybranejCzujki(const QList<short> &newNumerWybranejCzujki);
-    void addNumerWybranejCzujki(short id);
-
+    void addWybranaCzujka(const QString & pierwszy, const QString & drugi);
+    bool sprawdzCzyBadanaCzujka(const QString & pierwszy, const QString & drugi);
 private:
     short id;
     QString name;
@@ -71,9 +83,7 @@ private:
     QString wilgotnosc;
     QString cisnienie;
     QString uwagi;
-    QString numerPierwszy;
-    QString numerDrugi;
-    QList<short> numerWybranejCzujki;
+    QList<DanePomiaru> daneWybranejCzujki;
 };
 
 #endif // DANETESTU_H

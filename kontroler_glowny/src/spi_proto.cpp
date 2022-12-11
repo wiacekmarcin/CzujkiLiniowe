@@ -148,7 +148,7 @@ void SPIMessage::sendReplyMsg()
 #ifdef DEBUG
             Serial1.println("Send Rep msg to PC");
 #endif  
-            Serial3.write(msgLocal+2, msgLocal[1]);
+            Serial2.write(msgLocal+2, msgLocal[1]);
             return;
         }
     } 
@@ -156,7 +156,7 @@ void SPIMessage::sendReplyMsg()
 #ifdef DEBUG
             Serial1.println("Send Rep msg to PC");
 #endif  
-            Serial3.write(msgLocal+2, msgLocal[1]);
+            Serial2.write(msgLocal+2, msgLocal[1]);
             return;
     }
 }

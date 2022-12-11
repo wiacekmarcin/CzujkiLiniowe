@@ -54,6 +54,7 @@ protected:
     bool moveHomePozioma();
     bool moveHomeKatPionowy();
     bool moveHomeKatPoziomy();
+    bool moveFiltrPosiotion();
 
 private:
 

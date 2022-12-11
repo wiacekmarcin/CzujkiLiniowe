@@ -3,17 +3,17 @@
 
 #include <QMessageBox>
 
-Test4Montaz::Test4Montaz(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent) :
+Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test4Montaz)
 {
     ui->setupUi(this);
 
-    ui->numerPierwszy->setText(test.getNumerPierwszy());
-    ui->numerDrugi->setText(test.getNumerDrugi());
-    ui->testName->setText(test.getName());
+    ui->numerPierwszy->setText(daneTestu.getNumerPierwszy(nrPomiaru));
+    ui->numerDrugi->setText(daneTestu.getNumerDrugi(nrPomiaru));
+    ui->testName->setText(daneTestu.getName());
 
-    if (badanie.getSystemOdbiornikNadajnik()) { //odb <-> nad
+    if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad
         ui->ePierwszy->setText("Nadajnik");
         ui->eDrugi->setText("Odbiornik");
     } else { //odb+nad <-> ref
@@ -22,9 +22,8 @@ Test4Montaz::Test4Montaz(const ParametryBadania &badanie, const DaneTestu &test,
     }
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
-    connect(ui->pbDalej, &QPushButton::pressed, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
-    connect(ui->pbPrzerwij, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
+
 }
 
 Test4Montaz::~Test4Montaz()

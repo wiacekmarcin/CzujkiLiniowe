@@ -29,8 +29,7 @@ class Test1ParametryTestu : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test1ParametryTestu(const ParametryBadania & badanie,
-                                 DaneTestu * test, short nrTestu,
+    explicit Test1ParametryTestu(short nrPomiaru, DaneTestu * test, const ParametryBadania & badanie,
                                  QWidget *parent = nullptr);
     ~Test1ParametryTestu();
 protected:
@@ -42,6 +41,7 @@ private slots:
 private:
     Ui::Test1ParametryTestu *ui;
     DaneTestu * test;
+    short nrPomiar;
 
 };
 

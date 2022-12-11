@@ -271,7 +271,19 @@ void TestSterownikaDlg::pbHomeAll_clicked()
     }
 }
 
-void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio)
+void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString & impTime)
 {
-    qDebug() << silnik << x << ratio;
+    bool ok;
+    unsigned int val = impTime.toUInt(&ok);
+    if (!ok)
+        val = 10000;
+    float valx = x.toFloat(&ok);
+    if (!ok)
+        valx = 0;
+    double valr = x.toDouble(&ok);
+    if (!ok)
+        valr = 0;
+    unsigned int impCnt = round(valx*valr);
+
+    sd->setPositionSilnik(silnik, false, impCnt, val);
 }

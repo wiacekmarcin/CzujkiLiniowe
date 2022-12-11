@@ -36,7 +36,7 @@ protected slots:
 
 protected:
     void pbHome_clicked(int silnik, const QString &impTime);
-    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio);
+    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString &impTime);
 
 private:
     Ui::TestSterownikaDlg *ui;

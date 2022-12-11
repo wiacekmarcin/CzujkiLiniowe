@@ -13,7 +13,8 @@ class Test3Sprawdzenie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test3Sprawdzenie(const ParametryBadania &badanie, const DaneTestu &test, QWidget *parent = nullptr);
+    explicit Test3Sprawdzenie(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+                              QWidget *parent = nullptr);
     ~Test3Sprawdzenie();
 
 protected:
