@@ -37,41 +37,38 @@ extern void setCreateStopMessageFun();
 
 
 Motor::Motor() :
-    reverseMotor(false)
+    mstate(IDLE) 
+    ,actSteps(0)
+    ,globalPos(0)
+    ,reverseMotor(false)
 	,maxSteps(0)
     ,baseSteps(0)
 	,middleSteps(0)
-	,delayImp(0)
-	,impTimer(0)
-	,globalPos(0)
 	,diff(0)
-	,newPosition(false)
 	,highlevel(false)
-    ,mstate(IDLE)
-	,actSteps(0)
+	,newPosition(false)
 	,home(false)
 	,interrupted(false)
 	,allSteps(0)
 	,baseErr(false)
-	,firstHome(true)
-	,setConf(false)
-	,homePion(false)
+	,moveP(false)
+    ,moveH(false)
 {
 	
 }
 
-void Motor::init(uint8_t mode)
+void Motor::init()
 {
+	pinMode(ENPIN, OUTPUT);
+	pinMode(DIRPIN, OUTPUT);
+	pinMode(PULSEPIN, OUTPUT);
+	pinMode(KRANCPIN, INPUT);
+	pinMode(STOPPIN, INPUT);
+	pinMode(MOVEPIN, OUTPUT);
+	
 	digitalWrite(MOVEPIN, LOW);
-	switch(mode) {	
-		case KATOWA_POZ: break;
-		case KOLOWA: break;
-		case KATOWA_PION:break;
-		case POZIOMA:break;
-		case PIONOWA:break;
-		default:
-		break;
-	}
+	digitalWrite(ENPIN, LOW);
+	
 }
 
 volatile char chDir = '>';
@@ -88,6 +85,7 @@ void Motor::setDirBase(bool back)
 	diff = back ? -1 : 1;
 }
 
+/*
 void Motor::setStop(bool hard)
 {
 	if (!hard) {
@@ -242,8 +240,9 @@ void Motor::impulse()
 		}
 	}
 }
+*/
 
-
+/*
 bool Motor::moveHome(uint8_t mode)
 {
 	bool ret = false;
@@ -397,4 +396,4 @@ bool Motor::moveHomeKatPoziomy()
 bool Motor::moveFiltrPosiotion()
 {
 	return true;
-}
+}*/

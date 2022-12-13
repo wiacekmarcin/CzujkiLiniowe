@@ -5,14 +5,26 @@
 //#define DEBUG
 
 #ifdef DEBUG
-void phex(uint8_t b)
-{
-    Serial.print(" ");
-    if (b < 10)
-        Serial.print("0");
-    Serial.print(b, HEX);
-}
-#endif // DEBUG
+	#define SD(T) Serial.print(T)
+	#define SDN(T) Serial.print(T)
+	#define SD2(T,P) Serial.print(T,P)
+	#define SDN2(T,P) Serial.print(T,P)
+
+	#define SDP(T, V) SD(T); SD(V)
+	#define SDPN(T, V) SD(T); SDN(V)
+    #define SPHEX(X) phex(X)
+    #define SPRINT(N)	SD("Parse");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+#else
+	#define SD(T) 
+	#define SDN(T) 
+	#define SD2(T,P) 
+	#define SDN2(T,P) 
+
+	#define SDP(T, V) 
+	#define SDPN(T, V)
+    #define SPHEX(X)
+    #define SPRINT(N)
+#endif
 
 Message::Message():
     lenMsg(0)
@@ -23,15 +35,13 @@ Message::Message():
     ,posData(0)
     ,recvPos(0)
     ,sendPos(0)
-    ,skipChars(0)
 {
     clear();
 }
 
 void Message::init()
 {
-    SPCR |= _BV(SPE);                       //Turn on SPI in Slave Mode
-  	SPI.attachInterrupt();     
+  
 }
 
 void Message::clear()
@@ -87,42 +97,21 @@ Result Message::parse()
     r.ok = true;
 
     c.reset();
-#ifdef DEBUG    
-    Serial.print("Parse  ");
-#endif    
+    SD("Parse  [");
     for (int i=0; i< lenMsg + restMsgCnt-1; ++i ) {
-#ifdef DEBUG        
-        Serial.print(recvBuff[i], HEX);
-        Serial.print(" ");
-#endif        
+        SD2(recvBuff[i], HEX);SD(" ");
         c.add(recvBuff[i]);
     }
-#ifdef DEBUG        
-    Serial.println(crcMsg, HEX);    
-#endif    
+    SD2(crcMsg, HEX); SDN("]")
+   
     if (c.getCRC() != crcMsg) {
-        
-        Serial.print("invalid crc ");
-        Serial.print(crcMsg, HEX);
-        Serial.print("!=");
-        Serial.println(c.getCRC(), HEX);
-
+        SD("invalid crc ");SD2(crcMsg, HEX);SD("!=");SDN2(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
-#ifdef DEBUG    
-    Serial.print("cmdMsg=");
-    Serial.print(cmdMsg, DEC);
-    Serial.print(" lenMsg");
-    Serial.print(lenMsg, DEC);
-    Serial.print(" addr=");
-    Serial.println(addrMsg, DEC);
-#endif    
+
+    SD("cmdMsg=");SD2(cmdMsg, DEC);SD(" lenMsg");SD2(lenMsg, DEC);SD(" addr=");SDN2(addrMsg, DEC);
     if (cmdMsg == LAST_REQ) {
-#ifdef DEBUG        
-        Serial.println("17 znakow do pominiecia");
-#endif        
-        skipChars = 17;
         return r;
     }
 
@@ -145,15 +134,13 @@ Result Message::parse()
     if (cmdMsg == MOVE_REQ) {
         r.data.move.isHome = (options & 0x01);
         if (r.data.move.isHome) 
-            r.data.move.steps = 0;
+            r.data.move.position = 0;
         else    
-            r.data.move.steps = toNumber32(dataCmd[0], dataCmd[1], dataCmd[2], dataCmd[3]);
+            r.data.move.position = (int32_t)toNumber32(dataCmd[0], dataCmd[1], dataCmd[2], dataCmd[3]);
         r.data.move.speed = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);    
         return r;
     }
-#ifdef DEBUG
-    Serial.println("Nieznana wiadomosc");
-#endif    
+    SDN("Nieznana wiadomosc");
     r.ok = false;
     return r;
 }

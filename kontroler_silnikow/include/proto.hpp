@@ -33,7 +33,7 @@ typedef struct _result {
 
         struct {
             bool isHome;
-            uint32_t steps;
+            int32_t position;
             uint32_t speed;
         } move;
     } data;
@@ -85,7 +85,6 @@ private:
     uint8_t sendPos;
     uint8_t dataCmd[15];
 
-    uint8_t skipChars;
-   
+  
 };
 #endif // __PROTO_H__
