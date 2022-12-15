@@ -32,7 +32,7 @@ public:
     void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
     inline bool isConnected() const { return connected; }
-    inline uint8_t getByte2() const { return confMsg[1]; }
+    inline uint8_t getByte2() const { return confMsg[1] | (connected ? 0x80 : 0x00); }
 
 protected:
     void sendSpiMsg(uint8_t * bytes, uint8_t cnt);

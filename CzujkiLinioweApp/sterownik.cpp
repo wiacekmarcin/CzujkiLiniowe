@@ -401,48 +401,70 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
     }
     responseData.append((const char*)recvBuffor, rc);
     DEBUGSER(QString("read [%1] [%2 ms]").arg(responseData.toHex().constData()).arg(ms));
-    return parseMessage(responseData);
+    return responseData;
 
 #endif
     return responseData;
 }
 
-SerialMessage Sterownik::parseMessage(QByteArray &reply)
+QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
 {
     qDebug() << __FILE__ << __LINE__ << "ParseMessage";
-    SerialMessage msg;
-    if (!msg.parseCommand(reply)) {
-        DEBUGSER(QString("Parse Msg faild %1").arg(msg.getParseReply()));
-        return msg;
-    }
-    DEBUGSER(QString("Parse Msg success %1").arg(msg.getParseReply()));
+    QVector<SerialMessage> ret;
+    QMap<int, QString> errMap;
+    errMap[SerialMessage::INVALID_REPLY] = "Nie prawidłowa odpowiedź";
+    errMap[SerialMessage::CLR_MESSAGE] = "Wiadomość czyszcząca";
+    errMap[SerialMessage::EMPTY_MESSAGE] = "Pusta wiadomość";
+    errMap[SerialMessage::INPROGRESS_REPLY] = "Wiadomość przerwana";
+    errMap[SerialMessage::WELCOME_REPLY] = "Wiadomość powitalna";
+    errMap[SerialMessage::CONF_REPLY] = "Wiadomość konfiguracyjna";
+    errMap[SerialMessage::MOVEHOME_REPLY] = "Wiadomość HOME_REPLy";
+    errMap[SerialMessage::POSITION_REPLY] = "Wiadomość POSITION_REPLY";
+    errMap[SerialMessage::RESET_REPLY] = "Wiadomość RESET_REPLY";
+    errMap[SerialMessage::CONF_MEGA_REPLY] = "Wiadomość MEGA_REPLY";
+    do {
+        SerialMessage msg;
+        if (!msg.parseCommand(reply)) {
+            DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
+            QString errmsg("Nie poprawna wiadomość:");
+            errmsg + errMap[msg.getParseReply()];
+            emit error(errmsg);
+            if (msg.getParseReply() == SerialMessage::INPROGRESS_REPLY)
+                return ret;
+            continue;
+        }
 
-    switch(msg.getParseReply())
-    {
-    case SerialMessage::INVALID_REPLY:
-    case SerialMessage::CLR_MESSAGE:
-    case SerialMessage::EMPTY_MESSAGE:
-    case SerialMessage::INPROGRESS_REPLY:
-    case SerialMessage::WELCOME_REPLY:
-    default:
-        break;
+        DEBUGSER(QString("Parse Msg success %1").arg(errMap[msg.getParseReply()]));
 
-    case SerialMessage::CONF_REPLY:
-        emit setParamsDone(msg.getSilnik(), true, false);
-        break;
+        switch(msg.getParseReply())
+        {
+        case SerialMessage::INVALID_REPLY:
+        case SerialMessage::CLR_MESSAGE:
+        case SerialMessage::EMPTY_MESSAGE:
+        case SerialMessage::INPROGRESS_REPLY:
+        case SerialMessage::WELCOME_REPLY:
+        default:
+            break;
 
-    case SerialMessage::MOVEHOME_REPLY:
-        emit setPositionDone(true, true, 0);
-        break;
+        case SerialMessage::CONF_REPLY:
+            emit setParamsDone(msg.getSilnik(), true, false);
+            emit zdarzenieSilnik(msg.getSilnik(), msg.getActive(msg.getSilnik())? M_ACTIVE : M_NOACTIVE);
+            break;
 
-    case SerialMessage::POSITION_REPLY:
-        emit setPositionDone(false, true, msg.getSteps());
-        break;
+        case SerialMessage::MOVEHOME_REPLY:
+            emit setPositionDone(true, true, 0);
+            break;
 
-    case SerialMessage::RESET_REPLY:
-        break;
-    }
-    return msg;
+        case SerialMessage::POSITION_REPLY:
+            emit setPositionDone(false, true, msg.getSteps());
+            break;
+
+        case SerialMessage::RESET_REPLY:
+            break;
+        }
+        ret.append(msg);
+    } while (reply.size());
+    return ret;
 }
 
 void Sterownik::closeDevice(bool waitForDone)

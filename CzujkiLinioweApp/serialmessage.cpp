@@ -180,6 +180,9 @@ bool SerialMessage::parseCommand(QByteArray &arr)
                     active[s] = (data[s-1] & 0x08) == 0x08;
                 }
                 return true;
+            } else if (silnik < 10) {
+                active[silnik] = (options & 0x08) == 0x08;
+                m_parseReply = CONF_REPLY;
             }
             qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0] << active[1]<< active[2]<< active[3]<< active[4]<< active[5]<< active[6]<< active[7]<< active[8]<< active[9];
             return true;

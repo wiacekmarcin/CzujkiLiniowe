@@ -87,7 +87,7 @@ protected:
    bool configureDevice(bool wlcmmsg);
    bool write(const QByteArray & req, int currentWaitWriteTimeout);
    QByteArray read(int currentWaitWriteTimeout);
-   SerialMessage parseMessage(QByteArray &reply);
+   QVector<SerialMessage> parseMessage(QByteArray &reply);
 
 
 private:

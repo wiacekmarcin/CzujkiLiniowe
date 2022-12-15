@@ -185,10 +185,6 @@ void SPIMessage::setConfiguration(uint8_t *config, uint8_t len)
 {
     memcpy(confMsg, config, len);
     confLen = len;
-    if (connected) {
-        confMsg[1] |= 0x08;
-    }
-
 }
 
 void SPIMessage::sendConfiguration()
