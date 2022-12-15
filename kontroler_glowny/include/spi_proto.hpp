@@ -43,7 +43,7 @@ private:
     uint8_t movePin;
     uint8_t busyPin;
     uint8_t replyMsg[20];
-    uint8_t progressMsg[3];
+    uint8_t progressMsg[20];
     uint8_t echoMsg[3];
     uint8_t echoRepMsg[3];
     uint8_t confLen;

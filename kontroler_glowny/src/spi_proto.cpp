@@ -29,7 +29,7 @@ SPIMessage::SPIMessage()
 , ssPin(0)
 , stopPin(0)
 , replyMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-, progressMsg{0, 0, 0}
+, progressMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 , echoMsg{0, 0, 0}
 , echoRepMsg{0, 0, 0}
 , confLen(0)
@@ -61,16 +61,20 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     progressMsg[2] = c.getCRC();
 
     c.reset();
-    replyMsg[0] = (MessageSerial::LAST_REQ << 4) & 0xf0;
+    replyMsg[0] = ((MessageSerial::LAST_REQ << 4) & 0xf0) | 15;
     replyMsg[1] = (uint8_t)((addr << 4) & 0xf0);
     c.add(replyMsg[0]);
     c.add(replyMsg[1]);
-    replyMsg[2] = c.getCRC();
-    for (uint8_t b=3; b<20; ++b)
+    for (uint8_t b=0; b<15; ++b)
     {
-        replyMsg[b] = ((b-3) << 4) + addr;
+        replyMsg[2+b] = ((b) << 4) + addr;
+        c.add(replyMsg[b+2]);
     }
-
+    replyMsg[17] = c.getCRC();
+    replyMsg[18] = 0X0A;
+    replyMsg[19] = 0X0A;
+    
+    
     c.reset();
     echoMsg[0] = (MessageSerial::ECHO_CLEAR_REQ << 4) & 0xf0;
     echoMsg[1] = (uint8_t)((addr << 4) & 0xf0);
@@ -87,7 +91,7 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
 
     c.reset();
     confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 12;
-    confMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x07;
+    confMsg[1] = (uint8_t)((addr << 4) & 0xf0);
     confMsg[2] = 0;
     confMsg[3] = 0;
     confMsg[4] = 0;
@@ -112,6 +116,7 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
 void SPIMessage::sendReplyMsg()
 {
 #ifdef DEBUG
+if (addr == 5) {
     SERIALDBG.print("M");
     SERIALDBG.print(addr, DEC);
     SERIALDBG.print(" Send Reply Msg : [");
@@ -119,12 +124,14 @@ void SPIMessage::sendReplyMsg()
         phex(replyMsg[s]);
     }
     SERIALDBG.println("]");
+}
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
     sendSpiMsg(msgLocal, 20);
 
 #ifdef DEBUG
+    if (addr == 5) {
     SERIALDBG.print("Recv message [");
     phex(msgLocal[0]);
     phex(msgLocal[1]);
@@ -136,21 +143,32 @@ void SPIMessage::sendReplyMsg()
     phex(msgLocal[7]);
     phex(msgLocal[8]);
     phex(msgLocal[9]);
+    phex(msgLocal[10]);
+    phex(msgLocal[11]);
+    phex(msgLocal[12]);
+    phex(msgLocal[13]);
+    phex(msgLocal[14]);
+    phex(msgLocal[15]);
+    phex(msgLocal[16]);
+    phex(msgLocal[17]);
+    phex(msgLocal[18]);
+    phex(msgLocal[19]);
     SERIALDBG.println("]");
+    }
 
 #endif
     bool send2Pc = false;
     if (msgLocal[0] == 0x0A && msgLocal[1] == 3 ) {
         if (msgLocal[2] == 0x10 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-            SERIALDBG.println("Connected");
+            //SERIALDBG.println("Connected");
 #endif  
             connected = true;
             return;
         }
         if (msgLocal[2] == 0x90 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-            SERIALDBG.println("Send Rep msg to PC");
+            //SERIALDBG.println("Send Rep msg to PC");
 #endif  
             SERIALOUT.write(msgLocal+2, msgLocal[1]);
             return;
@@ -158,7 +176,7 @@ void SPIMessage::sendReplyMsg()
     } 
     if (msgLocal[0] == 0x0A && msgLocal[1] == 7 && msgLocal[3] == 0x74 && ((msgLocal[4] >> 4) & 0x0f) == addr) {
 #ifdef DEBUG
-            SERIALDBG.println("Send Rep msg to PC");
+            //SERIALDBG.println("Send Rep msg to PC");
 #endif  
             SERIALOUT.write(msgLocal+2, msgLocal[1]);
             return;

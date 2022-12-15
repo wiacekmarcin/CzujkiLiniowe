@@ -16,8 +16,31 @@
 #define BUSYPIN A0
 
 //#define MAINDEBUG
+//#define DEBUG
+#ifdef DEBUG
+	#define SD(T) Serial.print(T)
+	#define SDN(T) Serial.println(T)
+	#define SD2(T,P) Serial.print(T,P)
+	#define SDN2(T,P) Serial.println(T,P)
 
-Motor *mot; 
+	#define SDP(T, V) SD(T); SD(V)
+	#define SDPN(T, V) SD(T); SDN(V)
+    #define SPHEX(X) phex(X)
+    #define SPRINT(N)	SD("Sending [0A");for (int i=0;i<N;++i){ SPHEX(smsg.sendBuff[i]); }SDN("]");
+#else
+	#define SD(T) 
+	#define SDN(T) 
+	#define SD2(T,P) 
+	#define SDN2(T,P) 
+
+	#define SDP(T, V) 
+	#define SDPN(T, V)
+    #define SPHEX(X)
+    #define SPRINT(N)
+#endif
+
+//Motor *mot; 
+Motor mot; 
 WorkMode mode;
 SPIMessage smsg;
 
@@ -28,7 +51,10 @@ void setBusy(bool busy)
 	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
 	if (!busy) {
 		SPDR = FB;
+		//smsg.sendPos = 1;
 		smsg.sendPos = 0;
+		smsg.recvPos = 0;
+		//SPRINT(20)
 
 	}
 }
@@ -41,18 +67,37 @@ void setCreateStopMessageFun()
 
 void setStopSoft()
 {
-	mot->setStop(false);
+	//mot->setStop(false);
+	mot.setStop(false);
 }
 
 void setStopHard()
 {
-	mot->setStop(true);
+	//mot->setStop(true);
+	mot.setStop(true);
 }
 
 void motorImpulse()
 {
-	mot->impulse();
+	//mot->impulse();
+	mot.impulse();
 }
+
+volatile bool received = false;
+//volatile uint8_t recvBuff[32];
+//volatile uint8_t sendBuff[32];
+
+ISR(SPI_STC_vect) // Inerrrput routine function
+{
+	noInterrupts();
+	smsg.recvBuff[smsg.recvPos] = SPDR; // Value received from master if store in variable slavereceived
+	SPDR = smsg.sendBuff[smsg.sendPos];
+	smsg.recvPos = (smsg.recvPos + 1) & 0x3f;
+	smsg.sendPos = (smsg.sendPos + 1) & 0x1f;
+	received = true;
+	interrupts();
+}
+
 
 
 void setup()
@@ -62,15 +107,16 @@ void setup()
 	setBusy(false);
 
 	mode.init();
-	mot = new Filtr();
-	mot->init();
+	//mot = Motor();
+	//mot->init();
+	mot.init();
 	digitalWrite(Motor::ENPIN, (mode.isDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
 	if (mode.isDebugMode()) {
 		Serial.println("DEBUG MODE");
 		return;
 	}
 
-	smsg.init(mode.getMode(), mot);
+	smsg.init(mode.getMode(), &mot);
 	SPI.attachInterrupt(); 
 	SPCR |= _BV(SPE);
 	pinMode(MISO, OUTPUT); //                       //Turn on SPI in Slave Mode
@@ -78,6 +124,7 @@ void setup()
 
 	Timer1.attachInterrupt(motorImpulse);
 	Timer1.initialize(125000);
+	Timer1.stop();
 
 	attachInterrupt(digitalPinToInterrupt(Motor::STOPPIN), setStopSoft, FALLING);
 	attachInterrupt(digitalPinToInterrupt(Motor::KRANCPIN), setStopHard, FALLING);
@@ -86,15 +133,6 @@ void setup()
 	Serial.println("\nSTART");
 }
 
-volatile bool received = false;
-ISR(SPI_STC_vect) // Inerrrput routine function
-{
-	smsg.recvBuff[smsg.recvPos++] = SPDR; // Value received from master if store in variable slavereceived
-	SPDR = smsg.sendBuff[smsg.sendPos++];
-	//smsg.recvPos = (smsg.recvPos + 1) & 0x3f;
-	//smsg.sendPos = (smsg.sendPos + 1) & 0x1f;
-	received = true;
-}
 
 unsigned long prev = 0;
 unsigned long act = 0;

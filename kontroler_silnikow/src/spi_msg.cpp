@@ -6,7 +6,7 @@
 #include "silnik.hpp"
 
 #define DEBUG
-#define EXT_DEBUG
+//#define EXT_DEBUG
 #ifdef DEBUG
 	#define SD(T) Serial.print(T)
 	#define SDN(T) Serial.println(T)
@@ -81,6 +81,7 @@ void SPIMessage::init(uint8_t mode, Motor * mot_)
     c.add(sendBuff[1]);
 	c.add(sendBuff[2]);
     sendBuff[3] = c.getCRC();
+	sendBuff[4] = 0;
 
     msg.init();
     mot = mot_;
@@ -91,6 +92,7 @@ void SPIMessage::proceed()
 {
     ESD("1.Start Rec/Act:[");ESD(actProcess+1);ESD(",");ESD(recvPos);ESDN("]");
 	ESDN("----------");
+	SPRINT(20);
 
 	while (recvPos > 0 && actProcess < recvPos)
 	{
@@ -103,8 +105,6 @@ void SPIMessage::proceed()
 			if (skipCharCnt == 0)
 			{
 				SDN("END SKIP, BUSY OFF");
-
-				sendPos = 0;
 				msg.clear();
 				setBusy(false);
 			} 
@@ -138,7 +138,7 @@ void SPIMessage::proceed()
 		{
     	    SDN(" CMD:LAST");
             SPRINT(20);
-			skipCharCnt = 16;
+			skipCharCnt = 0;
 			break;
 		}
 
@@ -211,7 +211,7 @@ void SPIMessage::echoRequestFun()
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-
+	sendBuff[4] = 0;
 	SPRINT(4);
 }
 
@@ -239,6 +239,7 @@ void SPIMessage::progressRequestFun()
 	crc.add(sendBuff[5]);
 	crc.add(sendBuff[6]);
 	sendBuff[7] = crc.getCRC();
+	sendBuff[8] = 0;
 	SPRINT(8);
 }
 
@@ -263,7 +264,8 @@ void SPIMessage::configurationRequest(Result status)
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-    SPRINT(4);
+	sendBuff[4] = 0;
+    SPRINT(6);
 }
 
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
@@ -285,6 +287,7 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
+	sendBuff[4] = 0;
     SPRINT(4);
 
 	if (!wasMove)

@@ -5,7 +5,7 @@
 
 extern Message msg;
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 	#define SD(T) Serial.print(T);

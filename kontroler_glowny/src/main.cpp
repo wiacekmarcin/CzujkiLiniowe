@@ -99,7 +99,7 @@ void setup (void)
     // Then put SPI hardware into Master mode and turn SPI on
     SPI.begin ();
     //
-    SPI.setClockDivider(SPI_CLOCK_DIV128);
+    SPI.setClockDivider(SPI_CLOCK_DIV64);
 
     
     delay(1500);
@@ -254,5 +254,7 @@ void resetRequest()
     digitalWrite(resetPin, LOW);
     delay(1000);
     digitalWrite(resetPin, HIGH);
+    actWork = MessageSerial::NOP;
 }
+
 

@@ -26,6 +26,28 @@
     #define SPRINT(N)
 #endif
 
+#ifdef DEBUG_EXT
+	#define ESD(T) Serial.print(T)
+	#define ESDN(T) Serial.println(T)
+	#define ESD2(T,P) Serial.print(T,P)
+	#define ESDN2(T,P) Serial.println(T,P)
+
+	#define ESDP(T, V) SD(T); SD(V)
+	#define ESDPN(T, V) SD(T); SDN(V)
+    #define ESPHEX(X) phex(X)
+    #define ESPRINT(N)	SD("Parse");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+#else
+	#define ESD(T) 
+	#define ESDN(T) 
+	#define ESD2(T,P) 
+	#define ESDN2(T,P) 
+
+	#define ESDP(T, V) 
+	#define ESDPN(T, V)
+    #define ESPHEX(X)
+    #define ESPRINT(N)
+#endif
+
 Message::Message():
     lenMsg(0)
     ,cmdMsg(INV_MSG)
@@ -83,7 +105,7 @@ bool Message::add(uint8_t b)
         posData = 0;
     }
 
-    if (posData == lenMsg) {
+    if (lenMsg==0 || posData == lenMsg) {
         crcMsg = b;
         return true;
     } else {
@@ -100,19 +122,25 @@ Result Message::parse()
 
     c.reset();
     SD("Parse  [");
-    for (int i=0; i< lenMsg + restMsgCnt-1; ++i ) {
-        SD2(recvBuff[i], HEX);SD(" ");
-        c.add(recvBuff[i]);
+    c.add(recvBuff[0]);
+    SD2(recvBuff[0], HEX);SD(" ");
+    c.add(recvBuff[1]);
+    SD2(recvBuff[1], HEX);SD(" ");
+    SD("| ");
+    for (int i=0; i < lenMsg; ++i ) {
+        c.add(dataCmd[i]);
+        SD2(dataCmd[i], HEX);SD(" ");
     }
+    SD("| ");
     SD2(crcMsg, HEX); SDN("]");
    
     if (c.getCRC() != crcMsg) {
-        SD("invalid crc ");SD2(crcMsg, HEX);SD("!=");SDN2(c.getCRC(), HEX);
+        SD("invalid crc (k)");SD2(crcMsg, HEX);SD("!=(w)");SDN2(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
 
-    SD("cmdMsg=");SD2(cmdMsg, DEC);SD(" lenMsg");SD2(lenMsg, DEC);SD(" addr=");SDN2(addrMsg, DEC);
+    ESD("cmdMsg=");ESD2(cmdMsg, DEC);ESD(" lenMsg");ESD2(lenMsg, DEC);ESD(" addr=");ESDN2(addrMsg, DEC);
     if (cmdMsg == LAST_REQ) {
         return r;
     }
@@ -142,7 +170,7 @@ Result Message::parse()
         r.data.move.speed = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);    
         return r;
     }
-    SDN("Nieznana wiadomosc");
+    ESDN("Nieznana wiadomosc");
     r.ok = false;
     return r;
 }
