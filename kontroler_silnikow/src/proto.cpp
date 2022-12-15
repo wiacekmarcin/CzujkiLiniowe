@@ -2,13 +2,13 @@
 #include <SPI.h>
 #include "crc8.hpp"
 
-//#define DEBUG
+#define DEBUG
 
 #ifdef DEBUG
 	#define SD(T) Serial.print(T)
-	#define SDN(T) Serial.print(T)
+	#define SDN(T) Serial.println(T)
 	#define SD2(T,P) Serial.print(T,P)
-	#define SDN2(T,P) Serial.print(T,P)
+	#define SDN2(T,P) Serial.println(T,P)
 
 	#define SDP(T, V) SD(T); SD(V)
 	#define SDPN(T, V) SD(T); SDN(V)
@@ -68,8 +68,10 @@ bool Message::add(uint8_t b)
         return false;
     }
 
-    if (!startMsg)
+    if (!startMsg) {
         return false;
+    }
+        
 
     if (recvPos == 2) {
         addrMsg = (recvBuff[1] >> 4)  & 0x0f;
@@ -102,7 +104,7 @@ Result Message::parse()
         SD2(recvBuff[i], HEX);SD(" ");
         c.add(recvBuff[i]);
     }
-    SD2(crcMsg, HEX); SDN("]")
+    SD2(crcMsg, HEX); SDN("]");
    
     if (c.getCRC() != crcMsg) {
         SD("invalid crc ");SD2(crcMsg, HEX);SD("!=");SDN2(c.getCRC(), HEX);

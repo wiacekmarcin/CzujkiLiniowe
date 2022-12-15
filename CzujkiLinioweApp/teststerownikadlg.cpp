@@ -22,7 +22,8 @@
                     SETCONF(9)
 
 #define CONN(N) connect(ui->pbHome_##N, &QPushButton::clicked, this, [this](){ this->pbHome_clicked(N, this->ui->delay##N->text()); }); \
-                connect(ui->pbUstawPos_##N, &QPushButton::clicked, this, [this](){ this->pbUstawPos_clicked(N, ui->posX_##N->text(), ui->ratio##N->text()); }); \
+                connect(ui->pbUstawPos_##N, &QPushButton::clicked, this, [this](){ \
+    this->pbUstawPos_clicked(N, ui->posX_##N->text(), ui->ratio##N->text(), this->ui->delay##N->text()); }); \
 
 
 #define CONN_ALL CONN(1) \
@@ -81,6 +82,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     connect(ui->pbSetConfiguration, &QPushButton::clicked, this, &TestSterownikaDlg::pbSetConfiguration_clicked);
     connect(ui->pbConnect, &QPushButton::clicked, this, &TestSterownikaDlg::pbConnect_clicked);
     connect(ui->pbDisconnect,&QPushButton::clicked, this, &TestSterownikaDlg::pbDisconnect_clicked);
+    connect(ui->pbReset, &QPushButton::clicked, this, &TestSterownikaDlg::pbResett_clicked);
 
     ADDICONS_ALL
 
@@ -201,6 +203,8 @@ void TestSterownikaDlg::sd_disconnect()
 void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
 {
     ui->dbg3->append(QString("Zdarzenie M[%1]=%2").arg(silnik).arg(zdarzenie));
+    if (silnik == 0)
+        return;
     switch(zdarzenie) {
     case Sterownik::M_ACTIVE:
         ikonyStatusu[silnik].first->setStyleSheet("background-color:green");
@@ -229,6 +233,12 @@ void TestSterownikaDlg::pbDisconnect_clicked()
 {
     ui->dbg3->append(QString("Disconnect on demand"));
     sd->disconnectDevice();
+}
+
+void TestSterownikaDlg::pbResett_clicked()
+{
+    ui->dbg3->append(QString("Reset na życzenie"));
+    sd->setReset();
 }
 
 void TestSterownikaDlg::sd_debug(const QString &d)

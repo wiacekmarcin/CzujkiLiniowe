@@ -6,10 +6,10 @@ class Filtr : public Motor
 {
 public:
     Filtr();
-    void setStop(bool hard);
-    bool moveHome(uint32_t delayImp);
-    bool movePosition(int32_t pos, uint32_t delayImp);
-    void impulse();
+    virtual void setStop(bool hard);
+    virtual bool moveHome(uint32_t delayImp);
+    virtual bool movePosition(int32_t pos, uint32_t delayImp);
+    virtual void impulse();
 
 private:
     volatile unsigned int temp1;

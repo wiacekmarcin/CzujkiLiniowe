@@ -1,7 +1,10 @@
 #include "protocol.hpp"
 #include <Arduino.h>
 
-//#define DEBUG_SERIAL
+#define DEBUG_SERIAL
+
+#define SERIALOUT Serial
+#define SERIALDBG Serial1
 
 MessageSerial::MessageSerial() 
 {
@@ -13,7 +16,7 @@ MessageSerial::MessageSerial()
 
 void MessageSerial::init() 
 {
-    Serial2.begin(115200); 
+    SERIALOUT.begin(115200); 
     reset();
 }
 
@@ -36,14 +39,14 @@ bool MessageSerial::check(unsigned char c)
         rozkaz = data[0] >> 4;
         dlugosc = data[0] & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial1.print("ROZ=");
-        Serial1.print(rozkaz,DEC);
-        Serial1.print(" LEN=");
-        Serial1.println(dlugosc, DEC);
+        SERIALDBG.print("ROZ=");
+        SERIALDBG.print(rozkaz,DEC);
+        SERIALDBG.print(" LEN=");
+        SERIALDBG.println(dlugosc, DEC);
 #endif
         if (rozkaz == ECHO_CLEAR_REQ && dlugosc == 0) {
 #ifdef DEBUG_SERIAL            
-        Serial1.println("ECHO_CLEAR_REQ");
+        SERIALDBG.println("ECHO_CLEAR_REQ");
 #endif
             posCmd = 0;
             bool r = parseRozkaz();
@@ -51,7 +54,7 @@ bool MessageSerial::check(unsigned char c)
                 reset();
                 sendError("ZLY ROZKAZ");
 #ifdef DEBUG_SERIAL                    
-                Serial1.println("ZLY ROZKAZ");
+                SERIALDBG.println("ZLY ROZKAZ");
 #endif                
             }
             return true;
@@ -62,8 +65,8 @@ bool MessageSerial::check(unsigned char c)
         crc.add(data[1]);
         address = (data[1] >> 4) & 0x0f;
 #ifdef DEBUG_SERIAL            
-        Serial1.print("ADDRR=");
-        Serial1.println(address);
+        SERIALDBG.print("ADDRR=");
+        SERIALDBG.println(address);
 #endif 
         return false;
     }
@@ -72,24 +75,24 @@ bool MessageSerial::check(unsigned char c)
         lenMsg = posCmd;
         uint8_t c = crc.getCRC();
 #ifdef DEBUG_SERIAL            
-        Serial1.print("CRC (");
-        Serial1.print(c,HEX);
-        Serial1.print("==");
-        Serial1.print(data[posCmd-1],HEX);
-        Serial1.println(")");
+        SERIALDBG.print("CRC (");
+        SERIALDBG.print(c,HEX);
+        SERIALDBG.print("==");
+        SERIALDBG.print(data[posCmd-1],HEX);
+        SERIALDBG.println(")");
 #endif        
         if (data[posCmd-1] == c) {
             posCmd = 0;
             bool r = parseRozkaz();
 #ifdef DEBUG_SERIAL
-            Serial1.print("actWork=");                    
-            Serial1.println(actWork, DEC);
+            SERIALDBG.print("actWork=");                    
+            SERIALDBG.println(actWork, DEC);
 #endif  
             if (!r) {
                 reset();
                 sendError("ZLY ROZKAZ");
 #ifdef DEBUG_SERIAL                    
-                Serial1.println("ZLY ROZKAZ");
+                SERIALDBG.println("ZLY ROZKAZ");
 #endif                
             }
             return r;
@@ -98,7 +101,10 @@ bool MessageSerial::check(unsigned char c)
         posCmd = 0;
         sendError("ZLE CRC");
 #ifdef DEBUG_SERIAL            
-        Serial1.print("CRC FAILD");
+        SERIALDBG.print("CRC FAILD\n [");
+        for (uint8_t t = 0 ; t  < lenMsg + 3; ++t)
+            SERIALDBG.print(data[t], HEX);
+        SERIALDBG.println("]");    
 #endif        
         return false;
 
@@ -112,7 +118,7 @@ bool MessageSerial::check(unsigned char c)
         posCmd = 0;
         sendError("ZBYT DUZA WIAD");
 #ifdef DEBUG_SERIAL           
-        Serial1.println("ZBYT DUZA WIADOMOSC");
+        SERIALDBG.println("ZBYT DUZA WIADOMOSC");
 #endif        
         return false;    
     }
@@ -132,7 +138,7 @@ void MessageSerial::sendMessage(uint8_t cmd, uint8_t addr, uint8_t options, uint
     crc.restart();
     crc.add(sendData, len+2);
     sendData[len+2] = crc.getCRC();
-    Serial2.write(sendData, len+3);
+    SERIALOUT.write(sendData, len+3);
 }
 
 bool MessageSerial::parseRozkaz()
@@ -147,15 +153,15 @@ bool MessageSerial::parseRozkaz()
 
         case ECHO_CLEAR_REQ:
         {
-            Serial2.write(ECHO_CLEAR_REP);
+            SERIALOUT.write(ECHO_CLEAR_REP);
             actWork = NOP;
             return true;
         }
 
         case CONF_REQ:
         {
-            Serial1.print("konf ");
-            Serial1.println(address, DEC);        
+            SERIALDBG.print("konf ");
+            SERIALDBG.println(address, DEC);        
             if (address == 0) {
                    actWork = CONFIGURATION_LOCAL;
             }
@@ -172,9 +178,14 @@ bool MessageSerial::parseRozkaz()
             actWork = MOVE_REQUEST;
             return true;
         }
+        case RESET_REQ:
+        {
+            actWork = RESET_REQUEST;
+            return true;
+        }    
         default:
-            Serial1.print("Nieznany rozkaz ");
-            Serial1.println(rozkaz, DEC);
+            SERIALDBG.print("Nieznany rozkaz ");
+            SERIALDBG.println(rozkaz, DEC);
             break;
 
     }
@@ -186,7 +197,7 @@ void MessageSerial::sendWelcomeMsg()
 {
                                 //1   2   3   4   5   6   7   8   9   10  11  12  13  14  15  
     uint8_t sendData[15] = {'C','Z','U','J','N','I','K','I','L','I','N','I','O','W', 'E'};
-    sendMessage(WELCOME_MSG_REP, 0x00, 0x00, sendData, 15);
+    sendMessage(WELCOME_MSG_REP, 10, 0x00, sendData, 15);
 }
 
 void MessageSerial::sendError(const char * err)
@@ -199,15 +210,12 @@ void MessageSerial::sendError(const char * err)
     sendMessage(ECHO_CLEAR_REP, 0x00, 0x01, sendData, i);
 }
 
-void MessageSerial::sendConfigLocalDoneMsg()
+void MessageSerial::sendConfigLocalDoneMsg(uint8_t bytes[], uint8_t len)
 {
-    sendMessage(CONF_REP, 0, 1, nullptr, 0);
+    sendMessage(CONF_REP, 0, 0x08, bytes, len);
 }
 
-void MessageSerial::sendConfigDoneMsg(uint8_t addr, bool suc)
-{
-    sendMessage(CONF_REP, addr, suc ? 1 : 0, nullptr, 0);
-}
+
 
 void MessageSerial::copyCmd(uint8_t *tab, uint8_t len)
 {

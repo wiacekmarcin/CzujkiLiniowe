@@ -33,6 +33,7 @@ protected slots:
     void pbHomeAll_clicked();
     void pbConnect_clicked();
     void pbDisconnect_clicked();
+    void pbResett_clicked();
 
 protected:
     void pbHome_clicked(int silnik, const QString &impTime);

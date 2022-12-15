@@ -21,11 +21,13 @@ Motor *mot;
 WorkMode mode;
 SPIMessage smsg;
 
+static constexpr uint8_t FB = 0x0A;
+
 void setBusy(bool busy)
 {
 	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
 	if (!busy) {
-		SPDR = smsg.FB;
+		SPDR = FB;
 		smsg.sendPos = 0;
 
 	}
@@ -63,10 +65,16 @@ void setup()
 	mot = new Filtr();
 	mot->init();
 	digitalWrite(Motor::ENPIN, (mode.isDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
-	if (mode.isDebugMode())
+	if (mode.isDebugMode()) {
+		Serial.println("DEBUG MODE");
 		return;
+	}
 
 	smsg.init(mode.getMode(), mot);
+	SPI.attachInterrupt(); 
+	SPCR |= _BV(SPE);
+	pinMode(MISO, OUTPUT); //                       //Turn on SPI in Slave Mode
+  	 
 
 	Timer1.attachInterrupt(motorImpulse);
 	Timer1.initialize(125000);
@@ -78,15 +86,18 @@ void setup()
 	Serial.println("\nSTART");
 }
 
+volatile bool received = false;
 ISR(SPI_STC_vect) // Inerrrput routine function
 {
-	smsg.recvBuff[smsg.recvPos] = SPDR; // Value received from master if store in variable slavereceived
-	SPDR = smsg.sendBuff[smsg.sendPos];
-	smsg.recvPos = (smsg.recvPos + 1) & 0x3f;
-	smsg.sendPos = (smsg.sendPos + 1) & 0x1f;
-	smsg.received = true;
+	smsg.recvBuff[smsg.recvPos++] = SPDR; // Value received from master if store in variable slavereceived
+	SPDR = smsg.sendBuff[smsg.sendPos++];
+	//smsg.recvPos = (smsg.recvPos + 1) & 0x3f;
+	//smsg.sendPos = (smsg.sendPos + 1) & 0x1f;
+	received = true;
 }
 
+unsigned long prev = 0;
+unsigned long act = 0;
 void loop()
 {
 	if (mode.isDebugMode())
@@ -97,13 +108,18 @@ void loop()
 	}
 
 	while (true) {
-		if (smsg.received)
+		act = millis();
+		if (act-prev > 5000) { Serial.println("Czekam..."); prev = act; }
+		
+		if (received) {
 			smsg.proceed();
+			received = false;
+		}
 		
 	}
 }
 
-void phex2(uint8_t b)
+void phex(uint8_t b)
 {
 	Serial.print(" ");
 	if (b < 16)

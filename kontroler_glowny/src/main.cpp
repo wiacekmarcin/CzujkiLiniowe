@@ -9,6 +9,9 @@ MessageSerial msg;
 
 #define DEBUG
 
+#define SERIALOUT Serial
+#define SERIALDBG Serial1
+
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
@@ -26,6 +29,7 @@ static void configurationLocal();
 static void welcomeMsg();
 static void configuration();
 static void moveSteps();
+static void resetRequest();
 //static void sendProgressMsg(uint8_t index);
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
@@ -33,10 +37,10 @@ volatile bool timeout = false;
 
 static void phex(uint8_t b)
 {
-    Serial1.print(" ");
+    SERIALDBG.print(" ");
     if (b < 16)
-        Serial1.print("0");
-    Serial1.print(b, HEX);
+        SERIALDBG.print("0");
+    SERIALDBG.print(b, HEX);
 }
 
 //volatile short checkProgres = 0;
@@ -77,9 +81,9 @@ void setup (void)
     digitalWrite(resetPin, LOW);
     delay(50);
     digitalWrite(resetPin, HIGH);
-    Serial2.begin(115200);
+    SERIALOUT.begin(115200);
 #ifdef DEBUG    
-    Serial1.begin(115200);
+    SERIALDBG.begin(115200);
 #endif  
 
     //delay(1450);
@@ -116,10 +120,10 @@ void setup (void)
         motors[n].sendEchoMsg();
         delay(150);
     }
-    Serial1.println("---------------------");
+    SERIALDBG.println("---------------------");
 
-    Timer1.initialize((unsigned long) 500000000);
-    Timer1.attachInterrupt(timerHandler);
+    //Timer1.initialize((unsigned long) 500000000);
+    //Timer1.attachInterrupt(timerHandler);
 
 
     
@@ -141,7 +145,7 @@ unsigned long prevMillis = 0;
 volatile bool sendReplyMsg = false;
 void loop (void)
 {
-    /*
+    
     if (activeBusy) {
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
@@ -151,17 +155,18 @@ void loop (void)
             }
         }
     }
+    
 
-
+/*
     if (checkProgress) {
         checkProgress = false;
-        Serial1.println(" Send ECHO/PROGRESS");
+        SERIALDBG.println(" Send ECHO/PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             motors[n].sendProgressMsg();
             delay(5);
         }
     }
-    */
+  */  
     readSerial();
         
     switch(actWork) {
@@ -169,6 +174,7 @@ void loop (void)
     case MessageSerial::CONFIGURATION: configuration(); break; 
     case MessageSerial::CONFIGURATION_LOCAL: configurationLocal(); break; 
     case MessageSerial::MOVE_REQUEST: moveSteps(); break;
+    case MessageSerial::RESET_REQUEST: resetRequest(); break;
     default:
     break;
     }
@@ -177,10 +183,8 @@ void loop (void)
 
 void readSerial()
 {
-    if (Serial2.available())  {
-        int c = Serial2.read();
-        Serial1.println(c, HEX);
-        Serial.println(c, HEX);
+    if (SERIALOUT.available())  {
+        int c = SERIALOUT.read();
         if (msg.check(c)) {
             actWork = msg.getStatusWork();
             return;
@@ -191,7 +195,7 @@ void readSerial()
 void welcomeMsg()
 {
 #ifdef DEBUG
-    Serial1.println("Welcome Msg");
+    SERIALDBG.println("Send Welcome Msg");
 #endif        
     msg.sendWelcomeMsg();
     actWork = MessageSerial::NOP;
@@ -201,11 +205,22 @@ void welcomeMsg()
 void configurationLocal()
 {
 #ifdef DEBUG
-    Serial1.println("Configuration Local and send configuration");
+    SERIALDBG.println("Configuration Local and send configuration");
 #endif            
-    msg.sendConfigLocalDoneMsg();
+    uint8_t bytes[maxNumSter];
+    for (unsigned int n = 0; n < maxNumSter; ++n) 
+        bytes[n] = motors[n].getByte2();
+    msg.sendConfigLocalDoneMsg(bytes, maxNumSter);
+#ifdef DEBUG
+    SERIALDBG.print("Send to PC [");
+    for (unsigned int n = 0; n < maxNumSter; ++n) 
+        phex(bytes[n]);
+    SERIALDBG.println("]");    
+#endif            
+
+    delay(200); 
     for (unsigned int n = 0; n < maxNumSter; ++n) {
-        motors[n].sendConfiguration(true);
+        motors[n].sendConfiguration();
         delayMicroseconds(10);
     }
     actWork = MessageSerial::NOP;
@@ -214,27 +229,30 @@ void configurationLocal()
 void configuration()
 {
 #ifdef DEBUG
-    Serial1.println("Konfiguracja Msg");
+    SERIALDBG.println("Konfiguracja Msg");
 #endif  
     uint8_t motor = msg.getAddress()-1;
     motors[motor].setConfiguration(msg.msg(), msg.len());
-#ifdef DEBUG
-    Serial1.print("Motor=");Serial1.print(motor);Serial1.print("isConn=");Serial1.println(motors[motor].isConnected());
-#endif  
-    msg.sendConfigDoneMsg(motor+1, motors[motor].isConnected());
-    delay(10);
     actWork = MessageSerial::NOP;
 }
 
 void moveSteps()
 {
 #ifdef DEBUG
-    Serial1.println("Ruch Msg");
+    SERIALDBG.println("Ruch Msg");
 #endif 
     uint8_t motor = msg.getAddress()-1;
     motors[motor].moveSteps(msg.msg(), msg.len());
     actWork = MessageSerial::NOP;
 }
 
-
+void resetRequest()
+{
+#ifdef DEBUG
+    SERIALDBG.println("Reset");
+#endif     
+    digitalWrite(resetPin, LOW);
+    delay(1000);
+    digitalWrite(resetPin, HIGH);
+}
 

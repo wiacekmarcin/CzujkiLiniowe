@@ -3,16 +3,15 @@
 #include "proto.hpp"
 #include "crc8.hpp"
 #include "main.h"
-#include "SPI.h"
 #include "silnik.hpp"
 
 #define DEBUG
-
+#define EXT_DEBUG
 #ifdef DEBUG
 	#define SD(T) Serial.print(T)
-	#define SDN(T) Serial.print(T)
+	#define SDN(T) Serial.println(T)
 	#define SD2(T,P) Serial.print(T,P)
-	#define SDN2(T,P) Serial.print(T,P)
+	#define SDN2(T,P) Serial.println(T,P)
 
 	#define SDP(T, V) SD(T); SD(V)
 	#define SDPN(T, V) SD(T); SDN(V)
@@ -32,9 +31,9 @@
 
 #ifdef EXT_DEBUG
 	#define ESD(T) Serial.print(T)
-	#define ESDN(T) Serial.print(T)
+	#define ESDN(T) Serial.println(T)
 	#define ESD2(T,P) Serial.print(T,P)
-	#define ESDN2(T,P) Serial.print(T,P)
+	#define ESDN2(T,P) Serial.println(T,P)
 
 	#define ESDP(T, V) SD(T); SD(V)
 	#define ESDPN(T, V) SD(T); SDN(V)
@@ -55,7 +54,7 @@
 SPIMessage::SPIMessage()
 {
     actProcess = 0;
-    skipCharCnt = 0;
+    skipCharCnt = -1;
     address = 15;
 }
 
@@ -83,9 +82,6 @@ void SPIMessage::init(uint8_t mode, Motor * mot_)
 	c.add(sendBuff[2]);
     sendBuff[3] = c.getCRC();
 
-    SPCR |= _BV(SPE);                       //Turn on SPI in Slave Mode
-  	SPI.attachInterrupt();   
-
     msg.init();
     mot = mot_;
 }
@@ -93,7 +89,7 @@ void SPIMessage::init(uint8_t mode, Motor * mot_)
 
 void SPIMessage::proceed()
 {
-    ESD("1.Start Rec/Act:[");ESD(actProcess+1);ESD(",");ESD(recvPos);	ESD("]");
+    ESD("1.Start Rec/Act:[");ESD(actProcess+1);ESD(",");ESD(recvPos);ESDN("]");
 	ESDN("----------");
 
 	while (recvPos > 0 && actProcess < recvPos)
@@ -151,8 +147,8 @@ void SPIMessage::proceed()
 			SDN(" CMD:REQUEST");
 			echoRequestFun();
 			SDN("BUSY OFF");
-			setBusy(false);
             msg.clear();
+			setBusy(false);
 			break;
 		}
 
@@ -161,8 +157,9 @@ void SPIMessage::proceed()
 			SDN(" CMD:PROGRESS");
     		progressRequestFun();
 			SDN("BUSY OFF");
-			setBusy(false);
             msg.clear();
+			setBusy(false);
+            
 			break;
 		}
 
@@ -171,8 +168,8 @@ void SPIMessage::proceed()
 			SDN(" CMD:CONFIGURATION");
 			configurationRequest(status);
 			SDN("BUSY OFF");
-			setBusy(false);
             msg.clear();
+            setBusy(false);
 			break;
 		}
 
@@ -181,8 +178,8 @@ void SPIMessage::proceed()
 			SDN(" CMD:MOVE");
 			moveRequest(status.data.move.isHome, status.data.move.position, status.data.move.speed);
 			SDN("BUSY OFF");
-			setBusy(false);
-            msg.clear();
+			msg.clear();
+            setBusy(false);
 			break;
 		}
 
@@ -197,7 +194,7 @@ void SPIMessage::proceed()
 		} // switch
 	}	  // while
 
-	ESD("---------");ESD("3. Act/Rec:[");ESD(actProcess);ESD(",");ESD(recvPos);ESD("]");ESD("END.LOOP");
+	ESDN("---------");ESD("3. Act/Rec:[");ESD(actProcess);ESD(",");ESD(recvPos);ESD("]");ESD("END.LOOP");
 
 	actProcess = 0;
 	recvPos = 0;
@@ -216,7 +213,6 @@ void SPIMessage::echoRequestFun()
 	sendBuff[3] = crc.getCRC();
 
 	SPRINT(4);
-	sendPos = 0;
 }
 
 void SPIMessage::progressRequestFun()
@@ -243,8 +239,6 @@ void SPIMessage::progressRequestFun()
 	crc.add(sendBuff[5]);
 	crc.add(sendBuff[6]);
 	sendBuff[7] = crc.getCRC();
-	sendPos = 0;
-
 	SPRINT(8);
 }
 
@@ -269,10 +263,7 @@ void SPIMessage::configurationRequest(Result status)
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-	sendPos = 0;
     SPRINT(4);
-	msg.clear();
-
 }
 
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
@@ -294,12 +285,10 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 	crc.add(sendBuff[1]);
 	crc.add(sendBuff[2]);
 	sendBuff[3] = crc.getCRC();
-
-	sendPos = 0;
     SPRINT(4);
 
 	if (!wasMove)
-		emptyMove(4);
+		emptyMove(3);
 
 	msg.clear();
 

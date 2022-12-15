@@ -3,20 +3,24 @@
 
 #include<SPI.h>
 #define DEBUG
+
+#define SERIALOUT Serial
+#define SERIALDBG Serial1
+
 static void phex(uint8_t b)
 {
-    Serial1.print(" ");
+    SERIALDBG.print(" ");
     if (b < 16)
-        Serial1.print("0");
-    Serial1.print(b, HEX);
+        SERIALDBG.print("0");
+    SERIALDBG.print(b, HEX);
 }
 
 static void phex0(uint8_t b)
 {
-    Serial1.print(" ");
+    SERIALDBG.print(" ");
     if (b < 16)
-        Serial1.print("0");
-    Serial1.print(b, HEX);
+        SERIALDBG.print("0");
+    SERIALDBG.print(b, HEX);
 }
 
 
@@ -83,7 +87,7 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
 
     c.reset();
     confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 12;
-    confMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x00;
+    confMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x07;
     confMsg[2] = 0;
     confMsg[3] = 0;
     confMsg[4] = 0;
@@ -108,20 +112,20 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
 void SPIMessage::sendReplyMsg()
 {
 #ifdef DEBUG
-    Serial1.print("M");
-    Serial1.print(addr, DEC);
-    Serial1.print(" Send Reply Msg : [");
+    SERIALDBG.print("M");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" Send Reply Msg : [");
     for (uint8_t s = 0; s < 20; s++) {
         phex(replyMsg[s]);
     }
-    Serial1.println("]");
+    SERIALDBG.println("]");
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
     sendSpiMsg(msgLocal, 20);
 
 #ifdef DEBUG
-    Serial1.print("Recv message [");
+    SERIALDBG.print("Recv message [");
     phex(msgLocal[0]);
     phex(msgLocal[1]);
     phex(msgLocal[2]);
@@ -132,31 +136,31 @@ void SPIMessage::sendReplyMsg()
     phex(msgLocal[7]);
     phex(msgLocal[8]);
     phex(msgLocal[9]);
-    Serial1.println("]");
+    SERIALDBG.println("]");
 
 #endif
     bool send2Pc = false;
     if (msgLocal[0] == 0x0A && msgLocal[1] == 3 ) {
         if (msgLocal[2] == 0x10 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-            Serial1.println("Connected");
+            SERIALDBG.println("Connected");
 #endif  
             connected = true;
             return;
         }
         if (msgLocal[2] == 0x90 && ((addr << 4) | 8) == msgLocal[3]) {
 #ifdef DEBUG
-            Serial1.println("Send Rep msg to PC");
+            SERIALDBG.println("Send Rep msg to PC");
 #endif  
-            Serial2.write(msgLocal+2, msgLocal[1]);
+            SERIALOUT.write(msgLocal+2, msgLocal[1]);
             return;
         }
     } 
     if (msgLocal[0] == 0x0A && msgLocal[1] == 7 && msgLocal[3] == 0x74 && ((msgLocal[4] >> 4) & 0x0f) == addr) {
 #ifdef DEBUG
-            Serial1.println("Send Rep msg to PC");
+            SERIALDBG.println("Send Rep msg to PC");
 #endif  
-            Serial2.write(msgLocal+2, msgLocal[1]);
+            SERIALOUT.write(msgLocal+2, msgLocal[1]);
             return;
     }
 }
@@ -164,13 +168,13 @@ void SPIMessage::sendReplyMsg()
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
-    Serial1.print("M");
-    Serial1.print(addr, DEC);
-    Serial1.print(" Send ECHO Msg : [");
+    SERIALDBG.print("M");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" Send ECHO Msg : [");
     for (uint8_t s = 0; s < 3; s++) {
         phex(echoMsg[s]);
     }
-    Serial1.println("]");
+    SERIALDBG.println("]");
 #endif 
     uint8_t msgLocal[3];
     memcpy(msgLocal, echoMsg, 3);
@@ -181,14 +185,18 @@ void SPIMessage::setConfiguration(uint8_t *config, uint8_t len)
 {
     memcpy(confMsg, config, len);
     confLen = len;
+    if (connected) {
+        confMsg[1] |= 0x08;
+    }
+
 }
 
-void SPIMessage::sendConfiguration(bool send2Pc)
+void SPIMessage::sendConfiguration()
 {
 #ifdef DEBUG
-    Serial1.println("Send Configuration ");
-    Serial1.print("motor = ");
-    Serial1.println(addr, DEC);
+    SERIALDBG.println("Send Configuration ");
+    SERIALDBG.print("motor = ");
+    SERIALDBG.println(addr, DEC);
 #endif  
     digitalWrite(stopPin, LOW);
     uint8_t sendMsg[confLen];
@@ -196,25 +204,23 @@ void SPIMessage::sendConfiguration(bool send2Pc)
     digitalWrite(stopPin, HIGH);
 
 #ifdef DEBUG
-    Serial1.print("Send Msg: [");
+    SERIALDBG.print("Send Msg: [");
     for (uint8_t s = 0; s < confLen; s++) {
         phex(sendMsg[s]);
     }
-    Serial1.println("]");
+    SERIALDBG.println("]");
 #endif
     sendSpiMsg(sendMsg, confLen);
-    if (send2Pc)
-        msg->sendConfigDoneMsg(addr, true);  
 }
 
 void SPIMessage::stop()
 {
 #ifdef DEBUG
-    Serial1.println("Stop ");
-    Serial1.print("motor = ");
-    Serial1.print(addr, DEC);
-    Serial1.print(" StopPin=");
-    Serial1.println(stopPin);
+    SERIALDBG.println("Stop ");
+    SERIALDBG.print("motor = ");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" StopPin=");
+    SERIALDBG.println(stopPin);
 #endif      
     digitalWrite(stopPin, LOW);   
     delayMicroseconds(20);
@@ -227,13 +233,13 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
     delayMicroseconds(20);
     digitalWrite(stopPin, HIGH);
 #ifdef DEBUG
-    Serial1.print("M");
-    Serial1.print(addr, DEC);
-    Serial1.print(" Send Steps Msg : [");
+    SERIALDBG.print("M");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" Send Steps Msg : [");
     for (uint8_t s = 0; s < len; s++) {
         phex(msg[s]);
     }
-    Serial1.println("]");
+    SERIALDBG.println("]");
 #endif
     sendSpiMsg(msg, len);  
 }
@@ -241,18 +247,18 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
 void SPIMessage::sendProgressMsg()
 {
     //if (digitalRead(movePin) == HIGH) {
-    //    Serial1.print("High na MOVE");
+    //    SERIALDBG.print("High na MOVE");
     //    //sendEchoMsg();
     //    return;
     //}
 #ifdef DEBUG
-    Serial1.print("M");
-    Serial1.print(addr, DEC);
-    Serial1.print(" Send PROGRESS Msg : [");
+    SERIALDBG.print("M");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" Send PROGRESS Msg : [");
     for (uint8_t s = 0; s < 3; s++) {
         phex(progressMsg[s]);
     }
-    Serial1.println("]");
+    SERIALDBG.println("]");
 #endif
     uint8_t sendMsg[3];
     memcpy(sendMsg, progressMsg, 3);

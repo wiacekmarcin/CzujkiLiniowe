@@ -73,12 +73,10 @@ QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t i
     return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 8);
 }
 
-/*
-QByteArray SerialMessage::resetSterownik(uint8_t addr)
+QByteArray SerialMessage::resetSilniki()
 {
-    return prepareMessage(RESET_STER_REQ, addr, 0, NULL, 0);
+    return prepareMessage(RESET_REQ, addrKontrolera, 0, nullptr, 0);
 }
-*/
 
 bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options, uint8_t & cmd, uint8_t & len,  QByteArray & data)
 {
@@ -175,15 +173,15 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         {
             silnik = addr;
             if (silnik == 0) {
-                active = (options & 0x01) == 0x01;
+                active[0] = (options & 0x08) == 0x08;
                 m_parseReply = CONF_MEGA_REPLY;
                 qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active;
+                for (short s = 1; s < 10; ++s) {
+                    active[s] = (data[s-1] & 0x08) == 0x08;
+                }
                 return true;
-            } else if ( silnik < 10) {
-                m_parseReply = CONF_REPLY;
-                active = (options & 0x01) == 0x01;
             }
-            qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active;
+            qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0] << active[1]<< active[2]<< active[3]<< active[4]<< active[5]<< active[6]<< active[7]<< active[8]<< active[9];
             return true;
         }
 
@@ -236,9 +234,9 @@ uint32_t SerialMessage::getNumber(const QByteArray &data)
     return ((data[0] & 0xff) << 24) +  ((data[1] & 0xff) << 16) + ((data[2] & 0xff) << 8) + (data[3] & 0xff);
 }
 
-bool SerialMessage::getActive() const
+bool SerialMessage::getActive(short nr) const
 {
-    return active;
+    return active[nr];
 }
 
 unsigned int SerialMessage::getSteps() const

@@ -41,11 +41,11 @@ void SterownikReader::run()
         mutexRun.unlock();
 
         QByteArray responseData = sd->read(1000);
-        if (responseData.size() == 0)
-            continue;
-        DEBUGSER(QString("[RECV] %1").arg(responseData.toHex(' ').data()));
-        receiveData.push_back(responseData);
-        sd->parseMessage(receiveData);
+        if (responseData.size() > 0) {
+            DEBUGSER(QString("[RECV] %1").arg(responseData.toHex(' ').data()));
+            receiveData.push_back(responseData);
+            sd->parseMessage(receiveData);
+        }
     } while (!quit);
 }
 

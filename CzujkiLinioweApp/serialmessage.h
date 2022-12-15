@@ -35,14 +35,15 @@ public:
     typedef enum _cmd {
         WELCOME_MSG_REQ = 1,
         WELCOME_MSG_REP = 2,
-
+        PROGRESS_REQ = 6,
+        PROGRESS_REP = 7,
         CONF_MSG_REQ = 8,
         CONF_MSG_REP = 9,
         MOVE_MSG_REQ = 10,
         MOVE_MSG_REP = 11,
         LAST_REQ = 12,
         LAST_REP = 13,
-        MEASURENT_REP = 14,
+        RESET_REQ = 14,
         ECHO_CLEAR_REQ = 0,
         ECHO_CLEAR_REP = 15,
         INV_MSG = 16,
@@ -89,9 +90,9 @@ public:
      */
     static QByteArray setPosition(uint8_t addr, uint32_t x, uint32_t imp);
 
-    static QByteArray resetSterownik(uint8_t addr);
+    static QByteArray resetSilniki();
 
-    static QByteArray setMultiCmd(const QString & cmd);
+
 
     /**
      * @brief getParseReply zwraca typ sparsowanej wiadomości
@@ -122,7 +123,7 @@ public:
 
     unsigned int getSteps() const;
 
-    bool getActive() const;
+    bool getActive(short nr) const;
 
 protected:
 
@@ -136,9 +137,9 @@ private:
 
     int silnik;
     unsigned int steps;
-    bool active;
+    bool active[10]; // kontroler + 9 silnikow
 
-
+    static constexpr short addrKontrolera = 10;
 
 };
 

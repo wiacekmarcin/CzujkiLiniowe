@@ -16,6 +16,7 @@ class MessageSerial
         CONFIGURATION,
         CONFIGURATION_LOCAL,
         MOVE_REQUEST,
+        RESET_REQUEST,
     } Work;
 
     typedef enum _msg {
@@ -30,7 +31,7 @@ class MessageSerial
         MOVE_REP = 11, //b
         LAST_REQ = 12, //c
         LAST_REP = 13, //d
-
+        RESET_REQ = 14,
         ECHO_CLEAR_REQ = 0,
         ECHO_CLEAR_REP = 15,
         INV_MSG = 16,
@@ -42,8 +43,7 @@ class MessageSerial
     void reset();
 
     void sendWelcomeMsg();
-    void sendConfigDoneMsg(uint8_t addr, bool sucess);
-    void sendConfigLocalDoneMsg();
+    void sendConfigLocalDoneMsg(uint8_t tab[], uint8_t len);
     void sendMeasuremnt(/*uint8_t t1[4], uint8_t t2[4]*/);
 
     uint8_t getAddress() { return address ; }

@@ -35,10 +35,10 @@ public:
     static constexpr uint8_t DIRPIN = 8;
     static constexpr uint8_t PULSEPIN = 9;
 
-    void setStop(bool hard) { (void)hard; }
-    bool moveHome(uint32_t delayImp) { (void)delayImp; return false; };
-    bool movePosition(int32_t pos, uint32_t delayImp) { (void)pos, (void)delayImp; return false; };
-    void impulse() { }
+    virtual void setStop(bool hard) { (void)hard; }
+    virtual bool moveHome(uint32_t delayImp) { (void)delayImp; return false; };
+    virtual bool movePosition(int32_t pos, uint32_t delayImp) { (void)pos, (void)delayImp; return false; };
+    virtual void impulse() { }
     void init();
 
     void setReverseMotor(bool rev) { reverseMotor = rev; }

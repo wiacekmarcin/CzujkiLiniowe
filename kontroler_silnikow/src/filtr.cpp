@@ -7,9 +7,13 @@
 #ifdef DEBUG
 #define SD(X) Serial.println(X)
 #define SDN(X) Serial.println(X)
+#define SDP(T, V) SD(T); SD(V)
+#define SDPN(T, V) SD(T); SDN(V)
 #else
 #define SD(X) 
 #define SDN(X)
+#define SDP(T, V)
+#define SDPN(T, V)
 #endif
 Filtr::Filtr() :
     Motor()
@@ -62,6 +66,7 @@ void Filtr::setStop(bool hard)
 
 void Filtr::impulse()
 {
+    Serial.print('+');
     highlevel = !highlevel;
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
 	globalPos += diff;
@@ -70,6 +75,7 @@ void Filtr::impulse()
     switch(mstate) {
         case F_HOME_0:
             if (actSteps == maxSteps) {
+                SDP("FH0: actSteps=", actSteps);SDPN("maxSteps=", maxSteps);
                 Timer1.stop();
                 err = true;
                 //sendError();
@@ -77,6 +83,7 @@ void Filtr::impulse()
             break;
         case F_HOME_3:
             if (digitalRead(KRANCPIN) == HIGH) {
+                SDN("FH3: KRANC");
                 mstate = F_HOME_4;
                 setDirBase(true);
             }
@@ -87,6 +94,7 @@ void Filtr::impulse()
                 err = false;
                 //sentDone();
                 impPerObrot = ((int32_t)temp1 + temp2 + temp3 + temp4)/4;
+                SD("Koniec impPerPbrot");SDN(impPerObrot);
             }
             break;
         default: break;
@@ -102,6 +110,7 @@ bool Filtr::moveHome(uint32_t delayImp)
     diff = 1;
     setDirBase(false);
     moveH = true;
+    moveP = false;
     Timer1.stop();
 	Timer1.setPeriod(delayImp)	;
 	Timer1.start();
@@ -111,10 +120,13 @@ bool Filtr::moveHome(uint32_t delayImp)
 
 bool Filtr::movePosition(int32_t pos, uint32_t delayImp)
 {
+    SD("Move pos");SD(pos);SDPN("ImpTime", delayImp);
     if (pos == globalPos)
         return false;
     Timer1.stop();
 	Timer1.setPeriod(delayImp)	;
 	Timer1.start();
+    moveP = true;
+    moveH = false;
     return true;
 }

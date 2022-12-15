@@ -9,9 +9,9 @@ extern Message msg;
 
 #ifdef DEBUG
 	#define SD(T) Serial.print(T);
-	#define SDN(T) Serial.print(T);
+	#define SDN(T) Serial.println(T);
 	#define SD2(T,P) Serial.print(T,P);
-	#define SDN2(T,P) Serial.print(T,P);
+	#define SDN2(T,P) Serial.println(T,P);
 
 	#define SDP(T, V) SD(T); SD(V);
 	#define SDPN(T, V) SD(T); SDN(V);

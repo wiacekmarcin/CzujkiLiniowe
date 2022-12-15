@@ -17,8 +17,6 @@ class SPIMessage
     volatile uint8_t recvPos;
     volatile uint8_t sendPos;
     volatile bool sendStopPos = false;
-
-    static constexpr uint8_t FB = 0x0A;
     
 
     void proceed();
@@ -32,10 +30,11 @@ protected:
 
 private:
     uint8_t actProcess = 0;
-    uint8_t skipCharCnt;
+    int8_t skipCharCnt;
     uint8_t address = 15;
     Message msg;
     Motor * mot;
+    
 };
 
 
