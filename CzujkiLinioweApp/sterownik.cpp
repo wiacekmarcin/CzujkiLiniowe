@@ -515,7 +515,8 @@ void Sterownik::connectToSerialJob()
 
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
                 if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber()) ||
-                    (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")    ) {
+                    (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")  ||
+                    (vendorId == "67b" && productId == "2303")   ) {
                     DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     m_portName = serialPortInfo.portName();
                     emit deviceName(m_portName);

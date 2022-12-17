@@ -1,20 +1,31 @@
 #include "workmode.hpp"
 #include <limits.h>
 
+#define TEST
 WorkMode::WorkMode()
 {
+#ifdef TEST
+	mode = UNKNOWN;
+#else	
     pinMode(DEBUGPIN, INPUT);
 	pinMode(DBG3, INPUT);
 	pinMode(DBG2, INPUT);
 	pinMode(DBG1, INPUT);
-    mode = UNKNOWN;
+	mode = UNKNOWN;
+#endif	
+    
 }
 
 void WorkMode::init() 
 {
     Serial.begin(115200);
+#ifdef TEST
+	mode = KOLOWA;
+	debugMode = false;
+#else	
     debugMode = digitalRead(DEBUGPIN) == LOW;
 	mode = conv2DebugWorkMode(digitalRead(DBG3), digitalRead(DBG2), digitalRead(DBG1));
+#endif	
     print();
 }
 WorkMode::~WorkMode()

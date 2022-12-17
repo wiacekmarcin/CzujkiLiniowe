@@ -1,7 +1,7 @@
 #include "protocol.hpp"
 #include <Arduino.h>
 
-#define DEBUG_SERIAL
+//#define DEBUG_SERIAL
 
 #define SERIALOUT Serial
 #define SERIALDBG Serial1

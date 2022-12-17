@@ -116,7 +116,7 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
 void SPIMessage::sendReplyMsg()
 {
 #ifdef DEBUG
-if (addr == 5) {
+//if (addr == 1 || addr == 2) {
     SERIALDBG.print("M");
     SERIALDBG.print(addr, DEC);
     SERIALDBG.print(" Send Reply Msg : [");
@@ -124,14 +124,13 @@ if (addr == 5) {
         phex(replyMsg[s]);
     }
     SERIALDBG.println("]");
-}
+//}
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
     sendSpiMsg(msgLocal, 20);
 
 #ifdef DEBUG
-    if (addr == 5) {
     SERIALDBG.print("Recv message [");
     phex(msgLocal[0]);
     phex(msgLocal[1]);
@@ -154,7 +153,6 @@ if (addr == 5) {
     phex(msgLocal[18]);
     phex(msgLocal[19]);
     SERIALDBG.println("]");
-    }
 
 #endif
     bool send2Pc = false;
@@ -285,7 +283,10 @@ void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
     digitalWrite(SS, LOW);
     digitalWrite(ssPin, LOW);
     delayMicroseconds(40);
+    //SPI.beginTransaction(SPISettings());
     SPI.transfer(bytes, cnt);
+    delayMicroseconds(40);
     digitalWrite(ssPin, HIGH);
     digitalWrite(SS, HIGH);
+    //SPI.endTransaction();
 }

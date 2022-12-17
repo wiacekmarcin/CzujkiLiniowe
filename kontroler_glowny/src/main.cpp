@@ -15,6 +15,7 @@ MessageSerial msg;
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
 constexpr uint8_t maxNumSter = 9;
+constexpr uint8_t maxNumSterTEST = 1;
 constexpr uint8_t resetPin = 49;
 
 constexpr uint8_t ssPins[maxNumSter]    = {31,32,33,34,35,36,37,38,39};
@@ -100,11 +101,12 @@ void setup (void)
     SPI.begin ();
     //
     SPI.setClockDivider(SPI_CLOCK_DIV64);
+    SPI.attachInterrupt();
 
     
     delay(1500);
 
-    for (uint8_t p = 0; p < maxNumSter; ++p) {
+    for (uint8_t p = 0; p < maxNumSterTEST; ++p) {
         pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
         pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
         pinMode(busyPins[p], INPUT);
@@ -116,9 +118,9 @@ void setup (void)
     activeBusy = 0x0000;
     acceptBusy = 0x01ff;
     
-    for (unsigned int n = 0; n < maxNumSter; ++n) {
+    for (unsigned int n = 0; n < maxNumSterTEST; ++n) {
         motors[n].sendEchoMsg();
-        delay(150);
+        delay(1);
     }
     SERIALDBG.println("---------------------");
 
@@ -147,6 +149,8 @@ void loop (void)
 {
     
     if (activeBusy) {
+        SERIALDBG.print("Active:");
+        SERIALDBG.println(activeBusy,HEX);
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
                 bitClear(activeBusy, n);
@@ -208,7 +212,7 @@ void configurationLocal()
     SERIALDBG.println("Configuration Local and send configuration");
 #endif            
     uint8_t bytes[maxNumSter];
-    for (unsigned int n = 0; n < maxNumSter; ++n) 
+    for (unsigned int n = 0; n < maxNumSterTEST; ++n) 
         bytes[n] = motors[n].getByte2();
     msg.sendConfigLocalDoneMsg(bytes, maxNumSter);
 #ifdef DEBUG
@@ -219,7 +223,7 @@ void configurationLocal()
 #endif            
 
     delay(200); 
-    for (unsigned int n = 0; n < maxNumSter; ++n) {
+    for (unsigned int n = 0; n < maxNumSterTEST; ++n) {
         motors[n].sendConfiguration();
         delayMicroseconds(10);
     }

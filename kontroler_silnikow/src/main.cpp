@@ -15,6 +15,8 @@
 
 #define BUSYPIN A0
 
+#define TEST
+
 //#define MAINDEBUG
 //#define DEBUG
 #ifdef DEBUG
@@ -117,7 +119,7 @@ void setup()
 	}
 
 	smsg.init(mode.getMode(), &mot);
-	SPI.attachInterrupt(); 
+	SPI.attachInterrupt();
 	SPCR |= _BV(SPE);
 	pinMode(MISO, OUTPUT); //                       //Turn on SPI in Slave Mode
   	 
@@ -125,10 +127,10 @@ void setup()
 	Timer1.attachInterrupt(motorImpulse);
 	Timer1.initialize(125000);
 	Timer1.stop();
-
+#ifndef TEST
 	attachInterrupt(digitalPinToInterrupt(Motor::STOPPIN), setStopSoft, FALLING);
 	attachInterrupt(digitalPinToInterrupt(Motor::KRANCPIN), setStopHard, FALLING);
-
+#endif
 	setBusy(false);
 	Serial.println("\nSTART");
 }
