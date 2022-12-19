@@ -141,9 +141,6 @@ Result Message::parse()
     }
 
     ESD("cmdMsg=");ESD2(cmdMsg, DEC);ESD(" lenMsg");ESD2(lenMsg, DEC);ESD(" addr=");ESDN2(addrMsg, DEC);
-    if (cmdMsg == LAST_REQ) {
-        return r;
-    }
 
     if (cmdMsg == ECHO_REQ) {
         return r;
@@ -194,7 +191,6 @@ Msgtype Message::conv(uint8_t m)
 {
     switch(m & 0xf0) {
         case ECHO_REQ << 4: return ECHO_REQ;
-        case LAST_REQ << 4: return LAST_REQ;
         case CONF_REQ << 4: return CONF_REQ;
         case MOVE_REQ << 4: return MOVE_REQ;
         case PROGRESS_REQ << 4: return PROGRESS_REQ;

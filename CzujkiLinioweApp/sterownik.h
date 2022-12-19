@@ -66,6 +66,7 @@ signals:
     void deviceName(QString name);
     void setPositionDone(bool home, bool success, unsigned int steps);
     void zdarzenieSilnik(short silnik, short zdarzenie);
+    void czujkaOn();
 
 protected:
     /********************************** INNE FUNKCJE *************************/

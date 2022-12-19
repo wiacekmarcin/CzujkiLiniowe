@@ -422,6 +422,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
     errMap[SerialMessage::POSITION_REPLY] = "Wiadomość POSITION_REPLY";
     errMap[SerialMessage::RESET_REPLY] = "Wiadomość RESET_REPLY";
     errMap[SerialMessage::CONF_MEGA_REPLY] = "Wiadomość MEGA_REPLY";
+    errMap[SerialMessage::CZUJKA_ZW_REPLY] = "Wiadomość CZUJKA ZW";
     do {
         SerialMessage msg;
         if (!msg.parseCommand(reply)) {
@@ -458,6 +459,9 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
         case SerialMessage::POSITION_REPLY:
             emit setPositionDone(false, true, msg.getSteps());
             break;
+
+        case SerialMessage::CZUJKA_ZW_REPLY:
+            emit czujkaOn();
 
         case SerialMessage::RESET_REPLY:
             break;

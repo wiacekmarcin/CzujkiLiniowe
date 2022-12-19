@@ -212,7 +212,7 @@ void MessageSerial::sendError(const char * err)
 
 void MessageSerial::sendConfigLocalDoneMsg(uint8_t bytes[], uint8_t len)
 {
-    sendMessage(CONF_REP, 0, 0x08, bytes, len);
+    sendMessage(CONF_REP, 0, 0x08 | 0x04, bytes, len);
 }
 
 

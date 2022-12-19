@@ -21,20 +21,21 @@ class MessageSerial
 
     typedef enum _msg {
 
-        WELCOME_MSG_REQ = 1,
-        WELCOME_MSG_REP = 2,
-        PROGRESS_REQ = 6,
-        PROGRESS_REP = 7,
-        CONF_REQ = 8,
-        CONF_REP = 9,
-        MOVE_REQ = 10, //a
-        MOVE_REP = 11, //b
-        LAST_REQ = 12, //c
-        LAST_REP = 13, //d
-        RESET_REQ = 14,
-        ECHO_CLEAR_REQ = 0,
-        ECHO_CLEAR_REP = 15,
-        INV_MSG = 16,
+        CZUJKA_ZW_REP       = 1,
+        WELCOME_MSG_REQ     = 2,
+        WELCOME_MSG_REP     = 3,
+        ECHO_REQ            = 4,
+        ECHO_REP            = 5,
+        PROGRESS_REQ        = 6,
+        PROGRESS_REP        = 7,
+        CONF_REQ            = 8,
+        CONF_REP            = 9,
+        MOVE_REQ            = 10, //a
+        MOVE_REP            = 11, //b
+        RESET_REQ           = 14,
+        ECHO_CLEAR_REQ      = 0,
+        ECHO_CLEAR_REP      = 15,
+        INV_MSG             = 16,
     } MsgType;
 
     bool check(unsigned char c);

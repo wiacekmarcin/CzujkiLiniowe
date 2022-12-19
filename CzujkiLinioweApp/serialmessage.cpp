@@ -39,12 +39,12 @@ QByteArray SerialMessage::configMotorMsg(short silnik, bool reverse, int maxStep
         (uint8_t) (middleStep  & 0xff),
     };
 
-    return prepareMessage(CONF_MSG_REQ, addr, opt, tab, sizeof(tab)/sizeof(uint8_t));
+    return prepareMessage(CONF_REQ, addr, opt, tab, sizeof(tab)/sizeof(uint8_t));
 }
 
 QByteArray SerialMessage::configKontrolerMsg()
 {
-    return prepareMessage(CONF_MSG_REQ, 0, 0, nullptr, 0);
+    return prepareMessage(CONF_REQ, 0, 0, nullptr, 0);
 }
 
 QByteArray SerialMessage::setPositionHome(uint8_t addr, uint32_t imp)
@@ -54,7 +54,7 @@ QByteArray SerialMessage::setPositionHome(uint8_t addr, uint32_t imp)
                        (uint8_t) ((imp >> 16) & 0xff),
                        (uint8_t) ((imp >> 8) & 0xff),
                        (uint8_t) (imp & 0xff)};
-    return prepareMessage(MOVE_MSG_REQ, addr, 0x01, tab, 8);
+    return prepareMessage(MOVE_REQ, addr, 0x01, tab, 8);
 }
 
 QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t imp)
@@ -70,7 +70,7 @@ QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t i
         (uint8_t) (imp & 0xff)
     };
 
-    return prepareMessage(MOVE_MSG_REQ, addr, 0x00, tab, 8);
+    return prepareMessage(MOVE_REQ, addr, 0x00, tab, 8);
 }
 
 QByteArray SerialMessage::resetSilniki()
@@ -151,7 +151,9 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         case ECHO_CLEAR_REP:
             qDebug() << "ECHO_CLEAR_REP";
             return true;
-
+        case CZUJKA_ZW_REP:
+            m_parseReply = CZUJKA_ZW_REPLY;
+            return true;
         case WELCOME_MSG_REP:
         {
             qDebug() << "WELCOME_MSG_REP";
@@ -169,26 +171,30 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             return true;
         }
 
-        case CONF_MSG_REP:
+        case CONF_REP:
         {
             silnik = addr;
             if (silnik == 0) {
-                active[0] = (options & 0x08) == 0x08;
+                connected[0] = (options & 0x08) == 0x08;
+                active[0] = (options & 0x04) == 0x04;
                 m_parseReply = CONF_MEGA_REPLY;
-                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active;
                 for (short s = 1; s < 10; ++s) {
-                    active[s] = (data[s-1] & 0x08) == 0x08;
+                    connected[s] = (data[s-1] & 0x08) == 0x08;
+                    active[s] = (data[s-1] & 0x04) == 0x04;
                 }
+                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0];
                 return true;
             } else if (silnik < 10) {
-                active[silnik] = (options & 0x08) == 0x08;
+                connected[silnik] = (options & 0x08) == 0x08;
+                active[silnik] = (options & 0x04) == 0x04;
                 m_parseReply = CONF_REPLY;
+                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[silnik];
             }
             qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0] << active[1]<< active[2]<< active[3]<< active[4]<< active[5]<< active[6]<< active[7]<< active[8]<< active[9];
             return true;
         }
 
-        case MOVE_MSG_REP:
+        case MOVE_REP:
         {
         if (options == 0x01)
             m_parseReply = MOVEHOME_REPLY;

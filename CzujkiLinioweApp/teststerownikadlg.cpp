@@ -3,6 +3,8 @@
 #include "ustawienia.h"
 #include "sterownik.h"
 
+#include <QMessageBox>
+
 #define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
                    ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
                    ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
@@ -216,6 +218,16 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
         break;
     }
     }
+}
+
+void TestSterownikaDlg::sd_czujkaOn(bool hardware)
+{
+    static bool showDialog = false;
+    if (showDialog)
+        return;
+    showDialog = true;
+    QMessageBox::information(this, "Czujka", "Czujka została wyzwolona");
+    showDialog = false;
 }
 
 void TestSterownikaDlg::sd_setPositionDone(bool home, bool success)

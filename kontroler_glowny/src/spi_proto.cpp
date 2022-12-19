@@ -1,7 +1,7 @@
 #include "spi_proto.hpp"
 #include "protocol.hpp"
 
-#include<SPI.h>
+#include<Wire.h>
 #define DEBUG
 
 #define SERIALOUT Serial
@@ -15,23 +15,13 @@ static void phex(uint8_t b)
     SERIALDBG.print(b, HEX);
 }
 
-static void phex0(uint8_t b)
-{
-    SERIALDBG.print(" ");
-    if (b < 16)
-        SERIALDBG.print("0");
-    SERIALDBG.print(b, HEX);
-}
-
-
 SPIMessage::SPIMessage()
-: addr (0)
-, ssPin(0)
+: present(false)
+, id (0)
+, addr (0)
 , stopPin(0)
-, replyMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-, progressMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+, progressMsg{0, 0, 0}
 , echoMsg{0, 0, 0}
-, echoRepMsg{0, 0, 0}
 , confLen(0)
 , confMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 , connected(false)
@@ -44,16 +34,22 @@ SPIMessage::~SPIMessage()
 
 }
 
-void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, const uint8_t busyPin, MessageSerial * msg)
+void SPIMessage::setDevice(uint8_t id, uint8_t addr)
 {
-    this->addr = addr;
-    this->ssPin = ssPin;
+    present = true;
+    this->id = id;
+    this->addr = addr;    
+}
+
+void SPIMessage::init(const uint8_t stopPin, const uint8_t movePin, const uint8_t busyPin)
+{
     this->stopPin = stopPin;
     this->movePin = movePin;
     this->busyPin = busyPin;
-    this->msg = msg;
+
+    
     progressMsg[0] = (MessageSerial::PROGRESS_REQ << 4) & 0xf0;
-    progressMsg[1] = (uint8_t)((addr << 4) & 0xf0);
+    progressMsg[1] = (uint8_t)((id << 4) & 0xf0);
     CRC8 c;
     c.reset();
     c.add(progressMsg[0]);
@@ -61,37 +57,15 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     progressMsg[2] = c.getCRC();
 
     c.reset();
-    replyMsg[0] = ((MessageSerial::LAST_REQ << 4) & 0xf0) | 15;
-    replyMsg[1] = (uint8_t)((addr << 4) & 0xf0);
-    c.add(replyMsg[0]);
-    c.add(replyMsg[1]);
-    for (uint8_t b=0; b<15; ++b)
-    {
-        replyMsg[2+b] = ((b) << 4) + addr;
-        c.add(replyMsg[b+2]);
-    }
-    replyMsg[17] = c.getCRC();
-    replyMsg[18] = 0X0A;
-    replyMsg[19] = 0X0A;
-    
-    
-    c.reset();
-    echoMsg[0] = (MessageSerial::ECHO_CLEAR_REQ << 4) & 0xf0;
-    echoMsg[1] = (uint8_t)((addr << 4) & 0xf0);
+    echoMsg[0] = (MessageSerial::ECHO_REQ << 4) & 0xf0;
+    echoMsg[1] = (uint8_t)((id << 4) & 0xf0);
     c.add(echoMsg[0]);
     c.add(echoMsg[1]);
     echoMsg[2] = c.getCRC();
 
     c.reset();
-    echoRepMsg[0] = (MessageSerial::ECHO_CLEAR_REP << 4) & 0xf0;
-    echoRepMsg[1] = (uint8_t)((addr << 4) & 0xf0) | 0x08;
-    c.add(echoRepMsg[0]);
-    c.add(echoRepMsg[1]);
-    echoRepMsg[2] = c.getCRC();
-
-    c.reset();
     confMsg[0] = ((MessageSerial::CONF_REQ << 4) & 0xf0) | 12;
-    confMsg[1] = (uint8_t)((addr << 4) & 0xf0);
+    confMsg[1] = (uint8_t)((id << 4) & 0xf0);
     confMsg[2] = 0;
     confMsg[3] = 0;
     confMsg[4] = 0;
@@ -113,10 +87,10 @@ void SPIMessage::init(const uint8_t addr, const uint8_t ssPin, const uint8_t sto
     confLen = 16;
 }
 
+/*
 void SPIMessage::sendReplyMsg()
 {
 #ifdef DEBUG
-//if (addr == 1 || addr == 2) {
     SERIALDBG.print("M");
     SERIALDBG.print(addr, DEC);
     SERIALDBG.print(" Send Reply Msg : [");
@@ -124,37 +98,12 @@ void SPIMessage::sendReplyMsg()
         phex(replyMsg[s]);
     }
     SERIALDBG.println("]");
-//}
 #endif 
     uint8_t msgLocal[20];
     memcpy(msgLocal, replyMsg, 20);
     sendSpiMsg(msgLocal, 20);
 
-#ifdef DEBUG
-    SERIALDBG.print("Recv message [");
-    phex(msgLocal[0]);
-    phex(msgLocal[1]);
-    phex(msgLocal[2]);
-    phex(msgLocal[3]);
-    phex(msgLocal[4]);
-    phex(msgLocal[5]);
-    phex(msgLocal[6]);
-    phex(msgLocal[7]);
-    phex(msgLocal[8]);
-    phex(msgLocal[9]);
-    phex(msgLocal[10]);
-    phex(msgLocal[11]);
-    phex(msgLocal[12]);
-    phex(msgLocal[13]);
-    phex(msgLocal[14]);
-    phex(msgLocal[15]);
-    phex(msgLocal[16]);
-    phex(msgLocal[17]);
-    phex(msgLocal[18]);
-    phex(msgLocal[19]);
-    SERIALDBG.println("]");
 
-#endif
     bool send2Pc = false;
     if (msgLocal[0] == 0x0A && msgLocal[1] == 3 ) {
         if (msgLocal[2] == 0x10 && ((addr << 4) | 8) == msgLocal[3]) {
@@ -180,21 +129,20 @@ void SPIMessage::sendReplyMsg()
             return;
     }
 }
+*/
 
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
     SERIALDBG.print("M");
-    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(id, DEC);
     SERIALDBG.print(" Send ECHO Msg : [");
     for (uint8_t s = 0; s < 3; s++) {
         phex(echoMsg[s]);
     }
     SERIALDBG.println("]");
 #endif 
-    uint8_t msgLocal[3];
-    memcpy(msgLocal, echoMsg, 3);
-    sendSpiMsg(msgLocal, 3);
+    sendSpiMsg(echoMsg, 3);
 }
 
 void SPIMessage::setConfiguration(uint8_t *config, uint8_t len)
@@ -265,7 +213,7 @@ void SPIMessage::sendProgressMsg()
     //}
 #ifdef DEBUG
     SERIALDBG.print("M");
-    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(id, DEC);
     SERIALDBG.print(" Send PROGRESS Msg : [");
     for (uint8_t s = 0; s < 3; s++) {
         phex(progressMsg[s]);
@@ -279,14 +227,54 @@ void SPIMessage::sendProgressMsg()
 
 void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
 {
+#ifdef DEBUG    
+    SERIALDBG.print(" Send Msg : [");
+    for (uint8_t s = 0; s < cnt; s++) {
+        phex(bytes[s]);
+    }
+    SERIALDBG.println("]");
+#endif
+    Wire.beginTransmission(addr);
+    Wire.write(bytes, cnt);
+    unsigned char status = Wire.endTransmission();
+#ifdef DEBUG
+    SERIALDBG.print("send Status=");
+    SERIALDBG.println(status);
+#endif
+}
 
-    digitalWrite(SS, LOW);
-    digitalWrite(ssPin, LOW);
-    delayMicroseconds(40);
-    //SPI.beginTransaction(SPISettings());
-    SPI.transfer(bytes, cnt);
-    delayMicroseconds(40);
-    digitalWrite(ssPin, HIGH);
-    digitalWrite(SS, HIGH);
-    //SPI.endTransaction();
+void SPIMessage::getReply()
+{
+    uint8_t recvBuff[20];
+    uint8_t recvPos = 0;
+    Wire.requestFrom(addr, (uint8_t)3);    // komunikaty sa glownie 3 bajtowe
+    while (Wire.available()) { // peripheral may send less than requested
+        recvBuff[recvPos++] = Wire.read(); // receive a byte as character
+    }
+    uint8_t cmd = (recvBuff[0] >> 4) & 0x0f;
+    uint8_t len = recvBuff[0] & 0x0f;
+    uint8_t id = (recvBuff[1] >> 4) & 0x0f;
+    if (len > 0) {
+        Wire.requestFrom(addr, (uint8_t)(len+1));    // 
+        while (Wire.available()) { // peripheral may send less than requested
+            recvBuff[recvPos++] = Wire.read(); // receive a byte as character
+        }
+    }
+    
+#ifdef DEBUG    
+    SERIALDBG.print(" Recv Msg : [");
+    for (uint8_t r = 0; r < recvPos; r++) {
+        SERIALDBG.print(" ");
+        SERIALDBG.print(recvBuff[r], HEX);
+    }
+    SERIALDBG.println("]");
+#endif
+
+    if (cmd == MessageSerial::ECHO_REP && id == this->id) {
+        connected = true;
+    }
+    
+    if (cmd == MessageSerial::CONF_REP && id == this->id) {
+        SERIALOUT.write(recvBuff, len + 3);
+    }
 }

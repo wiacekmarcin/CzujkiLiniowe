@@ -51,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &Sterownik::zdarzenieSilnik, this, &MainWindow::ster_zdarzenieSilnik);
     connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::ster_kontrolerConfigured);
     connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
+    connect(sd, &Sterownik::czujkaOn, this, &MainWindow::ster_czujkaOn);
     //connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
 
 
@@ -178,6 +179,12 @@ void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
         dlgTestSter->sd_setZdarzenieSilnik(silnik, zdarzenie);
 }
 
+void MainWindow::ster_czujkaOn()
+{
+    if (dlgTestSter)
+        dlgTestSter->sd_czujkaOn(true);
+}
+
 void MainWindow::zas_error(QString s)
 {
     qDebug() << s;
@@ -270,7 +277,6 @@ void MainWindow::on_actionTestZasilacza_triggered()
 void MainWindow::on_actionTestSterownikaDlg_triggered()
 {
     dlgTestSter = new TestSterownikaDlg(&u, sd, this);
-    dlgTestSter;
     dlgTestSter->exec();
     delete dlgTestSter;
     dlgTestSter = nullptr;

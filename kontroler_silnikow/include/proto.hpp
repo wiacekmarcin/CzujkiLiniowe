@@ -5,18 +5,21 @@
 
 typedef enum _MSGType
 {
-    ECHO_REQ = 0,
-    ECHO_REP = 1,
-    PROGRESS_REQ = 6,
-    PROGRESS_REP = 7,
-    CONF_REQ = 8,
-    CONF_REP = 9,
-    MOVE_REQ = 10,
-    MOVE_REP = 11,
-    LAST_REQ = 12,
-    LAST_REP = 13,
-    SKIP_CHAR = 15,
-    INV_MSG = 16,
+    CZUJKA_ZW_REP       = 1,
+    WELCOME_MSG_REQ     = 2,
+    WELCOME_MSG_REP     = 3,
+    ECHO_REQ            = 4,
+    ECHO_REP            = 5,
+    PROGRESS_REQ        = 6,
+    PROGRESS_REP        = 7,
+    CONF_REQ            = 8,
+    CONF_REP            = 9,
+    MOVE_REQ            = 10, //a
+    MOVE_REP            = 11, //b
+    RESET_REQ           = 14,
+    ECHO_CLEAR_REQ      = 0,
+    ECHO_CLEAR_REP      = 15,
+    INV_MSG             = 16,
 } Msgtype;
 
 typedef struct _result {

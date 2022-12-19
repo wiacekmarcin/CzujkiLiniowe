@@ -33,20 +33,21 @@ public:
      * Typy wiadomości
      */
     typedef enum _cmd {
-        WELCOME_MSG_REQ = 1,
-        WELCOME_MSG_REP = 2,
-        PROGRESS_REQ = 6,
-        PROGRESS_REP = 7,
-        CONF_MSG_REQ = 8,
-        CONF_MSG_REP = 9,
-        MOVE_MSG_REQ = 10,
-        MOVE_MSG_REP = 11,
-        LAST_REQ = 12,
-        LAST_REP = 13,
-        RESET_REQ = 14,
-        ECHO_CLEAR_REQ = 0,
-        ECHO_CLEAR_REP = 15,
-        INV_MSG = 16,
+        CZUJKA_ZW_REP       = 1,
+        WELCOME_MSG_REQ     = 2,
+        WELCOME_MSG_REP     = 3,
+        ECHO_REQ            = 4,
+        ECHO_REP            = 5,
+        PROGRESS_REQ        = 6,
+        PROGRESS_REP        = 7,
+        CONF_REQ            = 8,
+        CONF_REP            = 9,
+        MOVE_REQ            = 10, //a
+        MOVE_REP            = 11, //b
+        RESET_REQ           = 14,
+        ECHO_CLEAR_REQ      = 0,
+        ECHO_CLEAR_REP      = 15,
+        INV_MSG             = 16,
 
     } CMD;
 
@@ -64,6 +65,7 @@ public:
         POSITION_REPLY,
         RESET_REPLY,
         CONF_MEGA_REPLY,
+        CZUJKA_ZW_REPLY,
     } ParseReply;
 
     /**
@@ -138,6 +140,7 @@ private:
     int silnik;
     unsigned int steps;
     bool active[10]; // kontroler + 9 silnikow
+    bool connected[10]; // kontroler + 9 silnikow
 
     static constexpr short addrKontrolera = 10;
 

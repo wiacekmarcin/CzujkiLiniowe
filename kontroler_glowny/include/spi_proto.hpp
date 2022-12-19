@@ -21,9 +21,11 @@ class SPIMessage
 public:
     SPIMessage();
     ~SPIMessage();
-    void init(const uint8_t addr, const uint8_t ssPin, const uint8_t stopPin, const uint8_t movePin, const uint8_t busy, MessageSerial * msg);
+    void setDevice(uint8_t id, uint8_t addr);
+    bool isActive() const { return present && connected; };
+    void init(const uint8_t stopPin, const uint8_t movePin, const uint8_t busy);
 
-    void sendReplyMsg();
+    //void sendReplyMsg();
     void sendProgressMsg();
     void sendEchoMsg();
     void setConfiguration(uint8_t config[], uint8_t confLen);
@@ -31,24 +33,27 @@ public:
     bool sendConfigurationWithResponse(uint16_t activeBusy);
     void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
+
+    void getReply();
     inline bool isConnected() const { return connected; }
-    inline uint8_t getByte2() const { return confMsg[1] | (connected ? 0x80 : 0x00); }
+    inline uint8_t getByte2() const { return ((id << 4) & 0x0f) | (connected ? 0x08 : 0x00) | (present ? 0x04 : 0x00); }
+    bool isMove() { return digitalRead(stopPin) == LOW; }
 
 protected:
     void sendSpiMsg(uint8_t * bytes, uint8_t cnt);
 private:
+    bool present;
+    uint8_t id;
     uint8_t addr;
-    uint8_t ssPin;
     uint8_t stopPin;
     uint8_t movePin;
     uint8_t busyPin;
-    uint8_t replyMsg[20];
-    uint8_t progressMsg[20];
+    
+    uint8_t progressMsg[3];
     uint8_t echoMsg[3];
-    uint8_t echoRepMsg[3];
     uint8_t confLen;
     uint8_t confMsg[18];
-    MessageSerial * msg;
+
     actJobType actJob;
     bool connected;
 };

@@ -25,8 +25,8 @@ Filtr::Filtr() :
 void Filtr::setStop(bool hard)
 {
     if (!hard) {
-        //raczej nie powinno się przytrawic
         Timer1.stop();
+        mstate = IDLE;
     } else {
         Timer1.stop();
         SD("STOP ");

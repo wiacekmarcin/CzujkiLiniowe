@@ -10,12 +10,12 @@ class SPIMessage
     SPIMessage();
 
     void init(uint8_t mode, Motor * mot);
-    volatile bool received;
     static constexpr uint8_t maxBuff = 32;
     volatile uint8_t recvBuff[2*maxBuff];
     volatile uint8_t sendBuff[maxBuff];
     volatile uint8_t recvPos;
     volatile uint8_t sendPos;
+    uint32_t sizeSendMsg = 0;
     volatile bool sendStopPos = false;
     
 

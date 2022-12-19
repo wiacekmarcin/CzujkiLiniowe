@@ -16,7 +16,7 @@
 	#define SDP(T, V) SD(T); SD(V)
 	#define SDPN(T, V) SD(T); SDN(V)
     #define SPHEX(X) phex(X)
-    #define SPRINT(N)	SD("Sending [0A");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+    #define SPRINT(N)	SD("To Send (");SD(__FILE__);SD(":");SD(__LINE__);SD(") [");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
 #else
 	#define SD(T) 
 	#define SDN(T) 
@@ -58,13 +58,9 @@ SPIMessage::SPIMessage()
     address = 15;
 }
 
-void SPIMessage::init(uint8_t mode, Motor * mot_)
+void SPIMessage::init(uint8_t id, Motor * mot_)
 {
-    pinMode(SS, INPUT);
-	pinMode(SCK, INPUT);
-	pinMode(MOSI, INPUT);
-	pinMode(MISO, OUTPUT);
-
+	this->address = 0x30 + id;
     for (uint8_t i = 0; i < maxBuff; ++i)
 	{
 		recvBuff[2*i] = 0;
@@ -74,8 +70,7 @@ void SPIMessage::init(uint8_t mode, Motor * mot_)
 
 	sendBuff[0] = 3;
 	sendBuff[1] = (ECHO_REP << 4) & 0xf0;
-	sendBuff[2] = 0xf8; //0xf - adres nie wiadomo 0x80 odpowiedz z mini
-	sendBuff[2] |= (uint8_t)mode & 0x07;
+	sendBuff[2] = uint8_t((id << 4) | 0x80);
 	CRC8 c;
     c.reset();
     c.add(sendBuff[1]);
@@ -92,35 +87,16 @@ void SPIMessage::proceed()
 {
     ESD("1.Start Rec/Act:[");ESD(actProcess+1);ESD(",");ESD(recvPos);ESDN("]");
 	ESDN("----------");
-	SPRINT(20);
 
 	while (recvPos > 0 && actProcess < recvPos)
 	{
 		ESD("2.Act/Rec:[");ESD(actProcess+1);ESD(",");ESD(recvPos);ESD("]=");EPHEX(recvBuff[actProcess]);ESDN("");
 
-		if (skipCharCnt >= 0)
-		{
-			ESD(" Skip");ESD(" (");ESD(skipCharCnt);ESDN(")");
-
-			if (skipCharCnt == 0)
-			{
-				SDN("END SKIP, BUSY OFF");
-				msg.clear();
-				setBusy(false);
-			} 
-			++actProcess;
-			--skipCharCnt;
-			continue;
-		}
-
-		ESDN(" Proc");
-
 		if (!msg.add(recvBuff[actProcess++])) {
 			continue;
 		}
 
-		SD("Mam wiadomosc: ");SD(msg.getMsgCmd());SDN(" . BUSY ON");
-		setBusy(true);
+		SD("Mam wiadomosc: ");SDN(msg.getMsgCmd());
 
 		Result status = msg.parse();
 		if (!status.ok)
@@ -131,20 +107,15 @@ void SPIMessage::proceed()
 			continue;
 		}
 
+		SDN("Poprawna wiadomosc . BUSY ON");
+		setBusy(true);
         address = msg.getAddr();
 		ESDPN("ADDR:", address);
 		switch (msg.getMsgCmd()) {
-		case LAST_REQ:
-		{
-    	    SDN(" CMD:LAST");
-            SPRINT(20);
-			skipCharCnt = 0;
-			break;
-		}
 
 		case ECHO_REQ:
 		{
-			SDN(" CMD:REQUEST");
+			SDN(" CMD:ECHO");
 			echoRequestFun();
 			SDN("BUSY OFF");
             msg.clear();
@@ -198,49 +169,46 @@ void SPIMessage::proceed()
 
 	actProcess = 0;
 	recvPos = 0;
-	received = false;
 }
 
 void SPIMessage::echoRequestFun()
 {
 	CRC8 crc;
 	crc.restart();
-	sendBuff[0] = 3;
-	sendBuff[1] = (ECHO_REP << 4) & 0xf0;
-	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
+	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
+	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
-	crc.add(sendBuff[2]);
-	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 0;
-	SPRINT(4);
+	sendBuff[2] = crc.getCRC();
+	sizeSendMsg = 3;
+	SPRINT(3);
 }
 
 void SPIMessage::progressRequestFun()
 {
 	CRC8 crc;
 	crc.restart();
-	sendBuff[0] = 7;
-	sendBuff[1] = ((PROGRESS_REP << 4) & 0xf0) | 0x04;
-	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
+	sendBuff[0] = ((PROGRESS_REP << 4) & 0xf0) | 0x04;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
 	if (mot->isMove())
-		sendBuff[2] |= 0x04;
+		sendBuff[1] |= 0x04;
 	if (mot->isHomeMove())
-		sendBuff[2] |= 0x02;
+		sendBuff[1] |= 0x02;
+	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
-	crc.add(sendBuff[2]);
 	int32_t pos = mot->getGlobalPos();
 	SDPN("POS=", pos);
-	sendBuff[3] = (pos >> 24) & 0xff;
-	sendBuff[4] = (pos >> 16) & 0xff;
-	sendBuff[5] = (pos >> 8) & 0xff;
-	sendBuff[6] = (pos)&0xff;
+	sendBuff[2] = (pos >> 24) & 0xff;
+	sendBuff[3] = (pos >> 16) & 0xff;
+	sendBuff[4] = (pos >> 8) & 0xff;
+	sendBuff[5] = (pos)&0xff;
+	crc.add(sendBuff[2]);
 	crc.add(sendBuff[3]);
 	crc.add(sendBuff[4]);
 	crc.add(sendBuff[5]);
-	crc.add(sendBuff[6]);
-	sendBuff[7] = crc.getCRC();
-	sendBuff[8] = 0;
-	SPRINT(8);
+	sendBuff[6] = crc.getCRC();
+	sizeSendMsg = 7;
+	SPRINT(7);
 }
 
 void SPIMessage::configurationRequest(Result status)
@@ -258,14 +226,13 @@ void SPIMessage::configurationRequest(Result status)
 	//mot->setConfiguration();
 	CRC8 crc;
 	crc.restart();
-	sendBuff[0] = 3;
-	sendBuff[1] = (CONF_REP << 4) & 0xf0;
-	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
+	sendBuff[0] = (CONF_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08 | 0x04;
+	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
-	crc.add(sendBuff[2]);
-	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 0;
-    SPRINT(6);
+	sendBuff[2] = crc.getCRC();
+	sizeSendMsg = 3;
+    SPRINT(3);
 }
 
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
@@ -279,22 +246,18 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 		wasMove = mot->movePosition(delayImp, steps);
 	CRC8 crc;
 	crc.restart();
-	sendBuff[0] = 3;
-	sendBuff[1] = (MOVE_REP << 4) & 0xf0;
-	sendBuff[2] = ((address << 4) & 0xf0) | 0x08;
+	sendBuff[0] = (MOVE_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
 	if (isHome)
-		sendBuff[2] += 1;
+		sendBuff[1] += 1;
+	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
-	crc.add(sendBuff[2]);
-	sendBuff[3] = crc.getCRC();
-	sendBuff[4] = 0;
-    SPRINT(4);
+	sendBuff[2] = crc.getCRC();
+	sizeSendMsg = 3;
+    SPRINT(3);
 
-	if (!wasMove)
-		emptyMove(3);
-
-	msg.clear();
-
+	//if (!wasMove)
+	//	emptyMove(3);
 }
 
 void SPIMessage::emptyMove(uint8_t of)

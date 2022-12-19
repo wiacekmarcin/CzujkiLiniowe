@@ -27,6 +27,7 @@ public:
     void sd_error(const QString & e);
     void sd_disconnect();
     void sd_setZdarzenieSilnik(short silnik, short zdarzenie);
+    void sd_czujkaOn(bool hardware); // hardware zwarcie czujki
 
 protected slots:
     void pbSetConfiguration_clicked();

@@ -62,8 +62,13 @@ void Motor::init()
 	pinMode(ENPIN, OUTPUT);
 	pinMode(DIRPIN, OUTPUT);
 	pinMode(PULSEPIN, OUTPUT);
+#ifdef TEST	
+	pinMode(KRANCPIN, INPUT_PULLUP);
+	pinMode(STOPPIN, INPUT_PULLUP);
+#else
 	pinMode(KRANCPIN, INPUT);
 	pinMode(STOPPIN, INPUT);
+#endif	
 	pinMode(MOVEPIN, OUTPUT);
 	
 	digitalWrite(MOVEPIN, LOW);

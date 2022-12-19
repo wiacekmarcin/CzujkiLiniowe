@@ -1,6 +1,6 @@
 #include <Arduino.h>
-#include <SPI.h>
-#include "pins_arduino.h"
+#include <Wire.h>
+
 
 #include "crc8.hpp"
 #include "protocol.hpp"
@@ -18,12 +18,14 @@ constexpr uint8_t maxNumSter = 9;
 constexpr uint8_t maxNumSterTEST = 1;
 constexpr uint8_t resetPin = 49;
 
-constexpr uint8_t ssPins[maxNumSter]    = {31,32,33,34,35,36,37,38,39};
+//constexpr uint8_t ssPins[maxNumSter]    = {31,32,33,34,35,36,37,38,39};
 constexpr uint8_t busyPins[maxNumSter]  = {A8,A9,A10,A11,A12,A13,A14,A15,10};
 constexpr uint8_t stopPins[maxNumSter]  = {30,29,28,27,26,25,24,23,22};
 constexpr uint8_t movePins[maxNumSter]  = {40,41,42,43,44,45,46,47,48};
 
 SPIMessage motors[maxNumSter];
+
+uint8_t czujkaZwMsg[3] = { 0x10, 0x00, 0x57 };
 
 static void readSerial();
 static void configurationLocal();
@@ -35,6 +37,10 @@ static void resetRequest();
 
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
 volatile bool timeout = false;
+
+
+volatile bool getAllProgress = false;
+
 
 static void phex(uint8_t b)
 {
@@ -58,8 +64,9 @@ volatile uint16_t acceptBusy = 0x01ff;
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
 {\
-    activeBusy |= (1 << N) & acceptBusy; \
-    acceptBusy |= 1 << N; \
+    activeBusy |= (1 << N);\
+    SERIALDBG.print("I");\
+    SERIALDBG.println(N);\
 }
 
 FINISHJOB(0)
@@ -76,6 +83,8 @@ FINISHJOB(8)
 typedef void (*isr_bust_fun)(void);
 isr_bust_fun funptr[maxNumSter] = {isrFinishJob0, isrFinishJob1, isrFinishJob2, isrFinishJob3, isrFinishJob4, isrFinishJob5, isrFinishJob6, isrFinishJob7, isrFinishJob8};
 
+void sendStopMsg();
+
 void setup (void)
 {
     pinMode(resetPin, OUTPUT); 
@@ -89,45 +98,40 @@ void setup (void)
 
     //delay(1450);
     
-    /* piny SPI */
-    pinMode(SCK, OUTPUT);
-    digitalWrite(SCK, LOW);
-    pinMode(MISO, INPUT);
-    pinMode(MOSI, OUTPUT);
-    digitalWrite(MOSI, LOW);
-    // Put SCK, MOSI, SS pins into output mode
-    // also put SCK, MOSI into LOW state, and SS into HIGH state.
-    // Then put SPI hardware into Master mode and turn SPI on
-    SPI.begin ();
-    //
-    SPI.setClockDivider(SPI_CLOCK_DIV64);
-    SPI.attachInterrupt();
-
-    
     delay(1500);
-
-    for (uint8_t p = 0; p < maxNumSterTEST; ++p) {
-        pinMode(ssPins[p], OUTPUT); digitalWrite(ssPins[p], HIGH);
-        pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
-        pinMode(busyPins[p], INPUT);
-        pinMode(movePins[p], INPUT);
-        attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
-        motors[p].init(p+1, ssPins[p], stopPins[p], movePins[p], busyPins[p],&msg);
-    }
-
+    Wire.begin();
+    
     activeBusy = 0x0000;
     acceptBusy = 0x01ff;
-    
-    for (unsigned int n = 0; n < maxNumSterTEST; ++n) {
-        motors[n].sendEchoMsg();
-        delay(1);
+    for (uint8_t p = 0; p < maxNumSter; ++p) {
+        int address = 0x31 + p;
+        int id = p + 1;
+        Wire.beginTransmission(address);
+        byte error = Wire.endTransmission();
+        if (error == 0) {
+            //found device
+            motors[p].setDevice(id, address);
+            SERIALDBG.print("Motor ");
+            SERIALDBG.print(p+1);
+            SERIALDBG.println(" active");
+            pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
+            pinMode(busyPins[p], INPUT);
+            pinMode(movePins[p], INPUT);
+            attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
+            motors[p].init(stopPins[p], movePins[p], busyPins[p]);
+            motors[p].sendEchoMsg();
+        }
     }
-    SERIALDBG.println("---------------------");
+
+    pinMode(2, INPUT_PULLUP);
+    attachInterrupt(digitalPinToInterrupt(2), sendStopMsg, FALLING);
+    
 
     //Timer1.initialize((unsigned long) 500000000);
     //Timer1.attachInterrupt(timerHandler);
 
 
+    //Wire.setClock(10000);
     
 }  // end of setup
 
@@ -147,7 +151,17 @@ unsigned long prevMillis = 0;
 volatile bool sendReplyMsg = false;
 void loop (void)
 {
-    
+    if (getAllProgress) {
+        for (unsigned int n = 0; n < maxNumSter; ++n) {
+            if (motors[n].isActive()) {
+                motors[n].sendProgressMsg();
+            }
+            delayMicroseconds(50);
+        }
+        getAllProgress = false;
+    }
+
+
     if (activeBusy) {
         SERIALDBG.print("Active:");
         SERIALDBG.println(activeBusy,HEX);
@@ -155,22 +169,23 @@ void loop (void)
             if (bitRead(activeBusy, n)) {
                 bitClear(activeBusy, n);
                 bitClear(acceptBusy, n); 
-                motors[n].sendReplyMsg();
+                motors[n].getReply();
             }
         }
     }
     
 
-/*
     if (checkProgress) {
         checkProgress = false;
-        SERIALDBG.println(" Send ECHO/PROGRESS");
+        SERIALDBG.println(" Send PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
-            motors[n].sendProgressMsg();
-            delay(5);
+            if (motors[n].isActive() && motors[n].isMove()) 
+                motors[n].sendProgressMsg();
+            delayMicroseconds(50);
         }
     }
-  */  
+
+
     readSerial();
         
     switch(actWork) {
@@ -212,8 +227,8 @@ void configurationLocal()
     SERIALDBG.println("Configuration Local and send configuration");
 #endif            
     uint8_t bytes[maxNumSter];
-    for (unsigned int n = 0; n < maxNumSterTEST; ++n) 
-        bytes[n] = motors[n].getByte2();
+    for (unsigned int n = 0; n < maxNumSter; ++n) 
+        bytes[n] = (((n+1) << 4) & 0xf0) |  motors[n].getByte2();
     msg.sendConfigLocalDoneMsg(bytes, maxNumSter);
 #ifdef DEBUG
     SERIALDBG.print("Send to PC [");
@@ -223,9 +238,11 @@ void configurationLocal()
 #endif            
 
     delay(200); 
-    for (unsigned int n = 0; n < maxNumSterTEST; ++n) {
-        motors[n].sendConfiguration();
-        delayMicroseconds(10);
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive()) {
+            motors[n].sendConfiguration();
+            delayMicroseconds(10);
+        }
     }
     actWork = MessageSerial::NOP;
 }
@@ -258,7 +275,34 @@ void resetRequest()
     digitalWrite(resetPin, LOW);
     delay(1000);
     digitalWrite(resetPin, HIGH);
+    delay(1500);
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive()) {
+            motors[n].sendConfiguration();
+            delayMicroseconds(10);
+        }
+    }
     actWork = MessageSerial::NOP;
 }
 
-
+volatile unsigned long prevZw = 0;
+void sendStopMsg()
+{
+    unsigned long actTime = millis();
+    if (actTime - prevZw < 10)
+        return;
+    prevZw = actTime;
+    SERIALDBG.println("ID2");
+    SERIALOUT.write(czujkaZwMsg, 3);
+    SERIALDBG.println("ID2");
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive())
+            digitalWrite(stopPins[n], LOW);
+    }
+    
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive()) 
+            digitalWrite(stopPins[n], HIGH);
+    }
+    getAllProgress = true;
+}

@@ -25,27 +25,28 @@
                     "text": "-enable-pretty-printing",
                     "ignoreFailures": true
                 }
-            ]
+            ],
+            "visualizerFile": "/home/marcin/.config/Code/User/workspaceStorage/3ef03b65d1dec04aeaa9be6402bd455b/tonka3000.qtvsctools/qt.natvis.xml"
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug",
-            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/pro16MHzatmega328/firmware.elf",
-            "projectEnvName": "pro16MHzatmega328",
+            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/proMicro/firmware.elf",
+            "projectEnvName": "proMicro",
             "toolchainBinDir": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "preLaunchTask": {
                 "type": "PlatformIO",
-                "task": "Pre-Debug"
+                "task": "Pre-Debug (proMicro)"
             }
         },
         {
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (skip Pre-Debug)",
-            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/pro16MHzatmega328/firmware.elf",
-            "projectEnvName": "pro16MHzatmega328",
+            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/proMicro/firmware.elf",
+            "projectEnvName": "proMicro",
             "toolchainBinDir": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -53,8 +54,8 @@
             "type": "platformio-debug",
             "request": "launch",
             "name": "PIO Debug (without uploading)",
-            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/pro16MHzatmega328/firmware.elf",
-            "projectEnvName": "pro16MHzatmega328",
+            "executable": "/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/proMicro/firmware.elf",
+            "projectEnvName": "proMicro",
             "toolchainBinDir": "/home/marcin/.platformio/packages/toolchain-atmelavr/bin",
             "internalConsoleOptions": "openOnSessionStart",
             "loadMode": "manual"

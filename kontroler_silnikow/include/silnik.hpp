@@ -2,7 +2,7 @@
 #define __SILNIK_H__
 
 #include <Arduino.h>
-
+#define TEST
 
 typedef enum moveState {
     F_HOME_0 = 0,
@@ -27,9 +27,13 @@ class Motor
 
 public:
     Motor();
-
+#ifdef TEST
+    static constexpr uint8_t KRANCPIN = 0;
+    static constexpr uint8_t STOPPIN = 1;
+#else
     static constexpr uint8_t KRANCPIN = 2;
     static constexpr uint8_t STOPPIN = 3;
+#endif    
     static constexpr uint8_t MOVEPIN = 5;
     static constexpr uint8_t ENPIN = 7;
     static constexpr uint8_t DIRPIN = 8;

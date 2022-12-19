@@ -38,6 +38,7 @@ private slots:
     void ster_deviceName(QString name);
     void ster_setPositionDone(bool home, bool success);
     void ster_zdarzenieSilnik(short silnik, short zdarzenie);
+    void ster_czujkaOn();
 
     void zas_error(QString s);
     void zas_debug(QString d);
