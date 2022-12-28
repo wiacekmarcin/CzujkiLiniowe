@@ -12,9 +12,9 @@
 #include "spi_msg.hpp"
 #include "main.h"
 
-#define BUSYPIN A0
 
-#define TEST
+
+//#define TEST
 
 //#define MAINDEBUG
 #define DEBUG
@@ -44,7 +44,8 @@ Motor mot;
 WorkMode mode;
 SPIMessage smsg;
 
-static constexpr uint8_t FB = 0x0A;
+static constexpr uint8_t baseAddr = 0x30;
+uint8_t address = baseAddr;
 
 void setBusy(bool busy)
 {
@@ -55,29 +56,33 @@ void setBusy(bool busy)
 	}
 }
 
-volatile bool createStopResponse;
-void setCreateStopMessageFun()
+uint8_t getAddress()
 {
-	createStopResponse = true;
+	uint8_t add = baseAddr;
+
+	add += (digitalRead(AD3) == HIGH) ? 8 : 0;
+	add += (digitalRead(AD2) == HIGH) ? 4 : 0;
+	add += (digitalRead(AD1) == HIGH) ? 2 : 0;	
+	add += (digitalRead(AD0) == HIGH) ? 1 : 0;
+	return add;
 }
 
+volatile bool stopMessagePrepare = false;
 void setStopSoft()
 {
 	SDN("SI");
-	//mot->setStop(false);
+	//stopMessagePrepare = true;
 	mot.setStop(false);
 }
 
 void setStopHard()
 {
 	SDN("HI");
-	//mot->setStop(true);
 	mot.setStop(true);
 }
 
 void motorImpulse()
 {
-	//mot->impulse();
 	mot.impulse();
 }
 
@@ -87,47 +92,70 @@ static void receiveEvent(int how);
 static void requestEvent();
 void setup()
 {
+	pinMode(MOVEPIN, OUTPUT); digitalWrite(MOVEPIN, HIGH);
+	pinMode(BUSYPIN, OUTPUT); setBusy(true);
+	pinMode(10, INPUT);
+	pinMode(A3, INPUT);
+	pinMode(A2, INPUT);
+	pinMode(A1, INPUT);
+	pinMode(DEBUGPIN, INPUT);
 
-  	Wire.begin(0x31);                // join i2c bus with address #8
-  	Wire.onReceive(receiveEvent); // register event
-	Wire.onRequest(requestEvent); 
-	pinMode(BUSYPIN, OUTPUT);
-	setBusy(false);
+	pinMode(ENPIN, OUTPUT); digitalWrite(ENPIN, LOW);
+	pinMode(DIRPIN, OUTPUT); digitalWrite(DIRPIN, LOW);
+	pinMode(PULSEPIN, OUTPUT); 
+	pinMode(KRANCPIN, INPUT);
+	pinMode(STOPPIN, INPUT);
+	
+	address = getAddress();
 
-	mode.init();
-	//mot = Motor();
-	//mot->init();
+	Serial.begin(115200);
+  	Serial.print(digitalRead(10) == 0);
+	Serial.print(digitalRead(A3) == 0);
+	Serial.print(digitalRead(A2) == 0);
+	Serial.println(digitalRead(A1) == 0);
+
+	Serial.print("Addr = ");
+	Serial.println(address, HEX);
+	
+	
+	mode.init(address - baseAddr);
 	mot.init();
-	digitalWrite(Motor::ENPIN, (mode.isDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
+	//digitalWrite(ENPIN, (mode.isDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
 	if (mode.isDebugMode()) {
 		Serial.println("DEBUG MODE");
 		return;
 	}
+	Wire.begin(address);           // join i2c bus with address #8
+  	Wire.onReceive(receiveEvent); // register event
+	Wire.onRequest(requestEvent); 
 
 	smsg.init(mode.getMode(), &mot);
 	 
-
 	Timer1.attachInterrupt(motorImpulse);
 	Timer1.initialize(125000);
 	Timer1.stop();
 
-	attachInterrupt(digitalPinToInterrupt(Motor::STOPPIN), setStopSoft, FALLING);
-	attachInterrupt(digitalPinToInterrupt(Motor::KRANCPIN), setStopHard, FALLING);
+	attachInterrupt(digitalPinToInterrupt(KRANCPIN), setStopHard, FALLING);
 
 	setBusy(false);
-	Serial.println("\nSTART");
+	Serial.println("START");
 }
 
 
 unsigned long prev = 0;
 unsigned long act = 0;
+volatile bool message_in_progress = false;
 void loop()
 {
 	if (mode.isDebugMode())
 	{
-		//debugModeFun(const WorkMode & mode, uint8_t KRANCPIN, uint8_t DIRPIN, uint8_t PULSEPIN);
-		debugModeFun(mode, Motor::KRANCPIN, Motor::DIRPIN, Motor::PULSEPIN);
+		debugModeFun(mode);
 		return;
+	}
+
+	if (!message_in_progress && stopMessagePrepare) {
+		stopMessagePrepare = false;
+		
 	}
 
 	while (true) {
@@ -152,7 +180,7 @@ void receiveEvent(int how) {
 	}
 	SDP("recvPos=", smsg.recvPos);SDP("s=",s);SDPN(" how=", how);SD("Receive : [");
 	for (int i=0; i<s; ++i) {
-		SDP(" ", smsg.recvBuff[i]);
+		SD(" ");SD2(smsg.recvBuff[i], HEX);
 	}
 	SDN("]");
 }
@@ -162,7 +190,7 @@ static void requestEvent()
 	SDP("sendPos=", smsg.sendPos);SDP(" sizeSendMsg=", smsg.sizeSendMsg);
 	SD("Sending : [");
 	for (int i=0; i<smsg.sizeSendMsg; ++i) {
-		SDP(" ", smsg.sendBuff[smsg.sendPos++]);
+		SD(" ");SD																																																																																																																																																		2(smsg.sendBuff[i], HEX);
 	}
 	SDN("]");
 	for (int t = 0; t < smsg.sizeSendMsg; t++)

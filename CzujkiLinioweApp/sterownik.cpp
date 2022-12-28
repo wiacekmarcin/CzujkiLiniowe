@@ -328,13 +328,13 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
         return QByteArray();
     if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
         responseData = m_serialPort->readAll();
-        qDebug() << "R=" << responseData.size();
+        //qDebug() << "R=" << responseData.size();
         //if (responseData.size() > 0) {
         //    return responseData;
         //}
         while (m_serialPort->waitForReadyRead(10) && currentWaitReadTimeout > 0) {
             QByteArray r = m_serialPort->readAll();
-            qDebug() << "r=" << r.size();
+            //qDebug() << "r=" << r.size();
             if (r.size() == 0)
                 break;
             responseData += r;
@@ -409,7 +409,7 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 
 QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
 {
-    qDebug() << __FILE__ << __LINE__ << "ParseMessage";
+    //qDebug() << __FILE__ << __LINE__ << "ParseMessage";
     QVector<SerialMessage> ret;
     QMap<int, QString> errMap;
     errMap[SerialMessage::INVALID_REPLY] = "Nie prawidłowa odpowiedź";

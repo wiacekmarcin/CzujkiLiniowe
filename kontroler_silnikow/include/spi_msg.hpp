@@ -19,10 +19,10 @@ class SPIMessage
     volatile bool sendStopPos = false;
     
 
-    void proceed();
+    bool proceed();
 protected:
 
-    void echoRequestFun();
+    void echoRequestFun(bool stopOk, bool moveOk);
     void progressRequestFun();
     void configurationRequest(Result status);
     void moveRequest(bool isHome, uint32_t steps, uint32_t delay);

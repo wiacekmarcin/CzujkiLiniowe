@@ -83,7 +83,7 @@ void SPIMessage::init(uint8_t id, Motor * mot_)
 }
 
 
-void SPIMessage::proceed()
+bool SPIMessage::proceed()
 {
     ESD("1.Start Rec/Act:[");ESD(actProcess+1);ESD(",");ESD(recvPos);ESDN("]");
 	ESDN("----------");
@@ -116,10 +116,31 @@ void SPIMessage::proceed()
 		case ECHO_REQ:
 		{
 			SDN(" CMD:ECHO");
-			echoRequestFun();
+			unsigned long actTime = millis();
+			digitalWrite(MOVEPIN, LOW);
+			SD("Czekam na stopPin HIGH (movePin na LOW)...");
+			while(digitalRead(STOPPIN) == HIGH && (millis() - actTime < 100));
+			if (millis() - actTime >= 100) {
+				SDN(" Timeout");
+				echoRequestFun(false, false);
+			} else {
+				SDN(" OK");
+				SD(" zmiana movepin na HIGH.\nCzekan na stopPin HIGH ....");
+				digitalWrite(MOVEPIN, HIGH);
+				actTime = millis();
+				while(digitalRead(STOPPIN) == LOW && (millis() - actTime < 100));
+				if (millis() - actTime >= 100) {
+					SDN(" Timeout");
+					echoRequestFun(true, false);
+				} else {
+					SDN(" OK");
+					echoRequestFun(true, true);
+					attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
+				}
+			}
 			SDN("BUSY OFF");
-            msg.clear();
 			setBusy(false);
+			msg.clear();
 			break;
 		}
 
@@ -169,14 +190,20 @@ void SPIMessage::proceed()
 
 	actProcess = 0;
 	recvPos = 0;
+	return false;
 }
 
-void SPIMessage::echoRequestFun()
+void SPIMessage::echoRequestFun(bool stopOk, bool moveOk)
 {
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
 	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
+	if (stopOk)
+		sendBuff[1] |= 0x01;
+	if (moveOk)
+		sendBuff[1] |= 0x02;
+	
 	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
 	sendBuff[2] = crc.getCRC();

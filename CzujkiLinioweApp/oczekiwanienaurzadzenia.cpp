@@ -82,7 +82,7 @@ void OczekiwanieNaUrzadzenia::timeout()
 #define TSTOPSTER(ERR) ui->statusSterownik->setText(ERR); ui->progressBarSterownik->setValue(maxCzas)
 void OczekiwanieNaUrzadzenia::sterownik(int state)
 {
-    qDebug() << "Sterownik" << state;
+    //qDebug() << "Sterownik" << state;
     switch(state) {
         case Sterownik::NO_FOUND:
             TSTOPSTER("Nie znaleziono urządzenia");  break;

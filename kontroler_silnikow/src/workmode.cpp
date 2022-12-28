@@ -1,33 +1,21 @@
 #include "workmode.hpp"
 #include <limits.h>
 
-#define TEST
+#include "main.h"
+//#define TEST
 WorkMode::WorkMode()
 {
-#ifdef TEST
-	mode = UNKNOWN;
-#else	
-    pinMode(DEBUGPIN, INPUT);
-	pinMode(DBG3, INPUT);
-	pinMode(DBG2, INPUT);
-	pinMode(DBG1, INPUT);
-	mode = UNKNOWN;
-#endif	
     
 }
 
-void WorkMode::init() 
+void WorkMode::init(uint8_t pos) 
 {
-    Serial.begin(115200);
-#ifdef TEST
-	mode = KOLOWA;
-	debugMode = false;
-#else	
+    
     debugMode = digitalRead(DEBUGPIN) == LOW;
-	mode = conv2DebugWorkMode(digitalRead(DBG3), digitalRead(DBG2), digitalRead(DBG1));
-#endif	
+	mode = conv2DebugWorkMode(pos);
     print();
 }
+
 WorkMode::~WorkMode()
 {
 
@@ -83,35 +71,25 @@ void WorkMode::print() const
 	}
 }
 
-WorkMode::WorkModeEnum WorkMode::conv2DebugWorkMode(uint8_t d3, uint8_t d2, uint8_t d1)
+WorkMode::WorkModeEnum WorkMode::conv2DebugWorkMode(uint8_t pos)
 {
-	uint8_t b = 0;
-	b += (d3 == LOW) ? 0x01 : 0x00;
-	b += (d2 == LOW) ? 0x02 : 0x00;
-	b += (d1 == LOW) ? 0x04 : 0x00;
-#ifdef MAINDEBUG
-	Serial.print("d3=");
-	Serial.print(d3);
-	Serial.print(" d2=");
-	Serial.print(d2);
-	Serial.print(" d1=");
-	Serial.print(d1);
-	Serial.print(" d=");
-	Serial.println(isDebugMode);
-#endif
-	switch (b)
-	{
-	case PIONOWA:	    	return PIONOWA;
-	case KATOWA_PION:		return KATOWA_PION;
-	case KATOWA_POZ:		return KATOWA_POZ;
-	case KOLOWA:    		return KOLOWA;
-	case POZIOMA:   		return POZIOMA;
-	case CHECKKRANC:		return CHECKKRANC;
-	default:        		return UNKNOWN;
-	}
+	WorkModeEnum tab[] = { 	UNKNOWN,
+								KATOWA_PION,
+								KATOWA_PION,
+								KOLOWA,
+								KOLOWA,
+								KOLOWA,
+								PIONOWA,
+								POZIOMA,	
+								KATOWA_PION,
+								KATOWA_PION,
+	};
+	if (pos > 9)
+		return UNKNOWN;
+	return tab[pos];
 }
 
-void debugModeFun(const WorkMode & mode, uint8_t KRANCPIN, uint8_t DIRPIN, uint8_t PULSEPIN)
+void debugModeFun(const WorkMode & mode)
 {
     unsigned long prevTime = millis();
     unsigned long actTime = millis();
@@ -124,6 +102,7 @@ void debugModeFun(const WorkMode & mode, uint8_t KRANCPIN, uint8_t DIRPIN, uint8
     uint32_t impDelay = mode.getDelayImp();
 
     do {
+	/*
 	if (mode.getMode() == WorkMode::CHECKKRANC)
 	{
 		Serial.print("Czujnik krancowki = ");
@@ -132,6 +111,7 @@ void debugModeFun(const WorkMode & mode, uint8_t KRANCPIN, uint8_t DIRPIN, uint8
 		prevTime = millis();
 		continue;
 	}
+	*/
 
 	if (steps == 0xffffffff)
 	{

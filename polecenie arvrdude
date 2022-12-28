@@ -1,0 +1,4 @@
+Szkic używa 1954 bajtów (6%) pamięci programu. Maksimum to 30720 bajtów.
+Zmienne globalne używają 250 bajtów (12%) pamięci dynamicznej, pozostawiając 1798 bajtów dla zmiennych lokalnych. Maksimum to 2048 bajtów.
+/home/marcin/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/bin/avrdude -C/home/marcin/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17/etc/avrdude.conf -v -patmega328p -carduino -P/dev/ttyUSB0 -b57600 -D -Uflash:w:/home/marcin/git.devel.marcin/czujkiLiniowe/kontroler_silnikow/.pio/build/pro16MHzatmega328/firmware.hex:i 
+

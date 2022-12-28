@@ -29,7 +29,9 @@ double Ustawienia::wyliczPredkosc(const double &ratioImpJedn, const double &impT
     //wartosc zwracana w jedn/min;
 
     double cntImp1Min = 60 * 1000000 / impTime;
+    qDebug() << __FILE__ << ":" << __LINE__ << " " << ratioImpJedn << " " << impTime << " " << cntImp1Min << " => " << cntImp1Min*ratioImpJedn;
     return cntImp1Min*ratioImpJedn;
+
 }
 
 void Ustawienia::loadListUstawienFiltra()

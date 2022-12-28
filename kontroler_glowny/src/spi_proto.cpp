@@ -247,18 +247,32 @@ void SPIMessage::getReply()
 {
     uint8_t recvBuff[20];
     uint8_t recvPos = 0;
+
     Wire.requestFrom(addr, (uint8_t)3);    // komunikaty sa glownie 3 bajtowe
-    while (Wire.available()) { // peripheral may send less than requested
+    while (Wire.available() && recvPos < 3) { // peripheral may send less than requested
         recvBuff[recvPos++] = Wire.read(); // receive a byte as character
     }
+    if (recvPos < 3) {
+        SERIALDBG.print("To short Message [");
+        SERIALDBG.print(recvPos, DEC);
+        SERIALDBG.println("]");
+        return;
+    }
+        
     uint8_t cmd = (recvBuff[0] >> 4) & 0x0f;
     uint8_t len = recvBuff[0] & 0x0f;
     uint8_t id = (recvBuff[1] >> 4) & 0x0f;
+    uint8_t opt = recvBuff[1] & 0x0f;
     if (len > 0) {
         Wire.requestFrom(addr, (uint8_t)(len+1));    // 
-        while (Wire.available()) { // peripheral may send less than requested
+        while (Wire.available() && recvPos < 3 + len) { // peripheral may send less than requested
             recvBuff[recvPos++] = Wire.read(); // receive a byte as character
         }
+    }
+
+    if (recvPos < 3 + len) {
+        SERIALDBG.println("To short Message 2");
+        return;
     }
     
 #ifdef DEBUG    
@@ -272,6 +286,7 @@ void SPIMessage::getReply()
 
     if (cmd == MessageSerial::ECHO_REP && id == this->id) {
         connected = true;
+        optEcho = opt;
     }
     
     if (cmd == MessageSerial::CONF_REP && id == this->id) {

@@ -15,8 +15,8 @@ UstawieniaNapedow::~UstawieniaNapedow()
 }
 
 #define READ_M(N)   ui->nazwa_##N->setText(ust->getMotorNazwa##N());\
-                    ui->speedMax1_##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorMinOdstepImp##N()))); \
-                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImp##N()))); \
+                    ui->speedMax1_##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorMinOdstepImp##N()), 'f')); \
+                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImp##N()), 'f')); \
 
 #define READ_MOTORS     READ_M(1) \
                         READ_M(2) \

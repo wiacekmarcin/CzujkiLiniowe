@@ -25,8 +25,6 @@ extern Message msg;
 	#define SDPN(T, V) 
 #endif
 
-extern void setCreateStopMessageFun();
-
 //TODO
 //dla ramiona chodzacych katowo na kierunku góra dól ramię opadnie grawitacyjnie do jednej krańcówki
 // dla pozostalych 
@@ -54,26 +52,15 @@ Motor::Motor() :
 	,moveP(false)
     ,moveH(false)
 {
-	
+	setStopPtr = &Motor::setStopDef;
+    moveHomePtr = &Motor::moveHomeDef;
+    movePositionPtr = &Motor::movePositionDef;
+    impulsePtr = &Motor::impulseDef;
 }
 
 void Motor::init()
 {
-	pinMode(ENPIN, OUTPUT);
-	pinMode(DIRPIN, OUTPUT);
-	pinMode(PULSEPIN, OUTPUT);
-#ifdef TEST	
-	pinMode(KRANCPIN, INPUT_PULLUP);
-	pinMode(STOPPIN, INPUT_PULLUP);
-#else
-	pinMode(KRANCPIN, INPUT);
-	pinMode(STOPPIN, INPUT);
-#endif	
-	pinMode(MOVEPIN, OUTPUT);
-	
-	digitalWrite(MOVEPIN, LOW);
-	digitalWrite(ENPIN, LOW);
-	
+
 }
 
 volatile char chDir = '>';
@@ -90,15 +77,14 @@ void Motor::setDirBase(bool back)
 	diff = back ? -1 : 1;
 }
 
-/*
-void Motor::setStop(bool hard)
+
+void Motor::setStopDef(bool hard)
 {
 	if (!hard) {
 		SD('S');
 		mstate = IDLE;
 		interrupted = true;
 		digitalWrite(MOVEPIN, LOW);
-		setCreateStopMessageFun();
 		return;
 	}
 
@@ -111,7 +97,6 @@ void Motor::setStop(bool hard)
 				Timer1.stop();
 				mstate = IDLE;
 				digitalWrite(MOVEPIN, LOW);
-				setCreateStopMessageFun();
 				chDir='K';		
 				SDP("K: globalPos=",globalPos);
 				SDP(" newPosition=", newPosition);
@@ -147,12 +132,12 @@ void Motor::setStop(bool hard)
 	}
 }
 
-void Motor::impulse()
+void Motor::impulseDef()
 {
-	if (impTimer++ % 8 != 0)
-		return;
+	//if (impTimer++ % 8 != 0)
+	//	return;
 
-	impTimer = 0;
+	//impTimer = 0;
 	if (mstate == IDLE)
 		return;	 
 	
@@ -173,7 +158,6 @@ void Motor::impulse()
 		SDP(" actSteps=", actSteps);
 		SDPN(" diff=", diff);
 		digitalWrite(MOVEPIN, LOW);
-		setCreateStopMessageFun();
 	}
 	
 	if (globalPos == newPosition) {
@@ -218,7 +202,6 @@ void Motor::impulse()
 					SDP(" newPosition=", newPosition);
 					SDP(" actSteps=", actSteps);
 					digitalWrite(MOVEPIN, LOW);
-					setCreateStopMessageFun();
 				}
 				break;
 			}
@@ -229,7 +212,6 @@ void Motor::impulse()
 				SDP(" newPosition=", newPosition);
 				SDP(" actSteps=", actSteps);
 				digitalWrite(MOVEPIN, LOW);
-				setCreateStopMessageFun();
 				break;
 			}
 			case MOVE_POS:
@@ -239,16 +221,13 @@ void Motor::impulse()
 				SDP(" newPosition=", newPosition);
 				SDP(" actSteps=", actSteps);
 				digitalWrite(MOVEPIN, LOW);
-				setCreateStopMessageFun();
 				break;
 			}
 		}
 	}
 }
-*/
 
-/*
-bool Motor::moveHome(uint8_t mode)
+bool Motor::moveHomeDef(uint32_t delayImp)
 {
 	bool ret = false;
 	actSteps = 0;
@@ -262,7 +241,7 @@ bool Motor::moveHome(uint8_t mode)
 #ifdef DEBUG 
 	SDN("Ruch do bazy");
 #endif	
-
+/*
 	switch(mode) {
 		case PIONOWA:
 			ret = moveHomePionowa(); break;
@@ -291,14 +270,14 @@ bool Motor::moveHome(uint8_t mode)
 			chDir = '?';
 #endif		
 
-
+*/
 	Timer1.start();
 	return true;
 }
 
-bool Motor::movePosition(uint8_t mode, uint32_t pos) 
+bool Motor::movePositionDef(int32_t pos, uint32_t delayImp) 
 {
-
+/*
 	if (mode == KOLOWA)
 		moveFiltrPosiotion();
 	actSteps = 0;
@@ -325,9 +304,11 @@ bool Motor::movePosition(uint8_t mode, uint32_t pos)
 	}
 	digitalWrite(MOVEPIN, LOW);
 	mstate = MOVE_POS;
+*/	
 	return true;
 }
 
+/*
 bool Motor::moveHomePionowa()
 {
 	digitalWrite(MOVEPIN, HIGH);
@@ -401,4 +382,5 @@ bool Motor::moveHomeKatPoziomy()
 bool Motor::moveFiltrPosiotion()
 {
 	return true;
-}*/
+}
+*/

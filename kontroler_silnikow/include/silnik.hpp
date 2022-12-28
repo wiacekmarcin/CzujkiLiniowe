@@ -27,23 +27,25 @@ class Motor
 
 public:
     Motor();
-#ifdef TEST
-    static constexpr uint8_t KRANCPIN = 0;
-    static constexpr uint8_t STOPPIN = 1;
-#else
-    static constexpr uint8_t KRANCPIN = 2;
-    static constexpr uint8_t STOPPIN = 3;
-#endif    
-    static constexpr uint8_t MOVEPIN = 5;
-    static constexpr uint8_t ENPIN = 7;
-    static constexpr uint8_t DIRPIN = 8;
-    static constexpr uint8_t PULSEPIN = 9;
-
-    virtual void setStop(bool hard) { (void)hard; }
-    virtual bool moveHome(uint32_t delayImp) { (void)delayImp; return false; };
-    virtual bool movePosition(int32_t pos, uint32_t delayImp) { (void)pos, (void)delayImp; return false; };
-    virtual void impulse() { }
+    
     void init();
+
+    void setStopDef(bool hard);
+    bool moveHomeDef(uint32_t delayImp);
+    bool movePositionDef(int32_t pos, uint32_t delayImp);
+    void impulseDef();
+    
+
+    void (Motor::*setStopPtr)(bool);
+    bool (Motor::*moveHomePtr)(uint32_t);
+    bool (Motor::*movePositionPtr)(int32_t,uint32_t);
+    void (Motor::*impulsePtr)(void);
+
+    inline void setStop(bool hard) { (this->*setStopPtr)(hard); }
+    inline bool moveHome(uint32_t delayImp) { return (this->*moveHomePtr)(delayImp); }
+    inline bool movePosition(int32_t pos, uint32_t delayImp) { return (this->*movePositionPtr)(pos, delayImp); }
+    inline void impulse() { (this->*impulsePtr)(); }
+    
 
     void setReverseMotor(bool rev) { reverseMotor = rev; }
     void setMaxSteps(uint32_t maxSteps) { this->maxSteps = maxSteps; }
@@ -66,6 +68,9 @@ public:
     bool isHomeMove() const { return moveH; }
 
 protected:
+
+
+
     volatile moveStateType mstate; 
     volatile uint32_t actSteps;
     volatile int32_t globalPos;

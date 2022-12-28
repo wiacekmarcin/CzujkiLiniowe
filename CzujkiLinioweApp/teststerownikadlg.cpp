@@ -265,7 +265,7 @@ void TestSterownikaDlg::sd_error(const QString & e)
 
 void TestSterownikaDlg::pbHome_clicked(int silnik, const QString & impTime)
 {
-    qDebug() << silnik << " home " << impTime;
+    //qDebug() << silnik << " home " << impTime;
     bool ok;
     unsigned int val = impTime.toUInt(&ok);
     if (!ok)

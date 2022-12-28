@@ -36,8 +36,9 @@ public:
 
     void getReply();
     inline bool isConnected() const { return connected; }
-    inline uint8_t getByte2() const { return ((id << 4) & 0x0f) | (connected ? 0x08 : 0x00) | (present ? 0x04 : 0x00); }
+    inline uint8_t getByte2() const { return ((id << 4) & 0x0f) | (connected ? 0x08 : 0x00) | (present ? 0x04 : 0x00) | (optEcho & 0x03); }
     bool isMove() { return digitalRead(stopPin) == LOW; }
+    //void setPins(bool busyPin, bool movePin, bool stopPin);
 
 protected:
     void sendSpiMsg(uint8_t * bytes, uint8_t cnt);
@@ -56,6 +57,7 @@ private:
 
     actJobType actJob;
     bool connected;
+    uint8_t optEcho;
 };
 
 #endif

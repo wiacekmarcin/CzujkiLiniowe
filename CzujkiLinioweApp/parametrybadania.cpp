@@ -60,7 +60,7 @@ void ParametryBadania::save(const QString &fileName)
 {
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
-        qDebug() << "Could not open bin file for reading";
+        qDebug() << "Could not open bin file for saving";
         return;
     }
 

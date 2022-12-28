@@ -111,7 +111,7 @@ void UstawieniaFiltrow::loadTable()
 
 void UstawieniaFiltrow::countFiltr665(short A, short B, short C, bool wylicz)
 {
-    qDebug() << "countFiltr665 " << A << " " << B << " " << C << " " << wylicz;
+    //qDebug() << "countFiltr665 " << A << " " << B << " " << C << " " << wylicz;
     double suma = ust->getFiltr_db_655('A', A);
     suma += ust->getFiltr_db_655('B', B);
     suma +=  ust->getFiltr_db_655('C', C);
@@ -126,7 +126,7 @@ void UstawieniaFiltrow::countFiltr665(short A, short B, short C, bool wylicz)
 
 void UstawieniaFiltrow::countFiltr880(short A, short B, short C, bool wylicz)
 {
-    qDebug() << "countFiltr880 " << A << " " << B << " " << C << " " << wylicz;
+    //qDebug() << "countFiltr880 " << A << " " << B << " " << C << " " << wylicz;
     double suma = ust->getFiltr_db_880('A', A);
     suma += ust->getFiltr_db_880('B', B);
     suma +=  ust->getFiltr_db_880('C', C);
@@ -180,7 +180,7 @@ void UstawieniaFiltrow::on_tableWidget_cellEntered(int row, int column)
                 short a = r.at(1).toInt();
                 short b = r.at(2).toInt();
                 short c = r.at(3).toInt();
-                qDebug() << "655 " << a << " " << b << " " << c;
+                //qDebug() << "655 " << a << " " << b << " " << c;
                 ui->cb_655_A->setCurrentIndex(a);
                 ui->cb_655_B->setCurrentIndex(b);
                 ui->cb_655_C->setCurrentIndex(c);
@@ -197,7 +197,7 @@ void UstawieniaFiltrow::on_tableWidget_cellEntered(int row, int column)
                 short a = r.at(1).toInt();
                 short b = r.at(2).toInt();
                 short c = r.at(3).toInt();
-                qDebug() << "880 " << a << " " << b << " " << c;
+                //qDebug() << "880 " << a << " " << b << " " << c;
                 ui->cb_880_A->setCurrentIndex(a);
                 ui->cb_880_B->setCurrentIndex(b);
                 ui->cb_880_C->setCurrentIndex(c);
@@ -212,13 +212,13 @@ void UstawieniaFiltrow::on_tableWidget_cellEntered(int row, int column)
 
 void UstawieniaFiltrow::on_tableWidget_cellClicked(int row, int column)
 {
-    qDebug() << row << column;
+    //qDebug() << row << column;
     on_tableWidget_cellEntered(row, column);
 }
 
 void UstawieniaFiltrow::on_tableWidget_cellActivated(int row, int column)
 {
-    qDebug() << row << column;
+    //qDebug() << row << column;
     on_tableWidget_cellEntered(row, column);
 }
 
@@ -226,7 +226,7 @@ void UstawieniaFiltrow::on_tableWidget_cellActivated(int row, int column)
 
 void UstawieniaFiltrow::on_tableWidget_cellPressed(int row, int column)
 {
-    qDebug() << row << column;
+    //qDebug() << row << column;
     on_tableWidget_cellEntered(row, column);
 }
 

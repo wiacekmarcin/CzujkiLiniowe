@@ -251,7 +251,7 @@ void MainWindow::on_actionParametry_Badania_triggered()
 
 void MainWindow::on_actionParametryKalibracyjne_triggered()
 {
-    qDebug() << "Parametry Kalibracyjne";
+    //qDebug() << "Parametry Kalibracyjne";
     ParametryKalibracyjneDlg * dlg = new ParametryKalibracyjneDlg(&u, this);
     dlg->exec();
     delete dlg;

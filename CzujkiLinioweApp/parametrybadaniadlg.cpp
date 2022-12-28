@@ -51,7 +51,7 @@ void ParametryBadaniaDlg::pbOK_clicked()
 
 void ParametryBadaniaDlg::pbCancel_clicked()
 {
-    qDebug() << "clicked";
+    //qDebug() << "clicked";
     reject();
 }
 

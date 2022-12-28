@@ -1,7 +1,7 @@
 #include "filtr.hpp"
 
 #include "TimerOne.h"
-
+#include "main.h"
 #define DEBUG
 
 #ifdef DEBUG
