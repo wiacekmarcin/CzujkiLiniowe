@@ -453,11 +453,11 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
-            emit setPositionDone(true, true, 0);
+            emit setPositionDone(msg.getSilnik(), true, true, 0);
             break;
 
         case SerialMessage::POSITION_REPLY:
-            emit setPositionDone(false, true, msg.getSteps());
+            emit setPositionDone(msg.getSilnik(), false, true, msg.getSteps());
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:

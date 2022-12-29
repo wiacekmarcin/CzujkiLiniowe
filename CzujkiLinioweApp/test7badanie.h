@@ -19,11 +19,18 @@ public:
     explicit Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
                           const ParametryBadania &daneBadania, const Ustawienia &, QWidget *parent = 0);
     ~Test7Badanie();
+
+    void flt_zerowanieFiltrowDone();
+    void flt_setUkladFiltrowDone();
+    void flt_bladFiltrow(short silnik, bool zerowanie);
+
 private slots:
     void uplynalCzasPostojuFiltra();
+    void progressBarUpdate();
 private:
     Ui::Test7Badanie *ui;
     QTimer zmFiltraTmr;
+    QTimer zmProgressBar;
     float actTlumienie;
     QList<QStringList> tlumienia;
     unsigned int actTlumPos;

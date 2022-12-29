@@ -139,6 +139,7 @@ void setup (void)
                 continue;
             }
             attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
+
             SERIALDBG.print("Stop pin:");
             SERIALDBG.println(stopPins[p], DEC);
             SERIALDBG.print("Move pin:");
@@ -180,7 +181,6 @@ void setup (void)
 
     for (uint8_t p = maxNumSter; p < 16; ++p) {
         int address = 0x31 + p;
-        int id = p + 1;
         Wire.beginTransmission(address);
         byte error = Wire.endTransmission();
         if (error == 0) {

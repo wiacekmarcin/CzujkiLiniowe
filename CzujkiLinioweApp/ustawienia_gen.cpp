@@ -43,8 +43,8 @@ void UstawieniaGen::load()
 	motorMinOdstepImp3 = toUInt(settings.value("Silnik-3/MinOdstepImp", QVariant::fromValue(20)).toString());
 	motorMinOdstepImp4 = toUInt(settings.value("Silnik-4/MinOdstepImp", QVariant::fromValue(20)).toString());
 	motorMinOdstepImp5 = toUInt(settings.value("Silnik-5/MinOdstepImp", QVariant::fromValue(20)).toString());
-	motorMinOdstepImp6 = toUInt(settings.value("Silnik-6/MinOdstepImp", QVariant::fromValue(2.6)).toString());
-	motorMinOdstepImp7 = toUInt(settings.value("Silnik-7/MinOdstepImp", QVariant::fromValue(2.7)).toString());
+	motorMinOdstepImp6 = toUInt(settings.value("Silnik-6/MinOdstepImp", QVariant::fromValue(20)).toString());
+	motorMinOdstepImp7 = toUInt(settings.value("Silnik-7/MinOdstepImp", QVariant::fromValue(20)).toString());
 	motorMinOdstepImp8 = toUInt(settings.value("Silnik-8/MinOdstepImp", QVariant::fromValue(20)).toString());
 	motorMinOdstepImp9 = toUInt(settings.value("Silnik-9/MinOdstepImp", QVariant::fromValue(20)).toString());
 	motorOdwrocObroty1 = toBool(settings.value("Silnik-1/OdwrocObroty", QVariant::fromValue(false)).toString());

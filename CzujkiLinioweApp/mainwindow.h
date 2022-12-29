@@ -8,6 +8,7 @@
 #include "ustawienia.h"
 #include "sterownik.h"
 #include "zasilacz.h"
+#include "ukladfiltrow.h"
 #include <QThread>
 
 class TestZasilaczaDlg;
@@ -36,7 +37,7 @@ private slots:
     void ster_setParamsDone(bool success);
     void ster_kontrolerConfigured(int state);
     void ster_deviceName(QString name);
-    void ster_setPositionDone(bool home, bool success);
+    void ster_setPositionDone(short nrSilnika, bool home, bool success, unsigned int steps);
     void ster_zdarzenieSilnik(short silnik, short zdarzenie);
     void ster_czujkaOn();
 
@@ -48,6 +49,10 @@ private slots:
     void zas_value(int kind, int value);
     void zas_sendMsg(const QString & msg);
     void zas_recvMsg(const QString & msg);
+
+    void flt_zerowanieFiltrowDone();
+    void flt_setUkladFiltrowDone();
+    void flt_bladFiltrow(short silnik, bool zerowanie);
 
     void on_actionParametry_Badania_triggered();
     void on_actionParametryKalibracyjne_triggered();
@@ -71,6 +76,7 @@ private:
     ParametryBadania b;
 
     Sterownik * sd;
+    SterownikFiltrow sterF;
     QThread sdThreadW;
     QThread sdThreadR;
     DebugDialog * dbgDlg;
@@ -84,6 +90,7 @@ private:
     QThread zasThr;
     QString fileDaneBadania;
     ListaTestow lt;
+
 
 };
 #endif // MAINWINDOW_H

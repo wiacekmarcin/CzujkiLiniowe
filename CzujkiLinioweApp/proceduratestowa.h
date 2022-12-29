@@ -5,9 +5,14 @@
 #include <QWidget>
 #include "danetestu.h"
 #include "parametrybadania.h"
+#include "test7badanie.h"
 #include "zasilacz.h"
 #include "sterownik.h"
 #include "ustawienia.h"
+
+
+class Test6StabilizacjaCzujki;
+
 class ProceduraTestowa
 {
 
@@ -16,6 +21,9 @@ public:
     ProceduraTestowa(QWidget * widget);
     void startBadanie(short id, const QString &nameTest, const ParametryBadania &b,
                       const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
+    void flt_zerowanieFiltrowDone();
+    void flt_setUkladFiltrowDone();
+    void flt_bladFiltrow(short silnik, bool zerowanie);
 protected:
     void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
 
@@ -36,7 +44,7 @@ private:
     Zasilacz * zas;
     Sterownik* ster;
     Ustawienia u;
-
+    Test7Badanie *dlg7;
 
 
 };

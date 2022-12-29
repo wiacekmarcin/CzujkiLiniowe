@@ -27,6 +27,7 @@ SOURCES += \
     test6stabilizacjaczujki.cpp \
     test7badanie.cpp \
     teststanowiskadlg.cpp \
+    ukladfiltrow.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
     crc8.cpp \
@@ -65,6 +66,7 @@ HEADERS += \
     test6stabilizacjaczujki.h \
     test7badanie.h \
     teststanowiskadlg.h \
+    ukladfiltrow.h \
     wybortestu.h \
     zasilacz.h \
     crc8.h \

@@ -8,7 +8,6 @@
 #include "test4montaz.h"
 #include "test5zasilanieczujki.h"
 #include "test6stabilizacjaczujki.h"
-#include "test7badanie.h"
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
@@ -16,7 +15,8 @@
 ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
     zas(nullptr),
-    ster(nullptr)
+    ster(nullptr),
+    dlg7(nullptr)
 {
 
 }
@@ -24,6 +24,25 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
 ProceduraTestowa::~ProceduraTestowa()
 {
 
+}
+
+void ProceduraTestowa::flt_zerowanieFiltrowDone()
+{
+    if (dlg7) {
+        dlg7->flt_zerowanieFiltrowDone();
+    }
+}
+
+void ProceduraTestowa::flt_setUkladFiltrowDone()
+{
+    if (dlg7)
+        dlg7->flt_setUkladFiltrowDone();
+}
+
+void ProceduraTestowa::flt_bladFiltrow(short silnik, bool zerowanie)
+{
+    if (dlg7)
+        dlg7->flt_bladFiltrow(silnik, zerowanie);
 }
 
 void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -51,6 +70,8 @@ void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
 
 
 }
+
+
 
 void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const ParametryBadania & daneBadania, const Ustawienia & ust)
 {
@@ -198,9 +219,10 @@ void ProceduraTestowa::stabilizacjaCzujki(short nrPomiaru, const DaneTestu &dane
 }
 void ProceduraTestowa::pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    Test7Badanie *dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, parent);
+    dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, parent);
     dlg7->exec();
     delete dlg7;
+    dlg7 = nullptr;
 }
 
 void ProceduraTestowa::podsumowanie(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &)

@@ -64,7 +64,7 @@ signals:
     void setParamsDone(int address, bool success, bool silnik);
     void kontrolerConfigured(int state);
     void deviceName(QString name);
-    void setPositionDone(bool home, bool success, unsigned int steps);
+    void setPositionDone(short silnik, bool home, bool success, unsigned int steps);
     void zdarzenieSilnik(short silnik, short zdarzenie);
     void czujkaOn();
 

@@ -16,7 +16,6 @@ class Test6StabilizacjaCzujki : public QDialog
 public:
     explicit Test6StabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent = 0);
     ~Test6StabilizacjaCzujki();
-
 protected:
     QString getMM_SS(unsigned int secs);
 private slots:

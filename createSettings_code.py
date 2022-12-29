@@ -1,8 +1,9 @@
-
+import os
 
 class UstawieniaCode:
     def __init__(self):
         self.className = "UstawieniaGen";
+        self.sourcedir = "CzujkiLinioweApp"
         self.h_filename = "ustawienia_gen.h"
         self.c_filename = "ustawienia_gen.cpp"
         self.h_HEAD_2 = "\n};\n#endif"
@@ -73,7 +74,7 @@ public:
         return val[0].upper() + val[1:]
     
     def createHeader(self):
-        hfile = open(self.h_filename, "w")
+        hfile = open(os.path.join(self.sourcedir, self.h_filename), "w")
         hfile.write(self.h_HEAD_1)
         hfile.write("\n".join(["\t"+f for f in self.h_public_fun]))
         hfile.write("\nprotected:\n")
@@ -86,7 +87,7 @@ public:
         hfile.close()
         
     def createSource(self):
-        cfile = open(self.c_filename, "w")
+        cfile = open(os.path.join(self.sourcedir, self.c_filename), "w")
         cfile.write(self.c_include)
         cfile.write("\n\nvoid %s::load()\n{\n" % self.className)
         cfile.write("\n".join(["\t"+f for f in self.c_load]))
@@ -421,7 +422,7 @@ motordefVals = {
     6 : {
         "nazwa" : 'QString("M6")',
         "przelozenieImpJedn" : 1.6,
-        "minOdstepImp" : 2.6,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 1256,
         "maksIloscImp" : 1006,
@@ -432,7 +433,7 @@ motordefVals = {
     7 : {
         "nazwa" : 'QString("M7")',
         "przelozenieImpJedn" : 1.7,
-        "minOdstepImp" : 2.7,
+        "minOdstepImp" : 20,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 1257,
         "maksIloscImp" : 1007,

@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
     , dlgTestSter(nullptr)
     , dlgTestStan(nullptr)
     , fileDaneBadania("")
+    , sterF(this)
 
 {
     ui->setupUi(this);
@@ -52,9 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::ster_kontrolerConfigured);
     connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
     connect(sd, &Sterownik::czujkaOn, this, &MainWindow::ster_czujkaOn);
-    //connect(sd, &Sterownik::setPositionDone, this, &MainWindow::sd_setPositionDone);
-
-
+    connect(sd, &Sterownik::setPositionDone, this, &MainWindow::ster_setPositionDone);
 
     connect(zas, &Zasilacz::error, this, &MainWindow::zas_error);
     connect(zas, &Zasilacz::debug, this, &MainWindow::zas_debug);
@@ -64,6 +63,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(zas, &Zasilacz::value, this, &MainWindow::zas_value);
     connect(zas, &Zasilacz::sendMsg, this, &MainWindow::zas_sendMsg);
     connect(zas, &Zasilacz::recvMsg, this, &MainWindow::zas_recvMsg);
+
+    connect(&sterF, &SterownikFiltrow::zerowanieFiltrowDone, this, &MainWindow::flt_zerowanieFiltrowDone);
+    connect(&sterF, &SterownikFiltrow::setUkladFiltrowDone, this, &MainWindow::flt_setUkladFiltrowDone);
+    connect(&sterF, &SterownikFiltrow::bladFiltrow, this, &MainWindow::flt_bladFiltrow);
 
     //QIcon icon5(QString::fromUtf8(":/zasilacz/zasilacz_on"));
 
@@ -167,10 +170,11 @@ void MainWindow::ster_deviceName(QString name)
         dlgTestStan->deviceNameSter(name);
 }
 
-void MainWindow::ster_setPositionDone(bool home, bool success)
+void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, unsigned int steps)
 {
     if (dlgTestSter)
         dlgTestSter->sd_setPositionDone(home, success);
+    sterF.setPositionDone(nrSilnika, home, success, steps);
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
@@ -239,6 +243,21 @@ void MainWindow::zas_recvMsg(const QString &msg)
 {
     if (dlgTestZas)
         dlgTestZas->recvMsg(msg);
+}
+
+void MainWindow::flt_zerowanieFiltrowDone()
+{
+
+}
+
+void MainWindow::flt_setUkladFiltrowDone()
+{
+
+}
+
+void MainWindow::flt_bladFiltrow(short silnik, bool zerowanie)
+{
+
 }
 
 void MainWindow::on_actionParametry_Badania_triggered()
