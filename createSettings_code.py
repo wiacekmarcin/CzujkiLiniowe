@@ -366,8 +366,8 @@ checkFuns["jednostka"] = checkUnsignedIntContent
 motordefVals = {
     1 : {
         "nazwa" : 'QString("M1")',
-        "przelozenieImpJedn" : 0.028,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.0375,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 10000000,
         "maksIloscImp" : 1001,
@@ -377,8 +377,8 @@ motordefVals = {
     },
     2 : {
         "nazwa" : 'QString("M2")',
-        "przelozenieImpJedn" : 0.028,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.0375,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 10000000,
         "maksIloscImp" : 1002,
@@ -389,7 +389,7 @@ motordefVals = {
     3 : {
         "nazwa" : 'QString("M3")',
         "przelozenieImpJedn" : 84.4527,
-        "minOdstepImp" : 20,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 60,
         "maksIloscImp" : 31003,
@@ -400,7 +400,7 @@ motordefVals = {
     4 : {
         "nazwa" : 'QString("M4")',
         "przelozenieImpJedn" : 84.4527,
-        "minOdstepImp" : 20,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 60,
         "maksIloscImp" : 31004,
@@ -411,7 +411,7 @@ motordefVals = {
     5 : {
         "nazwa" : 'QString("M5")',
         "przelozenieImpJedn" : 84.4527,
-        "minOdstepImp" : 20,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 60,
         "maksIloscImp" : 31005,
@@ -421,8 +421,8 @@ motordefVals = {
     },
     6 : {
         "nazwa" : 'QString("M6")',
-        "przelozenieImpJedn" : 1.6,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.013,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 1256,
         "maksIloscImp" : 1006,
@@ -432,8 +432,8 @@ motordefVals = {
     },
     7 : {
         "nazwa" : 'QString("M7")',
-        "przelozenieImpJedn" : 1.7,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.000266667,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 1257,
         "maksIloscImp" : 1007,
@@ -443,8 +443,8 @@ motordefVals = {
     },
     8 : {
         "nazwa" : 'QString("M8")',
-        "przelozenieImpJedn" : 0.028,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.0375,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 10000000,
         "maksIloscImp" : 1008,
@@ -454,8 +454,8 @@ motordefVals = {
     },
     9 : {
         "nazwa" : 'QString("M9")',
-        "przelozenieImpJedn" : 0.028,
-        "minOdstepImp" : 20,
+        "przelozenieImpJedn" : 0.0375,
+        "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImp" : 10000000,
         "maksIloscImp" : 1009,

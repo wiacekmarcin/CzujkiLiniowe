@@ -5,12 +5,12 @@
 #include "crc8.hpp"
 #include "protocol.hpp"
 #include "spi_proto.hpp"
+#include "main.h"
+
 MessageSerial msg;
 
 #define DEBUG
 
-#define SERIALOUT Serial2
-#define SERIALDBG Serial1
 
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
@@ -90,7 +90,7 @@ void setup (void)
 {
     SERIALOUT.begin(115200);
     SERIALDBG.begin(115200);
-    SERIALDBG.println("Reset devices");
+    SERIALDBG.println("Zerowanie urzadzen");
     pinMode(resetPin, OUTPUT); 
     digitalWrite(resetPin, LOW);
     delay(50);
@@ -102,80 +102,100 @@ void setup (void)
     
     activeBusy = 0x0000;
     acceptBusy = 0x01ff;
-    SERIALDBG.println("Search devices:");
+    SERIALDBG.println("Szukam urzadzen...");
     unsigned long actTime = millis();
-    for (uint8_t p = 0; p < maxNumSter; ++p) {
+    for (int8_t p = -1; p < maxNumSter; ++p) {
         int address = 0x31 + p;
         int id = p + 1;
-        SERIALDBG.print("Adress:");
-        SERIALDBG.println(address, HEX);
+        SERIALDBG.println("------------");
+        SERIALDBG.print("Adres:");
+        SERIALDBG.print(address, HEX);
         Wire.beginTransmission(address);
         
         byte error = Wire.endTransmission();
         if (error == 0) {
+            if (id == 0 && id > 9) {
+                SERIALDBG.println(" : znaleziono urzadzenie, ale ze zlym adresem");
+                continue;
+            }
+
             //found device
             motors[p].setDevice(id, address);
-            SERIALDBG.print("Motor ");
-            SERIALDBG.print(p+1);
-            SERIALDBG.print(" active ");
-            SERIALDBG.println(address, HEX);
             pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
             pinMode(busyPins[p], INPUT);
             pinMode(movePins[p], INPUT);
-            pinMode(sixPins[p], OUTPUT); digitalWrite(sixPins[p], LOW);
+            //pinMode(sixPins[p], OUTPUT); digitalWrite(sixPins[p], LOW);
             motors[p].init(stopPins[p], movePins[p], busyPins[p]);
             motors[p].sendEchoMsg();
             actTime = millis();
-            SERIALDBG.println("Czekam na BUSY LOW");
-            digitalWrite(sixPins[p], HIGH);
+            //digitalWrite(sixPins[p], HIGH);
             while(digitalRead(busyPins[p]) == HIGH) {
                 if (millis() - actTime > 100)
                     break;
             }
-            digitalWrite(sixPins[p], LOW);
+            //digitalWrite(sixPins[p], LOW);
             if (digitalRead(busyPins[p]) == HIGH) {
-                SERIALDBG.println("No Busy");
+                SERIALDBG.println(". No Busy");
                 //motors[p].setPins(false, false, false);
                 continue;
             }
-            attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
+            SERIALDBG.print(" Busy OK. ");
 
-            SERIALDBG.print("Stop pin:");
-            SERIALDBG.println(stopPins[p], DEC);
-            SERIALDBG.print("Move pin:");
-            SERIALDBG.println(movePins[p], DEC);
-
-            SERIALDBG.println("Stop Pin LOW");
-            SERIALDBG.println("Czekam na move HIGH");
             digitalWrite(stopPins[p], LOW);
-            digitalWrite(sixPins[p], LOW);
+            //digitalWrite(sixPins[p], LOW);
             while(digitalRead(movePins[p]) == LOW) {
                 if (millis() - actTime > 100)
                     break;
             }
-            digitalWrite(sixPins[p], HIGH);
+            //digitalWrite(sixPins[p], HIGH);
             if (digitalRead(movePins[p]) == LOW) {
-                SERIALDBG.println("No move/stop");
+                SERIALDBG.println(" Brak sygnalu move");
                 //motors[p].setPins(true, false, false);
                 continue;
             }
-            SERIALDBG.println("Stop pin na HIGH");
-            SERIALDBG.println("Czekam na move pin LOW");
+            SERIALDBG.println(" Move OK. ");
             digitalWrite(stopPins[p], HIGH);
-            digitalWrite(sixPins[p], LOW);
+            //digitalWrite(sixPins[p], LOW);
             while(digitalRead(movePins[p]) == HIGH) {
                 if (millis() - actTime > 100)
                     break;
             }
-            digitalWrite(sixPins[p], HIGH);
+            //digitalWrite(sixPins[p], HIGH);
             if (digitalRead(movePins[p]) == HIGH)  {
-                SERIALDBG.println("No Move/Stop");
+                SERIALDBG.println("Brak sygnalu stop");
                 //motors[p].setPins(true, true, false);
                 continue;
             }
-                
-            
-            
+            SERIALDBG.print(" Stop OK.");
+            while(digitalRead(busyPins[p]) == LOW) 
+                continue;
+            {
+                uint8_t recvPos = 0;
+                uint8_t recvBuff[3];
+                Wire.requestFrom(address, (uint8_t)3);    // komunikaty sa glownie 3 bajtowe
+                while (Wire.available() && recvPos < 3) { // peripheral may send less than requested
+                    recvBuff[recvPos++] = Wire.read(); // receive a byte as character
+                }
+                if (recvPos < 3) {
+                    SERIALDBG.println(" Blad Komunikacji");
+                    continue;
+                }
+                if (recvBuff[0] == 0x50 && ((recvBuff[1] >> 4) & 0x0f)+ 0x30 == address) {
+                    SERIALDBG.println(" Komunikacja OK. Wszystko OK");
+                } else {
+                    SERIALDBG.println(" Nie poprawne dane");
+                    SERIALDBG.print("[");
+                    SERIALDBG.print(recvBuff[0], HEX);
+                    SERIALDBG.print(" ");
+                    SERIALDBG.print(recvBuff[1], HEX);
+                    SERIALDBG.print(" ");
+                    SERIALDBG.print(recvBuff[2], HEX);
+                    SERIALDBG.println("]");
+                }
+                attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
+            }
+        } else {
+            SERIALDBG.println(" Brak urzadzenia");
         }
     }
 

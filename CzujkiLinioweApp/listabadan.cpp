@@ -26,3 +26,18 @@ void ListaBadan::startBadanie(short id, const ParametryBadania & badanie, const 
         nameTest = lt.nazwyTestow.at(id);
     procedura.startBadanie(id, nameTest, badanie, ust, zas, ster);
 }
+
+void ListaBadan::flt_zerowanieFiltrowDone()
+{
+    procedura.flt_zerowanieFiltrowDone();
+}
+
+void ListaBadan::flt_setUkladFiltrowDone()
+{
+    procedura.flt_setUkladFiltrowDone();
+}
+
+void ListaBadan::flt_bladFiltrow(short silnik, bool zerowanie)
+{
+    procedura.flt_bladFiltrow(silnik, zerowanie);
+}

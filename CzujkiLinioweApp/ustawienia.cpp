@@ -27,11 +27,20 @@ double Ustawienia::wyliczPredkosc(const double &ratioImpJedn, const double &impT
 {
     //impTime w us
     //wartosc zwracana w jedn/min;
+    if (impTime == 0 || ratioImpJedn == 0)
+        return 0;
 
-    double cntImp1Min = 60 * 1000000 / impTime;
-    qDebug() << __FILE__ << ":" << __LINE__ << " " << ratioImpJedn << " " << impTime << " " << cntImp1Min << " => " << cntImp1Min*ratioImpJedn;
-    return cntImp1Min*ratioImpJedn;
+    return 60 * 1000000 / ratioImpJedn / impTime;
 
+}
+
+unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &speed)
+{
+    if (speed == 0 || ratioImpJedn == 0)
+        return 1000;
+
+
+    return  round(60 * 1000000 / ratioImpJedn / speed);
 }
 
 void Ustawienia::loadListUstawienFiltra()

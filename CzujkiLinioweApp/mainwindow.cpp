@@ -21,11 +21,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , sd(nullptr)
+    , sterF(this)
     , dlgTestZas(nullptr)
     , dlgTestSter(nullptr)
     , dlgTestStan(nullptr)
     , fileDaneBadania("")
-    , sterF(this)
 
 {
     ui->setupUi(this);
@@ -247,17 +247,17 @@ void MainWindow::zas_recvMsg(const QString &msg)
 
 void MainWindow::flt_zerowanieFiltrowDone()
 {
-
+    ui->centralwidget->flt_zerowanieFiltrowDone();
 }
 
 void MainWindow::flt_setUkladFiltrowDone()
 {
-
+    ui->centralwidget->flt_setUkladFiltrowDone();
 }
 
 void MainWindow::flt_bladFiltrow(short silnik, bool zerowanie)
 {
-
+    ui->centralwidget->flt_bladFiltrow(silnik, zerowanie);
 }
 
 void MainWindow::on_actionParametry_Badania_triggered()

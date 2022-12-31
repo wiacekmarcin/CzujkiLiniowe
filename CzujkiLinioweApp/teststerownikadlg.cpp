@@ -192,7 +192,7 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
     ui->pbDisconnect->setEnabled(conn);
 }
 
-void TestSterownikaDlg::sd_setParamsDone(bool success)
+void TestSterownikaDlg::sd_setParamsDone(bool /*success*/)
 {
 
 }
@@ -220,7 +220,7 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
     }
 }
 
-void TestSterownikaDlg::sd_czujkaOn(bool hardware)
+void TestSterownikaDlg::sd_czujkaOn(bool /*hardware*/)
 {
     static bool showDialog = false;
     if (showDialog)
@@ -230,7 +230,7 @@ void TestSterownikaDlg::sd_czujkaOn(bool hardware)
     showDialog = false;
 }
 
-void TestSterownikaDlg::sd_setPositionDone(bool home, bool success)
+void TestSterownikaDlg::sd_setPositionDone(bool /*home*/, bool /*success*/)
 {
 
 }

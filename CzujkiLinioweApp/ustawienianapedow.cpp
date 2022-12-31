@@ -2,11 +2,13 @@
 #include "ui_ustawienianapedow.h"
 #include "ustawienia.h"
 
+#include <QMessageBox>
 UstawieniaNapedow::UstawieniaNapedow(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::UstawieniaNapedow)
 {
     ui->setupUi(this);
+
 }
 
 UstawieniaNapedow::~UstawieniaNapedow()
@@ -17,6 +19,7 @@ UstawieniaNapedow::~UstawieniaNapedow()
 #define READ_M(N)   ui->nazwa_##N->setText(ust->getMotorNazwa##N());\
                     ui->speedMax1_##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorMinOdstepImp##N()), 'f')); \
                     ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImp##N()), 'f')); \
+                    ui->speedMax1_##N->setReadOnly(true); /*ui->speedMax1_##N->setEnabled(false);*/
 
 #define READ_MOTORS     READ_M(1) \
                         READ_M(2) \
@@ -36,7 +39,8 @@ void UstawieniaNapedow::setUstawienia(Ustawienia *u)
 }
 
 
-#define WRITE_M(N)  ust->setMotorNazwa##N(ui->nazwa_##N->text());
+#define WRITE_M(N)  ust->setMotorNazwa##N(ui->nazwa_##N->text()); \
+                    ust->setMotorCzasMiedzyImp##N(ust->wyliczImp(ust->getMotorPrzelozenieImpJedn##N(), ui->speed##N->text().toDouble()));
 
 
 #define WRITE_MOTORS    WRITE_M(1) \
@@ -51,6 +55,40 @@ void UstawieniaNapedow::setUstawienia(Ustawienia *u)
 
 void UstawieniaNapedow::saveNapedy()
 {
+    if (!check(ui->speed1))
+        return;
+    if (!check(ui->speed2))
+        return;
+    if (!check(ui->speed3))
+        return;
+    if (!check(ui->speed4))
+        return;
+    if (!check(ui->speed5))
+        return;
+    if (!check(ui->speed6))
+        return;
+    if (!check(ui->speed7))
+        return;
+    if (!check(ui->speed8))
+        return;
+    if (!check(ui->speed9))
+        return;
     WRITE_MOTORS
     ust->sync();
+}
+
+bool UstawieniaNapedow::check(QLineEdit * line)
+{
+    QString text = line->text();
+    if (text.isEmpty()) {
+        QMessageBox::warning(this, "Ustawienia napedów", "Pole z prędkością nie może być puste");
+        return false;
+    }
+    bool ok;
+    double val = text.toDouble(&ok);
+    if (!ok || val < 0) {
+        QMessageBox::warning(this, "Ustawienia napedów", "Pole z prędkością zawiera nie poprawną wartość");
+        return false;
+    }
+    return true;
 }

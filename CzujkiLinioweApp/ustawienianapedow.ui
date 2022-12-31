@@ -35,6 +35,9 @@
    </item>
    <item row="8" column="2">
     <widget class="QLineEdit" name="speedMax1_8">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -46,6 +49,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -98,6 +110,9 @@
    </item>
    <item row="2" column="2">
     <widget class="QLineEdit" name="speedMax1_2">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -109,6 +124,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -161,6 +185,9 @@
    </item>
    <item row="9" column="2">
     <widget class="QLineEdit" name="speedMax1_9">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -172,6 +199,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -199,6 +235,9 @@
    </item>
    <item row="6" column="2">
     <widget class="QLineEdit" name="speedMax1_6">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -210,6 +249,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -457,6 +505,9 @@
    </item>
    <item row="4" column="2">
     <widget class="QLineEdit" name="speedMax1_4">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -468,6 +519,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -502,6 +562,9 @@
    </item>
    <item row="7" column="2">
     <widget class="QLineEdit" name="speedMax1_7">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -513,6 +576,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -521,6 +593,9 @@
    </item>
    <item row="3" column="2">
     <widget class="QLineEdit" name="speedMax1_3">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -532,6 +607,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -579,6 +663,9 @@
    </item>
    <item row="1" column="2">
     <widget class="QLineEdit" name="speedMax1_1">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -590,6 +677,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -616,6 +712,9 @@
    </item>
    <item row="5" column="2">
     <widget class="QLineEdit" name="speedMax1_5">
+     <property name="enabled">
+      <bool>false</bool>
+     </property>
      <property name="minimumSize">
       <size>
        <width>150</width>
@@ -627,6 +726,15 @@
        <width>150</width>
        <height>16777215</height>
       </size>
+     </property>
+     <property name="mouseTracking">
+      <bool>false</bool>
+     </property>
+     <property name="acceptDrops">
+      <bool>false</bool>
+     </property>
+     <property name="autoFillBackground">
+      <bool>true</bool>
      </property>
      <property name="readOnly">
       <bool>true</bool>

@@ -3,7 +3,7 @@
 
 #include "ustawienia.h"
 #include <QWidget>
-
+class QLineEdit;
 namespace Ui {
 class UstawieniaNapedow;
 }
@@ -18,6 +18,8 @@ public:
 
     void setUstawienia(Ustawienia *u);
     void saveNapedy();
+protected:
+    bool check(QLineEdit *line);
 private:
     Ui::UstawieniaNapedow *ui;
     Ustawienia * ust;

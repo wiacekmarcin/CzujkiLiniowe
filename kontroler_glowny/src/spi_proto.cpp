@@ -4,8 +4,7 @@
 #include<Wire.h>
 #define DEBUG
 
-#define SERIALOUT Serial
-#define SERIALDBG Serial1
+#include "main.h"
 
 static void phex(uint8_t b)
 {
@@ -134,13 +133,9 @@ void SPIMessage::sendReplyMsg()
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
-    SERIALDBG.print("M");
+    SERIALDBG.print(" M=");
     SERIALDBG.print(id, DEC);
-    SERIALDBG.print(" Send ECHO Msg : [");
-    for (uint8_t s = 0; s < 3; s++) {
-        phex(echoMsg[s]);
-    }
-    SERIALDBG.println("]");
+    SERIALDBG.println(" Send ECHO Msg");
 #endif 
     sendSpiMsg(echoMsg, 3);
 }
@@ -238,8 +233,8 @@ void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
     Wire.write(bytes, cnt);
     unsigned char status = Wire.endTransmission();
 #ifdef DEBUG
-    SERIALDBG.print("send Status=");
-    SERIALDBG.println(status);
+    //SERIALDBG.print("send Status=");
+    //SERIALDBG.println(status);
 #endif
 }
 

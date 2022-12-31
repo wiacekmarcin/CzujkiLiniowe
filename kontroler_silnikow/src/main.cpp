@@ -7,6 +7,7 @@
 #include "crc8.hpp"
 #include "proto.hpp"
 #include "silnik.hpp"
+
 #include "filtr.hpp"
 #include "workmode.hpp"
 #include "spi_msg.hpp"
@@ -109,6 +110,8 @@ void setup()
 	address = getAddress();
 
 	Serial.begin(115200);
+	Serial.println(__DATE__);
+	Serial.println(__TIME__);
   	Serial.print(digitalRead(10) == 0);
 	Serial.print(digitalRead(A3) == 0);
 	Serial.print(digitalRead(A2) == 0);
@@ -190,7 +193,7 @@ static void requestEvent()
 	SDP("sendPos=", smsg.sendPos);SDP(" sizeSendMsg=", smsg.sizeSendMsg);
 	SD("Sending : [");
 	for (int i=0; i<smsg.sizeSendMsg; ++i) {
-		SD(" ");SD																																																																																																																																																		2(smsg.sendBuff[i], HEX);
+		SD(" ");SD2(smsg.sendBuff[i], HEX);
 	}
 	SDN("]");
 	for (int t = 0; t < smsg.sizeSendMsg; t++)

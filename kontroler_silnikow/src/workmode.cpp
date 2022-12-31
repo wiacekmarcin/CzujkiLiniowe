@@ -32,6 +32,7 @@ WorkMode::~WorkMode()
  * M8 DIR=1 w prawo od odbiornika 1307 / 973 / 996
  * M9 DIR=1 dp dolu Kroki 826(dla dir=0) / 797(dla dir=1) 2 wdrugim przypadku 802 do 831
  */
+
 uint32_t WorkMode::getDelayImp() const
 {
 	switch (mode)

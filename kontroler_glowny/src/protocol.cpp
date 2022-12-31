@@ -3,8 +3,7 @@
 
 //#define DEBUG_SERIAL
 
-#define SERIALOUT Serial
-#define SERIALDBG Serial1
+#include "main.h"
 
 MessageSerial::MessageSerial() 
 {

@@ -241,7 +241,7 @@ bool Sterownik::openDevice()
 
 
     QByteArray startBuf(20, '\0');
-    DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
+    //DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
     write(startBuf, 2500);
     QThread::currentThread()->sleep(1);
     read(1000);
@@ -518,9 +518,8 @@ void Sterownik::connectToSerialJob()
                      description, manufacturer, serialNumber, vendorId, productId));
 
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
-                if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber()) ||
-                    (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")  ||
-                    (vendorId == "67b" && productId == "2303")   ) {
+                if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber())
+                    /*|| (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")*/) {
                     DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     m_portName = serialPortInfo.portName();
                     emit deviceName(m_portName);

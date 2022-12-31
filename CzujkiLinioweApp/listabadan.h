@@ -23,6 +23,10 @@ public:
     ~ListaBadan();
     void startBadanie(short id, const ParametryBadania & badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
 
+    void flt_zerowanieFiltrowDone();
+    void flt_setUkladFiltrowDone();
+    void flt_bladFiltrow(short silnik, bool zerowanie);
+
 private:
     Ui::ListaBadan *ui;
     DaneTestu test;

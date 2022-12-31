@@ -1,7 +1,7 @@
 #include "test7badanie.h"
 #include "ui_test7badanie.h"
 
-Test7Badanie::Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
+Test7Badanie::Test7Badanie(short /*nrPomiaru*/, const DaneTestu &daneTestu,
                            const ParametryBadania &daneBadania, const Ustawienia &ust, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test7Badanie),
@@ -54,7 +54,7 @@ void Test7Badanie::flt_setUkladFiltrowDone()
 
 }
 
-void Test7Badanie::flt_bladFiltrow(short silnik, bool zerowanie)
+void Test7Badanie::flt_bladFiltrow(short /*silnik*/, bool /*zerowanie*/)
 {
     zmFiltraTmr.stop();
     ui->progressBar->setValue(0);

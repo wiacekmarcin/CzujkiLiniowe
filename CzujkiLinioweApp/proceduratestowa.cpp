@@ -225,7 +225,7 @@ void ProceduraTestowa::pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu,
     dlg7 = nullptr;
 }
 
-void ProceduraTestowa::podsumowanie(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &)
+void ProceduraTestowa::podsumowanie(short /*nrPomiaru*/, const DaneTestu &/*daneTestu*/, const ParametryBadania &/*daneBadania*/, const Ustawienia &)
 {
 
 }
