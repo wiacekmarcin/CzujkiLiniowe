@@ -39,6 +39,9 @@ public:
     typedef enum _zdarzenieSilnika {
         M_ACTIVE = 1,
         M_NOACTIVE,
+        M_NOCOMM,
+        M_NOPINS,
+        M_CONFOK,
     } ZdarzenieSilnikaEnum;
 
     void setThread(QThread * thrW, QThread *thrR);
@@ -52,6 +55,8 @@ public:
     QString getVendor();
     QString getSerialNumber();
     bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
+    const QString &portName() const;
+
 protected:
 
     bool connected();

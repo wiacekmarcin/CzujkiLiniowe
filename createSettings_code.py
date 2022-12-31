@@ -357,7 +357,8 @@ checkFuns["nazwa"] = checkQStringContent
 checkFuns["przelozenieImpJedn"] = checkDoubleContent
 checkFuns["minOdstepImp"] = checkUnsignedIntContent
 checkFuns["odwrocObroty"] = checkBoolContent
-checkFuns["czasMiedzyImp"] = checkUnsignedIntContent
+checkFuns["czasMiedzyImpZerow"] = checkUnsignedIntContent
+checkFuns["czasMiedzyImpNormal"] = checkUnsignedIntContent
 checkFuns["maksIloscImp"] = checkUnsignedIntContent
 checkFuns["iloscImpBaza"] = checkUnsignedIntContent
 checkFuns["iloscImpSrodek"] = checkUnsignedIntContent
@@ -369,7 +370,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.0375,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 10000000,
+        "czasMiedzyImpZerow" : 1000,
+        "czasMiedzyImpNormal" : 10000,
         "maksIloscImp" : 1001,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 350,
@@ -380,7 +382,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.0375,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 10000000,
+        "czasMiedzyImpZerow" : 1000,
+        "czasMiedzyImpNormal" : 10000,
         "maksIloscImp" : 1002,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 350,
@@ -388,10 +391,11 @@ motordefVals = {
     },
     3 : {
         "nazwa" : 'QString("M3")',
-        "przelozenieImpJedn" : 84.4527,
+        "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 60,
+        "czasMiedzyImpZerow" : 60,
+        "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31003,
         "iloscImpBaza" : 260,
         "iloscImpSrodek" : 0,
@@ -399,10 +403,11 @@ motordefVals = {
     },
     4 : {
         "nazwa" : 'QString("M4")',
-        "przelozenieImpJedn" : 84.4527,
+        "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 60,
+        "czasMiedzyImpZerow" : 60,
+        "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31004,
         "iloscImpBaza" : 260,
         "iloscImpSrodek" : 0,
@@ -410,10 +415,11 @@ motordefVals = {
     },
     5 : {
         "nazwa" : 'QString("M5")',
-        "przelozenieImpJedn" : 84.4527,
+        "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 60,
+        "czasMiedzyImpZerow" : 60,
+        "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31005,
         "iloscImpBaza" : 260,
         "iloscImpSrodek" : 0,
@@ -424,7 +430,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.013,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 1256,
+        "czasMiedzyImpZerow" : 50,
+        "czasMiedzyImpNormal" : 500,
         "maksIloscImp" : 1006,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 0,
@@ -435,7 +442,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.000266667,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 1257,
+        "czasMiedzyImpZerow" : 250,
+        "czasMiedzyImpNormal" : 1000,
         "maksIloscImp" : 1007,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 0,
@@ -446,7 +454,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.0375,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 10000000,
+        "czasMiedzyImpZerow" : 1000,
+        "czasMiedzyImpNormal" : 10000,
         "maksIloscImp" : 1008,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 350,
@@ -457,7 +466,8 @@ motordefVals = {
         "przelozenieImpJedn" : 0.0375,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImp" : 10000000,
+        "czasMiedzyImpZerow" : 1000,
+        "czasMiedzyImpNormal" : 10000,
         "maksIloscImp" : 1009,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 350,
@@ -501,7 +511,8 @@ motorSett("nazwa", "QString", "toQString", checkFuns, motordefVals)
 motorSett("przelozenieImpJedn", "double", "toDouble", checkFuns, motordefVals)
 motorSett("minOdstepImp", "int", "toUInt", checkFuns, motordefVals)
 motorSett("odwrocObroty", "bool", "toBool", checkFuns, motordefVals)
-motorSett("czasMiedzyImp", "int", "toUInt", checkFuns, motordefVals)
+motorSett("czasMiedzyImpZerow", "int", "toUInt", checkFuns, motordefVals)
+motorSett("czasMiedzyImpNormal", "int", "toUInt", checkFuns, motordefVals)
 motorSett("maksIloscImp", "int", "toUInt", checkFuns, motordefVals)
 motorSett("iloscImpBaza", "int", "toUInt", checkFuns, motordefVals)
 motorSett("iloscImpSrodek", "int", "toUInt", checkFuns, motordefVals)

@@ -154,17 +154,34 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         return false;
     }
 
-    auto reply = read(100);
+    auto reply = read(200);
     SerialMessage msg;
     msg.parseCommand(reply);
 
-    if (msg.getParseReply() != SerialMessage::CONF_REPLY && !msg.isKontroler()) {
+    if (msg.getParseReply() != SerialMessage::CONF_MEGA_REPLY || !msg.isKontroler()) {
         emit error(QString("Bledna odpowiedz dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
-    for (short s = 0; s < 10; ++s) {
-        emit zdarzenieSilnik(s, msg.getActive(s) ? M_ACTIVE : M_NOACTIVE);
+    for (short s = 1; s < 10; ++s) {
+        if (msg.getActive(s) && msg.getConnected(s) && msg.getPinsOk(s)) {
+            emit zdarzenieSilnik(s, M_ACTIVE);
+        } else if (msg.getActive(s) && msg.getConnected(s) && !msg.getPinsOk(s)) {
+            emit zdarzenieSilnik(s, M_NOPINS);
+        } else if (msg.getActive(s) && !msg.getConnected(s)) {
+            emit zdarzenieSilnik(s, M_NOCOMM);
+        } else
+            emit zdarzenieSilnik(s, M_NOACTIVE);
+    }
+    while (reply.size() > 0) {
+        SerialMessage msg;
+        msg.parseCommand(reply);
+        if (msg.getParseReply() != SerialMessage::CONF_REPLY) {
+            emit error(QString("Bledna odpowiedz dla kontrolera"));
+            emit kontrolerConfigured(PARAMS_FAILD);
+            return false;
+        }
+        emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
     }
 
     emit kontrolerConfigured(PARAMS_OK);
@@ -232,7 +249,7 @@ bool Sterownik::openDevice()
     m_serialPort->setDataBits(QSerialPort::Data8);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
-    m_serialPort->setReadBufferSize(20);
+    m_serialPort->setReadBufferSize(32);
 
     QThread::currentThread()->sleep(2);
 
@@ -449,7 +466,8 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
 
         case SerialMessage::CONF_REPLY:
             emit setParamsDone(msg.getSilnik(), true, false);
-            emit zdarzenieSilnik(msg.getSilnik(), msg.getActive(msg.getSilnik())? M_ACTIVE : M_NOACTIVE);
+            if (msg.getReplyConf(msg.getSilnik()))
+                emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
@@ -469,6 +487,11 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
         ret.append(msg);
     } while (reply.size());
     return ret;
+}
+
+const QString &Sterownik::portName() const
+{
+    return m_portName;
 }
 
 void Sterownik::closeDevice(bool waitForDone)

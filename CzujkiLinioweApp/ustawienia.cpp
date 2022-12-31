@@ -30,8 +30,11 @@ double Ustawienia::wyliczPredkosc(const double &ratioImpJedn, const double &impT
     if (impTime == 0 || ratioImpJedn == 0)
         return 0;
 
-    return 60 * 1000000 / ratioImpJedn / impTime;
+    //znajdzmy ilosc impulsow w 1 min
+    double impCnt = 60 * 1000000 / impTime;
 
+    //znajdzy droge
+    return impCnt * ratioImpJedn;
 }
 
 unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &speed)
@@ -39,8 +42,11 @@ unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &sp
     if (speed == 0 || ratioImpJedn == 0)
         return 1000;
 
+    //znajdzmy ilosc impulsow w 1 min
+    double impCnt = speed / ratioImpJedn;
 
-    return  round(60 * 1000000 / ratioImpJedn / speed);
+    //znajdzmy okres impulsu
+    return  round(60 * 1000000 / impCnt);
 }
 
 void Ustawienia::loadListUstawienFiltra()

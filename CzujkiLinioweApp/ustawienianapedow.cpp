@@ -18,7 +18,7 @@ UstawieniaNapedow::~UstawieniaNapedow()
 
 #define READ_M(N)   ui->nazwa_##N->setText(ust->getMotorNazwa##N());\
                     ui->speedMax1_##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorMinOdstepImp##N()), 'f')); \
-                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImp##N()), 'f')); \
+                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),ust->getMotorCzasMiedzyImpNormal##N()), 'f')); \
                     ui->speedMax1_##N->setReadOnly(true); /*ui->speedMax1_##N->setEnabled(false);*/
 
 #define READ_MOTORS     READ_M(1) \
@@ -40,7 +40,7 @@ void UstawieniaNapedow::setUstawienia(Ustawienia *u)
 
 
 #define WRITE_M(N)  ust->setMotorNazwa##N(ui->nazwa_##N->text()); \
-                    ust->setMotorCzasMiedzyImp##N(ust->wyliczImp(ust->getMotorPrzelozenieImpJedn##N(), ui->speed##N->text().toDouble()));
+                    ust->setMotorCzasMiedzyImpNormal##N(ust->wyliczImp(ust->getMotorPrzelozenieImpJedn##N(), ui->speed##N->text().toDouble()));
 
 
 #define WRITE_MOTORS    WRITE_M(1) \

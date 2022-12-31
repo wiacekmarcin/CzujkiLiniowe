@@ -39,9 +39,9 @@ void SterownikFiltrow::setUstawienia(const Ustawienia &u)
     impPosFB = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
     impPosFC = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
 
-    speedFA = u.getMotorCzasMiedzyImp(nrSilnikFA);
-    speedFB = u.getMotorCzasMiedzyImp(nrSilnikFB);
-    speedFC = u.getMotorCzasMiedzyImp(nrSilnikFC);
+    speedFA = u.getMotorCzasMiedzyImpNormal(nrSilnikFA);
+    speedFB = u.getMotorCzasMiedzyImpNormal(nrSilnikFB);
+    speedFC = u.getMotorCzasMiedzyImpNormal(nrSilnikFC);
 }
 
 void SterownikFiltrow::setPos(unsigned short pA, unsigned short pB, unsigned short pC)

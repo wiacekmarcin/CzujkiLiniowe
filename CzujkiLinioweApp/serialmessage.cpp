@@ -175,22 +175,23 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         {
             silnik = addr;
             if (silnik == 0) {
-                connected[0] = (options & 0x08) == 0x08;
-                active[0] = (options & 0x04) == 0x04;
+                active[0] = (options & 0x08) == 0x08;
+                connected[0] = (options & 0x04) == 0x04;
+                pinsOK[0] = (options & 0x03) == 0x03;
+
                 m_parseReply = CONF_MEGA_REPLY;
                 for (short s = 1; s < 10; ++s) {
-                    connected[s] = (data[s-1] & 0x08) == 0x08;
-                    active[s] = (data[s-1] & 0x04) == 0x04;
+                    active[s] = (data[s-1] & 0x08) == 0x08;
+                    connected[s] = (data[s-1] & 0x04) == 0x04;
+                    pinsOK[s] = (data[s-1] & 0x03) == 0x03;
+                    replyConf[s] = false;
                 }
-                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0];
+                qDebug() << "CONF_MSG_REP addr" << addr << "opt =" << options;
                 return true;
             } else if (silnik < 10) {
-                connected[silnik] = (options & 0x08) == 0x08;
-                active[silnik] = (options & 0x04) == 0x04;
+                replyConf[silnik] = (options & 0x0C) == 0x0C;
                 m_parseReply = CONF_REPLY;
-                qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[silnik];
             }
-            qDebug() << "CONF_MSG_REP addr" << addr << " active =" << active[0] << active[1]<< active[2]<< active[3]<< active[4]<< active[5]<< active[6]<< active[7]<< active[8]<< active[9];
             return true;
         }
 
@@ -246,6 +247,21 @@ uint32_t SerialMessage::getNumber(const QByteArray &data)
 bool SerialMessage::getActive(short nr) const
 {
     return active[nr];
+}
+
+bool SerialMessage::getConnected(short nr) const
+{
+    return connected[nr];
+}
+
+bool SerialMessage::getPinsOk(short nr) const
+{
+    return pinsOK[nr];
+}
+
+bool SerialMessage::getReplyConf(short nr) const
+{
+    return replyConf[nr];
 }
 
 unsigned int SerialMessage::getSteps() const

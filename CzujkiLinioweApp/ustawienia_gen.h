@@ -134,35 +134,64 @@ public:
 	inline void setMotorOdwrocObroty9(const QString & odwrocObroty9) { setMotorOdwrocObroty9(toBool(odwrocObroty9)); }
 	bool getMotorOdwrocObroty(const short & nrMotor) const;
 	void setMotorOdwrocObroty(const short & nrMotor, const bool & odwrocObroty);
-	int getMotorCzasMiedzyImp1() const;
-	void setMotorCzasMiedzyImp1(const int & czasMiedzyImp1);
-	inline void setMotorCzasMiedzyImp1(const QString & czasMiedzyImp1) { setMotorCzasMiedzyImp1(toUInt(czasMiedzyImp1)); }
-	int getMotorCzasMiedzyImp2() const;
-	void setMotorCzasMiedzyImp2(const int & czasMiedzyImp2);
-	inline void setMotorCzasMiedzyImp2(const QString & czasMiedzyImp2) { setMotorCzasMiedzyImp2(toUInt(czasMiedzyImp2)); }
-	int getMotorCzasMiedzyImp3() const;
-	void setMotorCzasMiedzyImp3(const int & czasMiedzyImp3);
-	inline void setMotorCzasMiedzyImp3(const QString & czasMiedzyImp3) { setMotorCzasMiedzyImp3(toUInt(czasMiedzyImp3)); }
-	int getMotorCzasMiedzyImp4() const;
-	void setMotorCzasMiedzyImp4(const int & czasMiedzyImp4);
-	inline void setMotorCzasMiedzyImp4(const QString & czasMiedzyImp4) { setMotorCzasMiedzyImp4(toUInt(czasMiedzyImp4)); }
-	int getMotorCzasMiedzyImp5() const;
-	void setMotorCzasMiedzyImp5(const int & czasMiedzyImp5);
-	inline void setMotorCzasMiedzyImp5(const QString & czasMiedzyImp5) { setMotorCzasMiedzyImp5(toUInt(czasMiedzyImp5)); }
-	int getMotorCzasMiedzyImp6() const;
-	void setMotorCzasMiedzyImp6(const int & czasMiedzyImp6);
-	inline void setMotorCzasMiedzyImp6(const QString & czasMiedzyImp6) { setMotorCzasMiedzyImp6(toUInt(czasMiedzyImp6)); }
-	int getMotorCzasMiedzyImp7() const;
-	void setMotorCzasMiedzyImp7(const int & czasMiedzyImp7);
-	inline void setMotorCzasMiedzyImp7(const QString & czasMiedzyImp7) { setMotorCzasMiedzyImp7(toUInt(czasMiedzyImp7)); }
-	int getMotorCzasMiedzyImp8() const;
-	void setMotorCzasMiedzyImp8(const int & czasMiedzyImp8);
-	inline void setMotorCzasMiedzyImp8(const QString & czasMiedzyImp8) { setMotorCzasMiedzyImp8(toUInt(czasMiedzyImp8)); }
-	int getMotorCzasMiedzyImp9() const;
-	void setMotorCzasMiedzyImp9(const int & czasMiedzyImp9);
-	inline void setMotorCzasMiedzyImp9(const QString & czasMiedzyImp9) { setMotorCzasMiedzyImp9(toUInt(czasMiedzyImp9)); }
-	int getMotorCzasMiedzyImp(const short & nrMotor) const;
-	void setMotorCzasMiedzyImp(const short & nrMotor, const int & czasMiedzyImp);
+	int getMotorCzasMiedzyImpZerow1() const;
+	void setMotorCzasMiedzyImpZerow1(const int & czasMiedzyImpZerow1);
+	inline void setMotorCzasMiedzyImpZerow1(const QString & czasMiedzyImpZerow1) { setMotorCzasMiedzyImpZerow1(toUInt(czasMiedzyImpZerow1)); }
+	int getMotorCzasMiedzyImpZerow2() const;
+	void setMotorCzasMiedzyImpZerow2(const int & czasMiedzyImpZerow2);
+	inline void setMotorCzasMiedzyImpZerow2(const QString & czasMiedzyImpZerow2) { setMotorCzasMiedzyImpZerow2(toUInt(czasMiedzyImpZerow2)); }
+	int getMotorCzasMiedzyImpZerow3() const;
+	void setMotorCzasMiedzyImpZerow3(const int & czasMiedzyImpZerow3);
+	inline void setMotorCzasMiedzyImpZerow3(const QString & czasMiedzyImpZerow3) { setMotorCzasMiedzyImpZerow3(toUInt(czasMiedzyImpZerow3)); }
+	int getMotorCzasMiedzyImpZerow4() const;
+	void setMotorCzasMiedzyImpZerow4(const int & czasMiedzyImpZerow4);
+	inline void setMotorCzasMiedzyImpZerow4(const QString & czasMiedzyImpZerow4) { setMotorCzasMiedzyImpZerow4(toUInt(czasMiedzyImpZerow4)); }
+	int getMotorCzasMiedzyImpZerow5() const;
+	void setMotorCzasMiedzyImpZerow5(const int & czasMiedzyImpZerow5);
+	inline void setMotorCzasMiedzyImpZerow5(const QString & czasMiedzyImpZerow5) { setMotorCzasMiedzyImpZerow5(toUInt(czasMiedzyImpZerow5)); }
+	int getMotorCzasMiedzyImpZerow6() const;
+	void setMotorCzasMiedzyImpZerow6(const int & czasMiedzyImpZerow6);
+	inline void setMotorCzasMiedzyImpZerow6(const QString & czasMiedzyImpZerow6) { setMotorCzasMiedzyImpZerow6(toUInt(czasMiedzyImpZerow6)); }
+	int getMotorCzasMiedzyImpZerow7() const;
+	void setMotorCzasMiedzyImpZerow7(const int & czasMiedzyImpZerow7);
+	inline void setMotorCzasMiedzyImpZerow7(const QString & czasMiedzyImpZerow7) { setMotorCzasMiedzyImpZerow7(toUInt(czasMiedzyImpZerow7)); }
+	int getMotorCzasMiedzyImpZerow8() const;
+	void setMotorCzasMiedzyImpZerow8(const int & czasMiedzyImpZerow8);
+	inline void setMotorCzasMiedzyImpZerow8(const QString & czasMiedzyImpZerow8) { setMotorCzasMiedzyImpZerow8(toUInt(czasMiedzyImpZerow8)); }
+	int getMotorCzasMiedzyImpZerow9() const;
+	void setMotorCzasMiedzyImpZerow9(const int & czasMiedzyImpZerow9);
+	inline void setMotorCzasMiedzyImpZerow9(const QString & czasMiedzyImpZerow9) { setMotorCzasMiedzyImpZerow9(toUInt(czasMiedzyImpZerow9)); }
+	int getMotorCzasMiedzyImpZerow(const short & nrMotor) const;
+	void setMotorCzasMiedzyImpZerow(const short & nrMotor, const int & czasMiedzyImpZerow);
+	int getMotorCzasMiedzyImpNormal1() const;
+	void setMotorCzasMiedzyImpNormal1(const int & czasMiedzyImpNormal1);
+	inline void setMotorCzasMiedzyImpNormal1(const QString & czasMiedzyImpNormal1) { setMotorCzasMiedzyImpNormal1(toUInt(czasMiedzyImpNormal1)); }
+	int getMotorCzasMiedzyImpNormal2() const;
+	void setMotorCzasMiedzyImpNormal2(const int & czasMiedzyImpNormal2);
+	inline void setMotorCzasMiedzyImpNormal2(const QString & czasMiedzyImpNormal2) { setMotorCzasMiedzyImpNormal2(toUInt(czasMiedzyImpNormal2)); }
+	int getMotorCzasMiedzyImpNormal3() const;
+	void setMotorCzasMiedzyImpNormal3(const int & czasMiedzyImpNormal3);
+	inline void setMotorCzasMiedzyImpNormal3(const QString & czasMiedzyImpNormal3) { setMotorCzasMiedzyImpNormal3(toUInt(czasMiedzyImpNormal3)); }
+	int getMotorCzasMiedzyImpNormal4() const;
+	void setMotorCzasMiedzyImpNormal4(const int & czasMiedzyImpNormal4);
+	inline void setMotorCzasMiedzyImpNormal4(const QString & czasMiedzyImpNormal4) { setMotorCzasMiedzyImpNormal4(toUInt(czasMiedzyImpNormal4)); }
+	int getMotorCzasMiedzyImpNormal5() const;
+	void setMotorCzasMiedzyImpNormal5(const int & czasMiedzyImpNormal5);
+	inline void setMotorCzasMiedzyImpNormal5(const QString & czasMiedzyImpNormal5) { setMotorCzasMiedzyImpNormal5(toUInt(czasMiedzyImpNormal5)); }
+	int getMotorCzasMiedzyImpNormal6() const;
+	void setMotorCzasMiedzyImpNormal6(const int & czasMiedzyImpNormal6);
+	inline void setMotorCzasMiedzyImpNormal6(const QString & czasMiedzyImpNormal6) { setMotorCzasMiedzyImpNormal6(toUInt(czasMiedzyImpNormal6)); }
+	int getMotorCzasMiedzyImpNormal7() const;
+	void setMotorCzasMiedzyImpNormal7(const int & czasMiedzyImpNormal7);
+	inline void setMotorCzasMiedzyImpNormal7(const QString & czasMiedzyImpNormal7) { setMotorCzasMiedzyImpNormal7(toUInt(czasMiedzyImpNormal7)); }
+	int getMotorCzasMiedzyImpNormal8() const;
+	void setMotorCzasMiedzyImpNormal8(const int & czasMiedzyImpNormal8);
+	inline void setMotorCzasMiedzyImpNormal8(const QString & czasMiedzyImpNormal8) { setMotorCzasMiedzyImpNormal8(toUInt(czasMiedzyImpNormal8)); }
+	int getMotorCzasMiedzyImpNormal9() const;
+	void setMotorCzasMiedzyImpNormal9(const int & czasMiedzyImpNormal9);
+	inline void setMotorCzasMiedzyImpNormal9(const QString & czasMiedzyImpNormal9) { setMotorCzasMiedzyImpNormal9(toUInt(czasMiedzyImpNormal9)); }
+	int getMotorCzasMiedzyImpNormal(const short & nrMotor) const;
+	void setMotorCzasMiedzyImpNormal(const short & nrMotor, const int & czasMiedzyImpNormal);
 	int getMotorMaksIloscImp1() const;
 	void setMotorMaksIloscImp1(const int & maksIloscImp1);
 	inline void setMotorMaksIloscImp1(const QString & maksIloscImp1) { setMotorMaksIloscImp1(toUInt(maksIloscImp1)); }
@@ -529,7 +558,8 @@ protected:
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
 	bool checkMotorMinOdstepImp(const QString & val);
 	bool checkMotorOdwrocObroty(const QString & val);
-	bool checkMotorCzasMiedzyImp(const QString & val);
+	bool checkMotorCzasMiedzyImpZerow(const QString & val);
+	bool checkMotorCzasMiedzyImpNormal(const QString & val);
 	bool checkMotorMaksIloscImp(const QString & val);
 	bool checkMotorIloscImpBaza(const QString & val);
 	bool checkMotorIloscImpSrodek(const QString & val);
@@ -578,15 +608,24 @@ private:
 	bool motorOdwrocObroty7;
 	bool motorOdwrocObroty8;
 	bool motorOdwrocObroty9;
-	int motorCzasMiedzyImp1;
-	int motorCzasMiedzyImp2;
-	int motorCzasMiedzyImp3;
-	int motorCzasMiedzyImp4;
-	int motorCzasMiedzyImp5;
-	int motorCzasMiedzyImp6;
-	int motorCzasMiedzyImp7;
-	int motorCzasMiedzyImp8;
-	int motorCzasMiedzyImp9;
+	int motorCzasMiedzyImpZerow1;
+	int motorCzasMiedzyImpZerow2;
+	int motorCzasMiedzyImpZerow3;
+	int motorCzasMiedzyImpZerow4;
+	int motorCzasMiedzyImpZerow5;
+	int motorCzasMiedzyImpZerow6;
+	int motorCzasMiedzyImpZerow7;
+	int motorCzasMiedzyImpZerow8;
+	int motorCzasMiedzyImpZerow9;
+	int motorCzasMiedzyImpNormal1;
+	int motorCzasMiedzyImpNormal2;
+	int motorCzasMiedzyImpNormal3;
+	int motorCzasMiedzyImpNormal4;
+	int motorCzasMiedzyImpNormal5;
+	int motorCzasMiedzyImpNormal6;
+	int motorCzasMiedzyImpNormal7;
+	int motorCzasMiedzyImpNormal8;
+	int motorCzasMiedzyImpNormal9;
 	int motorMaksIloscImp1;
 	int motorMaksIloscImp2;
 	int motorMaksIloscImp3;

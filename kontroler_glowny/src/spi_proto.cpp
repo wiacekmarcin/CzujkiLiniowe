@@ -23,7 +23,10 @@ SPIMessage::SPIMessage()
 , echoMsg{0, 0, 0}
 , confLen(0)
 , confMsg{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
-, connected(false)
+, comunication(false)
+, busyPinOk(false)
+, movePinOk(false)
+, stopPinOk(false)
 {
     actJob = JOB_ECHO;
 }
@@ -86,50 +89,6 @@ void SPIMessage::init(const uint8_t stopPin, const uint8_t movePin, const uint8_
     confLen = 16;
 }
 
-/*
-void SPIMessage::sendReplyMsg()
-{
-#ifdef DEBUG
-    SERIALDBG.print("M");
-    SERIALDBG.print(addr, DEC);
-    SERIALDBG.print(" Send Reply Msg : [");
-    for (uint8_t s = 0; s < 20; s++) {
-        phex(replyMsg[s]);
-    }
-    SERIALDBG.println("]");
-#endif 
-    uint8_t msgLocal[20];
-    memcpy(msgLocal, replyMsg, 20);
-    sendSpiMsg(msgLocal, 20);
-
-
-    bool send2Pc = false;
-    if (msgLocal[0] == 0x0A && msgLocal[1] == 3 ) {
-        if (msgLocal[2] == 0x10 && ((addr << 4) | 8) == msgLocal[3]) {
-#ifdef DEBUG
-            //SERIALDBG.println("Connected");
-#endif  
-            connected = true;
-            return;
-        }
-        if (msgLocal[2] == 0x90 && ((addr << 4) | 8) == msgLocal[3]) {
-#ifdef DEBUG
-            //SERIALDBG.println("Send Rep msg to PC");
-#endif  
-            SERIALOUT.write(msgLocal+2, msgLocal[1]);
-            return;
-        }
-    } 
-    if (msgLocal[0] == 0x0A && msgLocal[1] == 7 && msgLocal[3] == 0x74 && ((msgLocal[4] >> 4) & 0x0f) == addr) {
-#ifdef DEBUG
-            //SERIALDBG.println("Send Rep msg to PC");
-#endif  
-            SERIALOUT.write(msgLocal+2, msgLocal[1]);
-            return;
-    }
-}
-*/
-
 void SPIMessage::sendEchoMsg()
 {
 #ifdef DEBUG
@@ -151,20 +110,13 @@ void SPIMessage::sendConfiguration()
 #ifdef DEBUG
     SERIALDBG.println("Send Configuration ");
     SERIALDBG.print("motor = ");
-    SERIALDBG.println(addr, DEC);
+    SERIALDBG.println(id, DEC);
 #endif  
     digitalWrite(stopPin, LOW);
     uint8_t sendMsg[confLen];
     memcpy(sendMsg, confMsg, confLen);
     digitalWrite(stopPin, HIGH);
 
-#ifdef DEBUG
-    SERIALDBG.print("Send Msg: [");
-    for (uint8_t s = 0; s < confLen; s++) {
-        phex(sendMsg[s]);
-    }
-    SERIALDBG.println("]");
-#endif
     sendSpiMsg(sendMsg, confLen);
 }
 
@@ -233,8 +185,10 @@ void SPIMessage::sendSpiMsg(uint8_t * bytes, uint8_t cnt)
     Wire.write(bytes, cnt);
     unsigned char status = Wire.endTransmission();
 #ifdef DEBUG
-    //SERIALDBG.print("send Status=");
-    //SERIALDBG.println(status);
+    if (status!=0) {
+        SERIALDBG.print("send Status=");
+        SERIALDBG.println(status);
+    }
 #endif
 }
 
@@ -271,7 +225,7 @@ void SPIMessage::getReply()
     }
     
 #ifdef DEBUG    
-    SERIALDBG.print(" Recv Msg : [");
+    SERIALDBG.print("Recv Msg : [");
     for (uint8_t r = 0; r < recvPos; r++) {
         SERIALDBG.print(" ");
         SERIALDBG.print(recvBuff[r], HEX);
@@ -279,12 +233,16 @@ void SPIMessage::getReply()
     SERIALDBG.println("]");
 #endif
 
-    if (cmd == MessageSerial::ECHO_REP && id == this->id) {
-        connected = true;
-        optEcho = opt;
-    }
-    
     if (cmd == MessageSerial::CONF_REP && id == this->id) {
+        SERIALDBG.println("Send to PC");
         SERIALOUT.write(recvBuff, len + 3);
     }
+}
+
+void SPIMessage::setPins(bool comunication, bool busyPin, bool movePin, bool stopPin)
+{
+    this->comunication = comunication;
+    this->busyPinOk = busyPin;
+    this->movePinOk = movePin;
+    this->stopPinOk = stopPin;
 }

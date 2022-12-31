@@ -6,12 +6,14 @@
 #include <QMessageBox>
 
 #define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
-                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImp##N())); \
+                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImpZerow##N())); \
                    ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
                    ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
                    ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N())); \
-                   ui->motorName##N->setText(u->getMotorNazwa##N());
+                   ui->motorName##N->setText(u->getMotorNazwa##N()); \
+                   ui->speed##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
+                                                                            u->getMotorCzasMiedzyImpZerow##N())));
 
 #define SETCONF_ALL SETCONF(1) \
                     SETCONF(2) \
@@ -88,23 +90,24 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
 
     ADDICONS_ALL
 
-    ui->rbFound->setDisabled(false);
-    ui->rbFound->setChecked(false);
-    ui->rbFound->setCheckable(false);
+    ui->iconKonf->setStyleSheet("background-color:red");
+    ui->iconAuth->setStyleSheet("background-color:red");
+    ui->iconOpen->setStyleSheet("background-color:red");
+    ui->iconFound->setStyleSheet("background-color:red");
 
-    ui->rbAuth->setDisabled(false);
-    ui->rbAuth->setChecked(false);
-    ui->rbAuth->setCheckable(false);
-
-    ui->rbConf_2->setDisabled(false);
-    ui->rbConf_2->setChecked(false);
-    ui->rbConf_2->setCheckable(false);
-    ui->rbConf_2->setEnabled(false);
-
-    ui->rbOpen->setDisabled(false);
-    ui->rbOpen->setChecked(false);
-    ui->rbOpen->setCheckable(false);
-    ui->rbOpen->setEnabled(false);
+    if (sdv->getConnected()) {
+        ui->iconKonf->setStyleSheet("background-color:green");
+        ui->iconAuth->setStyleSheet("background-color:green");
+        ui->iconOpen->setStyleSheet("background-color:green");
+        ui->iconFound->setStyleSheet("background-color:green");
+        ui->namePort->setText(sdv->portName());
+        ui->pbConnect->setEnabled(false);
+        ui->pbDisconnect->setEnabled(true);
+        for (short i = 0; i < ikonyStatusu.size(); ++i) {
+            ikonyStatusu[i].first->setStyleSheet("background-color:green");
+            ikonyStatusu[i].second->setStyleSheet("background-color:green");
+        }
+    }
 }
 
 TestSterownikaDlg::~TestSterownikaDlg()
@@ -113,7 +116,7 @@ TestSterownikaDlg::~TestSterownikaDlg()
 }
 
 #define WRITECONF(N) u->setMotorIloscImpBaza##N(ui->base##N->text()); \
-                     u->setMotorCzasMiedzyImp##N(ui->delay##N->text()); \
+                     u->setMotorCzasMiedzyImpZerow##N(ui->delay##N->text()); \
                      u->setMotorMaksIloscImp##N(ui->maxSteps##N->text()); \
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
                      u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
@@ -146,42 +149,42 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
     bool conn = false;
     switch(state) {
     case Sterownik::NO_FOUND:
-        ui->rbFound->setDisabled(false);
-        ui->rbFound->setChecked(false);
-        ui->rbAuth->setDisabled(false);
-        ui->rbAuth->setChecked(false);
-        ui->rbConf_2->setDisabled(false);
-        ui->rbConf_2->setChecked(false);
+        ui->iconKonf->setStyleSheet("background-color:gray");
+        ui->iconAuth->setStyleSheet("background-color:gray");
+        ui->iconOpen->setStyleSheet("background-color:gray");
+        ui->iconFound->setStyleSheet("background-color:red");
         break;
     case Sterownik::FOUND:
-        ui->rbFound->setDisabled(false);
-        ui->rbFound->setChecked(true);
-        ui->rbAuth->setDisabled(false);
+        ui->iconFound->setStyleSheet("background-color:green");
         break;
     case Sterownik::NO_OPEN:
     case Sterownik::NO_READ:
+        ui->iconOpen->setStyleSheet("background-color:red");
+        ui->iconKonf->setStyleSheet("background-color:gray");
+        ui->iconAuth->setStyleSheet("background-color:gray");
+        break;
     case Sterownik::IDENT_FAILD:
+        ui->iconAuth->setStyleSheet("background-color:red");
+        break;
     case Sterownik::OPEN:
+        ui->iconOpen->setStyleSheet("background-color:green");
         break;
     case Sterownik::IDENT_OK:
+        ui->iconAuth->setStyleSheet("background-color:green");
         break;
     case Sterownik::PARAMS_OK:
     case Sterownik::ALL_OK:
-        ui->rbAuth->setChecked(true);
-        ui->rbConf_2->setDisabled(false);
+        ui->iconKonf->setStyleSheet("background-color:green");
         conn = true;
         break;
     case Sterownik::PARAMS_FAILD:
-        break;
-
-
+        ui->iconKonf->setStyleSheet("background-color:red");
         break;
     case Sterownik::CLOSE:
-        ui->rbFound->setChecked(false);
-        ui->rbAuth->setEnabled(false);
-        ui->rbAuth->setChecked(false);
-        ui->rbConf_2->setEnabled(false);
-        ui->rbConf_2->setChecked(false);
+        ui->iconKonf->setStyleSheet("background-color:gray");
+        ui->iconAuth->setStyleSheet("background-color:gray");
+        ui->iconOpen->setStyleSheet("background-color:gray");
+        ui->iconFound->setStyleSheet("background-color:gray");
         break;
     default:
         break;
@@ -194,12 +197,12 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
 
 void TestSterownikaDlg::sd_setParamsDone(bool /*success*/)
 {
-
+    ui->iconKonf->setStyleSheet("background-color:green");
 }
 
 void TestSterownikaDlg::sd_disconnect()
 {
-
+    ui->iconKonf->setStyleSheet("background-color:red");
 }
 
 void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
@@ -210,6 +213,16 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
     switch(zdarzenie) {
     case Sterownik::M_ACTIVE:
         ikonyStatusu[silnik].first->setStyleSheet("background-color:green");
+        ikonyStatusu[silnik].second->setStyleSheet("background-color:yellow");
+        break;
+    case Sterownik::M_NOCOMM:
+        ikonyStatusu[silnik].first->setStyleSheet("background-color:blue");
+        break;
+    case Sterownik::M_NOPINS:
+        ikonyStatusu[silnik].first->setStyleSheet("background-color:yellow");
+        break;
+    case Sterownik::M_CONFOK:
+        ikonyStatusu[silnik].second->setStyleSheet("background-color:green");
         break;
     case Sterownik::M_NOACTIVE:
     default: {
@@ -245,6 +258,10 @@ void TestSterownikaDlg::pbDisconnect_clicked()
 {
     ui->dbg3->append(QString("Disconnect on demand"));
     sd->disconnectDevice();
+    ui->iconKonf->setStyleSheet("background-color:red");
+    ui->iconAuth->setStyleSheet("background-color:red");
+    ui->iconOpen->setStyleSheet("background-color:red");
+    ui->iconFound->setStyleSheet("background-color:red");
 }
 
 void TestSterownikaDlg::pbResett_clicked()

@@ -31,9 +31,9 @@ void UstawieniaGen::load()
 	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa", QVariant::fromValue(QString("M9"))).toString());
 	motorPrzelozenieImpJedn1 = toDouble(settings.value("Silnik-1/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
 	motorPrzelozenieImpJedn2 = toDouble(settings.value("Silnik-2/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
-	motorPrzelozenieImpJedn3 = toDouble(settings.value("Silnik-3/PrzelozenieImpJedn", QVariant::fromValue(84.4527)).toString());
-	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(84.4527)).toString());
-	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(84.4527)).toString());
+	motorPrzelozenieImpJedn3 = toDouble(settings.value("Silnik-3/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
+	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
+	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn6 = toDouble(settings.value("Silnik-6/PrzelozenieImpJedn", QVariant::fromValue(0.013)).toString());
 	motorPrzelozenieImpJedn7 = toDouble(settings.value("Silnik-7/PrzelozenieImpJedn", QVariant::fromValue(0.000266667)).toString());
 	motorPrzelozenieImpJedn8 = toDouble(settings.value("Silnik-8/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
@@ -56,15 +56,24 @@ void UstawieniaGen::load()
 	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorOdwrocObroty8 = toBool(settings.value("Silnik-8/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorCzasMiedzyImp1 = toUInt(settings.value("Silnik-1/CzasMiedzyImp", QVariant::fromValue(10000000)).toString());
-	motorCzasMiedzyImp2 = toUInt(settings.value("Silnik-2/CzasMiedzyImp", QVariant::fromValue(10000000)).toString());
-	motorCzasMiedzyImp3 = toUInt(settings.value("Silnik-3/CzasMiedzyImp", QVariant::fromValue(60)).toString());
-	motorCzasMiedzyImp4 = toUInt(settings.value("Silnik-4/CzasMiedzyImp", QVariant::fromValue(60)).toString());
-	motorCzasMiedzyImp5 = toUInt(settings.value("Silnik-5/CzasMiedzyImp", QVariant::fromValue(60)).toString());
-	motorCzasMiedzyImp6 = toUInt(settings.value("Silnik-6/CzasMiedzyImp", QVariant::fromValue(1256)).toString());
-	motorCzasMiedzyImp7 = toUInt(settings.value("Silnik-7/CzasMiedzyImp", QVariant::fromValue(1257)).toString());
-	motorCzasMiedzyImp8 = toUInt(settings.value("Silnik-8/CzasMiedzyImp", QVariant::fromValue(10000000)).toString());
-	motorCzasMiedzyImp9 = toUInt(settings.value("Silnik-9/CzasMiedzyImp", QVariant::fromValue(10000000)).toString());
+	motorCzasMiedzyImpZerow1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpZerow2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpZerow3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
+	motorCzasMiedzyImpZerow4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
+	motorCzasMiedzyImpZerow5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
+	motorCzasMiedzyImpZerow6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpZerow", QVariant::fromValue(50)).toString());
+	motorCzasMiedzyImpZerow7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(250)).toString());
+	motorCzasMiedzyImpZerow8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpZerow9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpNormal1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
+	motorCzasMiedzyImpNormal2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
+	motorCzasMiedzyImpNormal3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
+	motorCzasMiedzyImpNormal4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
+	motorCzasMiedzyImpNormal5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
+	motorCzasMiedzyImpNormal6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpNormal", QVariant::fromValue(500)).toString());
+	motorCzasMiedzyImpNormal7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpNormal8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
+	motorCzasMiedzyImpNormal9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
 	motorMaksIloscImp1 = toUInt(settings.value("Silnik-1/MaksIloscImp", QVariant::fromValue(1001)).toString());
 	motorMaksIloscImp2 = toUInt(settings.value("Silnik-2/MaksIloscImp", QVariant::fromValue(1002)).toString());
 	motorMaksIloscImp3 = toUInt(settings.value("Silnik-3/MaksIloscImp", QVariant::fromValue(31003)).toString());
@@ -217,15 +226,24 @@ void UstawieniaGen::save()
 	settings.setValue("Silnik-7/OdwrocObroty", QVariant::fromValue(motorOdwrocObroty7));
 	settings.setValue("Silnik-8/OdwrocObroty", QVariant::fromValue(motorOdwrocObroty8));
 	settings.setValue("Silnik-9/OdwrocObroty", QVariant::fromValue(motorOdwrocObroty9));
-	settings.setValue("Silnik-1/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp1));
-	settings.setValue("Silnik-2/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp2));
-	settings.setValue("Silnik-3/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp3));
-	settings.setValue("Silnik-4/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp4));
-	settings.setValue("Silnik-5/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp5));
-	settings.setValue("Silnik-6/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp6));
-	settings.setValue("Silnik-7/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp7));
-	settings.setValue("Silnik-8/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp8));
-	settings.setValue("Silnik-9/CzasMiedzyImp", QVariant::fromValue(motorCzasMiedzyImp9));
+	settings.setValue("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow1));
+	settings.setValue("Silnik-2/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow2));
+	settings.setValue("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow3));
+	settings.setValue("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow4));
+	settings.setValue("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow5));
+	settings.setValue("Silnik-6/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow6));
+	settings.setValue("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow7));
+	settings.setValue("Silnik-8/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow8));
+	settings.setValue("Silnik-9/CzasMiedzyImpZerow", QVariant::fromValue(motorCzasMiedzyImpZerow9));
+	settings.setValue("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal1));
+	settings.setValue("Silnik-2/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal2));
+	settings.setValue("Silnik-3/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal3));
+	settings.setValue("Silnik-4/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal4));
+	settings.setValue("Silnik-5/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal5));
+	settings.setValue("Silnik-6/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal6));
+	settings.setValue("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal7));
+	settings.setValue("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal8));
+	settings.setValue("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(motorCzasMiedzyImpNormal9));
 	settings.setValue("Silnik-1/MaksIloscImp", QVariant::fromValue(motorMaksIloscImp1));
 	settings.setValue("Silnik-2/MaksIloscImp", QVariant::fromValue(motorMaksIloscImp2));
 	settings.setValue("Silnik-3/MaksIloscImp", QVariant::fromValue(motorMaksIloscImp3));
@@ -917,140 +935,286 @@ bool UstawieniaGen::checkMotorOdwrocObroty(const QString & val)
 
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp1() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow1() const
 {
-	return motorCzasMiedzyImp1;
+	return motorCzasMiedzyImpZerow1;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp1(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow1(const int & value)
 {
-	motorCzasMiedzyImp1 = value;
-	settings.setValue("Silnik-1/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow1 = value;
+	settings.setValue("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp2() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow2() const
 {
-	return motorCzasMiedzyImp2;
+	return motorCzasMiedzyImpZerow2;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp2(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow2(const int & value)
 {
-	motorCzasMiedzyImp2 = value;
-	settings.setValue("Silnik-2/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow2 = value;
+	settings.setValue("Silnik-2/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp3() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow3() const
 {
-	return motorCzasMiedzyImp3;
+	return motorCzasMiedzyImpZerow3;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp3(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow3(const int & value)
 {
-	motorCzasMiedzyImp3 = value;
-	settings.setValue("Silnik-3/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow3 = value;
+	settings.setValue("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp4() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow4() const
 {
-	return motorCzasMiedzyImp4;
+	return motorCzasMiedzyImpZerow4;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp4(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow4(const int & value)
 {
-	motorCzasMiedzyImp4 = value;
-	settings.setValue("Silnik-4/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow4 = value;
+	settings.setValue("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp5() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow5() const
 {
-	return motorCzasMiedzyImp5;
+	return motorCzasMiedzyImpZerow5;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp5(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow5(const int & value)
 {
-	motorCzasMiedzyImp5 = value;
-	settings.setValue("Silnik-5/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow5 = value;
+	settings.setValue("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp6() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow6() const
 {
-	return motorCzasMiedzyImp6;
+	return motorCzasMiedzyImpZerow6;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp6(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow6(const int & value)
 {
-	motorCzasMiedzyImp6 = value;
-	settings.setValue("Silnik-6/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow6 = value;
+	settings.setValue("Silnik-6/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp7() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow7() const
 {
-	return motorCzasMiedzyImp7;
+	return motorCzasMiedzyImpZerow7;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp7(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow7(const int & value)
 {
-	motorCzasMiedzyImp7 = value;
-	settings.setValue("Silnik-7/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow7 = value;
+	settings.setValue("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp8() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow8() const
 {
-	return motorCzasMiedzyImp8;
+	return motorCzasMiedzyImpZerow8;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp8(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow8(const int & value)
 {
-	motorCzasMiedzyImp8 = value;
-	settings.setValue("Silnik-8/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow8 = value;
+	settings.setValue("Silnik-8/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp9() const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow9() const
 {
-	return motorCzasMiedzyImp9;
+	return motorCzasMiedzyImpZerow9;
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp9(const int & value)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow9(const int & value)
 {
-	motorCzasMiedzyImp9 = value;
-	settings.setValue("Silnik-9/CzasMiedzyImp", QVariant::fromValue(value));
+	motorCzasMiedzyImpZerow9 = value;
+	settings.setValue("Silnik-9/CzasMiedzyImpZerow", QVariant::fromValue(value));
 }
 
-int UstawieniaGen::getMotorCzasMiedzyImp(const short & nrMotor) const
+int UstawieniaGen::getMotorCzasMiedzyImpZerow(const short & nrMotor) const
 {
 	switch(nrMotor) {
-	case 1 : return getMotorCzasMiedzyImp1();
-	case 2 : return getMotorCzasMiedzyImp2();
-	case 3 : return getMotorCzasMiedzyImp3();
-	case 4 : return getMotorCzasMiedzyImp4();
-	case 5 : return getMotorCzasMiedzyImp5();
-	case 6 : return getMotorCzasMiedzyImp6();
-	case 7 : return getMotorCzasMiedzyImp7();
-	case 8 : return getMotorCzasMiedzyImp8();
-	case 9 : return getMotorCzasMiedzyImp9();
+	case 1 : return getMotorCzasMiedzyImpZerow1();
+	case 2 : return getMotorCzasMiedzyImpZerow2();
+	case 3 : return getMotorCzasMiedzyImpZerow3();
+	case 4 : return getMotorCzasMiedzyImpZerow4();
+	case 5 : return getMotorCzasMiedzyImpZerow5();
+	case 6 : return getMotorCzasMiedzyImpZerow6();
+	case 7 : return getMotorCzasMiedzyImpZerow7();
+	case 8 : return getMotorCzasMiedzyImpZerow8();
+	case 9 : return getMotorCzasMiedzyImpZerow9();
 	default: return toUInt(QString());
 	}
 
 }
 
-void UstawieniaGen::setMotorCzasMiedzyImp(const short & nrMotor, const int & czasMiedzyImp)
+void UstawieniaGen::setMotorCzasMiedzyImpZerow(const short & nrMotor, const int & czasMiedzyImpZerow)
 {
 	switch(nrMotor) {
-	case 1 : setMotorCzasMiedzyImp1(czasMiedzyImp); break;
-	case 2 : setMotorCzasMiedzyImp2(czasMiedzyImp); break;
-	case 3 : setMotorCzasMiedzyImp3(czasMiedzyImp); break;
-	case 4 : setMotorCzasMiedzyImp4(czasMiedzyImp); break;
-	case 5 : setMotorCzasMiedzyImp5(czasMiedzyImp); break;
-	case 6 : setMotorCzasMiedzyImp6(czasMiedzyImp); break;
-	case 7 : setMotorCzasMiedzyImp7(czasMiedzyImp); break;
-	case 8 : setMotorCzasMiedzyImp8(czasMiedzyImp); break;
-	case 9 : setMotorCzasMiedzyImp9(czasMiedzyImp); break;
+	case 1 : setMotorCzasMiedzyImpZerow1(czasMiedzyImpZerow); break;
+	case 2 : setMotorCzasMiedzyImpZerow2(czasMiedzyImpZerow); break;
+	case 3 : setMotorCzasMiedzyImpZerow3(czasMiedzyImpZerow); break;
+	case 4 : setMotorCzasMiedzyImpZerow4(czasMiedzyImpZerow); break;
+	case 5 : setMotorCzasMiedzyImpZerow5(czasMiedzyImpZerow); break;
+	case 6 : setMotorCzasMiedzyImpZerow6(czasMiedzyImpZerow); break;
+	case 7 : setMotorCzasMiedzyImpZerow7(czasMiedzyImpZerow); break;
+	case 8 : setMotorCzasMiedzyImpZerow8(czasMiedzyImpZerow); break;
+	case 9 : setMotorCzasMiedzyImpZerow9(czasMiedzyImpZerow); break;
 	default: break;
 	}
 
 }
 
-bool UstawieniaGen::checkMotorCzasMiedzyImp(const QString & val)
+bool UstawieniaGen::checkMotorCzasMiedzyImpZerow(const QString & val)
+{
+
+    if (val.isEmpty()) return false;
+    
+    bool ok;
+    int v = val.toInt(&ok);
+    if (!ok || v <= 0)
+        return false;
+    return ok;
+
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal1() const
+{
+	return motorCzasMiedzyImpNormal1;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal1(const int & value)
+{
+	motorCzasMiedzyImpNormal1 = value;
+	settings.setValue("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal2() const
+{
+	return motorCzasMiedzyImpNormal2;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal2(const int & value)
+{
+	motorCzasMiedzyImpNormal2 = value;
+	settings.setValue("Silnik-2/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal3() const
+{
+	return motorCzasMiedzyImpNormal3;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal3(const int & value)
+{
+	motorCzasMiedzyImpNormal3 = value;
+	settings.setValue("Silnik-3/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal4() const
+{
+	return motorCzasMiedzyImpNormal4;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal4(const int & value)
+{
+	motorCzasMiedzyImpNormal4 = value;
+	settings.setValue("Silnik-4/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal5() const
+{
+	return motorCzasMiedzyImpNormal5;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal5(const int & value)
+{
+	motorCzasMiedzyImpNormal5 = value;
+	settings.setValue("Silnik-5/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal6() const
+{
+	return motorCzasMiedzyImpNormal6;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal6(const int & value)
+{
+	motorCzasMiedzyImpNormal6 = value;
+	settings.setValue("Silnik-6/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal7() const
+{
+	return motorCzasMiedzyImpNormal7;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal7(const int & value)
+{
+	motorCzasMiedzyImpNormal7 = value;
+	settings.setValue("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal8() const
+{
+	return motorCzasMiedzyImpNormal8;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal8(const int & value)
+{
+	motorCzasMiedzyImpNormal8 = value;
+	settings.setValue("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal9() const
+{
+	return motorCzasMiedzyImpNormal9;
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal9(const int & value)
+{
+	motorCzasMiedzyImpNormal9 = value;
+	settings.setValue("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(value));
+}
+
+int UstawieniaGen::getMotorCzasMiedzyImpNormal(const short & nrMotor) const
+{
+	switch(nrMotor) {
+	case 1 : return getMotorCzasMiedzyImpNormal1();
+	case 2 : return getMotorCzasMiedzyImpNormal2();
+	case 3 : return getMotorCzasMiedzyImpNormal3();
+	case 4 : return getMotorCzasMiedzyImpNormal4();
+	case 5 : return getMotorCzasMiedzyImpNormal5();
+	case 6 : return getMotorCzasMiedzyImpNormal6();
+	case 7 : return getMotorCzasMiedzyImpNormal7();
+	case 8 : return getMotorCzasMiedzyImpNormal8();
+	case 9 : return getMotorCzasMiedzyImpNormal9();
+	default: return toUInt(QString());
+	}
+
+}
+
+void UstawieniaGen::setMotorCzasMiedzyImpNormal(const short & nrMotor, const int & czasMiedzyImpNormal)
+{
+	switch(nrMotor) {
+	case 1 : setMotorCzasMiedzyImpNormal1(czasMiedzyImpNormal); break;
+	case 2 : setMotorCzasMiedzyImpNormal2(czasMiedzyImpNormal); break;
+	case 3 : setMotorCzasMiedzyImpNormal3(czasMiedzyImpNormal); break;
+	case 4 : setMotorCzasMiedzyImpNormal4(czasMiedzyImpNormal); break;
+	case 5 : setMotorCzasMiedzyImpNormal5(czasMiedzyImpNormal); break;
+	case 6 : setMotorCzasMiedzyImpNormal6(czasMiedzyImpNormal); break;
+	case 7 : setMotorCzasMiedzyImpNormal7(czasMiedzyImpNormal); break;
+	case 8 : setMotorCzasMiedzyImpNormal8(czasMiedzyImpNormal); break;
+	case 9 : setMotorCzasMiedzyImpNormal9(czasMiedzyImpNormal); break;
+	default: break;
+	}
+
+}
+
+bool UstawieniaGen::checkMotorCzasMiedzyImpNormal(const QString & val)
 {
 
     if (val.isEmpty()) return false;

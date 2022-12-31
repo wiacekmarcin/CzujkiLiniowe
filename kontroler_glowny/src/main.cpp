@@ -60,7 +60,6 @@ void timerHandler()
 }
 
 volatile uint16_t activeBusy = 0x0000;
-volatile uint16_t acceptBusy = 0x01ff;
 
 #define FINISHJOB(N) \
 void isrFinishJob##N() \
@@ -101,7 +100,6 @@ void setup (void)
     Wire.begin();
     
     activeBusy = 0x0000;
-    acceptBusy = 0x01ff;
     SERIALDBG.println("Szukam urzadzen...");
     unsigned long actTime = millis();
     for (int8_t p = -1; p < maxNumSter; ++p) {
@@ -136,7 +134,7 @@ void setup (void)
             //digitalWrite(sixPins[p], LOW);
             if (digitalRead(busyPins[p]) == HIGH) {
                 SERIALDBG.println(". No Busy");
-                //motors[p].setPins(false, false, false);
+                motors[p].setPins(false, false, false, false);
                 continue;
             }
             SERIALDBG.print(" Busy OK. ");
@@ -150,7 +148,7 @@ void setup (void)
             //digitalWrite(sixPins[p], HIGH);
             if (digitalRead(movePins[p]) == LOW) {
                 SERIALDBG.println(" Brak sygnalu move");
-                //motors[p].setPins(true, false, false);
+                motors[p].setPins(false, true, false, false);
                 continue;
             }
             SERIALDBG.println(" Move OK. ");
@@ -163,10 +161,11 @@ void setup (void)
             //digitalWrite(sixPins[p], HIGH);
             if (digitalRead(movePins[p]) == HIGH)  {
                 SERIALDBG.println("Brak sygnalu stop");
-                //motors[p].setPins(true, true, false);
+                motors[p].setPins(false, true, true, false);
                 continue;
             }
             SERIALDBG.print(" Stop OK.");
+            
             while(digitalRead(busyPins[p]) == LOW) 
                 continue;
             {
@@ -178,10 +177,12 @@ void setup (void)
                 }
                 if (recvPos < 3) {
                     SERIALDBG.println(" Blad Komunikacji");
+                    motors[p].setPins(false, true, true, true);
                     continue;
                 }
                 if (recvBuff[0] == 0x50 && ((recvBuff[1] >> 4) & 0x0f)+ 0x30 == address) {
                     SERIALDBG.println(" Komunikacja OK. Wszystko OK");
+                    motors[p].setPins(true, true, true, true);
                 } else {
                     SERIALDBG.println(" Nie poprawne dane");
                     SERIALDBG.print("[");
@@ -191,6 +192,7 @@ void setup (void)
                     SERIALDBG.print(" ");
                     SERIALDBG.print(recvBuff[2], HEX);
                     SERIALDBG.println("]");
+                    motors[p].setPins(false, true, true, true);
                 }
                 attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
             }
@@ -254,20 +256,20 @@ void loop (void)
 
     if (activeBusy) {
         SERIALDBG.print("Active:");
-        SERIALDBG.println(activeBusy,HEX);
+        SERIALDBG.println(activeBusy,BIN);
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (bitRead(activeBusy, n)) {
                 bitClear(activeBusy, n);
-                bitClear(acceptBusy, n); 
                 motors[n].getReply();
             }
         }
+        SERIALOUT.flush();
     }
     
 
     if (checkProgress) {
         checkProgress = false;
-        SERIALDBG.println(" Send PROGRESS");
+        SERIALDBG.println("Send PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
             if (motors[n].isActive() && motors[n].isMove()) 
                 motors[n].sendProgressMsg();

@@ -126,6 +126,9 @@ public:
     unsigned int getSteps() const;
 
     bool getActive(short nr) const;
+    bool getConnected(short nr) const;
+    bool getPinsOk(short nr) const;
+    bool getReplyConf(short nr) const;
 
 protected:
 
@@ -141,6 +144,8 @@ private:
     unsigned int steps;
     bool active[10]; // kontroler + 9 silnikow
     bool connected[10]; // kontroler + 9 silnikow
+    bool pinsOK[10];
+    bool replyConf[10];
 
     static constexpr short addrKontrolera = 10;
 
