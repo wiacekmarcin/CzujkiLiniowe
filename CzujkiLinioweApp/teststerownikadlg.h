@@ -21,7 +21,7 @@ public:
 
     void sd_kontrolerConfigured(int state);
     void sd_deviceName(QString name);
-    void sd_setPositionDone(bool home, bool success);
+    void sd_setPositionDone(short /*nrSilnika*/, bool /*home*/, bool /*success*/, bool /*move*/, unsigned int /*steps*/, unsigned int /*pos*/);
     void sd_setParamsDone(bool success);
     void sd_debug(const QString & d);
     void sd_error(const QString & e);

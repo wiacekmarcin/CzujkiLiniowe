@@ -170,11 +170,11 @@ void MainWindow::ster_deviceName(QString name)
         dlgTestStan->deviceNameSter(name);
 }
 
-void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, unsigned int steps)
+void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, bool move, unsigned int steps, unsigned int pos)
 {
     if (dlgTestSter)
-        dlgTestSter->sd_setPositionDone(home, success);
-    sterF.setPositionDone(nrSilnika, home, success, steps);
+        dlgTestSter->sd_setPositionDone(nrSilnika, home, success, move, steps, pos);
+    sterF.setPositionDone(nrSilnika, home, success, move, steps, pos);
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)

@@ -63,26 +63,26 @@ void WorkMode::print() const
 {
 	switch (mode)
 	{
-	case PIONOWA:		Serial.print("Wozek Gora/Dol"); break;
-	case KATOWA_POZ:    Serial.print("Ramie Lewo/Prawo"); break;
-	case KATOWA_PION:	Serial.print("Ramie Gora/Dol"); break;
-	case KOLOWA:		Serial.print("Tarcza Filtra"); break;
-	case POZIOMA:		Serial.print("Wozek Lewo/Prawo"); break;
-	default:    		Serial.print("Nieznane"); break;
+	case PIONOWA:		Serial.println("Wozek Gora/Dol"); break;
+	case KATOWA_POZ:    Serial.println("Ramie Lewo/Prawo"); break;
+	case KATOWA_PION:	Serial.println("Ramie Gora/Dol"); break;
+	case KOLOWA:		Serial.println("Tarcza Filtra"); break;
+	case POZIOMA:		Serial.println("Wozek Lewo/Prawo"); break;
+	default:    		Serial.println("Nieznane"); break;
 	}
 }
 
 WorkMode::WorkModeEnum WorkMode::conv2DebugWorkMode(uint8_t pos)
 {
 	WorkModeEnum tab[] = { 	UNKNOWN,
-								KATOWA_PION,
+								KATOWA_POZ,
 								KATOWA_PION,
 								KOLOWA,
 								KOLOWA,
 								KOLOWA,
 								PIONOWA,
 								POZIOMA,	
-								KATOWA_PION,
+								KATOWA_POZ,
 								KATOWA_PION,
 	};
 	if (pos > 9)

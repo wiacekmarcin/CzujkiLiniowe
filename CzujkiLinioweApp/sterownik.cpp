@@ -131,7 +131,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
-        QThread::currentThread()->msleep(100);
+        QThread::currentThread()->msleep(200);
 
         /*
         auto reply = read(100);
@@ -249,7 +249,7 @@ bool Sterownik::openDevice()
     m_serialPort->setDataBits(QSerialPort::Data8);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
-    m_serialPort->setReadBufferSize(32);
+    m_serialPort->setReadBufferSize(64);
 
     QThread::currentThread()->sleep(2);
 
@@ -345,7 +345,7 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
         return QByteArray();
     if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
         responseData = m_serialPort->readAll();
-        //qDebug() << "R=" << responseData.size();
+        qDebug() << "R=" << responseData.size();
         //if (responseData.size() > 0) {
         //    return responseData;
         //}
@@ -471,11 +471,11 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
-            emit setPositionDone(msg.getSilnik(), true, true, 0);
+            emit setPositionDone(msg.getSilnik(), true, msg.getErrMove(), msg.getStartMove(), 0, 0);
             break;
 
         case SerialMessage::POSITION_REPLY:
-            emit setPositionDone(msg.getSilnik(), false, true, msg.getSteps());
+            emit setPositionDone(msg.getSilnik(), false, msg.getErrMove(), msg.getStartMove(), msg.getSteps(), 0);
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:

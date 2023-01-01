@@ -130,6 +130,10 @@ public:
     bool getPinsOk(short nr) const;
     bool getReplyConf(short nr) const;
 
+    bool getStartMove() const;
+
+    bool getErrMove() const;
+
 protected:
 
     bool checkHead(QByteArray &arr, uint8_t &addr, uint8_t &options, uint8_t & cmd, uint8_t & len, QByteArray & data);
@@ -147,7 +151,9 @@ private:
     bool pinsOK[10];
     bool replyConf[10];
 
-    static constexpr short addrKontrolera = 10;
+    bool startMove;
+    bool errMove;
+    static constexpr short addrKontrolera = 0;
 
 };
 

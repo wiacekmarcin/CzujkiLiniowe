@@ -4,35 +4,7 @@
 #include <TimerOne.h>
 
 extern Message msg;
-
-//#define DEBUG
-
-#ifdef DEBUG
-	#define SD(T) Serial.print(T);
-	#define SDN(T) Serial.println(T);
-	#define SD2(T,P) Serial.print(T,P);
-	#define SDN2(T,P) Serial.println(T,P);
-
-	#define SDP(T, V) SD(T); SD(V);
-	#define SDPN(T, V) SD(T); SDN(V);
-#else
-	#define SD(T) 
-	#define SDN(T) 
-	#define SD2(T,P) 
-	#define SDN2(T,P) 
-
-	#define SDP(T, V) 
-	#define SDPN(T, V) 
-#endif
-
-//TODO
-//dla ramiona chodzacych katowo na kierunku góra dól ramię opadnie grawitacyjnie do jednej krańcówki
-// dla pozostalych 
-
-
-
-
-
+#include "workmode.hpp"
 
 Motor::Motor() :
     mstate(IDLE) 
@@ -47,10 +19,8 @@ Motor::Motor() :
 	,newPosition(false)
 	,home(false)
 	,interrupted(false)
-	,allSteps(0)
-	,baseErr(false)
-	,moveP(false)
-    ,moveH(false)
+	,cntPomSkip(0)
+    ,maxCntSkip(0)
 {
 	setStopPtr = &Motor::setStopDef;
     moveHomePtr = &Motor::moveHomeDef;
@@ -58,18 +28,30 @@ Motor::Motor() :
     impulsePtr = &Motor::impulseDef;
 }
 
-void Motor::init()
+void Motor::init(WorkMode::WorkModeEnum mode)
 {
-
+	switch(mode) {
+		case WorkMode::KATOWA_PION:
+			setStopPtr = &Motor::setStopGDLP;
+    		moveHomePtr = &Motor::moveHomeGoraDolFirstTime;
+   			movePositionPtr = &Motor::movePositionGDLP;
+    		impulsePtr = &Motor::impulseGDLP;
+			break;
+	    case WorkMode::KOLOWA:
+			break;
+	    case WorkMode::KATOWA_POZ:
+			setStopPtr = &Motor::setStopGDLP;
+    		moveHomePtr = &Motor::moveHomeLewoPrawoFirstTime;
+   			movePositionPtr = &Motor::movePositionGDLP;
+    		impulsePtr = &Motor::impulseGDLP;
+			break;
+	    case WorkMode::POZIOMA:
+	    case WorkMode::PIONOWA:
+		default:
+		break;
+	}
 }
 
-volatile char chDir = '>';
-
-//DIR REV
-// 0    0   => 0
-// 0    1   => 1
-// 1    0   => 1
-// 1    1   => 0
 void Motor::setDirBase(bool back)
 {
 	bool out = back ^ reverseMotor;
@@ -77,310 +59,116 @@ void Motor::setDirBase(bool back)
 	diff = back ? -1 : 1;
 }
 
+void Motor::setSoftStop()
+{
+	mstate = IDLE;
+	interrupted = true;
+	digitalWrite(MOVEPIN, LOW);
+	return;
+	//komunikat progress bar na spokojnie
+}
+
+
 
 void Motor::setStopDef(bool hard)
 {
 	if (!hard) {
-		SD('S');
-		mstate = IDLE;
-		interrupted = true;
-		digitalWrite(MOVEPIN, LOW);
+		setSoftStop();
 		return;
-	}
-
-	SD('H')
-
-	if (mstate == HOME_DO_BAZY) {
-		if (baseSteps == 0) {
-			globalPos = 0;
-			if (middleSteps == 0) {
-				Timer1.stop();
-				mstate = IDLE;
-				digitalWrite(MOVEPIN, LOW);
-				chDir='K';		
-				SDP("K: globalPos=",globalPos);
-				SDP(" newPosition=", newPosition);
-				SDPN(" actSteps=", actSteps);
-				return;							
-			} else {
-				chDir='M';		
-				SDP("M: globalPos=",globalPos);
-				SDP(" newPosition=", newPosition);
-				SD("=>");
-				SD(middleSteps);
-				SDP(" actSteps=", actSteps);
-				SDN("=>0");
-				mstate = HOME_DO_SRODKA;
-				newPosition = middleSteps;
-				actSteps = 0;
-				setDirBase(false);
-				diff += 1;
-			} // 	
-		} else { 
-			mstate = HOME_W_BAZIE;
-			chDir='b';
-			SDP("M: globalPos=",globalPos);
-			SD("=>");
-			SD(baseSteps);
-			SDP(" newPosition=", newPosition);
-			SDP("=>0 actSteps=", actSteps);
-			SDN("=>0");
-			globalPos = baseSteps;
-			newPosition = 0;
-			actSteps = 0;	
-		}
 	}
 }
 
 void Motor::impulseDef()
 {
-	//if (impTimer++ % 8 != 0)
-	//	return;
-
-	//impTimer = 0;
-	if (mstate == IDLE)
-		return;	 
 	
-	highlevel = !highlevel;
-	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
-	globalPos += diff;
-	++allSteps;
-	++actSteps;
-
-	SD(chDir);
-
-	if (actSteps == maxSteps) {
-		mstate = IDLE;
-		interrupted = true;
-		Timer1.stop();
-		SDP("\nI: globalPos=", globalPos);
-		SDP(" newPosition=", newPosition);
-		SDP(" actSteps=", actSteps);
-		SDPN(" diff=", diff);
-		digitalWrite(MOVEPIN, LOW);
-	}
-	
-	if (globalPos == newPosition) {
-		Timer1.stop(); //to moze chwile trwac
-		SDP("\nI: globalPos=", globalPos);
-		SDP(" newPosition=", newPosition);
-		SDP(" actSteps=", actSteps);
-		SDPN(" diff=", diff);
-
-		switch(mstate) {
-			case HOME_OD_BAZY: 
-			{
-				chDir='B';		
-				SDP("ODBAZY: globalPos=",globalPos);
-				SD("=>");
-				SD(maxSteps);
-				SDP(" newPosition=", newPosition);
-				SDN("=>0");
-				mstate = HOME_DO_BAZY;
-				setDirBase(true);
-				actSteps = 0;
-				newPosition = 0;
-				globalPos = maxSteps;
-				diff =-1;
-				Timer1.start();	
-				break;
-			}
-			case HOME_W_BAZIE:
-			{
-				if (middleSteps) {
-					diff = 1;
-					newPosition = middleSteps;
-					SDP("\nWBAZIE:SRODEK: globalPos=", globalPos);
-					SDP(" newPosition=", newPosition);
-					SDP(" actSteps=", actSteps);
-					SDPN(" diff=", diff);
-					mstate = HOME_DO_SRODKA;
-					Timer1.start();
-				} else {
-					mstate = IDLE;
-					SDP("\nWBAZIE:END: globalPos=", globalPos);
-					SDP(" newPosition=", newPosition);
-					SDP(" actSteps=", actSteps);
-					digitalWrite(MOVEPIN, LOW);
-				}
-				break;
-			}
-			case HOME_DO_SRODKA:
-			{
-				mstate = IDLE;
-				SDP("\nSRODEK:END: globalPos=", globalPos);
-				SDP(" newPosition=", newPosition);
-				SDP(" actSteps=", actSteps);
-				digitalWrite(MOVEPIN, LOW);
-				break;
-			}
-			case MOVE_POS:
-			{
-				mstate = IDLE;
-				SDP("\nSRODEK:END: globalPos=", globalPos);
-				SDP(" newPosition=", newPosition);
-				SDP(" actSteps=", actSteps);
-				digitalWrite(MOVEPIN, LOW);
-				break;
-			}
-		}
-	}
 }
 
-bool Motor::moveHomeDef(uint32_t delayImp)
+bool Motor::moveHomeDef(uint32_t)
 {
-	bool ret = false;
-	actSteps = 0;
-	globalPos = 0;
-	newPosition = 0;
-	diff = -1;
-	home = true;
-	interrupted = false;
-	allSteps = 0;
-	baseErr = false; 
-#ifdef DEBUG 
-	SDN("Ruch do bazy");
-#endif	
-/*
-	switch(mode) {
-		case PIONOWA:
-			ret = moveHomePionowa(); break;
-		case POZIOMA:
-			ret = moveHomePozioma(); break;
-		case KATOWA_PION:
-			ret = moveHomeKatPionowy(); break;
-		case KATOWA_POZ:
-			ret = moveHomeKatPoziomy(); break;
-		default:
-			break;
-	}
-	if (!ret) {
-#ifdef DEBUG 
-		SD("Brak ruchu....");
-#endif		
-		return false;
-	}
-#ifdef DEBUG
-		SDN("Ruch");
-		if (mstate == HOME_OD_BAZY)
-			chDir = 'O';
-		else if (mstate == HOME_DO_BAZY)
-			chDir = 'B';
-		else
-			chDir = '?';
-#endif		
-
-*/
-	Timer1.start();
+	Serial.println("Zla fukncja do HOME");
 	return true;
 }
 
-bool Motor::movePositionDef(int32_t pos, uint32_t delayImp) 
+bool Motor::movePositionDef(int32_t, uint32_t) 
 {
-/*
-	if (mode == KOLOWA)
-		moveFiltrPosiotion();
-	actSteps = 0;
-	newPosition = pos;
-	diff = -1;
-	home = false;
-    interrupted = false;
-    allSteps = 0;
+	Serial.println("Zla fukncja do MOVE");
+	return false;
+}
 
-	if (pos == globalPos) {
+void Motor::setStopGDLP(bool hard)
+{
+    if (!hard) {
+        setSoftStop();
+	}
+    //nic nie rob
+}
+
+bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
+{
+    highlevel = false;
+    uint32_t delayImp = delayImpOrg >> 1;
+    digitalWrite(PULSEPIN, LOW);
+    if (pos == globalPos) {
+        mstate = IDLE;
 		return false;
 	} else if (pos > globalPos) {
 		diff = 1;
-#ifdef DEBUG		
-		chDir = '+';
-#endif		
 		setDirBase(true);
 	} else if (pos < globalPos) {
 		diff = -1;
-#ifdef DEBUG		
-		chDir = '-';
-#endif		
 		setDirBase(false);
 	}
 	digitalWrite(MOVEPIN, LOW);
-	mstate = MOVE_POS;
-*/	
+	mstate = MOVEPOS;
+    if (delayImp < 5000000) {
+        cntPomSkip = 0;
+        Timer1.setPeriod(delayImp);
+        maxCntSkip = 0;
+    } else {
+        cntPomSkip = 0;
+        maxCntSkip = round(delayImp / 5000000) + 1;
+        Timer1.setPeriod(round(delayImp / maxCntSkip));
+    }
+	uint16_t cntPomSkip;
+    uint16_t maxCntSkip;
+	Timer1.start();    
 	return true;
 }
 
-/*
-bool Motor::moveHomePionowa()
+void Motor::impulseGDLP()
 {
-	digitalWrite(MOVEPIN, HIGH);
-	if (digitalRead(KRANCPIN) == LOW) {
-		setDirBase(false);
-		actSteps = 0;
-		globalPos = 0;
-		newPosition = 10000;
-		diff = +1;
-		mstate = HOME_OD_BAZY;
-	} else {
-		setDirBase(true);
-		actSteps = 0;
-		globalPos = maxSteps;
-		newPosition = 0;
-		diff = -1;
-		mstate = HOME_DO_BAZY;
+    if (mstate == IDLE) {
+        Timer1.stop();
+        digitalWrite(MOVEPIN, LOW);
+		return;	 
+    }
+	
+	highlevel = !highlevel;
+	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
+    if (!highlevel)
+        return;
+
+    if (maxCntSkip > 0) {
+        if ( cntPomSkip++ < maxCntSkip)
+            return;
+        cntPomSkip = 0;
+    }
+	
+    globalPos += diff;
+	++actSteps;
+
+    if (globalPos == newPosition) {
+        mstate = IDLE;
+        Timer1.stop();
+        digitalWrite(MOVEPIN, LOW);
+        return;
+    }
+
+
+    if (actSteps == maxSteps) {
+		mstate = IDLE;
+		Timer1.stop();
+        digitalWrite(MOVEPIN, LOW);
+        //setError
 	}
-	return true;
 }
-
-bool Motor::moveHomePozioma() 
-{
-	if (digitalRead(KRANCPIN) == LOW) 
-		return false;
-	setDirBase(true);
-	actSteps = 0;
-	globalPos = maxSteps;
-	newPosition = 0;
-	diff = -1;
-	mstate = HOME_DO_BAZY;
-	digitalWrite(MOVEPIN, HIGH);
-	return true;
-}
-
-bool Motor::moveHomeKatPionowy()
-{
-	digitalWrite(MOVEPIN, HIGH);
-	if (digitalRead(KRANCPIN) == LOW) {
-		setDirBase(false);
-		actSteps = 0;
-		globalPos = 0;
-		newPosition = 50;
-		diff = +1;
-		mstate = HOME_OD_BAZY;
-	} else {
-		setDirBase(true);
-		actSteps = 0;
-		globalPos = maxSteps;
-		newPosition = 0;
-		diff = -1;
-		mstate = HOME_DO_BAZY;
-	}
-	return true;
-}
-
-bool Motor::moveHomeKatPoziomy()
-{
-	if (digitalRead(KRANCPIN) == LOW) 
-		return false;
-	setDirBase(true);
-	actSteps = 0;
-	globalPos = maxSteps;
-	newPosition = 0;
-	diff = -1;
-	mstate = HOME_DO_BAZY;
-	digitalWrite(MOVEPIN, HIGH);
-	return true;
-}
-
-bool Motor::moveFiltrPosiotion()
-{
-	return true;
-}
-*/

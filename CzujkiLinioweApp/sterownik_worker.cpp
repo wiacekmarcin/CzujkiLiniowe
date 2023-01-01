@@ -32,6 +32,7 @@ void SterownikReader::setStop()
 
 void SterownikReader::run()
 {
+    qDebug() << "start Recv";
     bool quit;
     QByteArray receiveData;
     do

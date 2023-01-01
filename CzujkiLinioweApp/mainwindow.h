@@ -37,7 +37,7 @@ private slots:
     void ster_setParamsDone(bool success);
     void ster_kontrolerConfigured(int state);
     void ster_deviceName(QString name);
-    void ster_setPositionDone(short nrSilnika, bool home, bool success, unsigned int steps);
+    void ster_setPositionDone(short nrSilnika, bool home, bool success, bool move, unsigned int steps, unsigned int pos);
     void ster_zdarzenieSilnik(short silnik, short zdarzenie);
     void ster_czujkaOn();
 

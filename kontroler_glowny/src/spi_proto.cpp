@@ -237,6 +237,11 @@ void SPIMessage::getReply()
         SERIALDBG.println("Send to PC");
         SERIALOUT.write(recvBuff, len + 3);
     }
+
+    if (cmd == MessageSerial::MOVE_REP && id == this->id) {
+        SERIALDBG.println("Send to PC");
+        SERIALOUT.write(recvBuff, len + 3);
+    }
 }
 
 void SPIMessage::setPins(bool comunication, bool busyPin, bool movePin, bool stopPin)

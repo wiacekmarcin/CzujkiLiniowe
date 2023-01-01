@@ -5,47 +5,47 @@
 #define DEBUG
 
 #ifdef DEBUG
-	#define SD(T) Serial.print(T)
-	#define SDN(T) Serial.println(T)
-	#define SD2(T,P) Serial.print(T,P)
-	#define SDN2(T,P) Serial.println(T,P)
+	#define PSD(T) Serial.print(T)
+	#define PSDN(T) Serial.println(T)
+	#define PSD2(T,P) Serial.print(T,P)
+	#define PSDN2(T,P) Serial.println(T,P)
 
-	#define SDP(T, V) SD(T); SD(V)
-	#define SDPN(T, V) SD(T); SDN(V)
-    #define SPHEX(X) phex(X)
-    #define SPRINT(N)	SD("Parse");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+	#define PSDP(T, V) PSD(T); PSD(V)
+	#define PSDPN(T, V) PSD(T); PSDN(V)
+    #define PSPHEX(X) phex(X)
+    #define PSPRINT(N)	PSD("Parse");for (int i=0;i<N;++i){ PSPHEX(sendBuff[i]); }PSDN("]");
 #else
-	#define SD(T) 
-	#define SDN(T) 
-	#define SD2(T,P) 
-	#define SDN2(T,P) 
+	#define PSD(T) 
+	#define PSDN(T) 
+	#define PSD2(T,P) 
+	#define PSDN2(T,P) 
 
-	#define SDP(T, V) 
-	#define SDPN(T, V)
-    #define SPHEX(X)
-    #define SPRINT(N)
+	#define PSDP(T, V) 
+	#define PSDPN(T, V)
+    #define PSPHEX(X)
+    #define PSPRINT(N)
 #endif
 
 #ifdef DEBUG_EXT
-	#define ESD(T) Serial.print(T)
-	#define ESDN(T) Serial.println(T)
-	#define ESD2(T,P) Serial.print(T,P)
-	#define ESDN2(T,P) Serial.println(T,P)
+	#define EPSD(T) Serial.print(T)
+	#define EPSDN(T) Serial.println(T)
+	#define EPSD2(T,P) Serial.print(T,P)
+	#define EPSDN2(T,P) Serial.println(T,P)
 
-	#define ESDP(T, V) SD(T); SD(V)
-	#define ESDPN(T, V) SD(T); SDN(V)
-    #define ESPHEX(X) phex(X)
-    #define ESPRINT(N)	SD("Parse");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+	#define EPSDP(T, V) PSD(T); PSD(V)
+	#define EPSDPN(T, V) PSD(T); PSDN(V)
+    #define EPSPHEX(X) phex(X)
+    #define EPSPRINT(N)	PSD("Parse");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }PSDN("]");
 #else
-	#define ESD(T) 
-	#define ESDN(T) 
-	#define ESD2(T,P) 
-	#define ESDN2(T,P) 
+	#define EPSD(T) 
+	#define EPSDN(T) 
+	#define EPSD2(T,P) 
+	#define EPSDN2(T,P) 
 
-	#define ESDP(T, V) 
-	#define ESDPN(T, V)
-    #define ESPHEX(X)
-    #define ESPRINT(N)
+	#define EPSDP(T, V) 
+	#define EPSDPN(T, V)
+    #define EPSPHEX(X)
+    #define EPSPRINT(N)
 #endif
 
 Message::Message():
@@ -121,26 +121,26 @@ Result Message::parse()
     r.ok = true;
 
     c.reset();
-    SD("Parse  [");
+    PSD("Parse  [");
     c.add(recvBuff[0]);
-    SD2(recvBuff[0], HEX);SD(" ");
+    PSD2(recvBuff[0], HEX);PSD(" ");
     c.add(recvBuff[1]);
-    SD2(recvBuff[1], HEX);SD(" ");
-    SD("| ");
+    PSD2(recvBuff[1], HEX);PSD(" ");
+    PSD("| ");
     for (int i=0; i < lenMsg; ++i ) {
         c.add(dataCmd[i]);
-        SD2(dataCmd[i], HEX);SD(" ");
+        PSD2(dataCmd[i], HEX);PSD(" ");
     }
-    SD("| ");
-    SD2(crcMsg, HEX); SDN("]");
+    PSD("| ");
+    PSD2(crcMsg, HEX); PSDN("]");
    
     if (c.getCRC() != crcMsg) {
-        SD("invalid crc (k)");SD2(crcMsg, HEX);SD("!=(w)");SDN2(c.getCRC(), HEX);
+        PSD("invalid crc (k)");PSD2(crcMsg, HEX);PSD("!=(w)");PSDN2(c.getCRC(), HEX);
         r.ok = false;
         return r;
     }
 
-    ESD("cmdMsg=");ESD2(cmdMsg, DEC);ESD(" lenMsg");ESD2(lenMsg, DEC);ESD(" addr=");ESDN2(addrMsg, DEC);
+    EPSD("cmdMsg=");EPSD2(cmdMsg, DEC);EPSD(" lenMsg");EPSD2(lenMsg, DEC);EPSD(" addr=");EPSDN2(addrMsg, DEC);
 
     if (cmdMsg == ECHO_REQ) {
         return r;
@@ -167,7 +167,7 @@ Result Message::parse()
         r.data.move.speed = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);    
         return r;
     }
-    ESDN("Nieznana wiadomosc");
+    EPSDN("Nieznana wiadomosc");
     r.ok = false;
     return r;
 }

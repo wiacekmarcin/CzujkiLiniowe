@@ -8,25 +8,25 @@
 #define DEBUG
 //#define EXT_DEBUG
 #ifdef DEBUG
-	#define SD(T) Serial.print(T)
-	#define SDN(T) Serial.println(T)
-	#define SD2(T,P) Serial.print(T,P)
-	#define SDN2(T,P) Serial.println(T,P)
+	#define SSD(T) Serial.print(T)
+	#define SSDN(T) Serial.println(T)
+	#define SSD2(T,P) Serial.print(T,P)
+	#define SSDN2(T,P) Serial.println(T,P)
 
-	#define SDP(T, V) SD(T); SD(V)
-	#define SDPN(T, V) SD(T); SDN(V)
-    #define SPHEX(X) phex(X)
-    #define SPRINT(N)	SD("To Send (");SD(__FILE__);SD(":");SD(__LINE__);SD(") [");for (int i=0;i<N;++i){ SPHEX(sendBuff[i]); }SDN("]");
+	#define SSDP(T, V) SSD(T); SSD(V)
+	#define SSDPN(T, V) SSD(T); SSDN(V)
+    #define SSPHEX(X) phex(X)
+    #define SSPRINT(N)	SSD("To Send (");SSD(__FILE__);SSD(":");SSD(__LINE__);SSD(") [");for (short i=0;i<N;++i){ SSPHEX(sendBuff[i]); }SSDN("]");
 #else
-	#define SD(T) 
-	#define SDN(T) 
-	#define SD2(T,P) 
-	#define SDN2(T,P) 
+	#define SSD(T) 
+	#define SSDN(T) 
+	#define SSD2(T,P) 
+	#define SSDN2(T,P) 
 
-	#define SDP(T, V) 
-	#define SDPN(T, V)
-    #define SPHEX(X)
-    #define SPRINT(N)
+	#define SSDP(T, V) 
+	#define SSDPN(T, V)
+    #define SSPHEX(X)
+    #define SSPRINT(N)
 #endif
 
 #ifdef EXT_DEBUG
@@ -35,8 +35,8 @@
 	#define ESD2(T,P) Serial.print(T,P)
 	#define ESDN2(T,P) Serial.println(T,P)
 
-	#define ESDP(T, V) SD(T); SD(V)
-	#define ESDPN(T, V) SD(T); SDN(V)
+	#define ESDP(T, V) SSD(T); SSD(V)
+	#define ESDPN(T, V) SSD(T); SSDN(V)
     #define EPHEX(X) phex(X)
 #else
 	#define ESD(T) 
@@ -96,18 +96,18 @@ bool SPIMessage::proceed()
 			continue;
 		}
 
-		SD("Mam wiadomosc: ");SDN(msg.getMsgCmd());
+		SSD("Mam wiadomosc: ");SSDN(msg.getMsgCmd());
 
 		Result status = msg.parse();
 		if (!status.ok)
 		{
-			SDN("CMD:Nie poprawna wiadomosc. BUSY OFF");
+			SSDN("CMD:Nie poprawna wiadomosc. BUSY OFF");
 			msg.clear();
 			setBusy(false);
 			continue;
 		}
 
-		SDN("Poprawna wiadomosc . BUSY ON");
+		SSDN("Poprawna wiadomosc . BUSY ON");
 		setBusy(true);
         address = msg.getAddr();
 		ESDPN("ADDR:", address);
@@ -115,30 +115,30 @@ bool SPIMessage::proceed()
 
 		case ECHO_REQ:
 		{
-			SDN(" CMD:ECHO");
+			SSDN(" CMD:ECHO");
 			unsigned long actTime = millis();
 			digitalWrite(MOVEPIN, LOW);
-			SD("Czekam na stopPin HIGH (movePin na LOW)...");
+			SSD("Czekam na stopPin HIGH (movePin na LOW)...");
 			while(digitalRead(STOPPIN) == HIGH && (millis() - actTime < 100));
 			if (millis() - actTime >= 100) {
-				SDN(" Timeout");
+				SSDN(" Timeout");
 				echoRequestFun(false, false);
 			} else {
-				SDN(" OK");
-				SD(" zmiana movepin na HIGH.\nCzekan na stopPin HIGH ....");
+				SSDN(" OK");
+				SSD(" zmiana movepin na HIGH.\nCzekan na stopPin HIGH ....");
 				digitalWrite(MOVEPIN, HIGH);
 				actTime = millis();
 				while(digitalRead(STOPPIN) == LOW && (millis() - actTime < 100));
 				if (millis() - actTime >= 100) {
-					SDN(" Timeout");
+					SSDN(" Timeout");
 					echoRequestFun(true, false);
 				} else {
-					SDN(" OK");
+					SSDN(" OK");
 					echoRequestFun(true, true);
 					attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
 				}
 			}
-			SDN("BUSY OFF");
+			SSDN("BUSY OFF");
 			setBusy(false);
 			msg.clear();
 			break;
@@ -146,9 +146,9 @@ bool SPIMessage::proceed()
 
 		case PROGRESS_REQ:
 		{
-			SDN(" CMD:PROGRESS");
+			SSDN(" CMD:PROGRESS");
     		progressRequestFun();
-			SDN("BUSY OFF");
+			SSDN("BUSY OFF");
             msg.clear();
 			setBusy(false);
             
@@ -157,9 +157,9 @@ bool SPIMessage::proceed()
 
 		case CONF_REQ:
 		{
-			SDN(" CMD:CONFIGURATION");
+			SSDN(" CMD:CONFIGURATION");
 			configurationRequest(status);
-			SDN("BUSY OFF");
+			SSDN("BUSY OFF");
             msg.clear();
             setBusy(false);
 			break;
@@ -167,9 +167,9 @@ bool SPIMessage::proceed()
 
 		case MOVE_REQ:
 		{
-			SDN(" CMD:MOVE");
+			SSDN(" CMD:MOVE");
 			moveRequest(status.data.move.isHome, status.data.move.position, status.data.move.speed);
-			SDN("BUSY OFF");
+			SSDN("BUSY OFF");
 			msg.clear();
             setBusy(false);
 			break;
@@ -177,7 +177,7 @@ bool SPIMessage::proceed()
 
 		default:
 		{
-			SDN("CMD:Uknonwn.\nBUSY OFF");
+			SSDN("CMD:Uknonwn.\nBUSY OFF");
 			msg.clear();
 			setBusy(false);
 			break;
@@ -208,7 +208,7 @@ void SPIMessage::echoRequestFun(bool stopOk, bool moveOk)
 	crc.add(sendBuff[1]);
 	sendBuff[2] = crc.getCRC();
 	sizeSendMsg = 3;
-	SPRINT(3);
+	SSPRINT(3);
 }
 
 void SPIMessage::progressRequestFun()
@@ -217,14 +217,16 @@ void SPIMessage::progressRequestFun()
 	crc.restart();
 	sendBuff[0] = ((PROGRESS_REP << 4) & 0xf0) | 0x04;
 	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
-	if (mot->isMove())
-		sendBuff[1] |= 0x04;
-	if (mot->isHomeMove())
-		sendBuff[1] |= 0x02;
+
+	//if (mot->isMove())
+	//	sendBuff[1] |= 0x04;
+	//if (mot->isHomeMove())
+	//	sendBuff[1] |= 0x02;
+
 	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
 	int32_t pos = mot->getGlobalPos();
-	SDPN("POS=", pos);
+	SSDPN("POS=", pos);
 	sendBuff[2] = (pos >> 24) & 0xff;
 	sendBuff[3] = (pos >> 16) & 0xff;
 	sendBuff[4] = (pos >> 8) & 0xff;
@@ -235,16 +237,16 @@ void SPIMessage::progressRequestFun()
 	crc.add(sendBuff[5]);
 	sendBuff[6] = crc.getCRC();
 	sizeSendMsg = 7;
-	SPRINT(7);
+	SSPRINT(7);
 }
 
 void SPIMessage::configurationRequest(Result status)
 {
-	SDN("CMD:CONF");SDN("Konfiguracja:");
-    SDPN("reverse=",status.data.conf.reverse);
-	SDPN("max=",status.data.conf.maxStep);
-	SDPN("base=",status.data.conf.baseSteps);
-	SDPN("middle=",status.data.conf.middleSteps);
+	SSDN("CMD:CONF");SSDN("Konfiguracja:");
+    SSDPN("reverse=",status.data.conf.reverse);
+	SSDPN("max=",status.data.conf.maxStep);
+	SSDPN("base=",status.data.conf.baseSteps);
+	SSDPN("middle=",status.data.conf.middleSteps);
 
 	mot->setReverseMotor(status.data.conf.reverse);
 	mot->setMaxSteps(status.data.conf.maxStep);
@@ -259,66 +261,35 @@ void SPIMessage::configurationRequest(Result status)
 	crc.add(sendBuff[1]);
 	sendBuff[2] = crc.getCRC();
 	sizeSendMsg = 3;
-    SPRINT(3);
+    SSPRINT(3);
 }
 
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 {
-	SD("Ruch. Home = ");SD(isHome ? "Tak" : "Nie");SD(" Kroki = ");SD(steps);SD(" Interwal = ");SDN(delayImp);
+	SSD("Ruch. Home = ");SSD(isHome ? "Tak" : "Nie");SSD(" Kroki = ");SSD(steps);SSD(" Interwal = ");SSDN(delayImp);
 
     bool wasMove;
-    if (isHome)
-		wasMove = mot->moveHome(delayImp);
-	else
+	bool wasErr;
+    if (isHome) {
+		wasMove = true;
+		wasErr = mot->moveHome(delayImp);
+	} else {
 		wasMove = mot->movePosition(delayImp, steps);
+		wasErr = false;
+	}
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = (MOVE_REP << 4) & 0xf0;
 	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
 	if (isHome)
 		sendBuff[1] += 1;
+	if (wasMove)
+		sendBuff[1] += 2;
+	if (wasErr)
+		sendBuff[1] += 4;	
 	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
 	sendBuff[2] = crc.getCRC();
 	sizeSendMsg = 3;
-    SPRINT(3);
-
-	//if (!wasMove)
-	//	emptyMove(3);
-}
-
-void SPIMessage::emptyMove(uint8_t of)
-{
-	SD("Stop Ruch. Czy home:");SD(mot->isHome() ? "Tak" : "Nie");SD(" Kroki = ");SD(mot->getStepsAll());
-    SD(" Pozycja = ");SD(mot->getGlobalPos());SD(" Przerwany");SD(mot->isInterrupted());
-
-	
-	CRC8 crc;
-	crc.restart();
-	sendBuff[0] += 8;
-	sendBuff[1+of] = ((MOVE_REP << 4) & 0xf0 ) | 8;
-	sendBuff[2+of] = ((address << 4) & 0xf0) | 0x08;
-	if (mot->isHome())
-		sendBuff[2+of] += 1;
-	
-	if (mot->isInterrupted())
-		sendBuff[2+of] += 2;
-
-	if (mot->isBaseError())
-		sendBuff[2+of] += 4;
-	uint32_t gp = mot->getGlobalPos();
-	uint32_t ap = mot->getStepsAll();
-	sendBuff[3+of] = (uint8_t)((gp >> 24) & 0xff);
-	sendBuff[4+of] = (uint8_t)((gp >> 16) & 0xff);
-	sendBuff[5+of] = (uint8_t)((gp >> 8) & 0xff);
-	sendBuff[6+of] = (uint8_t)(gp & 0xff);
-	sendBuff[7+of] = (uint8_t)((ap >> 24) & 0xff);
-	sendBuff[8+of] = (uint8_t)((ap >> 16) & 0xff);
-	sendBuff[9+of] = (uint8_t)((ap >> 8) & 0xff);
-	sendBuff[10+of] = (uint8_t)(ap & 0xff);
-
-	for (int i = 1; i < 11 ; ++i)
-		crc.add(sendBuff[1+of]);
-	sendBuff[12+of] = crc.getCRC();
-    SPRINT(13+of);
+    SSPRINT(3);
 }

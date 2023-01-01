@@ -4,20 +4,13 @@
 #include <Arduino.h>
 #define TEST
 
+#include "workmode.hpp"
+
 typedef enum moveState {
-    F_HOME_0 = 0,
-    F_HOME_1,
-    F_HOME_2,
-    F_HOME_3,
-    F_HOME_4,
-    F_HOME_5,
-    F_HOME_6,
-    IDLE = 9,
-    HOME_OD_BAZY,
-    HOME_DO_BAZY,
-    HOME_W_BAZIE,
-    HOME_DO_SRODKA,
-    MOVE_POS,
+    IDLE = 0,
+    HOMEPOS,
+    MOVEPOS,
+  
 
     
 } moveStateType;
@@ -28,12 +21,22 @@ class Motor
 public:
     Motor();
     
-    void init();
+    void init(WorkMode::WorkModeEnum mode);
 
     void setStopDef(bool hard);
     bool moveHomeDef(uint32_t delayImp);
     bool movePositionDef(int32_t pos, uint32_t delayImp);
     void impulseDef();
+
+    void setStopGDLP(bool hard);
+    bool movePositionGDLP(int32_t pos, uint32_t delayImp);
+    void impulseGDLP();
+    
+    bool moveHomeGoraDol(uint32_t delayImp);
+    bool moveHomeGoraDolFirstTime(uint32_t delayImp);
+    
+    bool moveHomeLewoPrawo(uint32_t delayImp);
+    bool moveHomeLewoPrawoFirstTime(uint32_t delayImp);
     
 
     void (Motor::*setStopPtr)(bool);
@@ -47,6 +50,7 @@ public:
     inline void impulse() { (this->*impulsePtr)(); }
     
 
+    void setSoftStop();
     void setReverseMotor(bool rev) { reverseMotor = rev; }
     void setMaxSteps(uint32_t maxSteps) { this->maxSteps = maxSteps; }
     void setBaseSteps(uint16_t baseSteps) { this->baseSteps = baseSteps; }
@@ -60,12 +64,9 @@ public:
 
     bool isHome() const { return home; }
     bool isInterrupted() const { return interrupted; }
-    int32_t getStepsAll() const { return allSteps; }
-    bool isBaseError() const { return baseErr; }
+
     void setDirBase(bool back);
 
-    bool isMove() const { return moveP; }
-    bool isHomeMove() const { return moveH; }
 
 protected:
 
@@ -85,12 +86,11 @@ protected:
     int32_t newPosition;
 
     bool home;
+    bool move;
     bool interrupted;
-    uint32_t allSteps;
-    bool baseErr;
-
-    bool moveP;
-    bool moveH;
+    
+    uint16_t cntPomSkip;
+    uint16_t maxCntSkip;
+    bool firstTime;
 };
-
 #endif // __SILNIK_H__

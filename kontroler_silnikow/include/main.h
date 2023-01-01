@@ -24,6 +24,27 @@ uint8_t getAddress();
 #define AD0 A1
 
 
+#ifdef DEBUG
+	#define SD(T) Serial.print(T);
+	#define SDN(T) Serial.println(T);
+	#define SD2(T,P) Serial.print(T,P);
+	#define SDN2(T,P) Serial.println(T,P);
+
+	#define SDP(T, V) SD(T); SD(V);
+	#define SDPN(T, V) SD(T); SDN(V);
+#else
+	#define SD(T) 
+	#define SDN(T) 
+	#define SD2(T,P) 
+	#define SDN2(T,P) 
+
+	#define SDP(T, V) 
+	#define SDPN(T, V) 
+#endif
+
+
+
 void setStopSoft();
+bool isKrancowka();
 
 #endif /* MAIN_MINI_H_ */

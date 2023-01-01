@@ -2,19 +2,29 @@
 
 #include "TimerOne.h"
 #include "main.h"
-#define DEBUG
 
-#ifdef DEBUG
+
+#ifdef FLTDEBUG
 #define SD(X) Serial.println(X)
 #define SDN(X) Serial.println(X)
 #define SDP(T, V) SD(T); SD(V)
 #define SDPN(T, V) SD(T); SDN(V)
 #else
-#define SD(X) 
+#ifndef SD
+#define SD(X)
+#endif
+#ifndef SDN 
 #define SDN(X)
+#endif
+#ifndef SDP
 #define SDP(T, V)
+#endif
+#ifndef SDPN
 #define SDPN(T, V)
 #endif
+#endif
+
+/*
 Filtr::Filtr() :
     Motor()
 {
@@ -130,3 +140,4 @@ bool Filtr::movePosition(int32_t pos, uint32_t delayImp)
     moveH = false;
     return true;
 }
+*/

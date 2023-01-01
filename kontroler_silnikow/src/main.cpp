@@ -17,28 +17,27 @@
 
 //#define TEST
 
-//#define MAINDEBUG
-#define DEBUG
-#ifdef DEBUG
-	#define SD(T) Serial.print(T)
-	#define SDN(T) Serial.println(T)
-	#define SD2(T,P) Serial.print(T,P)
-	#define SDN2(T,P) Serial.println(T,P)
+#define MAINDEBUG
+#ifdef MAINDEBUG
+	#define MSD(T) Serial.print(T)
+	#define MSDN(T) Serial.println(T)
+	#define MSD2(T,P) Serial.print(T,P)
+	#define MSDN2(T,P) Serial.println(T,P)
 
-	#define SDP(T, V) SD(T); SD(V)
-	#define SDPN(T, V) SD(T); SDN(V)
-    #define SPHEX(X) phex(X)
-    #define SPRINT(N)	SD("Sending (");SD(__FILE__);SD(":");SD(__LINE___); SD(") [");for (int i=0;i<N;++i){ SPHEX(smsg.sendBuff[i]); }SDN("]");
+	#define MSDP(T, V) SD(T);SD(V)
+	#define MSDPN(T, V) MSD(T);MSDN(V)
+    #define MSPHEX(X) phex(X)
+    #define MSPRINT(N)	MSD("Sending (");MSD(__FILE__);MSD(":");MSD(__LINE__);MSD(") [");for(unsigned char i=0;i<N;++i){MSPHEX(smsg.sendBuff[i]);}MSDN("]");
 #else
-	#define SD(T) 
-	#define SDN(T) 
-	#define SD2(T,P) 
-	#define SDN2(T,P) 
+	#define MSD(T) 
+	#define MSDN(T) 
+	#define MSD2(T,P) 
+	#define MSDN2(T,P) 
 
-	#define SDP(T, V) 
-	#define SDPN(T, V)
-    #define SPHEX(X)
-    #define SPRINT(N)
+	#define MSDP(T, V) 
+	#define MSDPN(T, V)
+    #define MSPHEX(X)
+    #define MSPRINT(N)
 #endif
 //Motor *mot; 
 Motor mot; 
@@ -71,20 +70,25 @@ uint8_t getAddress()
 volatile bool stopMessagePrepare = false;
 void setStopSoft()
 {
-	SDN("SI");
+	//MSDN("SI");
 	//stopMessagePrepare = true;
 	mot.setStop(false);
 }
 
 void setStopHard()
 {
-	SDN("HI");
+	//MSDN("HI");
 	mot.setStop(true);
 }
 
 void motorImpulse()
 {
 	mot.impulse();
+}
+
+bool isKrancowka()
+{
+	return digitalRead(KRANCPIN) == LOW;
 }
 
 volatile bool received = false;
@@ -122,8 +126,8 @@ void setup()
 	
 	
 	mode.init(address - baseAddr);
-	mot.init();
-	//digitalWrite(ENPIN, (mode.isDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
+	mot.init(mode.getMode());
+	//digitalWrite(ENPIN, (mode.iMSDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
 	if (mode.isDebugMode()) {
 		Serial.println("DEBUG MODE");
 		return;
@@ -181,22 +185,20 @@ void receiveEvent(int how) {
     	smsg.recvBuff[smsg.recvPos++] = Wire.read(); // receive byte as a character
 		++s;
 	}
-	SDP("recvPos=", smsg.recvPos);SDP("s=",s);SDPN(" how=", how);SD("Receive : [");
+	MSDP("recvPos=", smsg.recvPos);MSDP("s=",s);MSDPN(" how=", how);MSD("Receive : [");
 	for (int i=0; i<s; ++i) {
-		SD(" ");SD2(smsg.recvBuff[i], HEX);
+		MSD(" ");MSD2(smsg.recvBuff[i], HEX);
 	}
-	SDN("]");
+	MSDN("]");
 }
 
 static void requestEvent()
 {
-	SDP("sendPos=", smsg.sendPos);SDP(" sizeSendMsg=", smsg.sizeSendMsg);
-	SD("Sending : [");
-	for (int i=0; i<smsg.sizeSendMsg; ++i) {
-		SD(" ");SD2(smsg.sendBuff[i], HEX);
-	}
-	SDN("]");
-	for (int t = 0; t < smsg.sizeSendMsg; t++)
+	MSDN("Request");
+	MSDP("sendPos=", smsg.sendPos);MSDP(" sizeSendMsg=", smsg.sizeSendMsg);
+	MSPRINT(smsg.sizeSendMsg);
+
+	for (unsigned int t = 0; t < smsg.sizeSendMsg; t++)
 		Wire.write(smsg.sendBuff[smsg.sendPos++]);
 }
 

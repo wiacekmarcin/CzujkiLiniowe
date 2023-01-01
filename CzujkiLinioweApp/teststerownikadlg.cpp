@@ -243,7 +243,7 @@ void TestSterownikaDlg::sd_czujkaOn(bool /*hardware*/)
     showDialog = false;
 }
 
-void TestSterownikaDlg::sd_setPositionDone(bool /*home*/, bool /*success*/)
+void TestSterownikaDlg::sd_setPositionDone(short /*nrSilnika*/, bool /*home*/, bool /*success*/, bool /*move*/, unsigned int /*steps*/, unsigned int /*pos*/)
 {
 
 }

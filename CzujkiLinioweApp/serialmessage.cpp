@@ -134,6 +134,16 @@ bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options
     return true;
 }
 
+bool SerialMessage::getErrMove() const
+{
+    return errMove;
+}
+
+bool SerialMessage::getStartMove() const
+{
+    return startMove;
+}
+
 bool SerialMessage::parseCommand(QByteArray &arr)
 {
     uint8_t cmd;
@@ -197,12 +207,21 @@ bool SerialMessage::parseCommand(QByteArray &arr)
 
         case MOVE_REP:
         {
-        if (options == 0x01)
+        if (!(options & 0x08))
+            qDebug() << "Nie poprawna wiadomosc";
+        bool homeRet = (options & 0x01) == 0x01;
+        if (homeRet)
             m_parseReply = MOVEHOME_REPLY;
         else
             m_parseReply = POSITION_REPLY;
-        steps = getNumber(data);
-            qDebug() << "MOVE_MSG_REP addr" << addr << " options =" << options;
+
+        startMove = (options & 0x04) == 0x04;
+        errMove = (options & 0x02) == 0x02;
+        if (data.size() >= 4) {
+            steps = getNumber(data);
+        } else
+            steps = 0;
+
         return true;
         }
 

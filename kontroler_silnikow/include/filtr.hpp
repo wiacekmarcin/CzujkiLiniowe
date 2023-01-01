@@ -1,7 +1,7 @@
 #ifndef FITLR_H
 #define FILTR_H
 #include "silnik.hpp"
-
+/*
 class Filtr : public Motor
 {
 public:
@@ -19,5 +19,5 @@ private:
     volatile unsigned int impPerObrot;
     volatile bool err;
 };
-
+*/
 #endif /* D4D794A5_8612_420B_A935_316874503426 */
