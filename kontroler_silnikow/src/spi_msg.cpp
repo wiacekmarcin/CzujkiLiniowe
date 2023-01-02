@@ -274,7 +274,7 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 		wasMove = true;
 		wasErr = mot->moveHome(delayImp);
 	} else {
-		wasMove = mot->movePosition(delayImp, steps);
+		wasMove = mot->movePosition(steps, delayImp);
 		wasErr = false;
 	}
 	CRC8 crc;
