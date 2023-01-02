@@ -173,6 +173,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             uint8_t wzorzec[15] = { 'C','Z','U','J','N','I','K','I','L','I','N','I','O','W','E'};
             for (int i = 0; i < 15; ++i) {
                 if (wzorzec[i] != data[i]) {
+                    m_parseReply = INVALID_REPLY;
                     return false;
                 }
             }
@@ -207,8 +208,13 @@ bool SerialMessage::parseCommand(QByteArray &arr)
 
         case MOVE_REP:
         {
-        if (!(options & 0x08))
+        silnik = addr;
+
+        if (!(options & 0x08) || silnik < 1 || silnik > 9) {
             qDebug() << "Nie poprawna wiadomosc";
+            m_parseReply = INVALID_REPLY;
+            return false;
+        }
         bool homeRet = (options & 0x01) == 0x01;
         if (homeRet)
             m_parseReply = MOVEHOME_REPLY;

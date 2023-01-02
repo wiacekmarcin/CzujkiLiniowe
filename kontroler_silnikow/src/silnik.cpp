@@ -108,6 +108,8 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
     highlevel = false;
     uint32_t delayImp = delayImpOrg >> 1;
     digitalWrite(PULSEPIN, LOW);
+	VHSDPN("DelayImp=", delayImpOrg);
+	VHSDPN("DelayImpHalf=", delayImp);
     if (pos == globalPos) {
         mstate = IDLE;
 		return false;
@@ -118,6 +120,9 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 		diff = -1;
 		setDirBase(false);
 	}
+	VHSDN("MOVEPIN na LOW");
+	VHSDPN("globalPos", globalPos);
+	VHSDPN("pos", pos);
 	digitalWrite(MOVEPIN, LOW);
 	mstate = MOVEPOS;
     if (delayImp < 5000000) {
@@ -129,14 +134,15 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
         maxCntSkip = round(delayImp / 5000000) + 1;
         Timer1.setPeriod(round(delayImp / maxCntSkip));
     }
-	uint16_t cntPomSkip;
-    uint16_t maxCntSkip;
+	VHSDPN("maxCntSkip", maxCntSkip);
+	VHSDPN("period", round(delayImp / maxCntSkip));
 	Timer1.start();    
 	return true;
 }
 
 void Motor::impulseGDLP()
 {
+	VHSDN(millis());
     if (mstate == IDLE) {
         Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
@@ -153,6 +159,7 @@ void Motor::impulseGDLP()
             return;
         cntPomSkip = 0;
     }
+	SDN("+");
 	
     globalPos += diff;
 	++actSteps;
@@ -161,6 +168,7 @@ void Motor::impulseGDLP()
         mstate = IDLE;
         Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
+		SDN("Koniec. GlobalPos = newPosition. Move pin na LOW");
         return;
     }
 
@@ -169,6 +177,7 @@ void Motor::impulseGDLP()
 		mstate = IDLE;
 		Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
+		SDN("Koniec. Osiagnieto max ilosc krokow");
         //setError
 	}
 }

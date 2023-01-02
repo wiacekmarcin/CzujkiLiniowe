@@ -38,13 +38,15 @@ protected slots:
 
 protected:
     void pbHome_clicked(int silnik, const QString &impTime);
-    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString &impTime);
+    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString &speed, const QString & midlleImp);
+    void changeTimeZerowania(const QString & val, const QString & ratio, QLabel * result);
 
 private:
     Ui::TestSterownikaDlg *ui;
     Ustawienia * u;
     Sterownik *sd;
     QMap<int, QPair<QLabel*, QLabel*>> ikonyStatusu;
+    QMap<int, QPair<QLabel*, QLabel*>> ikonyRuchu;
 };
 
 #endif // TESTSTEROWNIKADLG_H

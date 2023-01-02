@@ -172,6 +172,7 @@ void MainWindow::ster_deviceName(QString name)
 
 void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, bool move, unsigned int steps, unsigned int pos)
 {
+    qDebug() << "positionDone";
     if (dlgTestSter)
         dlgTestSter->sd_setPositionDone(nrSilnika, home, success, move, steps, pos);
     sterF.setPositionDone(nrSilnika, home, success, move, steps, pos);

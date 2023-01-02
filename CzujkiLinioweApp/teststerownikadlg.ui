@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1444</width>
+    <width>1681</width>
     <height>815</height>
    </rect>
   </property>
@@ -1500,11 +1500,38 @@ zerowania</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QLabel" name="label_52">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#f9f06b;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; Nie wyzerowano&lt;br/&gt;&lt;/span&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#1a5fb4;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; Poza pozycją zerową&lt;br/&gt;&lt;/span&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#26a269;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;;&quot;&gt; Wyzerowany&lt;br/&gt;&lt;/span&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#f66151;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; Bład zerowania&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_53">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#1a5fb4;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; Ruch&lt;br/&gt;&lt;/span&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#26a269;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;;&quot;&gt; Brak ruchu&lt;br/&gt;&lt;/span&gt;
+&lt;span style=&quot; font-size:8pt; background-color:#f66151;&quot;&gt;&amp;nbsp;&amp;nbsp;&lt;/span&gt;&lt;span style=&quot; font-size:8pt;&quot;&gt; Bład ruchu&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
      </item>
      <item row="0" column="1">
       <widget class="QFrame" name="frame_3">
+       <property name="minimumSize">
+        <size>
+         <width>15</width>
+         <height>15</height>
+        </size>
+       </property>
        <property name="frameShape">
         <enum>QFrame::StyledPanel</enum>
        </property>
@@ -1512,150 +1539,17 @@ zerowania</string>
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout">
-        <item row="7" column="0">
-         <widget class="QLabel" name="etsilnik_6">
-          <property name="text">
-           <string>M6</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="0">
-         <widget class="QLabel" name="etsilnik_7">
-          <property name="text">
-           <string>M7</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="10">
-         <widget class="QLabel" name="actPos_1">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_6">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_3">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_7">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="3">
-         <widget class="QCheckBox" name="isHome_7">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_4">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
-         <widget class="QFrame" name="fr7">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2" colspan="2">
-         <widget class="QLabel" name="label_4">
-          <property name="text">
-           <string>Pozycja
-bazowa</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="3">
-         <widget class="QCheckBox" name="isHome_9">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="10">
-         <widget class="QLabel" name="actPos_2">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="10">
-         <widget class="QLabel" name="actPos_9">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="etsilnik_1">
-          <property name="text">
-           <string>M1</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="2">
-         <widget class="QPushButton" name="pbHome_6">
+        <item row="8" column="2">
+         <widget class="QPushButton" name="pbHome_7">
           <property name="text">
            <string>Powrót</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_8">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="1">
-         <widget class="QFrame" name="fr9">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="10">
-         <widget class="QLabel" name="actPos_3">
+        <item row="5" column="14">
+         <widget class="QLabel" name="actPos_4">
           <property name="text">
            <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="etsilnik_2">
-          <property name="text">
-           <string>M2</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="2">
-         <widget class="QPushButton" name="pbHome_2">
-          <property name="text">
-           <string>Powrót</string>
           </property>
          </widget>
         </item>
@@ -1666,259 +1560,10 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="11" column="0" colspan="2">
-         <widget class="QLabel" name="label_3">
-          <property name="text">
-           <string>Wszystkie</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="etsilnik_3">
-          <property name="text">
-           <string>M3</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="10">
-         <widget class="QLabel" name="actPos_8">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="3">
-         <widget class="QCheckBox" name="isHome_3">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="5" column="1">
-         <widget class="QFrame" name="fr4">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_5">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QFrame" name="fr3">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="0">
-         <widget class="QLabel" name="etsilnik_8">
-          <property name="text">
-           <string>M8</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="2">
-         <widget class="QPushButton" name="pbHome_1">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
-        <item row="9" column="3">
-         <widget class="QCheckBox" name="isHome_8">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="etsilnik_5">
-          <property name="text">
-           <string>M5</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_2">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="0">
-         <widget class="QLabel" name="etsilnik_9">
-          <property name="text">
-           <string>M9</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_6">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="maxLength">
-           <number>20</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_3">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="maxLength">
-           <number>20</number>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QFrame" name="fr1">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="10">
-         <widget class="QLabel" name="actPos_7">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="3">
-         <widget class="QCheckBox" name="isHome_6">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QFrame" name="fr2">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="2">
-         <widget class="QPushButton" name="pbHome_3">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
-        <item row="7" column="10">
-         <widget class="QLabel" name="actPos_6">
-          <property name="text">
-           <string>0</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_1">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="maxLength">
-           <number>20</number>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="2">
-         <widget class="QPushButton" name="pbHome_5">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_1">
-          <property name="text">
-           <string>Ustaw</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="2">
-         <widget class="QPushButton" name="pbHome_7">
-          <property name="text">
-           <string>Powrót</string>
-          </property>
-         </widget>
-        </item>
         <item row="11" column="2">
          <widget class="QPushButton" name="pbHomeAll">
           <property name="text">
            <string>Powrót </string>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="6" colspan="2">
-         <widget class="QLineEdit" name="posX_9">
-          <property name="minimumSize">
-           <size>
-            <width>100</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>200</width>
-            <height>16777215</height>
-           </size>
-          </property>
-          <property name="maxLength">
-           <number>20</number>
-          </property>
-         </widget>
-        </item>
-        <item row="10" column="8" colspan="2">
-         <widget class="QPushButton" name="pbUstawPos_9">
-          <property name="text">
-           <string>Ustaw</string>
           </property>
          </widget>
         </item>
@@ -1941,31 +1586,27 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="2" column="3">
-         <widget class="QCheckBox" name="isHome_1">
+        <item row="10" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_9">
           <property name="text">
-           <string/>
+           <string>Ustaw</string>
           </property>
          </widget>
         </item>
-        <item row="9" column="2">
-         <widget class="QPushButton" name="pbHome_8">
+        <item row="3" column="8">
+         <widget class="QLabel" name="label_34">
           <property name="text">
-           <string>Powrót</string>
+           <string>*</string>
           </property>
          </widget>
         </item>
-        <item row="3" column="3">
-         <widget class="QCheckBox" name="isHome_2">
-          <property name="text">
-           <string/>
+        <item row="6" column="1">
+         <widget class="QFrame" name="fr5">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
           </property>
-         </widget>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="etsilnik_4">
-          <property name="text">
-           <string>M4</string>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
           </property>
          </widget>
         </item>
@@ -1988,13 +1629,388 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
-         <widget class="QFrame" name="fr5">
+        <item row="10" column="9">
+         <widget class="QLineEdit" name="speedPos9"/>
+        </item>
+        <item row="0" column="6" colspan="3">
+         <widget class="QLabel" name="head2_3">
+          <property name="text">
+           <string>Przesunięcie
+w stopniach/mm </string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="14">
+         <widget class="QLabel" name="actPos_9">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="10">
+         <widget class="QLabel" name="label_45">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="1">
+         <widget class="QFrame" name="fr3">
           <property name="frameShape">
            <enum>QFrame::StyledPanel</enum>
           </property>
           <property name="frameShadow">
            <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_2">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="3">
+         <widget class="QLabel" name="homeStatus5">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_6">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maxLength">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="2">
+         <widget class="QPushButton" name="pbHome_6">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="3">
+         <widget class="QLabel" name="homeStatus7">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="etsilnik_4">
+          <property name="text">
+           <string>M4</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="9">
+         <widget class="QLineEdit" name="speedPos8"/>
+        </item>
+        <item row="4" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_3">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maxLength">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="10">
+         <widget class="QLabel" name="label_50">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="0">
+         <widget class="QLabel" name="etsilnik_5">
+          <property name="text">
+           <string>M5</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="13">
+         <widget class="QLabel" name="posStatus8">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="2">
+         <widget class="QPushButton" name="pbHome_9">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="8">
+         <widget class="QLabel" name="label_40">
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="9">
+         <widget class="QLineEdit" name="speedPos1"/>
+        </item>
+        <item row="8" column="1">
+         <widget class="QFrame" name="fr7">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QFrame" name="fr1">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="8">
+         <widget class="QLabel" name="label_37">
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="1">
+         <widget class="QFrame" name="fr8">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QFrame" name="fr9">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="14">
+         <widget class="QLabel" name="actPos_7">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="10">
+         <widget class="QLabel" name="label_48">
+          <property name="text">
+           <string>mm/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="etsilnik_6">
+          <property name="text">
+           <string>M6</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="2">
+         <widget class="QPushButton" name="pbHome_5">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_1">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maxLength">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="0">
+         <widget class="QLabel" name="etsilnik_9">
+          <property name="text">
+           <string>M9</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_8">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="6" colspan="2">
+         <widget class="QLineEdit" name="posX_9">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>200</width>
+            <height>16777215</height>
+           </size>
+          </property>
+          <property name="maxLength">
+           <number>20</number>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="10">
+         <widget class="QLabel" name="label_47">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="3">
+         <widget class="QLabel" name="homeStatus9">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="etsilnik_7">
+          <property name="text">
+           <string>M7</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_6">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="2">
+         <widget class="QPushButton" name="pbHome_2">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="10">
+         <widget class="QLabel" name="label_46">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="10">
+         <widget class="QLabel" name="label_44">
+          <property name="text">
+           <string>*/min</string>
           </property>
          </widget>
         </item>
@@ -2017,42 +2033,49 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="10" column="2">
-         <widget class="QPushButton" name="pbHome_9">
-          <property name="text">
-           <string>Powrót</string>
+        <item row="10" column="13">
+         <widget class="QLabel" name="posStatus9">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
           </property>
-         </widget>
-        </item>
-        <item row="9" column="1">
-         <widget class="QFrame" name="fr8">
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
           <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
+           <enum>QFrame::Box</enum>
           </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
+          <property name="text">
+           <string> </string>
           </property>
          </widget>
         </item>
-        <item row="0" column="6" colspan="4">
-         <widget class="QLabel" name="head2_3">
+        <item row="10" column="8">
+         <widget class="QLabel" name="label_41">
           <property name="text">
-           <string>Przesunięcie w stopniach/mm
- (z predk. 1/30 prędk. zerowania)</string>
+           <string>*</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="3">
-         <widget class="QCheckBox" name="isHome_5">
+        <item row="4" column="0">
+         <widget class="QLabel" name="etsilnik_3">
           <property name="text">
-           <string/>
+           <string>M3</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="10">
-         <widget class="QLabel" name="actPos_4">
+        <item row="3" column="9">
+         <widget class="QLineEdit" name="speedPos2"/>
+        </item>
+        <item row="3" column="0">
+         <widget class="QLabel" name="etsilnik_2">
           <property name="text">
-           <string>0</string>
+           <string>M2</string>
           </property>
          </widget>
         </item>
@@ -2075,6 +2098,85 @@ bazowa</string>
           </property>
          </widget>
         </item>
+        <item row="7" column="3">
+         <widget class="QLabel" name="homeStatus6">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="10">
+         <widget class="QLabel" name="label_49">
+          <property name="text">
+           <string>mm/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_1">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="14">
+         <widget class="QLabel" name="actPos_6">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="14">
+         <widget class="QLabel" name="actPos_1">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="0">
+         <widget class="QLabel" name="etsilnik_8">
+          <property name="text">
+           <string>M8</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="3">
+         <widget class="QLabel" name="homeStatus2">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
         <item row="8" column="6" colspan="2">
          <widget class="QLineEdit" name="posX_7">
           <property name="minimumSize">
@@ -2094,35 +2196,121 @@ bazowa</string>
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
-         <widget class="QFrame" name="fr6">
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="10">
-         <widget class="QLabel" name="label_5">
+        <item row="8" column="8">
+         <widget class="QLabel" name="label_39">
           <property name="text">
-           <string>Aktualna
-pozycja</string>
+           <string>mm</string>
           </property>
          </widget>
         </item>
-        <item row="6" column="10">
-         <widget class="QLabel" name="actPos_5">
+        <item row="2" column="8">
+         <widget class="QLabel" name="label_33">
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="3">
+         <widget class="QLabel" name="homeStatus4">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="11" colspan="2">
+         <widget class="QPushButton" name="pbReset">
+          <property name="text">
+           <string>Reset</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="14">
+         <widget class="QLabel" name="actPos_2">
           <property name="text">
            <string>0</string>
           </property>
          </widget>
         </item>
-        <item row="5" column="3">
-         <widget class="QCheckBox" name="isHome_4">
+        <item row="9" column="14">
+         <widget class="QLabel" name="actPos_8">
           <property name="text">
-           <string/>
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="9">
+         <widget class="QLineEdit" name="speedPos4"/>
+        </item>
+        <item row="6" column="13">
+         <widget class="QLabel" name="posStatus5">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="10">
+         <widget class="QLabel" name="label_51">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="8">
+         <widget class="QLabel" name="label_38">
+          <property name="text">
+           <string>mm</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="13">
+         <widget class="QLabel" name="posStatus4">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
           </property>
          </widget>
         </item>
@@ -2133,10 +2321,342 @@ pozycja</string>
           </property>
          </widget>
         </item>
-        <item row="11" column="8" colspan="2">
-         <widget class="QPushButton" name="pbReset">
+        <item row="6" column="9">
+         <widget class="QLineEdit" name="speedPos5"/>
+        </item>
+        <item row="4" column="8">
+         <widget class="QLabel" name="label_35">
           <property name="text">
-           <string>Reset</string>
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="8">
+         <widget class="QLabel" name="label_36">
+          <property name="text">
+           <string>*</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="13">
+         <widget class="QLabel" name="posStatus3">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_7">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="13">
+         <widget class="QLabel" name="posStatus7">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="3">
+         <widget class="QLabel" name="homeStatus8">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="10">
+         <widget class="QLabel" name="label_43">
+          <property name="text">
+           <string>*/min</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_3">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2" colspan="2">
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Pozycja
+bazowa</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_5">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="13">
+         <widget class="QLabel" name="posStatus2">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="14">
+         <widget class="QLabel" name="label_5">
+          <property name="text">
+           <string>Aktualna
+pozycja</string>
+          </property>
+         </widget>
+        </item>
+        <item row="3" column="1">
+         <widget class="QFrame" name="fr2">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QFrame" name="fr4">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="13">
+         <widget class="QLabel" name="posStatus1">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="9" colspan="2">
+         <widget class="QLabel" name="label_42">
+          <property name="text">
+           <string>Prędkość</string>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="0" colspan="2">
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Wszystkie</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="3">
+         <widget class="QLabel" name="homeStatus3">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="11" colspan="2">
+         <widget class="QPushButton" name="pbUstawPos_4">
+          <property name="text">
+           <string>Ustaw</string>
+          </property>
+         </widget>
+        </item>
+        <item row="9" column="2">
+         <widget class="QPushButton" name="pbHome_8">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="8" column="9">
+         <widget class="QLineEdit" name="speedPos7"/>
+        </item>
+        <item row="4" column="2">
+         <widget class="QPushButton" name="pbHome_3">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="9">
+         <widget class="QLineEdit" name="speedPos6"/>
+        </item>
+        <item row="7" column="1">
+         <widget class="QFrame" name="fr6">
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="2">
+         <widget class="QPushButton" name="pbHome_1">
+          <property name="text">
+           <string>Powrót</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="13">
+         <widget class="QLabel" name="posStatus6">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="14">
+         <widget class="QLabel" name="actPos_3">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="0">
+         <widget class="QLabel" name="etsilnik_1">
+          <property name="text">
+           <string>M1</string>
+          </property>
+         </widget>
+        </item>
+        <item row="4" column="9">
+         <widget class="QLineEdit" name="speedPos3"/>
+        </item>
+        <item row="6" column="14">
+         <widget class="QLabel" name="actPos_5">
+          <property name="text">
+           <string>0</string>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="3">
+         <widget class="QLabel" name="homeStatus1">
+          <property name="minimumSize">
+           <size>
+            <width>15</width>
+            <height>15</height>
+           </size>
+          </property>
+          <property name="maximumSize">
+           <size>
+            <width>25</width>
+            <height>25</height>
+           </size>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::Box</enum>
+          </property>
+          <property name="text">
+           <string> </string>
           </property>
          </widget>
         </item>
@@ -2367,6 +2887,13 @@ pozycja</string>
           </layout>
          </widget>
         </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Nawa portu:</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="3">
          <widget class="QLabel" name="namePort">
           <property name="text">
@@ -2394,13 +2921,6 @@ pozycja</string>
           </property>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Nawa portu:</string>
-          </property>
-         </widget>
-        </item>
        </layout>
       </widget>
      </item>
@@ -2419,10 +2939,10 @@ pozycja</string>
        <widget class="QTextEdit" name="dbg1"/>
       </item>
       <item>
-       <widget class="QTextEdit" name="dbg3"/>
+       <widget class="QTextEdit" name="dbg2"/>
       </item>
       <item>
-       <widget class="QTextEdit" name="dbg2"/>
+       <widget class="QTextEdit" name="dbg3"/>
       </item>
      </layout>
     </widget>
@@ -2487,40 +3007,31 @@ pozycja</string>
   <tabstop>obrot9</tabstop>
   <tabstop>pbSetConfiguration</tabstop>
   <tabstop>pbHome_1</tabstop>
-  <tabstop>isHome_1</tabstop>
   <tabstop>posX_1</tabstop>
   <tabstop>pbUstawPos_1</tabstop>
   <tabstop>pbHome_2</tabstop>
-  <tabstop>isHome_2</tabstop>
   <tabstop>posX_2</tabstop>
   <tabstop>pbUstawPos_2</tabstop>
   <tabstop>pbHome_3</tabstop>
-  <tabstop>isHome_3</tabstop>
   <tabstop>posX_3</tabstop>
   <tabstop>pbUstawPos_3</tabstop>
   <tabstop>pbHome_4</tabstop>
-  <tabstop>isHome_4</tabstop>
   <tabstop>posX_4</tabstop>
   <tabstop>pbUstawPos_4</tabstop>
   <tabstop>pbHome_5</tabstop>
-  <tabstop>isHome_5</tabstop>
   <tabstop>posX_5</tabstop>
   <tabstop>pbUstawPos_5</tabstop>
   <tabstop>pbHome_6</tabstop>
-  <tabstop>isHome_6</tabstop>
   <tabstop>posX_6</tabstop>
   <tabstop>pbUstawPos_6</tabstop>
   <tabstop>pbHome_7</tabstop>
-  <tabstop>isHome_7</tabstop>
   <tabstop>posX_7</tabstop>
   <tabstop>pbUstawPos_7</tabstop>
   <tabstop>pbHome_8</tabstop>
-  <tabstop>isHome_8</tabstop>
   <tabstop>posX_8</tabstop>
   <tabstop>pbUstawPos_8</tabstop>
   <tabstop>pbHome_9</tabstop>
   <tabstop>posX_9</tabstop>
-  <tabstop>isHome_9</tabstop>
   <tabstop>pbUstawPos_9</tabstop>
   <tabstop>pbHomeAll</tabstop>
   <tabstop>pbConnect</tabstop>

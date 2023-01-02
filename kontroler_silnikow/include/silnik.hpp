@@ -6,6 +6,47 @@
 
 #include "workmode.hpp"
 
+#define DEBUGLP
+#ifdef DEBUGLP
+	#define VSD(T) Serial.print(T);
+	#define VSDN(T) Serial.println(T);
+	#define VSD2(T,P) Serial.print(T,P);
+	#define VSDN2(T,P) Serial.println(T,P);
+
+	#define VSDP(T, V) VSD(T); VSD(V);
+	#define VSDPN(T, V) VSD(T); VSDN(V);
+#else
+	#define VSD(T) 
+	#define VSDN(T) 
+	#define VSD2(T,P) 
+	#define VSDN2(T,P) 
+
+	#define VSDP(T, V) 
+	#define VSDPN(T, V) 
+#endif
+
+#define DEBUGLPGD
+#ifdef DEBUGLPGD
+	#define VHSD(T) Serial.print(T);
+	#define VHSDN(T) Serial.println(T);
+	#define VHSD2(T,P) Serial.print(T,P);
+	#define VHSDN2(T,P) Serial.println(T,P);
+
+	#define VHSDP(T, V) VHSD(T); VHSD(V);
+	#define VHSDPN(T, V) VHSD(T); VHSDN(V);
+#else
+	#define VHSD(T) 
+	#define VHSDN(T) 
+	#define VHSD2(T,P) 
+	#define VHSDN2(T,P) 
+
+	#define VHSDP(T, V) 
+	#define VHSDPN(T, V) 
+#endif
+
+
+
+
 typedef enum moveState {
     IDLE = 0,
     HOMEPOS,

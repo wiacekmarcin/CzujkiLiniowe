@@ -22,6 +22,7 @@ SterownikReader::~SterownikReader()
     mutex.lock();
     runWorker = false;
     mutex.unlock();
+    wait(1000);
 }
 
 void SterownikReader::setStop()
@@ -96,17 +97,13 @@ bool SterownikWriter::command(Task curr, const QByteArray &data)
 void SterownikWriter::setStop()
 {
     {
-        const QMutexLocker locker(&mutexRun);
-        runWorker = false;
+    const QMutexLocker locker(&mutexRun);
+    runWorker = false;
     }
-
-    //mutex.lock();
     const QMutexLocker locker(&mutex);
     futureTask.clear();
     futureTask.push_back(QPair<Task,QByteArray>(DISCONNECT, QByteArray()));
     newTask.wakeOne();
-    //mutex.unlock();
-    //wait();
 }
 
 void SterownikWriter::setReset()

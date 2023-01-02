@@ -49,6 +49,19 @@ unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &sp
     return  round(60 * 1000000 / impCnt);
 }
 
+unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, const double &ratioImpJedn, const double &x)
+{
+    if (ratioImpJedn == 0)
+        return 0;
+
+    if (silnik == 1 || silnik == 2 || silnik == 8 || silnik == 9) {
+
+        return middle + round(x/ratioImpJedn);
+    } else {
+        return 0;
+    }
+}
+
 void Ustawienia::loadListUstawienFiltra()
 {
     short cntPos = settings.value("Tlumienia_655/IloscPozycji", QVariant::fromValue(0)).toInt();

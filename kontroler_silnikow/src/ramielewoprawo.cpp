@@ -3,25 +3,6 @@
 #include "main.h"
 #include <TimerOne.h>
 
-#define DEBUGLP
-#ifdef DEBUGLP
-	#define VSD(T) Serial.print(T);
-	#define VSDN(T) Serial.println(T);
-	#define VSD2(T,P) Serial.print(T,P);
-	#define VSDN2(T,P) Serial.println(T,P);
-
-	#define VSDP(T, V) VSD(T); VSD(V);
-	#define VSDPN(T, V) VSD(T); VSDN(V);
-#else
-	#define VSD(T) 
-	#define VSDN(T) 
-	#define VSD2(T,P) 
-	#define VSDN2(T,P) 
-
-	#define VSDP(T, V) 
-	#define VSDPN(T, V) 
-#endif
-
 #define PULSE_V digitalWrite(PULSEPIN, HIGH); delayMicroseconds(delayImp); digitalWrite(PULSEPIN, LOW); delayMicroseconds(delayImp);
 
 

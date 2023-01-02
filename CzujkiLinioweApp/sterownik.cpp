@@ -210,6 +210,9 @@ void Sterownik::closeDeviceJob()
 
 #ifdef SERIALLINUX
     if (m_serialPort) {
+        m_serialPort->flush();
+        m_serialPort->clear();
+        m_serialPort->clearError();
         m_serialPort->close();
         delete m_serialPort;
         m_serialPort = nullptr;
@@ -249,9 +252,9 @@ bool Sterownik::openDevice()
     m_serialPort->setDataBits(QSerialPort::Data8);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
-    m_serialPort->setReadBufferSize(64);
+    //m_serialPort->setReadBufferSize(32);
 
-    QThread::currentThread()->sleep(2);
+    QThread::currentThread()->sleep(1);
 
     emit kontrolerConfigured(OPEN);
 
@@ -435,7 +438,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
     errMap[SerialMessage::INPROGRESS_REPLY] = "Wiadomość przerwana";
     errMap[SerialMessage::WELCOME_REPLY] = "Wiadomość powitalna";
     errMap[SerialMessage::CONF_REPLY] = "Wiadomość konfiguracyjna";
-    errMap[SerialMessage::MOVEHOME_REPLY] = "Wiadomość HOME_REPLy";
+    errMap[SerialMessage::MOVEHOME_REPLY] = "Wiadomość HOME_REPLY";
     errMap[SerialMessage::POSITION_REPLY] = "Wiadomość POSITION_REPLY";
     errMap[SerialMessage::RESET_REPLY] = "Wiadomość RESET_REPLY";
     errMap[SerialMessage::CONF_MEGA_REPLY] = "Wiadomość MEGA_REPLY";

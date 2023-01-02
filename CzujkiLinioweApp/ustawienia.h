@@ -16,6 +16,7 @@ public:
     ~Ustawienia();
     static double wyliczPredkosc(const double & ratioImpJedn, const double & impTime);
     static unsigned long wyliczImp(const double & ratioImpJedn, const double & speed);
+    unsigned long wyliczPozycje(short silnik, unsigned long middle, const double & ratioImpJedn, const double & x);
 
     QList<QStringList> getTlumienia655() const;
     QList<QStringList> getTlumienia880() const;
