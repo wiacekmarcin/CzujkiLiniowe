@@ -38,7 +38,7 @@ public:
     inline bool isConnected() const { return comunication; }
     inline uint8_t getByte2() const { return ((id << 4) & 0x0f) | (present ? 0x08 : 0x00) | (comunication ? 0x04 : 0x00) | 
                         (busyPinOk ? 0x02 : 0x0) | ((movePinOk && stopPinOk) ? 0x01 : 0x00); }
-    bool isMove() { return digitalRead(stopPin) == LOW; }
+    bool isMove() { return digitalRead(movePin) == HIGH; }
     void setPins(bool comunication, bool busyPin, bool movePin, bool stopPin);
 
 protected:
@@ -61,6 +61,8 @@ private:
     bool busyPinOk;
     bool movePinOk;
     bool stopPinOk;
+
+    uint8_t replyMsgSize;
 };
 
 #endif

@@ -61,7 +61,12 @@ bool Motor::moveHomeLewoPrawoFirstTime(uint32_t delayImpOrg)
     while(!isKrancowka()) {
         PULSE_V
         ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS) {
+        if (steps > maxSteps) {
+            moveHomePtr = &Motor::moveHomeLewoPrawo;
+            VSDPN("Err",__LINE__);
+            return false; 
+        }
+        if (mstate != HOMEPOS) {
             moveHomePtr = &Motor::moveHomeLewoPrawo;
             VSDPN("Err",__LINE__);
             return false; 
@@ -84,7 +89,12 @@ bool Motor::moveHomeLewoPrawoFirstTime(uint32_t delayImpOrg)
     while(!isKrancowka()) {
         PULSE_V
         ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS) {
+        if (steps > maxSteps) {
+            moveHomePtr = &Motor::moveHomeLewoPrawo;
+            VSDPN("Err",__LINE__);
+            return false; 
+        }
+        if (mstate != HOMEPOS) {
             moveHomePtr = &Motor::moveHomeLewoPrawo;
             VSDPN("Err",__LINE__);
             return false; 

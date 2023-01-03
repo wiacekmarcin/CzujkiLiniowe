@@ -91,13 +91,18 @@ bool isKrancowka()
 	return digitalRead(KRANCPIN) == LOW;
 }
 
+void stopMove(bool home, bool succ, bool interrupted)
+{
+	smsg.moveStopRequest(home, succ, interrupted);
+}
+
 volatile bool received = false;
 
 static void receiveEvent(int how);
 static void requestEvent();
 void setup()
 {
-	pinMode(MOVEPIN, OUTPUT); digitalWrite(MOVEPIN, HIGH);
+	pinMode(MOVEPIN, OUTPUT); digitalWrite(MOVEPIN, LOW);
 	pinMode(BUSYPIN, OUTPUT); setBusy(true);
 	pinMode(10, INPUT);
 	pinMode(A3, INPUT);

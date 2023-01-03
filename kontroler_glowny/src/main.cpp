@@ -36,6 +36,8 @@ static void moveSteps();
 static void resetRequest();
 //static void sendProgressMsg(uint8_t index);
 
+static void checkPins(uint8_t p);
+
 //przerwanie od timer zeby odczytac wartosc mierzona napiecia i napiecia
 volatile bool timeout = false;
 
@@ -119,83 +121,14 @@ void setup (void)
 
             //found device
             motors[p].setDevice(id, address);
-            pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], HIGH);
+            motors[p].init(stopPins[p], movePins[p], busyPins[p]);
+            checkPins(p);
+
+            pinMode(stopPins[p], OUTPUT); digitalWrite(stopPins[p], LOW);
             pinMode(busyPins[p], INPUT);
             pinMode(movePins[p], INPUT);
-            //pinMode(sixPins[p], OUTPUT); digitalWrite(sixPins[p], LOW);
-            motors[p].init(stopPins[p], movePins[p], busyPins[p]);
-            motors[p].sendEchoMsg();
-            actTime = millis();
-            //digitalWrite(sixPins[p], HIGH);
-            while(digitalRead(busyPins[p]) == HIGH) {
-                if (millis() - actTime > 100)
-                    break;
-            }
-            //digitalWrite(sixPins[p], LOW);
-            if (digitalRead(busyPins[p]) == HIGH) {
-                SERIALDBG.println(". No Busy");
-                motors[p].setPins(false, false, false, false);
-                continue;
-            }
-            SERIALDBG.print(" Busy OK. ");
-
-            digitalWrite(stopPins[p], LOW);
-            //digitalWrite(sixPins[p], LOW);
-            while(digitalRead(movePins[p]) == LOW) {
-                if (millis() - actTime > 100)
-                    break;
-            }
-            //digitalWrite(sixPins[p], HIGH);
-            if (digitalRead(movePins[p]) == LOW) {
-                SERIALDBG.println(" Brak sygnalu move");
-                motors[p].setPins(false, true, false, false);
-                continue;
-            }
-            SERIALDBG.println(" Move OK. ");
-            digitalWrite(stopPins[p], HIGH);
-            //digitalWrite(sixPins[p], LOW);
-            while(digitalRead(movePins[p]) == HIGH) {
-                if (millis() - actTime > 100)
-                    break;
-            }
-            //digitalWrite(sixPins[p], HIGH);
-            if (digitalRead(movePins[p]) == HIGH)  {
-                SERIALDBG.println("Brak sygnalu stop");
-                motors[p].setPins(false, true, true, false);
-                continue;
-            }
-            SERIALDBG.print(" Stop OK.");
-            
-            while(digitalRead(busyPins[p]) == LOW) 
-                continue;
-            {
-                uint8_t recvPos = 0;
-                uint8_t recvBuff[3];
-                Wire.requestFrom(address, (uint8_t)3);    // komunikaty sa glownie 3 bajtowe
-                while (Wire.available() && recvPos < 3) { // peripheral may send less than requested
-                    recvBuff[recvPos++] = Wire.read(); // receive a byte as character
-                }
-                if (recvPos < 3) {
-                    SERIALDBG.println(" Blad Komunikacji");
-                    motors[p].setPins(false, true, true, true);
-                    continue;
-                }
-                if (recvBuff[0] == 0x50 && ((recvBuff[1] >> 4) & 0x0f)+ 0x30 == address) {
-                    SERIALDBG.println(" Komunikacja OK. Wszystko OK");
-                    motors[p].setPins(true, true, true, true);
-                } else {
-                    SERIALDBG.println(" Nie poprawne dane");
-                    SERIALDBG.print("[");
-                    SERIALDBG.print(recvBuff[0], HEX);
-                    SERIALDBG.print(" ");
-                    SERIALDBG.print(recvBuff[1], HEX);
-                    SERIALDBG.print(" ");
-                    SERIALDBG.print(recvBuff[2], HEX);
-                    SERIALDBG.println("]");
-                    motors[p].setPins(false, true, true, true);
-                }
-                attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
-            }
+            pinMode(sixPins[p], OUTPUT); digitalWrite(sixPins[p], LOW);
+            attachPinChangeInterrupt(digitalPinToPinChangeInterrupt(busyPins[p]), funptr[p], RISING);
         } else {
             SERIALDBG.println(" Brak urzadzenia");
         }
@@ -218,7 +151,7 @@ void setup (void)
     attachInterrupt(digitalPinToInterrupt(2), sendStopMsg, FALLING);
     
 
-    Timer1.initialize((unsigned long) 1000000UL);
+    Timer1.initialize((unsigned long) 5000000UL);
     Timer1.attachInterrupt(timerHandler);
 
 
@@ -240,6 +173,7 @@ uint8_t FirstLoop = 10;
 #define PULSE(P) digitalWrite(P, HIGH); delay(10); digitalWrite(P, LOW); delay(10);
 unsigned long prevMillis = 0;
 volatile bool sendReplyMsg = false;
+unsigned long prevMls=0;
 void loop (void)
 {
 
@@ -269,10 +203,13 @@ void loop (void)
 
     if (checkProgress) {
         checkProgress = false;
-        SERIALDBG.println("Send PROGRESS");
         for (unsigned int n = 0; n < maxNumSter; ++n) {
-            if (motors[n].isActive() && motors[n].isMove()) 
+            if (motors[n].isActive() && motors[n].isMove()) {
+                SERIALDBG.print("Send PROGRESS:");
+                SERIALDBG.println(n+1);
                 motors[n].sendProgressMsg();
+            }
+
             delayMicroseconds(50);
         }
     }
@@ -397,4 +334,78 @@ void sendStopMsg()
             digitalWrite(stopPins[n], HIGH);
     }
     getAllProgress = true;
+}
+
+void checkPins(uint8_t p)
+{
+    motors[p].sendEchoMsg();
+    pinMode(busyPins[p], INPUT);
+    pinMode(stopPins[p], INPUT_PULLUP);
+    pinMode(movePins[p], INPUT_PULLUP);
+    pinMode(sixPins[p], INPUT_PULLUP);
+
+    unsigned long actTime = millis();
+    while(digitalRead(busyPins[p]) == HIGH) {
+        if (millis() - actTime > 100)
+            break;
+    }
+
+    if (digitalRead(busyPins[p]) == HIGH) {
+        SERIALDBG.println(". No Busy LOW");
+        motors[p].setPins(false, false, false, false);
+        return;
+    }
+    SERIALDBG.print(" Busy OK. ");
+
+    delayMicroseconds(100);
+    bool stopPinOk = digitalRead(stopPins[p] == LOW);
+    bool movePinOk = digitalRead(movePins[p] == LOW);
+    bool sixPinOk = digitalRead(sixPins[p] == LOW);
+    delayMicroseconds(100);
+    SERIALDBG.print(" stop=");
+    SERIALDBG.print(stopPinOk);
+    SERIALDBG.print(" move=");
+    SERIALDBG.print(movePinOk);
+    SERIALDBG.print(" six=");
+    SERIALDBG.println(sixPinOk);
+
+    actTime = millis();
+    while (digitalRead(busyPins[p]) == LOW) {
+        if (millis() - actTime > 500) {
+            SERIALDBG.println(". No Busy HIGH");
+            motors[p].setPins(false, false, movePinOk, stopPinOk);
+            return;
+        }
+    }
+     
+    if (digitalRead(busyPins[p]) == HIGH)
+    {
+        uint8_t recvPos = 0;
+        uint8_t recvBuff[3];
+        uint8_t address = 0x31+p;
+        Wire.requestFrom(address, (uint8_t)3);    
+        while (Wire.available() && recvPos < 3) { 
+            recvBuff[recvPos++] = Wire.read(); 
+        }
+        if (recvPos < 3) {
+            SERIALDBG.println(" Blad Komunikacji");
+            motors[p].setPins(false, true, movePinOk, stopPinOk);
+            return;
+        }
+
+        if (recvBuff[0] == 0x50 && ((recvBuff[1] >> 4) & 0x0f)+ 0x30 == address) {
+            SERIALDBG.println(" Komunikacja OK. Wszystko OK");
+            motors[p].setPins(true, true, movePinOk, stopPinOk);
+        } else {
+            SERIALDBG.println(" Nie poprawne dane");
+            SERIALDBG.print("[");
+            SERIALDBG.print(recvBuff[0], HEX);
+            SERIALDBG.print(" ");
+            SERIALDBG.print(recvBuff[1], HEX);
+            SERIALDBG.print(" ");
+            SERIALDBG.print(recvBuff[2], HEX);
+            SERIALDBG.println("]");
+            motors[p].setPins(false, true, movePinOk, stopPinOk);
+        }
+    }
 }

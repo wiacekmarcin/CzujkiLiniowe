@@ -9,6 +9,7 @@ uint8_t getAddress();
 #define BUSYPIN A0
 #define MOVEPIN 5
 
+#define SIXPIN 6
 #define ENPIN  7
 #define DIRPIN  8
 #define PULSEPIN 9

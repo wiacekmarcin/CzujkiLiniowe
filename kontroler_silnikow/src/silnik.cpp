@@ -6,6 +6,8 @@
 extern Message msg;
 #include "workmode.hpp"
 
+extern void stopMove(bool home, bool succ, bool interrupted);
+
 Motor::Motor() :
     mstate(IDLE) 
     ,actSteps(0)
@@ -64,8 +66,8 @@ void Motor::setSoftStop()
 	mstate = IDLE;
 	interrupted = true;
 	digitalWrite(MOVEPIN, LOW);
+	stopMove(home, true, true);
 	return;
-	//komunikat progress bar na spokojnie
 }
 
 
@@ -110,39 +112,46 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
     digitalWrite(PULSEPIN, LOW);
 	VHSDPN("DelayImp=", delayImpOrg);
 	VHSDPN("DelayImpHalf=", delayImp);
+	VHSDPN("globalPos=", globalPos);
+	VHSDPN("pos=", pos);
+	home = false;
+	move = false;
     if (pos == globalPos) {
         mstate = IDLE;
 		return false;
 	} else if (pos > globalPos) {
 		diff = 1;
-		setDirBase(true);
+		setDirBase(false);
 	} else if (pos < globalPos) {
 		diff = -1;
-		setDirBase(false);
+		setDirBase(true);
 	}
-	VHSDN("MOVEPIN na LOW");
+    move = true;
 	VHSDPN("globalPos", globalPos);
 	VHSDPN("pos", pos);
-	digitalWrite(MOVEPIN, LOW);
+	newPosition = pos;
+	actSteps = 0;
+	digitalWrite(MOVEPIN, HIGH);
 	mstate = MOVEPOS;
-    if (delayImp < 5000000) {
+    if (delayImp < 15000000) {
         cntPomSkip = 0;
         Timer1.setPeriod(delayImp);
         maxCntSkip = 0;
     } else {
         cntPomSkip = 0;
-        maxCntSkip = round(delayImp / 5000000) + 1;
-        Timer1.setPeriod(round(delayImp / maxCntSkip));
+        maxCntSkip = round(delayImp / 15000000) + 1;
+        VHSDPN("maxCntSkip", maxCntSkip);
+		VHSDPN("period", round(delayImp / maxCntSkip));
+		Timer1.setPeriod(round(delayImp / maxCntSkip));
     }
-	VHSDPN("maxCntSkip", maxCntSkip);
-	VHSDPN("period", round(delayImp / maxCntSkip));
+
 	Timer1.start();    
 	return true;
 }
 
 void Motor::impulseGDLP()
 {
-	VHSDN(millis());
+
     if (mstate == IDLE) {
         Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
@@ -159,16 +168,18 @@ void Motor::impulseGDLP()
             return;
         cntPomSkip = 0;
     }
-	SDN("+");
 	
     globalPos += diff;
 	++actSteps;
+	VHSDP(globalPos, " +");
+	VHSDN(actSteps);
 
     if (globalPos == newPosition) {
         mstate = IDLE;
         Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
 		SDN("Koniec. GlobalPos = newPosition. Move pin na LOW");
+		stopMove(home, true, false);
         return;
     }
 
@@ -178,6 +189,6 @@ void Motor::impulseGDLP()
 		Timer1.stop();
         digitalWrite(MOVEPIN, LOW);
 		SDN("Koniec. Osiagnieto max ilosc krokow");
-        //setError
+		stopMove(home, false, false);
 	}
 }

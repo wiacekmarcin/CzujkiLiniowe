@@ -96,6 +96,7 @@ void SPIMessage::sendEchoMsg()
     SERIALDBG.print(id, DEC);
     SERIALDBG.println(" Send ECHO Msg");
 #endif 
+    replyMsgSize = 3;
     sendSpiMsg(echoMsg, 3);
 }
 
@@ -117,6 +118,7 @@ void SPIMessage::sendConfiguration()
     memcpy(sendMsg, confMsg, confLen);
     digitalWrite(stopPin, HIGH);
 
+    replyMsgSize = 3;
     sendSpiMsg(sendMsg, confLen);
 }
 
@@ -148,6 +150,7 @@ void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
     }
     SERIALDBG.println("]");
 #endif
+    replyMsgSize = 3;
     sendSpiMsg(msg, len);  
 }
 
@@ -169,6 +172,7 @@ void SPIMessage::sendProgressMsg()
 #endif
     uint8_t sendMsg[3];
     memcpy(sendMsg, progressMsg, 3);
+    replyMsgSize = 7;
     sendSpiMsg(sendMsg, 3);
 }
 
@@ -197,8 +201,8 @@ void SPIMessage::getReply()
     uint8_t recvBuff[20];
     uint8_t recvPos = 0;
 
-    Wire.requestFrom(addr, (uint8_t)3);    // komunikaty sa glownie 3 bajtowe
-    while (Wire.available() && recvPos < 3) { // peripheral may send less than requested
+    Wire.requestFrom(addr, (uint8_t)replyMsgSize);    // komunikaty sa glownie 3 bajtowe
+    while (Wire.available() && recvPos < replyMsgSize) { // peripheral may send less than requested
         recvBuff[recvPos++] = Wire.read(); // receive a byte as character
     }
     if (recvPos < 3) {
@@ -212,17 +216,8 @@ void SPIMessage::getReply()
     uint8_t len = recvBuff[0] & 0x0f;
     uint8_t id = (recvBuff[1] >> 4) & 0x0f;
     uint8_t opt = recvBuff[1] & 0x0f;
-    if (len > 0) {
-        Wire.requestFrom(addr, (uint8_t)(len+1));    // 
-        while (Wire.available() && recvPos < 3 + len) { // peripheral may send less than requested
-            recvBuff[recvPos++] = Wire.read(); // receive a byte as character
-        }
-    }
-
-    if (recvPos < 3 + len) {
-        SERIALDBG.println("To short Message 2");
-        return;
-    }
+    
+    
     
 #ifdef DEBUG    
     SERIALDBG.print("Recv Msg : [");
@@ -239,6 +234,12 @@ void SPIMessage::getReply()
     }
 
     if (cmd == MessageSerial::MOVE_REP && id == this->id) {
+        SERIALDBG.println("Send to PC");
+        SERIALOUT.write(recvBuff, len + 3);
+        sendProgressMsg();
+    }
+
+    if (cmd == MessageSerial::PROGRESS_REP && id == this->id) {
         SERIALDBG.println("Send to PC");
         SERIALOUT.write(recvBuff, len + 3);
     }

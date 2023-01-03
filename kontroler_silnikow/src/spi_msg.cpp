@@ -108,38 +108,30 @@ bool SPIMessage::proceed()
 		}
 
 		SSDN("Poprawna wiadomosc . BUSY ON");
-		setBusy(true);
-        address = msg.getAddr();
+		address = msg.getAddr();
 		ESDPN("ADDR:", address);
+		setBusy(true);
+		bool proceed;
 		switch (msg.getMsgCmd()) {
 
 		case ECHO_REQ:
 		{
 			SSDN(" CMD:ECHO");
-			unsigned long actTime = millis();
+
+			
+			pinMode(STOPPIN, OUTPUT);
+			digitalWrite(STOPPIN, LOW);
 			digitalWrite(MOVEPIN, LOW);
-			SSD("Czekam na stopPin HIGH (movePin na LOW)...");
-			while(digitalRead(STOPPIN) == HIGH && (millis() - actTime < 100));
-			if (millis() - actTime >= 100) {
-				SSDN(" Timeout");
-				echoRequestFun(false, false);
-			} else {
-				SSDN(" OK");
-				SSD(" zmiana movepin na HIGH.\nCzekan na stopPin HIGH ....");
-				digitalWrite(MOVEPIN, HIGH);
-				actTime = millis();
-				while(digitalRead(STOPPIN) == LOW && (millis() - actTime < 100));
-				if (millis() - actTime >= 100) {
-					SSDN(" Timeout");
-					echoRequestFun(true, false);
-				} else {
-					SSDN(" OK");
-					echoRequestFun(true, true);
-					attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
-				}
-			}
+
+			delayMicroseconds(100);
+			echoRequestFun(true, true);
+
+			pinMode(STOPPIN, INPUT);
+
+			attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
 			SSDN("BUSY OFF");
 			setBusy(false);
+			digitalWrite(MOVEPIN, LOW);
 			msg.clear();
 			break;
 		}
@@ -292,4 +284,28 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 	sendBuff[2] = crc.getCRC();
 	sizeSendMsg = 3;
     SSPRINT(3);
+}
+
+
+void SPIMessage::moveStopRequest(bool home, bool succ, bool interrupted)
+{
+
+	setBusy(true);
+    bool wasMove = false;
+	bool wasErr = mot->;
+
+	CRC8 crc;
+	crc.restart();
+	sendBuff[0] = (MOVE_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
+	if (home)
+		sendBuff[1] += 1;
+	if (!succ)
+		sendBuff[1] += 4;	
+	crc.add(sendBuff[0]);
+	crc.add(sendBuff[1]);
+	sendBuff[2] = crc.getCRC();
+	sizeSendMsg = 3;
+    SSPRINT(3);
+	setBusy(false);
 }
