@@ -81,10 +81,11 @@ void Sterownik::disconnectDevice()
 
 void Sterownik::setParams()
 {
-
+    if (!connected())
+        m_writer.command(SterownikWriter::CONNECT, QByteArray());
 
     if (connected()) {
-        //insertParams();
+        m_writer.command(SterownikWriter::SET_PARAMS, QByteArray());
     }
 }
 
@@ -101,12 +102,34 @@ void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, uns
                          SerialMessage::setPosition(silnik,  steps, impTime));
 }
 
+void Sterownik::configureMotorsJob()
+{
+    for (short i = 1 ; i <= 9; ++i) {
+        QByteArray msgBA = SerialMessage::configMotorMsg(
+            i, ust->getMotorOdwrocObroty(i),
+            ust->getMotorMaksIloscImp(i), ust->getMotorIloscImpBaza(i),
+            ust->getMotorIloscImpSrodek(i));
+
+        if (!write(msgBA, 500)) {
+            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit kontrolerConfigured(PARAMS_FAILD);
+        }
+        QThread::currentThread()->msleep(100);
+    }
+    QByteArray msgBA = SerialMessage::configKontrolerMsg();
+    if (!write(msgBA, 500)) {
+        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit kontrolerConfigured(PARAMS_FAILD);
+    }
+}
+
 bool Sterownik::configureDevice(bool wlcmmsg)
 {
     if (wlcmmsg) {
         if (!write(SerialMessage::welcomeMsg(), 200))
             return false;
-
+        m_serialPort->waitForBytesWritten(1000);
+        m_serialPort->waitForReadyRead(1000);
         auto reply = read(200);
         SerialMessage msg;
         msg.parseCommand(reply);
@@ -131,20 +154,8 @@ bool Sterownik::configureDevice(bool wlcmmsg)
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
-        QThread::currentThread()->msleep(200);
-
-        /*
-        auto reply = read(100);
-        SerialMessage msg;
-        msg.parseCommand(reply);
-
-        if (msg.getParseReply() != SerialMessage::CONF_REPLY && msg.getSilnik() != i) {
-            emit error(QString("Bledna odpowiedz dla  %1").arg(i));
-            emit kontrolerConfigured(PARAMS_FAILD);
-            return false;
-        }
-        emit zdarzenieSilnik(i, msg.getActive() ? M_ACTIVE : M_NOACTIVE);
-        */
+        m_serialPort->waitForBytesWritten(1000);
+        m_serialPort->waitForReadyRead(1000);
     }
 
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
@@ -153,6 +164,8 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
+    m_serialPort->waitForBytesWritten(1000);
+    m_serialPort->waitForReadyRead(1000);
 
     auto reply = read(200);
     SerialMessage msg;
@@ -246,13 +259,13 @@ bool Sterownik::openDevice()
     m_serialPort->clear();
     m_serialPort->clearError();
     m_serialPort->flush();
-    m_serialPort->reset();
+    //m_serialPort->reset();
     m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort->setBaudRate(QSerialPort::Baud115200);
     m_serialPort->setDataBits(QSerialPort::Data8);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
-    //m_serialPort->setReadBufferSize(32);
+    m_serialPort->setReadBufferSize(32);
 
     QThread::currentThread()->sleep(1);
 
@@ -303,6 +316,13 @@ void Sterownik::setReset()
     }
 }
 
+void Sterownik::setStopMotor(short nrSilnik)
+{
+    if (connected()) {
+        m_writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
+    }
+}
+
 bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTimeout)
 {
 
@@ -346,7 +366,8 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
 #ifdef SERIALLINUX
     if (m_serialPort == nullptr)
         return QByteArray();
-    if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
+    if (m_serialPort->bytesAvailable() > 0) {
+    //if (m_serialPort->waitForReadyRead(currentWaitReadTimeout)) {
         responseData = m_serialPort->readAll();
         qDebug() << "R=" << responseData.size();
         //if (responseData.size() > 0) {
@@ -360,6 +381,8 @@ QByteArray Sterownik::read(int currentWaitReadTimeout)
             responseData += r;
             currentWaitReadTimeout -= 10;
         }
+    } else {
+        m_serialPort->clear(QSerialPort::Direction::Input);
     }
     if (responseData.size() > 0)
         DEBUGSER(QString("READ %1 bytes [%2]").arg(responseData.size()).arg(responseData.toHex(' ').constData()));

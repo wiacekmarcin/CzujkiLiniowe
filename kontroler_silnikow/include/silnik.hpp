@@ -101,8 +101,6 @@ public:
     int32_t getGlobalPos() const { return globalPos; }
     
 
-    
-
     bool isHome() const { return home; }
     bool isInterrupted() const { return interrupted; }
 
@@ -133,5 +131,6 @@ protected:
     uint16_t cntPomSkip;
     uint16_t maxCntSkip;
     bool firstTime;
+    bool errorMove;
 };
 #endif // __SILNIK_H__

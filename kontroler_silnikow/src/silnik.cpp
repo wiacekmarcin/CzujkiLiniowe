@@ -43,7 +43,7 @@ void Motor::init(WorkMode::WorkModeEnum mode)
 			break;
 	    case WorkMode::KATOWA_POZ:
 			setStopPtr = &Motor::setStopGDLP;
-    		moveHomePtr = &Motor::moveHomeLewoPrawoFirstTime;
+    		moveHomePtr = &Motor::moveHomeLewoPrawo;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
 			break;
@@ -66,7 +66,10 @@ void Motor::setSoftStop()
 	mstate = IDLE;
 	interrupted = true;
 	digitalWrite(MOVEPIN, LOW);
-	stopMove(home, true, true);
+	if (move) {
+		stopMove(home, true, true);
+		move = false;
+	}
 	return;
 }
 

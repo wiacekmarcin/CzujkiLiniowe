@@ -54,6 +54,7 @@ public:
         SET_PARAMS,
         SET_POSITION,
         SET_HOME,
+        SET_STOP,
         DISCONNECT,
         RESET,
     } Task;

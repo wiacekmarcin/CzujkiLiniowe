@@ -93,6 +93,7 @@ public:
     static QByteArray setPosition(uint8_t addr, uint32_t x, uint32_t imp);
 
     static QByteArray resetSilniki();
+    static QByteArray stopSilnik(short nrSilnik);
 
 
 

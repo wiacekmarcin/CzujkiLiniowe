@@ -34,7 +34,7 @@ static void welcomeMsg();
 static void configuration();
 static void moveSteps();
 static void resetRequest();
-//static void sendProgressMsg(uint8_t index);
+static void stopRequest();
 
 static void checkPins(uint8_t p);
 
@@ -223,6 +223,7 @@ void loop (void)
     case MessageSerial::CONFIGURATION_LOCAL: configurationLocal(); break; 
     case MessageSerial::MOVE_REQUEST: moveSteps(); break;
     case MessageSerial::RESET_REQUEST: resetRequest(); break;
+    case MessageSerial::STOP_REQUEST: stopRequest(); break;
     default:
     break;
     }
@@ -312,6 +313,17 @@ void resetRequest()
         }
     }
     actWork = MessageSerial::NOP;
+}
+
+void stopRequest()
+{
+#ifdef DEBUG
+    SERIALDBG.println("Stop");
+#endif     
+    uint8_t motor = msg.getAddress()-1;
+    motors[motor].stop();
+    actWork = MessageSerial::NOP;
+    delay(1500);
 }
 
 volatile unsigned long prevZw = 0;

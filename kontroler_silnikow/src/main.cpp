@@ -24,7 +24,7 @@
 	#define MSD2(T,P) Serial.print(T,P)
 	#define MSDN2(T,P) Serial.println(T,P)
 
-	#define MSDP(T, V) SD(T);SD(V)
+	#define MSDP(T, V) MSD(T);MSD(V)
 	#define MSDPN(T, V) MSD(T);MSDN(V)
     #define MSPHEX(X) phex(X)
     #define MSPRINT(N)	MSD("Sending (");MSD(__FILE__);MSD(":");MSD(__LINE__);MSD(") [");for(unsigned char i=0;i<N;++i){MSPHEX(smsg.sendBuff[i]);}MSDN("]");
@@ -51,7 +51,6 @@ void setBusy(bool busy)
 {
 	digitalWrite(BUSYPIN, busy ? LOW : HIGH);
 	if (!busy) {
-		smsg.sendPos = 0;
 		smsg.recvPos = 0;
 	}
 }
@@ -68,16 +67,17 @@ uint8_t getAddress()
 }
 
 volatile bool stopMessagePrepare = false;
+
 void setStopSoft()
 {
-	//MSDN("SI");
+	MSDN("SI");
 	//stopMessagePrepare = true;
 	mot.setStop(false);
 }
 
 void setStopHard()
 {
-	//MSDN("HI");
+	MSDN("HI");
 	mot.setStop(true);
 }
 
@@ -132,7 +132,7 @@ void setup()
 	
 	mode.init(address - baseAddr);
 	mot.init(mode.getMode());
-	//digitalWrite(ENPIN, (mode.iMSDebugMode() && mode.getMode() == WorkMode::CHECKKRANC) ? HIGH : LOW);
+
 	if (mode.isDebugMode()) {
 		Serial.println("DEBUG MODE");
 		return;
@@ -203,8 +203,11 @@ static void requestEvent()
 	MSDP("sendPos=", smsg.sendPos);MSDP(" sizeSendMsg=", smsg.sizeSendMsg);
 	MSPRINT(smsg.sizeSendMsg);
 
-	for (unsigned int t = 0; t < smsg.sizeSendMsg; t++)
-		Wire.write(smsg.sendBuff[smsg.sendPos++]);
+	smsg.sendPos = 0;
+	uint8_t msize = smsg.sizeSendMsg;
+	smsg.sizeSendMsg = 0;
+	for (unsigned int t = 0; t <msize ; t++)
+		Wire.write(smsg.sendBuff[t]);
 }
 
 void phex(uint8_t b)
@@ -214,6 +217,7 @@ void phex(uint8_t b)
 		Serial.print("0");
 	Serial.print(b, HEX);
 }
+
 
 
 

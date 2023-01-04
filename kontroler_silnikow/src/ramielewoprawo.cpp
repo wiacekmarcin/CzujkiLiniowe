@@ -10,8 +10,8 @@ bool Motor::moveHomeLewoPrawo(uint32_t delayImpOrg)
 {
     VSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
-    home = true;
-    move = true;
+    home = false;
+    //move = true;
     interrupted = false;
     mstate = HOMEPOS;
     setDirBase(true);
@@ -48,6 +48,9 @@ bool Motor::moveHomeLewoPrawo(uint32_t delayImpOrg)
 
 bool Motor::moveHomeLewoPrawoFirstTime(uint32_t delayImpOrg)
 {
+#if 1
+        return true;
+#else    
     VSDPN(__FILE__, __LINE__);
     uint32_t delayImp = (delayImpOrg>>1)*10; 
     uint32_t steps = 0;    
@@ -143,5 +146,6 @@ bool Motor::moveHomeLewoPrawoFirstTime(uint32_t delayImpOrg)
     VSDN("Koniec pierwszego razu");
     mstate = IDLE;
     moveHomePtr = &Motor::moveHomeLewoPrawo;
-    return true;   
+    return true;
+#endif       
 }

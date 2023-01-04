@@ -113,11 +113,10 @@ void SPIMessage::sendConfiguration()
     SERIALDBG.print("motor = ");
     SERIALDBG.println(id, DEC);
 #endif  
-    digitalWrite(stopPin, LOW);
+    
     uint8_t sendMsg[confLen];
     memcpy(sendMsg, confMsg, confLen);
-    digitalWrite(stopPin, HIGH);
-
+    
     replyMsgSize = 3;
     sendSpiMsg(sendMsg, confLen);
 }
@@ -133,14 +132,11 @@ void SPIMessage::stop()
 #endif      
     digitalWrite(stopPin, LOW);   
     delayMicroseconds(20);
-    digitalWrite(stopPin, HIGH);   
+    digitalWrite(stopPin, HIGH);  
 }
 
 void SPIMessage::moveSteps(uint8_t *msg, uint8_t len)
 {
-    digitalWrite(stopPin, LOW);
-    delayMicroseconds(20);
-    digitalWrite(stopPin, HIGH);
 #ifdef DEBUG
     SERIALDBG.print("M");
     SERIALDBG.print(addr, DEC);
@@ -201,24 +197,18 @@ void SPIMessage::getReply()
     uint8_t recvBuff[20];
     uint8_t recvPos = 0;
 
-    Wire.requestFrom(addr, (uint8_t)replyMsgSize);    // komunikaty sa glownie 3 bajtowe
-    while (Wire.available() && recvPos < replyMsgSize) { // peripheral may send less than requested
+    uint8_t recvS = Wire.requestFrom(addr, replyMsgSize);    // komunikaty sa glownie 3 bajtowe
+    while (Wire.available()) { // peripheral may send less than requested
         recvBuff[recvPos++] = Wire.read(); // receive a byte as character
     }
+    SERIALDBG.print("recvS=");
+    SERIALDBG.println(recvS);
     if (recvPos < 3) {
         SERIALDBG.print("To short Message [");
         SERIALDBG.print(recvPos, DEC);
         SERIALDBG.println("]");
         return;
     }
-        
-    uint8_t cmd = (recvBuff[0] >> 4) & 0x0f;
-    uint8_t len = recvBuff[0] & 0x0f;
-    uint8_t id = (recvBuff[1] >> 4) & 0x0f;
-    uint8_t opt = recvBuff[1] & 0x0f;
-    
-    
-    
 #ifdef DEBUG    
     SERIALDBG.print("Recv Msg : [");
     for (uint8_t r = 0; r < recvPos; r++) {
@@ -228,20 +218,29 @@ void SPIMessage::getReply()
     SERIALDBG.println("]");
 #endif
 
-    if (cmd == MessageSerial::CONF_REP && id == this->id) {
-        SERIALDBG.println("Send to PC");
-        SERIALOUT.write(recvBuff, len + 3);
-    }
+    uint8_t tmp = 0;
+    while (tmp < recvPos) {
+        uint8_t cmd = (recvBuff[tmp+0] >> 4) & 0x0f;
+        uint8_t len = recvBuff[tmp+0] & 0x0f;
+        uint8_t id = (recvBuff[tmp+1] >> 4) & 0x0f;
+        uint8_t opt = recvBuff[tmp+1] & 0x0f;
+        if (cmd == MessageSerial::CONF_REP && id == this->id) {
+            SERIALDBG.println("Send to PC");
+            SERIALOUT.write(recvBuff+tmp, len + 3);
+        }
 
-    if (cmd == MessageSerial::MOVE_REP && id == this->id) {
-        SERIALDBG.println("Send to PC");
-        SERIALOUT.write(recvBuff, len + 3);
-        sendProgressMsg();
-    }
+        if (cmd == MessageSerial::MOVE_REP && id == this->id) {
+            SERIALDBG.println("Send to PC");
+            SERIALOUT.write(recvBuff+tmp, len + 3);
+            delay(50);
+            sendProgressMsg();
+        }
 
-    if (cmd == MessageSerial::PROGRESS_REP && id == this->id) {
-        SERIALDBG.println("Send to PC");
-        SERIALOUT.write(recvBuff, len + 3);
+        if (cmd == MessageSerial::PROGRESS_REP && id == this->id) {
+            SERIALDBG.println("Send to PC");
+            SERIALOUT.write(recvBuff+tmp, len + 3);
+        }
+        tmp += len+3;
     }
 }
 

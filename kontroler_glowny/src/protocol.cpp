@@ -179,7 +179,14 @@ bool MessageSerial::parseRozkaz()
         }
         case RESET_REQ:
         {
-            actWork = RESET_REQUEST;
+            if (address == 0) {
+                actWork = RESET_REQUEST;
+            }
+            else if (address < 10) {
+                actWork = STOP_REQUEST;
+            }
+            else
+                actWork = NOP;
             return true;
         }    
         default:

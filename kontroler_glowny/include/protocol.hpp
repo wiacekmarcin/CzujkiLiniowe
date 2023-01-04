@@ -17,6 +17,7 @@ class MessageSerial
         CONFIGURATION_LOCAL,
         MOVE_REQUEST,
         RESET_REQUEST,
+        STOP_REQUEST
     } Work;
 
     typedef enum _msg {

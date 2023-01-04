@@ -1802,7 +1802,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2051,7 +2051,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2173,7 +2173,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2232,13 +2232,6 @@ w stopniach/mm </string>
           </property>
          </widget>
         </item>
-        <item row="11" column="11" colspan="2">
-         <widget class="QPushButton" name="pbReset">
-          <property name="text">
-           <string>Reset</string>
-          </property>
-         </widget>
-        </item>
         <item row="3" column="14">
          <widget class="QLabel" name="actPos_2">
           <property name="text">
@@ -2274,7 +2267,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2310,7 +2303,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2356,7 +2349,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2385,7 +2378,7 @@ w stopniach/mm </string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2458,7 +2451,7 @@ bazowa</string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2508,7 +2501,7 @@ pozycja</string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2610,7 +2603,7 @@ pozycja</string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
           </property>
          </widget>
         </item>
@@ -2656,7 +2649,14 @@ pozycja</string>
            <enum>QFrame::Box</enum>
           </property>
           <property name="text">
-           <string> </string>
+           <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="11" column="11" colspan="2">
+         <widget class="QPushButton" name="pbStop">
+          <property name="text">
+           <string>Stop</string>
           </property>
          </widget>
         </item>
@@ -2672,10 +2672,31 @@ pozycja</string>
         <enum>QFrame::Raised</enum>
        </property>
        <layout class="QGridLayout" name="gridLayout_4">
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Nawa portu:</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="3">
+         <widget class="QLabel" name="namePort">
+          <property name="text">
+           <string>Port</string>
+          </property>
+         </widget>
+        </item>
         <item row="0" column="1">
          <widget class="QPushButton" name="pbDisconnect">
           <property name="text">
            <string>Rozłacz</string>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QPushButton" name="pbConnect">
+          <property name="text">
+           <string>Połącz</string>
           </property>
          </widget>
         </item>
@@ -2734,7 +2755,7 @@ pozycja</string>
               <string notr="true">background-color:red</string>
              </property>
              <property name="text">
-              <string> </string>
+              <string/>
              </property>
             </widget>
            </item>
@@ -2887,20 +2908,6 @@ pozycja</string>
           </layout>
          </widget>
         </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_6">
-          <property name="text">
-           <string>Nawa portu:</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="3">
-         <widget class="QLabel" name="namePort">
-          <property name="text">
-           <string>Port</string>
-          </property>
-         </widget>
-        </item>
         <item row="0" column="4" colspan="2">
          <spacer name="horizontalSpacer_2">
           <property name="orientation">
@@ -2914,10 +2921,17 @@ pozycja</string>
           </property>
          </spacer>
         </item>
-        <item row="0" column="0">
-         <widget class="QPushButton" name="pbConnect">
+        <item row="0" column="6">
+         <widget class="QPushButton" name="pbReset">
           <property name="text">
-           <string>Połącz</string>
+           <string>Reset</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="6">
+         <widget class="QPushButton" name="pbSetConf">
+          <property name="text">
+           <string>Załaduj konfigurację</string>
           </property>
          </widget>
         </item>

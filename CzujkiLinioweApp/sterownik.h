@@ -51,6 +51,7 @@ public:
     void setParams();
     void setPositionSilnik(int silnik, bool home, uint32_t steps, uint32_t impTime);
     void setReset();
+    void setStopMotor(short nrSilnik);
     QString getProduct();
     QString getVendor();
     QString getSerialNumber();
@@ -86,6 +87,7 @@ protected:
 
     void connectToSerialJob();
     void closeDeviceJob();
+    void configureMotorsJob();
 
     /***************************** Inne funkcje zwiazane z wiadaomosciamia ********************/
 

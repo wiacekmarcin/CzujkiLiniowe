@@ -16,7 +16,7 @@
 	#define SSDP(T, V) SSD(T); SSD(V)
 	#define SSDPN(T, V) SSD(T); SSDN(V)
     #define SSPHEX(X) phex(X)
-    #define SSPRINT(N)	SSD("To Send (");SSD(__FILE__);SSD(":");SSD(__LINE__);SSD(") [");for (short i=0;i<N;++i){ SSPHEX(sendBuff[i]); }SSDN("]");
+    #define SSPRINT(N)	SSD("Add to send (");SSD(__FILE__);SSD(":");SSD(__LINE__);SSD(") [");for (unsigned short i=0;i<(N);++i){ SSPHEX(sendBuff[i]); }SSDN("]");
 #else
 	#define SSD(T) 
 	#define SSDN(T) 
@@ -128,7 +128,6 @@ bool SPIMessage::proceed()
 
 			pinMode(STOPPIN, INPUT);
 
-			attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
 			SSDN("BUSY OFF");
 			setBusy(false);
 			digitalWrite(MOVEPIN, LOW);
@@ -154,6 +153,7 @@ bool SPIMessage::proceed()
 			SSDN("BUSY OFF");
             msg.clear();
             setBusy(false);
+			attachInterrupt(digitalPinToInterrupt(STOPPIN), setStopSoft, FALLING);
 			break;
 		}
 
@@ -289,11 +289,8 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 
 void SPIMessage::moveStopRequest(bool home, bool succ, bool interrupted)
 {
-
+	SSD("Ruch Stop. Home = ");SSD(home ? "Tak" : "Nie");SSD(" succ = ");SSD(succ);SSD(" Interrupted = ");SSDN(interrupted);
 	setBusy(true);
-    bool wasMove = false;
-	bool wasErr = mot->;
-
 	CRC8 crc;
 	crc.restart();
 	sendBuff[0] = (MOVE_REP << 4) & 0xf0;

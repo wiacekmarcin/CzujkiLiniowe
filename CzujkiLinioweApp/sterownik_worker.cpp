@@ -42,11 +42,19 @@ void SterownikReader::run()
         quit = !runWorker;
         mutexRun.unlock();
 
-        QByteArray responseData = sd->read(1000);
+        //qDebug() << "read";
+        QByteArray responseData = sd->read(500);
         if (responseData.size() > 0) {
             DEBUGSER(QString("[RECV] %1").arg(responseData.toHex(' ').data()));
             receiveData.push_back(responseData);
             sd->parseMessage(receiveData);
+        } else {
+            QThread::currentThread()->msleep(500);
+            mutexRun.lock();
+            quit = !runWorker;
+            mutexRun.unlock();
+            if (quit)
+                return;
         }
     } while (!quit);
 }
@@ -148,7 +156,7 @@ void SterownikWriter::run()
             break;
 
         case SET_PARAMS:
-            sd->write(msg, 1000);
+            sd->configureMotorsJob();
             break;
 
         case SET_HOME:

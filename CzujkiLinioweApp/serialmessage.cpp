@@ -78,6 +78,11 @@ QByteArray SerialMessage::resetSilniki()
     return prepareMessage(RESET_REQ, addrKontrolera, 0, nullptr, 0);
 }
 
+QByteArray SerialMessage::stopSilnik(short nrSilnik)
+{
+    return prepareMessage(RESET_REQ, nrSilnik, 0, nullptr, 0);
+}
+
 bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options, uint8_t & cmd, uint8_t & len,  QByteArray & data)
 {
     if (arr.length() == 0) {

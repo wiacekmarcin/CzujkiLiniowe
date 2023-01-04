@@ -109,6 +109,8 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     connect(ui->pbConnect, &QPushButton::clicked, this, &TestSterownikaDlg::pbConnect_clicked);
     connect(ui->pbDisconnect,&QPushButton::clicked, this, &TestSterownikaDlg::pbDisconnect_clicked);
     connect(ui->pbReset, &QPushButton::clicked, this, &TestSterownikaDlg::pbResett_clicked);
+    connect(ui->pbStop, &QPushButton::clicked, this, &TestSterownikaDlg::pbStop_clicked);
+
 
 
     ADDICONS_ALL
@@ -347,6 +349,26 @@ void TestSterownikaDlg::pbResett_clicked()
 {
     ui->dbg3->append(QString("Reset na życzenie"));
     sd->setReset();
+}
+
+void TestSterownikaDlg::pbStop_clicked()
+{
+    ui->dbg3->append(QString("Stop wszystko"));
+    sd->setStopMotor(1);
+    sd->setStopMotor(2);
+    sd->setStopMotor(3);
+    sd->setStopMotor(4);
+    sd->setStopMotor(5);
+    sd->setStopMotor(6);
+    sd->setStopMotor(7);
+    sd->setStopMotor(8);
+    sd->setStopMotor(9);
+}
+
+void TestSterownikaDlg::pbLoadConf_clicked()
+{
+    ui->dbg3->append("Ładowanie konfiguracji");
+    sd->setParams();
 }
 
 void TestSterownikaDlg::sd_debug(const QString &d)
