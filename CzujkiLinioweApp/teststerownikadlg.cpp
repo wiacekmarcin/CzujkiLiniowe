@@ -131,6 +131,8 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
         ui->namePort->setText(sdv->portName());
         ui->pbConnect->setEnabled(false);
         ui->pbDisconnect->setEnabled(true);
+        ui->pbReset->setEnabled(true);
+        ui->pbSetConf->setEnabled(true);
         for (short i = 1; i < 10; ++i) {
             ikonyStatusu[i].first->setStyleSheet("background-color:green");
             ikonyStatusu[i].second->setStyleSheet("background-color:green");
@@ -139,6 +141,14 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
         ui->frame_3->setEnabled(false);
         ui->pbDisconnect->setEnabled(false);
         ui->pbConnect->setEnabled(true);
+        ui->pbReset->setEnabled(false);
+        ui->pbSetConf->setEnabled(false);
+        for (short i = 1; i < 10; ++i) {
+            ikonyStatusu[i].first->setStyleSheet("background-color:gray");
+            ikonyStatusu[i].second->setStyleSheet("background-color:gray");
+            ikonyRuchu[i].first->setStyleSheet("background-color:gray");
+            ikonyRuchu[i].second->setStyleSheet("background-color:gray");
+        }
     }
 }
 
@@ -219,6 +229,8 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
             ikonyRuchu[i].first->setStyleSheet("background-color:yellow");
             ikonyRuchu[i].second->setStyleSheet("background-color:green");
         }
+        ui->pbReset->setEnabled(true);
+        ui->pbSetConf->setEnabled(true);
         break;
     case Sterownik::PARAMS_FAILD:
         ui->iconKonf->setStyleSheet("background-color:red");
@@ -230,9 +242,13 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
         ui->iconAuth->setStyleSheet("background-color:gray");
         ui->iconOpen->setStyleSheet("background-color:gray");
         ui->iconFound->setStyleSheet("background-color:gray");
+        ui->pbReset->setEnabled(false);
+        ui->pbSetConf->setEnabled(false);
         for (short i = 1; i < 10; ++i) {
             ikonyStatusu[i].first->setStyleSheet("background-color:gray");
             ikonyStatusu[i].second->setStyleSheet("background-color:gray");
+            ikonyRuchu[i].first->setStyleSheet("background-color:gray");
+            ikonyRuchu[i].second->setStyleSheet("background-color:gray");
         }
         break;
     default:

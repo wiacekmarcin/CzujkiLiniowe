@@ -32,7 +32,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     sd = new Sterownik(&u, this);
-    sd->setThread(&sdThreadW, &sdThreadR);
+    //sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
 

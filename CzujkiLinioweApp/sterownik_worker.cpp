@@ -8,6 +8,7 @@
 #include <QElapsedTimer>
 
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+#ifndef NEWINTERFACE
 
 SterownikReader::SterownikReader(Sterownik* device):
     QThread(nullptr),
@@ -64,16 +65,23 @@ void SterownikReader::debugFun(const QString &s)
     emit debug(s);
 }
 
-/*******/
+#endif
+
+#define CONN(X) connect(this, &SterownikWriter::X, device, &Sterownik::X, Qt::QueuedConnection)
 
 SterownikWriter::SterownikWriter(Sterownik* device):
-    QThread(nullptr),
-    sd(device)
+    QThread(nullptr)
 {
     actTask = IDLE;
     runWorker = true;
 
-    connect(this, &SterownikWriter::debug, device, &Sterownik::debug, Qt::QueuedConnection);
+    CONN(debug);
+    CONN(connectToSerialJob);
+    CONN(configureMotorsJob);
+    CONN(write);
+    CONN(closeDeviceJob);
+
+
 }
 
 SterownikWriter::~SterownikWriter()
@@ -146,33 +154,34 @@ void SterownikWriter::run()
         }
         zadanie = actTask;
         mutex.unlock();
+        QThread::currentThread()->msleep(50);
         DEBUGSER(QString("actTask = %1").arg(zadanie));
         switch(zadanie) {
         case IDLE:
             break;
 
         case CONNECT:
-            sd->connectToSerialJob();
+            emit connectToSerialJob();
             break;
 
         case SET_PARAMS:
-            sd->configureMotorsJob();
+            emit configureMotorsJob();
             break;
 
         case SET_HOME:
-            sd->write(msg, 1000);
+            emit write(msg, 1000);
             break;
 
         case SET_POSITION:
-            sd->write(msg, 1000);
+            emit write(msg, 1000);
             break;
 
         case DISCONNECT:
-            sd->closeDeviceJob();
+            emit closeDeviceJob();
             break;
 
         case RESET:
-            sd->write(msg, 1000);
+            emit write(msg, 1000);
             break;
 
         default:
@@ -200,3 +209,4 @@ SterownikWriter::Task SterownikWriter::getActTask()
     mutex.unlock();
     return ret;
 }
+

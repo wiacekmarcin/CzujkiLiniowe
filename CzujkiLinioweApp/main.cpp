@@ -3,6 +3,9 @@
 #include <QApplication>
 #include <QLocale>
 #include <QTranslator>
+#include <QObject>
+#include <QSerialPort>
+
 
 int main(int argc, char *argv[])
 {
@@ -25,3 +28,4 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
+

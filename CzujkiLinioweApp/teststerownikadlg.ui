@@ -2975,81 +2975,114 @@ pozycja</string>
  </widget>
  <tabstops>
   <tabstop>motorName1</tabstop>
-  <tabstop>motorName2</tabstop>
-  <tabstop>motorName3</tabstop>
-  <tabstop>motorName4</tabstop>
-  <tabstop>motorName5</tabstop>
-  <tabstop>motorName6</tabstop>
-  <tabstop>motorName7</tabstop>
-  <tabstop>motorName8</tabstop>
-  <tabstop>motorName9</tabstop>
   <tabstop>maxSteps1</tabstop>
-  <tabstop>maxSteps2</tabstop>
-  <tabstop>maxSteps3</tabstop>
-  <tabstop>maxSteps4</tabstop>
-  <tabstop>maxSteps5</tabstop>
-  <tabstop>maxSteps6</tabstop>
-  <tabstop>maxSteps7</tabstop>
-  <tabstop>maxSteps8</tabstop>
-  <tabstop>maxSteps9</tabstop>
   <tabstop>base1</tabstop>
-  <tabstop>base2</tabstop>
-  <tabstop>base3</tabstop>
-  <tabstop>base4</tabstop>
-  <tabstop>base5</tabstop>
-  <tabstop>base6</tabstop>
-  <tabstop>base7</tabstop>
-  <tabstop>base8</tabstop>
-  <tabstop>base9</tabstop>
+  <tabstop>srodekKroki1</tabstop>
   <tabstop>delay1</tabstop>
-  <tabstop>delay2</tabstop>
-  <tabstop>delay3</tabstop>
-  <tabstop>delay4</tabstop>
-  <tabstop>delay5</tabstop>
-  <tabstop>delay6</tabstop>
-  <tabstop>delay7</tabstop>
-  <tabstop>delay8</tabstop>
-  <tabstop>delay9</tabstop>
   <tabstop>obrot1</tabstop>
+  <tabstop>ratio1</tabstop>
+  <tabstop>motorName2</tabstop>
+  <tabstop>maxSteps2</tabstop>
+  <tabstop>base2</tabstop>
+  <tabstop>srodekKroki2</tabstop>
+  <tabstop>delay2</tabstop>
   <tabstop>obrot2</tabstop>
+  <tabstop>ratio2</tabstop>
+  <tabstop>motorName3</tabstop>
+  <tabstop>maxSteps3</tabstop>
+  <tabstop>base3</tabstop>
+  <tabstop>srodekKroki3</tabstop>
+  <tabstop>delay3</tabstop>
   <tabstop>obrot3</tabstop>
+  <tabstop>ratio3</tabstop>
+  <tabstop>motorName4</tabstop>
+  <tabstop>maxSteps4</tabstop>
+  <tabstop>base4</tabstop>
+  <tabstop>srodekKroki4</tabstop>
+  <tabstop>delay4</tabstop>
   <tabstop>obrot4</tabstop>
+  <tabstop>ratio4</tabstop>
+  <tabstop>motorName5</tabstop>
+  <tabstop>maxSteps5</tabstop>
+  <tabstop>base5</tabstop>
+  <tabstop>srodekKroki5</tabstop>
+  <tabstop>delay5</tabstop>
   <tabstop>obrot5</tabstop>
+  <tabstop>ratio5</tabstop>
+  <tabstop>motorName6</tabstop>
+  <tabstop>maxSteps6</tabstop>
+  <tabstop>base6</tabstop>
+  <tabstop>srodekKroki6</tabstop>
+  <tabstop>delay6</tabstop>
   <tabstop>obrot6</tabstop>
+  <tabstop>ratio6</tabstop>
+  <tabstop>motorName7</tabstop>
+  <tabstop>maxSteps7</tabstop>
+  <tabstop>base7</tabstop>
+  <tabstop>srodekKroki7</tabstop>
+  <tabstop>delay7</tabstop>
   <tabstop>obrot7</tabstop>
+  <tabstop>ratio7</tabstop>
+  <tabstop>motorName8</tabstop>
+  <tabstop>maxSteps8</tabstop>
+  <tabstop>base8</tabstop>
+  <tabstop>srodekKroki8</tabstop>
+  <tabstop>delay8</tabstop>
   <tabstop>obrot8</tabstop>
+  <tabstop>ratio8</tabstop>
+  <tabstop>motorName9</tabstop>
+  <tabstop>maxSteps9</tabstop>
+  <tabstop>base9</tabstop>
+  <tabstop>srodekKroki9</tabstop>
+  <tabstop>delay9</tabstop>
   <tabstop>obrot9</tabstop>
+  <tabstop>ratio9</tabstop>
   <tabstop>pbSetConfiguration</tabstop>
+  <tabstop>pbConnect</tabstop>
+  <tabstop>pbDisconnect</tabstop>
+  <tabstop>pbReset</tabstop>
+  <tabstop>pbSetConf</tabstop>
   <tabstop>pbHome_1</tabstop>
   <tabstop>posX_1</tabstop>
+  <tabstop>speedPos1</tabstop>
   <tabstop>pbUstawPos_1</tabstop>
   <tabstop>pbHome_2</tabstop>
   <tabstop>posX_2</tabstop>
+  <tabstop>speedPos2</tabstop>
   <tabstop>pbUstawPos_2</tabstop>
   <tabstop>pbHome_3</tabstop>
   <tabstop>posX_3</tabstop>
+  <tabstop>speedPos3</tabstop>
   <tabstop>pbUstawPos_3</tabstop>
   <tabstop>pbHome_4</tabstop>
   <tabstop>posX_4</tabstop>
+  <tabstop>speedPos4</tabstop>
   <tabstop>pbUstawPos_4</tabstop>
   <tabstop>pbHome_5</tabstop>
   <tabstop>posX_5</tabstop>
+  <tabstop>speedPos5</tabstop>
   <tabstop>pbUstawPos_5</tabstop>
   <tabstop>pbHome_6</tabstop>
   <tabstop>posX_6</tabstop>
+  <tabstop>speedPos6</tabstop>
   <tabstop>pbUstawPos_6</tabstop>
   <tabstop>pbHome_7</tabstop>
   <tabstop>posX_7</tabstop>
+  <tabstop>speedPos7</tabstop>
   <tabstop>pbUstawPos_7</tabstop>
   <tabstop>pbHome_8</tabstop>
   <tabstop>posX_8</tabstop>
+  <tabstop>speedPos8</tabstop>
   <tabstop>pbUstawPos_8</tabstop>
   <tabstop>pbHome_9</tabstop>
   <tabstop>posX_9</tabstop>
+  <tabstop>speedPos9</tabstop>
   <tabstop>pbUstawPos_9</tabstop>
   <tabstop>pbHomeAll</tabstop>
-  <tabstop>pbConnect</tabstop>
-  <tabstop>pbDisconnect</tabstop>
+  <tabstop>pbStop</tabstop>
+  <tabstop>dbg1</tabstop>
+  <tabstop>dbg2</tabstop>
+  <tabstop>dbg3</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -3060,8 +3093,8 @@ pozycja</string>
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>710</y>
+     <x>266</x>
+     <y>805</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -3076,8 +3109,8 @@ pozycja</string>
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>710</y>
+     <x>334</x>
+     <y>805</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -5,12 +5,515 @@
 #include <QDebug>
 #include <QMutexLocker>
 #include <QElapsedTimer>
+#include <QEventLoop>
+
+#ifdef NEWINTERFACE
 
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
 Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     : QObject(parent),
-      m_portName(""), m_portNr(-1),
+      m_portName(""),
+      m_connected(false),
+      ust(u),
+      writer(this)
+{
+    //QThread::currentThread()->setObjectName("mainThread");
+    //portThread.setObjectName("portThread");
+    //qDebug() << QThread::currentThread();
+
+    //serialPort.moveToThread(&portThread);
+    //portThread.start();
+
+    writer.moveToThread(&writeThread);
+    writeThread.start();
+
+    connect(&serialPort, &QSerialPort::readyRead, this, &Sterownik::handleReadyRead);
+    connect(&serialPort, &QSerialPort::errorOccurred, this, &Sterownik::handleError);
+    connect(&m_timer, &QTimer::timeout, this, &Sterownik::handleTimeout);
+
+}
+
+bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
+{
+    if (currentRequest.size() > 0)
+    {
+        qDebug() << "write in thread" << QThread::currentThread();
+        qDebug() << serialPort.write(currentRequest);
+        bool ret = serialPort.waitForBytesWritten(waitWrite);
+        qDebug() << ret;
+        return ret;
+    }
+    return true;
+}
+
+bool Sterownik::writeAndRead(const QByteArray &currentRequest, int waitWrite, int waitRead)
+{
+    if (!write(currentRequest, waitWrite)) {
+        DEBUGSER("Write Error");
+        return false;
+    }
+
+    QTimer timer;
+    timer.setSingleShot(true);
+
+    unsigned long befSize = receiveData.size();
+    timer.start(waitRead);
+    connect( &timer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
+    qDebug() << "wait for data";
+    eventLoop.exec(); //wait for rec data
+
+    if(timer.isActive() && receiveData.size() - befSize) {
+        qDebug() << __FILE__ << __LINE__ << "true";
+        return true;
+    } else {
+        qDebug() << __FILE__ << __LINE__ << "false";
+        return false;
+    }
+}
+
+Sterownik::~Sterownik()
+{
+    setConnected(false);
+    m_timer.stop();
+    setStop();
+    writer.wait();
+    //portThread.quit();
+    //portThread.wait();
+}
+
+void Sterownik::setStop()
+{
+    writer.setReset();
+    writer.setStop();
+}
+
+void Sterownik::connectToDevice()
+{
+    if (connected()) {
+        emit kontrolerConfigured(ALL_OK);
+    } else {
+        writer.setReset();
+        writer.setStart();
+        writer.start();
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+        //portThread.start();
+    }
+}
+
+void Sterownik::disconnectDevice()
+{
+    if (connected()) {
+        writer.command(SterownikWriter::DISCONNECT, QByteArray());
+    } else {
+        emit kontrolerConfigured(CLOSE);
+    }
+}
+
+void Sterownik::setParams()
+{
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
+    if (connected()) {
+        writer.command(SterownikWriter::SET_PARAMS, QByteArray());
+    }
+}
+
+void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, unsigned int impTime)
+{
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
+    if (home)
+        writer.command(SterownikWriter::SET_HOME,
+                         SerialMessage::setPositionHome(silnik, impTime));
+    else
+        writer.command(SterownikWriter::SET_POSITION,
+                         SerialMessage::setPosition(silnik,  steps, impTime));
+}
+
+bool Sterownik::connected()
+{
+    const QMutexLocker locker(&connMutex);
+    return m_connected;
+}
+
+void Sterownik::setConnected(bool connected)
+{
+    const QMutexLocker locker(&connMutex);
+    m_connected = connected;
+}
+
+void Sterownik::closeDeviceJob()
+{
+    DEBUGSER("CLOSING DEVICE");
+    writer.setStop();
+    writer.wait();
+    //portThread.quit();
+
+    if (serialPort.isOpen()) {
+        serialPort.flush();
+        serialPort.clear();
+        serialPort.clearError();
+        serialPort.close();
+
+    }
+    setConnected(false);
+    emit kontrolerConfigured(CLOSE);
+    emit deviceName("");
+    DEBUGSER("CLOSE DEVICE");
+}
+void Sterownik::setReset()
+{
+    if (connected()) {
+        writer.command(SterownikWriter::RESET, SerialMessage::resetSilniki());
+    }
+}
+
+void Sterownik::setStopMotor(short nrSilnik)
+{
+    if (connected()) {
+        writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
+    }
+}
+void Sterownik::configureMotorsJob()
+{
+    for (short i = 1 ; i <= 9; ++i) {
+        QByteArray msgBA = SerialMessage::configMotorMsg(
+            i, ust->getMotorOdwrocObroty(i),
+            ust->getMotorMaksIloscImp(i), ust->getMotorIloscImpBaza(i),
+            ust->getMotorIloscImpSrodek(i));
+
+        if (!write(msgBA, 500)) {
+            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit kontrolerConfigured(PARAMS_FAILD);
+        }
+        QThread::currentThread()->msleep(100);
+    }
+    QByteArray msgBA = SerialMessage::configKontrolerMsg();
+    if (!write(msgBA, 500)) {
+        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit kontrolerConfigured(PARAMS_FAILD);
+    }
+}
+
+bool Sterownik::configureDevice()
+{
+    auto r1 = writeAndRead(SerialMessage::welcomeMsg(), 1000, 2000);
+    if (!r1)
+        return false;
+
+
+    SerialMessage msg;
+    msg.parseCommand(receiveData);
+
+    if (msg.getParseReply() != SerialMessage::WELCOME_REPLY) {
+        emit error(QString("Invalid Welcome Msg"));
+        emit kontrolerConfigured(IDENT_FAILD);
+        return false;
+    }
+
+    emit kontrolerConfigured(IDENT_OK);
+
+    for (short i = 1 ; i <= 9; ++i) {
+        QByteArray msgBA = SerialMessage::configMotorMsg(
+            i, ust->getMotorOdwrocObroty(i),
+            ust->getMotorMaksIloscImp(i), ust->getMotorIloscImpBaza(i),
+            ust->getMotorIloscImpSrodek(i));
+
+        if (!write(msgBA, 500)) {
+            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit kontrolerConfigured(PARAMS_FAILD);
+            return false;
+        }
+    }
+
+    QByteArray msgBA = SerialMessage::configKontrolerMsg();
+    auto r2 = writeAndRead(msgBA, 500, 2000);
+    if (!r2)
+    {
+        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit kontrolerConfigured(PARAMS_FAILD);
+        return false;
+    }
+
+
+    SerialMessage msgConf;
+    msgConf.parseCommand(receiveData);
+
+    if (msgConf.getParseReply() != SerialMessage::CONF_MEGA_REPLY || !msgConf.isKontroler()) {
+        emit error(QString("Bledna odpowiedz dla kontrolera"));
+        emit kontrolerConfigured(PARAMS_FAILD);
+        return false;
+    }
+    for (short s = 1; s < 10; ++s) {
+        if (msgConf.getActive(s) && msgConf.getConnected(s) && msgConf.getPinsOk(s)) {
+            emit zdarzenieSilnik(s, M_ACTIVE);
+        } else if (msgConf.getActive(s) && msgConf.getConnected(s) && !msgConf.getPinsOk(s)) {
+            emit zdarzenieSilnik(s, M_NOPINS);
+        } else if (msgConf.getActive(s) && !msgConf.getConnected(s)) {
+            emit zdarzenieSilnik(s, M_NOCOMM);
+        } else
+            emit zdarzenieSilnik(s, M_NOACTIVE);
+    }
+    while (receiveData.size() > 0) {
+        SerialMessage msg;
+        msg.parseCommand(receiveData);
+        if (msg.getParseReply() != SerialMessage::CONF_REPLY) {
+            emit error(QString("Bledna odpowiedz dla kontrolera"));
+            emit kontrolerConfigured(PARAMS_FAILD);
+            return false;
+        }
+        emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
+    }
+
+    emit kontrolerConfigured(PARAMS_OK);
+    return true;
+}
+
+bool Sterownik::openDevice()
+{
+    serialPort.setPort(QSerialPortInfo(m_portName));
+    emit deviceName(serialPort.portName());
+
+    if (!serialPort.open(QIODevice::ReadWrite)) {
+        emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(serialPort.portName()).
+                   arg(serialPort.errorString()));
+        emit kontrolerConfigured(NO_OPEN);
+        return false;
+    }
+    serialPort.clear();
+    serialPort.clearError();
+    serialPort.flush();
+    //serialPort.reset();
+    serialPort.setFlowControl(QSerialPort::NoFlowControl);
+    serialPort.setBaudRate(QSerialPort::Baud115200);
+    serialPort.setDataBits(QSerialPort::Data8);
+    serialPort.setParity(QSerialPort::NoParity);
+    serialPort.setStopBits(QSerialPort::OneStop);
+    serialPort.setReadBufferSize(32);
+
+    QThread::currentThread()->sleep(1);
+
+    emit kontrolerConfigured(OPEN);
+    receiveData.clear();
+    QByteArray startBuf(20, '\0');
+    DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
+    if (writeAndRead(startBuf, 2500, 2500)) {
+        while (receiveData.size()) {
+            if (receiveData.front() != (char)0x0f)
+                return false;
+            receiveData.remove(0, 1);
+        }
+        return true;
+    }
+    return false;
+}
+
+QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
+{
+    //qDebug() << __FILE__ << __LINE__ << "ParseMessage";
+    QVector<SerialMessage> ret;
+    QMap<int, QString> errMap;
+    errMap[SerialMessage::INVALID_REPLY] = "Nie prawidłowa odpowiedź";
+    errMap[SerialMessage::CLR_MESSAGE] = "Wiadomość czyszcząca";
+    errMap[SerialMessage::EMPTY_MESSAGE] = "Pusta wiadomość";
+    errMap[SerialMessage::INPROGRESS_REPLY] = "Wiadomość przerwana";
+    errMap[SerialMessage::WELCOME_REPLY] = "Wiadomość powitalna";
+    errMap[SerialMessage::CONF_REPLY] = "Wiadomość konfiguracyjna";
+    errMap[SerialMessage::MOVEHOME_REPLY] = "Wiadomość HOME_REPLY";
+    errMap[SerialMessage::POSITION_REPLY] = "Wiadomość POSITION_REPLY";
+    errMap[SerialMessage::RESET_REPLY] = "Wiadomość RESET_REPLY";
+    errMap[SerialMessage::CONF_MEGA_REPLY] = "Wiadomość MEGA_REPLY";
+    errMap[SerialMessage::CZUJKA_ZW_REPLY] = "Wiadomość CZUJKA ZW";
+    do {
+        SerialMessage msg;
+        if (!msg.parseCommand(reply)) {
+            DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
+            QString errmsg("Nie poprawna wiadomość:");
+            errmsg + errMap[msg.getParseReply()];
+            emit error(errmsg);
+            if (msg.getParseReply() == SerialMessage::INPROGRESS_REPLY)
+                return ret;
+            continue;
+        }
+
+        DEBUGSER(QString("Parse Msg success %1").arg(errMap[msg.getParseReply()]));
+
+        switch(msg.getParseReply())
+        {
+        case SerialMessage::INVALID_REPLY:
+        case SerialMessage::CLR_MESSAGE:
+        case SerialMessage::EMPTY_MESSAGE:
+        case SerialMessage::INPROGRESS_REPLY:
+        case SerialMessage::WELCOME_REPLY:
+        default:
+            break;
+
+        case SerialMessage::CONF_REPLY:
+            emit setParamsDone(msg.getSilnik(), true, false);
+            if (msg.getReplyConf(msg.getSilnik()))
+                emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
+            break;
+
+        case SerialMessage::MOVEHOME_REPLY:
+            emit setPositionDone(msg.getSilnik(), true, msg.getErrMove(), msg.getStartMove(), 0, 0);
+            break;
+
+        case SerialMessage::POSITION_REPLY:
+            emit setPositionDone(msg.getSilnik(), false, msg.getErrMove(), msg.getStartMove(), msg.getSteps(), 0);
+            break;
+
+        case SerialMessage::CZUJKA_ZW_REPLY:
+            emit czujkaOn();
+
+        case SerialMessage::RESET_REPLY:
+            break;
+        }
+        ret.append(msg);
+    } while (reply.size());
+    return ret;
+}
+
+const QString &Sterownik::portName() const
+{
+    return m_portName;
+}
+
+void Sterownik::handleReadyRead()
+{
+    QByteArray input = serialPort.readAll();
+    DEBUGSER(QString("Recv %1 [%2]").arg(input.size()).arg(input.toHex().toStdString().data()));
+    receiveData.append(input);
+
+    if (eventLoop.isRunning()) {
+        eventLoop.quit();
+    }
+
+    if (!m_timer.isActive())
+        m_timer.start(5000);
+}
+
+void Sterownik::handleTimeout()
+{
+    //qDebug() << "no recv data timeout";
+}
+
+void Sterownik::handleError(QSerialPort::SerialPortError error)
+{
+    if (error == QSerialPort::NoError)
+        return;
+    DEBUGSER(QString("Error %1").arg(error));
+    emit error(serialPort.errorString());
+}
+
+void Sterownik::closeDevice(bool waitForDone)
+{
+    DEBUGSER(QString("close device %1").arg(waitForDone));
+    if (waitForDone) {
+        writer.command(SterownikWriter::DISCONNECT, QByteArray());
+    } else {
+        writer.setReset();
+        closeDeviceJob();
+    }
+    emit deviceName("");
+    m_portName = "";
+    setConnected(false);
+}
+
+void Sterownik::debugFun(const QString &log)
+{
+    emit debug(log);
+}
+
+void Sterownik::connectToSerialJob()
+{
+    if (!connected()) {
+        QString description;
+        QString manufacturer;
+        QString serialNumber;
+        QString vendorId;
+        QString productId;
+
+        QString systemLocation = "";
+        bool findDevice = false;
+
+        DEBUGSER(QString("Szukam urządzenia"));
+
+        const auto serialPortInfos = QSerialPortInfo::availablePorts();
+
+        for (const QSerialPortInfo &serialPortInfo : serialPortInfos) {
+            description = serialPortInfo.description();
+            manufacturer = serialPortInfo.manufacturer();
+            serialNumber = serialPortInfo.serialNumber();
+            vendorId = serialPortInfo.hasVendorIdentifier() ? QString::number(serialPortInfo.vendorIdentifier(), 16) : "";
+            productId = serialPortInfo.hasProductIdentifier() ? QString::number(serialPortInfo.productIdentifier(), 16) : "";
+            DEBUGSER(QString("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
+                     description, manufacturer, serialNumber, vendorId, productId));
+
+            if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
+                if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber())
+                    /*|| (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")*/) {
+                    DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
+                    m_portName = serialPortInfo.portName();
+                    emit deviceName(m_portName);
+                    emit kontrolerConfigured(FOUND);
+                    systemLocation = serialPortInfo.systemLocation();
+                    DEBUGSER(QString("Znaleziono urządzenie"));
+                    findDevice = true;
+                    //break;
+                }
+            }
+        }
+        if (!findDevice) {
+            emit kontrolerConfigured(NO_FOUND);
+            return;
+        }
+
+        DEBUGSER("openDevice");
+        setConnected(openDevice());
+    }
+
+    if (connected()) {
+        setConnected(configureDevice());
+    }
+
+    if (!connected()) {
+        closeDevice(false);
+    } else {
+        //portThread.start();
+        writer.setStart();
+        emit kontrolerConfigured(ALL_OK);
+    }
+
+
+}
+
+QString Sterownik::getProduct()
+{
+    return ust->getSerialDeviceSterownikProduct();
+}
+
+QString Sterownik::getVendor()
+{
+    return ust->getSerialDeviceSterownikVendor();
+}
+
+QString Sterownik::getSerialNumber()
+{
+    return ust->getSerialDeviceSterownikSerial();
+}
+
+
+#else
+
+
+#define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+
+Sterownik::Sterownik(Ustawienia *u, QObject *parent)
+    : QObject(parent),
+      portName(""), m_portNr(-1),
       m_connected(false),  m_writer(this), m_reader(this),
       ust(u)
 {
@@ -280,7 +783,7 @@ bool Sterownik::openDevice()
     read(1000);
     return true;
 #else
-    DEBUGSER(QString("Otwieram urządzenia %1").arg(m_portName));
+    DEBUGSER(QString("Otwieram urządzenia %1").arg(portName));
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
         DEBUGSER(QString("Error open Port"));
@@ -517,7 +1020,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
 
 const QString &Sterownik::portName() const
 {
-    return m_portName;
+    return portName;
 }
 
 void Sterownik::closeDevice(bool waitForDone)
@@ -531,7 +1034,7 @@ void Sterownik::closeDevice(bool waitForDone)
         closeDeviceJob();
     }
     emit deviceName("");
-    m_portName = "";
+    portName = "";
     m_portNr = -1;
     setConnected(false);
 }
@@ -570,8 +1073,8 @@ void Sterownik::connectToSerialJob()
                 if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber())
                     /*|| (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")*/) {
                     DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
-                    m_portName = serialPortInfo.portName();
-                    emit deviceName(m_portName);
+                    portName = serialPortInfo.portName();
+                    emit deviceName(portName);
                     emit kontrolerConfigured(FOUND);
                     systemLocation = serialPortInfo.systemLocation();
                     DEBUGSER(QString("Znaleziono urządzenie"));
@@ -625,4 +1128,5 @@ QString Sterownik::getSerialNumber()
     return ust->getSerialDeviceSterownikSerial();
 }
 
+#endif
 
