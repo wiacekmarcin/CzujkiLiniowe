@@ -57,19 +57,13 @@
                     horizontalLayoutfr##N->setSpacing(2);\
                     horizontalLayoutfr##N->setObjectName(QString("horizontalLayoutfr_%1").arg(N));\
                     horizontalLayoutfr##N->setContentsMargins(2, 2, 2, 2);\
-                    QLabel * iconOK##N = new QLabel(ui->fr##N);\
-                    iconOK##N->setObjectName(QString("iconOK%1").arg(N));\
-                    iconOK##N->setMinimumSize(QSize(15, 15)); \
-                    iconOK##N->setMaximumSize(QSize(15, 15)); \
-                    iconOK##N->setStyleSheet("background-color:red");\
-                    horizontalLayoutfr##N->addWidget(iconOK##N);\
-                    QLabel * iconErr##N = new QLabel(ui->fr##N);\
-                    iconErr##N->setObjectName(QString("iconErr%1").arg(N));\
-                    iconErr##N->setMinimumSize(QSize(15, 15));\
-                    iconErr##N->setMaximumSize(QSize(15, 15));\
-                    iconErr##N->setStyleSheet("background-color:grey");\
-                    horizontalLayoutfr##N->addWidget(iconErr##N);\
-                    ikonyStatusu[N] = qMakePair(iconOK##N, iconErr##N);
+                    QLabel * iconStatus##N = new QLabel(ui->fr##N);\
+                    iconStatus##N->setObjectName(QString("iconOK%1").arg(N));\
+                    iconStatus##N->setMinimumSize(QSize(15, 15)); \
+                    iconStatus##N->setMaximumSize(QSize(15, 15)); \
+                    iconStatus##N->setStyleSheet("background-color:red");\
+                    horizontalLayoutfr##N->addWidget(iconStatus##N);\
+                    ikonyStatusu[N] = iconStatus##N;
 
 #define ADDICONS_ALL    ADDICONS(1) \
                         ADDICONS(2) \
@@ -134,8 +128,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
         ui->pbReset->setEnabled(true);
         ui->pbSetConf->setEnabled(true);
         for (short i = 1; i < 10; ++i) {
-            ikonyStatusu[i].first->setStyleSheet("background-color:green");
-            ikonyStatusu[i].second->setStyleSheet("background-color:green");
+            ikonyStatusu[i]->setStyleSheet("background-color:green");
         }
     } else {
         ui->frame_3->setEnabled(false);
@@ -144,8 +137,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
         ui->pbReset->setEnabled(false);
         ui->pbSetConf->setEnabled(false);
         for (short i = 1; i < 10; ++i) {
-            ikonyStatusu[i].first->setStyleSheet("background-color:gray");
-            ikonyStatusu[i].second->setStyleSheet("background-color:gray");
+            ikonyStatusu[i]->setStyleSheet("background-color:gray");
             ikonyRuchu[i].first->setStyleSheet("background-color:gray");
             ikonyRuchu[i].second->setStyleSheet("background-color:gray");
         }
@@ -245,8 +237,7 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
         ui->pbReset->setEnabled(false);
         ui->pbSetConf->setEnabled(false);
         for (short i = 1; i < 10; ++i) {
-            ikonyStatusu[i].first->setStyleSheet("background-color:gray");
-            ikonyStatusu[i].second->setStyleSheet("background-color:gray");
+            ikonyStatusu[i]->setStyleSheet("background-color:gray");
             ikonyRuchu[i].first->setStyleSheet("background-color:gray");
             ikonyRuchu[i].second->setStyleSheet("background-color:gray");
         }
@@ -278,25 +269,24 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
     switch(zdarzenie) {
     case Sterownik::M_ACTIVE:
         ui->dbg3->append(QString("Silnik %1 aktywny").arg(silnik));
-        ikonyStatusu[silnik].first->setStyleSheet("background-color:green");
-        ikonyStatusu[silnik].second->setStyleSheet("background-color:yellow");
+        ikonyStatusu[silnik]->setStyleSheet("background-color:orange");
+
         break;
     case Sterownik::M_NOCOMM:
         ui->dbg3->append(QString("Brak komunikacji z silnikiem %1").arg(silnik));
-        ikonyStatusu[silnik].first->setStyleSheet("background-color:blue");
+        ikonyStatusu[silnik]->setStyleSheet("background-color:blue");
         break;
     case Sterownik::M_NOPINS:
         ui->dbg3->append(QString("Problemy z pinami dla silnika %1").arg(silnik));
-        ikonyStatusu[silnik].first->setStyleSheet("background-color:yellow");
+        ikonyStatusu[silnik]->setStyleSheet("background-color:yellow");
         break;
     case Sterownik::M_CONFOK:
-        ikonyStatusu[silnik].second->setStyleSheet("background-color:green");
+        ikonyStatusu[silnik]->setStyleSheet("background-color:green");
         break;
     case Sterownik::M_NOACTIVE:
     default: {
         ui->dbg3->append(QString("Silnik %1 nieaktywny").arg(silnik));
-        ikonyStatusu[silnik].first->setStyleSheet("background-color:red");
-        ikonyStatusu[silnik].second->setStyleSheet("background-color:gray");
+        ikonyStatusu[silnik]->setStyleSheet("background-color:red");
         break;
     }
     }
@@ -317,39 +307,39 @@ void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
     pozycja[silnik]->setText(QString::number(val));
 }
 
-void TestSterownikaDlg::sd_setPositionDone(short nrSilnika, bool home, bool success, bool move)
+void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    qDebug() << __FILE__ << __LINE__ << "s=" << nrSilnika << "h=" << home << "e" << !success << "m" << move;
-    if (nrSilnika < 1 || nrSilnika > 9)
+    qDebug() << __FILE__ << __LINE__ << "s=" << silnik << "home=" << home << "move=" << move << "error=" << error << "interrupted=" << interrupt;
+    if (silnik < 1 || silnik > 9)
         return;
 
     // w ruchu
     if (move) {
-        ikonyRuchu[nrSilnika].first->setStyleSheet("background-color:blue");
+        ikonyRuchu[silnik].first->setStyleSheet("background-color:blue");
         if (!home)
-            ikonyRuchu[nrSilnika].second->setStyleSheet("background-color:blue");
+            ikonyRuchu[silnik].second->setStyleSheet("background-color:blue");
     }
 
     if (home) {
-        if (success) {
-            ui->dbg3->append(QString("Zerowanie silnika %1 zakończyło się poprawnie").arg(nrSilnika));
-            ikonyRuchu[nrSilnika].first->setStyleSheet("background-color:green");
+        if (!error) {
+            ui->dbg3->append(QString("Zerowanie silnika %1 zakończyło się poprawnie").arg(silnik));
+            ikonyRuchu[silnik].first->setStyleSheet("background-color:green");
         } else {
-            ui->dbg3->append(QString("Błąd zerowania silnika %1").arg(nrSilnika));
-            ikonyRuchu[nrSilnika].first->setStyleSheet("background-color:red");
+            ui->dbg3->append(QString("Błąd zerowania silnika %1").arg(silnik));
+            ikonyRuchu[silnik].first->setStyleSheet("background-color:red");
         }
     } else {
-        if (success) {
+        if (!error) {
             if (move) {
-                ikonyRuchu[nrSilnika].second->setStyleSheet("background-color:blue");
-                ui->dbg3->append(QString("Rozpoczynam ustawianie pozycji silnika %1").arg(nrSilnika));
+                ikonyRuchu[silnik].second->setStyleSheet("background-color:blue");
+                ui->dbg3->append(QString("Rozpoczynam ustawianie pozycji silnika %1").arg(silnik));
             } else {
-                ikonyRuchu[nrSilnika].second->setStyleSheet("background-color:green");
-                ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się poprawnie").arg(nrSilnika));
+                ikonyRuchu[silnik].second->setStyleSheet("background-color:green");
+                ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się poprawnie").arg(silnik));
             }
         } else {
-            ikonyRuchu[nrSilnika].second->setStyleSheet("background-color:red");
-            ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się błędem").arg(nrSilnika));
+            ikonyRuchu[silnik].second->setStyleSheet("background-color:red");
+            ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się błędem").arg(silnik));
         }
     }
 }

@@ -21,7 +21,7 @@ public:
 
     void sd_kontrolerConfigured(int state);
     void sd_deviceName(QString name);
-    void sd_setPositionDone(short /*nrSilnika*/, bool /*home*/, bool /*success*/, bool /*move*/);
+    void sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
     void sd_setParamsDone(bool success);
     void sd_debug(const QString & d);
     void sd_error(const QString & e);
@@ -48,7 +48,7 @@ private:
     Ui::TestSterownikaDlg *ui;
     Ustawienia * u;
     Sterownik *sd;
-    QMap<short, QPair<QLabel*, QLabel*>> ikonyStatusu;
+    QMap<short, QLabel*> ikonyStatusu;
     QMap<short, QPair<QLabel*, QLabel*>> ikonyRuchu;
     QMap<short, QLabel*> pozycja;
 };

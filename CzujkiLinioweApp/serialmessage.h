@@ -138,6 +138,8 @@ public:
 
     const QString &getError() const;
 
+    bool getInterMove() const;
+
 protected:
 
     bool checkHead(QByteArray &arr, uint8_t &addr, uint8_t &options, uint8_t & cmd, uint8_t & len, QByteArray & data);
@@ -157,6 +159,7 @@ private:
 
     bool startMove;
     bool errMove;
+    bool interMove;
     static constexpr short addrKontrolera = 0;
     QString errStr;
 

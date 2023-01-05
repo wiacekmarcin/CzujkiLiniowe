@@ -18,7 +18,7 @@ class SPIMessage
     uint32_t sizeSendMsg = 0;
     volatile bool sendStopPos = false;
     
-    void moveStopRequest(bool home, bool succ, bool interrupted);
+    void moveStopRequest(bool interrupted, bool move, bool error, bool home);
     bool proceed();
 protected:
 

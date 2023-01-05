@@ -22,115 +22,48 @@
 	#define VSDPN(T, V) 
 #endif
 
+#define PULSE_H digitalWrite(PULSEPIN, HIGH); delayMicroseconds(delayImp); digitalWrite(PULSEPIN, LOW); delayMicroseconds(delayImp);
 
-
-bool Motor::moveHomeGoraDol(uint32_t delayImpOrg)
+void Motor::moveHomeGoraDol(uint32_t delayImpOrg)
 {
+    VSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
-    //zakladam, ze lezy na czujniku
+    home = true;
+    move = true;
+    error = false;
+    interrupted = false;
     mstate = HOMEPOS;
-    VSDPN("Opoznienie=", delayImp);
-    VSD("Czujka lezy na czujniku ");
-    VSDN(digitalRead(KRANCPIN) == LOW);
-    setDirBase(false);
+    setDirBase(true);
 
     uint32_t steps = 0;
-    while(digitalRead(KRANCPIN) == LOW) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS)
-            return false; //TODO jakis blad ustawic ?
-        VSD("+");    
+    
+    if (isKrancowka()) {
+        setDirBase(false);
+        for (unsigned short n = 0; n < middleSteps; n++) {
+            PULSE_H
+        }
+        setDirBase(true);
     }
-
-    while(digitalRead(KRANCPIN) == HIGH) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
+    while(!isKrancowka()) {
+        PULSE_H
         ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS)
-            return false; //TODO jakis blad ustawic ?
-        VSD("+");    
+        if (steps > maxSteps || mstate != HOMEPOS) {
+            error = true;
+            stopMove(interrupted, move, error, home);
+            VSDPN("Err",__LINE__);
+            return; 
+        }
     }
-
-    //wyjechalem poza baze - dojazd do bazy
-    setDirBase(true);
-    steps = 0;
-    while(digitalRead(KRANCPIN) == HIGH) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS)
-            return false; //TODO jakis blad ustawic ?
-        VSD("-");
-    }
-    VSDPN("Ilosc impulsow(50)=",steps);
-    VSDPN("Jeszcze odjazd zgodnie konfiguracja:", baseSteps);
-
     for (unsigned short n = 0; n < baseSteps; n++) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        VSD(".");
+        PULSE_H
     }
+
     globalPos = 0;
     setDirBase(false);
-    VSDPN("Jazda na srodek:", middleSteps);
-    for (globalPos = 0; globalPos < middleSteps; globalPos++) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        VSD("+");
+    for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
+        PULSE_H
     }
-    VSDN("Koniec");
     mstate = IDLE;
-    return true;
-}
-
-bool Motor::moveHomeGoraDolFirstTime(uint32_t delayImpOrg)
-{
-    uint32_t delayImp = delayImpOrg>>1;
-    //zakladam, ze lezy na czujniku
-    mstate = HOMEPOS;
-    VSDPN("Opoznienie=", delayImp);
-    
-    setDirBase(false);
-
-    uint32_t steps = 0;
-    while(digitalRead(KRANCPIN) == LOW) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS)
-            return false; //TODO jakis blad ustawic ?
-        VSD("+");    
-    }
-
-    VSDPN("Ilosc impulsow -> =",steps);
-    steps = 0;
-    while(digitalRead(KRANCPIN) == HIGH) {
-        digitalWrite(PULSEPIN, HIGH);
-        delayMicroseconds(delayImp);
-        digitalWrite(PULSEPIN, LOW);
-        delayMicroseconds(delayImp);
-        ++steps;
-        if (steps > maxSteps || mstate != HOMEPOS)
-            return false; //TODO jakis blad ustawic ?
-        VSD("+");    
-    }
-    
-    VSDPN("Ilosc impulsow <- =",steps);
-    VSDPN("Koniec",steps);
-    moveHomePtr = &Motor::moveHomeGoraDol;
-    return moveHomeGoraDol(delayImpOrg);    
+    move = false;
+    stopMove(interrupted, move, error, home);
 }

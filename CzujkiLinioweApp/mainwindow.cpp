@@ -171,12 +171,12 @@ void MainWindow::ster_deviceName(QString name)
         dlgTestStan->deviceNameSter(name);
 }
 
-void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, bool move)
+void MainWindow::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
     qDebug() << "positionDone";
     if (dlgTestSter)
-        dlgTestSter->sd_setPositionDone(nrSilnika, home, success, move);
-    sterF.setPositionDone(nrSilnika, home, success, move);
+        dlgTestSter->sd_setPositionDone(silnik, home, move, error, interrupt);
+    sterF.setPositionDone(silnik, home, move, error, interrupt);
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)

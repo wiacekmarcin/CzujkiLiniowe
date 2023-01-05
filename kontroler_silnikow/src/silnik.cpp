@@ -6,8 +6,6 @@
 extern Message msg;
 #include "workmode.hpp"
 
-extern void stopMove(bool home, bool succ, bool interrupted);
-
 Motor::Motor() :
     mstate(IDLE) 
     ,actSteps(0)
@@ -20,6 +18,8 @@ Motor::Motor() :
 	,highlevel(false)
 	,newPosition(false)
 	,home(false)
+	,move(false)
+	,error(false)
 	,interrupted(false)
 	,cntPomSkip(0)
     ,maxCntSkip(0)
@@ -35,7 +35,7 @@ void Motor::init(WorkMode::WorkModeEnum mode)
 	switch(mode) {
 		case WorkMode::KATOWA_PION:
 			setStopPtr = &Motor::setStopGDLP;
-    		moveHomePtr = &Motor::moveHomeGoraDolFirstTime;
+    		moveHomePtr = &Motor::moveHomeGoraDol;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
 			break;
@@ -61,19 +61,24 @@ void Motor::setDirBase(bool back)
 	diff = back ? -1 : 1;
 }
 
+void Motor::setMove(bool move)
+{
+	digitalWrite(MOVEPIN, move ? HIGH : LOW);
+	this->move = move;
+}
+
 void Motor::setSoftStop()
 {
 	mstate = IDLE;
 	interrupted = true;
-	digitalWrite(MOVEPIN, LOW);
 	if (move) {
-		stopMove(home, true, true);
-		move = false;
+		Timer1.stop();
+		setMove(false);
+		stopMove(interrupted, move, error, home);
 	}
+	
 	return;
 }
-
-
 
 void Motor::setStopDef(bool hard)
 {
@@ -88,16 +93,24 @@ void Motor::impulseDef()
 	
 }
 
-bool Motor::moveHomeDef(uint32_t)
+void Motor::moveHomeDef(uint32_t)
 {
 	Serial.println("Zla fukncja do HOME");
-	return true;
+	error=true;
+	move=false;
+	home=true;
+	interrupted=false;
+	stopMove(interrupted, move, error, home);
 }
 
-bool Motor::movePositionDef(int32_t, uint32_t) 
+void Motor::movePositionDef(int32_t, uint32_t) 
 {
 	Serial.println("Zla fukncja do MOVE");
-	return false;
+	error=true;
+	move=false;
+	home=false;
+	interrupted=false;
+	stopMove(interrupted, move, error, home);
 }
 
 void Motor::setStopGDLP(bool hard)
@@ -108,7 +121,7 @@ void Motor::setStopGDLP(bool hard)
     //nic nie rob
 }
 
-bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
+void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 {
     highlevel = false;
     uint32_t delayImp = delayImpOrg >> 1;
@@ -118,10 +131,13 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 	VHSDPN("globalPos=", globalPos);
 	VHSDPN("pos=", pos);
 	home = false;
-	move = false;
+	error = false;
+	interrupted = false;
+	setMove(false);
     if (pos == globalPos) {
         mstate = IDLE;
-		return false;
+		stopMove(interrupted, move, error, home);
+		return;
 	} else if (pos > globalPos) {
 		diff = 1;
 		setDirBase(false);
@@ -129,7 +145,7 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 		diff = -1;
 		setDirBase(true);
 	}
-    move = true;
+    setMove(true);
 	VHSDPN("globalPos", globalPos);
 	VHSDPN("pos", pos);
 	newPosition = pos;
@@ -147,9 +163,8 @@ bool Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 		VHSDPN("period", round(delayImp / maxCntSkip));
 		Timer1.setPeriod(round(delayImp / maxCntSkip));
     }
-
+	stopMove(interrupted, move, error, home);
 	Timer1.start();    
-	return true;
 }
 
 void Motor::impulseGDLP()
@@ -180,9 +195,9 @@ void Motor::impulseGDLP()
     if (globalPos == newPosition) {
         mstate = IDLE;
         Timer1.stop();
-        digitalWrite(MOVEPIN, LOW);
+        setMove(false);
+		stopMove(interrupted, move, error, home);
 		SDN("Koniec. GlobalPos = newPosition. Move pin na LOW");
-		stopMove(home, true, false);
         return;
     }
 
@@ -190,8 +205,9 @@ void Motor::impulseGDLP()
     if (actSteps == maxSteps) {
 		mstate = IDLE;
 		Timer1.stop();
-        digitalWrite(MOVEPIN, LOW);
+		error = true;
+		setMove(false);
+		stopMove(interrupted, move, error, home);
 		SDN("Koniec. Osiagnieto max ilosc krokow");
-		stopMove(home, false, false);
 	}
 }

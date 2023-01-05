@@ -65,29 +65,27 @@ public:
     void init(WorkMode::WorkModeEnum mode);
 
     void setStopDef(bool hard);
-    bool moveHomeDef(uint32_t delayImp);
-    bool movePositionDef(int32_t pos, uint32_t delayImp);
+    void moveHomeDef(uint32_t delayImp);
+    void movePositionDef(int32_t pos, uint32_t delayImp);
     void impulseDef();
 
     void setStopGDLP(bool hard);
-    bool movePositionGDLP(int32_t pos, uint32_t delayImp);
+    void movePositionGDLP(int32_t pos, uint32_t delayImp);
     void impulseGDLP();
     
-    bool moveHomeGoraDol(uint32_t delayImp);
-    bool moveHomeGoraDolFirstTime(uint32_t delayImp);
-    
-    bool moveHomeLewoPrawo(uint32_t delayImp);
-    bool moveHomeLewoPrawoFirstTime(uint32_t delayImp);
+    void moveHomeGoraDol(uint32_t delayImp);
+    void moveHomeLewoPrawo(uint32_t delayImp);
+
     
 
     void (Motor::*setStopPtr)(bool);
-    bool (Motor::*moveHomePtr)(uint32_t);
-    bool (Motor::*movePositionPtr)(int32_t,uint32_t);
+    void (Motor::*moveHomePtr)(uint32_t);
+    void (Motor::*movePositionPtr)(int32_t,uint32_t);
     void (Motor::*impulsePtr)(void);
 
     inline void setStop(bool hard) { (this->*setStopPtr)(hard); }
-    inline bool moveHome(uint32_t delayImp) { return (this->*moveHomePtr)(delayImp); }
-    inline bool movePosition(int32_t pos, uint32_t delayImp) { return (this->*movePositionPtr)(pos, delayImp); }
+    inline void moveHome(uint32_t delayImp) { (this->*moveHomePtr)(delayImp); }
+    inline void movePosition(int32_t pos, uint32_t delayImp) { (this->*movePositionPtr)(pos, delayImp); }
     inline void impulse() { (this->*impulsePtr)(); }
     
 
@@ -107,9 +105,10 @@ public:
     void setDirBase(bool back);
 
 
+
 protected:
 
-
+    void setMove(bool move);
 
     volatile moveStateType mstate; 
     volatile uint32_t actSteps;
@@ -126,11 +125,11 @@ protected:
 
     bool home;
     bool move;
+    bool error;
     bool interrupted;
     
     uint16_t cntPomSkip;
     uint16_t maxCntSkip;
     bool firstTime;
-    bool errorMove;
 };
 #endif // __SILNIK_H__

@@ -217,7 +217,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         {
         silnik = addr;
 
-        if (!(options & 0x08) || silnik < 1 || silnik > 9) {
+        if (silnik < 1 || silnik > 9) {
             qDebug() << "Nie poprawna wiadomosc";
             m_parseReply = INVALID_REPLY;
             return false;
@@ -228,8 +228,10 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         else
             m_parseReply = POSITION_REPLY;
 
+        interMove = (options & 0x08) == 0x08;
         startMove = (options & 0x04) == 0x04;
         errMove = (options & 0x02) == 0x02;
+
         if (data.size() >= 4) {
             steps = getNumber(data);
         } else
@@ -287,6 +289,11 @@ SerialMessage::ParseReply SerialMessage::getParseReply() const
 uint32_t SerialMessage::getNumber(const QByteArray &data)
 {
     return ((data[0] & 0xff) << 24) +  ((data[1] & 0xff) << 16) + ((data[2] & 0xff) << 8) + (data[3] & 0xff);
+}
+
+bool SerialMessage::getInterMove() const
+{
+    return interMove;
 }
 
 const QString &SerialMessage::getError() const

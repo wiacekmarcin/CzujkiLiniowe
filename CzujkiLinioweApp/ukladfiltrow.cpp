@@ -81,13 +81,12 @@ void SterownikFiltrow::setZero()
     sd->setPositionSilnik(nrSilnikFC, true, 0, speedFC);
 }
 
-void SterownikFiltrow::setPositionDone(short silnik, bool home, bool success, bool move)
+void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    (void)move;
     if (silnik != nrSilnikFA && silnik != nrSilnikFB && silnik != nrSilnikFC)
         return;
 
-    if (!success) {
+    if (error) {
         QMutexLocker lock(&mutex);
         fARuch = false;
         fBRuch = false;
@@ -96,16 +95,15 @@ void SterownikFiltrow::setPositionDone(short silnik, bool home, bool success, bo
         return ;
     }
 
-
     if (silnik == nrSilnikFA) {
         QMutexLocker lock(&mutex);
-        fARuch = false;
+        fARuch = move;
     } else if (silnik == nrSilnikFB) {
         QMutexLocker lock(&mutex);
-        fBRuch = false;
+        fBRuch = move;
     } else if (silnik == nrSilnikFC) {
         QMutexLocker lock(&mutex);
-        fCRuch = false;
+        fCRuch = move;
     }
 
     if (!isRuch()) {

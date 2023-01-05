@@ -362,11 +362,11 @@ void Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
-            emit setPositionDone(msg.getSilnik(), true, msg.getErrMove(), msg.getStartMove());
+            emit setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
         case SerialMessage::POSITION_REPLY:
-            emit setPositionDone(msg.getSilnik(), false, msg.getErrMove(), msg.getStartMove());
+            emit setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:
