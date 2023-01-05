@@ -62,6 +62,14 @@ unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, cons
     }
 }
 
+double Ustawienia::convertImp2Value(short silnik, unsigned long impPos)
+{
+    unsigned long middle = getMotorIloscImpSrodek(silnik);
+    double ratio = getMotorPrzelozenieImpJedn(silnik);
+    double val = (impPos - middle)*ratio;
+    return val;
+}
+
 void Ustawienia::loadListUstawienFiltra()
 {
     short cntPos = settings.value("Tlumienia_655/IloscPozycji", QVariant::fromValue(0)).toInt();

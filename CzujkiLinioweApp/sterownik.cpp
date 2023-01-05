@@ -38,11 +38,11 @@ bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
 {
     if (currentRequest.size() > 0)
     {
-        qDebug() << "write in thread" << QThread::currentThread();
-        qDebug() << serialPort.write(currentRequest);
+        //qDebug() << "write in thread" << QThread::currentThread();
+        int sendsize = serialPort.write(currentRequest);
         bool ret = serialPort.waitForBytesWritten(waitWrite);
-        qDebug() << ret;
-        return ret;
+        //qDebug() << ret;
+        return ret && sendsize == currentRequest.size();
     }
     return true;
 }
@@ -60,14 +60,14 @@ bool Sterownik::writeAndRead(const QByteArray &currentRequest, int waitWrite, in
     unsigned long befSize = receiveData.size();
     timer.start(waitRead);
     connect( &timer, &QTimer::timeout, &eventLoop, &QEventLoop::quit );
-    qDebug() << "wait for data";
+    //qDebug() << "wait for data";
     eventLoop.exec(); //wait for rec data
 
     if(timer.isActive() && receiveData.size() - befSize) {
-        qDebug() << __FILE__ << __LINE__ << "true";
+        //qDebug() << __FILE__ << __LINE__ << "true";
         return true;
     } else {
-        qDebug() << __FILE__ << __LINE__ << "false";
+        //qDebug() << __FILE__ << __LINE__ << "false";
         return false;
     }
 }
@@ -249,13 +249,18 @@ bool Sterownik::configureDevice()
     }
     for (short s = 1; s < 10; ++s) {
         if (msgConf.getActive(s) && msgConf.getConnected(s) && msgConf.getPinsOk(s)) {
+            DEBUGSER(QString("Silnik %1 aktywny").arg(s));
             emit zdarzenieSilnik(s, M_ACTIVE);
         } else if (msgConf.getActive(s) && msgConf.getConnected(s) && !msgConf.getPinsOk(s)) {
+            DEBUGSER(QString("Silnik %1 brak połęcznia z pinami").arg(s));
             emit zdarzenieSilnik(s, M_NOPINS);
         } else if (msgConf.getActive(s) && !msgConf.getConnected(s)) {
+            DEBUGSER(QString("Silnik %1 brak komunikacji i2c").arg(s));
             emit zdarzenieSilnik(s, M_NOCOMM);
-        } else
+        } else {
+            DEBUGSER(QString("Silnik %1 brak modulu").arg(s));
             emit zdarzenieSilnik(s, M_NOACTIVE);
+        }
     }
     while (receiveData.size() > 0) {
         SerialMessage msg;
@@ -265,6 +270,7 @@ bool Sterownik::configureDevice()
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
+        DEBUGSER(QString("Silnik %1 konfiguracja ok").arg(msg.getSilnik()));
         emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
     }
 
@@ -311,10 +317,8 @@ bool Sterownik::openDevice()
     return false;
 }
 
-QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
+void Sterownik::parseMessage(QByteArray &reply)
 {
-    //qDebug() << __FILE__ << __LINE__ << "ParseMessage";
-    QVector<SerialMessage> ret;
     QMap<int, QString> errMap;
     errMap[SerialMessage::INVALID_REPLY] = "Nie prawidłowa odpowiedź";
     errMap[SerialMessage::CLR_MESSAGE] = "Wiadomość czyszcząca";
@@ -335,7 +339,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
             errmsg + errMap[msg.getParseReply()];
             emit error(errmsg);
             if (msg.getParseReply() == SerialMessage::INPROGRESS_REPLY)
-                return ret;
+                return;
             continue;
         }
 
@@ -358,11 +362,11 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
-            emit setPositionDone(msg.getSilnik(), true, msg.getErrMove(), msg.getStartMove(), 0, 0);
+            emit setPositionDone(msg.getSilnik(), true, msg.getErrMove(), msg.getStartMove());
             break;
 
         case SerialMessage::POSITION_REPLY:
-            emit setPositionDone(msg.getSilnik(), false, msg.getErrMove(), msg.getStartMove(), msg.getSteps(), 0);
+            emit setPositionDone(msg.getSilnik(), false, msg.getErrMove(), msg.getStartMove());
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:
@@ -370,10 +374,11 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
 
         case SerialMessage::RESET_REPLY:
             break;
+
+        case SerialMessage::PROGRESS_REPLY:
+            emit progressImp(msg.getSilnik(), msg.getSteps());
         }
-        ret.append(msg);
     } while (reply.size());
-    return ret;
 }
 
 const QString &Sterownik::portName() const
@@ -389,6 +394,8 @@ void Sterownik::handleReadyRead()
 
     if (eventLoop.isRunning()) {
         eventLoop.quit();
+    } else {
+        parseMessage(receiveData);
     }
 
     if (!m_timer.isActive())
@@ -400,11 +407,11 @@ void Sterownik::handleTimeout()
     //qDebug() << "no recv data timeout";
 }
 
-void Sterownik::handleError(QSerialPort::SerialPortError error)
+void Sterownik::handleError(QSerialPort::SerialPortError err)
 {
-    if (error == QSerialPort::NoError)
+    if (err == QSerialPort::NoError)
         return;
-    DEBUGSER(QString("Error %1").arg(error));
+    DEBUGSER(QString("Error %1").arg(err));
     emit error(serialPort.errorString());
 }
 

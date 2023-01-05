@@ -22,7 +22,7 @@ public:
 public slots:
     void setPos(unsigned short pA, unsigned short pB, unsigned short pC);
     void setZero();
-    void setPositionDone(short silnik, bool home, bool success, bool move, unsigned int steps, unsigned int pos);
+    void setPositionDone(short silnik, bool home, bool success, bool move);
 signals:
     void zerowanieFiltrowDone();
     void setUkladFiltrowDone();

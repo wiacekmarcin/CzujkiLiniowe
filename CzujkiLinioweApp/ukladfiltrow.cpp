@@ -81,11 +81,9 @@ void SterownikFiltrow::setZero()
     sd->setPositionSilnik(nrSilnikFC, true, 0, speedFC);
 }
 
-void SterownikFiltrow::setPositionDone(short silnik, bool home, bool success, bool move, unsigned int steps, unsigned int pos)
+void SterownikFiltrow::setPositionDone(short silnik, bool home, bool success, bool move)
 {
-    (void)steps;
     (void)move;
-    (void)pos;
     if (silnik != nrSilnikFA && silnik != nrSilnikFB && silnik != nrSilnikFC)
         return;
 

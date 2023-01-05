@@ -66,6 +66,7 @@ public:
         RESET_REPLY,
         CONF_MEGA_REPLY,
         CZUJKA_ZW_REPLY,
+        PROGRESS_REPLY
     } ParseReply;
 
     /**

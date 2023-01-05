@@ -236,6 +236,19 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         return true;
         }
 
+        case PROGRESS_REP:
+        {
+        silnik = addr;
+
+        if (!(options & 0x08) || silnik < 1 || silnik > 9) {
+            qDebug() << "Nie poprawna wiadomosc";
+            m_parseReply = INVALID_REPLY;
+            return false;
+        }
+        steps = getNumber(data);
+        m_parseReply = PROGRESS_REPLY;
+        return true;
+        }
         default: {
             qDebug() << "UNKNOWN cmd=" << cmd;
             return false;

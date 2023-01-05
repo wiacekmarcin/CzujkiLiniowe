@@ -89,9 +89,12 @@ signals:
     void setParamsDone(int address, bool success, bool silnik);
     void kontrolerConfigured(int state);
     void deviceName(QString name);
-    void setPositionDone(short silnik, bool home, bool success, bool move, unsigned int steps, unsigned int pos);
+    void setPositionDone(short silnik, bool home, bool success, bool move);
     void zdarzenieSilnik(short silnik, short zdarzenie);
     void czujkaOn();
+    void progressImp(short silnik, unsigned int position);
+
+
     void writeData(const QByteArray &d);
 
 protected:
@@ -107,7 +110,7 @@ protected:
 
    bool openDevice();
    bool configureDevice();
-   QVector<SerialMessage> parseMessage(QByteArray &reply);
+   void parseMessage(QByteArray &reply);
    bool write(const QByteArray &currentRequest, int waitWrite);
    bool writeAndRead(const QByteArray &currentRequest, int waitWrite, int waitRead);
 

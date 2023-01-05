@@ -81,7 +81,7 @@
                         ADDICONS(8) \
                         ADDICONS(9)
 
-#define ICONMOVE(N) ikonyRuchu[N] = qMakePair(ui->homeStatus##N, ui->posStatus##N);
+#define ICONMOVE(N) ikonyRuchu[N] = qMakePair(ui->homeStatus##N, ui->posStatus##N); pozycja[N] = ui->actPos_##N;
 
 #define ADDMOVEICONS_ALL    ICONMOVE(1) \
                             ICONMOVE(2) \
@@ -312,11 +312,23 @@ void TestSterownikaDlg::sd_czujkaOn(bool /*hardware*/)
     showDialog = false;
 }
 
-void TestSterownikaDlg::sd_setPositionDone(short nrSilnika, bool home, bool success, bool move, unsigned int steps, unsigned int pos)
+void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
 {
-    qDebug() << nrSilnika << home << success << move << steps << pos;
+    pozycja[silnik]->setText(QString::number(val));
+}
+
+void TestSterownikaDlg::sd_setPositionDone(short nrSilnika, bool home, bool success, bool move)
+{
+    qDebug() << nrSilnika << home << success << move;
     if (nrSilnika < 1 || nrSilnika > 9)
         return;
+
+    // w ruchu
+    if (move) {
+        ikonyRuchu[nrSilnika].first->setStyleSheet("background-color:blue");
+        if (!home)
+            ikonyRuchu[nrSilnika].second->setStyleSheet("background-color:blue");
+    }
 
     if (home) {
         if (success) {
@@ -399,7 +411,7 @@ void TestSterownikaDlg::sd_error(const QString & e)
 
 void TestSterownikaDlg::pbHome_clicked(int silnik, const QString & impTime)
 {
-    ikonyRuchu[silnik].first->setStyleSheet("background-color:gray");
+    ikonyRuchu[silnik].first->setStyleSheet("background-color:blue");
     bool ok;
     unsigned int val = impTime.toUInt(&ok);
     if (!ok)

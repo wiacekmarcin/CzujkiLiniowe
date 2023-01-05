@@ -21,13 +21,14 @@ public:
 
     void sd_kontrolerConfigured(int state);
     void sd_deviceName(QString name);
-    void sd_setPositionDone(short /*nrSilnika*/, bool /*home*/, bool /*success*/, bool /*move*/, unsigned int /*steps*/, unsigned int /*pos*/);
+    void sd_setPositionDone(short /*nrSilnika*/, bool /*home*/, bool /*success*/, bool /*move*/);
     void sd_setParamsDone(bool success);
     void sd_debug(const QString & d);
     void sd_error(const QString & e);
     void sd_disconnect();
     void sd_setZdarzenieSilnik(short silnik, short zdarzenie);
     void sd_czujkaOn(bool hardware); // hardware zwarcie czujki
+    void sd_setValue(short silnik, const double & val);
 
 protected slots:
     void pbSetConfiguration_clicked();
@@ -47,8 +48,9 @@ private:
     Ui::TestSterownikaDlg *ui;
     Ustawienia * u;
     Sterownik *sd;
-    QMap<int, QPair<QLabel*, QLabel*>> ikonyStatusu;
-    QMap<int, QPair<QLabel*, QLabel*>> ikonyRuchu;
+    QMap<short, QPair<QLabel*, QLabel*>> ikonyStatusu;
+    QMap<short, QPair<QLabel*, QLabel*>> ikonyRuchu;
+    QMap<short, QLabel*> pozycja;
 };
 
 #endif // TESTSTEROWNIKADLG_H

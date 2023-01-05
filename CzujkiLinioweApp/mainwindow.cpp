@@ -54,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
     connect(sd, &Sterownik::czujkaOn, this, &MainWindow::ster_czujkaOn);
     connect(sd, &Sterownik::setPositionDone, this, &MainWindow::ster_setPositionDone);
+    connect(sd, &Sterownik::progressImp, this, &MainWindow::ster_progressImp);
 
     connect(zas, &Zasilacz::error, this, &MainWindow::zas_error);
     connect(zas, &Zasilacz::debug, this, &MainWindow::zas_debug);
@@ -170,12 +171,12 @@ void MainWindow::ster_deviceName(QString name)
         dlgTestStan->deviceNameSter(name);
 }
 
-void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, bool move, unsigned int steps, unsigned int pos)
+void MainWindow::ster_setPositionDone(short nrSilnika, bool home, bool success, bool move)
 {
     qDebug() << "positionDone";
     if (dlgTestSter)
-        dlgTestSter->sd_setPositionDone(nrSilnika, home, success, move, steps, pos);
-    sterF.setPositionDone(nrSilnika, home, success, move, steps, pos);
+        dlgTestSter->sd_setPositionDone(nrSilnika, home, success, move);
+    sterF.setPositionDone(nrSilnika, home, success, move);
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
@@ -188,6 +189,13 @@ void MainWindow::ster_czujkaOn()
 {
     if (dlgTestSter)
         dlgTestSter->sd_czujkaOn(true);
+}
+
+void MainWindow::ster_progressImp(short silnik, unsigned int position)
+{
+    double valReal = u.convertImp2Value(silnik, position);
+    if (dlgTestSter)
+        dlgTestSter->sd_setValue(silnik, valReal);
 }
 
 void MainWindow::zas_error(QString s)
