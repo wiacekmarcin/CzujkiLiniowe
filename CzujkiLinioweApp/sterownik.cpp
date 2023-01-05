@@ -334,12 +334,12 @@ void Sterownik::parseMessage(QByteArray &reply)
     do {
         SerialMessage msg;
         if (!msg.parseCommand(reply)) {
-            DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
-            QString errmsg("Nie poprawna wiadomość:");
-            errmsg + errMap[msg.getParseReply()];
-            emit error(errmsg);
             if (msg.getParseReply() == SerialMessage::INPROGRESS_REPLY)
                 return;
+            DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
+            QString errmsg = QString("Nie poprawna wiadomość: [%1]").arg(msg.getError());
+            errmsg + errMap[msg.getParseReply()];
+            emit error(errmsg);
             continue;
         }
 

@@ -319,7 +319,7 @@ void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
 
 void TestSterownikaDlg::sd_setPositionDone(short nrSilnika, bool home, bool success, bool move)
 {
-    qDebug() << nrSilnika << home << success << move;
+    qDebug() << __FILE__ << __LINE__ << "s=" << nrSilnika << "h=" << home << "e" << !success << "m" << move;
     if (nrSilnika < 1 || nrSilnika > 9)
         return;
 

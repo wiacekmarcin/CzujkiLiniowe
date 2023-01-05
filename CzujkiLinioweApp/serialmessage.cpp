@@ -124,6 +124,7 @@ bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options
     }
 
     if (i-2 != len) {
+        errStr = QString("Błędna długość wiadomości %1 != %2").arg(i-2).arg(len);
         m_parseReply = INVALID_REPLY;
         return false;
     }
@@ -132,6 +133,7 @@ bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options
     unsigned short msgcrc = msg.at(msg.size()-1) & 0xff;
 
     if (crc.getCRC() != msgcrc) {
+        errStr = QString("Błędne crc %1 != %2").arg((short)crc.getCRC(), 2, 16).arg((short)msgcrc, 2, 16);
         m_parseReply = INVALID_REPLY;
         return false;
     }
@@ -232,7 +234,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             steps = getNumber(data);
         } else
             steps = 0;
-
+        qDebug() << __FILE__ << __LINE__ << homeRet << startMove << errMove;
         return true;
         }
 
@@ -285,6 +287,11 @@ SerialMessage::ParseReply SerialMessage::getParseReply() const
 uint32_t SerialMessage::getNumber(const QByteArray &data)
 {
     return ((data[0] & 0xff) << 24) +  ((data[1] & 0xff) << 16) + ((data[2] & 0xff) << 8) + (data[3] & 0xff);
+}
+
+const QString &SerialMessage::getError() const
+{
+    return errStr;
 }
 
 bool SerialMessage::getActive(short nr) const
