@@ -5,9 +5,9 @@
 #include "main.h"
 #include "silnik.hpp"
 
-#define DEBUG
+//#define SSDEBUG
 //#define EXT_DEBUG
-#ifdef DEBUG
+#ifdef SSDEBUG
 	#define SSD(T) Serial.print(T)
 	#define SSDN(T) Serial.println(T)
 	#define SSD2(T,P) Serial.print(T,P)
@@ -264,6 +264,7 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 		mot->moveHome(delayImp);
 	} else {
 		mot->movePosition(steps, delayImp);
+		mot->startImpulse();
 	}
 	sizeSendMsg = 3;
     SSPRINT(3);

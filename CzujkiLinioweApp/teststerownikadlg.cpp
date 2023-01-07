@@ -33,7 +33,8 @@
                                                                 this->pbUstawPos_clicked(N, ui->posX_##N->text(), \
                                                                 this->ui->ratio##N->text(), \
                                                                 this->ui->speedPos##N->text(),\
-                                                                this->ui->srodekKroki##N->text()); });\
+                                                                this->ui->srodekKroki##N->text(),\
+                                                                this->ui->maxSteps##N->text()); });\
                 connect(ui->delay##N, &QLineEdit::editingFinished, this, [this]() { \
                                                               this->changeTimeZerowania(ui->delay##N->text(), \
                                                                     this->ui->ratio##N->text(), \
@@ -430,7 +431,8 @@ void TestSterownikaDlg::pbHomeAll_clicked()
 }
 
 void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio,
-                                           const QString & speed, const QString & middleImp)
+                                           const QString & speed, const QString & middleImp, 
+                                           const QString & maxImp)
 {
     ui->dbg3->append(QString("Ustaw pozycje silnik %1 l=%2[*/mm] speed=%3[*/min mm/min] (ratio=%4, middleImp=%5)").
                      arg(silnik).arg(x).arg(speed).arg(ratio).arg(middleImp));
@@ -438,17 +440,18 @@ void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const Q
         return;
 
 
-    bool ok1, ok2, ok3, ok4;
+    bool ok1, ok2, ok3, ok4, ok5;
     double valx = x.toDouble(&ok1);
     double valratio = ratio.toDouble(&ok2);
     double valspeed = speed.toDouble(&ok3);
     unsigned int valmiddleImp = middleImp.toUInt(&ok4);
-    if (!ok1 || !ok2 || !ok3 || !ok4)
+    unsigned int valmaxImp = maxImp.toUInt(&ok5);
+    if (!ok1 || !ok2 || !ok3 || !ok4 || !ok5)
         return ;
 
     ikonyRuchu[silnik].second->setStyleSheet("background-color:gray");
     unsigned long impSpeed = u->wyliczImp(valratio, valspeed);
-    unsigned long impPos = u->wyliczPozycje(silnik, valmiddleImp, valratio, valx);
+    unsigned long impPos = u->wyliczPozycje(silnik, valmiddleImp, valmaxImp, valratio, valx);
     ui->dbg3->append(QString("Wysyłam żadanie ruchu pos=%1 speed=%2").arg(impPos).arg(impSpeed));
     sd->setPositionSilnik(silnik, false, impPos, impSpeed);
 }

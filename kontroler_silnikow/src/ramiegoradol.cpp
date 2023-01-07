@@ -3,7 +3,7 @@
 #include "main.h"
 #include <TimerOne.h>
 
-#define DEBUGGD
+//#define DEBUGGD
 #ifdef DEBUGGD
 	#define VSD(T) Serial.print(T);
 	#define VSDN(T) Serial.println(T);

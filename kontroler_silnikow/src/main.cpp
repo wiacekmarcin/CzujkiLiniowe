@@ -8,7 +8,6 @@
 #include "proto.hpp"
 #include "silnik.hpp"
 
-#include "filtr.hpp"
 #include "workmode.hpp"
 #include "spi_msg.hpp"
 #include "main.h"
@@ -27,7 +26,7 @@
 	#define MSDP(T, V) MSD(T);MSD(V)
 	#define MSDPN(T, V) MSD(T);MSDN(V)
     #define MSPHEX(X) phex(X)
-    #define MSPRINT(N)	MSD("Sending (");MSD(__FILE__);MSD(":");MSD(__LINE__);MSD(") [");for(unsigned char i=0;i<N;++i){MSPHEX(smsg.sendBuff[i]);}MSDN("]");
+    #define MSPRINT(N)	MSD(" [");for(unsigned char i=0;i<N;++i){MSPHEX(smsg.sendBuff[i]);}MSDN("]");
 #else
 	#define MSD(T) 
 	#define MSDN(T) 
@@ -67,17 +66,18 @@ uint8_t getAddress()
 }
 
 volatile bool stopMessagePrepare = false;
-
+volatile bool softwareInter = false;
+volatile bool hardwareInter = false;
 void setStopSoft()
 {
-	MSDN("SI");
+	softwareInter = true;
 	//stopMessagePrepare = true;
 	mot.setStop(false);
 }
 
 void setStopHard()
 {
-	MSDN("HI");
+	hardwareInter = true;
 	mot.setStop(true);
 }
 
@@ -157,7 +157,8 @@ void setup()
 
 unsigned long prev = 0;
 unsigned long act = 0;
-volatile bool message_in_progress = false;
+volatile bool sendingMsg = false;
+uint64_t prevSpeed = 0;
 void loop()
 {
 	if (mode.isDebugMode())
@@ -166,21 +167,36 @@ void loop()
 		return;
 	}
 
-	if (!message_in_progress && stopMessagePrepare) {
-		stopMessagePrepare = false;
+	act = millis();
+	if (act-prev > 5000) { Serial.println("Czekam..."); prev = act; }
+		
+	if (received) {
+		received = false;
+		MSDP("Receive(", smsg.recvPos);MSD(") Receive : [");
+		for (int i=0; i<smsg.recvPos; ++i) {
+			MSD(" ");MSD2(smsg.recvBuff[i], HEX);
+		}
+		MSDN("]");
+		smsg.proceed();
 		
 	}
 
-	while (true) {
-		act = millis();
-		if (act-prev > 5000) { Serial.println("Czekam..."); prev = act; }
-		
-		if (received) {
-			smsg.proceed();
-			received = false;
-		}
-		
+	if (sendingMsg) {
+		sendingMsg = false;
+		MSDP("Sending ", smsg.sendPos);MSDP("/", smsg.sizeSendMsg);MSD(" ["); 
+		MSPRINT(smsg.sizeSendMsg);
 	}
+
+	if (softwareInter) {
+		softwareInter = false;
+		MSDN("SI");
+	}
+
+	if (hardwareInter) {
+		hardwareInter = false;
+		MSDN("HI");
+	}
+
 }
 
 void receiveEvent(int how) {
@@ -191,19 +207,11 @@ void receiveEvent(int how) {
     	smsg.recvBuff[smsg.recvPos++] = Wire.read(); // receive byte as a character
 		++s;
 	}
-	MSDP("recvPos=", smsg.recvPos);MSDP("s=",s);MSDPN(" how=", how);MSD("Receive : [");
-	for (int i=0; i<s; ++i) {
-		MSD(" ");MSD2(smsg.recvBuff[i], HEX);
-	}
-	MSDN("]");
+	
 }
 
 static void requestEvent()
 {
-	MSDN("Request");
-	MSDP("sendPos=", smsg.sendPos);MSDP(" sizeSendMsg=", smsg.sizeSendMsg);
-	MSPRINT(smsg.sizeSendMsg);
-
 	smsg.sendPos = 0;
 	uint8_t msize = smsg.sizeSendMsg;
 	smsg.sizeSendMsg = 0;

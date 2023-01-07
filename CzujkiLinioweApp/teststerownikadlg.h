@@ -41,7 +41,8 @@ protected slots:
 
 protected:
     void pbHome_clicked(int silnik, const QString &impTime);
-    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString &speed, const QString & midlleImp);
+    void pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio, const QString &speed,
+                            const QString & midlleImp, const QString & maxImp);
     void changeTimeZerowania(const QString & val, const QString & ratio, QLabel * result);
 
 private:

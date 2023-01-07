@@ -8,7 +8,6 @@
 
 void Motor::moveHomeLewoPrawo(uint32_t delayImpOrg)
 {
-    VSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
     move = true;

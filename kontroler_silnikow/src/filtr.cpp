@@ -1,143 +1,214 @@
-#include "filtr.hpp"
-
-#include "TimerOne.h"
+#include <Arduino.h>
+#include "silnik.hpp"
 #include "main.h"
+#include <TimerOne.h>
 
-
+#define FLTDEBUG 1
 #ifdef FLTDEBUG
-#define SD(X) Serial.println(X)
-#define SDN(X) Serial.println(X)
-#define SDP(T, V) SD(T); SD(V)
-#define SDPN(T, V) SD(T); SDN(V)
+#define FSD(X) Serial.print(X)
+#define FSDN(X) Serial.println(X)
+#define FSDP(T, V) FSD(T); FSD(V)
+#define FSDPN(T, V) FSD(T); FSDN(V)
 #else
-#ifndef SD
-#define SD(X)
+#ifndef FSD
+#define FSD(X)
 #endif
-#ifndef SDN 
-#define SDN(X)
+#ifndef FSDN 
+#define FSDN(X)
 #endif
-#ifndef SDP
-#define SDP(T, V)
+#ifndef FSDP
+#define FSDP(T, V)
 #endif
-#ifndef SDPN
-#define SDPN(T, V)
+#ifndef FSDPN
+#define FSDPN(T, V)
 #endif
 #endif
 
-/*
-Filtr::Filtr() :
-    Motor()
-{
-    mstate = IDLE;
-    impPerObrot = 0;
-}
+#define PULSE_F digitalWrite(PULSEPIN, HIGH); delayMicroseconds(delayImp); digitalWrite(PULSEPIN, LOW); delayMicroseconds(delayImp);
 
-void Filtr::setStop(bool hard)
+static uint16_t speed[10];
+static uint16_t downVal = 1151;
+static uint16_t upVal = 1151;
+
+void Motor::moveHomeFiltr(uint32_t delayImpOrg)
 {
-    if (!hard) {
-        Timer1.stop();
-        mstate = IDLE;
-    } else {
-        Timer1.stop();
-        SD("STOP ");
-        SDN(mstate);
-        switch(mstate) {
-            case F_HOME_0: 
-                actSteps = 0;
-                mstate = F_HOME_1;
-                break;
-            case F_HOME_1:
-                mstate = F_HOME_2; 
-                temp1 = actSteps;
-                actSteps = 0;
-                break;
-            case F_HOME_2:
-                mstate = F_HOME_3; 
-                temp2 = actSteps;
-                actSteps = 0;
-                break;
-            case F_HOME_4:
-                mstate = F_HOME_5; 
-                temp3 = actSteps;
-                actSteps = 0;
-                break;
-            case F_HOME_5:
-                mstate = F_HOME_6; 
-                temp4 = actSteps;
-                actSteps = 0;
-                globalPos = middleSteps;
-                diff = -1;
-                break;
-            default: break;
+    FSDPN(__FILE__, __LINE__);
+    uint32_t delayImp = delayImpOrg>>1;
+    home = true;
+    move = true;
+    error = false;
+    interrupted = false;
+    mstate = HOMEPOS;
+    setDirBase(true);
+
+    uint32_t steps = 0;
+    
+    if (isKrancowka()) {
+        setDirBase(false);
+        for (unsigned short n = 0; n < maxSteps/6; n++) {
+            PULSE_F
         }
-        Timer1.start();
+        setDirBase(true);
     }
+    while(!isKrancowka()) {
+        PULSE_F
+        ++steps;
+        if (steps > maxSteps || mstate != HOMEPOS) {
+            error = true;
+            stopMove(interrupted, move, error, home);
+            FSDPN("Err",__LINE__);
+            return; 
+        }
+    }
+    for (unsigned short n = 0; n < baseSteps; n++) {
+        PULSE_F
+    }
+
+    globalPos = 0;
+    setDirBase(false);
+    
+    mstate = IDLE;
+    move = false;
+    stopMove(interrupted, move, error, home);
 }
 
-void Filtr::impulse()
+void Motor::movePositionFiltr(int32_t pos, uint32_t delayImpOrg)
 {
-    Serial.print('+');
+    highlevel = false;
+    uint32_t delayImp = delayImpOrg>>1;
+    digitalWrite(PULSEPIN, LOW);
+    slowMove = delayImp > 500;
+	FSDPN("DelayImp=", delayImpOrg);
+	FSDPN("globalPos=", globalPos);
+	FSDPN("pos=", pos);
+    
+    for (short i=0; i<10; ++i) {
+        speed[i] = (uint16_t) 10*delayImp/(i+1);
+        FSDP("speed[", i);
+        FSDPN("]", speed[i]);
+    }
+
+	home = false;
+	error = false;
+	interrupted = false;
+    uint32_t d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+	setMove(false);
+    if (pos == globalPos) {
+        mstate = IDLE;
+		stopMove(interrupted, move, error, home);
+		return;
+	} else if (pos > globalPos) {
+        d1 = pos - globalPos;
+        d2 = globalPos - pos + maxSteps;
+        if (d2 > d1) {
+            diff = 1;
+            newPosition = pos;
+            upVal = d1 - downVal;
+            moveSteps = d1;
+        } else {
+            diff = -1;
+            newPosition = pos;
+            upVal = d2 - downVal;
+            moveSteps = d2;
+        }
+    } else if (pos < globalPos) {
+        d3 = globalPos - pos;
+        d4 = pos - globalPos + maxSteps;
+        if (d3 > d4) {
+            newPosition = pos;
+            diff = 1;
+            upVal = d4 - downVal;
+            moveSteps = d4;
+        } else {
+            diff -= 1;
+            newPosition = pos;
+            upVal = d3 - downVal;
+            moveSteps = d3;
+        }
+    }
+    setDirBase(diff < 0);
+       
+    FSDPN("moveSteps=", moveSteps);
+    FSDPN("diff=", diff);
+    FSDPN("downVal=", downVal);
+    FSDPN("upVal=", upVal);
+    FSDPN("slowMove=", slowMove);
+	
+    Timer1.setPeriod(speed[0]);
+    prevSpeedIdx = 0;
+	mstate = MOVEPOS;
+	setMove(true);
+    stopMove(interrupted, move, error, home);
+    if (slowMove) {
+        Timer1.start();
+        delayStart = false;
+    } else
+        delayStart = true;   //uruchomienie zegara dopiero po wyslaniu komendyy
+}
+
+//1.2 s dla 180s przy T=60us
+//to jest już granica wykonywalności kodu w funkcjach ze zmienna predkoscia
+void Motor::impulseFiltr()
+{
+
+    if (mstate == IDLE) {
+        FSDN("Koniec. mstate=idle");
+        Timer1.stop();
+        setMove(false);
+        error=true;
+        stopMove(interrupted, move, error, home);
+        delayStart = false;
+		return;	 
+    }
+	
     highlevel = !highlevel;
 	digitalWrite(PULSEPIN, highlevel ? HIGH : LOW);
-	globalPos += diff;
-	++actSteps;
+    if (!highlevel) {
+        globalPos += diff;
+	    ++actSteps;
 
-    switch(mstate) {
-        case F_HOME_0:
-            if (actSteps == maxSteps) {
-                SDP("FH0: actSteps=", actSteps);SDPN("maxSteps=", maxSteps);
-                Timer1.stop();
-                err = true;
-                //sendError();
-            }
-            break;
-        case F_HOME_3:
-            if (digitalRead(KRANCPIN) == HIGH) {
-                SDN("FH3: KRANC");
-                mstate = F_HOME_4;
-                setDirBase(true);
-            }
-            break;
-        case F_HOME_6:
-            if (globalPos == 0) {
-                Timer1.stop();
-                err = false;
-                //sentDone();
-                impPerObrot = ((int32_t)temp1 + temp2 + temp3 + temp4)/4;
-                SD("Koniec impPerPbrot");SDN(impPerObrot);
-            }
-            break;
-        default: break;
-    };
-} 
+        uint8_t speedPerIdx;
+        if (actSteps < downVal) {
+            speedPerIdx = actSteps >> 7;
+        } else if (actSteps > upVal) {
+            speedPerIdx = 8-((actSteps-upVal) >> 7);
+        } else {
+            speedPerIdx = 9;
+        }
+        
+        if (speedPerIdx != prevSpeedIdx) {
+            prevSpeedIdx = speedPerIdx;
+            Timer1.stop();
+            Timer1.setPeriod(speed[speedPerIdx]);
+            Timer1.start();
+        }
 
-bool Filtr::moveHome(uint32_t delayImp)
-{
-    SDN("Zerowanie");
-    mstate = F_HOME_0;
-    actSteps = 0;
-    globalPos = 0;
-    diff = 1;
-    setDirBase(false);
-    moveH = true;
-    moveP = false;
-    Timer1.stop();
-	Timer1.setPeriod(delayImp)	;
-	Timer1.start();
+        return;
+    }
 
-    return true;
+    if (globalPos == newPosition || actSteps >= moveSteps) {
+        Timer1.stop();
+		setMove(false);
+        stopMove(interrupted, move, error, home);
+        FSDN("Koniec.");
+        digitalWrite(PULSEPIN, LOW);
+        delayStart = false;
+        return;
+    }
+
+    if (globalPos == maxSteps)
+        globalPos = 0;
+    else if (globalPos == 0)
+        globalPos = maxSteps;
+    
+    
+    if (actSteps == maxSteps/2 + 5) {
+		Timer1.stop();
+		error = true;
+		setMove(false);
+        stopMove(interrupted, move, error, home);
+		FSDN("Koniec. steps > max/2+5");
+        digitalWrite(PULSEPIN, LOW);
+        delayStart = false;
+	}
 }
-
-bool Filtr::movePosition(int32_t pos, uint32_t delayImp)
-{
-    SD("Move pos");SD(pos);SDPN("ImpTime", delayImp);
-    if (pos == globalPos)
-        return false;
-    Timer1.stop();
-	Timer1.setPeriod(delayImp)	;
-	Timer1.start();
-    moveP = true;
-    moveH = false;
-    return true;
-}
-*/

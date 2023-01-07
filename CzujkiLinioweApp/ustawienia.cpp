@@ -49,25 +49,38 @@ unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &sp
     return  round(60 * 1000000 / impCnt);
 }
 
-unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, const double &ratioImpJedn, const double &x)
+unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, unsigned long max, const double &ratioImpJedn, const double &x)
 {
     if (ratioImpJedn == 0)
         return 0;
 
     if (silnik == 1 || silnik == 2 || silnik == 8 || silnik == 9) {
-
-        return middle + round(x/ratioImpJedn);
-    } else {
-        return 0;
+        long val = middle + round(x/ratioImpJedn);
+        if (val < 0)
+            return 0;
+        if ((unsigned long)val > max)
+            return max;
+        return val;
+    } else if (silnik == 3 || silnik == 4 || silnik == 5 ) {
+        return (unsigned long)round(x/ratioImpJedn) % max;
     }
+    return 0;
 }
 
 double Ustawienia::convertImp2Value(short silnik, unsigned long impPos)
 {
-    unsigned long middle = getMotorIloscImpSrodek(silnik);
     double ratio = getMotorPrzelozenieImpJedn(silnik);
-    double val = (impPos - middle)*ratio;
-    return val;
+    if (silnik == 1 || silnik == 2 || silnik == 8 || silnik == 9) {
+        unsigned long middle = getMotorIloscImpSrodek(silnik);
+
+        double val = (impPos - middle)*ratio;
+        return val;
+    } else if (silnik == 3 || silnik == 4 || silnik == 5 ) {
+        unsigned long max = getMotorMaksIloscImp(silnik);
+        unsigned long corrImp = impPos % max;
+        return corrImp*ratio;
+    }
+    return 0;
 }
 
 void Ustawienia::loadListUstawienFiltra()

@@ -2,9 +2,9 @@
 #include <SPI.h>
 #include "crc8.hpp"
 
-#define DEBUG
+//#define PROTODEBUG
 
-#ifdef DEBUG
+#ifdef PROTODEBUG
 	#define PSD(T) Serial.print(T)
 	#define PSDN(T) Serial.println(T)
 	#define PSD2(T,P) Serial.print(T,P)

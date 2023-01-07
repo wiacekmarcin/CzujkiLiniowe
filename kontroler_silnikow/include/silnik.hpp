@@ -2,11 +2,12 @@
 #define __SILNIK_H__
 
 #include <Arduino.h>
+#include <TimerOne.h>
 #define TEST
 
 #include "workmode.hpp"
 
-#define DEBUGLP
+//#define DEBUGLP
 #ifdef DEBUGLP
 	#define VSD(T) Serial.print(T);
 	#define VSDN(T) Serial.println(T);
@@ -25,7 +26,7 @@
 	#define VSDPN(T, V) 
 #endif
 
-#define DEBUGLPGD
+//#define DEBUGLPGD
 #ifdef DEBUGLPGD
 	#define VHSD(T) Serial.print(T);
 	#define VHSDN(T) Serial.println(T);
@@ -69,14 +70,15 @@ public:
     void movePositionDef(int32_t pos, uint32_t delayImp);
     void impulseDef();
 
-    void setStopGDLP(bool hard);
     void movePositionGDLP(int32_t pos, uint32_t delayImp);
     void impulseGDLP();
     
     void moveHomeGoraDol(uint32_t delayImp);
     void moveHomeLewoPrawo(uint32_t delayImp);
 
-    
+    void moveHomeFiltr(uint32_t delayImpOrg);  
+    void movePositionFiltr(int32_t pos, uint32_t delayImpOrg); 
+    void impulseFiltr(); 
 
     void (Motor::*setStopPtr)(bool);
     void (Motor::*moveHomePtr)(uint32_t);
@@ -100,11 +102,12 @@ public:
     
 
     bool isHome() const { return home; }
+    bool isMove() const { return move; }
     bool isInterrupted() const { return interrupted; }
 
     void setDirBase(bool back);
 
-
+    inline void startImpulse() { if (move && delayStart) Timer1.start(); }
 
 protected:
 
@@ -131,5 +134,9 @@ protected:
     uint16_t cntPomSkip;
     uint16_t maxCntSkip;
     bool firstTime;
+    volatile uint8_t prevSpeedIdx; //poprzedni index predkosci przy przyspieszaniu i zwalnaniu
+    uint16_t moveSteps;            //ilosc krokow przy filtrach - inny algorytm porusznia
+    bool slowMove;                 //czy wolny ruch dla filtrow - jezeli tak bedzie progress
+    bool delayStart;               //czy start po wiadomosci (request i reply trwaja kilka ms na ISR)
 };
 #endif // __SILNIK_H__

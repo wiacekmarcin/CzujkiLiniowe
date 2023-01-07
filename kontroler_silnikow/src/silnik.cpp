@@ -23,6 +23,8 @@ Motor::Motor() :
 	,interrupted(false)
 	,cntPomSkip(0)
     ,maxCntSkip(0)
+	,slowMove(true) // domyslnie
+	,delayStart(false)
 {
 	setStopPtr = &Motor::setStopDef;
     moveHomePtr = &Motor::moveHomeDef;
@@ -34,15 +36,19 @@ void Motor::init(WorkMode::WorkModeEnum mode)
 {
 	switch(mode) {
 		case WorkMode::KATOWA_PION:
-			setStopPtr = &Motor::setStopGDLP;
+			setStopPtr = &Motor::setStopDef;
     		moveHomePtr = &Motor::moveHomeGoraDol;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
 			break;
 	    case WorkMode::KOLOWA:
+			setStopPtr = &Motor::setStopDef;
+			moveHomePtr = &Motor::moveHomeFiltr;
+			movePositionPtr = &Motor::movePositionFiltr;
+			impulsePtr = &Motor::impulseFiltr;
 			break;
 	    case WorkMode::KATOWA_POZ:
-			setStopPtr = &Motor::setStopGDLP;
+			setStopPtr = &Motor::setStopDef;
     		moveHomePtr = &Motor::moveHomeLewoPrawo;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
@@ -63,8 +69,11 @@ void Motor::setDirBase(bool back)
 
 void Motor::setMove(bool move)
 {
-	digitalWrite(MOVEPIN, move ? HIGH : LOW);
+	if (slowMove)
+		digitalWrite(MOVEPIN, move ? HIGH : LOW);
 	this->move = move;
+	mstate = move ? MOVEPOS : IDLE;
+	if (move) actSteps = 0;
 }
 
 void Motor::setSoftStop()
@@ -113,14 +122,6 @@ void Motor::movePositionDef(int32_t, uint32_t)
 	stopMove(interrupted, move, error, home);
 }
 
-void Motor::setStopGDLP(bool hard)
-{
-    if (!hard) {
-        setSoftStop();
-	}
-    //nic nie rob
-}
-
 void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 {
     highlevel = false;
@@ -149,10 +150,8 @@ void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 	VHSDPN("globalPos", globalPos);
 	VHSDPN("pos", pos);
 	newPosition = pos;
-	actSteps = 0;
-	digitalWrite(MOVEPIN, HIGH);
-	mstate = MOVEPOS;
-    if (delayImp < 15000000) {
+	
+	if (delayImp < 15000000) {
         cntPomSkip = 0;
         Timer1.setPeriod(delayImp);
         maxCntSkip = 0;
@@ -193,7 +192,6 @@ void Motor::impulseGDLP()
 	VHSDN(actSteps);
 
     if (globalPos == newPosition) {
-        mstate = IDLE;
         Timer1.stop();
         setMove(false);
 		stopMove(interrupted, move, error, home);
@@ -203,7 +201,6 @@ void Motor::impulseGDLP()
 
 
     if (actSteps == maxSteps) {
-		mstate = IDLE;
 		Timer1.stop();
 		error = true;
 		setMove(false);
