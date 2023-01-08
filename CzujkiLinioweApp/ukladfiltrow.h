@@ -17,7 +17,7 @@ public:
     void setFARuch(bool newFARuch);
 
     bool isRuch();
-    void setUstawienia(const Ustawienia & u);
+    void setUstawienia(Sterownik *sd_, const Ustawienia & u);
 
 public slots:
     void setPos(unsigned short pA, unsigned short pB, unsigned short pC);
@@ -37,7 +37,7 @@ private :
     unsigned short actPosfC;
 
     static constexpr short maxPosF = 6;
-    static constexpr float stPerPosImp = 1 / maxPosF;
+    static constexpr float stPerPosImp = 1.0 / maxPosF;
     static constexpr short nrSilnikFA = 3;
     static constexpr short nrSilnikFB = 4;
     static constexpr short nrSilnikFC = 5;
@@ -50,6 +50,11 @@ private :
     unsigned long speedFA;
     unsigned long speedFB;
     unsigned long speedFC;
+
+    unsigned long speedZerFA;
+    unsigned long speedZerFB;
+    unsigned long speedZerFC;
+
 
     Sterownik *sd;
     QMutex mutex;

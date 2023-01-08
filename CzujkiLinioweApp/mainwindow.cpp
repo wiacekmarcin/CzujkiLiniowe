@@ -35,7 +35,7 @@ MainWindow::MainWindow(QWidget *parent)
     //sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
-
+    sterF.setUstawienia(sd, u);
     dbgDlg = new DebugDialog(this);
     dbgDlg->hide();
     showDebug = false;
@@ -257,16 +257,22 @@ void MainWindow::zas_recvMsg(const QString &msg)
 void MainWindow::flt_zerowanieFiltrowDone()
 {
     ui->centralwidget->flt_zerowanieFiltrowDone();
+    if (dlgTestStan)
+        dlgTestStan->flt_zerowanieFiltrowDone();
 }
 
 void MainWindow::flt_setUkladFiltrowDone()
 {
     ui->centralwidget->flt_setUkladFiltrowDone();
+    if (dlgTestStan)
+        dlgTestStan->flt_setUkladFiltrowDone();
 }
 
 void MainWindow::flt_bladFiltrow(short silnik, bool zerowanie)
 {
     ui->centralwidget->flt_bladFiltrow(silnik, zerowanie);
+    if (dlgTestStan)
+        dlgTestStan->flt_bladFiltrow(silnik, zerowanie);
 }
 
 void MainWindow::on_actionParametry_Badania_triggered()
@@ -354,7 +360,7 @@ void MainWindow::on_actionStartTestu_triggered()
 
 void MainWindow::on_actionTestStanowiska_triggered()
 {
-    dlgTestStan = new TestStanowiskaDlg(zas, sd, this);
+    dlgTestStan = new TestStanowiskaDlg(zas, sd, &sterF, &u, this);
     dlgTestStan->exec();
     delete dlgTestStan;
     dlgTestStan = nullptr;

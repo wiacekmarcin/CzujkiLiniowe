@@ -217,6 +217,7 @@ static void requestEvent()
 	smsg.sizeSendMsg = 0;
 	for (unsigned int t = 0; t <msize ; t++)
 		Wire.write(smsg.sendBuff[t]);
+	mot.startImpulse();
 }
 
 void phex(uint8_t b)

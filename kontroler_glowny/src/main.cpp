@@ -151,7 +151,7 @@ void setup (void)
     attachInterrupt(digitalPinToInterrupt(2), sendStopMsg, FALLING);
     
 
-    Timer1.initialize((unsigned long) 5000000UL);
+    Timer1.initialize((unsigned long) 250000UL);
     Timer1.attachInterrupt(timerHandler);
 
 

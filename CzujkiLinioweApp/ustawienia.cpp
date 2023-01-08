@@ -63,22 +63,38 @@ unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, unsi
         return val;
     } else if (silnik == 3 || silnik == 4 || silnik == 5 ) {
         return (unsigned long)round(x/ratioImpJedn) % max;
+    } else if (silnik == 6 || silnik == 7) {
+        long val = middle + round(x/ratioImpJedn);
+        if (val < 0)
+            return 0;
+        if ((unsigned long)val > max)
+            return max;
+        return val;
     }
+
     return 0;
 }
 
-double Ustawienia::convertImp2Value(short silnik, unsigned long impPos)
+double Ustawienia::convertImp2Value(short silnik, unsigned long impPosu)
 {
     double ratio = getMotorPrzelozenieImpJedn(silnik);
+    long impPos = impPosu;
     if (silnik == 1 || silnik == 2 || silnik == 8 || silnik == 9) {
-        unsigned long middle = getMotorIloscImpSrodek(silnik);
+        long middle = (long)getMotorIloscImpSrodek(silnik);
 
-        double val = (impPos - middle)*ratio;
+        double val = ratio*(impPos - middle);
         return val;
     } else if (silnik == 3 || silnik == 4 || silnik == 5 ) {
         unsigned long max = getMotorMaksIloscImp(silnik);
         unsigned long corrImp = impPos % max;
         return corrImp*ratio;
+    } else if (silnik == 6 || silnik == 7) {
+        //wozek lewo - prawo
+        long middle = (long)getMotorIloscImpSrodek(silnik);
+        qDebug() << silnik << impPos << middle << (impPos - middle) << (ratio*(impPos - middle));
+
+        double val = ratio*(impPos - middle);
+        return val;
     }
     return 0;
 }

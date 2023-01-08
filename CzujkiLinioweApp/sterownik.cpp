@@ -122,6 +122,7 @@ void Sterownik::setParams()
 
 void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, unsigned int impTime)
 {
+    qDebug() << __FILE__ << __LINE__ << silnik << home << steps << impTime;
     if (!connected())
         writer.command(SterownikWriter::CONNECT, QByteArray());
 

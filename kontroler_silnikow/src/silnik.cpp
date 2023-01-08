@@ -37,7 +37,7 @@ void Motor::init(WorkMode::WorkModeEnum mode)
 	switch(mode) {
 		case WorkMode::KATOWA_PION:
 			setStopPtr = &Motor::setStopDef;
-    		moveHomePtr = &Motor::moveHomeGoraDol;
+    		moveHomePtr = &Motor::moveHomeRamieGoraDol;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
 			break;
@@ -49,12 +49,22 @@ void Motor::init(WorkMode::WorkModeEnum mode)
 			break;
 	    case WorkMode::KATOWA_POZ:
 			setStopPtr = &Motor::setStopDef;
-    		moveHomePtr = &Motor::moveHomeLewoPrawo;
+    		moveHomePtr = &Motor::moveHomeRamieLewoPrawo;
    			movePositionPtr = &Motor::movePositionGDLP;
     		impulsePtr = &Motor::impulseGDLP;
 			break;
 	    case WorkMode::POZIOMA:
+			setStopPtr = &Motor::setStopDef;
+    		moveHomePtr = &Motor::moveHomeWozekLewoPrawo;
+   			movePositionPtr = &Motor::movePositionGDLP;
+    		impulsePtr = &Motor::impulseGDLP;
+			break;
 	    case WorkMode::PIONOWA:
+			setStopPtr = &Motor::setStopDef;
+    		moveHomePtr = &Motor::moveHomeWozekGoraDol;
+   			movePositionPtr = &Motor::movePositionGDLP;
+    		impulsePtr = &Motor::impulseGDLP;
+			break;
 		default:
 		break;
 	}

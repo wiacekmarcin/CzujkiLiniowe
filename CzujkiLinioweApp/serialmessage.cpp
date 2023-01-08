@@ -236,7 +236,6 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             steps = getNumber(data);
         } else
             steps = 0;
-        qDebug() << __FILE__ << __LINE__ << homeRet << startMove << errMove;
         return true;
         }
 

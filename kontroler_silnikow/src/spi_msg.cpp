@@ -264,7 +264,6 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 		mot->moveHome(delayImp);
 	} else {
 		mot->movePosition(steps, delayImp);
-		mot->startImpulse();
 	}
 	sizeSendMsg = 3;
     SSPRINT(3);

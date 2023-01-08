@@ -41,7 +41,7 @@ uint32_t WorkMode::getDelayImp() const
 	case KATOWA_POZ:
 	case KATOWA_PION:	return 1000;
 	case KOLOWA:		return 60;
-	case POZIOMA:		return 250;
+	case POZIOMA:		return 200;
 	default:    		return UINT_MAX;
 	}
 }
@@ -54,7 +54,7 @@ uint32_t WorkMode::getMaxSteps() const
 	case KATOWA_POZ:
 	case KATOWA_PION:	return 1500;
 	case KOLOWA:		return 32000;
-	case POZIOMA:		return 25000;
+	case POZIOMA:		return 250000;
 	default:    		return 0;
 	}
 }
@@ -80,8 +80,8 @@ WorkMode::WorkModeEnum WorkMode::conv2DebugWorkMode(uint8_t pos)
 								KOLOWA,
 								KOLOWA,
 								KOLOWA,
+								POZIOMA,
 								PIONOWA,
-								POZIOMA,	
 								KATOWA_POZ,
 								KATOWA_PION,
 	};
@@ -102,17 +102,33 @@ void debugModeFun(const WorkMode & mode)
     uint32_t maxSteps = mode.getMaxSteps();
     uint32_t impDelay = mode.getDelayImp();
 
-    do {
-	/*
-	if (mode.getMode() == WorkMode::CHECKKRANC)
-	{
-		Serial.print("Czujnik krancowki = ");
-		Serial.println(digitalRead(KRANCPIN) == LOW ? "Tak" : "Nie");
-		delay(500);
-		prevTime = millis();
-		continue;
+	if (mode.getMode() == WorkMode::PIONOWA) {
+		Serial.println("Wstepma jazda w dol ");
+		digitalWrite(DIRPIN, LOW);
+		uint32_t actSteps = 0;
+		while (actSteps++ < 150000 || digitalRead(KRANCPIN) == HIGH) {
+			Serial.println(digitalRead(KRANCPIN));
+			digitalWrite(PULSEPIN, HIGH);
+			delayMicroseconds(impDelay);
+			digitalWrite(PULSEPIN, LOW);
+			delayMicroseconds(impDelay);
+			++actSteps;
+		}
+		Serial.print("Wykryto krancowkowke po ");
+		Serial.print(actSteps);
+		digitalWrite(DIRPIN, HIGH);
+		actSteps /= 10;
+		while (actSteps--) {
+			Serial.println(digitalRead(KRANCPIN));
+			digitalWrite(PULSEPIN, HIGH);
+			delayMicroseconds(impDelay);
+			digitalWrite(PULSEPIN, LOW);
+			delayMicroseconds(impDelay);
+		}
 	}
-	*/
+	
+    do {
+	
 
 	if (steps == 0xffffffff)
 	{

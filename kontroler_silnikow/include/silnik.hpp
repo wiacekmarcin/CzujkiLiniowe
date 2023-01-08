@@ -73,8 +73,10 @@ public:
     void movePositionGDLP(int32_t pos, uint32_t delayImp);
     void impulseGDLP();
     
-    void moveHomeGoraDol(uint32_t delayImp);
-    void moveHomeLewoPrawo(uint32_t delayImp);
+    void moveHomeRamieGoraDol(uint32_t delayImp);
+    void moveHomeRamieLewoPrawo(uint32_t delayImp);
+    void moveHomeWozekGoraDol(uint32_t delayImp);
+    void moveHomeWozekLewoPrawo(uint32_t delayImp);
 
     void moveHomeFiltr(uint32_t delayImpOrg);  
     void movePositionFiltr(int32_t pos, uint32_t delayImpOrg); 
@@ -107,7 +109,7 @@ public:
 
     void setDirBase(bool back);
 
-    inline void startImpulse() { if (move && delayStart) Timer1.start(); }
+    inline void startImpulse() { if (!timerActive && move && delayStart) { timerActive = true; Timer1.start(); } }
 
 protected:
 
@@ -137,6 +139,7 @@ protected:
     volatile uint8_t prevSpeedIdx; //poprzedni index predkosci przy przyspieszaniu i zwalnaniu
     uint16_t moveSteps;            //ilosc krokow przy filtrach - inny algorytm porusznia
     bool slowMove;                 //czy wolny ruch dla filtrow - jezeli tak bedzie progress
-    bool delayStart;               //czy start po wiadomosci (request i reply trwaja kilka ms na ISR)
+    bool delayStart;
+    volatile bool timerActive;    //czy start po wiadomosci (request i reply trwaja kilka ms na ISR)
 };
 #endif // __SILNIK_H__

@@ -16,6 +16,9 @@ SterownikFiltrow::SterownikFiltrow(QObject *parent)
     , speedFA(100000)
     , speedFB(100000)
     , speedFC(100000)
+    , speedZerFA(100000)
+    , speedZerFB(100000)
+    , speedZerFC(100000)
     , sd(nullptr)
 {
 
@@ -33,19 +36,25 @@ bool SterownikFiltrow::isRuch()
     return false;
 }
 
-void SterownikFiltrow::setUstawienia(const Ustawienia &u)
+void SterownikFiltrow::setUstawienia(Sterownik *sd_, const Ustawienia &u)
 {
+    sd = sd_;
     impPosFA = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
-    impPosFB = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
-    impPosFC = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
+    impPosFB = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFB));
+    impPosFC = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFC));
 
     speedFA = u.getMotorCzasMiedzyImpNormal(nrSilnikFA);
     speedFB = u.getMotorCzasMiedzyImpNormal(nrSilnikFB);
     speedFC = u.getMotorCzasMiedzyImpNormal(nrSilnikFC);
+
+    speedZerFA = u.getMotorCzasMiedzyImpZerow(nrSilnikFA);
+    speedZerFB = u.getMotorCzasMiedzyImpZerow(nrSilnikFB);
+    speedZerFC = u.getMotorCzasMiedzyImpZerow(nrSilnikFC);
 }
 
 void SterownikFiltrow::setPos(unsigned short pA, unsigned short pB, unsigned short pC)
 {
+    qDebug() << __FILE__ << __LINE__ << "Uklad Filtrow" << pA << pB << pC;
     if (sd == nullptr)
         return;
     do {
@@ -55,19 +64,26 @@ void SterownikFiltrow::setPos(unsigned short pA, unsigned short pB, unsigned sho
         fCRuch = pC != actPosfC;
     } while (false);
     if (pA != actPosfA) {
+        qDebug() << "Ustawiam silnik A na " << pA;
         sd->setPositionSilnik(nrSilnikFA, false, pA*impPosFA, speedFA);
+        actPosfA = pA;
     }
     if (pB != actPosfB) {
+        qDebug() << "Ustawiam silnik B na " << pB;
         sd->setPositionSilnik(nrSilnikFB, false, pB*impPosFB, speedFB);
+        actPosfB = pB;
     }
     if (pC != actPosfC) {
+        qDebug() << "Ustawiam silnik C na " << pC;
         sd->setPositionSilnik(nrSilnikFC, false, pC*impPosFC, speedFC);
+        actPosfC = pC;
     }
 
 }
 
 void SterownikFiltrow::setZero()
 {
+    qDebug() << __FILE__ << __LINE__ << "Zerowanie";
     if (sd == nullptr)
         return;
     do {
@@ -76,9 +92,11 @@ void SterownikFiltrow::setZero()
         fBRuch = true;
         fCRuch = true;
     } while (false);
-    sd->setPositionSilnik(nrSilnikFA, true, 0, speedFA);
-    sd->setPositionSilnik(nrSilnikFB, true, 0, speedFB);
-    sd->setPositionSilnik(nrSilnikFC, true, 0, speedFC);
+    qDebug() << "setPosition";
+    sd->setPositionSilnik(nrSilnikFA, true, 0, speedZerFA);
+    sd->setPositionSilnik(nrSilnikFB, true, 0, speedZerFB);
+    sd->setPositionSilnik(nrSilnikFC, true, 0, speedZerFC);
+    actPosfA = actPosfB = actPosfC = 0;
 }
 
 void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
@@ -86,6 +104,7 @@ void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool 
     if (silnik != nrSilnikFA && silnik != nrSilnikFB && silnik != nrSilnikFC)
         return;
 
+    qDebug() << "Filtr " << (silnik == 3 ? "A" : (silnik == 4 ? "B" : "C")) << (home ? "wyzerowany" : "ustawiony") << "Blad" << error;
     if (error) {
         QMutexLocker lock(&mutex);
         fARuch = false;
@@ -107,10 +126,13 @@ void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool 
     }
 
     if (!isRuch()) {
-        if (home)
+        if (home) {
+            qDebug() << "Zerowanie fitrow zakonczone";
             emit zerowanieFiltrowDone();
-        else
+        } else {
+            qDebug() << "Pozycjonowanie filtrow zakonczone";
             emit setUkladFiltrowDone();
+        }
     }
 }
 
