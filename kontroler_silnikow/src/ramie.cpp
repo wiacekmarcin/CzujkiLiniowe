@@ -11,7 +11,7 @@ void Motor::moveHomeRamieGoraDol(uint32_t delayImpOrg)
     VSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
-    move = true;
+    move = false;
     error = false;
     interrupted = false;
     mstate = HOMEPOS;
@@ -23,6 +23,8 @@ void Motor::moveHomeRamieGoraDol(uint32_t delayImpOrg)
         setDirBase(false);
         for (unsigned short n = 0; n < middleSteps; n++) {
             PULSE_H
+            if (mstate == IDLE) //bylo przerwanie
+                return;
         }
         setDirBase(true);
     }
@@ -31,30 +33,33 @@ void Motor::moveHomeRamieGoraDol(uint32_t delayImpOrg)
         ++steps;
         if (steps > maxSteps || mstate != HOMEPOS) {
             error = true;
-            stopMove(interrupted, move, error, home);
             VSDPN("Err",__LINE__);
             return; 
         }
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     for (unsigned short n = 0; n < baseSteps; n++) {
         PULSE_H
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
 
     globalPos = 0;
     setDirBase(false);
     for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
         PULSE_H
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     mstate = IDLE;
-    move = false;
-    stopMove(interrupted, move, error, home);
 }
 
 void Motor::moveHomeRamieLewoPrawo(uint32_t delayImpOrg)
 {
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
-    move = true;
+    move = false;
     error = false;
     interrupted = false;
     mstate = HOMEPOS;
@@ -66,6 +71,8 @@ void Motor::moveHomeRamieLewoPrawo(uint32_t delayImpOrg)
         setDirBase(false);
         for (unsigned short n = 0; n < middleSteps; n++) {
             PULSE_V
+            if (mstate == IDLE) //bylo przerwanie
+                return;
         }
         setDirBase(true);
     }
@@ -74,20 +81,23 @@ void Motor::moveHomeRamieLewoPrawo(uint32_t delayImpOrg)
         ++steps;
         if (steps > maxSteps || mstate != HOMEPOS) {
             error = true;
-            stopMove(interrupted, move, error, home);
             return; 
         }
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     for (unsigned short n = 0; n < baseSteps; n++) {
         PULSE_V
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
 
     globalPos = 0;
     setDirBase(false);
     for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
         PULSE_V
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     mstate = IDLE;
-    move = false;
-    stopMove(interrupted, move, error, home);
 }

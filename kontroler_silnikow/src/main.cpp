@@ -91,9 +91,9 @@ bool isKrancowka()
 	return digitalRead(KRANCPIN) == LOW;
 }
 
-void stopMove(bool interrupted, bool move, bool error, bool home)
+void stopMove(bool interrupted, bool error, bool move, bool home)
 {
-	smsg.moveStopRequest(interrupted, move, error, home);
+	smsg.moveStopRequest(interrupted, error, move, home);
 }
 
 

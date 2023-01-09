@@ -11,7 +11,8 @@
 #include "ustawienia.h"
 
 
-class Test6StabilizacjaCzujki;
+class Test7Badanie;
+class Test0ZerowanieUrzadzenia;
 
 class ProceduraTestowa
 {
@@ -23,7 +24,8 @@ public:
                       const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
-    void flt_bladFiltrow(short silnik, bool zerowanie);
+    void flt_bladFiltrow(QChar silnik, bool zerowanie);
+    void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
 protected:
     void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
 
@@ -45,8 +47,7 @@ private:
     Sterownik* ster;
     Ustawienia u;
     Test7Badanie *dlg7;
-
-
+    Test0ZerowanieUrzadzenia *dlg0;
 };
 
 #endif // PROCEDURATESTOWA_H

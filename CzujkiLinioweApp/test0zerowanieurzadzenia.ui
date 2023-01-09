@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Czujki Liniowe - zerowanie urządzenia</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="1">
@@ -31,23 +31,23 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_a">
+       <widget class="QCheckBox" name="rb_a">
         <property name="text">
-         <string>Filtr A</string>
+         <string>A</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_b">
+       <widget class="QCheckBox" name="rb_b">
         <property name="text">
-         <string>Filtr B</string>
+         <string>B</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_c">
+       <widget class="QCheckBox" name="rb_c">
         <property name="text">
-         <string>Filtr C</string>
+         <string>C</string>
         </property>
        </widget>
       </item>
@@ -84,14 +84,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_pierwwszy_pion">
+       <widget class="QCheckBox" name="rb_pierwwszy_pion">
         <property name="text">
          <string>oś pionowa</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_pierwszy_poziom">
+       <widget class="QCheckBox" name="rb_pierwszy_poziom">
         <property name="text">
          <string>oś pozioma</string>
         </property>
@@ -130,14 +130,14 @@
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rd_drugi_poziom">
+       <widget class="QCheckBox" name="rb_drugi_poziom">
         <property name="text">
          <string>oś pionowa</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="rb_drugi_pion">
+       <widget class="QCheckBox" name="rb_drugi_pion">
         <property name="text">
          <string>oś pozioma</string>
         </property>

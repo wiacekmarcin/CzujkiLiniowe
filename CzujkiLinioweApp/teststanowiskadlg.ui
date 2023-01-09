@@ -231,21 +231,21 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QCheckBox" name="checkBox_2">
+       <widget class="QCheckBox" name="cb_przekaznikNI">
         <property name="text">
          <string>Centrala lub przekaźnik NO</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_3">
+       <widget class="QCheckBox" name="cb_pradZadzialania">
         <property name="text">
          <string>Przekroczenie prądu zadziałania</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBox_4">
+       <widget class="QCheckBox" name="cb_pradMaks">
         <property name="text">
          <string>Przekrocznie prądu maksymalnego</string>
         </property>
@@ -577,7 +577,7 @@
        <widget class="QLineEdit" name="speed8"/>
       </item>
       <item row="11" column="3">
-       <widget class="QLineEdit" name="speed6_2"/>
+       <widget class="QLineEdit" name="speed6"/>
       </item>
       <item row="5" column="0">
        <widget class="QLabel" name="label_18">

@@ -47,6 +47,6 @@ uint8_t getAddress();
 
 void setStopSoft();
 bool isKrancowka();
-void stopMove(bool interrupted, bool move, bool error, bool home);
+void stopMove(bool interrupted, bool error, bool move, bool home);
 
 #endif /* MAIN_MINI_H_ */

@@ -17,11 +17,29 @@
 #include <QStandardPaths>
 #include <QFileInfo>
 
+#define CONN_PB(F) connect(ui->F, &QAction::triggered, this, &MainWindow::F##_triggered)
+#define CONN_PB_ALL CONN_PB(actionParametry_Badania); \
+                    CONN_PB(actionParametryKalibracyjne); \
+                    CONN_PB(actionTestZasilacza); \
+                    CONN_PB(actionTestSterownikaDlg); \
+                    CONN_PB(actionStartTestu); \
+                    CONN_PB(actionTestStanowiska); \
+                    CONN_PB(actionZapiszZadanie); \
+                    CONN_PB(actionZapiszJako); \
+                    CONN_PB(actionOtworzBadanie); \
+                    CONN_PB(actionOtw_rz_okno); \
+                    CONN_PB(actionNoweBadanie); \
+                    CONN_PB(actionUsunBadanie); \
+                    CONN_PB(actionSterownik); \
+                    CONN_PB(actionParametryBadania); \
+                    CONN_PB(actionZamknijBadanie);
+
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , sd(nullptr)
-    , sterF(this)
     , dlgTestZas(nullptr)
     , dlgTestSter(nullptr)
     , dlgTestStan(nullptr)
@@ -35,7 +53,6 @@ MainWindow::MainWindow(QWidget *parent)
     //sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
-    sterF.setUstawienia(sd, u);
     dbgDlg = new DebugDialog(this);
     dbgDlg->hide();
     showDebug = false;
@@ -65,9 +82,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect(zas, &Zasilacz::sendMsg, this, &MainWindow::zas_sendMsg);
     connect(zas, &Zasilacz::recvMsg, this, &MainWindow::zas_recvMsg);
 
-    connect(&sterF, &SterownikFiltrow::zerowanieFiltrowDone, this, &MainWindow::flt_zerowanieFiltrowDone);
-    connect(&sterF, &SterownikFiltrow::setUkladFiltrowDone, this, &MainWindow::flt_setUkladFiltrowDone);
-    connect(&sterF, &SterownikFiltrow::bladFiltrow, this, &MainWindow::flt_bladFiltrow);
+    connect(sd, &Sterownik::zerowanieFiltrowDone, this, &MainWindow::flt_zerowanieFiltrowDone);
+    connect(sd, &Sterownik::setUkladFiltrowDone, this, &MainWindow::flt_setUkladFiltrowDone);
+    connect(sd, &Sterownik::bladFiltrow, this, &MainWindow::flt_bladFiltrow);
+
+    CONN_PB_ALL
+
+    //connect(ui->pbDisconnect, &QPushButton::clicked, this, &MainWindow::pbDisconnect_clicked);
 
     //QIcon icon5(QString::fromUtf8(":/zasilacz/zasilacz_on"));
 
@@ -93,7 +114,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_actionOtw_rz_okno_triggered()
+void MainWindow::actionOtw_rz_okno_triggered()
 {
     showDebug = !showDebug;
     if (showDebug)
@@ -173,10 +194,9 @@ void MainWindow::ster_deviceName(QString name)
 
 void MainWindow::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    qDebug() << "positionDone";
+    ui->centralwidget->ster_setPositionDone(silnik, home, move, error, interrupt);
     if (dlgTestSter)
         dlgTestSter->sd_setPositionDone(silnik, home, move, error, interrupt);
-    sterF.setPositionDone(silnik, home, move, error, interrupt);
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
@@ -268,14 +288,14 @@ void MainWindow::flt_setUkladFiltrowDone()
         dlgTestStan->flt_setUkladFiltrowDone();
 }
 
-void MainWindow::flt_bladFiltrow(short silnik, bool zerowanie)
+void MainWindow::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
-    ui->centralwidget->flt_bladFiltrow(silnik, zerowanie);
+    ui->centralwidget->flt_bladFiltrow(filtr, zerowanie);
     if (dlgTestStan)
-        dlgTestStan->flt_bladFiltrow(silnik, zerowanie);
+        dlgTestStan->flt_bladFiltrow(filtr, zerowanie);
 }
 
-void MainWindow::on_actionParametry_Badania_triggered()
+void MainWindow::actionParametry_Badania_triggered()
 {
     ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
     dlg->exec();
@@ -283,7 +303,7 @@ void MainWindow::on_actionParametry_Badania_triggered()
 }
 
 
-void MainWindow::on_actionParametryKalibracyjne_triggered()
+void MainWindow::actionParametryKalibracyjne_triggered()
 {
     //qDebug() << "Parametry Kalibracyjne";
     ParametryKalibracyjneDlg * dlg = new ParametryKalibracyjneDlg(&u, this);
@@ -292,14 +312,14 @@ void MainWindow::on_actionParametryKalibracyjne_triggered()
 
 }
 
-void MainWindow::on_pbDisconnect_clicked()
+void MainWindow::pbDisconnect_clicked()
 {
     sd->closeDevice(true);
     if (dlgTestSter)
         dlgTestSter->sd_disconnect();
 }
 
-void MainWindow::on_actionTestZasilacza_triggered()
+void MainWindow::actionTestZasilacza_triggered()
 {
     dlgTestZas = new TestZasilaczaDlg(&u, zas, this);
     dlgTestZas->exec();
@@ -308,7 +328,7 @@ void MainWindow::on_actionTestZasilacza_triggered()
 }
 
 
-void MainWindow::on_actionTestSterownikaDlg_triggered()
+void MainWindow::actionTestSterownikaDlg_triggered()
 {
     dlgTestSter = new TestSterownikaDlg(&u, sd, this);
     dlgTestSter->exec();
@@ -317,7 +337,7 @@ void MainWindow::on_actionTestSterownikaDlg_triggered()
 }
 
 
-void MainWindow::on_actionNoweBadanie_triggered()
+void MainWindow::actionNoweBadanie_triggered()
 {
     QString fileName = QString("BadanieCzujki_%1%2.dat").arg(QDate::currentDate().toString("yyyyMMdd"),
                                                              QTime::currentTime().toString("HHmmss"));
@@ -345,7 +365,7 @@ void MainWindow::on_actionNoweBadanie_triggered()
 }
 
 
-void MainWindow::on_actionStartTestu_triggered()
+void MainWindow::actionStartTestu_triggered()
 {
     WyborTestu *dlg1 = new WyborTestu(lt, b.getOdtwarzalnosc(), this);
     if(!dlg1->exec()) {
@@ -358,26 +378,26 @@ void MainWindow::on_actionStartTestu_triggered()
 }
 
 
-void MainWindow::on_actionTestStanowiska_triggered()
+void MainWindow::actionTestStanowiska_triggered()
 {
-    dlgTestStan = new TestStanowiskaDlg(zas, sd, &sterF, &u, this);
+    dlgTestStan = new TestStanowiskaDlg(zas, sd, &u, this);
     dlgTestStan->exec();
     delete dlgTestStan;
     dlgTestStan = nullptr;
 }
 
 
-void MainWindow::on_actionZapiszZadanie_triggered()
+void MainWindow::actionZapiszZadanie_triggered()
 {
     if (fileDaneBadania.isEmpty()) {
-        on_actionZapiszJako_triggered();
+        actionZapiszJako_triggered();
         return;
     }
     saveFile();
 }
 
 
-void MainWindow::on_actionZapiszJako_triggered()
+void MainWindow::actionZapiszJako_triggered()
 {
     qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QString fileName = QFileDialog::getSaveFileName(this, tr("Zachowaj dane w pliku"),
@@ -400,7 +420,7 @@ void MainWindow::saveFile()
 }
 
 
-void MainWindow::on_actionOtworzBadanie_triggered()
+void MainWindow::actionOtworzBadanie_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, tr("Otwórz badanie"),
                                                     QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
@@ -413,5 +433,25 @@ void MainWindow::on_actionOtworzBadanie_triggered()
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(false);
     b.load(fileDaneBadania);
+}
+
+void MainWindow::actionUsunBadanie_triggered()
+{
+
+}
+
+void MainWindow::actionSterownik_triggered()
+{
+
+}
+
+void MainWindow::actionParametryBadania_triggered()
+{
+
+}
+
+void MainWindow::actionZamknijBadanie_triggered()
+{
+
 }
 

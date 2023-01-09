@@ -259,18 +259,33 @@ void SPIMessage::configurationRequest(Result status)
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 {
 	SSD("Ruch. Home = ");SSD(isHome ? "Tak" : "Nie");SSD(" Kroki = ");SSD(steps);SSD(" Interwal = ");SSDN(delayImp);
-
     if (isHome) {
 		mot->moveHome(delayImp);
 	} else {
 		mot->movePosition(steps, delayImp);
 	}
+	CRC8 crc;
+	crc.restart();
+	sendBuff[0] = (MOVE_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0);
+
+	if (mot->isHome())
+		sendBuff[1] += 1;
+	if (mot->isMove())
+		sendBuff[1] += 2;
+	if (mot->isError())
+		sendBuff[1] += 4;			
+	if (mot->isInterrupted())
+		sendBuff[1] += 8;
+	crc.add(sendBuff[0]);
+	crc.add(sendBuff[1]);
+	sendBuff[2] = crc.getCRC();
 	sizeSendMsg = 3;
     SSPRINT(3);
 }
 
 
-void SPIMessage::moveStopRequest(bool interrupted, bool move, bool error, bool home)
+void SPIMessage::moveStopRequest(bool interrupted, bool error, bool move, bool home)
 {
 	SSD("Ruch Stop. home=");SSD(home);SSD(" move=");SSD(move);SSD(" err=");SSD(error);SSD(" inter= ");SSDN(interrupted);
 	setBusy(true);
@@ -280,10 +295,10 @@ void SPIMessage::moveStopRequest(bool interrupted, bool move, bool error, bool h
 	sendBuff[1] = ((address << 4) & 0xf0);
 	if (home)
 		sendBuff[1] += 1;
-	if (error)
-		sendBuff[1] += 2;	
 	if (move)
-		sendBuff[1] += 4;
+		sendBuff[1] += 2;
+	if (error)
+		sendBuff[1] += 4;			
 	if (interrupted)
 		sendBuff[1] += 8;
 	crc.add(sendBuff[0]);

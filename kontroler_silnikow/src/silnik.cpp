@@ -19,8 +19,6 @@ Motor::Motor() :
 	,newPosition(false)
 	,home(false)
 	,move(false)
-	,error(false)
-	,interrupted(false)
 	,cntPomSkip(0)
     ,maxCntSkip(0)
 	,slowMove(true) // domyslnie
@@ -90,10 +88,10 @@ void Motor::setSoftStop()
 {
 	mstate = IDLE;
 	interrupted = true;
-	if (move) {
+	if (move && !home) {
 		Timer1.stop();
 		setMove(false);
-		stopMove(interrupted, move, error, home);
+		stopMove(true, false, true, false);
 	}
 	
 	return;
@@ -115,21 +113,19 @@ void Motor::impulseDef()
 void Motor::moveHomeDef(uint32_t)
 {
 	Serial.println("Zla fukncja do HOME");
-	error=true;
+	interrupted = false;
 	move=false;
 	home=true;
-	interrupted=false;
-	stopMove(interrupted, move, error, home);
+	stopMove(interrupted, true, move, home);
 }
 
 void Motor::movePositionDef(int32_t, uint32_t) 
 {
 	Serial.println("Zla fukncja do MOVE");
-	error=true;
+	interrupted = false;
 	move=false;
 	home=false;
-	interrupted=false;
-	stopMove(interrupted, move, error, home);
+	stopMove(interrupted, true, move, home);
 }
 
 void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
@@ -147,7 +143,6 @@ void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 	setMove(false);
     if (pos == globalPos) {
         mstate = IDLE;
-		stopMove(interrupted, move, error, home);
 		return;
 	} else if (pos > globalPos) {
 		diff = 1;
@@ -172,7 +167,6 @@ void Motor::movePositionGDLP(int32_t pos, uint32_t delayImpOrg)
 		VHSDPN("period", round(delayImp / maxCntSkip));
 		Timer1.setPeriod(round(delayImp / maxCntSkip));
     }
-	stopMove(interrupted, move, error, home);
 	Timer1.start();    
 }
 
@@ -181,8 +175,9 @@ void Motor::impulseGDLP()
 
     if (mstate == IDLE) {
         Timer1.stop();
-        digitalWrite(MOVEPIN, LOW);
-		return;	 
+        setMove(false);
+        stopMove(true, false, true, false);
+		return;	  
     }
 	
 	highlevel = !highlevel;
@@ -204,7 +199,7 @@ void Motor::impulseGDLP()
     if (globalPos == newPosition) {
         Timer1.stop();
         setMove(false);
-		stopMove(interrupted, move, error, home);
+		stopMove(false, false, false, false);
 		SDN("Koniec. GlobalPos = newPosition. Move pin na LOW");
         return;
     }
@@ -212,9 +207,8 @@ void Motor::impulseGDLP()
 
     if (actSteps == maxSteps) {
 		Timer1.stop();
-		error = true;
 		setMove(false);
-		stopMove(interrupted, move, error, home);
+		stopMove(false, true, false, false);
 		SDN("Koniec. Osiagnieto max ilosc krokow");
 	}
 }

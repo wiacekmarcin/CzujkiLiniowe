@@ -16,7 +16,8 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
     zas(nullptr),
     ster(nullptr),
-    dlg7(nullptr)
+    dlg7(nullptr),
+    dlg0(nullptr)
 {
 
 }
@@ -39,10 +40,16 @@ void ProceduraTestowa::flt_setUkladFiltrowDone()
         dlg7->flt_setUkladFiltrowDone();
 }
 
-void ProceduraTestowa::flt_bladFiltrow(short silnik, bool zerowanie)
+void ProceduraTestowa::flt_bladFiltrow(QChar silnik, bool zerowanie)
 {
     if (dlg7)
         dlg7->flt_bladFiltrow(silnik, zerowanie);
+}
+
+void ProceduraTestowa::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+{
+    if (dlg0)
+        dlg0->ster_setPositionDone(silnik, home, move, error, interrupt);
 }
 
 void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -125,18 +132,18 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie()
 
 bool ProceduraTestowa::zerowanieSterownika()
 {
-    Test0ZerowanieUrzadzenia *dlg = new Test0ZerowanieUrzadzenia(parent);
+    dlg0 = new Test0ZerowanieUrzadzenia(ster, parent);
 
-    //dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
-    if (!dlg->exec()) {
+    if (!dlg0->exec()) {
 #ifdef DEFVAL
 
 #else
-        delete dlg;
+        delete dlg0;
         return false;
 #endif
     }
-    delete dlg;
+    delete dlg0;
+    dlg0 = nullptr;
     return true;
 }
 
@@ -219,7 +226,7 @@ void ProceduraTestowa::stabilizacjaCzujki(short nrPomiaru, const DaneTestu &dane
 }
 void ProceduraTestowa::pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, parent);
+    dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, ster, parent);
     dlg7->exec();
     delete dlg7;
     dlg7 = nullptr;

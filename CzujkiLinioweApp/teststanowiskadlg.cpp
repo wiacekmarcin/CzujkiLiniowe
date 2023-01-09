@@ -10,16 +10,33 @@
 #include <QMessageBox>
 #include <QLineEdit>
 
-TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, SterownikFiltrow * sterF_, Ustawienia * ust_, QWidget *parent) :
+#define SETCONF(N) ui->step##N->setText("0"); \
+                   ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),\
+                                                                               ust->getMotorCzasMiedzyImpNormal##N())));
+
+
+#define SETCONF_ALL SETCONF(1) \
+                    SETCONF(2) \
+                    SETCONF(3) \
+                    SETCONF(4) \
+                    SETCONF(5) \
+                    SETCONF(6) \
+                    SETCONF(7) \
+                    SETCONF(8) \
+                    SETCONF(9)
+
+
+TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawienia * ust_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestStanowiskaDlg)
     ,zas(zas_)
     ,ster(ster_)
-    ,sterF(sterF_)
     ,ust(ust_)
     ,czasUstF(this)
 {
     ui->setupUi(this);
+
+    SETCONF_ALL
 
     bool conn = zas->getConnected() && ster->getConnected();
     ui->pbConnect->setEnabled(!conn);
@@ -38,6 +55,9 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Sterown
     ui->pbFiltrUstaw->setEnabled(false);
     ui->gb_Napedy->setEnabled(false);
     ui->gb_Zasilanie->setEnabled(false);
+    ui->cb_pradMaks->setEnabled(false);
+    ui->cb_pradZadzialania->setEnabled(false);
+    ui->cb_przekaznikNI->setEnabled(false);
 }
 
 TestStanowiskaDlg::~TestStanowiskaDlg()
@@ -75,9 +95,13 @@ void TestStanowiskaDlg::configuredZasilacz(int state)
     if (state == Zasilacz::IDENT_OK || state == Zasilacz::ALL_OK) {
         ui->zasilaczConn->setText(QString("POŁĄCZONY [%1]").arg(zasilaczName));
         ui->gb_Zasilanie->setEnabled(true);
+        ui->cb_pradMaks->setEnabled(true);
+        ui->cb_pradZadzialania->setEnabled(true);
     } else {
         ui->zasilaczConn->setText(QString("NIE POŁĄCZONY"));
         ui->gb_Zasilanie->setEnabled(false);
+        ui->cb_pradMaks->setEnabled(false);
+        ui->cb_pradZadzialania->setEnabled(false);
     }
 }
 
@@ -91,9 +115,11 @@ void TestStanowiskaDlg::configuredSterownik(int state)
     if (state == Sterownik::PARAMS_OK || state == Sterownik::ALL_OK ) {
         ui->zasilaczConn->setText(QString("POŁĄCZONY [%1]").arg(sterownikName));
         ui->gb_Napedy->setEnabled(true);
+        ui->cb_przekaznikNI->setEnabled(true);
     } else {
         ui->zasilaczConn->setText(QString("NIE POŁĄCZONY"));
         ui->gb_Napedy->setEnabled(false);
+        ui->cb_przekaznikNI->setEnabled(false);
     }
 }
 
@@ -118,11 +144,11 @@ void TestStanowiskaDlg::flt_setUkladFiltrowDone()
     ui->pbFiltrUstaw->setEnabled(true);
 }
 
-void TestStanowiskaDlg::flt_bladFiltrow(short silnik, bool zerowanie)
+void TestStanowiskaDlg::flt_bladFiltrow(QChar silnik, bool zerowanie)
 {
     QMessageBox::critical(this, zerowanie ? "Zerowanie układu filtrów" : "Ustawianie układu filtrów",
-                          zerowanie ? QString("Wystąpił błąd podczas zerowania układu. Niepoprawnie zachował się silnik %1").arg(silnik) :
-                                      QString("Wystąpił błąd podczas ustawiania układu filtrów dla zadanego tłumienia. Niepoprawnie zachował się silnik %1").arg(silnik));
+                          zerowanie ? QString("Wystąpił błąd podczas zerowania układu. Niepoprawnie zachował się filtr %1").arg(silnik) :
+                                      QString("Wystąpił błąd podczas ustawiania układu filtrów dla zadanego tłumienia. Niepoprawnie zachował się filtr %1").arg(silnik));
     if (!zerowanie) {
         ui->pbFiltrUstaw->setEnabled(true);
         if (czasUstF.isActive())
@@ -149,8 +175,8 @@ void TestStanowiskaDlg::pbFiltrUstaw()
     short fA = ui->fA->text().toShort();
     short fB = ui->fB->text().toShort();
     short fC = ui->fC->text().toShort();
-    sterF->setPos(fA, fB, fC);
-    czasUstF.setInterval(2000);
+    ster->setFiltrPos(fA, fB, fC);
+    czasUstF.setInterval(2500);
     czasUstF.setSingleShot(true);
     czasUstF.start();
 }
@@ -203,6 +229,6 @@ void TestStanowiskaDlg::ukladFiltrowTimeout()
 void TestStanowiskaDlg::zerowanieFiltrow()
 {
     qDebug() << __FILE__ << __LINE__;
-    sterF->setZero();
+    ster->setFiltrReset();
     //ui->
 }

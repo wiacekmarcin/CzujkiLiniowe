@@ -14,7 +14,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>0</string>
+   <string>Czujki Liniowe - oczekiwanie na połączenie z sterownikiem</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

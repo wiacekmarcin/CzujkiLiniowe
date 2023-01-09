@@ -8,7 +8,6 @@
 #include "ustawienia.h"
 #include "sterownik.h"
 #include "zasilacz.h"
-#include "ukladfiltrow.h"
 #include <QThread>
 
 class TestZasilaczaDlg;
@@ -30,7 +29,7 @@ protected slots:
 
 
 private slots:
-    void on_actionOtw_rz_okno_triggered();
+
 
     void ster_error(QString s);
     void ster_debug(QString d);
@@ -53,20 +52,25 @@ private slots:
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
-    void flt_bladFiltrow(short silnik, bool zerowanie);
+    void flt_bladFiltrow(QChar filtr, bool zerowanie);
 
-    void on_actionParametry_Badania_triggered();
-    void on_actionParametryKalibracyjne_triggered();
-    void on_actionTestZasilacza_triggered();
-    void on_pbDisconnect_clicked();
-    void on_actionTestSterownikaDlg_triggered();
-    void on_actionNoweBadanie_triggered();
-    void on_actionStartTestu_triggered();
-    void on_actionTestStanowiska_triggered();
-    void on_actionZapiszZadanie_triggered();
-    void on_actionZapiszJako_triggered();
+    void actionOtw_rz_okno_triggered();
+    void actionParametry_Badania_triggered();
+    void actionParametryKalibracyjne_triggered();
+    void actionTestZasilacza_triggered();
+    void pbDisconnect_clicked();
+    void actionTestSterownikaDlg_triggered();
+    void actionNoweBadanie_triggered();
+    void actionStartTestu_triggered();
+    void actionTestStanowiska_triggered();
+    void actionZapiszZadanie_triggered();
+    void actionZapiszJako_triggered();
+    void actionOtworzBadanie_triggered();
+    void actionUsunBadanie_triggered();
+    void actionSterownik_triggered();
+    void actionParametryBadania_triggered();
+    void actionZamknijBadanie_triggered();
 
-    void on_actionOtworzBadanie_triggered();
 
 protected:
     void saveFile();
@@ -77,7 +81,7 @@ private:
     ParametryBadania b;
 
     Sterownik * sd;
-    SterownikFiltrow sterF;
+
     QThread sdThreadW;
     QThread sdThreadR;
     DebugDialog * dbgDlg;

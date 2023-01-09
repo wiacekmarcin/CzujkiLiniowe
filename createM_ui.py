@@ -26,7 +26,7 @@ txt="""
 <item row="%(row)d" column="5">
     <widget class="QLabel" name="lunit2_%(row)d">
         <property name="text">
-        <string>*/min</string>
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
     </widget>
 </item>

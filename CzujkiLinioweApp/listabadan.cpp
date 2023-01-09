@@ -37,7 +37,12 @@ void ListaBadan::flt_setUkladFiltrowDone()
     procedura.flt_setUkladFiltrowDone();
 }
 
-void ListaBadan::flt_bladFiltrow(short silnik, bool zerowanie)
+void ListaBadan::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
-    procedura.flt_bladFiltrow(silnik, zerowanie);
+    procedura.flt_bladFiltrow(filtr, zerowanie);
+}
+
+void ListaBadan::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+{
+    procedura.ster_setPositionDone(silnik, home, move, error, interrupt);
 }

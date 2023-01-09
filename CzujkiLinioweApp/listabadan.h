@@ -25,7 +25,8 @@ public:
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
-    void flt_bladFiltrow(short silnik, bool zerowanie);
+    void flt_bladFiltrow(QChar filtr, bool zerowanie);
+    void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
 
 private:
     Ui::ListaBadan *ui;

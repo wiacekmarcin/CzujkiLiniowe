@@ -15,7 +15,10 @@
                    ui->speed##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
                                                                                 u->getMotorCzasMiedzyImpZerow##N()))); \
                    ui->speedPos##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
-                                                         u->getMotorCzasMiedzyImpZerow##N())));
+                                                         u->getMotorCzasMiedzyImpZerow##N())));\
+                   ui->speedWork##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
+                                                                               u->getMotorCzasMiedzyImpNormal##N()))); \
+                   ui->delayWork##N->setText(QString::number(u->getMotorCzasMiedzyImpNormal##N())); \
 
 
 #define SETCONF_ALL SETCONF(1) \
@@ -118,7 +121,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     ui->iconFound->setStyleSheet("background-color:red");
 
     if (sdv->getConnected()) {
-        ui->frame_3->setEnabled(true);
+        ui->frameMove->setEnabled(true);
         ui->iconKonf->setStyleSheet("background-color:green");
         ui->iconAuth->setStyleSheet("background-color:green");
         ui->iconOpen->setStyleSheet("background-color:green");
@@ -132,7 +135,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
             ikonyStatusu[i]->setStyleSheet("background-color:green");
         }
     } else {
-        ui->frame_3->setEnabled(false);
+        ui->frameMove->setEnabled(false);
         ui->pbDisconnect->setEnabled(false);
         ui->pbConnect->setEnabled(true);
         ui->pbReset->setEnabled(false);
@@ -156,7 +159,8 @@ TestSterownikaDlg::~TestSterownikaDlg()
                      u->setMotorOdwrocObroty##N(ui->obrot##N->isChecked()); \
                      u->setMotorPrzelozenieImpJedn##N(ui->ratio##N->text()); \
                      u->setMotorIloscImpSrodek##N(ui->srodekKroki##N->text()); \
-                     u->setMotorNazwa##N(ui->motorName##N->text());
+                     u->setMotorNazwa##N(ui->motorName##N->text()); \
+                     u->setMotorCzasMiedzyImpNormal##N(ui->delayWork##N->text());
 
 #define WRITECONF_ALL WRITECONF(1) \
                       WRITECONF(2) \
@@ -247,7 +251,7 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
         break;
     }
 
-    ui->frame_3->setEnabled(conn);
+    ui->frameMove->setEnabled(conn);
     ui->pbConnect->setEnabled(!conn);
     ui->pbDisconnect->setEnabled(conn);
 }
@@ -431,7 +435,7 @@ void TestSterownikaDlg::pbHomeAll_clicked()
 }
 
 void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const QString &ratio,
-                                           const QString & speed, const QString & middleImp, 
+                                           const QString & speed, const QString & middleImp,
                                            const QString & maxImp)
 {
     ui->dbg3->append(QString("Ustaw pozycje silnik %1 l=%2[*/mm] speed=%3[*/min mm/min] (ratio=%4, middleImp=%5)").

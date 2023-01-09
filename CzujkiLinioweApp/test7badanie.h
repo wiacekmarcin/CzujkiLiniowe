@@ -11,18 +11,20 @@ namespace Ui {
 class Test7Badanie;
 }
 
+class Sterownik;
 class Test7Badanie : public QDialog
 {
     Q_OBJECT
 
 public:
     explicit Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
-                          const ParametryBadania &daneBadania, const Ustawienia &, QWidget *parent = 0);
+                          const ParametryBadania &daneBadania, const Ustawienia &,
+                          Sterownik * ster, QWidget *parent = 0);
     ~Test7Badanie();
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
-    void flt_bladFiltrow(short silnik, bool zerowanie);
+    void flt_bladFiltrow(QChar silnik, bool zerowanie);
 
 private slots:
     void uplynalCzasPostojuFiltra();
@@ -35,6 +37,8 @@ private:
     QList<QStringList> tlumienia;
     unsigned int actTlumPos;
     unsigned int maxTlum;
+    Sterownik * ster;
+    int czasPostoju;
 };
 
 #endif // TEST7BADANIE_H

@@ -32,7 +32,7 @@ void Motor::moveHomeWozekGoraDol(uint32_t delayImpOrg)
     WSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
-    move = true;
+    move = false;
     error = false;
     interrupted = false;
     mstate = HOMEPOS;
@@ -52,6 +52,8 @@ void Motor::moveHomeWozekGoraDol(uint32_t delayImpOrg)
         WSDN("Odjazd od bazy");
         for (unsigned short n = 0; n < steps; n++) {
             PULSE_WH
+            if (mstate == IDLE) //bylo przerwanie
+                return;
         }
         setDirBase(true);
 
@@ -62,14 +64,17 @@ void Motor::moveHomeWozekGoraDol(uint32_t delayImpOrg)
         ++steps;
         if (steps > maxSteps || mstate != HOMEPOS) {
             error = true;
-            stopMove(interrupted, move, error, home);
             WSDPN("Err",__LINE__);
             return; 
         }
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     WSDPN("Baza", baseSteps);
     for (unsigned short n = 0; n < baseSteps; n++) {
         PULSE_WH
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
 
     globalPos = 0;
@@ -77,10 +82,10 @@ void Motor::moveHomeWozekGoraDol(uint32_t delayImpOrg)
     WSDPN("Srodek", middleSteps);
     for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
         PULSE_WH
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     mstate = IDLE;
-    move = false;
-    stopMove(interrupted, move, error, home);
 }
 
 void Motor::moveHomeWozekLewoPrawo(uint32_t delayImpOrg)
@@ -88,7 +93,7 @@ void Motor::moveHomeWozekLewoPrawo(uint32_t delayImpOrg)
     WSDPN(__FILE__, __LINE__);
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
-    move = true;
+    move = false;
     error = false;
     interrupted = false;
     mstate = HOMEPOS;
@@ -110,6 +115,8 @@ void Motor::moveHomeWozekLewoPrawo(uint32_t delayImpOrg)
         else stepsB = maxSteps >> 2;
         for (unsigned short n = 0; n < stepsB; n++) {
             PULSE_WV
+            if (mstate == IDLE) //bylo przerwanie
+                return;
         }
         setDirBase(true);
     }
@@ -119,30 +126,33 @@ void Motor::moveHomeWozekLewoPrawo(uint32_t delayImpOrg)
         ++steps;
         if (steps > maxSteps || mstate != HOMEPOS) {
             error = true;
-            stopMove(interrupted, move, error, home);
             return; 
         }
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     for (short i = 0; i < 10; i++) {
         if (!isKrancowka()) {
             WSDN("Blad krancowki...");
             error = true;
-            stopMove(interrupted, move, error, home);
             return; 
         }
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     WSDPN("Wykonane impulsy : ",steps);
     for (unsigned short n = 0; n < baseSteps; n++) {
         PULSE_WV
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
 
     globalPos = 0;
     setDirBase(false);
     for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
         PULSE_WV
+        if (mstate == IDLE) //bylo przerwanie
+            return;
     }
     mstate = IDLE;
-    move = false;
-    WSDN("Koniec");
-    stopMove(interrupted, move, error, home);
 }

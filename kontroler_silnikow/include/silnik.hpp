@@ -105,6 +105,7 @@ public:
 
     bool isHome() const { return home; }
     bool isMove() const { return move; }
+    bool isError() const { return error; }
     bool isInterrupted() const { return interrupted; }
 
     void setDirBase(bool back);
@@ -128,10 +129,10 @@ protected:
     volatile bool highlevel;
     int32_t newPosition;
 
-    bool home;
-    bool move;
-    bool error;
-    bool interrupted;
+    bool home;   //czy zerowanie
+    bool move;   //czy ruch na timerze
+    bool error;  //blad glownie zerowania, na timer jest zglaszany osobno
+    volatile bool interrupted; //czy bylo przerwanie - glownie dla zerowania - na timerze jest zglaszany osobno
     
     uint16_t cntPomSkip;
     uint16_t maxCntSkip;

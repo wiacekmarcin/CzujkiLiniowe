@@ -35,9 +35,10 @@ void Motor::moveHomeFiltr(uint32_t delayImpOrg)
     FSDN("Zerowanie");
     uint32_t delayImp = delayImpOrg>>1;
     home = true;
-    move = true;
+    move = false;
     error = false;
     interrupted = false;
+
     mstate = HOMEPOS;
     setDirBase(true);
 
@@ -48,30 +49,34 @@ void Motor::moveHomeFiltr(uint32_t delayImpOrg)
         setDirBase(false);
         for (unsigned short n = 0; n < maxSteps/6; n++) {
             PULSE_F
+            if (mstate == IDLE) //bylo przerwanie
+                return;
         }
         setDirBase(true);
     }
     FSDPN("Czy krancowka", isKrancowka());
     FSDN("Jazda do bazy");
     while(!isKrancowka()) {
+        if (mstate == IDLE) //bylo przerwanie
+            return;
         PULSE_F
         ++steps;
         if (steps > maxSteps || mstate != HOMEPOS) {
             error = true;
-            stopMove(interrupted, move, error, home);
             FSDPN("Err",__LINE__);
             return; 
         }
     }
     FSDPN("Dodatkowe pozycjoniowanie", baseSteps);
     for (unsigned short n = 0; n < baseSteps; n++) {
+        if (mstate == IDLE) //bylo przerwanie
+            return;
         PULSE_F
     }
     globalPos = 0;
     mstate = IDLE;
     move = false;
     FSDPN("Koniec globaPos", globalPos);
-    stopMove(interrupted, move, error, home);
     setDirBase(false);
 }
 
@@ -82,23 +87,24 @@ void Motor::movePositionFiltr(int32_t pos, uint32_t delayImpOrg)
     digitalWrite(PULSEPIN, LOW);
     slowMove = delayImp > 500;
 	FSDPN("delayImp=", delayImp);
+    home = false;
+    move = false;
+    error = false;
+    interrupted = false;
     
+    FSD("speed[");
     for (short i=0; i<10; ++i) {
         speed[i] = (uint16_t) (10*delayImp/(i+1));
-        FSDP("speed[", i);
-        FSDPN("]", speed[i]);
+        FSDP(speed[i],",");
     }
+    FSDN("]");
 
-	home = false;
-	error = false;
-	interrupted = false;
     int32_t d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 	setMove(false);
     FSDP("pos=", pos);
     FSDPN(" globalPos=", globalPos);
     if (pos == globalPos) {
         mstate = IDLE;
-		stopMove(interrupted, move, error, home);
 		return;
 	} else if (pos > globalPos) {
         FSDN("Pos > globalPos");
@@ -150,7 +156,6 @@ void Motor::movePositionFiltr(int32_t pos, uint32_t delayImpOrg)
         timerActive = false;
     }
     setMove(true);
-    stopMove(interrupted, move, error, home);
 }
 
 //1.2 s dla 180s przy T=60us
@@ -162,8 +167,7 @@ void Motor::impulseFiltr()
         FSDN("Koniec. mstate=idle");
         Timer1.stop();
         setMove(false);
-        error=true;
-        stopMove(interrupted, move, error, home);
+        stopMove(true, false, true, false);
         delayStart = false;
 		return;	 
     }
@@ -196,9 +200,8 @@ void Motor::impulseFiltr()
     if (globalPos == newPosition || actSteps >= moveSteps) {
         Timer1.stop();
 		setMove(false);
-        stopMove(interrupted, move, error, home);
-        FSDN("Koniec.");
-        FSDPN("globalPos", globalPos);
+        stopMove(false, false, false, false);
+        FSDN("Koniec. OK ");  FSDP("actSteps=", actSteps);; FSDPN("globalPos=", globalPos);
         digitalWrite(PULSEPIN, LOW);
         delayStart = false;
         return;
@@ -210,11 +213,10 @@ void Motor::impulseFiltr()
         globalPos = maxSteps;
     
     
-    if (actSteps == maxSteps/2 + 5) {
+    if (actSteps >= maxSteps/2 + 5) {
 		Timer1.stop();
-		error = true;
 		setMove(false);
-        stopMove(interrupted, move, error, home);
+        stopMove(false, true, false, false);
 		FSDN("Koniec. steps > max/2+5");
         digitalWrite(PULSEPIN, LOW);
         delayStart = false;

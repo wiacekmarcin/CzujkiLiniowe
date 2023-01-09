@@ -7,7 +7,6 @@
 class Ustawienia;
 class Sterownik;
 class Zasilacz;
-class SterownikFiltrow;
 
 namespace Ui {
 class TestStanowiskaDlg;
@@ -18,7 +17,7 @@ class TestStanowiskaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestStanowiskaDlg(Zasilacz * zas, Sterownik * ster, SterownikFiltrow * sterF, Ustawienia * ust, QWidget *parent = nullptr);
+    explicit TestStanowiskaDlg(Zasilacz * zas, Sterownik * ster, Ustawienia * ust, QWidget *parent = nullptr);
     ~TestStanowiskaDlg();
     void deviceNameZasilacz(const QString & serial);
     void valueZasilacz(int kind, int value);
@@ -29,7 +28,7 @@ public:
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
-    void flt_bladFiltrow(short silnik, bool zerowanie);
+    void flt_bladFiltrow(QChar silnik, bool zerowanie);
 
 private slots:
     void connect2Device();
@@ -43,7 +42,6 @@ private:
 
     Zasilacz *zas;
     Sterownik *ster;
-    SterownikFiltrow * sterF;
     Ustawienia * ust;
     QString zasilaczName;
     QString sterownikName;

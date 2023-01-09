@@ -229,8 +229,8 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             m_parseReply = POSITION_REPLY;
 
         interMove = (options & 0x08) == 0x08;
-        startMove = (options & 0x04) == 0x04;
-        errMove = (options & 0x02) == 0x02;
+        startMove = (options & 0x02) == 0x02;
+        errMove = (options & 0x04) == 0x04;
 
         if (data.size() >= 4) {
             steps = getNumber(data);

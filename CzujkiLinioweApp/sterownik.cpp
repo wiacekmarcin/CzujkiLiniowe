@@ -11,12 +11,161 @@
 
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
+SterownikFiltrow::SterownikFiltrow(QObject *parent)
+    : QObject{parent}
+    , fARuch(false)
+    , fBRuch(false)
+    , fCRuch(false)
+    , actPosfA(0)
+    , actPosfB(0)
+    , actPosfC(0)
+    , impPosFA(0)
+    , impPosFB(0)
+    , impPosFC(0)
+    , speedFA(100000)
+    , speedFB(100000)
+    , speedFC(100000)
+    , speedZerFA(100000)
+    , speedZerFB(100000)
+    , speedZerFC(100000)
+    , sd(nullptr)
+    , setMove(false)
+{
+
+}
+
+bool SterownikFiltrow::isRuch()
+{
+    QMutexLocker lock(&mutex);
+    if (fARuch)
+        return true;
+    if (fBRuch)
+        return true;
+    if (fCRuch)
+        return true;
+    return false;
+}
+
+void SterownikFiltrow::setUstawienia(Sterownik *sd_, const Ustawienia &u)
+{
+    sd = sd_;
+    impPosFA = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
+    impPosFB = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFB));
+    impPosFC = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFC));
+
+    speedFA = u.getMotorCzasMiedzyImpNormal(nrSilnikFA);
+    speedFB = u.getMotorCzasMiedzyImpNormal(nrSilnikFB);
+    speedFC = u.getMotorCzasMiedzyImpNormal(nrSilnikFC);
+
+    speedZerFA = u.getMotorCzasMiedzyImpZerow(nrSilnikFA);
+    speedZerFB = u.getMotorCzasMiedzyImpZerow(nrSilnikFB);
+    speedZerFC = u.getMotorCzasMiedzyImpZerow(nrSilnikFC);
+}
+
+void SterownikFiltrow::setPos(unsigned short pA, unsigned short pB, unsigned short pC)
+{
+    qDebug() << "-------\n" << __FILE__ << __LINE__ << "Uklad Filtrow" << pA << pB << pC;
+    if (sd == nullptr)
+        return;
+
+    do {
+        QMutexLocker lock(&mutex);
+        fARuch = pA != actPosfA;
+        fBRuch = pB != actPosfB;
+        fCRuch = pC != actPosfC;
+    } while (false);
+    if (pA != actPosfA) {
+        qDebug() << "Ustawiam silnik A na " << pA;
+        setMove = true;
+        sd->setPositionSilnik(nrSilnikFA, false, pA*impPosFA, speedFA);
+        actPosfA = pA;
+    }
+    if (pB != actPosfB) {
+        qDebug() << "Ustawiam silnik B na " << pB;
+        setMove = true;
+        sd->setPositionSilnik(nrSilnikFB, false, pB*impPosFB, speedFB);
+        actPosfB = pB;
+    }
+    if (pC != actPosfC) {
+        qDebug() << "Ustawiam silnik C na " << pC;
+        setMove = true;
+        sd->setPositionSilnik(nrSilnikFC, false, pC*impPosFC, speedFC);
+        actPosfC = pC;
+    }
+    if (!setMove) {
+        emit setUkladFiltrowDone();
+    }
+}
+
+void SterownikFiltrow::setZero()
+{
+    qDebug() << __FILE__ << __LINE__ << "Zerowanie";
+    if (sd == nullptr)
+        return;
+    do {
+        QMutexLocker lock(&mutex);
+        fARuch = true;
+        fBRuch = true;
+        fCRuch = true;
+    } while (false);
+    qDebug() << "setPosition";
+    setMove = true;
+    sd->setPositionSilnik(nrSilnikFA, true, 0, speedZerFA);
+    sd->setPositionSilnik(nrSilnikFB, true, 0, speedZerFB);
+    sd->setPositionSilnik(nrSilnikFC, true, 0, speedZerFC);
+    actPosfA = actPosfB = actPosfC = 0;
+}
+
+void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+{
+    qDebug() << __FILE__ << __LINE__ << silnik << home << move << error << interrupt;
+    if (silnik != nrSilnikFA && silnik != nrSilnikFB && silnik != nrSilnikFC)
+        return;
+
+    if (!setMove)
+        return;
+
+    qDebug() << "Filtr " << (silnik == nrSilnikFA ? "A" : (silnik == nrSilnikFC ? "B" : "C")) << (home ? "wyzerowany" : "ustawiony") << "Blad" << error;
+    if (error) {
+        QMutexLocker lock(&mutex);
+        fARuch = false;
+        fBRuch = false;
+        fCRuch = false;
+        emit bladFiltrow((silnik == nrSilnikFA ? 'A' : (silnik == nrSilnikFB ? 'B' : 'C')), home);
+        return ;
+    }
+
+    if (silnik == nrSilnikFA) {
+        QMutexLocker lock(&mutex);
+        fARuch = move;
+    } else if (silnik == nrSilnikFB) {
+        QMutexLocker lock(&mutex);
+        fBRuch = move;
+    } else if (silnik == nrSilnikFC) {
+        QMutexLocker lock(&mutex);
+        fCRuch = move;
+    }
+
+    if (!isRuch()) {
+        if (home) {
+            qDebug() << "Zerowanie fitrow zakonczone";
+            setMove = false;
+            emit zerowanieFiltrowDone();
+        } else {
+            qDebug() << "Pozycjonowanie filtrow zakonczone";
+            setMove = false;
+            emit setUkladFiltrowDone();
+        }
+    }
+}
+
 Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     : QObject(parent),
       m_portName(""),
       m_connected(false),
       ust(u),
-      writer(this)
+      writer(this),
+      filtry(this)
 {
     //QThread::currentThread()->setObjectName("mainThread");
     //portThread.setObjectName("portThread");
@@ -28,9 +177,14 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     writer.moveToThread(&writeThread);
     writeThread.start();
 
+    filtry.setUstawienia(this, *u);
+
     connect(&serialPort, &QSerialPort::readyRead, this, &Sterownik::handleReadyRead);
     connect(&serialPort, &QSerialPort::errorOccurred, this, &Sterownik::handleError);
     connect(&m_timer, &QTimer::timeout, this, &Sterownik::handleTimeout);
+    connect(&filtry, &SterownikFiltrow::bladFiltrow, this, &Sterownik::bladFiltrow);
+    connect(&filtry, &SterownikFiltrow::setUkladFiltrowDone, this, &Sterownik::setUkladFiltrowDone);
+    connect(&filtry, &SterownikFiltrow::zerowanieFiltrowDone, this, &Sterownik::zerowanieFiltrowDone);
 
 }
 
@@ -38,7 +192,7 @@ bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
 {
     if (currentRequest.size() > 0)
     {
-        //qDebug() << "write in thread" << QThread::currentThread();
+        qDebug() << "write " << currentRequest.size() << "[" << currentRequest.toHex().toStdString().data() << "]";
         int sendsize = serialPort.write(currentRequest);
         bool ret = serialPort.waitForBytesWritten(waitWrite);
         //qDebug() << ret;
@@ -131,7 +285,16 @@ void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, uns
                          SerialMessage::setPositionHome(silnik, impTime));
     else
         writer.command(SterownikWriter::SET_POSITION,
-                         SerialMessage::setPosition(silnik,  steps, impTime));
+                       SerialMessage::setPosition(silnik,  steps, impTime));
+}
+
+void Sterownik::setZerowanieNadajnikOdbiornikFiltry()
+{
+    for (short id = 1; id <= 9; ++id) {
+        if (id == 6 ||  id == 7)
+            continue;
+        setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+    }
 }
 
 bool Sterownik::connected()
@@ -178,6 +341,17 @@ void Sterownik::setStopMotor(short nrSilnik)
         writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
     }
 }
+
+void Sterownik::setFiltrPos(unsigned short pA, unsigned short pB, unsigned short pC)
+{
+    filtry.setPos(pA, pB, pC);
+}
+
+void Sterownik::setFiltrReset()
+{
+    filtry.setZero();
+}
+
 void Sterownik::configureMotorsJob()
 {
     for (short i = 1 ; i <= 9; ++i) {
@@ -363,10 +537,12 @@ void Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
+            filtry.setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             emit setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
         case SerialMessage::POSITION_REPLY:
+            filtry.setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             emit setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
@@ -391,6 +567,7 @@ void Sterownik::handleReadyRead()
 {
     QByteArray input = serialPort.readAll();
     DEBUGSER(QString("Recv %1 [%2]").arg(input.size()).arg(input.toHex().toStdString().data()));
+    qDebug() << "Recv " << input.size() << "[" << input.toHex().toStdString().data() << "]";
     receiveData.append(input);
 
     if (eventLoop.isRunning()) {
