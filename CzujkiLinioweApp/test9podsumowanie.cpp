@@ -47,15 +47,15 @@ QString pierwszy, drugi;
     addOneRekordTable(4, 5, "AXA5", "AYA5", "3.5", "45", true, "");
     addOneRekordTable(5, 6, "AXA6", "AYA6", "2.5", "45", true, "");
     addOneRekordTable(6, 7, "AXA7", "AYA7", "0.6", "45", true, "");
-    feetTable(7);
+    
 #endif
 
     for (const auto & dane : daneTestu.getDaneBadanCzujek())
     {
         //QString inne;
-        addOneRekordTable(num++, dane.nrPomiaru, dane.numerPierwszy, dane.numerDrugi, dane.value, dane.value2, dane.ok, dane.error);
+        addOneRekordTable(num++, dane.nrPomiaru, dane.numerNadajnika, dane.numerDrugi, dane.value, dane.value2, dane.ok, dane.error);
     }
-    feetTable(2*daneTestu.getDaneBadanCzujek().size()+3);
+
 
 
 
@@ -68,134 +68,62 @@ Test9Podsumowanie::~Test9Podsumowanie()
     delete ui;
 }
 
-#define STR(N) #N
-#define FBOX(N) frame_##N->setObjectName(QString("frame_%1_%2").arg(STR(N)).arg(nrPozycji)); \
-    frame_##N->setFrameShape(QFrame::StyledPanel); \
-    frame_##N->setFrameShadow(QFrame::Raised); \
-    QHBoxLayout * horizontalLayout_##N = new QHBoxLayout(frame_##N); \
-    horizontalLayout_##N->setSpacing(3); \
-    horizontalLayout_##N->setObjectName(QString("horizontalLayout_%1_%2").arg(STR(N)).arg(nrPozycji)); \
-    horizontalLayout_##N->setContentsMargins(5, 5, 5, 5); \
-    QLabel * label_##N = new QLabel(frame_##N); \
-    label_##N->setObjectName(QString("label_tlumienie_")+QString::number(nrPozycji)); \
-    horizontalLayout_##N->addWidget(label_##N);\
-    label_##N->setText(N##Text);
-
-void Test9Podsumowanie::addOneRekordTable(short nrPozycji, short nrProby, const QString & pierwszyText, const QString & drugiText,
-                                          const QString &tlumienieText, const QString &tlumienie2Text,
+void Test9Podsumowanie::addOneRekordTable(short row, short nrProby, const QString & nadajnik, const QString & odbiornik,
+                                          const QString &tlumienie_db, const QString &tlumienie_per,
                                           bool ok, const QString &inneText)
 {
-    QLabel * nrCzujki = new QLabel(ui->frameTable);
-    nrCzujki->setObjectName(QString("nrCzujki")+QString::number(nrPozycji));
-    nrCzujki->setText(QString::number(nrProby));
-    ui->gridLayoutResults->addWidget(nrCzujki, 2*nrPozycji+3, 1, 1, 1);
 
-    QFrame * frame_pierwszy = new QFrame(ui->frameTable);
-    FBOX(pierwszy);
-    ui->gridLayoutResults->addWidget(frame_pierwszy, 2*nrPozycji+3, 3, 1, 1);
-
-    QFrame * frame_drugi = new QFrame(ui->frameTable);
-    FBOX(drugi);
-    ui->gridLayoutResults->addWidget(frame_drugi, 2*nrPozycji+3, 5, 1, 1);
-
-    QFrame * frame_tlumienie = new QFrame(ui->frameTable);
-    FBOX(tlumienie);
-    ui->gridLayoutResults->addWidget(frame_tlumienie, 2*nrPozycji+3, 7, 1, 1);
-
-    QFrame * frame_tlumienie2 = new QFrame(ui->frameTable);
-    FBOX(tlumienie2);
-    ui->gridLayoutResults->addWidget(frame_tlumienie2, 2*nrPozycji+3, 9, 1, 1);
-
-    QLabel * result = new QLabel(ui->frameTable);
-    result->setObjectName(QString("result_")+QString::number(nrPozycji));
-    result->setText(ok ? "POZYTYWNY" : "NEGATYWNY");
-    ui->gridLayoutResults->addWidget(result, 2*nrPozycji+3, 11, 1, 1);
-
-    QLabel * inne = new QLabel(ui->frameTable);
-    inne->setText(inneText);
-    inne->setObjectName(QString("inne_")+QString::number(nrPozycji));
-
-    ui->gridLayoutResults->addWidget(inne, 2*nrPozycji+3, 13, 1, 1);
-
-    ADDHLINE(nrPozycji, 2*nrPozycji+4);
+    short col = 0;
+    short row = 2*row+3;
+    
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableTd(QString("label_%1_%2").arg(row).arg(col), QString::number(nrPozycji), row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableFrame(QString("frame_%1_%2").arg(row, col), nadajnik, row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableFrame(QString("frame_%1_%2").arg(row, col), odbiornik, row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableFrame(QString("frame_%1_%2").arg(row, col), tlumienie_db, row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableFrame(QString("frame_%1_%2").arg(row, col), tlumienie_per, row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableTd(QString("label_%1_%2").arg(row).arg(col), ok ? "POZYTYWNY" : "NEGATYWNY", row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    oneTableTd(QString("label_%1_%2").arg(row).arg(col), inneText, row, col++);
+    addLine(QString("line_%1_%2").arg(row).arg(col), false, row, col++, 1, 1);
+    
+    addLine(QString("vertline_%1").arg(row).arg(col), false, row+1, 0, 1, col);
 
 }
 
-void Test9Podsumowanie::headTable(const QString & pierwszy, const QString & drugi)
+void Test9Podsumowanie::addRow(const ) {
+    
+}
+
+void Test9Podsumowanie::headTable(const QString & nadajnik, const QString & odbiornik)
 {
-    ADDHLINE(0, 0);
-    QLabel * etProba = new QLabel(ui->frameTable);
-    etProba->setObjectName("etProba");
-    etProba->setText(QString::fromUtf8("Próba"));
-    etProba->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f1(etProba->font());
-    f1.setBold(true);
-    etProba->setFont(f1);
-    ui->gridLayoutResults->addWidget(etProba, 1, 1, 1, 1);
+    short col = 0;
+    
+    addLine("lhead0", false, 1, col++, 1, 1);
+    oneHeadRecord("etProba", QString::fromUtf8("Próba"), 1, col++);    
+    addLine("lhead1", false, 1, col++, 1, 1);
+    oneHeadRecord("etNadajnik", nadajnik, 1, col++);
+    addLine("lhead2", false, 1, col++, 1, 1);
+    oneHeadRecord("etOdbiornik", odbiornik, 1, col++);
+    addLine("lhead3", false, 1, col++, 1, 1);
+    oneHeadRecord("etCndB", "<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", 1, col++);
+    addLine("lhead4", false, 1, col++, 1, 1);
+    oneHeadRecord("etCnPer", "<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", 1, col++);
+    addLine("lhead5", false, 1, col++, 1, 1);
+    oneHeadRecord("etResult", "Wynik", 1, col++);
+    addLine("lhead6", false, 1, col++, 1, 1);
+    oneHeadRecord("etUwagi", "Uwagi", 1, col++);
+    addLine("lhead7", false, 1, col++, 1, 1);
 
-    QLabel * etPierwszy = new QLabel(ui->frameTable);
-    etPierwszy->setObjectName("etPierwszy");
-    etPierwszy->setText(pierwszy);
-    etPierwszy->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f2(etPierwszy->font());
-    f2.setBold(true);
-    etPierwszy->setFont(f2);
-    ui->gridLayoutResults->addWidget(etPierwszy, 1, 3, 1, 1);
-
-    QLabel * etDrugi = new QLabel(ui->frameTable);
-    etDrugi->setObjectName("etDrugi");
-    etDrugi->setText(drugi);
-    etDrugi->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f3(etDrugi->font());
-    f3.setBold(true);
-    etDrugi->setFont(f3);
-    ui->gridLayoutResults->addWidget(etDrugi, 1, 5, 1, 1);
-
-    QLabel * cn1 = new QLabel(ui->frameTable);
-    cn1->setObjectName("etCndB");
-    cn1->setText("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>");
-    cn1->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f4(cn1->font());
-    f4.setBold(true);
-    cn1->setFont(f4);
-    ui->gridLayoutResults->addWidget(cn1, 1, 7, 1, 1);
-
-    QLabel * cn2 = new QLabel(ui->frameTable);
-    cn2->setObjectName("etCnpercent");
-    cn2->setText("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>");
-    cn2->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f5(cn2->font());
-    f5.setBold(true);
-    cn2->setFont(f5);
-    ui->gridLayoutResults->addWidget(cn2, 1, 9, 1, 1);
-
-    QLabel * result = new QLabel(ui->frameTable);
-    result->setObjectName("etResult");
-    result->setText(QString::fromUtf8("Wynik"));
-    result->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f6(result->font());
-    f6.setBold(true);
-    result->setFont(f6);
-    ui->gridLayoutResults->addWidget(result, 1, 11, 1, 1);
-
-    QLabel * uwagi = new QLabel(ui->frameTable);
-    uwagi->setObjectName("etUwagi");
-    uwagi->setText(QString::fromUtf8("Uwagi"));
-    uwagi->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
-    QFont f7(uwagi->font());
-    f7.setBold(true);
-    uwagi->setFont(f7);
-    ui->gridLayoutResults->addWidget(uwagi, 1, 13, 1, 1);
-
-    ADDHLINE(1, 2);
+    addLine("lheadUp",   true, 0, 0, 1, col);
+    addLine("lheadDown", true, 2, 0, 1, col);
 }
 
-#define ADDVLINE(N,C,S) QFrame * lhead##N = new QFrame(ui->frameTable);\
-                      lhead##N->setObjectName(QString("lhead%1").arg(N)); \
-                      lhead##N->setFrameShape(QFrame::VLine); \
-                      lhead##N->setFrameShadow(QFrame::Sunken);\
-                      lhead##N->setLineWidth(3);\
-                      ui->gridLayoutResults->addWidget(lhead##N, 0, C, 1, S+4);
 
 void Test9Podsumowanie::feetTable(short nrPomiarow)
 {
@@ -208,3 +136,49 @@ void Test9Podsumowanie::feetTable(short nrPomiarow)
     ADDVLINE(7, 14, nrPomiarow);
 }
 
+void Test9Podsumowanie::oneHeadRecord(const QString & objectName, const QString & text, int row, int col)
+{
+    QLabel * lh = new QLabel(ui->frameTable);
+    lh->setObjectName(objectName);
+    lh->setText(QString::fromUtf8(text));
+    lh->setAlignment(Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter);
+    QFont f(lh->font());
+    f.setBold(true);
+    lh->setFont(f);
+    ui->gridLayoutResults->addWidget(lh, row, col, 1, 1);
+}
+
+void Test9Podsumowanie::oneTableTd(const QString & objectName, const QString & text, int row, int col)
+{
+    QLabel * l = new QLabel(ui->frameTable);
+    l->setObjectName(objectName));
+    l->setText(text);
+    ui->gridLayoutResults->addWidget(l, row, col, 1, 1);
+}
+
+void Test9Podsumowanie::oneTableFrame(const QString & objectName, const QString & text, int row, int col)
+{
+    QFrame * frame = new QFrame(ui->frameTable);
+    frame->setObjectName(objectName);
+    frame->setFrameShape(QFrame::StyledPanel); 
+    frame->setFrameShadow(QFrame::Raised); 
+    QHBoxLayout * horizontalLayout = new QHBoxLayout(frame); 
+    horizontalLayout->setSpacing(3); 
+    horizontalLayout->setObjectName(QString("horizontalLayout_%1").arg(objectName));
+    horizontalLayout->setContentsMargins(5, 5, 5, 5); 
+    QLabel * label = new QLabel(frame); 
+    label->setObjectName(QString("label_%1").arg(objectName));
+    horizontalLayout->addWidget(label);
+    label->setText(text);
+    ui->gridLayoutResults->addWidget(frame, row, col, 1, 1);
+}
+
+void Test9Podsumowanie::addLine(const QString & objectName, bool vert, int row, int col, int rowspan, int colspan)
+{
+    QFrame * line = new QFrame(ui->frameTable);
+    line->setObjectName(objectName); 
+    line->setFrameShape(vert ? QFrame::VLine : QFrame::HLine); 
+    line->setFrameShadow(QFrame::Sunken);
+    line->setLineWidth(3);
+    ui->gridLayoutResults->addWidget(line, row, col, rowspan, colspan);
+}

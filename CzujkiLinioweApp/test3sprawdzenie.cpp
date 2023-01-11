@@ -15,8 +15,8 @@ Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu,
 {
     ui->setupUi(this);
     ui->osobaWykonujacaTest->setText(daneTestu.getOsobaWykonujaca());
-    ui->numerPierwszy->setText(daneTestu.getNumerPierwszy(nrPomiaru));
-    ui->numerDrugi->setText(daneTestu.getNumerDrugi(nrPomiaru));
+    ui->numerNadajnika->setText(daneTestu.getNumerNadajnika(nrPomiaru));
+    ui->numerDrugi->setText(daneTestu.getNumerOdbiornika(nrPomiaru));
     ui->testName->setText(daneTestu.getName());
 
     if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad

@@ -40,11 +40,13 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> osobaOdpowiedzialna
 		 >> uwagi
 		 >> haslo
-		 >> zasCzujekWbudZasilacz
-		 >> napiecieZasCzujki_mV
-		 >> typCentraliSygnPoz
+		 >> zasilanieCzujekCentrala
+		 >> zasilanieCzujekTypCentrali
+		 >> zasilanieCzujekZasilaczZewnetrzny
+		 >> napiecieZasilaniaCzujki_mV
 		 >> czasStabilizacjiCzujki_s
-		 >> wyzwalanieAlarmuPrzekaznik
+		 >> wyzwalanieAlarmuPrzekaznikiem
+		 >> wyzwalanieAlarmuPradem
 		 >> przekroczeniePraduZasilania_mA
 		 >> dlugoscFaliFiltrow
 		 >> czasPomZmianaTlumenia_s
@@ -54,10 +56,10 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> typDrugiejCzujki
 		 >> rozstawienieMinCzujki
 		 >> rozstawienieMaxCzujki
-		 >> maksKatowaNieWspolPionPierwszejCzuj
-		 >> maksKatowaNieWspolPozPierwszejCzuj
-		 >> maksKatowaNieWspolPionDrugiejCzuj
-		 >> maksKatowaNieWspolPozDrugiejCzuj
+		 >> maksKatowaNieWspolPionowaNadajnika
+		 >> maksKatowaNieWspolPoziomaNadajnika
+		 >> maksKatowaNieWspolPionowaOdbiornika
+		 >> maksKatowaNieWspolPoziomaOdbiornika
 		 >> iloscCzujek ;
 }
 
@@ -68,11 +70,13 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << osobaOdpowiedzialna
 		 << uwagi
 		 << haslo
-		 << zasCzujekWbudZasilacz
-		 << napiecieZasCzujki_mV
-		 << typCentraliSygnPoz
+		 << zasilanieCzujekCentrala
+		 << zasilanieCzujekTypCentrali
+		 << zasilanieCzujekZasilaczZewnetrzny
+		 << napiecieZasilaniaCzujki_mV
 		 << czasStabilizacjiCzujki_s
-		 << wyzwalanieAlarmuPrzekaznik
+		 << wyzwalanieAlarmuPrzekaznikiem
+		 << wyzwalanieAlarmuPradem
 		 << przekroczeniePraduZasilania_mA
 		 << dlugoscFaliFiltrow
 		 << czasPomZmianaTlumenia_s
@@ -82,10 +86,10 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << typDrugiejCzujki
 		 << rozstawienieMinCzujki
 		 << rozstawienieMaxCzujki
-		 << maksKatowaNieWspolPionPierwszejCzuj
-		 << maksKatowaNieWspolPozPierwszejCzuj
-		 << maksKatowaNieWspolPionDrugiejCzuj
-		 << maksKatowaNieWspolPozDrugiejCzuj
+		 << maksKatowaNieWspolPionowaNadajnika
+		 << maksKatowaNieWspolPoziomaNadajnika
+		 << maksKatowaNieWspolPionowaOdbiornika
+		 << maksKatowaNieWspolPoziomaOdbiornika
 		 << iloscCzujek ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
@@ -143,36 +147,47 @@ void ParametryBadaniaGen::setHaslo(const QString & value)
 	change = true;
 }
 
-bool ParametryBadaniaGen::getZasCzujekWbudZasilacz() const
+bool ParametryBadaniaGen::getZasilanieCzujekCentrala() const
 {
-	return zasCzujekWbudZasilacz;
+	return zasilanieCzujekCentrala;
 }
 
-void ParametryBadaniaGen::setZasCzujekWbudZasilacz(const bool & value)
+void ParametryBadaniaGen::setZasilanieCzujekCentrala(const bool & value)
 {
-	zasCzujekWbudZasilacz = value;
+	zasilanieCzujekCentrala = value;
 	change = true;
 }
 
-unsigned int ParametryBadaniaGen::getNapiecieZasCzujki_mV() const
+QString ParametryBadaniaGen::getZasilanieCzujekTypCentrali() const
 {
-	return napiecieZasCzujki_mV;
+	return zasilanieCzujekTypCentrali;
 }
 
-void ParametryBadaniaGen::setNapiecieZasCzujki_mV(const unsigned int & value)
+void ParametryBadaniaGen::setZasilanieCzujekTypCentrali(const QString & value)
 {
-	napiecieZasCzujki_mV = value;
+	zasilanieCzujekTypCentrali = value;
 	change = true;
 }
 
-QString ParametryBadaniaGen::getTypCentraliSygnPoz() const
+bool ParametryBadaniaGen::getZasilanieCzujekZasilaczZewnetrzny() const
 {
-	return typCentraliSygnPoz;
+	return zasilanieCzujekZasilaczZewnetrzny;
 }
 
-void ParametryBadaniaGen::setTypCentraliSygnPoz(const QString & value)
+void ParametryBadaniaGen::setZasilanieCzujekZasilaczZewnetrzny(const bool & value)
 {
-	typCentraliSygnPoz = value;
+	zasilanieCzujekZasilaczZewnetrzny = value;
+	change = true;
+}
+
+unsigned int ParametryBadaniaGen::getNapiecieZasilaniaCzujki_mV() const
+{
+	return napiecieZasilaniaCzujki_mV;
+}
+
+void ParametryBadaniaGen::setNapiecieZasilaniaCzujki_mV(const unsigned int & value)
+{
+	napiecieZasilaniaCzujki_mV = value;
 	change = true;
 }
 
@@ -187,14 +202,25 @@ void ParametryBadaniaGen::setCzasStabilizacjiCzujki_s(const unsigned int & value
 	change = true;
 }
 
-bool ParametryBadaniaGen::getWyzwalanieAlarmuPrzekaznik() const
+bool ParametryBadaniaGen::getWyzwalanieAlarmuPrzekaznikiem() const
 {
-	return wyzwalanieAlarmuPrzekaznik;
+	return wyzwalanieAlarmuPrzekaznikiem;
 }
 
-void ParametryBadaniaGen::setWyzwalanieAlarmuPrzekaznik(const bool & value)
+void ParametryBadaniaGen::setWyzwalanieAlarmuPrzekaznikiem(const bool & value)
 {
-	wyzwalanieAlarmuPrzekaznik = value;
+	wyzwalanieAlarmuPrzekaznikiem = value;
+	change = true;
+}
+
+bool ParametryBadaniaGen::getWyzwalanieAlarmuPradem() const
+{
+	return wyzwalanieAlarmuPradem;
+}
+
+void ParametryBadaniaGen::setWyzwalanieAlarmuPradem(const bool & value)
+{
+	wyzwalanieAlarmuPradem = value;
 	change = true;
 }
 
@@ -297,47 +323,47 @@ void ParametryBadaniaGen::setRozstawienieMaxCzujki(const QString & value)
 	change = true;
 }
 
-double ParametryBadaniaGen::getMaksKatowaNieWspolPionPierwszejCzuj() const
+QString ParametryBadaniaGen::getMaksKatowaNieWspolPionowaNadajnika() const
 {
-	return maksKatowaNieWspolPionPierwszejCzuj;
+	return maksKatowaNieWspolPionowaNadajnika;
 }
 
-void ParametryBadaniaGen::setMaksKatowaNieWspolPionPierwszejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPionowaNadajnika(const QString & value)
 {
-	maksKatowaNieWspolPionPierwszejCzuj = value;
+	maksKatowaNieWspolPionowaNadajnika = value;
 	change = true;
 }
 
-double ParametryBadaniaGen::getMaksKatowaNieWspolPozPierwszejCzuj() const
+QString ParametryBadaniaGen::getMaksKatowaNieWspolPoziomaNadajnika() const
 {
-	return maksKatowaNieWspolPozPierwszejCzuj;
+	return maksKatowaNieWspolPoziomaNadajnika;
 }
 
-void ParametryBadaniaGen::setMaksKatowaNieWspolPozPierwszejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPoziomaNadajnika(const QString & value)
 {
-	maksKatowaNieWspolPozPierwszejCzuj = value;
+	maksKatowaNieWspolPoziomaNadajnika = value;
 	change = true;
 }
 
-double ParametryBadaniaGen::getMaksKatowaNieWspolPionDrugiejCzuj() const
+QString ParametryBadaniaGen::getMaksKatowaNieWspolPionowaOdbiornika() const
 {
-	return maksKatowaNieWspolPionDrugiejCzuj;
+	return maksKatowaNieWspolPionowaOdbiornika;
 }
 
-void ParametryBadaniaGen::setMaksKatowaNieWspolPionDrugiejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPionowaOdbiornika(const QString & value)
 {
-	maksKatowaNieWspolPionDrugiejCzuj = value;
+	maksKatowaNieWspolPionowaOdbiornika = value;
 	change = true;
 }
 
-double ParametryBadaniaGen::getMaksKatowaNieWspolPozDrugiejCzuj() const
+QString ParametryBadaniaGen::getMaksKatowaNieWspolPoziomaOdbiornika() const
 {
-	return maksKatowaNieWspolPozDrugiejCzuj;
+	return maksKatowaNieWspolPoziomaOdbiornika;
 }
 
-void ParametryBadaniaGen::setMaksKatowaNieWspolPozDrugiejCzuj(const double & value)
+void ParametryBadaniaGen::setMaksKatowaNieWspolPoziomaOdbiornika(const QString & value)
 {
-	maksKatowaNieWspolPozDrugiejCzuj = value;
+	maksKatowaNieWspolPoziomaOdbiornika = value;
 	change = true;
 }
 

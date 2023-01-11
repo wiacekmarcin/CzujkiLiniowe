@@ -379,7 +379,7 @@ void MainWindow::actionNoweBadanie_triggered()
 
 void MainWindow::actionStartTestu_triggered()
 {
-    WyborTestu *dlg1 = new WyborTestu(lt, b.getOdtwarzalnosc(), this);
+    WyborTestu *dlg1 = new WyborTestu(lt, b.getTestOdtwarzalnosci(), this);
     if(!dlg1->exec()) {
         return;
     }

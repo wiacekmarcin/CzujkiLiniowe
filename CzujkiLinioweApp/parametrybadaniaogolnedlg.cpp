@@ -80,7 +80,7 @@ void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, ParametryBadania *bada
     ui->dlugoscFali->setCurrentText(QString::number(badanie->getDlugoscFaliFiltrow()));
     check();
 
-    bool o = badanie->getOdtwarzalnosc();
+    bool o = badanie->getTestOdtwarzalnosci();
 
     ui->numerZlecenia->setReadOnly(o);
     ui->numerTestu->setReadOnly(o);

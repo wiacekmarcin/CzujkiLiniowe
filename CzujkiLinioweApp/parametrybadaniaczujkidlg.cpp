@@ -7,9 +7,9 @@
 
 const char* ParametryBadaniaCzujkiDlg::etTypPierwszy[2] = { ParametryBadaniaCzujkiDlg::etTypOdbiornika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
 const char* ParametryBadaniaCzujkiDlg::etTypDrugi[2] = { ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypReflektora };
-const char* ParametryBadaniaCzujkiDlg::etPierwszy[2] = { ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
-const char* ParametryBadaniaCzujkiDlg::etDrugi[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
-const char* ParametryBadaniaCzujkiDlg::etNumerPierwszy[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
+const char* ParametryBadaniaCzujkiDlg::etNadajnik[2] = { ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
+const char* ParametryBadaniaCzujkiDlg::etOdbiornik[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
+const char* ParametryBadaniaCzujkiDlg::etNumerNadajnika[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
 const char* ParametryBadaniaCzujkiDlg::etNumerDrugi[2] = { ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
 
 ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
@@ -105,7 +105,7 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
     ui->drugi_ospionowa->setText(QString::number(badanie->getMaksKatowaNieWspolPionDrugiejCzuj()));
     ui->drugi_ospozioma->setText(QString::number(badanie->getMaksKatowaNieWspolPozDrugiejCzuj()));
 
-    bool o = badanie->getOdtwarzalnosc();
+    bool o = badanie->getTestOdtwarzalnosci();
     showInfoSorted(o);
     ui->typPierwszy->setReadOnly(o);
     ui->producent->setReadOnly(o);
@@ -190,56 +190,56 @@ bool ParametryBadaniaCzujkiDlg::check()
 
     if (ui->pierwszy_ospionowa->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etNadajnik[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->pierwszy_ospionowa->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
-                                arg(etPierwszy[ui->comboBox->currentIndex()]));
+                                arg(etNadajnik[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->pierwszy_ospozioma->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etNadajnik[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->pierwszy_ospozioma->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
-                                arg(etPierwszy[ui->comboBox->currentIndex()]));
+                                arg(etNadajnik[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->drugi_ospionowa->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
-                            arg(etDrugi[ui->comboBox->currentIndex()]));
+                            arg(etOdbiornik[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->drugi_ospionowa->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etOdbiornik[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->drugi_ospozioma->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
-                            arg(etDrugi[ui->comboBox->currentIndex()]));
+                            arg(etOdbiornik[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->drugi_ospozioma->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etOdbiornik[ui->comboBox->currentIndex()]));
             return false;
         }
     }
@@ -274,7 +274,9 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setMaksKatowaNieWspolPionDrugiejCzuj(ui->drugi_ospionowa->text().toDouble());
     badanie->setMaksKatowaNieWspolPozDrugiejCzuj(ui->drugi_ospozioma->text().toDouble());
 
-    badanie->clearNumberCzujki();
+    badanie->set
+
+    badanie->wyczyscCzujki();
     short num = 0;
     for (short i=0; i<m_numbers.size(); ++i)
     {
@@ -292,9 +294,9 @@ void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
     short ind = odbiornik ? 0 : 1;
     ui->ltyppierwszy->setText(QString(etTypPierwszy[ind]));
     ui->ltypdrugi->setText(QString(etTypDrugi[ind]));
-    ui->lpierwszy->setText(QString(etPierwszy[ind]));
-    ui->ldrugi->setText(QString(etDrugi[ind]));
-    ui->hpierwszy->setText(QString(etNumerPierwszy[ind]));
+    ui->lpierwszy->setText(QString(etNadajnik[ind]));
+    ui->ldrugi->setText(QString(etOdbiornik[ind]));
+    ui->hpierwszy->setText(QString(etNumerNadajnika[ind]));
     ui->hdrugi->setText(QString(etNumerDrugi[ind]));
 }
 

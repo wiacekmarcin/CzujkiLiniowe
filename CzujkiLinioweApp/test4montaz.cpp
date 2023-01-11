@@ -9,8 +9,8 @@ Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const Para
 {
     ui->setupUi(this);
 
-    ui->numerPierwszy->setText(daneTestu.getNumerPierwszy(nrPomiaru));
-    ui->numerDrugi->setText(daneTestu.getNumerDrugi(nrPomiaru));
+    ui->numerNadajnika->setText(daneTestu.getNumerNadajnika(nrPomiaru));
+    ui->numerDrugi->setText(daneTestu.getNumerOdbiornika(nrPomiaru));
     ui->testName->setText(daneTestu.getName());
     ui->info->setText(ui->info->text().replace("[nrCzujki]", QString::number(nrPomiaru)));
 

@@ -21,7 +21,7 @@ struct ListaTestow {
 
 class DanePomiaru {
 public:
-    QString numerPierwszy;
+    QString numerNadajnika;
     QString numerDrugi;
     short nrPomiaru;
     QString value;
@@ -71,8 +71,8 @@ public:
     const QString &getUwagi() const;
     void setUwagi(const QString &newUwagi);
 
-    QString getNumerPierwszy(short nrPomiaru) const;
-    QString getNumerDrugi(short nrPomiaru) const;
+    QString getNumerNadajnika(short nrPomiaru) const;
+    QString getNumerOdbiornika(short nrPomiaru) const;
 
     void addWybranaCzujka(const QString & pierwszy, const QString & drugi);
     bool sprawdzCzyBadanaCzujka(const QString & pierwszy, const QString & drugi);

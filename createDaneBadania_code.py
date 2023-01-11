@@ -97,7 +97,7 @@ void %(className)s::save(QDataStream &out) const
         return val[0].upper() + val[1:]
     
     def createHeader(self):
-        hfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
+        hfile = open('/home/marcin/mar.devel/CzujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
         hfile.write(self.h_HEAD_1)
         hfile.write("\n".join(["\t"+f for f in self.h_public_fun]))
         hfile.write("\nprotected:\n")
@@ -110,7 +110,7 @@ void %(className)s::save(QDataStream &out) const
         hfile.close()
         
     def createSource(self):
-        cfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
+        cfile = open('/home/marcin/mar.devel/CzujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
         cfile.write(self.c_include)
         cfile.write(self.static_c % { 'className' : self.className,
             'in'  : '\n\t\t'.join([' >> %s' % f for f in self.serin]),
@@ -156,12 +156,14 @@ u.addValue("QString", "numerTestu")
 u.addValue("QString", "osobaOdpowiedzialna")
 u.addValue("QString", "uwagi")
 u.addValue("QString", "haslo")
-u.addValue("bool", "zasCzujekWbudZasilacz")
-u.addValue("unsigned int", "napiecieZasCzujki_mV")
-u.addValue("QString", "typCentraliSygnPoz")
+u.addValue("bool", "zasilanieCzujekCentrala")
+u.addValue("QString", "zasilanieCzujekTypCentrali")
+u.addValue("bool", "zasilanieCzujekZasilaczZewnetrzny")
+u.addValue("unsigned int", "napiecieZasilaniaCzujki_mV")
 
 u.addValue("unsigned int", "czasStabilizacjiCzujki_s")
-u.addValue("bool", "wyzwalanieAlarmuPrzekaznik")
+u.addValue("bool", "wyzwalanieAlarmuPrzekaznikiem")
+u.addValue("bool", "wyzwalanieAlarmuPradem")
 u.addValue("QString", "przekroczeniePraduZasilania_mA")
 u.addValue("unsigned int", "dlugoscFaliFiltrow")
 u.addValue("unsigned int", "czasPomZmianaTlumenia_s");
@@ -171,11 +173,12 @@ u.addValue("QString", "typPierwszejCzujki");
 u.addValue("QString", "typDrugiejCzujki");
 u.addValue("QString", "rozstawienieMinCzujki");
 u.addValue("QString", "rozstawienieMaxCzujki");
-u.addValue("double", "maksKatowaNieWspolPionPierwszejCzuj");
-u.addValue("double", "maksKatowaNieWspolPozPierwszejCzuj");
-u.addValue("double", "maksKatowaNieWspolPionDrugiejCzuj");
-u.addValue("double", "maksKatowaNieWspolPozDrugiejCzuj");
+u.addValue("QString", "maksKatowaNieWspolPionowaNadajnika");
+u.addValue("QString", "maksKatowaNieWspolPoziomaNadajnika");
+u.addValue("QString", "maksKatowaNieWspolPionowaOdbiornika");
+u.addValue("QString", "maksKatowaNieWspolPoziomaOdbiornika");
 u.addValue("unsigned short", "iloscCzujek");
+u.addValue("bool", "testOdtwarzalnosci");
 
 
 

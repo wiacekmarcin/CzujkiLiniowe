@@ -9,8 +9,8 @@ Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, 
     ui->setupUi(this);
 
     ui->osobaWykonujacaTest->setText(test.getOsobaWykonujaca());
-    ui->numerPierwszy->setText(test.getNumerPierwszy(nrPomiaru));
-    ui->numerDrugi->setText(test.getNumerDrugi(nrPomiaru));
+    ui->numerNadajnika->setText(test.getNumerNadajnika(nrPomiaru));
+    ui->numerDrugi->setText(test.getNumerOdbiornika(nrPomiaru));
     ui->temperatura->setText(test.getTemperatura());
     ui->cisnienie->setText(test.getCisnienie());
     ui->wilgotnosc->setText(test.getWilgotnosc());

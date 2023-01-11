@@ -18,13 +18,14 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPozPierwszejCzuj(0.0);
     setMaksKatowaNieWspolPozDrugiejCzuj(0.0);
     setSystemOdbiornikNadajnik(true);
-    setOdtwarzalnosc(false);
+    setTestOdtwarzalnosci(false);
+    setTypNadajnika("Nadajnik");
+    setTypOdbiornika("Odbiornik");
 }
 
 ParametryBadania::ParametryBadania(const ParametryBadania &e):
     ParametryBadaniaGen(e)
 {
-    this->odtwarzalnosc = e.odtwarzalnosc;
     this->numbersCzujki.clear();
     this->numbersCzujki = e.numbersCzujki;
     this->sortedId.clear();
@@ -34,7 +35,6 @@ ParametryBadania::ParametryBadania(const ParametryBadania &e):
 ParametryBadania &ParametryBadania::operator=(const ParametryBadania &e)
 {
     ParametryBadaniaGen::operator=(e);
-    this->odtwarzalnosc = e.odtwarzalnosc;
     this->numbersCzujki.clear();
     this->numbersCzujki = e.numbersCzujki;
     this->sortedId.clear();
@@ -69,88 +69,63 @@ void ParametryBadania::save(const QString &fileName)
     file.close();
 }
 
-void ParametryBadania::addNumeryCzujki(const QString &first, const QString &second)
+void ParametryBadania::dodajCzujki(const QString &odbiornik, const QString &nadajnik)
 {
-    numbersCzujki.push_back(qMakePair(first, second));
+    numbersCzujki.push_back(qMakePair(odbiornik, nadajnik));
 }
 
-QString ParametryBadania::getNumerPierwszyCzujkiNominal(unsigned int index) const
+QString ParametryBadania::getNumerNadajnika(unsigned int index, bool sorted) const
 {
-    if (index >= numbersCzujki.size())
+    if (!sorted && index >= numbersCzujki.size() )
         return QString();
-    return numbersCzujki[index].first;
-}
-
-QString ParametryBadania::getNumerDrugiCzujkiNominal(unsigned int index) const
-{
-    if (index >= numbersCzujki.size())
+    if (sorted && index >= sortedId.size())
         return QString();
-    return numbersCzujki[index].second;
+    if (sorted)
+        return getNumerNadajnika(sortedId[index], false);
+    else
+        return numbersCzujki[index].first;
 }
 
-QPair<QString, QString> ParametryBadania::getNumeryCzujkiNominal(unsigned int index) const
+QString ParametryBadania::getNumerOdbiornika(unsigned int index, bool sorted) const
 {
-    if (index >= numbersCzujki.size())
-        return qMakePair(QString(), QString());
-    return numbersCzujki[index];
-}
-
-QString ParametryBadania::getNumerPierwszyCzujkiSorted(unsigned int index) const
-{
-    if (index >= sortedId.size())
+    if (!sorted && index >= numbersCzujki.size() )
         return QString();
-    return getNumerPierwszyCzujkiNominal(sortedId[index]);
-}
-
-QString ParametryBadania::getNumerDrugiCzujkiSorted(unsigned int index) const
-{
-    if (index >= sortedId.size())
+    if (sorted && index >= sortedId.size())
         return QString();
-    return getNumerDrugiCzujkiNominal(sortedId[index]);
+    if (sorted)
+        return getNumerNadajnika(sortedId[index], false);
+    else
+        return numbersCzujki[index].second;
 }
 
-QPair<QString, QString> ParametryBadania::getNumeryCzujkiSorted(unsigned int index) const
-{
-    if (index >= sortedId.size())
-        return qMakePair(QString(), QString());
-    return getNumeryCzujkiNominal(sortedId[index]);
-}
-
-QString ParametryBadania::getNumerPierwszyCzujki(unsigned int index) const
-{
-    return odtwarzalnosc ? getNumerPierwszyCzujkiSorted(index) : getNumerPierwszyCzujkiNominal(index);
-}
-
-QString ParametryBadania::getNumerDrugiCzujki(unsigned int index) const
-{
-    return odtwarzalnosc ? getNumerDrugiCzujkiSorted(index) : getNumerDrugiCzujkiNominal(index);
-}
-
-QPair<QString, QString> ParametryBadania::getNumeryCzujki(unsigned int index) const
-{
-    return odtwarzalnosc ? getNumeryCzujkiSorted(index) : getNumeryCzujkiNominal(index);
-}
-
-
-void ParametryBadania::clearNumberCzujki()
+void ParametryBadania::wyczyscCzujki()
 {
     numbersCzujki.clear();
 }
 
-bool ParametryBadania::getOdtwarzalnosc() const
+QString ParametryBadania::getTypNadajnika() const
 {
-    return odtwarzalnosc;
+    return getTypPierwszejCzujki();
 }
 
-void ParametryBadania::setOdtwarzalnosc(bool newOdtwarzalnosc)
+QString ParametryBadania::getTypOdbiornika() const
 {
-    odtwarzalnosc = newOdtwarzalnosc;
+    return getTypDrugiejCzujki();
+}
+
+void setTypNadajnika(const QString & nadajnik)
+{
+    setTypPiewszejCzujki(nadajnik);
+}
+
+void setTypOdbiornika(const QString & odbiornik)
+{
+    setTypDrugiejCzujki(odbiornik);
 }
 
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);
-    out << dane.odtwarzalnosc;
     out << dane.numbersCzujki;
     out << dane.sortedId;
     return out;
@@ -159,7 +134,6 @@ QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::load(in);
-    in << dane.odtwarzalnosc;
     in >> dane.numbersCzujki;
     in >> dane.sortedId;
     return in;

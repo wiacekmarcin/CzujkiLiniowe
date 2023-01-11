@@ -30,7 +30,7 @@ DaneTestu::DaneTestu(QObject *parent)
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 {
     out << dane.nrPomiaru
-        << dane.numerPierwszy
+        << dane.NumerNadajnika
         << dane.numerDrugi
         << dane.value
         << dane.value2
@@ -44,7 +44,7 @@ QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
 {
     in >> dane.nrPomiaru
-       >> dane.numerPierwszy
+       >> dane.NumerNadajnika
        >> dane.numerDrugi
        >> dane.value
        >> dane.value2
@@ -199,14 +199,14 @@ void DaneTestu::setUwagi(const QString &newUwagi)
     uwagi = newUwagi;
 }
 
-QString DaneTestu::getNumerPierwszy(short nrPomiaru) const
+QString DaneTestu::getNumerNadajnika(short nrPomiaru) const
 {
     if (nrPomiaru - 1 > daneWybranejCzujki.size())
         return QString();
-    return daneWybranejCzujki[nrPomiaru-1].numerPierwszy;
+    return daneWybranejCzujki[nrPomiaru-1].NumerNadajnika;
 }
 
-QString DaneTestu::getNumerDrugi(short nrPomiaru) const
+QString DaneTestu::getNumerOdbiornika(short nrPomiaru) const
 {
     if (nrPomiaru - 1 > daneWybranejCzujki.size())
         return QString();
@@ -217,7 +217,7 @@ void DaneTestu::addWybranaCzujka(const QString &pierwszy, const QString &drugi)
 {
     DanePomiaru nowyPomiar;
     nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
-    nowyPomiar.numerPierwszy = pierwszy;
+    nowyPomiar.numerNadajnika = pierwszy;
     nowyPomiar.numerDrugi = drugi;
     nowyPomiar.value = "0.0";
     daneWybranejCzujki.append(nowyPomiar);
@@ -226,7 +226,7 @@ void DaneTestu::addWybranaCzujka(const QString &pierwszy, const QString &drugi)
 bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &pierwszy, const QString &drugi)
 {
     for(const auto & czujka : daneWybranejCzujki) {
-        if (czujka.numerPierwszy == pierwszy && czujka.numerDrugi == drugi)
+        if (czujka.numerNadajnika == pierwszy && czujka.numerDrugi == drugi)
             return true;
     }
     return false;
