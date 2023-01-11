@@ -41,16 +41,16 @@ public slots:
     void setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
 signals:
     void zerowanieFiltrowDone();
-    void setUkladFiltrowDone();
+    void ukladFiltrowDone();
     void bladFiltrow(QChar filtr, bool zerowanie);
 private :
     bool fARuch;
     bool fBRuch;
     bool fCRuch;
 
-    unsigned short actPosfA;
-    unsigned short actPosfB;
-    unsigned short actPosfC;
+    short actPosfA;
+    short actPosfB;
+    short actPosfC;
 
     static constexpr short maxPosF = 6;
     static constexpr float stPerPosImp = 1.0 / maxPosF;
@@ -119,6 +119,9 @@ public:
     void setZerowanieNadajnikOdbiornikFiltry();
     void setReset();
     void setStopMotor(short nrSilnik);
+    void setStopMotorAll();
+    void setEnableMotor(short nrSilnik, bool enable);
+    void setEnableMotorAll(bool enable);
     void setFiltrPos(unsigned short pA, unsigned short pB, unsigned short pC);
     void setFiltrReset();
     QString getProduct();

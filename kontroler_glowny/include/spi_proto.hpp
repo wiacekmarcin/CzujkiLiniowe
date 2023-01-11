@@ -33,6 +33,7 @@ public:
     bool sendConfigurationWithResponse(uint16_t activeBusy);
     void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
+    void sendEnable(uint8_t *msg, uint8_t len);
 
     void getReply();
     inline bool isConnected() const { return comunication; }

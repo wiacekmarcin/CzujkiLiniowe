@@ -13,7 +13,7 @@ class OczekiwanieNaUrzadzenia : public QDialog
     Q_OBJECT
 
 public:
-    explicit OczekiwanieNaUrzadzenia(QWidget *parent = nullptr);
+    explicit OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent = nullptr);
     ~OczekiwanieNaUrzadzenia();
 public slots:
     void zasilacz(int state);
@@ -26,6 +26,7 @@ private:
     short cntTmt;
     bool zasilaczOk;
     bool sterownikOk;
+    bool koniecznyZasilacz;
 #ifdef DEFVAL
     static constexpr short maxCzas = 10;
 #else

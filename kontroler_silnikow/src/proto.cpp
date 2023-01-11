@@ -167,6 +167,14 @@ Result Message::parse()
         r.data.move.speed = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);    
         return r;
     }
+
+    if (cmdMsg == RESET_REQ) {
+        if ((options & 0x03) == 0x03) {
+            r.data.reset.enableOff = true;
+        } else if ((options & 0x02) == 0x02) {
+            r.data.reset.enableOff = false;
+        }
+    }
     EPSDN("Nieznana wiadomosc");
     r.ok = false;
     return r;

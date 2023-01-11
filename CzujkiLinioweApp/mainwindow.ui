@@ -87,6 +87,7 @@
    <addaction name="actionZasilacz"/>
    <addaction name="actionSterownik"/>
    <addaction name="actionStartTestu"/>
+   <addaction name="actionTest"/>
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="text">
@@ -236,6 +237,17 @@
    </property>
    <property name="text">
     <string>Zamknij Badanie</string>
+   </property>
+  </action>
+  <action name="actionTest">
+   <property name="icon">
+    <iconset theme="applications-system"/>
+   </property>
+   <property name="text">
+    <string>Test</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+T</string>
    </property>
   </action>
  </widget>

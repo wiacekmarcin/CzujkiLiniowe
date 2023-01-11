@@ -27,6 +27,7 @@ protected:
     void configurationRequest(Result status);
     void moveRequest(bool isHome, uint32_t steps, uint32_t delay);
     void emptyMove(uint8_t of);
+    void enableRequest(bool enable);
 
 private:
     uint8_t actProcess = 0;

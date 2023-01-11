@@ -12,13 +12,14 @@ Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const Para
     ui->numerPierwszy->setText(daneTestu.getNumerPierwszy(nrPomiaru));
     ui->numerDrugi->setText(daneTestu.getNumerDrugi(nrPomiaru));
     ui->testName->setText(daneTestu.getName());
+    ui->info->setText(ui->info->text().replace("[nrCzujki]", QString::number(nrPomiaru)));
 
     if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad
-        ui->ePierwszy->setText("Nadajnik");
-        ui->eDrugi->setText("Odbiornik");
+        ui->ePierwszy->setText("* Nadajnik");
+        ui->eDrugi->setText("* Odbiornik");
     } else { //odb+nad <-> ref
-        ui->ePierwszy->setText("Nadajnik+Odbiornik");
-        ui->eDrugi->setText("Reflektor");
+        ui->ePierwszy->setText("* Nadajnik+Odbiornik");
+        ui->eDrugi->setText("* Reflektor");
     }
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });

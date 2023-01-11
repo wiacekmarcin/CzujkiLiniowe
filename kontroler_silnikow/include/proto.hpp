@@ -39,6 +39,10 @@ typedef struct _result {
             int32_t position;
             uint32_t speed;
         } move;
+
+        struct {
+            bool enableOff;
+        } reset;
     } data;
 } Result;
 

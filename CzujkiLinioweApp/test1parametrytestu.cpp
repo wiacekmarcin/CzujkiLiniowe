@@ -90,64 +90,68 @@ Test1ParametryTestu::~Test1ParametryTestu()
 
 void Test1ParametryTestu::check()
 {
-    if (ui->osobaWykonujaca->text().isEmpty()) {
-        ui->errorLab->setText("Pole 'Osoba Wykonująca test' nie może być puste");
-        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-        return;
-    }
-
-    if (ui->temperatura->text().isEmpty()) {
-        ui->errorLab->setText("Pole 'Temperatura' nie może być puste");
-        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-        return;
-    } else {
-        bool ok;
-        double val = ui->temperatura->text().toDouble(&ok);
-        if (!ok) {
-            ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
-        } else if (val < 15 || val > 35 ){
-            ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
+    if (nrPomiar == 1) {
+        if (ui->osobaWykonujaca->text().isEmpty()) {
+            ui->errorLab->setText("Pole 'Osoba Wykonująca test' nie może być puste");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
         }
-    }
 
-    if (ui->wilgotnosc->text().isEmpty()) {
-        ui->errorLab->setText("Pole 'Wilgotność' nie może być puste");
-        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-        return;
-    } else {
-        bool ok;
-        double val = ui->wilgotnosc->text().toDouble(&ok);
-        if (!ok) {
-            ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
+        if (ui->temperatura->text().isEmpty()) {
+            ui->errorLab->setText("Pole 'Temperatura' nie może być puste");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
-        } else if (val < 25 || val > 75 ){
-            ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
+        } else {
+            bool ok;
+            double val = ui->temperatura->text().toDouble(&ok);
+            if (!ok) {
+                ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            } else if (val < 15 || val > 35 ){
+                ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            }
         }
-    }
 
-    if (ui->cisnienie->text().isEmpty()) {
-        ui->errorLab->setText("Pole 'Ciśnienie' nie może być puste");
-        ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-        return;
-    } else {
-        bool ok;
-        double val = ui->cisnienie->text().toDouble(&ok);
-        if (!ok) {
-            ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
+        if (ui->wilgotnosc->text().isEmpty()) {
+            ui->errorLab->setText("Pole 'Wilgotność' nie może być puste");
             ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
             return;
-        } else if (val < 860 || val > 1060 ){
-            ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
+        } else {
+            bool ok;
+            double val = ui->wilgotnosc->text().toDouble(&ok);
+            if (!ok) {
+                ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            } else if (val < 25 || val > 75 ){
+                ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            }
         }
+
+        if (ui->cisnienie->text().isEmpty()) {
+            ui->errorLab->setText("Pole 'Ciśnienie' nie może być puste");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            return;
+        } else {
+            bool ok;
+            double val = ui->cisnienie->text().toDouble(&ok);
+            if (!ok) {
+                ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            } else if (val < 860 || val > 1060 ){
+                ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            }
+        }
+    } else {
+//Todo sprawdzenie czujki
     }
     ui->errorLab->setText("Dane sa prawidłowe");
     ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");

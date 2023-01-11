@@ -27,6 +27,7 @@ public:
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar filtr, bool zerowanie);
     void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void ster_czujkaOn();
 
 private:
     Ui::ListaBadan *ui;

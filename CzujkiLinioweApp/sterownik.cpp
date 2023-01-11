@@ -93,7 +93,7 @@ void SterownikFiltrow::setPos(unsigned short pA, unsigned short pB, unsigned sho
         actPosfC = pC;
     }
     if (!setMove) {
-        emit setUkladFiltrowDone();
+        emit ukladFiltrowDone();
     }
 }
 
@@ -102,6 +102,10 @@ void SterownikFiltrow::setZero()
     qDebug() << __FILE__ << __LINE__ << "Zerowanie";
     if (sd == nullptr)
         return;
+    //if (actPosfA == 0 && actPosfB == 0 && actPosfC == 0) {
+    //    emit ukladFiltrowDone();
+    //    return;
+    //}
     do {
         QMutexLocker lock(&mutex);
         fARuch = true;
@@ -154,7 +158,7 @@ void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool 
         } else {
             qDebug() << "Pozycjonowanie filtrow zakonczone";
             setMove = false;
-            emit setUkladFiltrowDone();
+            emit ukladFiltrowDone();
         }
     }
 }
@@ -183,7 +187,7 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     connect(&serialPort, &QSerialPort::errorOccurred, this, &Sterownik::handleError);
     connect(&m_timer, &QTimer::timeout, this, &Sterownik::handleTimeout);
     connect(&filtry, &SterownikFiltrow::bladFiltrow, this, &Sterownik::bladFiltrow);
-    connect(&filtry, &SterownikFiltrow::setUkladFiltrowDone, this, &Sterownik::setUkladFiltrowDone);
+    connect(&filtry, &SterownikFiltrow::ukladFiltrowDone, this, &Sterownik::setUkladFiltrowDone);
     connect(&filtry, &SterownikFiltrow::zerowanieFiltrowDone, this, &Sterownik::zerowanieFiltrowDone);
 
 }
@@ -339,6 +343,35 @@ void Sterownik::setStopMotor(short nrSilnik)
 {
     if (connected()) {
         writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
+    }
+}
+
+void Sterownik::setStopMotorAll()
+{
+    if (connected()) {
+        writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnikAll());
+    }
+}
+
+void Sterownik::setEnableMotor(short nrSilnik, bool enable)
+{
+    if (connected()) {
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(nrSilnik, enable));
+    }
+}
+
+void Sterownik::setEnableMotorAll(bool enable)
+{
+    if (connected()) {
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(1, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(2, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(3, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(4, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(5, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(6, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(7, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(8, enable));
+        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(9, enable));
     }
 }
 

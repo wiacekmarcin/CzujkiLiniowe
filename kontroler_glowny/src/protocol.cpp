@@ -63,6 +63,7 @@ bool MessageSerial::check(unsigned char c)
     if (posCmd-1 == 1) {
         crc.add(data[1]);
         address = (data[1] >> 4) & 0x0f;
+        options = data[1] & 0x0f;
 #ifdef DEBUG_SERIAL            
         SERIALDBG.print("ADDRR=");
         SERIALDBG.println(address);
@@ -180,10 +181,18 @@ bool MessageSerial::parseRozkaz()
         case RESET_REQ:
         {
             if (address == 0) {
-                actWork = RESET_REQUEST;
+                if ((options & 0x08) == 0x08) {
+                    actWork = RESET_REQUEST;
+                } else if ((options & 0x04) == 0x04) {
+                    actWork = STOPALL_REQUEST;    
+                }
             }
             else if (address < 10) {
-                actWork = STOP_REQUEST;
+                if ((options & 0x04) == 0x04) {
+                    actWork = STOP_REQUEST;
+                } else if ((options & 0x02) == 0x02) {
+                    actWork = ENABLE_REQUEST;
+                }
             }
             else
                 actWork = NOP;

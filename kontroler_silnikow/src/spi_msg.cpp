@@ -68,15 +68,14 @@ void SPIMessage::init(uint8_t id, Motor * mot_)
 		sendBuff[i] = 0;
 	}
 
-	sendBuff[0] = 3;
-	sendBuff[1] = (ECHO_REP << 4) & 0xf0;
-	sendBuff[2] = uint8_t((id << 4) | 0x80);
+	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
+	sendBuff[1] = uint8_t((id << 4) | 0x80);
 	CRC8 c;
     c.reset();
-    c.add(sendBuff[1]);
-	c.add(sendBuff[2]);
-    sendBuff[3] = c.getCRC();
-	sendBuff[4] = 0;
+    c.add(sendBuff[0]);
+	c.add(sendBuff[1]);
+    sendBuff[2] = c.getCRC();
+
 
     msg.init();
     mot = mot_;
@@ -161,6 +160,15 @@ bool SPIMessage::proceed()
 		{
 			SSDN(" CMD:MOVE");
 			moveRequest(status.data.move.isHome, status.data.move.position, status.data.move.speed);
+			SSDN("BUSY OFF");
+			msg.clear();
+            setBusy(false);
+			break;
+		}
+		case RESET_REQ:
+		{
+			SSDN(" CMD:RESET");
+			enableRequest(status.data.reset.enableOff);
 			SSDN("BUSY OFF");
 			msg.clear();
             setBusy(false);
@@ -258,6 +266,7 @@ void SPIMessage::configurationRequest(Result status)
 
 void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 {
+	digitalWrite(ENPIN, LOW);
 	SSD("Ruch. Home = ");SSD(isHome ? "Tak" : "Nie");SSD(" Kroki = ");SSD(steps);SSD(" Interwal = ");SSDN(delayImp);
     if (isHome) {
 		mot->moveHome(delayImp);
@@ -280,6 +289,30 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 	crc.add(sendBuff[0]);
 	crc.add(sendBuff[1]);
 	sendBuff[2] = crc.getCRC();
+	sizeSendMsg = 3;
+    SSPRINT(3);
+}
+
+void SPIMessage::enableRequest(bool enableOff)
+{
+	SSD("Enable ");SSDN(isEnable ? "Tak" : "Nie");
+    
+	CRC8 crc;
+	crc.restart();
+	sendBuff[0] = (ECHO_REP << 4) & 0xf0;
+	sendBuff[1] = ((address << 4) & 0xf0) | 0x08;
+	if (enableOff) {
+		sendBuff[1] += 0x01;
+		digitalWrite(ENPIN, HIGH);
+	} else {
+		digitalWrite(ENPIN, LOW);
+	}
+
+	CRC8 c;
+    c.reset();
+    c.add(sendBuff[0]);
+	c.add(sendBuff[1]);
+    sendBuff[2] = c.getCRC();
 	sizeSendMsg = 3;
     SSPRINT(3);
 }

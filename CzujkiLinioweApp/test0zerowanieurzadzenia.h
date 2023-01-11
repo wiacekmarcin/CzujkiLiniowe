@@ -28,6 +28,7 @@ private:
     bool silnikZero[10];
     QCheckBox* buttons[10];
     QTimer timer;
+    bool errorMsg;
 };
 
 #endif // TEST0ZEROWANIEURZADZENIA_H

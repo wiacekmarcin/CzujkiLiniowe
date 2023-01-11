@@ -71,7 +71,7 @@ private slots:
     void actionParametryBadania_triggered();
     void actionZamknijBadanie_triggered();
 
-
+    void actionTest_triggered();
 protected:
     void saveFile();
 

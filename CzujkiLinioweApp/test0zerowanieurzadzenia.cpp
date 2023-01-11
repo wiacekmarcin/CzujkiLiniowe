@@ -9,7 +9,8 @@
 Test0ZerowanieUrzadzenia::Test0ZerowanieUrzadzenia(Sterownik *device, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test0ZerowanieUrzadzenia),
-    timer(this)
+    timer(this),
+    errorMsg(false)
 {
     ui->setupUi(this);
     for (short id = 0; id < 10; ++id) {
@@ -46,14 +47,20 @@ void Test0ZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, boo
         return;
 
     if (error) {
-        QMessageBox::critical(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
+        if (!errorMsg) {
+            errorMsg = true;
+            QMessageBox::critical(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
                     QString("Podczas zerowania silnika numer %1 wystąpił błąd").arg(1));
-        reject();
+            reject();
+        }
     }
     if (interrupt) {
-        QMessageBox::warning(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
+        if (!errorMsg) {
+            errorMsg = true;
+            QMessageBox::warning(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
                     QString("Podczas zerowania silnika numer %1 wystąpił żadanie zatrzymania silnika").arg(1));
-        reject();
+            reject();
+        }
     }
     silnikZero[silnik] = true;
     if (buttons[silnik])
@@ -69,6 +76,9 @@ void Test0ZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, boo
 
 void Test0ZerowanieUrzadzenia::timeout()
 {
+    if (errorMsg)
+        return;
+    errorMsg = true;
     QMessageBox::warning(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
                 QString("Upłynął czas potrzebny do wyzerowania urządzenia"));
     reject();

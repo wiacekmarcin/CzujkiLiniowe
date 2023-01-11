@@ -4,17 +4,23 @@
 #include "sterownik.h"
 #include <QTimer>
 
-OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(QWidget *parent) :
+OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OczekiwanieNaUrzadzenia),
     timer(this),
     cntTmt(0),
     zasilaczOk(false),
-    sterownikOk(false)
+    sterownikOk(false),
+    koniecznyZasilacz(zasilacz)
 {
     ui->setupUi(this);
     ui->progressBarSterownik->setMaximum(maxCzas);
     ui->progressBarZasilacz->setMaximum(maxCzas);
+    if (!zasilacz) {
+        ui->frZasilacz->setEnabled(false);
+        ui->errorZasilacz->setEnabled(false);
+    }
+
     timer.setInterval(1000);
 
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
@@ -63,19 +69,22 @@ void OczekiwanieNaUrzadzenia::timeout()
     ++cntTmt;
     if (!sterownikOk && ui->progressBarSterownik->value() < maxCzas)
         ui->progressBarSterownik->setValue(cntTmt);
-    if (!zasilaczOk && ui->progressBarZasilacz->value() < maxCzas)
-        ui->progressBarZasilacz->setValue(cntTmt);
+    if (koniecznyZasilacz) {
+        if (!zasilaczOk && ui->progressBarZasilacz->value() < maxCzas)
+            ui->progressBarZasilacz->setValue(cntTmt);
+    }
 
-    if (sterownikOk && zasilaczOk) {
+    if (sterownikOk && ((koniecznyZasilacz && zasilaczOk) || !koniecznyZasilacz)) {
         timer.stop();
         QTimer::singleShot(3000, this, [this]() {this->accept();});
     }
     if (cntTmt == maxCzas || (ui->progressBarSterownik->value() == maxCzas &&
-                                ui->progressBarZasilacz->value() == maxCzas)) {
+                                ((koniecznyZasilacz && ui->progressBarZasilacz->value() == maxCzas) || !koniecznyZasilacz))) {
         timer.stop();
         ui->frameError->setVisible(true);
         ui->errorSterownik->setVisible(!sterownikOk);
-        ui->errorZasilacz->setVisible(!zasilaczOk);
+        if (koniecznyZasilacz)
+            ui->errorZasilacz->setVisible(!zasilaczOk);
     }
 }
 

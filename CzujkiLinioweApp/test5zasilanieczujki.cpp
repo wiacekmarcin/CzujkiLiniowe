@@ -14,7 +14,7 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(short /*nrPomiaru*/, const DaneTestu 
 
     ui->testName->setText(daneTestu.getName());
     if (daneBadania.getZasCzujekWbudZasilacz()) {
-        ui->info->setText("Czujka została zasilona. Należy ustawić maksymalną czułość na czujce.");
+        ui->infoZasilanie->setText("Zasilanie czujki zostało włączone");
         ui->rodzajZasilania->setText("Zasilacz");
         ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
         ui->napiecieMierz->setText("0.000");
@@ -28,7 +28,7 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(short /*nrPomiaru*/, const DaneTestu 
         ui->napiecieMierz->setEnabled(true);
         ui->pradMierz->setEnabled(true);
     } else {
-        ui->info->setText("Należy załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
+        ui->infoZasilanie->setText("Proszę załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
         ui->rodzajZasilania->setText("Centrala sygnalizacji pożarowej");
         ui->typCentrali->setText(daneBadania.getTypCentraliSygnPoz());
         ui->lTypCentrali->setEnabled(true);

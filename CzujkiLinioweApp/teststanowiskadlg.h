@@ -30,6 +30,9 @@ public:
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar silnik, bool zerowanie);
 
+    void ster_czujkaOn();
+    void ster_setValue(short nrSilnika, const double & val);
+
 private slots:
     void connect2Device();
     void pbFiltrUstaw();
@@ -37,6 +40,7 @@ private slots:
     void changeTlumienie(const QString & text);
     void ukladFiltrowTimeout();
     void zerowanieFiltrow();
+    void rozkaz();
 private:
     Ui::TestStanowiskaDlg *ui;
 

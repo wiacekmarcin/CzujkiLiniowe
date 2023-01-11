@@ -26,6 +26,8 @@ SOURCES += \
     test4montaz.cpp \
     test6stabilizacjaczujki.cpp \
     test7badanie.cpp \
+    test8wynik.cpp \
+    test9podsumowanie.cpp \
     teststanowiskadlg.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
@@ -64,6 +66,8 @@ HEADERS += \
     test4montaz.h \
     test6stabilizacjaczujki.h \
     test7badanie.h \
+    test8wynik.h \
+    test9podsumowanie.h \
     teststanowiskadlg.h \
     wybortestu.h \
     zasilacz.h \
@@ -100,6 +104,8 @@ FORMS += \
     test4montaz.ui \
     test6stabilizacjaczujki.ui \
     test7badanie.ui \
+    test8wynik.ui \
+    test9podsumowanie.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \

@@ -121,6 +121,21 @@ void SPIMessage::sendConfiguration()
     sendSpiMsg(sendMsg, confLen);
 }
 
+void SPIMessage::sendEnable(uint8_t *msg, uint8_t len)
+{
+    #ifdef DEBUG
+    SERIALDBG.print("M");
+    SERIALDBG.print(addr, DEC);
+    SERIALDBG.print(" Send Enable Msg : [");
+    for (uint8_t s = 0; s < len; s++) {
+        phex(msg[s]);
+    }
+    SERIALDBG.println("]");
+#endif
+    replyMsgSize = 3;
+    sendSpiMsg(msg, len);  
+}
+
 void SPIMessage::stop()
 {
 #ifdef DEBUG

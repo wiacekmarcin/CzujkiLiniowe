@@ -35,6 +35,8 @@ static void configuration();
 static void moveSteps();
 static void resetRequest();
 static void stopRequest();
+static void stopAllRequest();
+static void enableRequest();
 
 static void checkPins(uint8_t p);
 
@@ -85,7 +87,7 @@ FINISHJOB(8)
 typedef void (*isr_bust_fun)(void);
 isr_bust_fun funptr[maxNumSter] = {isrFinishJob0, isrFinishJob1, isrFinishJob2, isrFinishJob3, isrFinishJob4, isrFinishJob5, isrFinishJob6, isrFinishJob7, isrFinishJob8};
 
-void sendStopMsg();
+void sendZwCzujkiMsg();
 
 void setup (void)
 {
@@ -114,7 +116,7 @@ void setup (void)
         
         byte error = Wire.endTransmission();
         if (error == 0) {
-            if (id == 0 && id > 9) {
+            if (id == 0 && id > maxNumSter) {
                 SERIALDBG.println(" : znaleziono urzadzenie, ale ze zlym adresem");
                 continue;
             }
@@ -148,7 +150,7 @@ void setup (void)
     SERIALDBG.println("End search");
 
     pinMode(2, INPUT_PULLUP);
-    attachInterrupt(digitalPinToInterrupt(2), sendStopMsg, FALLING);
+    attachInterrupt(digitalPinToInterrupt(2), sendZwCzujkiMsg, FALLING);
     
 
     Timer1.initialize((unsigned long) 250000UL);
@@ -224,11 +226,12 @@ void loop (void)
     case MessageSerial::MOVE_REQUEST: moveSteps(); break;
     case MessageSerial::RESET_REQUEST: resetRequest(); break;
     case MessageSerial::STOP_REQUEST: stopRequest(); break;
+    case MessageSerial::STOPALL_REQUEST: stopAllRequest(); break;
+    case MessageSerial::ENABLE_REQUEST: enableRequest(); break;
     default:
     break;
     }
 }
-
 
 void readSerial()
 {
@@ -323,11 +326,37 @@ void stopRequest()
     uint8_t motor = msg.getAddress()-1;
     motors[motor].stop();
     actWork = MessageSerial::NOP;
-    delay(1500);
+}
+
+void stopAllRequest()
+{
+#ifdef DEBUG
+    SERIALDBG.println("Stop All");
+#endif     
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive())
+            digitalWrite(stopPins[n], LOW);
+    }
+    
+    for (unsigned int n = 0; n < maxNumSter; ++n) {
+        if (motors[n].isActive()) 
+            digitalWrite(stopPins[n], HIGH);
+    }
+    actWork = MessageSerial::NOP;
+}
+
+void enableRequest()
+{
+#ifdef DEBUG
+    SERIALDBG.println("enable request");
+#endif 
+    uint8_t motor = msg.getAddress()-1;
+    motors[motor].moveSteps(msg.msg(), msg.len());
+    actWork = MessageSerial::NOP;    
 }
 
 volatile unsigned long prevZw = 0;
-void sendStopMsg()
+void sendZwCzujkiMsg()
 {
     unsigned long actTime = millis();
     if (actTime - prevZw < 10)

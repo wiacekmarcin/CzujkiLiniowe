@@ -30,7 +30,7 @@ protected:
     void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
 
 private:
-    bool oczekiwanieNaUrzadzenie();
+    bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika();
     bool parametryTestu(short nrBadania, DaneTestu * daneTestu, const ParametryBadania & b, const Ustawienia & ust);
     bool potwierdzenieDanych(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
@@ -38,8 +38,8 @@ private:
     bool montazCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     bool zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    void pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    void podsumowanie(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    short pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    void podsumowanie(const DaneTestu &daneTestu, const ParametryBadania &badanie);
 private:
     QWidget* parent;
     DaneTestu dane;

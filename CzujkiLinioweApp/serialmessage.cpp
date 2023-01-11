@@ -75,12 +75,22 @@ QByteArray SerialMessage::setPosition(uint8_t addr, const uint32_t x, uint32_t i
 
 QByteArray SerialMessage::resetSilniki()
 {
-    return prepareMessage(RESET_REQ, addrKontrolera, 0, nullptr, 0);
+    return prepareMessage(RESET_REQ, addrKontrolera, 0x08, nullptr, 0);
 }
 
 QByteArray SerialMessage::stopSilnik(short nrSilnik)
 {
-    return prepareMessage(RESET_REQ, nrSilnik, 0, nullptr, 0);
+    return prepareMessage(RESET_REQ, nrSilnik, 0x04, nullptr, 0);
+}
+
+QByteArray SerialMessage::stopSilnikAll()
+{
+    return prepareMessage(RESET_REQ, addrKontrolera, 0x04, nullptr, 0);
+}
+
+QByteArray SerialMessage::enableSilnik(short nrSilnik, bool enable)
+{
+    return prepareMessage(RESET_REQ, nrSilnik, 0x02 + (enable ? 0x00 : 0x01), nullptr, 0);
 }
 
 bool SerialMessage::checkHead(QByteArray &arr, uint8_t & addr, uint8_t & options, uint8_t & cmd, uint8_t & len,  QByteArray & data)

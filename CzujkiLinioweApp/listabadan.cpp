@@ -46,3 +46,8 @@ void ListaBadan::ster_setPositionDone(short silnik, bool home, bool move, bool e
 {
     procedura.ster_setPositionDone(silnik, home, move, error, interrupt);
 }
+
+void ListaBadan::ster_czujkaOn()
+{
+    //procedura.ster_czujkaOn();
+}

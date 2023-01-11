@@ -95,7 +95,8 @@ public:
 
     static QByteArray resetSilniki();
     static QByteArray stopSilnik(short nrSilnik);
-
+    static QByteArray stopSilnikAll();
+    static QByteArray enableSilnik(short nrSilnik, bool enable);
 
 
     /**
@@ -139,6 +140,7 @@ public:
     const QString &getError() const;
 
     bool getInterMove() const;
+
 
 protected:
 

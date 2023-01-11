@@ -6,14 +6,44 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>901</width>
-    <height>662</height>
+    <width>1015</width>
+    <height>834</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Badanie czujek liniowych - Testowanie stanowiska</string>
   </property>
   <layout class="QGridLayout" name="gridLayout_3">
+   <item row="3" column="0">
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string>Sposób sygnalizacji alarmu</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <item>
+       <widget class="QCheckBox" name="cb_przekaznikNI">
+        <property name="text">
+         <string>Centrala lub przekaźnik NO</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cb_pradZadzialania">
+        <property name="text">
+         <string>Przekroczenie prądu zadziałania</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="cb_pradMaks">
+        <property name="text">
+         <string>Przekrocznie prądu maksymalnego</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
    <item row="1" column="0">
     <widget class="QGroupBox" name="groupBox_polaczenia">
      <property name="title">
@@ -55,19 +85,6 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="0">
-       <spacer name="verticalSpacer_2">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>5</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
      </layout>
     </widget>
    </item>
@@ -77,37 +94,37 @@
       <string>Zasilanie czujki</string>
      </property>
      <layout class="QGridLayout" name="gridLayout">
-      <item row="6" column="1">
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="voltmeas"/>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Prąd dopuszczalny</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
        <widget class="QLabel" name="label_38">
         <property name="text">
          <string>[V]</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="3">
-       <widget class="QLabel" name="label_6">
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="currLimit1"/>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="lineEdit_4">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLabel" name="lcurrunit">
         <property name="text">
          <string>[mA]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_36">
-        <property name="text">
-         <string>Nowa wartość</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <widget class="QLineEdit" name="voltcurr"/>
-      </item>
-      <item row="5" column="0" colspan="4">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="text">
-         <string>Włącz zasilanie czujki</string>
         </property>
        </widget>
       </item>
@@ -118,82 +135,13 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="2">
-       <widget class="QLabel" name="label_39">
-        <property name="text">
-         <string>[mA]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="label_37">
-        <property name="text">
-         <string>Aktualna wartość</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>Prąd dupaszczalny</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLineEdit" name="lineEdit_4">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="volt1"/>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="currLimit1"/>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLabel" name="lcurrunit">
-        <property name="text">
-         <string>[mA]</string>
-        </property>
-       </widget>
-      </item>
       <item row="3" column="1">
        <widget class="QLineEdit" name="lineEdit"/>
       </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="lcurrlimit">
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_36">
         <property name="text">
-         <string>Ograniczenie prądu</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLabel" name="lvoltunit">
-        <property name="text">
-         <string>[V]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="lineEdit_2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="volt2">
-        <property name="readOnly">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="label_40">
-        <property name="text">
-         <string>Wartość mierzone</string>
+         <string>Nowa wartość</string>
         </property>
        </widget>
       </item>
@@ -211,6 +159,54 @@
         </property>
        </widget>
       </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="lcurrlimit">
+        <property name="text">
+         <string>Ograniczenie prądu</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_40">
+        <property name="text">
+         <string>Wartość mierzone</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="lineEdit_3"/>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="volt2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="lineEdit_2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="volt1"/>
+      </item>
+      <item row="0" column="2">
+       <widget class="QLabel" name="label_37">
+        <property name="text">
+         <string>Aktualna wartość</string>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="2">
        <widget class="QLineEdit" name="currLimit2">
         <property name="readOnly">
@@ -218,209 +214,46 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
-       <widget class="QLineEdit" name="voltmeas"/>
+      <item row="8" column="2">
+       <widget class="QLineEdit" name="voltcurr"/>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLabel" name="lvoltunit">
+        <property name="text">
+         <string>[V]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="label_39">
+        <property name="text">
+         <string>[mA]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QPushButton" name="pbUstaw">
+        <property name="text">
+         <string>Ustaw</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0" colspan="2">
+       <widget class="QCheckBox" name="checkBox">
+        <property name="text">
+         <string>Włącz zasilanie czujki</string>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="3" column="0">
-    <widget class="QGroupBox" name="groupBox">
-     <property name="title">
-      <string>Sposób sygnalizacji alarmu</string>
-     </property>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QCheckBox" name="cb_przekaznikNI">
-        <property name="text">
-         <string>Centrala lub przekaźnik NO</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="cb_pradZadzialania">
-        <property name="text">
-         <string>Przekroczenie prądu zadziałania</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="cb_pradMaks">
-        <property name="text">
-         <string>Przekrocznie prądu maksymalnego</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="1" column="1" rowspan="4">
+   <item row="1" column="1" rowspan="5">
     <widget class="QGroupBox" name="gb_Napedy">
      <property name="title">
       <string>Sterowanie napędami</string>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="4" column="2">
-       <widget class="QLabel" name="label_20">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="2">
-       <widget class="QLabel" name="label_43">
-        <property name="text">
-         <string>[mm]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="13" column="0" colspan="5">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="2">
-       <widget class="QLabel" name="label_22">
-        <property name="text">
-         <string>[*]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="label_27">
-        <property name="text">
-         <string>Oś pionowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="step2"/>
-      </item>
-      <item row="11" column="0">
-       <widget class="QLabel" name="label_34">
-        <property name="text">
-         <string>Oś pionowa</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="speed2"/>
-      </item>
-      <item row="12" column="1">
-       <widget class="QLineEdit" name="step6"/>
-      </item>
-      <item row="12" column="0">
-       <widget class="QLabel" name="label_35">
-        <property name="text">
-         <string>Oś pozioma</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>Os pozioma</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QLineEdit" name="speed5"/>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLineEdit" name="speed4"/>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLabel" name="label_12">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="14" column="0" colspan="5">
-       <widget class="QGroupBox" name="groupBox_3">
-        <property name="title">
-         <string>Zespół filtrów</string>
-        </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QComboBox" name="cbFiltrFala">
-           <item>
-            <property name="text">
-             <string>655</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>880</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_7">
-           <property name="text">
-            <string>C=</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="cbTlumienie"/>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_8">
-           <property name="text">
-            <string>dB</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pbFiltrUstaw">
-           <property name="text">
-            <string>Ustaw</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pbZeruj">
-           <property name="text">
-            <string>Zeruj</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QLineEdit" name="step8"/>
-      </item>
-      <item row="9" column="1">
-       <widget class="QLineEdit" name="step9"/>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>Tarcza A</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="3">
-       <widget class="QLineEdit" name="speed9"/>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="speed1"/>
-      </item>
       <item row="7" column="0" colspan="5">
        <widget class="QLabel" name="label_26">
         <property name="text">
@@ -431,90 +264,31 @@
         </property>
        </widget>
       </item>
-      <item row="6" column="4">
-       <widget class="QLabel" name="label_25">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>Tarcza C</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="step5"/>
-      </item>
-      <item row="12" column="4">
-       <widget class="QLabel" name="label_44">
-        <property name="text">
-         <string>[mm/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="1">
-       <widget class="QLineEdit" name="step7"/>
-      </item>
-      <item row="0" column="0" colspan="5">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Napęd 1 - części składowej</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="16" column="1">
-       <spacer name="verticalSpacer">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item row="9" column="4">
-       <widget class="QLabel" name="label_31">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="4">
-       <widget class="QLabel" name="label_32">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="12" column="3">
-       <widget class="QLineEdit" name="speed7"/>
-      </item>
-      <item row="4" column="3">
-       <widget class="QLineEdit" name="speed3"/>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="step3"/>
-      </item>
-      <item row="11" column="4">
-       <widget class="QLabel" name="label_42">
-        <property name="text">
-         <string>[mm/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="11" column="2">
-       <widget class="QLabel" name="label_41">
+      <item row="12" column="2">
+       <widget class="QLabel" name="label_43">
         <property name="text">
          <string>[mm]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLabel" name="label_22">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLabel" name="label_15">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QLineEdit" name="speed3">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -525,13 +299,31 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="step1"/>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="speed2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
       </item>
-      <item row="1" column="2">
-       <widget class="QLabel" name="label_11">
+      <item row="8" column="3">
+       <widget class="QLineEdit" name="speed8">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLabel" name="label_20">
         <property name="text">
-         <string>[*]</string>
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="step5">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -545,17 +337,331 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="2">
-       <widget class="QLabel" name="label_21">
+      <item row="4" column="0">
+       <widget class="QLabel" name="label_17">
         <property name="text">
-         <string>[*]</string>
+         <string>Tarcza A</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLabel" name="label_29">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="1">
+       <widget class="QLineEdit" name="step7">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="4">
+       <widget class="QLabel" name="label_32">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="3">
+       <widget class="QLineEdit" name="speed7">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0" colspan="5">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Napęd 1 - części składowej</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignBottom|Qt::AlignHCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="4">
+       <widget class="QLabel" name="label_42">
+        <property name="text">
+         <string>[mm/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="label_13">
+        <property name="text">
+         <string>Os pozioma</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="label_27">
+        <property name="text">
+         <string>Oś pionowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="speed1">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="13" column="0" colspan="5">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
         </property>
        </widget>
       </item>
       <item row="4" column="4">
        <widget class="QLabel" name="label_23">
         <property name="text">
-         <string>[*/min]</string>
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="14" column="0" rowspan="2" colspan="5">
+       <widget class="QFrame" name="frame_2">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_45">
+           <property name="text">
+            <string>Rozkaz</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cbRozkaz">
+           <item>
+            <property name="text">
+             <string>Brak</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Przemieszczenie</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Wyłączenie wybranego</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Reset wybranego</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Zatrzymanie wybranego</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Wyłączenie wszystkich</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Reset wszystkich</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Zatrzymanie wszystkich</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_47">
+           <property name="text">
+            <string>Napęd</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cbNaped"/>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="etPrzemieszczenie">
+           <property name="text">
+            <string>Przemieszczenie</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLineEdit" name="przemieszczenie"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="unitMove">
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="etSpeed">
+           <property name="text">
+            <string>Prędkość</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <item>
+            <widget class="QLineEdit" name="speed"/>
+           </item>
+           <item>
+            <widget class="QLabel" name="unitSpeed">
+             <property name="text">
+              <string>-</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="4" column="0">
+          <widget class="QPushButton" name="pbSet">
+           <property name="text">
+            <string>Wykonaj</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="step1">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="4">
+       <widget class="QLabel" name="label_24">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="4">
+       <widget class="QLabel" name="label_31">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="3">
+       <widget class="QLineEdit" name="speed6">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="4">
+       <widget class="QLabel" name="label_44">
+        <property name="text">
+         <string>[mm/min]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="1">
+       <widget class="QLineEdit" name="step6">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="label_18">
+        <property name="text">
+         <string>Tarcza B</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLabel" name="label_11">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="12" column="0">
+       <widget class="QLabel" name="label_35">
+        <property name="text">
+         <string>Oś pozioma</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="text">
+         <string>Tarcza C</string>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="3">
+       <widget class="QLineEdit" name="speed9">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="2">
+       <widget class="QLabel" name="label_41">
+        <property name="text">
+         <string>[mm]</string>
+        </property>
+       </widget>
+      </item>
+      <item row="11" column="0">
+       <widget class="QLabel" name="label_34">
+        <property name="text">
+         <string>Oś pionowa</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLabel" name="label_12">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLabel" name="label_25">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;/min]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLabel" name="label_30">
+        <property name="text">
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="step4">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -566,49 +672,47 @@
         </property>
        </widget>
       </item>
-      <item row="5" column="4">
-       <widget class="QLabel" name="label_24">
-        <property name="text">
-         <string>[*/min]</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="3">
-       <widget class="QLineEdit" name="speed8"/>
-      </item>
-      <item row="11" column="3">
-       <widget class="QLineEdit" name="speed6"/>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="label_18">
-        <property name="text">
-         <string>Tarcza B</string>
-        </property>
-       </widget>
-      </item>
       <item row="2" column="2">
        <widget class="QLabel" name="label_14">
         <property name="text">
-         <string>[*]</string>
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="8" column="2">
-       <widget class="QLabel" name="label_30">
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="speed4">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="3">
+       <widget class="QLineEdit" name="speed5">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="step2">
+        <property name="readOnly">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLabel" name="label_21">
         <property name="text">
-         <string>[*]</string>
+         <string>&lt;html&gt;&lt;body&gt;[&amp;deg;]&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="2">
-       <widget class="QLabel" name="label_29">
-        <property name="text">
-         <string>[*]</string>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="step8">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
        </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="step4"/>
       </item>
       <item row="3" column="0" colspan="5">
        <widget class="QLabel" name="label_16">
@@ -620,70 +724,30 @@
         </property>
        </widget>
       </item>
-      <item row="15" column="0" colspan="5">
-       <widget class="QFrame" name="frame">
-        <property name="frameShape">
-         <enum>QFrame::StyledPanel</enum>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="step3">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
-        <property name="frameShadow">
-         <enum>QFrame::Raised</enum>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="step9">
+        <property name="readOnly">
+         <bool>true</bool>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>FiltrA</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fA">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>Filtr B</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fB">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="label_46">
-           <property name="text">
-            <string>Filtr C</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="fC">
-           <property name="text">
-            <string>0</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
        </widget>
       </item>
      </layout>
     </widget>
    </item>
-   <item row="5" column="0" colspan="2">
+   <item row="7" column="0" colspan="2">
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
@@ -712,8 +776,228 @@
      </layout>
     </widget>
    </item>
+   <item row="5" column="0">
+    <widget class="QGroupBox" name="gbFiltry">
+     <property name="title">
+      <string>Zespół filtrów</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout_4">
+      <item row="0" column="3">
+       <widget class="QLabel" name="label_8">
+        <property name="text">
+         <string>dB</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QPushButton" name="pbFiltrUstaw">
+        <property name="text">
+         <string>Ustaw</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="label_7">
+        <property name="text">
+         <string>C=</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QPushButton" name="pbZeruj">
+        <property name="text">
+         <string>Zeruj</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0" colspan="6">
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_5">
+         <item row="0" column="3">
+          <widget class="QLabel" name="tlA">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QLabel" name="fB">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QLabel" name="tlB">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="fC">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_2">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Filtr B</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QLabel" name="tlC">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="fA">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0" rowspan="2">
+          <widget class="QLabel" name="label">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>FiltrA</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_46">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Filtr C</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_49">
+           <property name="font">
+            <font>
+             <bold>true</bold>
+            </font>
+           </property>
+           <property name="text">
+            <string>Razem</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="2">
+          <widget class="QLabel" name="tlAll">
+           <property name="text">
+            <string>0</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
+      <item row="0" column="2">
+       <widget class="QComboBox" name="cbTlumienie"/>
+      </item>
+      <item row="0" column="0">
+       <widget class="QComboBox" name="cbFiltrFala">
+        <item>
+         <property name="text">
+          <string>655</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>880</string>
+         </property>
+        </item>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
   </layout>
+  <action name="actionM1Move">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset theme="drive-optical"/>
+   </property>
+   <property name="text">
+    <string>M1Move</string>
+   </property>
+  </action>
  </widget>
+ <tabstops>
+  <tabstop>pbConnect</tabstop>
+  <tabstop>volt1</tabstop>
+  <tabstop>volt2</tabstop>
+  <tabstop>currLimit1</tabstop>
+  <tabstop>currLimit2</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit_4</tabstop>
+  <tabstop>checkBox</tabstop>
+  <tabstop>pbUstaw</tabstop>
+  <tabstop>voltmeas</tabstop>
+  <tabstop>voltcurr</tabstop>
+  <tabstop>cb_przekaznikNI</tabstop>
+  <tabstop>cb_pradZadzialania</tabstop>
+  <tabstop>cb_pradMaks</tabstop>
+  <tabstop>step1</tabstop>
+  <tabstop>speed1</tabstop>
+  <tabstop>step2</tabstop>
+  <tabstop>speed2</tabstop>
+  <tabstop>step3</tabstop>
+  <tabstop>speed3</tabstop>
+  <tabstop>step4</tabstop>
+  <tabstop>speed4</tabstop>
+  <tabstop>step5</tabstop>
+  <tabstop>speed5</tabstop>
+  <tabstop>step8</tabstop>
+  <tabstop>speed8</tabstop>
+  <tabstop>step9</tabstop>
+  <tabstop>speed9</tabstop>
+  <tabstop>step7</tabstop>
+  <tabstop>speed6</tabstop>
+  <tabstop>step6</tabstop>
+  <tabstop>speed7</tabstop>
+  <tabstop>cbRozkaz</tabstop>
+  <tabstop>cbNaped</tabstop>
+  <tabstop>pbSet</tabstop>
+  <tabstop>cbFiltrFala</tabstop>
+  <tabstop>cbTlumienie</tabstop>
+  <tabstop>pbFiltrUstaw</tabstop>
+  <tabstop>pbZeruj</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -723,8 +1007,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>761</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -739,8 +1023,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>325</x>
+     <y>761</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

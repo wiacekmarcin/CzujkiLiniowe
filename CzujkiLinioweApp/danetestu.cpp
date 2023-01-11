@@ -33,6 +33,10 @@ QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
         << dane.numerPierwszy
         << dane.numerDrugi
         << dane.value
+        << dane.value2
+        << dane.ok
+        << dane.error
+
            ;
     return out;
 }
@@ -43,6 +47,9 @@ QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
        >> dane.numerPierwszy
        >> dane.numerDrugi
        >> dane.value
+       >> dane.value2
+       >> dane.ok
+       >> dane.error
            ;
     return in;
 }
@@ -212,15 +219,27 @@ void DaneTestu::addWybranaCzujka(const QString &pierwszy, const QString &drugi)
     nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
     nowyPomiar.numerPierwszy = pierwszy;
     nowyPomiar.numerDrugi = drugi;
-    nowyPomiar.value = 0.0;
+    nowyPomiar.value = "0.0";
     daneWybranejCzujki.append(nowyPomiar);
 }
 
 bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &pierwszy, const QString &drugi)
 {
-    for(auto czujka : daneWybranejCzujki) {
+    for(const auto & czujka : daneWybranejCzujki) {
         if (czujka.numerPierwszy == pierwszy && czujka.numerDrugi == drugi)
             return true;
     }
     return false;
+}
+
+void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const QString & error)
+{
+    daneWybranejCzujki.last().ok = ok;
+    daneWybranejCzujki.last().value = value;
+    daneWybranejCzujki.last().error = error;
+}
+
+const QList<DanePomiaru> &DaneTestu::getDaneBadanCzujek() const
+{
+    return daneWybranejCzujki;
 }

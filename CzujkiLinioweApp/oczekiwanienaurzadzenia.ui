@@ -63,6 +63,25 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="errorZasilacz">
+     <property name="minimumSize">
+      <size>
+       <width>0</width>
+       <height>60</height>
+      </size>
+     </property>
+     <property name="text">
+      <string>Ne udało się połączyć z urządzenie. Spradż czy zasilacz jest włączony. Sprawdź czy kabel RS jest podłączony. Sprawdź czy kabel USB jest podłączony</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QFrame" name="frSterownik">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -108,6 +127,19 @@
     </widget>
    </item>
    <item>
+    <widget class="QLabel" name="errorSterownik">
+     <property name="text">
+      <string>Nie udało się połączyć ze sterownikiem. Sprawdcz czy urządzenie jest włączone. Sprawdź czy kabel USB jest podłączony do komputera</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
     <widget class="QFrame" name="frameError">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -142,42 +174,10 @@
         </property>
        </spacer>
       </item>
-      <item row="0" column="0" colspan="3">
-       <widget class="QLabel" name="errorZasilacz">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>60</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Ne udało się połączyć z urządzenie. Spradż czy zasilacz jest włączony. Sprawdź czy kabel RS jest podłączony. Sprawdź czy kabel USB jest podłączony</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
       <item row="4" column="1">
        <widget class="QPushButton" name="pushButton">
         <property name="text">
          <string>OK</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" rowspan="2" colspan="3">
-       <widget class="QLabel" name="errorSterownik">
-        <property name="text">
-         <string>Nie udało się połączyć ze sterownikiem. Sprawdcz czy urządzenie jest włączone. Sprawdź czy kabel USB jest podłączony do komputera</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
         </property>
        </widget>
       </item>

@@ -24,7 +24,10 @@ public:
     QString numerPierwszy;
     QString numerDrugi;
     short nrPomiaru;
-    float value;
+    QString value;
+    QString value2;
+    bool ok;
+    QString error;
 };
 
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane);
@@ -73,6 +76,10 @@ public:
 
     void addWybranaCzujka(const QString & pierwszy, const QString & drugi);
     bool sprawdzCzyBadanaCzujka(const QString & pierwszy, const QString & drugi);
+
+    void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
+    const QList<DanePomiaru> &getDaneBadanCzujek() const;
+
 private:
     short id;
     QString name;

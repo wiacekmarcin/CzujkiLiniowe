@@ -8,6 +8,9 @@
 #include "test4montaz.h"
 #include "test5zasilanieczujki.h"
 #include "test6stabilizacjaczujki.h"
+#include "test7badanie.h"
+#include "test8wynik.h"
+#include "test9podsumowanie.h"
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
@@ -59,11 +62,11 @@ void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     ster = ster_;
 
 
-    if (!oczekiwanieNaUrzadzenie())
-        return;
+    //if (!oczekiwanieNaUrzadzenie())
+    //    return;
 
-    if(!zerowanieSterownika())
-        return;
+    //if(!zerowanieSterownika())
+    //    return;
 
 
     switch(id) {
@@ -85,12 +88,13 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
     DaneTestu nowyTest;
     nowyTest.setId(id);
     nowyTest.setName(nameTest);
+    short powtorzPomiar;
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
         if (!parametryTestu(nrPom, &nowyTest, daneBadania, ust))
             return;
 
-        if (nrPom == 0) {
+        if (nrPom == 1) {
             if (!potwierdzenieDanych(nrPom, nowyTest, daneBadania, ust))
                 return;
         }
@@ -98,20 +102,32 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
         if (!montazCzujki(nrPom, nowyTest, daneBadania, ust))
             return;
 
-        if (!zasilenieCzujki(nrPom, nowyTest, daneBadania, ust))
-            return;
+        if (!ster->getConnected() || !zas->getConnected()) {
+            if (!oczekiwanieNaUrzadzenie(daneBadania))
+                return;
+        }
 
-        stabilizacjaCzujki(nrPom, nowyTest, daneBadania, ust);
+        do {
+            if(!zerowanieSterownika())
+                return;
 
-        pomiarCzujki(nrPom, nowyTest, daneBadania, ust);
+            if (!zasilenieCzujki(nrPom, nowyTest, daneBadania, ust))
+                return;
 
-        podsumowanie(nrPom, nowyTest, daneBadania, ust);
+            stabilizacjaCzujki(nrPom, nowyTest, daneBadania, ust);
+
+            powtorzPomiar = pomiarCzujki(nrPom, nowyTest, daneBadania, ust);
+            if (powtorzPomiar == -1)
+                return;
+
+        } while(powtorzPomiar);
     }
+    podsumowanie(nowyTest, daneBadania);
 }
 
-bool ProceduraTestowa::oczekiwanieNaUrzadzenie()
+bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania)
 {
-    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(parent);
+    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(daneBadania.getZasCzujekWbudZasilacz(), parent);
 
     dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
     dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
@@ -224,15 +240,37 @@ void ProceduraTestowa::stabilizacjaCzujki(short nrPomiaru, const DaneTestu &dane
     dlg6->exec();
     delete dlg6;
 }
-void ProceduraTestowa::pomiarCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
+
+short ProceduraTestowa::pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
+    bool ret = true;
     dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, ster, parent);
     dlg7->exec();
+
+    Test8Wynik * dlg8 = new Test8Wynik(dlg7->getWynikBadania(), dlg7->getTlumienie(), daneTestu, parent);
+    if(!dlg8->exec()) {
+        return -1;
+    } else {
+        if (dlg8->getPowtorzPomiar()) {
+            return 1;
+        }
+        if (dlg7->getTlumienie().toDouble() < 0.4) {
+            daneTestu.setSuccessBadaniaCzujki(false, dlg7->getTlumienie(), "Crep<0.4");
+        } else {
+            daneTestu.setSuccessBadaniaCzujki(dlg7->getWynikBadania(), dlg7->getTlumienie(), dlg7->getError());
+        }
+    }
+
     delete dlg7;
     dlg7 = nullptr;
+
+    delete dlg8;
+
+    return 0;
 }
 
-void ProceduraTestowa::podsumowanie(short /*nrPomiaru*/, const DaneTestu &/*daneTestu*/, const ParametryBadania &/*daneBadania*/, const Ustawienia &)
+void ProceduraTestowa::podsumowanie(const DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
-
+    Test9Podsumowanie * dlg = new Test9Podsumowanie(daneTestu, badanie);
+    dlg->exec();
 }

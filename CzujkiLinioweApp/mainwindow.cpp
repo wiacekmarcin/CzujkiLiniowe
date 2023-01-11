@@ -1,4 +1,5 @@
 #include "mainwindow.h"
+
 #include "teststerownikadlg.h"
 #include "ui_mainwindow.h"
 
@@ -17,22 +18,28 @@
 #include <QStandardPaths>
 #include <QFileInfo>
 
-#define CONN_PB(F) connect(ui->F, &QAction::triggered, this, &MainWindow::F##_triggered)
-#define CONN_PB_ALL CONN_PB(actionParametry_Badania); \
-                    CONN_PB(actionParametryKalibracyjne); \
-                    CONN_PB(actionTestZasilacza); \
-                    CONN_PB(actionTestSterownikaDlg); \
-                    CONN_PB(actionStartTestu); \
-                    CONN_PB(actionTestStanowiska); \
-                    CONN_PB(actionZapiszZadanie); \
-                    CONN_PB(actionZapiszJako); \
-                    CONN_PB(actionOtworzBadanie); \
-                    CONN_PB(actionOtw_rz_okno); \
-                    CONN_PB(actionNoweBadanie); \
-                    CONN_PB(actionUsunBadanie); \
-                    CONN_PB(actionSterownik); \
-                    CONN_PB(actionParametryBadania); \
-                    CONN_PB(actionZamknijBadanie);
+#include "test9podsumowanie.h"
+#include "danetestu.h"
+#include "parametrybadania.h"
+
+
+#define CONN_PB(F) connect(ui->action##F, &QAction::triggered, this, &MainWindow::action##F##_triggered)
+#define CONN_PB_ALL CONN_PB(Parametry_Badania); \
+                    CONN_PB(ParametryKalibracyjne); \
+                    CONN_PB(TestZasilacza); \
+                    CONN_PB(TestSterownikaDlg); \
+                    CONN_PB(StartTestu); \
+                    CONN_PB(TestStanowiska); \
+                    CONN_PB(ZapiszZadanie); \
+                    CONN_PB(ZapiszJako); \
+                    CONN_PB(OtworzBadanie); \
+                    CONN_PB(Otw_rz_okno); \
+                    CONN_PB(NoweBadanie); \
+                    CONN_PB(UsunBadanie); \
+                    CONN_PB(Sterownik); \
+                    CONN_PB(ParametryBadania); \
+                    CONN_PB(ZamknijBadanie); \
+                    CONN_PB(Test);
 
 
 
@@ -209,6 +216,9 @@ void MainWindow::ster_czujkaOn()
 {
     if (dlgTestSter)
         dlgTestSter->sd_czujkaOn(true);
+    if (dlgTestStan)
+        dlgTestStan->ster_czujkaOn();
+    ui->centralwidget->ster_czujkaOn();
 }
 
 void MainWindow::ster_progressImp(short silnik, unsigned int position)
@@ -216,6 +226,8 @@ void MainWindow::ster_progressImp(short silnik, unsigned int position)
     double valReal = u.convertImp2Value(silnik, position);
     if (dlgTestSter)
         dlgTestSter->sd_setValue(silnik, valReal);
+    if (dlgTestStan)
+        dlgTestStan->ster_setValue(silnik, valReal);
 }
 
 void MainWindow::zas_error(QString s)
@@ -453,5 +465,13 @@ void MainWindow::actionParametryBadania_triggered()
 void MainWindow::actionZamknijBadanie_triggered()
 {
 
+}
+
+void MainWindow::actionTest_triggered()
+{
+    DaneTestu dt;
+    ParametryBadania pb;
+    Test9Podsumowanie * dlg = new Test9Podsumowanie(dt, pb,  this);
+    dlg->exec();
 }
 
