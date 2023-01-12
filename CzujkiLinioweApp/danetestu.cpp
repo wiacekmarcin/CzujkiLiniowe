@@ -95,6 +95,7 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.CmaxCrep
         << dane.CrepCmin
         << dane.ok
+        << dane.errStr
            ;
     return out;
 }
@@ -118,6 +119,7 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.CmaxCrep
         >> dane.CrepCmin
         >> dane.ok
+        >> dane.errStr
             ;
     return in;
 }
@@ -329,7 +331,17 @@ void DaneTestu::setOk(bool newOk)
     ok = newOk;
 }
 
-//void DaneTestu::setDataZakonczenia(const QString &newDataZakonczenia)
-//{
-//    DataZakonczenia = newDataZakonczenia;
-//}
+void DaneTestu::setDataZakonczenia(const QString &newDataZakonczen)
+{
+    DataZakonczenia = newDataZakonczenia;
+}
+
+QString DaneTestu::getErrStr() const
+{
+    return errStr;
+}
+
+void DaneTestu::setErrStr(const QString & newErr)
+{
+    errStr = newErr;
+}

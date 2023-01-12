@@ -16,9 +16,13 @@ public:
     explicit OdtwarzalnoscWyniki(QWidget *parent = nullptr);
     ~OdtwarzalnoscWyniki();
     void setPodsumowanie(bool pods);
-    void setDaneTest(const DaneTestu &daneTestu, const ParametryBadania &badanie);
+    void setDaneTest(DaneTestu &daneTestu, const ParametryBadania &badanie);
 protected:
-    void addOneRekordTable(short r, short nrProby, const QString &nadajnik, const QString &odbiornik, const QString &tlumienie_db, const QString &tlumienie_per, bool ok, const QString &inneText);
+    void addRekordPodsumowanie(short r, short nrProby, const QString &nadajnik, const QString &odbiornik, const QString &tlumienie_db, const QString &tlumienie_per, 
+    bool ok, const QString &inneText);
+
+    void addRekordWyniki(short num, short nrPomiaru, const QString & numerNadajnika, const QString & numerOdbiornika,
+                              const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
     void headTable(const QString &nadajnik, const QString &odbiornik);
     void oneHeadRecord(const QString &objectName, const QString &text, int row, int col);
     void oneTableTd(const QString &objectName, const QString &text, int row, int col);

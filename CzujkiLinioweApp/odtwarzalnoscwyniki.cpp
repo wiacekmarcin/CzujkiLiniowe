@@ -2,7 +2,7 @@
 #include "ui_odtwarzalnoscwyniki.h"
 
 #include <QMessageBox>
-#define DEBUG
+//#define DEBUG
 
 
 
@@ -20,34 +20,93 @@ OdtwarzalnoscWyniki::~OdtwarzalnoscWyniki()
     delete ui;
 }
 
-void OdtwarzalnoscWyniki::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania & badanie)
+void OdtwarzalnoscWyniki::setDaneTest(DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
     pierwszy = badanie.getTypNadajnika();
     drugi = badanie.getTypOdbiornika();
     headTable(pierwszy, drugi);
+    initWynikTable(pierwszy, drugi);
+
+    bool badanieOk = true;
+    int cntAvg = daneTestu.getDaneBadanCzujek().size();
+    float Cavg = 0;
+    
+    float Cmin = 100;
+    float Cmax = -100;
+
+    for (const auto & dane : daneTestu.getDaneBadanCzujek())
+    {
+        if (!dane.getOk()) {
+            badanieOk = false;
+            daneTestu.setErrStr(dane.error);
+            continue;
+        }
+        bool ok;
+        double C = dane.val.toDouble(&ok);
+        if (!ok) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
+            continue;
+        }
+        if (val < 0.4) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Cn < 0.4"));
+        }
+        if (val > Cmax)
+            Cmax = val;
+        if (val < Cmin)
+            Cmin = val;
+        Cavg += val / cntAvg;
+    }
+
+    if ()
+
+    daneTestu.setsetCrep(Cavg);
+    daneTestu.setCmin(Cmin);
+    daneTestu.setCmax(Cmax);
+    daneTestu.setCmaxCrep(Cmax/Cavg);
+    daneTestu.setCrepCmin(Cavg/Cmin);
+    daneTestu.setWykonany(true);
+
+    if (daneTestu.getCmaxCrep() > 1.33) {
+        daneTestu.setOk(false);
+        daneTestu.setErrStr("Cmax/Crep>1.33");
+    } else if (daneTestu.getCrepCmin() > 1.5) {
+        daneTestu.setOk(false);
+        daneTestu.setErrStr("Crep/Cmin<1.5");
+    } else {
+        daneTestu.setOk(badanieOk);
+    }
 
 #ifdef DEBUG
-        addOneRekordTable(0, 1, "AXA1", "AYA1", "-", "-", false, "Błąd sprzętowy");
-        addOneRekordTable(1, 2, "AXA2", "AYA2", "0.2", "34", false, "Crep<0.3");
-        addOneRekordTable(2, 3, "AXA3", "AYA3", "0.5", "45", true, "");
-        addOneRekordTable(3, 4, "AXA4", "AYA4", "1.5", "45", true, "");
-        addOneRekordTable(4, 5, "AXA5", "AYA5", "3.5", "45", true, "");
-        addOneRekordTable(5, 6, "AXA6", "AYA6", "2.5", "45", true, "");
-        addOneRekordTable(6, 7, "AXA7", "AYA7", "0.6", "45", true, "");
+        addRekordPodsumowanie(0, 1, "AXA1", "AYA1", "-", "-", false, "Błąd sprzętowy");
+        addRekordPodsumowanie(1, 2, "AXA2", "AYA2", "0.2", "34", false, "Crep<0.3");
+        addRekordPodsumowanie(2, 3, "AXA3", "AYA3", "0.5", "45", true, "");
+        addRekordPodsumowanie(3, 4, "AXA4", "AYA4", "1.5", "45", true, "");
+        addRekordPodsumowanie(4, 5, "AXA5", "AYA5", "3.5", "45", true, "");
+        addRekordPodsumowanie(5, 6, "AXA6", "AYA6", "2.5", "45", true, "");
+        addRekordPodsumowanie(6, 7, "AXA7", "AYA7", "0.6", "45", true, "");
 
 #else
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             //QString inne;
-            addOneRekordTable(num++, dane.nrPomiaru, dane.numerNadajnika, dane.numerOdbiornika,
+            addRekordPodsumowanie(num, dane.nrPomiaru, dane.numerNadajnika, dane.numerOdbiornika,
                               dane.value_dB, dane.value_perc, dane.ok, dane.error);
+            addRekordWyniki(num, dane.nrPomiaru, dane.numerNadajnika, dane.numerOdbiornika,
+                              dane.value_dB, dane.value_perc, dane.ok, dane.error);
+            num++;
         }
 #endif
+
         ui->gridLayoutResults->setVerticalSpacing(0);
         ui->gridLayoutResults->setHorizontalSpacing(0);
         ui->gridLayoutResults->setSpacing(0);
+        
+        ui->etcmaxcrep->setText(QString::number(daneTestu.getCmaxCrep()));
+        ui->etcrep/cmin->setText(QString::number(daneTestu.getCmaxCrep()));
 }
 
 void OdtwarzalnoscWyniki::setPodsumowanie(bool pods)
@@ -58,7 +117,7 @@ void OdtwarzalnoscWyniki::setPodsumowanie(bool pods)
         ui->stackedWidget->setCurrentWidget(ui->wyniki);
 }
 
-void OdtwarzalnoscWyniki::addOneRekordTable(short r, short nrProby, const QString & nadajnik, const QString & odbiornik,
+void OdtwarzalnoscWyniki::addRekordPodsumowanie(short r, short nrProby, const QString & nadajnik, const QString & odbiornik,
                                           const QString &tlumienie_db, const QString &tlumienie_per,
                                           bool ok, const QString &inneText)
 {
@@ -222,5 +281,39 @@ void OdtwarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString 
         ++row;
     }
 */
+
+}
+
+void OdtwarzalnoscWyniki::addRekordWyniki(short num, short nrPomiaru, const QString & numerNadajnika, const QString & numerOdbiornika,
+                              const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
+{
+    int row = num;
+
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(num+1));
+    ui->tableWidget->setVerticalHeaderItem(row, itemVert);
+    
+    //QTableWidgetItem *item0 = new QTableWidgetItem(QString::number(num));
+    //ui->tableWidget->setItem(row, 0, item0);
+    (void)ok;
+    (void)err;
+
+    QTableWidgetItem *item1 = new QTableWidgetItem(numerNadajnika);
+    ui->tableWidget->setItem(row, 0, item1);
+
+    QTableWidgetItem *item2 = new QTableWidgetItem(numerOdbiornika);
+    ui->tableWidget->setItem(row, 1, item2);
+
+    QTableWidgetItem *item3 = new QTableWidgetItem(value_dB);
+    ui->tableWidget->setItem(row, 2, item3);
+
+    QTableWidgetItem *item4 = new QTableWidgetItem(value_perc);
+    ui->tableWidget->setItem(row, 3, item4);
+
+    //QTableWidgetItem *item5 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    //ui->tableWidget->setItem(row, 4, item5);
+
+    //QTableWidgetItem *item6 = new QTableWidgetItem(error);
+    //ui->tableWidget->setItem(row, 5, item6);
+
 
 }

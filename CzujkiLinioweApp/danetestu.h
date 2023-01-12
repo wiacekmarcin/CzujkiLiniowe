@@ -104,6 +104,9 @@ public:
     bool getOk() const;
     void setOk(bool newOk);
 
+    QString getErrStr() const;
+    void setErrStr(const QString & err);
+
 private:
     short id;
     QString name;
@@ -122,6 +125,7 @@ private:
     float CmaxCrep;
     float CrepCmin;
     bool ok;
+    QString errStr;
 };
 
 #endif // DANETESTU_H
