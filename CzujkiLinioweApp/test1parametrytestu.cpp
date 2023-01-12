@@ -46,9 +46,15 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
     switch(test->getId())
     {
         case REPRODUCIBILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar)); break;
-        default:
+            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar)); 
+            break;
+        case REPEATABILITY:
             ui->lUwagaWyborCzujek->setText(QString("Wybierz dowolną czujkę")); break;
+        break;
+        case TOLERANCE_TO_BEAM_MISALIGNMENT:
+        break;
+        default:
+            
     }
 
     short numCzujek = badanie.getIloscCzujek();

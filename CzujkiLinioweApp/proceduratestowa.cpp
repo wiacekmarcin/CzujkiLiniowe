@@ -79,9 +79,16 @@ void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     //if(!zerowanieSterownika())
     //    return;
 
-
+    ,
+    
     switch(id) {
-    case 0:
+    case REPRODUCIBILITY:
+        Odtwarzalnosc(id, nameTest, b, ust);
+        break;
+    case REPEATABILITY:
+        Powtarzalnosc(id, nameTest, b, ust);
+        break;
+    case TOLERANCE_TO_BEAM_MISALIGNMENT:
         Odtwarzalnosc(id, nameTest, b, ust);
         break;
     default:
@@ -135,6 +142,50 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
     }
     podsumowanie(nowyTest, daneBadania);
 }
+
+void ProceduraTestowa::powtarzalnosc(short id, const QString & nameTest, const ParametryBadania & daneBadania, const Ustawienia & ust)
+{
+    DaneTestu nowyTest;
+    nowyTest.setId(id);
+    nowyTest.setName(nameTest);
+    short powtorzPomiar;
+    for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
+    {
+        if (!parametryTestu(nrPom, &nowyTest, daneBadania, ust))
+            return;
+
+        if (nrPom == 1) {
+            if (!potwierdzenieDanych(nrPom, nowyTest, daneBadania, ust))
+                return;
+        }
+
+        if (!montazCzujki(nrPom, nowyTest, daneBadania, ust))
+            return;
+
+        if (!ster->getConnected() || !zas->getConnected()) {
+            if (!oczekiwanieNaUrzadzenie(daneBadania))
+                return;
+        }
+
+        do {
+            if(!zerowanieSterownika())
+                return;
+
+            if (!zasilenieCzujki(nrPom, nowyTest, daneBadania, ust))
+                return;
+
+            stabilizacjaCzujki(nrPom, nowyTest, daneBadania, ust);
+
+            powtorzPomiar = pomiarCzujki(nrPom, nowyTest, daneBadania, ust);
+            if (powtorzPomiar == -1)
+                return;
+
+        } while(powtorzPomiar);
+    }
+    podsumowanie(nowyTest, daneBadania);
+}
+
+
 
 bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania)
 {
@@ -280,7 +331,7 @@ short ProceduraTestowa::pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, cons
     return 0;
 }
 
-void ProceduraTestowa::podsumowanie(const DaneTestu &daneTestu, const ParametryBadania & badanie)
+void ProceduraTestowa::podsumowanie(DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     Test9Podsumowanie * dlg = new Test9Podsumowanie(daneTestu, badanie);
     dlg->exec();
