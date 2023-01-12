@@ -52,6 +52,7 @@ private:
     QMap<short, QLabel*> ikonyStatusu;
     QMap<short, QPair<QLabel*, QLabel*>> ikonyRuchu;
     QMap<short, QLabel*> pozycja;
+    bool showDialog;
 };
 
 #endif // TESTSTEROWNIKADLG_H

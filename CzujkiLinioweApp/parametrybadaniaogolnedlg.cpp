@@ -57,20 +57,20 @@ void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, ParametryBadania *bada
     ui->osobaOdpowiedzialna->setText(badanie->getOsobaOdpowiedzialna());
     ui->uwagi->setText(badanie->getUwagi());
 
-    if (badanie->getZasCzujekWbudZasilacz()) {
-        ui->napiecieZasilaniain->setText(QString::number(badanie->getNapiecieZasCzujki_mV()/1000.0, 'g', 3));
+    if (badanie->getZasilanieCzujekZasilaczZewnetrzny()) {
+        ui->napiecieZasilaniain->setText(QString::number(badanie->getNapiecieZasilaniaCzujki_mV()/1000.0, 'g', 3));
         setWewnetrznyZasilacz(true);
         ui->rbInsideSupply->setChecked(true);
         ui->rbCentralSupply->setChecked(false);
     } else {
-        ui->typCentraliSygnalizacji->setText(badanie->getTypCentraliSygnPoz());
+        ui->typCentraliSygnalizacji->setText(badanie->getZasilanieCzujekTypCentrali());
         setWewnetrznyZasilacz(false);
         ui->rbInsideSupply->setChecked(false);
         ui->rbCentralSupply->setChecked(true);
     }
 
     ui->czasStabilizacjiCzujki->setText(QString::number(badanie->getCzasStabilizacjiCzujki_s()));
-    bool przekaznik = badanie->getWyzwalanieAlarmuPrzekaznik();
+    bool przekaznik = badanie->getWyzwalanieAlarmuPrzekaznikiem();
     setWyzwolenieAlarmu(przekaznik);
     ui->rbAlarmPrzekaznik->setChecked(przekaznik);
     ui->rbPrad->setChecked(!przekaznik);
@@ -116,15 +116,17 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
     badanie->setUwagi(ui->uwagi->toPlainText());
 
     if (ui->rbInsideSupply->isChecked()) {
-        badanie->setZasCzujekWbudZasilacz(true);
-        badanie->setNapiecieZasCzujki_mV(1000*ui->napiecieZasilaniain->text().toDouble());
+        badanie->setZasilanieCzujekZasilaczZewnetrzny(true);
+        badanie->setZasilanieCzujekCentrala(false);
+        badanie->setNapiecieZasilaniaCzujki_mV(1000*ui->napiecieZasilaniain->text().toDouble());
     } else {
-        badanie->setZasCzujekWbudZasilacz(false);
-        badanie->setTypCentraliSygnPoz(ui->typCentraliSygnalizacji->text());
+        badanie->setZasilanieCzujekCentrala(true);
+        badanie->setZasilanieCzujekZasilaczZewnetrzny(false);
+        badanie->setZasilanieCzujekTypCentrali(ui->typCentraliSygnalizacji->text());
     }
 
     ui->czasStabilizacjiCzujki->setText(QString::number(badanie->getCzasStabilizacjiCzujki_s()));
-    if (badanie->getWyzwalanieAlarmuPrzekaznik()) {
+    if (badanie->getWyzwalanieAlarmuPrzekaznikiem()) {
         setWyzwolenieAlarmu(true);
     } else {
         setWyzwolenieAlarmu(false);
@@ -209,7 +211,7 @@ bool ParametryBadaniaOgolneDlg::check()
         errorLabel->setText("Należy wybrać sposób sygnalizacji alarmu");
         return false;
     }
-    
+
     if (ui->rbPrad->isChecked()) {
         if (ui->pradAlarmu->text().isEmpty()) {
             errorLabel->setText("Pole 'przekroczenie wartości prądu zasilania' nie może być puste");

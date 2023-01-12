@@ -95,7 +95,7 @@ void Test7Badanie::flt_bladFiltrow(QChar filtr, bool zerowanie)
     zmProgressBar.stop();
 }
 
-void Test7Badanie::CzujkaOn()
+void Test7Badanie::czujkaOn()
 {
     zmFiltraTmr.stop();
     zmProgressBar.stop();

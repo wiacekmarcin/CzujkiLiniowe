@@ -13,10 +13,10 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(short /*nrPomiaru*/, const DaneTestu 
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
     ui->testName->setText(daneTestu.getName());
-    if (daneBadania.getZasCzujekWbudZasilacz()) {
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
         ui->infoZasilanie->setText("Zasilanie czujki zostało włączone");
         ui->rodzajZasilania->setText("Zasilacz");
-        ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
+        ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
         ui->napiecieMierz->setText("0.000");
         ui->pradMierz->setText("0.000");
         ui->lTypCentrali->setEnabled(false);
@@ -27,10 +27,10 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(short /*nrPomiaru*/, const DaneTestu 
         ui->napiecieUst->setEnabled(true);
         ui->napiecieMierz->setEnabled(true);
         ui->pradMierz->setEnabled(true);
-    } else {
+    } else if (daneBadania.getZasilanieCzujekCentrala()) {
         ui->infoZasilanie->setText("Proszę załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
         ui->rodzajZasilania->setText("Centrala sygnalizacji pożarowej");
-        ui->typCentrali->setText(daneBadania.getTypCentraliSygnPoz());
+        ui->typCentrali->setText(daneBadania. getZasilanieCzujekTypCentrali());
         ui->lTypCentrali->setEnabled(true);
         ui->typCentrali->setEnabled(true);
         ui->lNapiecieUst->setEnabled(false);

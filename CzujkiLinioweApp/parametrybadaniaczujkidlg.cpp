@@ -9,7 +9,7 @@ const char* ParametryBadaniaCzujkiDlg::etTypPierwszy[2] = { ParametryBadaniaCzuj
 const char* ParametryBadaniaCzujkiDlg::etTypDrugi[2] = { ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypReflektora };
 const char* ParametryBadaniaCzujkiDlg::etNadajnik[2] = { ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
 const char* ParametryBadaniaCzujkiDlg::etOdbiornik[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
-const char* ParametryBadaniaCzujkiDlg::etNumerNadajnika[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
+const char* ParametryBadaniaCzujkiDlg::etNumerPierwszy[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
 const char* ParametryBadaniaCzujkiDlg::etNumerDrugi[2] = { ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
 
 ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
@@ -67,7 +67,7 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
         n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-        auto row = badanie->getNumeryCzujki(nrCz);
+        auto row = badanie->getNumeryCzujki(false, nrCz);
 
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
@@ -100,10 +100,10 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
     ui->typDrugi->setText(badanie->getTypDrugiejCzujki());
     ui->rozstawienieMaksymalne->setText(badanie->getRozstawienieMaxCzujki());
     ui->rozstawienieMinimalne->setText(badanie->getRozstawienieMinCzujki());
-    ui->pierwszy_ospionowa->setText(QString::number(badanie->getMaksKatowaNieWspolPionPierwszejCzuj()));
-    ui->pierwszy_ospozioma->setText(QString::number(badanie->getMaksKatowaNieWspolPozPierwszejCzuj()));
-    ui->drugi_ospionowa->setText(QString::number(badanie->getMaksKatowaNieWspolPionDrugiejCzuj()));
-    ui->drugi_ospozioma->setText(QString::number(badanie->getMaksKatowaNieWspolPozDrugiejCzuj()));
+    ui->pierwszy_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaNadajnika());
+    ui->pierwszy_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaNadajnika());
+    ui->drugi_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaOdbiornika());
+    ui->drugi_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaOdbiornika());
 
     bool o = badanie->getTestOdtwarzalnosci();
     showInfoSorted(o);
@@ -269,12 +269,10 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setTypDrugiejCzujki(ui->typDrugi->text());
     badanie->setRozstawienieMaxCzujki(ui->rozstawienieMaksymalne->text());
     badanie->setRozstawienieMinCzujki(ui->rozstawienieMinimalne->text());
-    badanie->setMaksKatowaNieWspolPionPierwszejCzuj(ui->pierwszy_ospionowa->text().toDouble());
-    badanie->setMaksKatowaNieWspolPozPierwszejCzuj(ui->pierwszy_ospozioma->text().toDouble());
-    badanie->setMaksKatowaNieWspolPionDrugiejCzuj(ui->drugi_ospionowa->text().toDouble());
-    badanie->setMaksKatowaNieWspolPozDrugiejCzuj(ui->drugi_ospozioma->text().toDouble());
-
-    badanie->set
+    badanie->setMaksKatowaNieWspolPionowaNadajnika(ui->pierwszy_ospionowa->text());
+    badanie->setMaksKatowaNieWspolPoziomaNadajnika(ui->pierwszy_ospozioma->text());
+    badanie->setMaksKatowaNieWspolPionowaOdbiornika(ui->drugi_ospionowa->text());
+    badanie->setMaksKatowaNieWspolPoziomaOdbiornika(ui->drugi_ospozioma->text());
 
     badanie->wyczyscCzujki();
     short num = 0;
@@ -284,7 +282,7 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
         if (m_numbers[i].first->text().isEmpty() && m_numbers[i].second->text().isEmpty())
             continue;
         ++num;
-        badanie->addNumeryCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
+        badanie->dodajCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
     }
     badanie->setIloscCzujek(num);
 }

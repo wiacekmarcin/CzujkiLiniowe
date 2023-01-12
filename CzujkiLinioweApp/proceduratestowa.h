@@ -26,6 +26,10 @@ public:
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar silnik, bool zerowanie);
     void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void zas_value(int kind, int value);
+    void czujkaOn();
+    const DaneTestu &getDane() const;
+
 protected:
     void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
 

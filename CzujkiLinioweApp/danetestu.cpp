@@ -21,8 +21,7 @@ ListaTestow::ListaTestow()
 
 
 
-DaneTestu::DaneTestu(QObject *parent)
-    : QObject{parent}
+DaneTestu::DaneTestu()
 {
 
 }
@@ -30,10 +29,10 @@ DaneTestu::DaneTestu(QObject *parent)
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 {
     out << dane.nrPomiaru
-        << dane.NumerNadajnika
-        << dane.numerDrugi
-        << dane.value
-        << dane.value2
+        << dane.numerNadajnika
+        << dane.numerOdbiornika
+        << dane.value_dB
+        << dane.value_perc
         << dane.ok
         << dane.error
 
@@ -44,10 +43,10 @@ QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
 {
     in >> dane.nrPomiaru
-       >> dane.NumerNadajnika
-       >> dane.numerDrugi
-       >> dane.value
-       >> dane.value2
+       >> dane.numerNadajnika
+       >> dane.numerOdbiornika
+       >> dane.value_dB
+       >> dane.value_perc
        >> dane.ok
        >> dane.error
            ;
@@ -83,12 +82,19 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.name
         << dane.wykonany
         << dane.osobaWykonujaca
-        << dane.rozpoczeto
+        << dane.DataRozpoczecia
+        << dane.DataZakonczenia
         << dane.temperatura
         << dane.wilgotnosc
         << dane.cisnienie
         << dane.uwagi
         << dane.daneWybranejCzujki
+        << dane.Crep
+        << dane.Cmin
+        << dane.Cmax
+        << dane.CmaxCrep
+        << dane.CrepCmin
+        << dane.ok
            ;
     return out;
 }
@@ -99,12 +105,19 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.name
         >> dane.wykonany
         >> dane.osobaWykonujaca
-        >> dane.rozpoczeto
+        >> dane.DataRozpoczecia
+        >> dane.DataZakonczenia
         >> dane.temperatura
         >> dane.wilgotnosc
         >> dane.cisnienie
         >> dane.uwagi
         >> dane.daneWybranejCzujki
+        >> dane.Crep
+        >> dane.Cmin
+        >> dane.Cmax
+        >> dane.CmaxCrep
+        >> dane.CrepCmin
+        >> dane.ok
             ;
     return in;
 }
@@ -149,14 +162,14 @@ void DaneTestu::setOsobaWykonujaca(const QString &newOsobaWykonujaca)
     osobaWykonujaca = newOsobaWykonujaca;
 }
 
-const QString &DaneTestu::getRozpoczeto() const
+const QString &DaneTestu::getDataRozpoczecia() const
 {
-    return rozpoczeto;
+    return DataRozpoczecia;
 }
 
-void DaneTestu::setRozpoczeto(const QString &newRozpoczeto)
+void DaneTestu::setDataRozpoczecia(const QString &newRozpoczeto)
 {
-    rozpoczeto = newRozpoczeto;
+    DataRozpoczecia = newRozpoczeto;
 }
 
 const QString &DaneTestu::getTemperatura() const
@@ -203,30 +216,30 @@ QString DaneTestu::getNumerNadajnika(short nrPomiaru) const
 {
     if (nrPomiaru - 1 > daneWybranejCzujki.size())
         return QString();
-    return daneWybranejCzujki[nrPomiaru-1].NumerNadajnika;
+    return daneWybranejCzujki[nrPomiaru-1].numerNadajnika;
 }
 
 QString DaneTestu::getNumerOdbiornika(short nrPomiaru) const
 {
     if (nrPomiaru - 1 > daneWybranejCzujki.size())
         return QString();
-    return daneWybranejCzujki[nrPomiaru-1].numerDrugi;
+    return daneWybranejCzujki[nrPomiaru-1].numerOdbiornika;
 }
 
-void DaneTestu::addWybranaCzujka(const QString &pierwszy, const QString &drugi)
+void DaneTestu::addWybranaCzujka(const QString &nadajnik, const QString &odbiornik)
 {
     DanePomiaru nowyPomiar;
     nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
-    nowyPomiar.numerNadajnika = pierwszy;
-    nowyPomiar.numerDrugi = drugi;
-    nowyPomiar.value = "0.0";
+    nowyPomiar.numerNadajnika = nadajnik;
+    nowyPomiar.numerOdbiornika = odbiornik;
+    nowyPomiar.value_dB = "0.0";
     daneWybranejCzujki.append(nowyPomiar);
 }
 
-bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &pierwszy, const QString &drugi)
+bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &odbiornik)
 {
     for(const auto & czujka : daneWybranejCzujki) {
-        if (czujka.numerNadajnika == pierwszy && czujka.numerDrugi == drugi)
+        if (czujka.numerNadajnika == nadajnik && czujka.numerOdbiornika == odbiornik)
             return true;
     }
     return false;
@@ -235,7 +248,7 @@ bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &pierwszy, const QString &d
 void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const QString & error)
 {
     daneWybranejCzujki.last().ok = ok;
-    daneWybranejCzujki.last().value = value;
+    daneWybranejCzujki.last().value_dB = value;
     daneWybranejCzujki.last().error = error;
 }
 
@@ -243,3 +256,80 @@ const QList<DanePomiaru> &DaneTestu::getDaneBadanCzujek() const
 {
     return daneWybranejCzujki;
 }
+
+float DaneTestu::getCrep() const
+{
+    return Crep;
+}
+
+void DaneTestu::setCrep(float newCrep)
+{
+    Crep = newCrep;
+}
+
+float DaneTestu::getCmin() const
+{
+    return Cmin;
+}
+
+void DaneTestu::setCmin(float newCmin)
+{
+    Cmin = newCmin;
+}
+
+float DaneTestu::getCmax() const
+{
+    return Cmax;
+}
+
+void DaneTestu::setCmax(float newCmax)
+{
+    Cmax = newCmax;
+}
+
+float DaneTestu::getCmaxCrep() const
+{
+    return CmaxCrep;
+}
+
+void DaneTestu::setCmaxCrep(float newCmaxCrep)
+{
+    CmaxCrep = newCmaxCrep;
+}
+
+float DaneTestu::getCrepCmin() const
+{
+    return CrepCmin;
+}
+
+void DaneTestu::setCrepCmin(float newCrepCmin)
+{
+    CrepCmin = newCrepCmin;
+}
+
+const QString &DaneTestu::getDataZakonczenia() const
+{
+    return DataZakonczenia;
+}
+
+QString DaneTestu::getWynik() const
+{
+    if (wykonany)
+        return ok ? "POZYTYWNY" : "NEGATYWNY";
+    return "NIE WYKONANY";
+}
+
+bool DaneTestu::getOk() const
+{
+    return ok;
+}
+
+void DaneTestu::setOk(bool newOk)
+{
+    ok = newOk;
+}
+
+//void DaneTestu::setDataZakonczenia(const QString &newDataZakonczenia)
+//{
+//    DataZakonczenia = newDataZakonczenia;
+//}

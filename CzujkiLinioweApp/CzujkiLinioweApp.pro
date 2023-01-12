@@ -12,6 +12,7 @@ SOURCES += \
     danetestu.cpp \
     listabadan.cpp \
     oczekiwanienaurzadzenia.cpp \
+    odtwarzalnoscwyniki.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -52,6 +53,7 @@ HEADERS += \
     danetestu.h \
     listabadan.h \
     oczekiwanienaurzadzenia.h \
+    odtwarzalnoscwyniki.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -92,6 +94,7 @@ FORMS += \
     listabadan.ui \
     mainwindow.ui \
     oczekiwanienaurzadzenia.ui \
+    odtwarzalnoscwyniki.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \

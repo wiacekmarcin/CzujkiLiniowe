@@ -55,6 +55,17 @@ void ProceduraTestowa::ster_setPositionDone(short silnik, bool home, bool move, 
         dlg0->ster_setPositionDone(silnik, home, move, error, interrupt);
 }
 
+void ProceduraTestowa::zas_value(int kind, int value)
+{
+
+}
+
+void ProceduraTestowa::czujkaOn()
+{
+    if (dlg7)
+        dlg7->czujkaOn();
+}
+
 void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
                                     const Ustawienia & ust, Zasilacz * zas_, Sterownik * ster_)
 {
@@ -127,11 +138,12 @@ void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const P
 
 bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania)
 {
-    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(daneBadania.getZasCzujekWbudZasilacz(), parent);
-
-    dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
+    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(daneBadania.getZasilanieCzujekZasilaczZewnetrzny(), parent);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
+        dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
+        zas->connectToDevice();
+    }
     dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
-    zas->connectToDevice();
     ster->connectToDevice();
 
     if (!dlg->exec()) {
@@ -214,13 +226,13 @@ bool ProceduraTestowa::zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTes
                                        const Ustawienia &)
 {
     //ustawienia zasilania czujki z zasilacza
-    if (daneBadania.getZasCzujekWbudZasilacz()) {
-        zas->setVoltage_mV(daneBadania.getNapiecieZasCzujki_mV());
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
+        zas->setVoltage_mV(daneBadania.getNapiecieZasilaniaCzujki_mV());
         zas->setOutput(true);
     }
     //TODO
-    if (!daneBadania.getWyzwalanieAlarmuPrzekaznik()) {
-    //    zas->setCurrentLimit_mA(b.getPrzekroczeniePraduZasilania_mA());
+    if (daneBadania.getWyzwalanieAlarmuPradem()) {
+        zas->setCurrentLimit_mA(daneBadania.getPrzekroczeniePraduZasilania_mA().toInt());
     }
 
     Test5ZasilanieCzujki *dlg5 = new Test5ZasilanieCzujki(nrPomiaru, daneTestu, daneBadania, parent);
@@ -243,7 +255,6 @@ void ProceduraTestowa::stabilizacjaCzujki(short nrPomiaru, const DaneTestu &dane
 
 short ProceduraTestowa::pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    bool ret = true;
     dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, ster, parent);
     dlg7->exec();
 
@@ -273,4 +284,9 @@ void ProceduraTestowa::podsumowanie(const DaneTestu &daneTestu, const ParametryB
 {
     Test9Podsumowanie * dlg = new Test9Podsumowanie(daneTestu, badanie);
     dlg->exec();
+}
+
+const DaneTestu &ProceduraTestowa::getDane() const
+{
+    return dane;
 }

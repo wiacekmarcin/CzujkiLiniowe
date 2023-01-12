@@ -49,7 +49,7 @@ private:
 
     static const char* etTypPierwszy[2];
     static const char* etTypDrugi[2];
-    static const char* etNumerNadajnika[2];
+    static const char* etNumerPierwszy[2];
     static const char* etNumerDrugi[2];
     static const char* etNadajnik[2];
     static const char* etOdbiornik[2];

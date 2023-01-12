@@ -4,19 +4,18 @@
 #include <QDebug>
 
 ParametryBadania::ParametryBadania()
-    : QObject(nullptr),
-      ParametryBadaniaGen()
+    : ParametryBadaniaGen()
 {
     setCzasStabilizacjiCzujki_s(900);
     setCzasPomZmianaTlumenia_s(15);
-    setNapiecieZasCzujki_mV(24000);
+    setNapiecieZasilaniaCzujki_mV(24000);
     setPrzekroczeniePraduZasilania_mA("50");
-    setZasCzujekWbudZasilacz(true);
-    setWyzwalanieAlarmuPrzekaznik(true);
-    setMaksKatowaNieWspolPionPierwszejCzuj(0.0);
-    setMaksKatowaNieWspolPionDrugiejCzuj(0.0);
-    setMaksKatowaNieWspolPozPierwszejCzuj(0.0);
-    setMaksKatowaNieWspolPozDrugiejCzuj(0.0);
+    setZasilanieCzujekZasilaczZewnetrzny(true);
+    setWyzwalanieAlarmuPrzekaznikiem(true);
+    setMaksKatowaNieWspolPionowaNadajnika("0.0");
+    setMaksKatowaNieWspolPionowaOdbiornika("0.0");
+    setMaksKatowaNieWspolPoziomaNadajnika("0.0");
+    setMaksKatowaNieWspolPionowaOdbiornika("0.0");
     setSystemOdbiornikNadajnik(true);
     setTestOdtwarzalnosci(false);
     setTypNadajnika("Nadajnik");
@@ -103,6 +102,31 @@ void ParametryBadania::wyczyscCzujki()
     numbersCzujki.clear();
 }
 
+bool ParametryBadania::getTestOdtwarzalnosci() const
+{
+    return testOdtwarzalnosci;
+}
+
+void ParametryBadania::setTestOdtwarzalnosci(bool newTestOdtwarzalnossci)
+{
+    testOdtwarzalnosci = newTestOdtwarzalnossci;
+}
+
+void ParametryBadania::addTest(short testId)
+{
+    ListaTestow lt;
+    DaneTestu test;
+    test.setId(testId);
+    test.setWykonany(false);
+    test.setName(lt.nazwyTestow.at(testId));
+    testy.append(test);
+}
+
+const QVector<DaneTestu> &ParametryBadania::getTesty() const
+{
+    return testy;
+}
+
 QString ParametryBadania::getTypNadajnika() const
 {
     return getTypPierwszejCzujki();
@@ -113,12 +137,12 @@ QString ParametryBadania::getTypOdbiornika() const
     return getTypDrugiejCzujki();
 }
 
-void setTypNadajnika(const QString & nadajnik)
+void ParametryBadania::setTypNadajnika(const QString & nadajnik)
 {
-    setTypPiewszejCzujki(nadajnik);
+    setTypPierwszejCzujki(nadajnik);
 }
 
-void setTypOdbiornika(const QString & odbiornik)
+void ParametryBadania::setTypOdbiornika(const QString & odbiornik)
 {
     setTypDrugiejCzujki(odbiornik);
 }
@@ -126,16 +150,20 @@ void setTypOdbiornika(const QString & odbiornik)
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);
+    out << dane.testOdtwarzalnosci;
     out << dane.numbersCzujki;
     out << dane.sortedId;
+    out << dane.testy;
     return out;
 }
 
 QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::load(in);
+    in >> dane.testOdtwarzalnosci;
     in >> dane.numbersCzujki;
     in >> dane.sortedId;
+    in >> dane.testy;
     return in;
 }
 

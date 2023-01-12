@@ -95,7 +95,8 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     QDialog(parent),
     ui(new Ui::TestSterownikaDlg),
     u(ust),
-    sd(sdv)
+    sd(sdv),
+    showDialog(false)
 {
     ui->setupUi(this);
     SETCONF_ALL
@@ -299,7 +300,7 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
 
 void TestSterownikaDlg::sd_czujkaOn(bool /*hardware*/)
 {
-    static bool showDialog = false;
+
     if (showDialog)
         return;
     showDialog = true;

@@ -20,14 +20,10 @@ public:
                           QWidget *parent = 0);
     ~Test9Podsumowanie();
 
-    bool getPowtorzPomiar() const;
+
 
 protected:
-    void pbCancel_clicked();
-    void addOneRekordTable(short nrPozycji, short nrProby, const QString &pierwszy, const QString &drugi,
-                           const QString & tlumienie, const QString &tlumienieText2, bool ok,  const QString &inne);
-    void headTable(const QString &pierwszy, const QString &drugi);
-    void feetTable(short nrPomiarow);
+
 private:
     Ui::Test9Podsumowanie *ui;
     bool powtorzPomiar;

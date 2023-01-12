@@ -5,11 +5,11 @@
 #include <QVector>
 #include <QPair>
 #include <QString>
+#include "danetestu.h"
 #include "parametrybadania_gen.h"
 
-class ParametryBadania : public QObject, public ParametryBadaniaGen
+class ParametryBadania : public ParametryBadaniaGen
 {
-    Q_OBJECT
 
 public:
     explicit ParametryBadania();
@@ -25,7 +25,8 @@ public:
     void dodajCzujki(const QString &odbiornik, const QString &nadajnik);
     QString getNumerNadajnika(unsigned int index, bool sorted) const;
     QString getNumerOdbiornika(unsigned int index, bool sorted) const;
-    QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const{ return qMakePair(getNumerOdbiornika(sorted), getNumerOdbiornika(sorted)); }
+    QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const
+    { return qMakePair(getNumerNadajnika(index, sorted), getNumerOdbiornika(index, sorted)); }
 
     QString getTypNadajnika() const;
     QString getTypOdbiornika() const;
@@ -35,12 +36,19 @@ public:
 
     void wyczyscCzujki();
 
+
     bool getTestOdtwarzalnosci() const;
-    void setTestOdtwarzalnosci(bool newOdtwarzalnosc);
+    void setTestOdtwarzalnosci(bool newTestOdtwarzalnossci);
+
+    void addTest(short testId);
+
+    const QVector<DaneTestu> &getTesty() const;
 
 private:
+    bool testOdtwarzalnosci;
     QVector<QPair<QString, QString>> numbersCzujki;
     QVector<short> sortedId;
+    QVector<DaneTestu> testy;
 };
 
 #endif // PARAMETRYBADANIA_H

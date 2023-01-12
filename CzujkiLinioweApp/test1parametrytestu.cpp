@@ -26,7 +26,7 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
         SETREADONLY(ui->dataRozpoczecia);
         SETREADONLY(ui->uwagi);
 
-        ui->dataRozpoczecia->setText(test->getRozpoczeto());
+        ui->dataRozpoczecia->setText(test->getDataRozpoczecia());
         ui->osobaWykonujaca->setText(test->getOsobaWykonujaca());
         ui->wilgotnosc->setText(test->getWilgotnosc());
         ui->cisnienie->setText(test->getCisnienie());
@@ -54,7 +54,7 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
     short numCzujek = badanie.getIloscCzujek();
     for (int n = 0 ; n < numCzujek ; n++)
     {
-        auto v = badanie.getNumeryCzujki(n);
+        auto v = badanie.getNumeryCzujki(test->getId() != REPRODUCIBILITY, n);
         QStringList vVariant;
         vVariant << v.first << v.second;
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
@@ -160,7 +160,7 @@ void Test1ParametryTestu::check()
 void Test1ParametryTestu::pbOK_clicked()
 {
     test->setCisnienie(ui->cisnienie->text());
-    test->setRozpoczeto(ui->dataRozpoczecia->text());
+    test->setDataRozpoczecia(ui->dataRozpoczecia->text());
     test->setOsobaWykonujaca(ui->osobaWykonujaca->text());
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());

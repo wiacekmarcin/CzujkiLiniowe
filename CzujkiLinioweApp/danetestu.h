@@ -22,10 +22,10 @@ struct ListaTestow {
 class DanePomiaru {
 public:
     QString numerNadajnika;
-    QString numerDrugi;
+    QString numerOdbiornika;
     short nrPomiaru;
-    QString value;
-    QString value2;
+    QString value_dB;
+    QString value_perc;
     bool ok;
     QString error;
 };
@@ -35,11 +35,12 @@ QDataStream &operator>>(QDataStream &in, DanePomiaru &dane);
 QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
 QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
 
-class DaneTestu : public QObject
+class DaneTestu
 {
-    Q_OBJECT
 public:
-    explicit DaneTestu(QObject *parent = nullptr);
+    explicit DaneTestu();
+    //DaneTestu(const DaneTestu & test);
+    //DaneTestu& operator=(const DaneTestu & test);
 
     friend QDataStream &operator<<(QDataStream &out, const DaneTestu &dane);
     friend QDataStream &operator>>(QDataStream &in, DaneTestu &dane);
@@ -56,8 +57,8 @@ public:
     const QString &getOsobaWykonujaca() const;
     void setOsobaWykonujaca(const QString &newOsobaWykonujaca);
 
-    const QString &getRozpoczeto() const;
-    void setRozpoczeto(const QString &newRozpoczeto);
+    const QString &getDataRozpoczecia() const;
+    void setDataRozpoczecia(const QString &newRozpoczeto);
 
     const QString &getTemperatura() const;
     void setTemperatura(const QString &newTemperatura);
@@ -74,23 +75,53 @@ public:
     QString getNumerNadajnika(short nrPomiaru) const;
     QString getNumerOdbiornika(short nrPomiaru) const;
 
-    void addWybranaCzujka(const QString & pierwszy, const QString & drugi);
-    bool sprawdzCzyBadanaCzujka(const QString & pierwszy, const QString & drugi);
+    void addWybranaCzujka(const QString & nadajnik, const QString & odbiornik);
+    bool sprawdzCzyBadanaCzujka(const QString & odbiornik, const QString & nadajnik);
 
     void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
+
+    float getCrep() const;
+    void setCrep(float newCrep);
+
+    float getCmin() const;
+    void setCmin(float newCmin);
+
+    float getCmax() const;
+    void setCmax(float newCmax);
+
+    float getCmaxCrep() const;
+    void setCmaxCrep(float newCmaxCrep);
+
+    float getCrepCmin() const;
+    void setCrepCmin(float newCrepCmin);
+
+    const QString &getDataZakonczenia() const;
+    void setDataZakonczenia(const QString &newDataZakonczenia);
+
+    QString getWynik() const;
+
+    bool getOk() const;
+    void setOk(bool newOk);
 
 private:
     short id;
     QString name;
     bool wykonany;
     QString osobaWykonujaca;
-    QString rozpoczeto;
+    QString DataRozpoczecia;
+    QString DataZakonczenia;
     QString temperatura;
     QString wilgotnosc;
     QString cisnienie;
     QString uwagi;
     QList<DanePomiaru> daneWybranejCzujki;
+    float Crep;
+    float Cmin;
+    float Cmax;
+    float CmaxCrep;
+    float CrepCmin;
+    bool ok;
 };
 
 #endif // DANETESTU_H

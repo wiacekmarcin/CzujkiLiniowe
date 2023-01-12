@@ -268,6 +268,7 @@ void MainWindow::zas_deviceName(QString name)
 
 void MainWindow::zas_value(int kind, int value)
 {
+    ui->centralwidget->zas_value(kind, value);
     if (dlgTestZas)
         dlgTestZas->valueZasilacz(kind, value);
     if (dlgTestStan)
@@ -364,9 +365,14 @@ void MainWindow::actionNoweBadanie_triggered()
         fileDaneBadania = "";
         setWindowTitle("Czujniki Liniowe");
         setWindowModified(false);
+        delete dlg;
         return;
     }
 
+    b.addTest(REPRODUCIBILITY);
+    b.addTest(REPEATABILITY);
+    b.addTest(TOLERANCE_TO_BEAM_MISALIGNMENT);
+    ui->centralwidget->setBadanie(b);
     ui->actionStartTestu->setEnabled(true);
     ui->actionParametryBadania->setEnabled(true);
     ui->actionUsunBadanie->setEnabled(true);
@@ -374,6 +380,7 @@ void MainWindow::actionNoweBadanie_triggered()
     ui->actionZapiszZadanie->setEnabled(true);
     ui->actionUsunBadanie->setEnabled(true);
     ui->centralwidget->setVisible(true);
+
 }
 
 

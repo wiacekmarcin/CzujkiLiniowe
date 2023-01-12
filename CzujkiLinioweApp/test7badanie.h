@@ -46,7 +46,7 @@ public:
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar silnik, bool zerowanie);
 
-    void CzujkaOn();
+    void czujkaOn();
 
     bool getWynikBadania() const;
 
