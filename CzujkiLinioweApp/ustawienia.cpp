@@ -99,6 +99,15 @@ double Ustawienia::convertImp2Value(short silnik, unsigned long impPosu)
     return 0;
 }
 
+double Ustawienia::getFiltr_prc(unsigned short dlugoscfali, const char &nrTarczy, const short &nrPos) const
+{
+    if (dlugoscfali == 880)
+        return getFiltr_prc_880(nrTarczy, nrPos);
+    if (dlugoscfali == 655)
+        return getFiltr_prc_655(nrTarczy, nrPos);
+    return 0.0;
+}
+
 void Ustawienia::loadListUstawienFiltra()
 {
     short cntPos = settings.value("Tlumienia_655/IloscPozycji", QVariant::fromValue(0)).toInt();

@@ -20,7 +20,7 @@ class ProceduraTestowa
 public:
     ~ProceduraTestowa();
     ProceduraTestowa(QWidget * widget);
-    void startBadanie(short id, const QString &nameTest, const ParametryBadania &b,
+    bool startBadanie(short id, const QString &nameTest, const ParametryBadania &b,
                       const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
@@ -28,22 +28,21 @@ public:
     void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
     void zas_value(int kind, int value);
     void czujkaOn();
-    const DaneTestu &getDane() const;
+    DaneTestu &getDane();
 
 protected:
-    void Odtwarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
-    void Powtarzalnosc(short id, const QString &nameTest, const ParametryBadania &b, const Ustawienia & ust);
+    bool Odtwarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
+    bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
 
 private:
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
-    bool zerowanieSterownika();
-    bool parametryTestu(short nrBadania, DaneTestu * daneTestu, const ParametryBadania & b, const Ustawienia & ust);
-    bool potwierdzenieDanych(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek);
+
     bool potwierdzenieNarazenia(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    bool montazCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    bool zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+
+    bool zasilenieCzujki(const ParametryBadania &daneBadania);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    short pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
+    short pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool nowait, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
 private:
     QWidget* parent;

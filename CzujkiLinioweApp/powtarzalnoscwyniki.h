@@ -1,26 +1,24 @@
-#ifndef ODTWARZALNOSCWYNIKI_H
-#define ODTWARZALNOSCWYNIKI_H
+#ifndef POWTARZALNOSCWYNIKI_H
+#define POWTARZALNOSCWYNIKI_H
 #include "danetestu.h"
 #include "parametrybadania.h"
 #include <QWidget>
 
 namespace Ui {
-class OdtwarzalnoscWyniki;
+class PowtarzalnoscWyniki;
 }
 
-class OdtwarzalnoscWyniki : public QWidget
+class PowtarzalnoscWyniki : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit OdtwarzalnoscWyniki(QWidget *parent = nullptr);
-    ~OdtwarzalnoscWyniki();
-
+    explicit PowtarzalnoscWyniki(QWidget *parent = nullptr);
+    ~PowtarzalnoscWyniki();
+    void setPodsumowanie(bool pods);
     void setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania &badanie);
     void breakTest();
-
     void valueTest(DaneTestu &daneTestu);
-
 protected:
     void addRekordPodsumowanie(short r, short nrProby, const QString &nadajnik, const QString &odbiornik, const QString &tlumienie_db, const QString &tlumienie_per,
     bool ok, const QString &inneText);
@@ -34,7 +32,7 @@ protected:
     void addLine(const QString &objectName, bool vert, int row, int col, int rowspan, int colspan);
     void initWynikTable(const QString &nadajnik, const QString &odbiornik);
 private:
-    Ui::OdtwarzalnoscWyniki *ui;
+    Ui::PowtarzalnoscWyniki *ui;
 };
 
-#endif // ODTWARZALNOSCWYNIKI_H
+#endif // POWTARZALNOSCWYNIKI_H

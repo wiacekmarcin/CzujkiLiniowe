@@ -23,8 +23,6 @@ public:
     void sd_deviceName(QString name);
     void sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
     void sd_setParamsDone(bool success);
-    void sd_debug(const QString & d);
-    void sd_error(const QString & e);
     void sd_disconnect();
     void sd_setZdarzenieSilnik(short silnik, short zdarzenie);
     void sd_czujkaOn(bool hardware); // hardware zwarcie czujki
@@ -45,6 +43,7 @@ protected:
                             const QString & midlleImp, const QString & maxImp);
     void changeTimeZerowania(const QString & val, const QString & ratio, QLabel * result);
 
+    void addDebug(const QString &dbg);
 private:
     Ui::TestSterownikaDlg *ui;
     Ustawienia * u;

@@ -8,6 +8,7 @@ ParametryBadania::ParametryBadania()
 {
     setCzasStabilizacjiCzujki_s(900);
     setCzasPomZmianaTlumenia_s(15);
+    setCzasStabilizacjiCzujki_s(60);
     setNapiecieZasilaniaCzujki_mV(24000);
     setPrzekroczeniePraduZasilania_mA("50");
     setZasilanieCzujekZasilaczZewnetrzny(true);
@@ -18,8 +19,26 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPionowaOdbiornika("0.0");
     setSystemOdbiornikNadajnik(true);
     setTestOdtwarzalnosci(false);
-    setTypNadajnika("Nadajnik");
-    setTypOdbiornika("Odbiornik");
+    setNazwaPierwszego("Nadajnik");
+    setNazwaDrugiego("Odbiornik");
+
+    setNumerZlecenia("-");
+    setNumerTestu("-");
+    setOsobaOdpowiedzialna("-");
+    setUwagi("");
+    setHaslo("");
+    setZasilanieCzujekCentrala(false);
+    setZasilanieCzujekTypCentrali("-");
+
+    setWyzwalanieAlarmuPradem(false);
+    setDlugoscFaliFiltrow(880);
+    setSystemOdbiornikNadajnik(true);
+    setProducentCzujki("-");
+    setTypPierwszejCzujki("-");
+    setTypDrugiejCzujki("-");
+    setRozstawienieMinCzujki(0);
+    setRozstawienieMaxCzujki(0);
+    setIloscCzujek(0);
 }
 
 ParametryBadania::ParametryBadania(const ParametryBadania &e):
@@ -127,24 +146,31 @@ const QVector<DaneTestu> &ParametryBadania::getTesty() const
     return testy;
 }
 
-QString ParametryBadania::getTypNadajnika() const
+const QString &ParametryBadania::getNazwaPierwszego() const
 {
-    return getTypPierwszejCzujki();
+    return nazwaPierwszego;
 }
 
-QString ParametryBadania::getTypOdbiornika() const
+void ParametryBadania::setNazwaPierwszego(const QString &newNazwaPierwszego)
 {
-    return getTypDrugiejCzujki();
+    nazwaPierwszego = newNazwaPierwszego;
 }
 
-void ParametryBadania::setTypNadajnika(const QString & nadajnik)
+const QString &ParametryBadania::getNazwaDrugiego() const
 {
-    setTypPierwszejCzujki(nadajnik);
+    return nazwaDrugiego;
 }
 
-void ParametryBadania::setTypOdbiornika(const QString & odbiornik)
+void ParametryBadania::setNazwaDrugiego(const QString &newNazwaDrugiego)
 {
-    setTypDrugiejCzujki(odbiornik);
+    nazwaDrugiego = newNazwaDrugiego;
+}
+
+void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
+{
+    if (id == REPRODUCIBILITY)
+        setTestOdtwarzalnosci(true);
+    testy[id] = dane;
 }
 
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
@@ -154,6 +180,8 @@ QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
     out << dane.numbersCzujki;
     out << dane.sortedId;
     out << dane.testy;
+    out << dane.nazwaPierwszego;
+    out << dane.nazwaDrugiego;
     return out;
 }
 
@@ -164,6 +192,8 @@ QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
     in >> dane.numbersCzujki;
     in >> dane.sortedId;
     in >> dane.testy;
+    in >> dane.nazwaPierwszego;
+    in >> dane.nazwaDrugiego;
     return in;
 }
 

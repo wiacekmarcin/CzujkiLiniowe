@@ -2,7 +2,7 @@
 #include "ui_test2potwierdzenie.h"
 #include <QMessageBox>
 
-Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, const ParametryBadania &badanie, QWidget *parent) :
+Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test2Potwierdzenie)
 {
@@ -16,13 +16,13 @@ Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, 
     ui->wilgotnosc->setText(test.getWilgotnosc());
     ui->testName->setText(test.getName());
 
-    if (badanie.getSystemOdbiornikNadajnik()) { //odb <-> nad
-        ui->ePierwszy->setText("Nadajnik");
-        ui->eDrugi->setText("Odbiornik");
-    } else { //odb+nad <-> ref
-        ui->ePierwszy->setText("Nadajnik+Odbiornik");
-        ui->eDrugi->setText("Reflektor");
-    }
+    ui->ePierwszy->setText(test.getNazwaPierwszego());
+    ui->eDrugi->setText(test.getNazwaDrugiego());
+
+    ui->powtarzalnosc_czas->setVisible(test.getId() == REPEATABILITY);
+    ui->ePowtarzalnosc->setVisible(test.getId() == REPEATABILITY);
+    ui->powtarzalnosc_czas->setText(QString("%1 s").arg(test.getCzasPowtarzalnosci()));
+
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

@@ -177,9 +177,9 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
     //serialPort.moveToThread(&portThread);
     //portThread.start();
-
-    writer.moveToThread(&writeThread);
-    writeThread.start();
+    writeThread = new QThread(this);
+    writer.moveToThread(writeThread);
+    writeThread->start();
 
     filtry.setUstawienia(this, *u);
 
@@ -234,8 +234,14 @@ Sterownik::~Sterownik()
 {
     setConnected(false);
     m_timer.stop();
-    setStop();
+    writer.setReset();
+    writer.setStop();
+    writer.quit();
     writer.wait();
+    eventLoop.quit();
+    writeThread->quit();
+    writeThread->wait();
+    //QThread::currentThread()->wait();
     //portThread.quit();
     //portThread.wait();
 }
@@ -268,13 +274,16 @@ void Sterownik::disconnectDevice()
     }
 }
 
-void Sterownik::setParams()
+void Sterownik::setParams(short nrSilnika, bool reverse, unsigned int maxImpulse,
+                          unsigned int baseImpulse, unsigned int middleImpulse)
 {
     if (!connected())
         writer.command(SterownikWriter::CONNECT, QByteArray());
-
-    if (connected()) {
-        writer.command(SterownikWriter::SET_PARAMS, QByteArray());
+    if (nrSilnika > 0 || nrSilnika < 10) {
+        writer.command(SterownikWriter::SET_PARAMS, SerialMessage::configMotorMsg(
+                           nrSilnika, reverse, maxImpulse, baseImpulse, middleImpulse));
+    } else if (nrSilnika == 0){
+        writer.command(SterownikWriter::SET_PARAMS, SerialMessage::configKontrolerMsg());
     }
 }
 
@@ -292,12 +301,18 @@ void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, uns
                        SerialMessage::setPosition(silnik,  steps, impTime));
 }
 
-void Sterownik::setZerowanieNadajnikOdbiornikFiltry()
+void Sterownik::setZerowanieUrzadzen(bool ramiona, bool filtry, bool wozek)
 {
     for (short id = 1; id <= 9; ++id) {
-        if (id == 6 ||  id == 7)
-            continue;
-        setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+        if (ramiona && (id == 1 || id == 2 || id == 8 || id == 9))
+            setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+
+        if (wozek && (id == 6 ||  id == 7))
+            setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+
+        if (filtry && (id == 3 || id == 4 || id == 5))
+            setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+
     }
 }
 
@@ -564,19 +579,19 @@ void Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::CONF_REPLY:
-            emit setParamsDone(msg.getSilnik(), true, false);
+            emit paramsDone(msg.getSilnik(), true, false);
             if (msg.getReplyConf(msg.getSilnik()))
                 emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
             filtry.setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
-            emit setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
+            emit positionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
         case SerialMessage::POSITION_REPLY:
             filtry.setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
-            emit setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
+            emit positionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:

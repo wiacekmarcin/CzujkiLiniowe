@@ -28,12 +28,6 @@ public:
     QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const
     { return qMakePair(getNumerNadajnika(index, sorted), getNumerOdbiornika(index, sorted)); }
 
-    QString getTypNadajnika() const;
-    QString getTypOdbiornika() const;
-
-    void setTypNadajnika(const QString &nadajnik);
-    void setTypOdbiornika(const QString &odbiornik);
-
     void wyczyscCzujki();
 
 
@@ -44,11 +38,21 @@ public:
 
     const QVector<DaneTestu> &getTesty() const;
 
+    const QString &getNazwaPierwszego() const;
+    void setNazwaPierwszego(const QString &newNazwaPierwszego);
+
+    const QString &getNazwaDrugiego() const;
+    void setNazwaDrugiego(const QString &newNazwaDrugiego);
+
+    void setDaneTestu(short id, const DaneTestu & dane);
+
 private:
     bool testOdtwarzalnosci;
     QVector<QPair<QString, QString>> numbersCzujki;
     QVector<short> sortedId;
     QVector<DaneTestu> testy;
+    QString nazwaPierwszego;
+    QString nazwaDrugiego;
 };
 
 #endif // PARAMETRYBADANIA_H

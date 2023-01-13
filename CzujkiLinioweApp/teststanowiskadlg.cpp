@@ -5,7 +5,6 @@
 #include "sterownik.h"
 #include "zasilacz.h"
 #include "ustawienia.h"
-#include "ukladfiltrow.h"
 
 #include <QMessageBox>
 #include <QLineEdit>

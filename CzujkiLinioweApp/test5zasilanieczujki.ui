@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
+   <string>Parametry Testu - zasilanie czujki</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="6" column="0" colspan="2">

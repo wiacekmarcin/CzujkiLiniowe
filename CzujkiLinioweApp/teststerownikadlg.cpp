@@ -4,6 +4,7 @@
 #include "sterownik.h"
 
 #include <QMessageBox>
+#include <QTime>
 
 #define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
                    ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImpZerow##N())); \
@@ -18,7 +19,7 @@
                                                          u->getMotorCzasMiedzyImpZerow##N())));\
                    ui->speedWork##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
                                                                                u->getMotorCzasMiedzyImpNormal##N()))); \
-                   ui->delayWork##N->setText(QString::number(u->getMotorCzasMiedzyImpNormal##N())); \
+                   ui->delayWork##N->setText(QString::number(u->getMotorCzasMiedzyImpNormal##N()));
 
 
 #define SETCONF_ALL SETCONF(1) \
@@ -95,8 +96,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     QDialog(parent),
     ui(new Ui::TestSterownikaDlg),
     u(ust),
-    sd(sdv),
-    showDialog(false)
+    sd(sdv)
 {
     ui->setupUi(this);
     SETCONF_ALL
@@ -122,6 +122,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     ui->iconFound->setStyleSheet("background-color:red");
 
     if (sdv->getConnected()) {
+        addDebug("Urządzenie podłączone");
         ui->frameMove->setEnabled(true);
         ui->iconKonf->setStyleSheet("background-color:green");
         ui->iconAuth->setStyleSheet("background-color:green");
@@ -132,10 +133,13 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
         ui->pbDisconnect->setEnabled(true);
         ui->pbReset->setEnabled(true);
         ui->pbSetConf->setEnabled(true);
+        addDebug("Wysyłam zapytanie o konfiguracje");
+        sd->setParams(0);
         for (short i = 1; i < 10; ++i) {
             ikonyStatusu[i]->setStyleSheet("background-color:green");
         }
     } else {
+        addDebug("Urządzenie nie podłączone");
         ui->frameMove->setEnabled(false);
         ui->pbDisconnect->setEnabled(false);
         ui->pbConnect->setEnabled(true);
@@ -147,6 +151,8 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
             ikonyRuchu[i].second->setStyleSheet("background-color:gray");
         }
     }
+    //resize(1800, 1000);
+    adjustSize();
 }
 
 TestSterownikaDlg::~TestSterownikaDlg()
@@ -175,6 +181,7 @@ TestSterownikaDlg::~TestSterownikaDlg()
 
 void TestSterownikaDlg::pbSetConfiguration_clicked()
 {
+    addDebug("Zapisuje konfiguracje do pliku");
     WRITECONF_ALL
 }
 
@@ -183,9 +190,13 @@ void TestSterownikaDlg::sd_deviceName(QString name)
     ui->namePort->setText(name);
 }
 
+void TestSterownikaDlg::addDebug(const QString & dbg)
+{
+    ui->debug->appendPlainText(QString("[%1] %2").arg(QTime::currentTime().toString("HH:mm:ss.zzz"), dbg));
+}
+
 void TestSterownikaDlg::sd_kontrolerConfigured(int state)
 {
-    ui->dbg2->append(QString("kontrolerConfigured state=%1").arg(state));
     bool conn = false;
     switch(state) {
     case Sterownik::NO_FOUND:
@@ -193,35 +204,35 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
         ui->iconAuth->setStyleSheet("background-color:gray");
         ui->iconOpen->setStyleSheet("background-color:gray");
         ui->iconFound->setStyleSheet("background-color:red");
-        ui->dbg3->append(QString("Nie znaleziono kontrolera"));
+        addDebug(QString("Nie znaleziono kontrolera"));
         break;
     case Sterownik::FOUND:
         ui->iconFound->setStyleSheet("background-color:green");
-        ui->dbg3->append(QString("Znaleziono kontroler"));
+        addDebug(QString("Znaleziono kontroler"));
         break;
     case Sterownik::NO_OPEN:
     case Sterownik::NO_READ:
         ui->iconOpen->setStyleSheet("background-color:red");
         ui->iconKonf->setStyleSheet("background-color:gray");
         ui->iconAuth->setStyleSheet("background-color:gray");
-        ui->dbg3->append(QString("Błąd odczytu kontrolera"));
+        addDebug(QString("Błąd odczytu kontrolera"));
         break;
     case Sterownik::IDENT_FAILD:
         ui->iconAuth->setStyleSheet("background-color:red");
-        ui->dbg3->append(QString("Błąd identyfikacji"));
+        addDebug(QString("Błąd identyfikacji"));
         break;
     case Sterownik::OPEN:
         ui->iconOpen->setStyleSheet("background-color:green");
-        ui->dbg3->append(QString("Port kontrolera prawidłowo otwarty"));
+        addDebug(QString("Port kontrolera prawidłowo otwarty"));
         break;
     case Sterownik::IDENT_OK:
         ui->iconAuth->setStyleSheet("background-color:green");
-        ui->dbg3->append(QString("Autoryzacja kontrolera prawidłowa"));
+        addDebug(QString("Autoryzacja kontrolera prawidłowa"));
         break;
     case Sterownik::PARAMS_OK:
     case Sterownik::ALL_OK:
         ui->iconKonf->setStyleSheet("background-color:green");
-        ui->dbg3->append(QString("Połączenie z kontrolerem OK"));
+        addDebug(QString("Połączenie z kontrolerem OK"));
         conn = true;
         for (short i = 1; i < 10; ++i) {
             ikonyRuchu[i].first->setStyleSheet("background-color:yellow");
@@ -232,10 +243,10 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
         break;
     case Sterownik::PARAMS_FAILD:
         ui->iconKonf->setStyleSheet("background-color:red");
-        ui->dbg3->append(QString("Nie udało się skonfigurować kontrolera"));
+        addDebug(QString("Nie udało się skonfigurować kontrolera"));
         break;
     case Sterownik::CLOSE:
-        ui->dbg3->append(QString("Port kontrolera zamknięty"));
+        addDebug(QString("Port kontrolera zamknięty"));
         ui->iconKonf->setStyleSheet("background-color:gray");
         ui->iconAuth->setStyleSheet("background-color:gray");
         ui->iconOpen->setStyleSheet("background-color:gray");
@@ -257,33 +268,34 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
     ui->pbDisconnect->setEnabled(conn);
 }
 
-void TestSterownikaDlg::sd_setParamsDone(bool /*success*/)
+void TestSterownikaDlg::sd_setParamsDone(bool success)
 {
+    addDebug(QString("%1 się ustawić parametry konfigurcjia").arg(success ? "Udało" : "Nie udało" ));
     ui->iconKonf->setStyleSheet("background-color:green");
 }
 
 void TestSterownikaDlg::sd_disconnect()
 {
+    addDebug("Urzadzenie rozłączone");
     ui->iconKonf->setStyleSheet("background-color:red");
 }
 
 void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
 {
-    ui->dbg2->append(QString("Zdarzenie M[%1]=%2").arg(silnik).arg(zdarzenie));
     if (silnik == 0)
         return;
     switch(zdarzenie) {
     case Sterownik::M_ACTIVE:
-        ui->dbg3->append(QString("Silnik %1 aktywny").arg(silnik));
+        addDebug(QString("Silnik %1 aktywny").arg(silnik));
         ikonyStatusu[silnik]->setStyleSheet("background-color:orange");
 
         break;
     case Sterownik::M_NOCOMM:
-        ui->dbg3->append(QString("Brak komunikacji z silnikiem %1").arg(silnik));
+        addDebug(QString("Brak komunikacji z silnikiem %1").arg(silnik));
         ikonyStatusu[silnik]->setStyleSheet("background-color:blue");
         break;
     case Sterownik::M_NOPINS:
-        ui->dbg3->append(QString("Problemy z pinami dla silnika %1").arg(silnik));
+        addDebug(QString("Problemy z pinami dla silnika %1").arg(silnik));
         ikonyStatusu[silnik]->setStyleSheet("background-color:yellow");
         break;
     case Sterownik::M_CONFOK:
@@ -291,7 +303,7 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
         break;
     case Sterownik::M_NOACTIVE:
     default: {
-        ui->dbg3->append(QString("Silnik %1 nieaktywny").arg(silnik));
+        addDebug(QString("Silnik %1 nieaktywny").arg(silnik));
         ikonyStatusu[silnik]->setStyleSheet("background-color:red");
         break;
     }
@@ -300,22 +312,26 @@ void TestSterownikaDlg::sd_setZdarzenieSilnik(short silnik, short zdarzenie)
 
 void TestSterownikaDlg::sd_czujkaOn(bool /*hardware*/)
 {
-
-    if (showDialog)
-        return;
-    showDialog = true;
-    QMessageBox::information(this, "Czujka", "Czujka została wyzwolona");
-    showDialog = false;
+    addDebug("Wyzwolona czujka");
+    ui->czujkaOn->setStyleSheet("background-color:green");
+    QTimer tm;
+    tm.singleShot(1000, [this](){ this->ui->czujkaOn->setStyleSheet("background-color:black");});
 }
 
 void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
 {
+    addDebug(QString("Ruch silnika [%1] => %2").arg(silnik).arg(val));
     pozycja[silnik]->setText(QString::number(val));
 }
 
 void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    qDebug() << __FILE__ << __LINE__ << "s=" << silnik << "home=" << home << "move=" << move << "error=" << error << "interrupted=" << interrupt;
+    addDebug(QString("[Silnik %1] %2 <%3> {Przerwanie:%4 Błąd:%5").arg(silnik).
+             arg(move ? "rozpoczął ruch" : "zakończył ruch").
+             arg(home ? "Powrót do bazy" : "Ustawiona pozycja").
+             arg(interrupt ? "T" : "N").
+             arg(error ? "T" : "N"));
+
     if (silnik < 1 || silnik > 9)
         return;
 
@@ -328,40 +344,38 @@ void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, b
 
     if (home) {
         if (!error) {
-            ui->dbg3->append(QString("Zerowanie silnika %1 zakończyło się poprawnie").arg(silnik));
+            addDebug(QString("Zerowanie silnika %1 zakończyło się poprawnie").arg(silnik));
             ikonyRuchu[silnik].first->setStyleSheet("background-color:green");
         } else {
-            ui->dbg3->append(QString("Błąd zerowania silnika %1").arg(silnik));
+            addDebug(QString("Błąd zerowania silnika %1").arg(silnik));
             ikonyRuchu[silnik].first->setStyleSheet("background-color:red");
         }
     } else {
         if (!error) {
             if (move) {
                 ikonyRuchu[silnik].second->setStyleSheet("background-color:blue");
-                ui->dbg3->append(QString("Rozpoczynam ustawianie pozycji silnika %1").arg(silnik));
+                addDebug(QString("Rozpoczynam ustawianie pozycji silnika %1").arg(silnik));
             } else {
                 ikonyRuchu[silnik].second->setStyleSheet("background-color:green");
-                ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się poprawnie").arg(silnik));
+                addDebug(QString("Ustawianie pozycji silnika %1 zakończyło się poprawnie").arg(silnik));
             }
         } else {
             ikonyRuchu[silnik].second->setStyleSheet("background-color:red");
-            ui->dbg3->append(QString("Ustawianie pozycji silnika %1 zakończyło się błędem").arg(silnik));
+            addDebug(QString("Ustawianie pozycji silnika %1 zakończyło się błędem").arg(silnik));
         }
     }
 }
 
 void TestSterownikaDlg::pbConnect_clicked()
 {
-    ui->dbg1->clear();
-    ui->dbg2->clear();
-    ui->dbg3->clear();
-    ui->dbg3->append(QString("Szukam urządzenia vendor=%1 product=%2").arg(sd->getVendor(), sd->getProduct()));
+    ui->debug->clear();
+    addDebug(QString("Szukam urządzenia vendor=%1 product=%2").arg(sd->getVendor(), sd->getProduct()));
     sd->connectToDevice();
 }
 
 void TestSterownikaDlg::pbDisconnect_clicked()
 {
-    ui->dbg3->append(QString("Rozłączenie na życzenie"));
+    addDebug(QString("Rozłączenie na życzenie"));
     sd->disconnectDevice();
     ui->iconKonf->setStyleSheet("background-color:red");
     ui->iconAuth->setStyleSheet("background-color:red");
@@ -371,13 +385,13 @@ void TestSterownikaDlg::pbDisconnect_clicked()
 
 void TestSterownikaDlg::pbResett_clicked()
 {
-    ui->dbg3->append(QString("Reset na życzenie"));
+    addDebug(QString("Reset na życzenie"));
     sd->setReset();
 }
 
 void TestSterownikaDlg::pbStop_clicked()
 {
-    ui->dbg3->append(QString("Stop wszystko"));
+    addDebug(QString("Zatrzymuje wszystko"));
     sd->setStopMotor(1);
     sd->setStopMotor(2);
     sd->setStopMotor(3);
@@ -389,24 +403,25 @@ void TestSterownikaDlg::pbStop_clicked()
     sd->setStopMotor(9);
 }
 
+#define KONF(N) sd->setParams(N, ui->obrot##N->isChecked(), ui->maxSteps##N->text().toUInt(), ui->base##N->text().toUInt(), ui->srodekKroki##N->text().toUInt())
 void TestSterownikaDlg::pbLoadConf_clicked()
 {
-    ui->dbg3->append("Ładowanie konfiguracji");
-    sd->setParams();
-}
-
-void TestSterownikaDlg::sd_debug(const QString &d)
-{
-    ui->dbg1->append(d.sliced(20));
-}
-
-void TestSterownikaDlg::sd_error(const QString & e)
-{
-    ui->dbg2->append(e);
+    addDebug("Ładowanie konfiguracji");
+    KONF(1);
+    KONF(2);
+    KONF(3);
+    KONF(4);
+    KONF(5);
+    KONF(6);
+    KONF(7);
+    KONF(8);
+    KONF(9);
+    sd->setParams(0);
 }
 
 void TestSterownikaDlg::pbHome_clicked(int silnik, const QString & impTime)
 {
+    addDebug(QString("Żadanie zerowania dla silnika %1 dT=%2").arg(silnik).arg(impTime));
     ikonyRuchu[silnik].first->setStyleSheet("background-color:blue");
     bool ok;
     unsigned int val = impTime.toUInt(&ok);
@@ -429,6 +444,7 @@ void TestSterownikaDlg::pbHomeAll_clicked()
             case 7: e = ui->delay7; break;
             case 8: e = ui->delay8; break;
             case 9: e = ui->delay9; break;
+        default: break;
         }
         if (e)
             pbHome_clicked(i, e->text());
@@ -439,7 +455,7 @@ void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const Q
                                            const QString & speed, const QString & middleImp,
                                            const QString & maxImp)
 {
-    ui->dbg3->append(QString("Ustaw pozycje silnik %1 l=%2[*/mm] speed=%3[*/min mm/min] (ratio=%4, middleImp=%5)").
+    addDebug(QString("Ustaw pozycje silnik %1 l=%2[*/mm] speed=%3[*/min mm/min] (ratio=%4, middleImp=%5)").
                      arg(silnik).arg(x).arg(speed).arg(ratio).arg(middleImp));
     if (x.isEmpty() || ratio.isEmpty() || speed.isEmpty() || middleImp.isEmpty())
         return;
@@ -457,7 +473,7 @@ void TestSterownikaDlg::pbUstawPos_clicked(int silnik, const QString &x, const Q
     ikonyRuchu[silnik].second->setStyleSheet("background-color:gray");
     unsigned long impSpeed = u->wyliczImp(valratio, valspeed);
     unsigned long impPos = u->wyliczPozycje(silnik, valmiddleImp, valmaxImp, valratio, valx);
-    ui->dbg3->append(QString("Wysyłam żadanie ruchu pos=%1 speed=%2").arg(impPos).arg(impSpeed));
+    addDebug(QString("Wysyłam żadanie ruchu pos=%1 speed=%2").arg(impPos).arg(impSpeed));
     sd->setPositionSilnik(silnik, false, impPos, impSpeed);
 }
 

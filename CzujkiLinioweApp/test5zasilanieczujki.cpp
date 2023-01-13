@@ -3,12 +3,13 @@
 #include "zasilacz.h"
 #include <QMessageBox>
 
-Test5ZasilanieCzujki::Test5ZasilanieCzujki(short /*nrPomiaru*/, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
+Test5ZasilanieCzujki::Test5ZasilanieCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test5ZasilanieCzujki)
 {
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
+
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 

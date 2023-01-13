@@ -66,158 +66,244 @@ void ProceduraTestowa::czujkaOn()
         dlg7->czujkaOn();
 }
 
-void ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
+bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
                                     const Ustawienia & ust, Zasilacz * zas_, Sterownik * ster_)
 {
     zas = zas_;
     ster = ster_;
 
-
-    //if (!oczekiwanieNaUrzadzenie())
-    //    return;
-
-    //if(!zerowanieSterownika())
-    //    return;
-
-    ,
-    
+    dane.setId(id);
+    dane.setName(nameTest);
+    dane.setDlugoscFali(b.getDlugoscFaliFiltrow());
     switch(id) {
     case REPRODUCIBILITY:
-        Odtwarzalnosc(id, nameTest, b, ust);
-        break;
+        return Odtwarzalnosc(b, ust);
+
     case REPEATABILITY:
-        Powtarzalnosc(id, nameTest, b, ust);
-        break;
+        return Powtarzalnosc(b, ust);
+
     case TOLERANCE_TO_BEAM_MISALIGNMENT:
-        Odtwarzalnosc(id, nameTest, b, ust);
-        break;
+        return Niewspolosiowosc(b, ust);
+
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
     }
 
-
+    return false;
 }
 
 
 
-void ProceduraTestowa::Odtwarzalnosc(short id, const QString & nameTest, const ParametryBadania & daneBadania, const Ustawienia & ust)
+bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const Ustawienia & ust)
 {
-    DaneTestu nowyTest;
-    nowyTest.setId(id);
-    nowyTest.setName(nameTest);
     short powtorzPomiar;
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
-        if (!parametryTestu(nrPom, &nowyTest, daneBadania, ust))
-            return;
-
-        if (nrPom == 1) {
-            if (!potwierdzenieDanych(nrPom, nowyTest, daneBadania, ust))
-                return;
+        {
+            QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(nrPom, &dane, daneBadania, parent));
+            if (!(dlg1->exec()))
+                return false;
         }
 
-        if (!montazCzujki(nrPom, nowyTest, daneBadania, ust))
-            return;
+        {
+            QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(nrPom, dane, parent));
+            if (!(dlg2->exec()))
+                return false;
+        }
 
-        if (!ster->getConnected() || !zas->getConnected()) {
+        {
+            QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(nrPom, dane, parent));
+            if (!(dlg4->exec()))
+                return false;
+        }
+
+
+        if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
             if (!oczekiwanieNaUrzadzenie(daneBadania))
-                return;
+                return false;
         }
 
         do {
-            if(!zerowanieSterownika())
-                return;
+            if(!zerowanieSterownika(nrPom == 1, true, false))
+                return false;
 
-            if (!zasilenieCzujki(nrPom, nowyTest, daneBadania, ust))
-                return;
+            if (!zasilenieCzujki(daneBadania))
+                return false;
 
-            stabilizacjaCzujki(nrPom, nowyTest, daneBadania, ust);
+            {
+                QSharedPointer<Test6StabilizacjaCzujki> dlg6(
+                            new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+                                                        dane.getName(), true, parent));
+                dlg6->exec();
+            }
 
-            powtorzPomiar = pomiarCzujki(nrPom, nowyTest, daneBadania, ust);
+            powtorzPomiar = pomiarCzujki(daneBadania, true, true, ust);
             if (powtorzPomiar == -1)
-                return;
+                return false;
 
         } while(powtorzPomiar);
     }
-    podsumowanie(nowyTest, daneBadania);
+    {
+        dane.setWykonany(true);
+        QSharedPointer<Test9Podsumowanie> dlg(new Test9Podsumowanie(dane, daneBadania));
+        dlg->exec();
+    }
+    return true;
 }
 
-void ProceduraTestowa::powtarzalnosc(short id, const QString & nameTest, const ParametryBadania & daneBadania, const Ustawienia & ust)
+bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const Ustawienia & ust)
 {
-    DaneTestu nowyTest;
-    nowyTest.setId(id);
-    nowyTest.setName(nameTest);
     short powtorzPomiar;
-    for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
-        if (!parametryTestu(nrPom, &nowyTest, daneBadania, ust))
-            return;
-
-        if (nrPom == 1) {
-            if (!potwierdzenieDanych(nrPom, nowyTest, daneBadania, ust))
-                return;
-        }
-
-        if (!montazCzujki(nrPom, nowyTest, daneBadania, ust))
-            return;
-
-        if (!ster->getConnected() || !zas->getConnected()) {
-            if (!oczekiwanieNaUrzadzenie(daneBadania))
-                return;
-        }
-
-        do {
-            if(!zerowanieSterownika())
-                return;
-
-            if (!zasilenieCzujki(nrPom, nowyTest, daneBadania, ust))
-                return;
-
-            stabilizacjaCzujki(nrPom, nowyTest, daneBadania, ust);
-
-            powtorzPomiar = pomiarCzujki(nrPom, nowyTest, daneBadania, ust);
-            if (powtorzPomiar == -1)
-                return;
-
-        } while(powtorzPomiar);
+        QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(1, &dane, daneBadania, parent));
+        if (!(dlg1->exec()))
+            return false;
     }
-    podsumowanie(nowyTest, daneBadania);
+
+    {
+        QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(1, dane, parent));
+        if (!(dlg2->exec()))
+            return false;
+    }
+
+    do {
+        {
+            QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(1, dane, parent));
+            if (!(dlg4->exec()))
+                return false;
+        }
+
+        if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
+            if (!oczekiwanieNaUrzadzenie(daneBadania))
+                return false;
+        }
+
+        if(!zerowanieSterownika(true, true, false))
+            return false;
+
+        if (!zasilenieCzujki(daneBadania))
+            return false;
+
+        {
+            QSharedPointer<Test6StabilizacjaCzujki> dlg6(
+                new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+                                            dane.getName(), true, parent));
+            dlg6->exec();
+        }
+
+
+        powtorzPomiar = pomiarCzujki(daneBadania, true, true, ust);
+        if (powtorzPomiar == -1)
+            return false;
+    } while (powtorzPomiar != 0);
+
+
+    for (short num = 0; num < 2; ++num)
+    {
+        {
+            QSharedPointer<Test6StabilizacjaCzujki> dlg6(
+                new Test6StabilizacjaCzujki(dane.getCzasPowtarzalnosci(),
+                                        dane.getName(), false, parent));
+            dlg6->exec();
+        }
+        pomiarCzujki(daneBadania, false, false, ust);
+
+        dane.addNextPomiar();
+
+        if(!zerowanieSterownika(false, true, false))
+            return false;
+    }
+
+    {
+        QSharedPointer<Test6StabilizacjaCzujki> dlg6(
+            new Test6StabilizacjaCzujki(1L*3600*72,
+                                    dane.getName(), false, parent));
+        dlg6->exec();
+    }
+
+    pomiarCzujki(daneBadania, false, false, ust);
+
+    {
+        dane.setWykonany(true);
+        QSharedPointer<Test9Podsumowanie> dlg(new Test9Podsumowanie(dane, daneBadania));
+        dlg->exec();
+    }
+    return true;
+}
+
+bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    {
+        QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(1, &dane, daneBadania, parent));
+        if (!(dlg1->exec()))
+            return false;
+    }
+
+    {
+        QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(1, dane, parent));
+        if (!(dlg2->exec()))
+            return false;
+    }
+
+    {
+        QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(1, dane, parent));
+        if (!(dlg4->exec()))
+            return false;
+    }
+
+
+    if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
+        if (!oczekiwanieNaUrzadzenie(daneBadania))
+            return false;
+    }
+
+    if(!zerowanieSterownika(true, true, false))
+        return false;
+
+    if (!zasilenieCzujki(daneBadania))
+        return false;
+
+    {
+        QSharedPointer<Test6StabilizacjaCzujki> dlg6(
+                    new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+                                                dane.getName(), true, parent));
+        dlg6->exec();
+    }
 }
 
 
 
 bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania)
 {
-    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(daneBadania.getZasilanieCzujekZasilaczZewnetrzny(), parent);
+    QSharedPointer<OczekiwanieNaUrzadzenia> dlg(new OczekiwanieNaUrzadzenia(daneBadania.getZasilanieCzujekZasilaczZewnetrzny(), parent));
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
-        dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
+        dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg.get(), &OczekiwanieNaUrzadzenia::zasilacz);
         zas->connectToDevice();
     }
-    dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
+    dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg.get(), &OczekiwanieNaUrzadzenia::sterownik);
     ster->connectToDevice();
 
     if (!dlg->exec()) {
 #ifdef DEFVAL
 
 #else
-        delete dlg;
         return false;
 #endif
     }
-    delete dlg;
     return true;
 }
 
-bool ProceduraTestowa::zerowanieSterownika()
+bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek)
 {
-    dlg0 = new Test0ZerowanieUrzadzenia(ster, parent);
+    dlg0 = new Test0ZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
 
     if (!dlg0->exec()) {
 #ifdef DEFVAL
 
 #else
         delete dlg0;
+        dlg0 = nullptr;
         return false;
 #endif
     }
@@ -226,34 +312,11 @@ bool ProceduraTestowa::zerowanieSterownika()
     return true;
 }
 
-bool ProceduraTestowa::parametryTestu(short nrPomiaru, DaneTestu *daneTestu, const ParametryBadania &daneBadania,
-                                      const Ustawienia &)
-{
-    Test1ParametryTestu *dlg1 = new Test1ParametryTestu(nrPomiaru, daneTestu, daneBadania, parent);
-    if (!dlg1->exec()) {
-        delete dlg1;
-        return false;
-    }
-    delete dlg1;
-         return true;
-}
-
-bool ProceduraTestowa::potwierdzenieDanych(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
-                                           const Ustawienia &)
-{
-    Test2Potwierdzenie *dlg2 = new Test2Potwierdzenie(nrPomiaru, daneTestu, daneBadania, parent);
-    if (!dlg2->exec()) {
-        delete dlg2;
-        return false;
-    }
-    delete dlg2;
-    return true;
-}
 
 bool ProceduraTestowa::potwierdzenieNarazenia(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
                                               const Ustawienia &)
 {
-    Test3Sprawdzenie *dlg3 = new Test3Sprawdzenie(nrPomiaru, daneTestu, daneBadania, parent);
+    Test3Sprawdzenie *dlg3 = new Test3Sprawdzenie(nrPomiaru, daneTestu, parent);
     if (!dlg3->exec()) {
         delete dlg3;
         return false;
@@ -261,20 +324,9 @@ bool ProceduraTestowa::potwierdzenieNarazenia(short nrPomiaru, const DaneTestu &
     delete dlg3;
     return true;
 }
-bool ProceduraTestowa::montazCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
-                                    const Ustawienia &)
-{
-    Test4Montaz *dlg4 = new Test4Montaz(nrPomiaru, daneTestu, daneBadania, parent);
-    if (!dlg4->exec()) {
-        delete dlg4;
-        return false;
-    }
-    delete dlg4;
-    return true;
-}
 
-bool ProceduraTestowa::zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
-                                       const Ustawienia &)
+
+bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
 {
     //ustawienia zasilania czujki z zasilacza
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
@@ -286,58 +338,56 @@ bool ProceduraTestowa::zasilenieCzujki(short nrPomiaru, const DaneTestu &daneTes
         zas->setCurrentLimit_mA(daneBadania.getPrzekroczeniePraduZasilania_mA().toInt());
     }
 
-    Test5ZasilanieCzujki *dlg5 = new Test5ZasilanieCzujki(nrPomiaru, daneTestu, daneBadania, parent);
-    dlg5->connect(zas, &Zasilacz::value, dlg5, &Test5ZasilanieCzujki::value);
+    QSharedPointer<Test5ZasilanieCzujki> dlg5(new Test5ZasilanieCzujki(dane, daneBadania, parent));
+    dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &Test5ZasilanieCzujki::value);
     if (!dlg5->exec()) {
         zas->setOutput(false);
-        delete dlg5;
         return false;
     }
-    delete dlg5;
     return true;
 }
 
-void ProceduraTestowa::stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &)
+short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool waitEkran, const Ustawienia &ust)
 {
-    Test6StabilizacjaCzujki *dlg6 = new Test6StabilizacjaCzujki(nrPomiaru, daneTestu, daneBadania, parent);
-    dlg6->exec();
-    delete dlg6;
-}
+    dlg7 = new Test7Badanie(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
+                            dane.getName(), ust, ster, parent);
+    bool ret = dlg7->exec();
+    QString tlumienie = dlg7->getTlumienie();
+    double tlumienie_PER = ust.getFiltr_prc(dane.getDlugoscFali(), 'A', dlg7->getPosFiltrA());
+    tlumienie_PER *= ust.getFiltr_prc(dane.getDlugoscFali(), 'B', dlg7->getPosFiltrB());
+    tlumienie_PER *= ust.getFiltr_prc(dane.getDlugoscFali(), 'C', dlg7->getPosFiltrC());
 
-short ProceduraTestowa::pomiarCzujki(short nrPomiaru, DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &ust)
-{
-    dlg7 = new Test7Badanie(nrPomiaru, daneTestu, daneBadania, ust, ster, parent);
-    dlg7->exec();
+    bool wynikBadania = dlg7->getWynikBadania();
+    QString error = dlg7->getError();
+    delete dlg7;
+    dlg7 = nullptr;
+    if (!waitEkran) {
+        if (wynikBadania && tlumienie.toDouble() < 0.4) {
+            dane.setSuccessBadaniaCzujki(false, tlumienie, tlumienie_PER, "Crep<0.4");
+        } else {
+            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, tlumienie_PER, error);
+        }
+        return 0;
+    }
 
-    Test8Wynik * dlg8 = new Test8Wynik(dlg7->getWynikBadania(), dlg7->getTlumienie(), daneTestu, parent);
-    if(!dlg8->exec()) {
+    QSharedPointer<Test8Wynik> dlg8(new Test8Wynik(wynikBadania, tlumienie, dane.getName(), repeatPomiar, parent));
+    if(!(dlg8->exec())) {
         return -1;
     } else {
         if (dlg8->getPowtorzPomiar()) {
             return 1;
         }
-        if (dlg7->getTlumienie().toDouble() < 0.4) {
-            daneTestu.setSuccessBadaniaCzujki(false, dlg7->getTlumienie(), "Crep<0.4");
+        if (wynikBadania && tlumienie.toDouble() < 0.4) {
+            dane.setSuccessBadaniaCzujki(false, tlumienie, tlumienie_PER, "Crep<0.4");
         } else {
-            daneTestu.setSuccessBadaniaCzujki(dlg7->getWynikBadania(), dlg7->getTlumienie(), dlg7->getError());
+            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, tlumienie_PER, error);
         }
     }
-
-    delete dlg7;
-    dlg7 = nullptr;
-
-    delete dlg8;
-
     return 0;
 }
 
-void ProceduraTestowa::podsumowanie(DaneTestu &daneTestu, const ParametryBadania & badanie)
-{
-    Test9Podsumowanie * dlg = new Test9Podsumowanie(daneTestu, badanie);
-    dlg->exec();
-}
 
-const DaneTestu &ProceduraTestowa::getDane() const
+DaneTestu &ProceduraTestowa::getDane()
 {
     return dane;
 }

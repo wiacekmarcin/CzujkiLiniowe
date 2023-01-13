@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
+   <string>Parametry Testu - oczekiwanie na stabilizację czujki</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -128,7 +128,7 @@
       </font>
      </property>
      <property name="text">
-      <string>00:00</string>
+      <string>00:00:00</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -142,6 +142,13 @@
     <widget class="QProgressBar" name="progressBar">
      <property name="value">
       <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="pbBreak">
+     <property name="text">
+      <string>Przerwij</string>
      </property>
     </widget>
    </item>

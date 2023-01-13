@@ -21,7 +21,7 @@ class ListaBadan : public QWidget
 public:
     explicit ListaBadan(QWidget *parent = nullptr);
     ~ListaBadan();
-    void startBadanie(short id, const ParametryBadania & badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
+    void startBadanie(short id, ParametryBadania &badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
@@ -40,7 +40,7 @@ private slots:
 private:
     Ui::ListaBadan *ui;
 
-    //DaneTestu test;
+
     ProceduraTestowa procedura;
     ListaTestow lt;
     bool wyzwalaniePradem;

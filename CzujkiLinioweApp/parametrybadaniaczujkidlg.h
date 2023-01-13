@@ -42,17 +42,17 @@ private:
     static constexpr char etNadajnikaOdbiornika[] = { "Nadajnika-odbiornika" };
     static constexpr char etOdbiornika[] = { "Odbiornika" };
     static constexpr char etReflektora[] = { "Reflektora" };
-    static constexpr char etNumerNadajnika[] = { "Numer\nnadajnika" };
-    static constexpr char etNumerNadajnikaOdiornika[] = { "Numer\nnadajnika-odbiornika" };
-    static constexpr char etNumerOdbiornika[] = { "Numer\nodbiornika" };
-    static constexpr char etNumerReflektora[] = { "Numer\nreflektora" };
+    static constexpr char etNumerNadajnika[] = { "Numer nadajnika" };
+    static constexpr char etNumerNadajnikaOdiornika[] = { "Numer nadajnika-odbiornika" };
+    static constexpr char etNumerOdbiornika[] = { "Numer odbiornika" };
+    static constexpr char etNumerReflektora[] = { "Numer reflektora" };
 
     static const char* etTypPierwszy[2];
     static const char* etTypDrugi[2];
     static const char* etNumerPierwszy[2];
     static const char* etNumerDrugi[2];
-    static const char* etNadajnik[2];
-    static const char* etOdbiornik[2];
+    static const char* etPierwszy[2];
+    static const char* etDrugi[2];
 
     static const short maxNumCzujek = 7;
 

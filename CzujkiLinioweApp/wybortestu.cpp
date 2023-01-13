@@ -18,11 +18,11 @@ WyborTestu::WyborTestu(const ListaTestow & testy, bool powtarzalnosc, QWidget *p
         radioButton->setText(QString(testy.nazwyTestow[s]));
         radioButton->setAutoExclusive(true);
         radio.append(qMakePair(s, radioButton));
-        radioButton->setEnabled(s == 0 ? !powtarzalnosc : powtarzalnosc);
+        //radioButton->setEnabled(s == 0 ? !powtarzalnosc : powtarzalnosc);
         ui->gridLayout->addWidget(radioButton, s, 0, 1, 1);
-        if (s == 0 && !powtarzalnosc) {
-            radioButton->setChecked(true);
-        }
+        //if (s == 0 && !powtarzalnosc) {
+        //    radioButton->setChecked(true);
+        //}
 
         QCheckBox * checkbox = new QCheckBox(ui->groupBox);
         checkbox->setObjectName(QString("checkbox%1").arg(s));

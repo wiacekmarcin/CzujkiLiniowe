@@ -5,9 +5,10 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 #include "sterownik.h"
+#include <QMutexLocker>
 
-Test7Badanie::Test7Badanie(short /*nrPomiaru*/, const DaneTestu &daneTestu,
-                           const ParametryBadania &daneBadania, const Ustawienia &ust,
+Test7Badanie::Test7Badanie(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
+                           const QString & name, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test7Badanie),
@@ -15,36 +16,40 @@ Test7Badanie::Test7Badanie(short /*nrPomiaru*/, const DaneTestu &daneTestu,
     zmProgressBar(this),
     resetFiltrow(this),
     actTlumienie(0.0),
+    dlugoscFali(dlugoscFali_),
     actTlumPos(0),
     maxTlum(0),
     ster(ster_),
     resetFiltrowOk(false),
-    wynikBadania(false)
+    wynikBadania(false),
+    posFiltrA(0),
+    posFiltrB(0),
+    posFiltrC(0)
 
 {
     ui->setupUi(this);
 
-    if (daneBadania.getDlugoscFaliFiltrow() == 880) {
+    if (dlugoscFali == 880) {
         tlumienia = ust.getTlumienia880();
     } else {
         tlumienia = ust.getTlumienia655();
     }
     maxTlum=tlumienia.size();
-    ui->dlugoscFali->setText(QString::number(daneBadania.getDlugoscFaliFiltrow()));
-    ui->testName->setText(daneTestu.getName());
-    ui->czas->setText(QString::number(daneBadania.getCzasPomZmianaTlumenia_s()) + QString(" s"));
+    ui->dlugoscFali->setText(QString::number(dlugoscFali));
+    ui->testName->setText(name);
+    ui->czas->setText(QString::number(czasPostojuFiltra) + QString(" s"));
     connect(&zmFiltraTmr, &QTimer::timeout, this, &Test7Badanie::uplynalCzasPostojuFiltra);
-    czasPostoju = daneBadania.getCzasPomZmianaTlumenia_s();
-    zmFiltraTmr.setInterval(daneBadania.getCzasPomZmianaTlumenia_s()*1000);
+    czasPostoju = czasPostojuFiltra;
+    zmFiltraTmr.setInterval(czasPostojuFiltra*1000);
     //zmFiltraTmr.start();
     ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(daneBadania.getCzasPomZmianaTlumenia_s());
+    ui->progressBar->setMaximum(czasPostojuFiltra);
     connect(&zmProgressBar, &QTimer::timeout, this, &Test7Badanie::progressBarUpdate);
     zmProgressBar.setInterval(1000);
     qDebug() << "__FILE__" << __LINE__;
     ster->setFiltrReset();
     resetFiltrow.singleShot(5000, [this]() {
-        if (!resetFiltrowOk)
+        if (!this->getResetFiltrowOk())
             reject();
     });
 #ifndef DEFVAL
@@ -65,7 +70,8 @@ Test7Badanie::~Test7Badanie()
 void Test7Badanie::flt_zerowanieFiltrowDone()
 {
     actTlumPos = 0;
-    resetFiltrowOk = true;
+
+    setResetFiltrowOk(true);
     auto pos = tlumienia.at(actTlumPos);
     ui->tlumienie->setText(pos.at(0) + QString(" dB"));
     ui->a->setText(pos.at(1));
@@ -131,9 +137,13 @@ void Test7Badanie::uplynalCzasPostojuFiltra()
     ui->a->setText(pos.at(1));
     ui->b->setText(pos.at(2));
     ui->c->setText(pos.at(3));
+    posFiltrA = pos.at(1).toShort();
+    posFiltrB = pos.at(2).toShort();
+    posFiltrC = pos.at(3).toShort();
+
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Rozpoczynam zmiane filtra";
-    ster->setFiltrPos(pos.at(1).toShort(), pos.at(2).toShort(), pos.at(3).toShort());
+    ster->setFiltrPos(posFiltrA, posFiltrB, posFiltrC);
 }
 
 
@@ -143,6 +153,33 @@ void Test7Badanie::progressBarUpdate()
              << "Progress update " << ui->progressBar->value();
     ui->progressBar->setValue(ui->progressBar->value() + 1);
     ui->pozostal_czas->setText(QString::number(czasPostoju - ui->progressBar->value()));
+}
+
+bool Test7Badanie::getResetFiltrowOk()
+{
+    QMutexLocker lock(&mutex);
+    return resetFiltrowOk;
+}
+
+void Test7Badanie::setResetFiltrowOk(bool newResetFiltrowOk)
+{
+    QMutexLocker lock(&mutex);
+    resetFiltrowOk = newResetFiltrowOk;
+}
+
+short Test7Badanie::getPosFiltrC() const
+{
+    return posFiltrC;
+}
+
+short Test7Badanie::getPosFiltrB() const
+{
+    return posFiltrB;
+}
+
+short Test7Badanie::getPosFiltrA() const
+{
+    return posFiltrA;
 }
 
 const QString &Test7Badanie::getError() const

@@ -13,7 +13,7 @@ class Test5ZasilanieCzujki : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test5ZasilanieCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+    explicit Test5ZasilanieCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
                                   QWidget *parent = 0);
     ~Test5ZasilanieCzujki();
     void setCurrent_mA(int mA);

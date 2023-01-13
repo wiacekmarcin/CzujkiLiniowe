@@ -78,7 +78,7 @@ public:
     void addWybranaCzujka(const QString & nadajnik, const QString & odbiornik);
     bool sprawdzCzyBadanaCzujka(const QString & odbiornik, const QString & nadajnik);
 
-    void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
+    void setSuccessBadaniaCzujki(bool ok, const QString & value, const float &valper, const QString &error);
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
 
     float getCrep() const;
@@ -107,13 +107,36 @@ public:
     QString getErrStr() const;
     void setErrStr(const QString & err);
 
+    const QString &getNazwaPierwszego() const;
+    void setNazwaPierwszego(const QString &newNazwaPierwszego);
+
+    const QString &getNazwaDrugiego() const;
+    void setNazwaDrugiego(const QString &newNazwaDrugiego);
+
+    int getDlugoscFali() const;
+    void setDlugoscFali(int newDlugoscFali);
+
+    float getCrep2() const;
+    void setCrep2(float newCrep2);
+
+    float getCmin2() const;
+    void setCmin2(float newCmin2);
+
+    float getCmax2() const;
+    void setCmax2(float newCmax2);
+
+    unsigned int getCzasPowtarzalnosci() const;
+    void setCzasPowtarzalnosci(unsigned int newCzasPowtarzalnosci);
+
+    void addNextPomiar();
+
 private:
     short id;
     QString name;
     bool wykonany;
     QString osobaWykonujaca;
-    QString DataRozpoczecia;
-    QString DataZakonczenia;
+    QString dataRozpoczecia;
+    QString dataZakonczenia;
     QString temperatura;
     QString wilgotnosc;
     QString cisnienie;
@@ -122,10 +145,18 @@ private:
     float Crep;
     float Cmin;
     float Cmax;
+    float Crep2;
+    float Cmin2;
+    float Cmax2;
     float CmaxCrep;
     float CrepCmin;
     bool ok;
     QString errStr;
+    QString nazwaPierwszego;
+    QString nazwaDrugiego;
+    int dlugoscFali;
+    unsigned int czasPowtarzalnosci;
+
 };
 
 #endif // DANETESTU_H

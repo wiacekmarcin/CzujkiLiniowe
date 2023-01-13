@@ -77,7 +77,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &Sterownik::kontrolerConfigured, this, &MainWindow::ster_kontrolerConfigured);
     connect(sd, &Sterownik::deviceName, this, &MainWindow::ster_deviceName);
     connect(sd, &Sterownik::czujkaOn, this, &MainWindow::ster_czujkaOn);
-    connect(sd, &Sterownik::setPositionDone, this, &MainWindow::ster_setPositionDone);
+    connect(sd, &Sterownik::positionDone, this, &MainWindow::ster_setPositionDone);
     connect(sd, &Sterownik::progressImp, this, &MainWindow::ster_progressImp);
 
     connect(zas, &Zasilacz::error, this, &MainWindow::zas_error);
@@ -133,15 +133,11 @@ void MainWindow::actionOtw_rz_okno_triggered()
 
 void MainWindow::ster_error(QString s)
 {
-    if (dlgTestSter)
-        dlgTestSter->sd_error(s);
     dbgDlg->add(s);
 }
 
 void MainWindow::ster_debug(QString d)
 {
-    if(dlgTestSter)
-        dlgTestSter->sd_debug(d);
     dbgDlg->add(d);
 }
 

@@ -16,7 +16,7 @@ class Test0ZerowanieUrzadzenia : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test0ZerowanieUrzadzenia(Sterownik * device, QWidget *parent = nullptr);
+    explicit Test0ZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik * device, QWidget *parent = nullptr);
     ~Test0ZerowanieUrzadzenia();
 
     void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);

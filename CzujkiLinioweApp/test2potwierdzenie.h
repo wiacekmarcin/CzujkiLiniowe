@@ -4,7 +4,6 @@
 #include <QDialog>
 
 #include "danetestu.h"
-#include "parametrybadania.h"
 
 namespace Ui {
     class Test2Potwierdzenie;
@@ -15,7 +14,7 @@ class Test2Potwierdzenie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, const ParametryBadania & badanie,
+    explicit Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test,
                                 QWidget *parent = nullptr);
     ~Test2Potwierdzenie();
 protected:

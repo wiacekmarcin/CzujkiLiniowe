@@ -19,6 +19,9 @@ public:
     unsigned long wyliczPozycje(short silnik, unsigned long middle, unsigned long max, const double & ratioImpJedn, const double & x);
     double convertImp2Value(short silnik, unsigned long impPos);
 
+    double getFiltr_prc(unsigned short dlugoscfali, const char & nrTarczy, const short & nrPos) const;
+
+
     QList<QStringList> getTlumienia655() const;
     QList<QStringList> getTlumienia880() const;
 protected:

@@ -16,7 +16,7 @@ class Test9Podsumowanie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test9Podsumowanie(const DaneTestu &daneTestu, const ParametryBadania &badanie,
+    explicit Test9Podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie,
                           QWidget *parent = 0);
     ~Test9Podsumowanie();
 

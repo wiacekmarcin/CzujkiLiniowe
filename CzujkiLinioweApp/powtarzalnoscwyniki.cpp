@@ -1,5 +1,5 @@
-#include "odtwarzalnoscwyniki.h"
-#include "ui_odtwarzalnoscwyniki.h"
+#include "powtarzalnoscwyniki.h"
+#include "ui_powtarzalnoscwyniki.h"
 
 #include <QMessageBox>
 //#define DEBUG
@@ -7,20 +7,20 @@
 
 
 
-OdtwarzalnoscWyniki::OdtwarzalnoscWyniki(QWidget *parent) :
+PowtarzalnoscWyniki::PowtarzalnoscWyniki(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::OdtwarzalnoscWyniki)
+    ui(new Ui::PowtarzalnoscWyniki)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentWidget(ui->empty);
 }
 
-OdtwarzalnoscWyniki::~OdtwarzalnoscWyniki()
+PowtarzalnoscWyniki::~PowtarzalnoscWyniki()
 {
     delete ui;
 }
 
-void OdtwarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
+void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
     pierwszy = daneTestu.getNazwaPierwszego();
@@ -74,12 +74,7 @@ void OdtwarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, c
     }
 }
 
-void OdtwarzalnoscWyniki::breakTest()
-{
-    ui->stackedWidget->setCurrentWidget(ui->empty);
-}
-
-void OdtwarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
+void PowtarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
 {
     bool badanieOk = true;
     int cntAvg = daneTestu.getDaneBadanCzujek().size();
@@ -144,7 +139,12 @@ void OdtwarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
     }
 }
 
-void OdtwarzalnoscWyniki::addRekordPodsumowanie(short r, short nrProby, const QString & nadajnik, const QString & odbiornik,
+void PowtarzalnoscWyniki::breakTest()
+{
+    ui->stackedWidget->setCurrentWidget(ui->empty);
+}
+
+void PowtarzalnoscWyniki::addRekordPodsumowanie(short r, short nrProby, const QString & nadajnik, const QString & odbiornik,
                                           const QString &tlumienie_db, const QString &tlumienie_per,
                                           bool ok, const QString &inneText)
 {
@@ -176,7 +176,7 @@ void OdtwarzalnoscWyniki::addRekordPodsumowanie(short r, short nrProby, const QS
 
 }
 
-void OdtwarzalnoscWyniki::headTable(const QString & nadajnik, const QString & odbiornik)
+void PowtarzalnoscWyniki::headTable(const QString & nadajnik, const QString & odbiornik)
 {
     short col = 0;
 
@@ -200,7 +200,7 @@ void OdtwarzalnoscWyniki::headTable(const QString & nadajnik, const QString & od
     addLine("lheadDown", false, 2, 0, 1, col);
 }
 
-void OdtwarzalnoscWyniki::oneHeadRecord(const QString & objectName, const QString & text, int row, int col)
+void PowtarzalnoscWyniki::oneHeadRecord(const QString & objectName, const QString & text, int row, int col)
 {
     QLabel * lh = new QLabel(ui->frameTable);
     lh->setObjectName(objectName);
@@ -212,7 +212,7 @@ void OdtwarzalnoscWyniki::oneHeadRecord(const QString & objectName, const QStrin
     ui->gridLayoutResults->addWidget(lh, row, col, 1, 1);
 }
 
-void OdtwarzalnoscWyniki::oneTableTd(const QString & objectName, const QString & text, int row, int col)
+void PowtarzalnoscWyniki::oneTableTd(const QString & objectName, const QString & text, int row, int col)
 {
     QLabel * l = new QLabel(ui->frameTable);
     l->setObjectName(objectName);
@@ -220,7 +220,7 @@ void OdtwarzalnoscWyniki::oneTableTd(const QString & objectName, const QString &
     ui->gridLayoutResults->addWidget(l, row, col, 1, 1);
 }
 
-void OdtwarzalnoscWyniki::oneTableFrame(const QString & objectName, const QString & text, int row, int col)
+void PowtarzalnoscWyniki::oneTableFrame(const QString & objectName, const QString & text, int row, int col)
 {
     QFrame * frame = new QFrame(ui->frameTable);
     frame->setObjectName(objectName);
@@ -237,7 +237,7 @@ void OdtwarzalnoscWyniki::oneTableFrame(const QString & objectName, const QStrin
     ui->gridLayoutResults->addWidget(frame, row, col, 1, 1);
 }
 
-void OdtwarzalnoscWyniki::addLine(const QString & objectName, bool vert, int row, int col, int rowspan, int colspan)
+void PowtarzalnoscWyniki::addLine(const QString & objectName, bool vert, int row, int col, int rowspan, int colspan)
 {
     QFrame * line = new QFrame(ui->frameTable);
     line->setObjectName(objectName);
@@ -247,7 +247,7 @@ void OdtwarzalnoscWyniki::addLine(const QString & objectName, bool vert, int row
     ui->gridLayoutResults->addWidget(line, row, col, rowspan, colspan);
 }
 
-void OdtwarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString &odbiornik)
+void PowtarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString &odbiornik)
 {
     if (ui->tablePrzebieg->columnCount() < 4)
         ui->tablePrzebieg->setColumnCount(4);
@@ -268,10 +268,50 @@ void OdtwarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString 
     ui->tablePrzebieg->setHorizontalHeaderItem(3, cn2);
     ui->tablePrzebieg->setColumnWidth(3, 50);
 
+    /*
+    short row = 0;
+
+    if (ui->tableWidget->rowCount() < badanie.getTesty().size())
+        ui->tableWidget->setRowCount(badanie.getTesty().size());
+
+    for (const auto & test : badanie.getTesty()) {
+        QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(row+1));
+        ui->tableWidget->setVerticalHeaderItem(row, itemVert);
+
+        QTableWidgetItem *item0 = new QTableWidgetItem(QString::number(test.getId()));
+        ui->tableWidget->setItem(row, 0, item0);
+
+        QTableWidgetItem *item1 = new QTableWidgetItem(test.getName());
+        ui->tableWidget->setItem(row, 1, item1);
+
+        QTableWidgetItem *item2 = new QTableWidgetItem(test.getOsobaWykonujaca());
+        ui->tableWidget->setItem(row, 2, item2);
+
+        QTableWidgetItem *item3 = new QTableWidgetItem(test.getWynik());
+        ui->tableWidget->setItem(row, 3, item3);
+
+        QTableWidgetItem *item4 = new QTableWidgetItem(test.getDataRozpoczecia());
+        ui->tableWidget->setItem(row, 4, item4);
+
+        QTableWidgetItem *item5 = new QTableWidgetItem(test.getDataZakonczenia());
+        ui->tableWidget->setItem(row, 5, item5);
+
+        QTableWidgetItem *item6 = new QTableWidgetItem(test.getTemperatura());
+        ui->tableWidget->setItem(row, 6, item6);
+
+        QTableWidgetItem *item7 = new QTableWidgetItem(test.getWilgotnosc());
+        ui->tableWidget->setItem(row, 7, item7);
+
+        QTableWidgetItem *item8 = new QTableWidgetItem(test.getCisnienie());
+        ui->tableWidget->setItem(row, 8, item8);
+
+        ++row;
+    }
+*/
 
 }
 
-void OdtwarzalnoscWyniki::addRekordWyniki(short num, short nrPomiaru, const QString & numerNadajnika, const QString & numerOdbiornika,
+void PowtarzalnoscWyniki::addRekordWyniki(short num, short nrPomiaru, const QString & numerNadajnika, const QString & numerOdbiornika,
                               const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
 {
     int row = num;

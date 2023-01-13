@@ -5,11 +5,12 @@
 
 //Nazwa testu [Ten ekran nie pojawi się dla badań odwarzalności, powatarzalności, katowych , zasilania
 #include "danetestu.h"
-#include "parametrybadania.h"
+
 
 #include <QMessageBox>
 
-Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
+Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu,
+                                   QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test3Sprawdzenie)
 {
@@ -19,13 +20,8 @@ Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu,
     ui->numerDrugi->setText(daneTestu.getNumerOdbiornika(nrPomiaru));
     ui->testName->setText(daneTestu.getName());
 
-    if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad
-        ui->ePierwszy->setText("Nadajnik");
-        ui->eDrugi->setText("Odbiornik");
-    } else { //odb+nad <-> ref
-        ui->ePierwszy->setText("Nadajnik+Odbiornik");
-        ui->eDrugi->setText("Reflektor");
-    }
+    ui->ePierwszy->setText(daneTestu.getNazwaPierwszego());
+    ui->eDrugi->setText(daneTestu.getNazwaDrugiego());
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

@@ -41,29 +41,24 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
-        <widget class="QWidget" name="pOdtwarzalnosc">
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0" colspan="2">
-           <widget class="OdtwarzalnoscWyniki" name="pOdtwarzalnoscWyniki" native="true"/>
-          </item>
-         </layout>
+        <widget class="OdtwarzalnoscWyniki" name="pOdtwarzalnosc">
+         <layout class="QFormLayout" name="formLayout"/>
+        </widget>
+        <widget class="PowtarzalnoscWyniki" name="pPowtarzalnosc">
+         <layout class="QFormLayout" name="formLayout_2"/>
         </widget>
         <widget class="QWidget" name="page_2">
-         <widget class="QLabel" name="label">
-          <property name="geometry">
-           <rect>
-            <x>30</x>
-            <y>20</y>
-            <width>58</width>
-            <height>18</height>
-           </rect>
-          </property>
-          <property name="text">
-           <string>TextLabel</string>
-          </property>
-         </widget>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>NIe zdefiniowana</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </widget>
       </item>
@@ -77,6 +72,12 @@
    <class>OdtwarzalnoscWyniki</class>
    <extends>QWidget</extends>
    <header>odtwarzalnoscwyniki.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>PowtarzalnoscWyniki</class>
+   <extends>QWidget</extends>
+   <header>powtarzalnoscwyniki.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

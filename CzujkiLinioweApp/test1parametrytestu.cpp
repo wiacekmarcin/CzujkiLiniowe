@@ -32,6 +32,7 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
         ui->cisnienie->setText(test->getCisnienie());
         ui->temperatura->setText(test->getTemperatura());
         ui->uwagi->setPlainText(test->getUwagi());
+
     } else {
         const QString dataWyk = QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm");
         ui->dataRozpoczecia->setText(dataWyk);
@@ -43,36 +44,41 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
         ui->uwagi->setPlainText("Uwagi");
 #endif
     }
-    switch(test->getId())
-    {
-        case REPRODUCIBILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar)); 
-            break;
-        case REPEATABILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz dowolną czujkę")); break;
-        break;
-        case TOLERANCE_TO_BEAM_MISALIGNMENT:
-        break;
-        default:
-            
-    }
-
     short numCzujek = badanie.getIloscCzujek();
     for (int n = 0 ; n < numCzujek ; n++)
     {
-        auto v = badanie.getNumeryCzujki(test->getId() != REPRODUCIBILITY, n);
+        auto v = badanie.getNumeryCzujki(n, test->getId() != REPRODUCIBILITY);
         QStringList vVariant;
         vVariant << v.first << v.second;
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
     }
 
-    if (badanie.getSystemOdbiornikNadajnik()) { //odb <-> nad
-        ui->ePierwszy->setText("Nadajnik");
-        ui->eDrugi->setText("Odbiornik");
-    } else { //odb+nad <-> ref
-        ui->ePierwszy->setText("Nadajnik+Odbiornik");
-        ui->eDrugi->setText("Reflektor");
+    ui->ePierwszy->setText(badanie.getNazwaPierwszego());
+    ui->eDrugi->setText(badanie.getNazwaDrugiego());
+    test->setNazwaPierwszego(badanie.getNazwaPierwszego());
+    test->setNazwaDrugiego(badanie.getNazwaDrugiego());
+
+    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &Test1ParametryTestu::changeCzujka);
+    switch(test->getId())
+    {
+        case REPRODUCIBILITY:
+            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar));
+            ui->cbCzujka->setCurrentIndex(nrPomiar-1);
+            ui->frameSpec->setVisible(false);
+            break;
+        case REPEATABILITY:
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą")); break;
+            ui->frameSpec->setVisible(true);
+            ui->frame_powtarzalnosc->setVisible(true);
+        break;
+        case TOLERANCE_TO_BEAM_MISALIGNMENT:
+        break;
+        default:
+        break;
     }
+
+
+
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
@@ -81,8 +87,8 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
     connect(ui->cisnienie, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->temperatura, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
 
-    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &Test1ParametryTestu::changeCzujka);
-    ui->cbCzujka->setCurrentIndex(0);
+
+
     changeCzujka(0);
     check();
 
@@ -156,8 +162,33 @@ void Test1ParametryTestu::check()
                 return;
             }
         }
+
+        if (ui->frame_powtarzalnosc->isVisible()) {
+            QString ssecs = ui->powtarzalnosc_czas->text();
+            if (ssecs.isEmpty()) {
+                ui->errorLab->setText("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            }
+            bool ok;
+            unsigned int secs = ssecs.toInt(&ok);
+            if (!ok) {
+                ui->errorLab->setText("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                return;
+            }
+            if (secs < 900 || secs > 3600) {
+                ui->errorLab->setText("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]");
+                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            }
+        }
+
     } else {
 //Todo sprawdzenie czujki
+        if (test->sprawdzCzyBadanaCzujka(ui->typPierwszy->text(), ui->typDrugi->text())) {
+            ui->errorLab->setText("Wybrana czujka była już badana");
+            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+        }
     }
     ui->errorLab->setText("Dane sa prawidłowe");
     ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
@@ -172,6 +203,19 @@ void Test1ParametryTestu::pbOK_clicked()
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
     test->addWybranaCzujka(ui->typPierwszy->text(), ui->typDrugi->text());
+    test->setCzasPowtarzalnosci(900);
+    if(test->getId() == REPEATABILITY)
+    {
+        QString ssecs = ui->powtarzalnosc_czas->text();
+        if (!ssecs.isEmpty()) {
+            bool ok;
+            unsigned int secs = ssecs.toInt(&ok);
+            if (ok && secs >= 900 && secs <= 3600) {
+               test->setCzasPowtarzalnosci(secs);
+            }
+        }
+    }
+
     accept();
 }
 

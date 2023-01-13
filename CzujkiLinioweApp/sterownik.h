@@ -114,9 +114,10 @@ public:
     void closeDevice(bool waitForDone);
     void connectToDevice();
     void disconnectDevice();
-    void setParams();
+    void setParams(short nrSilnika, bool reverse=false, unsigned int maxImpulse=0,
+                   unsigned int baseImpulse=0, unsigned int middleImpulse=0);
     void setPositionSilnik(int silnik, bool home, uint32_t steps, uint32_t impTime);
-    void setZerowanieNadajnikOdbiornikFiltry();
+    void setZerowanieUrzadzen(bool ramiona, bool filtry, bool wozek);
     void setReset();
     void setStopMotor(short nrSilnik);
     void setStopMotorAll();
@@ -146,10 +147,10 @@ protected:
 signals:
     void error(QString s);
     void debug(QString d);
-    void setParamsDone(int address, bool success, bool silnik);
+    void paramsDone(int address, bool success, bool silnik);
     void kontrolerConfigured(int state);
     void deviceName(QString name);
-    void setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void positionDone(short silnik, bool home, bool move, bool error, bool interrupt);
     void zdarzenieSilnik(short silnik, short zdarzenie);
     void czujkaOn();
     void progressImp(short silnik, unsigned int position);
@@ -182,7 +183,7 @@ private:
     Ustawienia * ust;
     PortInterface interface;
     QSerialPort serialPort;
-    QThread writeThread, portThread;
+    QThread * writeThread;
     QMutex connMutex;
     SterownikWriter writer;
     QTimer m_timer;

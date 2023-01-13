@@ -7,6 +7,7 @@
 #include <QSerialPort>
 
 
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -20,6 +21,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
+
     Ustawienia u;
     u.save();
     a.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");

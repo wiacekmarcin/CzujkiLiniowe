@@ -18,6 +18,7 @@ SOURCES += \
     parametrybadaniaczujkidlg.cpp \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
+    powtarzalnoscwyniki.cpp \
     proceduratestowa.cpp \
     sterownik_worker.cpp \
     test0zerowanieurzadzenia.cpp \
@@ -59,6 +60,7 @@ HEADERS += \
     parametrybadaniaczujkidlg.h \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
+    powtarzalnoscwyniki.h \
     proceduratestowa.h \
     sterownik_worker.h \
     test0zerowanieurzadzenia.h \
@@ -99,6 +101,7 @@ FORMS += \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
+    powtarzalnoscwyniki.ui \
     sterownikustawieniawidget.ui \
     test0zerowanieurzadzenia.ui \
     test1parametrytestu.ui \

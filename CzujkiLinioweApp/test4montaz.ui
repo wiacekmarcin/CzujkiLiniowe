@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>493</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -211,7 +211,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Proszę zamontować czujkę [nrCzujki] na stanowisku składającą się z:</string>
+      <string>Proszę zamontować czujkę numer [nrCzujki] na stanowisku składającą się z:</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

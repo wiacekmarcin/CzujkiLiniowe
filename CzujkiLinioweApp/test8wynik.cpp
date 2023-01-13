@@ -5,14 +5,14 @@
 #include <QMessageBox>
 
 Test8Wynik::Test8Wynik(bool success, const QString &tlumienie,
-                           const DaneTestu &daneTestu, QWidget *parent) :
+                           const QString &nazwa, bool repeat, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test8Wynik),
     powtorzPomiar(false)
 
 {
     ui->setupUi(this);
-    ui->testName->setText(daneTestu.getName());
+    ui->testName->setText(nazwa);
     ui->tlumienie->setText(tlumienie + QString(" dB"));
     if (success) {
         ui->result->setText("poprawnie");
@@ -23,6 +23,7 @@ Test8Wynik::Test8Wynik(bool success, const QString &tlumienie,
         ui->tlumienie->setText("- -");
     }
 
+    ui->pbRepeat->setVisible(repeat);
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbRepeat, &QPushButton::clicked, this, [this]() { powtorzPomiar = true; this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

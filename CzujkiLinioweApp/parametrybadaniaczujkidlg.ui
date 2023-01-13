@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1047</width>
-    <height>441</height>
+    <width>1200</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -279,13 +279,13 @@
           <widget class="QLabel" name="hlp">
            <property name="minimumSize">
             <size>
-             <width>20</width>
-             <height>0</height>
+             <width>40</width>
+             <height>40</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>30</width>
+             <width>40</width>
              <height>16777215</height>
             </size>
            </property>
@@ -297,6 +297,12 @@ Czujki</string>
          </item>
          <item row="0" column="1">
           <widget class="QLabel" name="hpierwszy">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>20</height>
+            </size>
+           </property>
            <property name="text">
             <string>Numer odbiornika</string>
            </property>
@@ -307,6 +313,12 @@ Czujki</string>
          </item>
          <item row="0" column="2">
           <widget class="QLabel" name="hdrugi">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>20</height>
+            </size>
+           </property>
            <property name="text">
             <string>Numer nadajnika</string>
            </property>

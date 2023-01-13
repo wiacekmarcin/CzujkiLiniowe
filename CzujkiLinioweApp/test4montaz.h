@@ -2,7 +2,6 @@
 #define TEST4MONTAZ_H
 
 #include <QDialog>
-#include "parametrybadania.h"
 #include "danetestu.h"
 namespace Ui {
 class Test4Montaz;
@@ -13,7 +12,7 @@ class Test4Montaz : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+    explicit Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu,
                          QWidget *parent = nullptr);
     ~Test4Montaz();
 

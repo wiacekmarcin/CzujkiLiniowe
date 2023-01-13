@@ -82,8 +82,8 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.name
         << dane.wykonany
         << dane.osobaWykonujaca
-        << dane.DataRozpoczecia
-        << dane.DataZakonczenia
+        << dane.dataRozpoczecia
+        << dane.dataZakonczenia
         << dane.temperatura
         << dane.wilgotnosc
         << dane.cisnienie
@@ -92,10 +92,17 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.Crep
         << dane.Cmin
         << dane.Cmax
+        << dane.Crep2
+        << dane.Cmin2
+        << dane.Cmax2
         << dane.CmaxCrep
         << dane.CrepCmin
         << dane.ok
         << dane.errStr
+        << dane.nazwaPierwszego
+        << dane.nazwaDrugiego
+        << dane.dlugoscFali
+        << dane.czasPowtarzalnosci
            ;
     return out;
 }
@@ -106,8 +113,8 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.name
         >> dane.wykonany
         >> dane.osobaWykonujaca
-        >> dane.DataRozpoczecia
-        >> dane.DataZakonczenia
+        >> dane.dataRozpoczecia
+        >> dane.dataZakonczenia
         >> dane.temperatura
         >> dane.wilgotnosc
         >> dane.cisnienie
@@ -116,10 +123,17 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.Crep
         >> dane.Cmin
         >> dane.Cmax
+        >> dane.Crep2
+        >> dane.Cmin2
+        >> dane.Cmax2
         >> dane.CmaxCrep
         >> dane.CrepCmin
         >> dane.ok
         >> dane.errStr
+        >> dane.nazwaPierwszego
+        >> dane.nazwaDrugiego
+        >> dane.dlugoscFali
+        >> dane.czasPowtarzalnosci
             ;
     return in;
 }
@@ -166,12 +180,12 @@ void DaneTestu::setOsobaWykonujaca(const QString &newOsobaWykonujaca)
 
 const QString &DaneTestu::getDataRozpoczecia() const
 {
-    return DataRozpoczecia;
+    return dataRozpoczecia;
 }
 
 void DaneTestu::setDataRozpoczecia(const QString &newRozpoczeto)
 {
-    DataRozpoczecia = newRozpoczeto;
+    dataRozpoczecia = newRozpoczeto;
 }
 
 const QString &DaneTestu::getTemperatura() const
@@ -235,6 +249,8 @@ void DaneTestu::addWybranaCzujka(const QString &nadajnik, const QString &odbiorn
     nowyPomiar.numerNadajnika = nadajnik;
     nowyPomiar.numerOdbiornika = odbiornik;
     nowyPomiar.value_dB = "0.0";
+    nowyPomiar.value_perc = "0.0";
+    nowyPomiar.error = "";
     daneWybranejCzujki.append(nowyPomiar);
 }
 
@@ -247,10 +263,11 @@ bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &o
     return false;
 }
 
-void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const QString & error)
+void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const float &valper, const QString & error)
 {
     daneWybranejCzujki.last().ok = ok;
     daneWybranejCzujki.last().value_dB = value;
+    daneWybranejCzujki.last().value_perc = QString::number(valper);
     daneWybranejCzujki.last().error = error;
 }
 
@@ -311,7 +328,7 @@ void DaneTestu::setCrepCmin(float newCrepCmin)
 
 const QString &DaneTestu::getDataZakonczenia() const
 {
-    return DataZakonczenia;
+    return dataZakonczenia;
 }
 
 QString DaneTestu::getWynik() const
@@ -333,7 +350,7 @@ void DaneTestu::setOk(bool newOk)
 
 void DaneTestu::setDataZakonczenia(const QString &newDataZakonczen)
 {
-    DataZakonczenia = newDataZakonczenia;
+    dataZakonczenia = newDataZakonczen;
 }
 
 QString DaneTestu::getErrStr() const
@@ -344,4 +361,86 @@ QString DaneTestu::getErrStr() const
 void DaneTestu::setErrStr(const QString & newErr)
 {
     errStr = newErr;
+}
+
+const QString &DaneTestu::getNazwaPierwszego() const
+{
+    return nazwaPierwszego;
+}
+
+void DaneTestu::setNazwaPierwszego(const QString &newNazwaPierwszego)
+{
+    nazwaPierwszego = newNazwaPierwszego;
+}
+
+const QString &DaneTestu::getNazwaDrugiego() const
+{
+    return nazwaDrugiego;
+}
+
+void DaneTestu::setNazwaDrugiego(const QString &newNazwaDrugiego)
+{
+    nazwaDrugiego = newNazwaDrugiego;
+}
+
+int DaneTestu::getDlugoscFali() const
+{
+    return dlugoscFali;
+}
+
+void DaneTestu::setDlugoscFali(int newDlugoscFali)
+{
+    dlugoscFali = newDlugoscFali;
+}
+
+float DaneTestu::getCrep2() const
+{
+    return Crep2;
+}
+
+void DaneTestu::setCrep2(float newCrep2)
+{
+    Crep2 = newCrep2;
+}
+
+float DaneTestu::getCmin2() const
+{
+    return Cmin2;
+}
+
+void DaneTestu::setCmin2(float newCmin2)
+{
+    Cmin2 = newCmin2;
+}
+
+float DaneTestu::getCmax2() const
+{
+    return Cmax2;
+}
+
+void DaneTestu::setCmax2(float newCmax2)
+{
+    Cmax2 = newCmax2;
+}
+
+unsigned int DaneTestu::getCzasPowtarzalnosci() const
+{
+    return czasPowtarzalnosci;
+}
+
+void DaneTestu::setCzasPowtarzalnosci(unsigned int newCzasPowtarzalnosci)
+{
+    czasPowtarzalnosci = newCzasPowtarzalnosci;
+}
+
+void DaneTestu::addNextPomiar()
+{
+    DanePomiaru nowyPomiar;
+    nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
+    nowyPomiar.numerNadajnika = daneWybranejCzujki.last().numerNadajnika;
+    nowyPomiar.numerOdbiornika = daneWybranejCzujki.last().numerOdbiornika;
+    nowyPomiar.value_dB = "0.0";
+    nowyPomiar.value_perc = "0.0";
+    nowyPomiar.error = "";
+    daneWybranejCzujki.append(nowyPomiar);
 }

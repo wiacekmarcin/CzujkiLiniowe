@@ -3,7 +3,7 @@
 
 #include <QMessageBox>
 
-Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
+Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::Test4Montaz)
 {
@@ -13,14 +13,8 @@ Test4Montaz::Test4Montaz(short nrPomiaru, const DaneTestu &daneTestu, const Para
     ui->numerDrugi->setText(daneTestu.getNumerOdbiornika(nrPomiaru));
     ui->testName->setText(daneTestu.getName());
     ui->info->setText(ui->info->text().replace("[nrCzujki]", QString::number(nrPomiaru)));
-
-    if (daneBadania.getSystemOdbiornikNadajnik()) { //odb <-> nad
-        ui->ePierwszy->setText("* Nadajnik");
-        ui->eDrugi->setText("* Odbiornik");
-    } else { //odb+nad <-> ref
-        ui->ePierwszy->setText("* Nadajnik+Odbiornik");
-        ui->eDrugi->setText("* Reflektor");
-    }
+    ui->ePierwszy->setText(daneTestu.getNazwaPierwszego());
+    ui->eDrugi->setText(daneTestu.getNazwaDrugiego());
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

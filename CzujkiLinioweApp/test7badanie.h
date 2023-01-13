@@ -4,8 +4,7 @@
 #include <QDialog>
 #include <QTimer>
 
-#include "danetestu.h"
-#include "parametrybadania.h"
+#include <QMutex>
 #include "ustawienia.h"
 
 #ifdef DEFVAL
@@ -37,9 +36,9 @@ class Test7Badanie : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test7Badanie(short nrPomiaru, const DaneTestu &daneTestu,
-                          const ParametryBadania &daneBadania, const Ustawienia &,
-                          Sterownik * ster, QWidget *parent = 0);
+    explicit Test7Badanie(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
+                          const QString & name, const Ustawienia &ust,
+                          Sterownik * ster_, QWidget *parent = 0);
     ~Test7Badanie();
 
     void flt_zerowanieFiltrowDone();
@@ -59,6 +58,16 @@ public:
 
     const QString &getError() const;
 
+
+    short getPosFiltrA() const;
+
+    short getPosFiltrB() const;
+
+    short getPosFiltrC() const;
+
+    bool getResetFiltrowOk();
+    void setResetFiltrowOk(bool newResetFiltrowOk);
+
 private slots:
     void uplynalCzasPostojuFiltra();
     void progressBarUpdate();
@@ -69,6 +78,8 @@ private:
     QTimer resetFiltrow;
     float actTlumienie;
     QList<QStringList> tlumienia;
+    float tlumieniaPercent;
+    int dlugoscFali;
     unsigned int actTlumPos;
     unsigned int maxTlum;
     Sterownik * ster;
@@ -79,6 +90,10 @@ private:
     bool powtorzBadanie;
     bool wykryto;
     QString error;
+    short posFiltrA;
+    short posFiltrB;
+    short posFiltrC;
+    QMutex mutex;
 };
 
 #endif // TEST7BADANIE_H

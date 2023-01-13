@@ -19,7 +19,7 @@ ListaBadan::~ListaBadan()
     delete ui;
 }
 
-void ListaBadan::startBadanie(short id, const ParametryBadania & badanie, const Ustawienia & ust,
+void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawienia & ust,
                               Zasilacz *zas, Sterownik * ster)
 {
 
@@ -32,17 +32,45 @@ void ListaBadan::startBadanie(short id, const ParametryBadania & badanie, const 
     zasilaczZewnetrzny = badanie.getZasilanieCzujekZasilaczZewnetrzny();
 
     badanieWTrakcie = true;
-    procedura.startBadanie(id, nameTest, badanie, ust, zas, ster);
-    badanieWTrakcie = false;
+    if (!procedura.startBadanie(id, nameTest, badanie, ust, zas, ster))
+    {
+        badanieWTrakcie = false;
+        if (id == REPRODUCIBILITY)
+            ui->pOdtwarzalnosc->breakTest();
+        else if (id == REPRODUCIBILITY)
+            ui->pPowtarzalnosc->breakTest();
+        return;
+    }
+
+    DaneTestu test = procedura.getDane();
+    badanie.setDaneTestu(id, test);
     switch(id){
         case REPRODUCIBILITY:
-            ui->pOdtwarzalnoscWyniki->setDaneTest(procedura.getDane(), badanie);
-        break;
+            ui->pOdtwarzalnosc->setDaneTest(false, test, badanie);
+            ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
+            ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
+            ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
+            ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
+            ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
+            ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
+            ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
+            break;
+        case REPEATABILITY:
+            ui->pPowtarzalnosc->setDaneTest(false, test, badanie);
+            ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
+            ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
+            ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
+            ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
+            ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
+            ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
+            ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
+            break;
     default:
         break;
     }
-
-    ui->pOdtwarzalnoscWyniki->setPodsumowanie(false);
+    //if (test.getWykonany())
+    //    badanie.
+    //ui->pOdtwarzalnoscWyniki->setPodsumowanie(false);
 }
 
 void ListaBadan::initialTable(const ParametryBadania & badanie)
@@ -180,9 +208,23 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 {
     (void)column;
-    qDebug() << row;
+    switch(row)
+    {
+        case REPRODUCIBILITY:
+            ui->stackedWidget->setCurrentIndex(0);
+            break;
+        case REPEATABILITY:
+            ui->stackedWidget->setCurrentIndex(1);
+            break;
+        case TOLERANCE_TO_BEAM_MISALIGNMENT:
+        default:
+            ui->stackedWidget->setCurrentIndex(2);
+        break;
+
+    }
+
     if (row == 0) {
-        ui->stackedWidget->setCurrentIndex(0);
+
     } else {
         ui->stackedWidget->setCurrentIndex(1);
     }

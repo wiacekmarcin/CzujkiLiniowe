@@ -17,8 +17,8 @@ class Test8Wynik : public QDialog
     Q_OBJECT
 
 public:
-    explicit Test8Wynik(bool success, const QString & tlumienie, const DaneTestu &daneTestu,
-                          QWidget *parent = 0);
+    explicit Test8Wynik(bool success, const QString & tlumienie, const QString &nazwa,
+                          bool repeatPomiar, QWidget *parent = 0);
     ~Test8Wynik();
 
     bool getPowtorzPomiar() const;
