@@ -1,21 +1,21 @@
-#ifndef TEST5ZASILANIECZUJKI_H
-#define TEST5ZASILANIECZUJKI_H
+#ifndef OKNOZASILANIACZUJKI_H
+#define OKNOZASILANIACZUJKI_H
 #include "parametrybadania.h"
 #include "danetestu.h"
 #include <QDialog>
 
 namespace Ui {
-class Test5ZasilanieCzujki;
+class OknoZasilaniaCzujki;
 }
 
-class Test5ZasilanieCzujki : public QDialog
+class OknoZasilaniaCzujki : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Test5ZasilanieCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+    explicit OknoZasilaniaCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
                                   QWidget *parent = 0);
-    ~Test5ZasilanieCzujki();
+    ~OknoZasilaniaCzujki();
     void setCurrent_mA(int mA);
     void setVolage_mV(int mV);
 public slots:
@@ -23,7 +23,7 @@ public slots:
 protected:
     void pbCancel_clicked();
 private:
-    Ui::Test5ZasilanieCzujki *ui;
+    Ui::OknoZasilaniaCzujki *ui;
 };
 
-#endif // TEST5ZASILANIECZUJKI_H
+#endif // OKNOZASILANIACZUJKI_H

@@ -1,16 +1,16 @@
-#include "test2potwierdzenie.h"
-#include "ui_test2potwierdzenie.h"
+#include "oknosprawdzeniedanych.h"
+#include "ui_oknosprawdzeniedanych.h"
 #include <QMessageBox>
 
-Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, QWidget *parent) :
+OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test2Potwierdzenie)
+    ui(new Ui::OknoSprawdzenieDanych)
 {
     ui->setupUi(this);
 
     ui->osobaWykonujacaTest->setText(test.getOsobaWykonujaca());
-    ui->numerNadajnika->setText(test.getNumerNadajnika(nrPomiaru));
-    ui->numerDrugi->setText(test.getNumerOdbiornika(nrPomiaru));
+    ui->numerNadajnika->setText(test.getNumerNadajnika());
+    ui->numerDrugi->setText(test.getNumerOdbiornika());
     ui->temperatura->setText(test.getTemperatura());
     ui->cisnienie->setText(test.getCisnienie());
     ui->wilgotnosc->setText(test.getWilgotnosc());
@@ -29,12 +29,12 @@ Test2Potwierdzenie::Test2Potwierdzenie(short nrPomiaru, const DaneTestu & test, 
 
 }
 
-Test2Potwierdzenie::~Test2Potwierdzenie()
+OknoSprawdzenieDanych::~OknoSprawdzenieDanych()
 {
     delete ui;
 }
 
-void Test2Potwierdzenie::pbCancel_clicked()
+void OknoSprawdzenieDanych::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()), "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)

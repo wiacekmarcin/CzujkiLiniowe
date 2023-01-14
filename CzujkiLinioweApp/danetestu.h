@@ -72,8 +72,8 @@ public:
     const QString &getUwagi() const;
     void setUwagi(const QString &newUwagi);
 
-    QString getNumerNadajnika(short nrPomiaru) const;
-    QString getNumerOdbiornika(short nrPomiaru) const;
+    QString getNumerNadajnika() const;
+    QString getNumerOdbiornika() const;
 
     void addWybranaCzujka(const QString & nadajnik, const QString & odbiornik);
     bool sprawdzCzyBadanaCzujka(const QString & odbiornik, const QString & nadajnik);
@@ -129,6 +129,7 @@ public:
     void setCzasPowtarzalnosci(unsigned int newCzasPowtarzalnosci);
 
     void addNextPomiar();
+    void removeLastPomiar();
 
 private:
     short id;
@@ -141,7 +142,7 @@ private:
     QString wilgotnosc;
     QString cisnienie;
     QString uwagi;
-    QList<DanePomiaru> daneWybranejCzujki;
+    QList<DanePomiaru> danePomiarowe;
     float Crep;
     float Cmin;
     float Cmax;

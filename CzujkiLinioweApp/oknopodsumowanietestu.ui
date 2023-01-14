@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test9Podsumowanie</class>
- <widget class="QDialog" name="Test9Podsumowanie">
+ <class>OknoPodsumowanieTestu</class>
+ <widget class="QDialog" name="OknoPodsumowanieTestu">
   <property name="geometry">
    <rect>
     <x>0</x>

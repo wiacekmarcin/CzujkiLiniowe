@@ -21,15 +21,15 @@ SOURCES += \
     powtarzalnoscwyniki.cpp \
     proceduratestowa.cpp \
     sterownik_worker.cpp \
-    test0zerowanieurzadzenia.cpp \
-    test1parametrytestu.cpp \
-    test2potwierdzenie.cpp \
-    test3sprawdzenie.cpp \
-    test4montaz.cpp \
-    test6stabilizacjaczujki.cpp \
-    test7badanie.cpp \
-    test8wynik.cpp \
-    test9podsumowanie.cpp \
+    oknozerowanieurzadzenia.cpp \
+    oknoparametrytestu.cpp \
+    oknosprawdzeniedanych.cpp \
+    oknopotwierdzenienarazenia.cpp \
+    oknomontaz.cpp \
+    oknostabilizacjaczujki.cpp \
+    oknobadaniatlumienia.cpp \
+    oknowynikbadaniatlumienia.cpp \
+    oknopodsumowanietestu.cpp \
     teststanowiskadlg.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
@@ -47,7 +47,7 @@ SOURCES += \
     ustawienia_gen.cpp \
     ustawieniafiltrow.cpp \
     ustawienianapedow.cpp \
-    test5zasilanieczujki.cpp \
+    oknozasilaniaczujki.cpp \
     zasilacz_worker.cpp
 
 HEADERS += \
@@ -63,15 +63,15 @@ HEADERS += \
     powtarzalnoscwyniki.h \
     proceduratestowa.h \
     sterownik_worker.h \
-    test0zerowanieurzadzenia.h \
-    test1parametrytestu.h \
-    test2potwierdzenie.h \
-    test3sprawdzenie.h \
-    test4montaz.h \
-    test6stabilizacjaczujki.h \
-    test7badanie.h \
-    test8wynik.h \
-    test9podsumowanie.h \
+    oknozerowanieurzadzenia.h \
+    oknoparametrytestu.h \
+    oknosprawdzeniedanych.h \
+    oknopotwierdzenienarazenia.h \
+    oknomontaz.h \
+    oknostabilizacjaczujki.h \
+    oknobadaniatlumienia.h \
+    oknowynikbadaniatlumienia.h \
+    oknopodsumowanietestu.h \
     teststanowiskadlg.h \
     wybortestu.h \
     zasilacz.h \
@@ -88,7 +88,7 @@ HEADERS += \
     ustawienia_gen.h \
     ustawieniafiltrow.h \
     ustawienianapedow.h \
-    test5zasilanieczujki.h \
+    oknozasilaniaczujki.h \
     zasilacz_worker.h
 
 FORMS += \
@@ -103,22 +103,22 @@ FORMS += \
     parametrykalibracyjnedlg.ui \
     powtarzalnoscwyniki.ui \
     sterownikustawieniawidget.ui \
-    test0zerowanieurzadzenia.ui \
-    test1parametrytestu.ui \
-    test2potwierdzenie.ui \
-    test3sprawdzenie.ui \
-    test4montaz.ui \
-    test6stabilizacjaczujki.ui \
-    test7badanie.ui \
-    test8wynik.ui \
-    test9podsumowanie.ui \
+    oknozerowanieurzadzenia.ui \
+    oknoparametrytestu.ui \
+    oknosprawdzeniedanych.ui \
+    oknopotwierdzenienarazenia.ui \
+    oknomontaz.ui \
+    oknostabilizacjaczujki.ui \
+    oknobadaniatlumienia.ui \
+    oknowynikbadaniatlumienia.ui \
+    oknopodsumowanietestu.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \
     ustawieniafiltrow.ui \
     ustawienianapedow.ui \
     wybortestu.ui \
-    test5zasilanieczujki.ui
+    oknozasilaniaczujki.ui
 
 TRANSLATIONS += \
     CzujkiLinioweApp_pl_PL.ts

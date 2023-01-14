@@ -1,11 +1,11 @@
-#include "test9podsumowanie.h"
-#include "ui_test9podsumowanie.h"
+#include "oknopodsumowanietestu.h"
+#include "ui_oknopodsumowanietestu.h"
 #include <QDateTime>
 
 
-Test9Podsumowanie::Test9Podsumowanie(DaneTestu &daneTestu, const ParametryBadania & badanie, QWidget *parent) :
+OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & badanie, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test9Podsumowanie),
+    ui(new Ui::OknoPodsumowanieTestu),
     powtorzPomiar(false)
 
 {
@@ -26,7 +26,7 @@ Test9Podsumowanie::Test9Podsumowanie(DaneTestu &daneTestu, const ParametryBadani
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
 }
 
-Test9Podsumowanie::~Test9Podsumowanie()
+OknoPodsumowanieTestu::~OknoPodsumowanieTestu()
 {
     delete ui;
 }

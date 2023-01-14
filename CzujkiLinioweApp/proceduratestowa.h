@@ -5,14 +5,14 @@
 #include <QWidget>
 #include "danetestu.h"
 #include "parametrybadania.h"
-#include "test7badanie.h"
+#include "oknobadaniatlumienia.h"
 #include "zasilacz.h"
 #include "sterownik.h"
 #include "ustawienia.h"
 
 
-class Test7Badanie;
-class Test0ZerowanieUrzadzenia;
+class OknoBadaniaTlumienia;
+class OknoZerowanieUrzadzenia;
 
 class ProceduraTestowa
 {
@@ -33,12 +33,15 @@ public:
 protected:
     bool Odtwarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
+    bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
 
 private:
+    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
+
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek);
 
-    bool potwierdzenieNarazenia(short nrBadania, const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
 
     bool zasilenieCzujki(const ParametryBadania &daneBadania);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
@@ -50,8 +53,8 @@ private:
     Zasilacz * zas;
     Sterownik* ster;
     Ustawienia u;
-    Test7Badanie *dlg7;
-    Test0ZerowanieUrzadzenia *dlg0;
+    OknoBadaniaTlumienia *dlg7;
+    OknoZerowanieUrzadzenia *dlg0;
 };
 
 #endif // PROCEDURATESTOWA_H

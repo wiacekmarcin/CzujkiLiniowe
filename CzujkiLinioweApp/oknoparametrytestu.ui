@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test1ParametryTestu</class>
- <widget class="QDialog" name="Test1ParametryTestu">
+ <class>OknoParametryTestu</class>
+ <widget class="QDialog" name="OknoParametryTestu">
   <property name="geometry">
    <rect>
     <x>0</x>

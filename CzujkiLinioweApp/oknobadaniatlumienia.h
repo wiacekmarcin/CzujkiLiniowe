@@ -1,5 +1,5 @@
-#ifndef TEST7BADANIE_H
-#define TEST7BADANIE_H
+#ifndef OKNOBADANIATLUMIENIA_H
+#define OKNOBADANIATLUMIENIA_H
 
 #include <QDialog>
 #include <QTimer>
@@ -27,19 +27,19 @@ private:
 
 
 namespace Ui {
-class Test7Badanie;
+class OknoBadaniaTlumienia;
 }
 
 class Sterownik;
-class Test7Badanie : public QDialog
+class OknoBadaniaTlumienia : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit Test7Badanie(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
+    explicit OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
                           const QString & name, const Ustawienia &ust,
                           Sterownik * ster_, QWidget *parent = 0);
-    ~Test7Badanie();
+    ~OknoBadaniaTlumienia();
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
@@ -72,7 +72,7 @@ private slots:
     void uplynalCzasPostojuFiltra();
     void progressBarUpdate();
 private:
-    Ui::Test7Badanie *ui;
+    Ui::OknoBadaniaTlumienia *ui;
     QTimer zmFiltraTmr;
     QTimer zmProgressBar;
     QTimer resetFiltrow;
@@ -96,4 +96,4 @@ private:
     QMutex mutex;
 };
 
-#endif // TEST7BADANIE_H
+#endif // OKNOBADANIATLUMIENIA_H

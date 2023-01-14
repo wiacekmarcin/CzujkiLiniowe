@@ -1,11 +1,11 @@
-#include "test6stabilizacjaczujki.h"
-#include "ui_test6stabilizacjaczujki.h"
+#include "oknostabilizacjaczujki.h"
+#include "ui_oknostabilizacjaczujki.h"
 #include <QTimer>
 #include <QDebug>
 
-Test6StabilizacjaCzujki::Test6StabilizacjaCzujki(unsigned long timeWait, const QString & name, bool stabilizacja, QWidget *parent) :
+OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(unsigned long timeWait, const QString & name, bool stabilizacja, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test6StabilizacjaCzujki),
+    ui(new Ui::OknoStabilizacjaCzujki),
     timer(this)
 {
     qDebug() << "Wait window" << timeWait;
@@ -33,17 +33,17 @@ Test6StabilizacjaCzujki::Test6StabilizacjaCzujki(unsigned long timeWait, const Q
         ui->head->setText(QString::fromUtf8("Parametry Testu - oczekiwanie na kolejną próbę"));
         ui->lczas->setText("Pozostały czas bezczynności czujki");
     }
-    connect(&timer, &QTimer::timeout, this, &Test6StabilizacjaCzujki::timeout);
+    connect(&timer, &QTimer::timeout, this, &OknoStabilizacjaCzujki::timeout);
     timer.start();
 }
 
-Test6StabilizacjaCzujki::~Test6StabilizacjaCzujki()
+OknoStabilizacjaCzujki::~OknoStabilizacjaCzujki()
 {
     timer.stop();
     delete ui;
 }
 
-QString Test6StabilizacjaCzujki::getMM_SS(unsigned long secs)
+QString OknoStabilizacjaCzujki::getMM_SS(unsigned long secs)
 {
     QString ret;
     if (secs < 60) {
@@ -78,7 +78,7 @@ QString Test6StabilizacjaCzujki::getMM_SS(unsigned long secs)
     return ret;
 }
 
-void Test6StabilizacjaCzujki::timeout()
+void OknoStabilizacjaCzujki::timeout()
 {
     --elapsedTime;
     if (elapsedTime == 0)

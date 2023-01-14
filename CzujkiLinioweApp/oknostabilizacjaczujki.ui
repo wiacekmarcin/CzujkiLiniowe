@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test6StabilizacjaCzujki</class>
- <widget class="QDialog" name="Test6StabilizacjaCzujki">
+ <class>OknoStabilizacjaCzujki</class>
+ <widget class="QDialog" name="OknoStabilizacjaCzujki">
   <property name="geometry">
    <rect>
     <x>0</x>

@@ -1,11 +1,11 @@
-#include "test5zasilanieczujki.h"
-#include "ui_test5zasilanieczujki.h"
+#include "oknozasilaniaczujki.h"
+#include "ui_oknozasilaniaczujki.h"
 #include "zasilacz.h"
 #include <QMessageBox>
 
-Test5ZasilanieCzujki::Test5ZasilanieCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
+OknoZasilaniaCzujki::OknoZasilaniaCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test5ZasilanieCzujki)
+    ui(new Ui::OknoZasilaniaCzujki)
 {
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
@@ -43,22 +43,22 @@ Test5ZasilanieCzujki::Test5ZasilanieCzujki(const DaneTestu &daneTestu, const Par
     }
 }
 
-Test5ZasilanieCzujki::~Test5ZasilanieCzujki()
+OknoZasilaniaCzujki::~OknoZasilaniaCzujki()
 {
     delete ui;
 }
 
-void Test5ZasilanieCzujki::setCurrent_mA(int mA)
+void OknoZasilaniaCzujki::setCurrent_mA(int mA)
 {
     ui->pradMierz->setText(QString::number(mA) + QString(" mA"));
 }
 
-void Test5ZasilanieCzujki::setVolage_mV(int mV)
+void OknoZasilaniaCzujki::setVolage_mV(int mV)
 {
     ui->napiecieMierz->setText(QString::number(mV/1000.0, 'f', 3)+QString(" V"));
 }
 
-void Test5ZasilanieCzujki::value(int kind, int value)
+void OknoZasilaniaCzujki::value(int kind, int value)
 {
     if (kind == Zasilacz::VOLTAGE_MEAS)
         setVolage_mV(value);
@@ -66,7 +66,7 @@ void Test5ZasilanieCzujki::value(int kind, int value)
         setCurrent_mA(value);
 }
 
-void Test5ZasilanieCzujki::pbCancel_clicked()
+void OknoZasilaniaCzujki::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");

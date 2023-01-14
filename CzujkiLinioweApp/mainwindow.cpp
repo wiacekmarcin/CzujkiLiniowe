@@ -18,7 +18,7 @@
 #include <QStandardPaths>
 #include <QFileInfo>
 
-#include "test9podsumowanie.h"
+#include "oknopodsumowanietestu.h"
 #include "danetestu.h"
 #include "parametrybadania.h"
 
@@ -474,7 +474,7 @@ void MainWindow::actionTest_triggered()
 {
     DaneTestu dt;
     ParametryBadania pb;
-    Test9Podsumowanie * dlg = new Test9Podsumowanie(dt, pb,  this);
+    OknoPodsumowanieTestu * dlg = new OknoPodsumowanieTestu(dt, pb,  this);
     dlg->exec();
 }
 

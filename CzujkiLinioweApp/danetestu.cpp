@@ -88,7 +88,7 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.wilgotnosc
         << dane.cisnienie
         << dane.uwagi
-        << dane.daneWybranejCzujki
+        << dane.danePomiarowe
         << dane.Crep
         << dane.Cmin
         << dane.Cmax
@@ -119,7 +119,7 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.wilgotnosc
         >> dane.cisnienie
         >> dane.uwagi
-        >> dane.daneWybranejCzujki
+        >> dane.danePomiarowe
         >> dane.Crep
         >> dane.Cmin
         >> dane.Cmax
@@ -228,35 +228,35 @@ void DaneTestu::setUwagi(const QString &newUwagi)
     uwagi = newUwagi;
 }
 
-QString DaneTestu::getNumerNadajnika(short nrPomiaru) const
+QString DaneTestu::getNumerNadajnika() const
 {
-    if (nrPomiaru - 1 > daneWybranejCzujki.size())
+    if (danePomiarowe.size() == 0)
         return QString();
-    return daneWybranejCzujki[nrPomiaru-1].numerNadajnika;
+    return danePomiarowe[danePomiarowe.size()-1].numerNadajnika;
 }
 
-QString DaneTestu::getNumerOdbiornika(short nrPomiaru) const
+QString DaneTestu::getNumerOdbiornika() const
 {
-    if (nrPomiaru - 1 > daneWybranejCzujki.size())
+    if (danePomiarowe.size() == 0)
         return QString();
-    return daneWybranejCzujki[nrPomiaru-1].numerOdbiornika;
+    return danePomiarowe[danePomiarowe.size()-1].numerOdbiornika;
 }
 
 void DaneTestu::addWybranaCzujka(const QString &nadajnik, const QString &odbiornik)
 {
     DanePomiaru nowyPomiar;
-    nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
+    nowyPomiar.nrPomiaru = danePomiarowe.size() + 1;
     nowyPomiar.numerNadajnika = nadajnik;
     nowyPomiar.numerOdbiornika = odbiornik;
     nowyPomiar.value_dB = "0.0";
     nowyPomiar.value_perc = "0.0";
     nowyPomiar.error = "";
-    daneWybranejCzujki.append(nowyPomiar);
+    danePomiarowe.append(nowyPomiar);
 }
 
 bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &odbiornik)
 {
-    for(const auto & czujka : daneWybranejCzujki) {
+    for(const auto & czujka : danePomiarowe) {
         if (czujka.numerNadajnika == nadajnik && czujka.numerOdbiornika == odbiornik)
             return true;
     }
@@ -265,15 +265,15 @@ bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &o
 
 void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const float &valper, const QString & error)
 {
-    daneWybranejCzujki.last().ok = ok;
-    daneWybranejCzujki.last().value_dB = value;
-    daneWybranejCzujki.last().value_perc = QString::number(valper);
-    daneWybranejCzujki.last().error = error;
+    danePomiarowe.last().ok = ok;
+    danePomiarowe.last().value_dB = value;
+    danePomiarowe.last().value_perc = QString::number(valper);
+    danePomiarowe.last().error = error;
 }
 
 const QList<DanePomiaru> &DaneTestu::getDaneBadanCzujek() const
 {
-    return daneWybranejCzujki;
+    return danePomiarowe;
 }
 
 float DaneTestu::getCrep() const
@@ -436,11 +436,16 @@ void DaneTestu::setCzasPowtarzalnosci(unsigned int newCzasPowtarzalnosci)
 void DaneTestu::addNextPomiar()
 {
     DanePomiaru nowyPomiar;
-    nowyPomiar.nrPomiaru = daneWybranejCzujki.size() + 1;
-    nowyPomiar.numerNadajnika = daneWybranejCzujki.last().numerNadajnika;
-    nowyPomiar.numerOdbiornika = daneWybranejCzujki.last().numerOdbiornika;
+    nowyPomiar.nrPomiaru = danePomiarowe.size() + 1;
+    nowyPomiar.numerNadajnika = danePomiarowe.last().numerNadajnika;
+    nowyPomiar.numerOdbiornika = danePomiarowe.last().numerOdbiornika;
     nowyPomiar.value_dB = "0.0";
     nowyPomiar.value_perc = "0.0";
     nowyPomiar.error = "";
-    daneWybranejCzujki.append(nowyPomiar);
+    danePomiarowe.append(nowyPomiar);
+}
+
+void DaneTestu::removeLastPomiar()
+{
+    danePomiarowe.removeLast();
 }

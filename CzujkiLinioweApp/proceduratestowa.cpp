@@ -1,16 +1,16 @@
 #include "proceduratestowa.h"
 #include "oczekiwanienaurzadzenia.h"
 #include "sterownik.h"
-#include "test0zerowanieurzadzenia.h"
-#include "test1parametrytestu.h"
-#include "test2potwierdzenie.h"
-#include "test3sprawdzenie.h"
-#include "test4montaz.h"
-#include "test5zasilanieczujki.h"
-#include "test6stabilizacjaczujki.h"
-#include "test7badanie.h"
-#include "test8wynik.h"
-#include "test9podsumowanie.h"
+#include "oknozerowanieurzadzenia.h"
+#include "oknoparametrytestu.h"
+#include "oknosprawdzeniedanych.h"
+#include "oknopotwierdzenienarazenia.h"
+#include "oknomontaz.h"
+#include "oknozasilaniaczujki.h"
+#include "oknostabilizacjaczujki.h"
+#include "oknobadaniatlumienia.h"
+#include "oknowynikbadaniatlumienia.h"
+#include "oknopodsumowanietestu.h"
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
@@ -101,19 +101,19 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
         {
-            QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(nrPom, &dane, daneBadania, parent));
+            QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(nrPom, &dane, daneBadania, parent));
             if (!(dlg1->exec()))
                 return false;
         }
 
         {
-            QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(nrPom, dane, parent));
+            QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
             if (!(dlg2->exec()))
                 return false;
         }
 
         {
-            QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(nrPom, dane, parent));
+            QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
             if (!(dlg4->exec()))
                 return false;
         }
@@ -132,8 +132,8 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
                 return false;
 
             {
-                QSharedPointer<Test6StabilizacjaCzujki> dlg6(
-                            new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+                QSharedPointer<OknoStabilizacjaCzujki> dlg6(
+                            new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
                                                         dane.getName(), true, parent));
                 dlg6->exec();
             }
@@ -146,7 +146,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     }
     {
         dane.setWykonany(true);
-        QSharedPointer<Test9Podsumowanie> dlg(new Test9Podsumowanie(dane, daneBadania));
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania));
         dlg->exec();
     }
     return true;
@@ -156,20 +156,20 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 {
     short powtorzPomiar;
     {
-        QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(1, &dane, daneBadania, parent));
+        QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(1, &dane, daneBadania, parent));
         if (!(dlg1->exec()))
             return false;
     }
 
     {
-        QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(1, dane, parent));
+        QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
         if (!(dlg2->exec()))
             return false;
     }
 
     do {
         {
-            QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(1, dane, parent));
+            QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
             if (!(dlg4->exec()))
                 return false;
         }
@@ -186,8 +186,8 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
             return false;
 
         {
-            QSharedPointer<Test6StabilizacjaCzujki> dlg6(
-                new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+            QSharedPointer<OknoStabilizacjaCzujki> dlg6(
+                new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
                                             dane.getName(), true, parent));
             dlg6->exec();
         }
@@ -202,8 +202,8 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
     for (short num = 0; num < 2; ++num)
     {
         {
-            QSharedPointer<Test6StabilizacjaCzujki> dlg6(
-                new Test6StabilizacjaCzujki(dane.getCzasPowtarzalnosci(),
+            QSharedPointer<OknoStabilizacjaCzujki> dlg6(
+                new OknoStabilizacjaCzujki(dane.getCzasPowtarzalnosci(),
                                         dane.getName(), false, parent));
             dlg6->exec();
         }
@@ -216,8 +216,8 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
     }
 
     {
-        QSharedPointer<Test6StabilizacjaCzujki> dlg6(
-            new Test6StabilizacjaCzujki(1L*3600*72,
+        QSharedPointer<OknoStabilizacjaCzujki> dlg6(
+            new OknoStabilizacjaCzujki(1L*3600*72,
                                     dane.getName(), false, parent));
         dlg6->exec();
     }
@@ -226,7 +226,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     {
         dane.setWykonany(true);
-        QSharedPointer<Test9Podsumowanie> dlg(new Test9Podsumowanie(dane, daneBadania));
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania));
         dlg->exec();
     }
     return true;
@@ -235,19 +235,19 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
     {
-        QSharedPointer<Test1ParametryTestu> dlg1(new Test1ParametryTestu(1, &dane, daneBadania, parent));
+        QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(1, &dane, daneBadania, parent));
         if (!(dlg1->exec()))
             return false;
     }
 
     {
-        QSharedPointer<Test2Potwierdzenie> dlg2(new Test2Potwierdzenie(1, dane, parent));
+        QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
         if (!(dlg2->exec()))
             return false;
     }
 
     {
-        QSharedPointer<Test4Montaz> dlg4(new Test4Montaz(1, dane, parent));
+        QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
         if (!(dlg4->exec()))
             return false;
     }
@@ -265,11 +265,25 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
         return false;
 
     {
-        QSharedPointer<Test6StabilizacjaCzujki> dlg6(
-                    new Test6StabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
+        QSharedPointer<OknoStabilizacjaCzujki> dlg6(
+                    new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
                                                 dane.getName(), true, parent));
         dlg6->exec();
     }
+    return true;
+}
+
+bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+
+    QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(numerProby, &dane, daneBadania, parent));
+    if (!(dlg1->exec()))
+        return false;
+
+    QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
+    if (!(dlg2->exec()))
+        return false;
+    return true;
 }
 
 
@@ -296,7 +310,7 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
 
 bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek)
 {
-    dlg0 = new Test0ZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
+    dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
 
     if (!dlg0->exec()) {
 #ifdef DEFVAL
@@ -313,10 +327,10 @@ bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek
 }
 
 
-bool ProceduraTestowa::potwierdzenieNarazenia(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
                                               const Ustawienia &)
 {
-    Test3Sprawdzenie *dlg3 = new Test3Sprawdzenie(nrPomiaru, daneTestu, parent);
+    OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
     if (!dlg3->exec()) {
         delete dlg3;
         return false;
@@ -338,8 +352,8 @@ bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
         zas->setCurrentLimit_mA(daneBadania.getPrzekroczeniePraduZasilania_mA().toInt());
     }
 
-    QSharedPointer<Test5ZasilanieCzujki> dlg5(new Test5ZasilanieCzujki(dane, daneBadania, parent));
-    dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &Test5ZasilanieCzujki::value);
+    QSharedPointer<OknoZasilaniaCzujki> dlg5(new OknoZasilaniaCzujki(dane, daneBadania, parent));
+    dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &OknoZasilaniaCzujki::value);
     if (!dlg5->exec()) {
         zas->setOutput(false);
         return false;
@@ -349,7 +363,7 @@ bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
 
 short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool waitEkran, const Ustawienia &ust)
 {
-    dlg7 = new Test7Badanie(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
+    dlg7 = new OknoBadaniaTlumienia(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
                             dane.getName(), ust, ster, parent);
     bool ret = dlg7->exec();
     QString tlumienie = dlg7->getTlumienie();
@@ -370,7 +384,7 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
         return 0;
     }
 
-    QSharedPointer<Test8Wynik> dlg8(new Test8Wynik(wynikBadania, tlumienie, dane.getName(), repeatPomiar, parent));
+    QSharedPointer<OknoWynikBadaniaTlumienia> dlg8(new OknoWynikBadaniaTlumienia(wynikBadania, tlumienie, dane.getName(), repeatPomiar, parent));
     if(!(dlg8->exec())) {
         return -1;
     } else {

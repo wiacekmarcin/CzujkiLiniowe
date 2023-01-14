@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test5ZasilanieCzujki</class>
- <widget class="QDialog" name="Test5ZasilanieCzujki">
+ <class>OknoZasilaniaCzujki</class>
+ <widget class="QDialog" name="OknoZasilaniaCzujki">
   <property name="geometry">
    <rect>
     <x>0</x>

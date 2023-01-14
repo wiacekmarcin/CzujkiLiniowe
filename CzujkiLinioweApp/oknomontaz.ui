@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test4Montaz</class>
- <widget class="QDialog" name="Test4Montaz">
+ <class>OknoMontaz</class>
+ <widget class="QDialog" name="OknoMontaz">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -211,7 +211,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Proszę zamontować czujkę numer [nrCzujki] na stanowisku składającą się z:</string>
+      <string>Proszę zamontować czujkę na stanowisku składającą się z:</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

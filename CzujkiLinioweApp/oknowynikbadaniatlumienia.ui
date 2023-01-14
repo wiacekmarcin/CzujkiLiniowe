@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test8Wynik</class>
- <widget class="QDialog" name="Test8Wynik">
+ <class>OknoWynikBadaniaTlumienia</class>
+ <widget class="QDialog" name="OknoWynikBadaniaTlumienia">
   <property name="geometry">
    <rect>
     <x>0</x>

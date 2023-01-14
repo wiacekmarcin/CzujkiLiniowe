@@ -1,6 +1,6 @@
-#include "test3sprawdzenie.h"
+#include "oknopotwierdzenienarazenia.h"
 #include "danetestu.h"
-#include "ui_test3sprawdzenie.h"
+#include "ui_oknopotwierdzenienarazenia.h"
 
 
 //Nazwa testu [Ten ekran nie pojawi się dla badań odwarzalności, powatarzalności, katowych , zasilania
@@ -9,15 +9,15 @@
 
 #include <QMessageBox>
 
-Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu,
+OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTestu,
                                    QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test3Sprawdzenie)
+    ui(new Ui::OknoPotwierdzenieNarazenia)
 {
     ui->setupUi(this);
     ui->osobaWykonujacaTest->setText(daneTestu.getOsobaWykonujaca());
-    ui->numerNadajnika->setText(daneTestu.getNumerNadajnika(nrPomiaru));
-    ui->numerDrugi->setText(daneTestu.getNumerOdbiornika(nrPomiaru));
+    ui->numerNadajnika->setText(daneTestu.getNumerNadajnika());
+    ui->numerDrugi->setText(daneTestu.getNumerOdbiornika());
     ui->testName->setText(daneTestu.getName());
 
     ui->ePierwszy->setText(daneTestu.getNazwaPierwszego());
@@ -27,12 +27,12 @@ Test3Sprawdzenie::Test3Sprawdzenie(short nrPomiaru, const DaneTestu & daneTestu,
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 }
 
-Test3Sprawdzenie::~Test3Sprawdzenie()
+OknoPotwierdzenieNarazenia::~OknoPotwierdzenieNarazenia()
 {
     delete ui;
 }
 
-void Test3Sprawdzenie::pbCancel_clicked()
+void OknoPotwierdzenieNarazenia::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");

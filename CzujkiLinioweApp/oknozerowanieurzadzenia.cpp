@@ -1,14 +1,14 @@
-#include "test0zerowanieurzadzenia.h"
-#include "ui_test0zerowanieurzadzenia.h"
+#include "oknozerowanieurzadzenia.h"
+#include "ui_oknozerowanieurzadzenia.h"
 
 #include "sterownik.h"
 
 #include <QMessageBox>
 #include <QRadioButton>
 
-Test0ZerowanieUrzadzenia::Test0ZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik *device, QWidget *parent) :
+OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik *device, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test0ZerowanieUrzadzenia),
+    ui(new Ui::OknoZerowanieUrzadzenia),
     timer(this),
     errorMsg(false)
 {
@@ -43,17 +43,17 @@ Test0ZerowanieUrzadzenia::Test0ZerowanieUrzadzenia(bool ramiona, bool filtry, bo
     adjustSize();
 
     device->setZerowanieUrzadzen(ramiona, filtry, wozek);
-    timer.singleShot(5000, this, &Test0ZerowanieUrzadzenia::timeout);
+    timer.singleShot(5000, this, &OknoZerowanieUrzadzenia::timeout);
 }
 
-Test0ZerowanieUrzadzenia::~Test0ZerowanieUrzadzenia()
+OknoZerowanieUrzadzenia::~OknoZerowanieUrzadzenia()
 {
     if (timer.isActive())
         timer.stop();
     delete ui;
 }
 
-void Test0ZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
     if (!home || move)
         return;
@@ -86,7 +86,7 @@ void Test0ZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, boo
     accept();
 }
 
-void Test0ZerowanieUrzadzenia::timeout()
+void OknoZerowanieUrzadzenia::timeout()
 {
     if (errorMsg)
         return;

@@ -1,5 +1,5 @@
-#include "test1parametrytestu.h"
-#include "ui_test1parametrytestu.h"
+#include "oknoparametrytestu.h"
+#include "ui_oknoparametrytestu.h"
 #include "danetestu.h"
 #include <QDate>
 #include <QTime>
@@ -8,9 +8,9 @@
 
 #define SETREADONLY(w) w->setReadOnly(true);
 
-Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie, QWidget *parent) :
+OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test1ParametryTestu),
+    ui(new Ui::OknoParametryTestu),
     test(test_),
     nrPomiar(nrPomiar_)
 {
@@ -58,7 +58,7 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
     test->setNazwaPierwszego(badanie.getNazwaPierwszego());
     test->setNazwaDrugiego(badanie.getNazwaDrugiego());
 
-    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &Test1ParametryTestu::changeCzujka);
+    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
     switch(test->getId())
     {
         case REPRODUCIBILITY:
@@ -95,12 +95,12 @@ Test1ParametryTestu::Test1ParametryTestu(short nrPomiar_, DaneTestu * test_, con
 
 }
 
-Test1ParametryTestu::~Test1ParametryTestu()
+OknoParametryTestu::~OknoParametryTestu()
 {
     delete ui;
 }
 
-void Test1ParametryTestu::check()
+void OknoParametryTestu::check()
 {
     if (nrPomiar == 1) {
         if (ui->osobaWykonujaca->text().isEmpty()) {
@@ -194,7 +194,7 @@ void Test1ParametryTestu::check()
     ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
 }
 
-void Test1ParametryTestu::pbOK_clicked()
+void OknoParametryTestu::pbOK_clicked()
 {
     test->setCisnienie(ui->cisnienie->text());
     test->setDataRozpoczecia(ui->dataRozpoczecia->text());
@@ -219,14 +219,14 @@ void Test1ParametryTestu::pbOK_clicked()
     accept();
 }
 
-void Test1ParametryTestu::pbCancel_clicked()
+void OknoParametryTestu::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()), "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
         reject();
 }
 
-void Test1ParametryTestu::changeCzujka(int index)
+void OknoParametryTestu::changeCzujka(int index)
 {
     QVariant v = ui->cbCzujka->itemData(index);
     QStringList sl = v.toStringList();

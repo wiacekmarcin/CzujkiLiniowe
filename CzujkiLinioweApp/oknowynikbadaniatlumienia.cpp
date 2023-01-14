@@ -1,13 +1,13 @@
-#include "test8wynik.h"
-#include "ui_test8wynik.h"
+#include "oknowynikbadaniatlumienia.h"
+#include "ui_oknowynikbadaniatlumienia.h"
 #include <QDateTime>
 
 #include <QMessageBox>
 
-Test8Wynik::Test8Wynik(bool success, const QString &tlumienie,
+OknoWynikBadaniaTlumienia::OknoWynikBadaniaTlumienia(bool success, const QString &tlumienie,
                            const QString &nazwa, bool repeat, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::Test8Wynik),
+    ui(new Ui::OknoWynikBadaniaTlumienia),
     powtorzPomiar(false)
 
 {
@@ -29,17 +29,17 @@ Test8Wynik::Test8Wynik(bool success, const QString &tlumienie,
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 }
 
-Test8Wynik::~Test8Wynik()
+OknoWynikBadaniaTlumienia::~OknoWynikBadaniaTlumienia()
 {
     delete ui;
 }
 
-bool Test8Wynik::getPowtorzPomiar() const
+bool OknoWynikBadaniaTlumienia::getPowtorzPomiar() const
 {
     return powtorzPomiar;
 }
 
-void Test8Wynik::pbCancel_clicked()
+void OknoWynikBadaniaTlumienia::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");

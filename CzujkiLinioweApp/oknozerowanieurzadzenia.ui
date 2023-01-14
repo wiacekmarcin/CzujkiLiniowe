@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Test0ZerowanieUrzadzenia</class>
- <widget class="QDialog" name="Test0ZerowanieUrzadzenia">
+ <class>OknoZerowanieUrzadzenia</class>
+ <widget class="QDialog" name="OknoZerowanieUrzadzenia">
   <property name="geometry">
    <rect>
     <x>0</x>
