@@ -24,11 +24,19 @@ protected:
     void pbCancel_clicked();
 private slots:
     void changeCzujka(int index);
+
 private:
+
+    void addError(const QString & err, bool prio);
+
     Ui::OknoParametryTestu *ui;
     DaneTestu * test;
     short nrPomiar;
+    bool error;
+    QStringList errorsMsg;
+    short nrCzujkiDoWybrania;
 
+    void check1Pomiar();
 };
 
 #endif // OKNOPARAMETRYTESTU_H

@@ -46,6 +46,7 @@ public:
 
     void setDaneTestu(short id, const DaneTestu & dane);
 
+    void posortuj();
 private:
     bool testOdtwarzalnosci;
     QVector<QPair<QString, QString>> numbersCzujki;

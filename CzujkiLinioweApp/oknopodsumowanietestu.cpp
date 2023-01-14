@@ -11,6 +11,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 {
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
+    qDebug() << "id" << daneTestu.getId();
     if (daneTestu.getId() == REPRODUCIBILITY) {
         ui->stackedWidget->setCurrentWidget(ui->odtwarzalnosc);
         ui->odtwarzalnosc->valueTest(daneTestu);

@@ -21,18 +21,42 @@ ListaTestow::ListaTestow()
 
 
 
-DaneTestu::DaneTestu()
+DaneTestu::DaneTestu():
+    id(-1),
+    name(""),
+    wykonany(false),
+    osobaWykonujaca(""),
+    dataRozpoczecia(""),
+    dataZakonczenia(""),
+    temperatura(""),
+    wilgotnosc(""),
+    cisnienie(""),
+    uwagi(""),
+    danePomiarowe{QList<DanePomiaru>()},
+    Crep(0.0),
+    Cmin(0.0),
+    Cmax(0.0),
+    CmaxCrep(0.0),
+    CrepCmin(0.0),
+    ok(false),
+    errStr(""),
+    nazwaPierwszego(""),
+    nazwaDrugiego(""),
+    dlugoscFali(0),
+    czasPowtarzalnosci(0)
 {
-
+    katyProducenta.nadajnik.pionowo = "0";
+    katyProducenta.nadajnik.poziomo = "0";
+    katyProducenta.odbiornik.pionowo = "0";
+    katyProducenta.odbiornik.poziomo = "0";
 }
 
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 {
-    out << dane.nrPomiaru
+    out << dane.nrCzujki
         << dane.numerNadajnika
         << dane.numerOdbiornika
         << dane.value_dB
-        << dane.value_perc
         << dane.ok
         << dane.error
 
@@ -42,11 +66,10 @@ QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
 {
-    in >> dane.nrPomiaru
+    in >> dane.nrCzujki
        >> dane.numerNadajnika
        >> dane.numerOdbiornika
        >> dane.value_dB
-       >> dane.value_perc
        >> dane.ok
        >> dane.error
            ;
@@ -92,9 +115,6 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.Crep
         << dane.Cmin
         << dane.Cmax
-        << dane.Crep2
-        << dane.Cmin2
-        << dane.Cmax2
         << dane.CmaxCrep
         << dane.CrepCmin
         << dane.ok
@@ -103,6 +123,10 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.nazwaDrugiego
         << dane.dlugoscFali
         << dane.czasPowtarzalnosci
+        << dane.katyProducenta.nadajnik.pionowo
+        << dane.katyProducenta.nadajnik.poziomo
+        << dane.katyProducenta.odbiornik.pionowo
+        << dane.katyProducenta.odbiornik.poziomo
            ;
     return out;
 }
@@ -123,9 +147,6 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.Crep
         >> dane.Cmin
         >> dane.Cmax
-        >> dane.Crep2
-        >> dane.Cmin2
-        >> dane.Cmax2
         >> dane.CmaxCrep
         >> dane.CrepCmin
         >> dane.ok
@@ -134,6 +155,10 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.nazwaDrugiego
         >> dane.dlugoscFali
         >> dane.czasPowtarzalnosci
+        >> dane.katyProducenta.nadajnik.pionowo
+        >> dane.katyProducenta.nadajnik.poziomo
+        >> dane.katyProducenta.odbiornik.pionowo
+        >> dane.katyProducenta.odbiornik.poziomo
             ;
     return in;
 }
@@ -242,14 +267,13 @@ QString DaneTestu::getNumerOdbiornika() const
     return danePomiarowe[danePomiarowe.size()-1].numerOdbiornika;
 }
 
-void DaneTestu::addWybranaCzujka(const QString &nadajnik, const QString &odbiornik)
+void DaneTestu::addWybranaCzujka(short nrCzujki, const QString &nadajnik, const QString &odbiornik)
 {
     DanePomiaru nowyPomiar;
-    nowyPomiar.nrPomiaru = danePomiarowe.size() + 1;
+    nowyPomiar.nrCzujki = nrCzujki;
     nowyPomiar.numerNadajnika = nadajnik;
     nowyPomiar.numerOdbiornika = odbiornik;
     nowyPomiar.value_dB = "0.0";
-    nowyPomiar.value_perc = "0.0";
     nowyPomiar.error = "";
     danePomiarowe.append(nowyPomiar);
 }
@@ -263,11 +287,10 @@ bool DaneTestu::sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &o
     return false;
 }
 
-void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const float &valper, const QString & error)
+void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const QString & error)
 {
     danePomiarowe.last().ok = ok;
     danePomiarowe.last().value_dB = value;
-    danePomiarowe.last().value_perc = QString::number(valper);
     danePomiarowe.last().error = error;
 }
 
@@ -393,36 +416,6 @@ void DaneTestu::setDlugoscFali(int newDlugoscFali)
     dlugoscFali = newDlugoscFali;
 }
 
-float DaneTestu::getCrep2() const
-{
-    return Crep2;
-}
-
-void DaneTestu::setCrep2(float newCrep2)
-{
-    Crep2 = newCrep2;
-}
-
-float DaneTestu::getCmin2() const
-{
-    return Cmin2;
-}
-
-void DaneTestu::setCmin2(float newCmin2)
-{
-    Cmin2 = newCmin2;
-}
-
-float DaneTestu::getCmax2() const
-{
-    return Cmax2;
-}
-
-void DaneTestu::setCmax2(float newCmax2)
-{
-    Cmax2 = newCmax2;
-}
-
 unsigned int DaneTestu::getCzasPowtarzalnosci() const
 {
     return czasPowtarzalnosci;
@@ -436,11 +429,10 @@ void DaneTestu::setCzasPowtarzalnosci(unsigned int newCzasPowtarzalnosci)
 void DaneTestu::addNextPomiar()
 {
     DanePomiaru nowyPomiar;
-    nowyPomiar.nrPomiaru = danePomiarowe.size() + 1;
+    nowyPomiar.nrCzujki = danePomiarowe.last().nrCzujki;
     nowyPomiar.numerNadajnika = danePomiarowe.last().numerNadajnika;
     nowyPomiar.numerOdbiornika = danePomiarowe.last().numerOdbiornika;
     nowyPomiar.value_dB = "0.0";
-    nowyPomiar.value_perc = "0.0";
     nowyPomiar.error = "";
     danePomiarowe.append(nowyPomiar);
 }
@@ -448,4 +440,14 @@ void DaneTestu::addNextPomiar()
 void DaneTestu::removeLastPomiar()
 {
     danePomiarowe.removeLast();
+}
+
+const NiewspolosiowoscOsUrzadzenie &DaneTestu::getKatyProducenta() const
+{
+    return katyProducenta;
+}
+
+void DaneTestu::setKatyProducenta(const NiewspolosiowoscOsUrzadzenie &newKatyProducenta)
+{
+    katyProducenta = newKatyProducenta;
 }

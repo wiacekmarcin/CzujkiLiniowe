@@ -7,24 +7,19 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
-OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
+OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali,
                            const QString & name, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoBadaniaTlumienia),
-    zmFiltraTmr(this),
-    zmProgressBar(this),
-    resetFiltrow(this),
-    actTlumienie(0.0),
-    dlugoscFali(dlugoscFali_),
+    tmZmFiltra(this),
+    tmZmProgressBar(this),
+    tmSterownika(this),
     actTlumPos(0),
     maxTlum(0),
     ster(ster_),
-    resetFiltrowOk(false),
-    wynikBadania(false),
-    posFiltrA(0),
-    posFiltrB(0),
-    posFiltrC(0)
+    czasPostoju(czasPostojuFiltra),
+    wynikBadania(false)
 
 {
     ui->setupUi(this);
@@ -35,23 +30,24 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
         tlumienia = ust.getTlumienia655();
     }
     maxTlum=tlumienia.size();
+
     ui->dlugoscFali->setText(QString::number(dlugoscFali));
     ui->testName->setText(name);
-    ui->czas->setText(QString::number(czasPostojuFiltra) + QString(" s"));
-    connect(&zmFiltraTmr, &QTimer::timeout, this, &OknoBadaniaTlumienia::uplynalCzasPostojuFiltra);
-    czasPostoju = czasPostojuFiltra;
-    zmFiltraTmr.setInterval(czasPostojuFiltra*1000);
-    //zmFiltraTmr.start();
+    ui->czas->setText(QString::number(czasPostoju) + QString(" s"));
     ui->progressBar->setMinimum(0);
-    ui->progressBar->setMaximum(czasPostojuFiltra);
-    connect(&zmProgressBar, &QTimer::timeout, this, &OknoBadaniaTlumienia::progressBarUpdate);
-    zmProgressBar.setInterval(1000);
+    ui->progressBar->setMaximum(czasPostoju);
+
+    tmZmFiltra.setInterval(czasPostoju*1000);
+    tmZmProgressBar.setInterval(1000);
+
+    connect(&tmZmProgressBar, &QTimer::timeout, this, &OknoBadaniaTlumienia::progressBarUpdate);
+    connect(&tmZmFiltra, &QTimer::timeout, this, &OknoBadaniaTlumienia::uplynalCzasPostojuFiltra);
+
+
     qDebug() << "__FILE__" << __LINE__;
     ster->setFiltrReset();
-    resetFiltrow.singleShot(5000, [this]() {
-        if (!this->getResetFiltrowOk())
-            reject();
-    });
+    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
+
 #ifndef DEFVAL
     ui->pbTest->setVisible(false);
 #else
@@ -61,17 +57,20 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
 
 OknoBadaniaTlumienia::~OknoBadaniaTlumienia()
 {
-    zmFiltraTmr.stop();
-    zmProgressBar.stop();
-    resetFiltrow.stop();
+    tmZmFiltra.stop();
+    tmZmProgressBar.stop();
+    tmSterownika.stop();
     delete ui;
 }
 
 void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
 {
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+             << "Rozpoczynam zmiane filtra";
+
+    tmSterownika.stop();
     actTlumPos = 0;
 
-    setResetFiltrowOk(true);
     auto pos = tlumienia.at(actTlumPos);
     ui->tlumienie->setText(pos.at(0) + QString(" dB"));
     ui->a->setText(pos.at(1));
@@ -80,34 +79,37 @@ void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Rozpoczynam zmiane filtra";
     ster->setFiltrPos(pos.at(1).toShort(), pos.at(2).toShort(), pos.at(3).toShort());
+    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 }
 
 void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
 {
+    tmSterownika.stop();
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "Zmiana filtra";
-    zmFiltraTmr.start();
+    tmZmFiltra.start();
     ui->progressBar->setValue(0);
-    zmProgressBar.start();
-    ui->pozostal_czas->setText(0);
+    tmZmProgressBar.start();
+    ui->pozostal_czas->setText(QString::number(czasPostoju) + " s ");
 }
 
 void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "Blad filtrow"
              << filtr << zerowanie;
-
-    zmFiltraTmr.stop();
-    ui->progressBar->setValue(0);
-    zmProgressBar.stop();
+    tmSterownika.stop();
+    tmZmFiltra.stop();
+    tmZmProgressBar.stop();
+    error = QString::fromUtf8("Błąd filtra %1").arg(filtr);
+    reject();
 }
 
 void OknoBadaniaTlumienia::czujkaOn()
 {
-    zmFiltraTmr.stop();
-    zmProgressBar.stop();
-    resetFiltrow.stop();
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
+    tmZmFiltra.stop();
+    tmZmProgressBar.stop();
+    tmSterownika.stop();
     wynikBadania = true;
-    wykryto = true;
     error = "";
     accept();
 }
@@ -115,35 +117,35 @@ void OknoBadaniaTlumienia::czujkaOn()
 void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << ui->progressBar->value() << " timeout 15s " << actTlumPos;
+             << ui->progressBar->value() << " timeout postoju filtra " << actTlumPos;
                 ;
-    zmProgressBar.stop();
-    ui->progressBar->setValue(0);
-    ui->pozostal_czas->setText(0);
+    tmZmProgressBar.stop();
+    tmZmFiltra.stop();
+
+    ui->progressBar->setValue(czasPostoju);
+    ui->pozostal_czas->setText("0 s");
     ++actTlumPos;
     if (actTlumPos == maxTlum) {
-        zmFiltraTmr.stop();
-        resetFiltrow.stop();
-        zmFiltraTmr.stop();
-        wykryto = false;
-        error = "Czujka nie zadziała";
+        error = QString::fromUtf8("Czujka nie zadziała");
         wynikBadania = false;
         reject();
         return;
     }
+
     auto pos = tlumienia.at(actTlumPos);
     tlumienie = pos.at(0);
     ui->tlumienie->setText(pos.at(0) + QString(" dB"));
     ui->a->setText(pos.at(1));
     ui->b->setText(pos.at(2));
     ui->c->setText(pos.at(3));
-    posFiltrA = pos.at(1).toShort();
-    posFiltrB = pos.at(2).toShort();
-    posFiltrC = pos.at(3).toShort();
+    short posFiltrA = pos.at(1).toShort();
+    short posFiltrB = pos.at(2).toShort();
+    short posFiltrC = pos.at(3).toShort();
 
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Rozpoczynam zmiane filtra";
     ster->setFiltrPos(posFiltrA, posFiltrB, posFiltrC);
+    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 }
 
 
@@ -152,44 +154,21 @@ void OknoBadaniaTlumienia::progressBarUpdate()
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Progress update " << ui->progressBar->value();
     ui->progressBar->setValue(ui->progressBar->value() + 1);
-    ui->pozostal_czas->setText(QString::number(czasPostoju - ui->progressBar->value()));
+    ui->pozostal_czas->setText(QString::number(czasPostoju - ui->progressBar->value())+ " s");
 }
 
-bool OknoBadaniaTlumienia::getResetFiltrowOk()
+void OknoBadaniaTlumienia::timeoutSterownika()
 {
-    QMutexLocker lock(&mutex);
-    return resetFiltrowOk;
-}
-
-void OknoBadaniaTlumienia::setResetFiltrowOk(bool newResetFiltrowOk)
-{
-    QMutexLocker lock(&mutex);
-    resetFiltrowOk = newResetFiltrowOk;
-}
-
-short OknoBadaniaTlumienia::getPosFiltrC() const
-{
-    return posFiltrC;
-}
-
-short OknoBadaniaTlumienia::getPosFiltrB() const
-{
-    return posFiltrB;
-}
-
-short OknoBadaniaTlumienia::getPosFiltrA() const
-{
-    return posFiltrA;
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+             << "hardware timeout ";
+    error = QString::fromUtf8("Błąd sprzętowy");
+    wynikBadania = false;
+    reject();
 }
 
 const QString &OknoBadaniaTlumienia::getError() const
 {
     return error;
-}
-
-bool OknoBadaniaTlumienia::getPowtorzBadanie() const
-{
-    return powtorzBadanie;
 }
 
 const QString &OknoBadaniaTlumienia::getTlumienie() const
@@ -205,15 +184,15 @@ bool OknoBadaniaTlumienia::getWynikBadania() const
 #ifdef DEFVAL
 void OknoBadaniaTlumienia::testValue()
 {
-    bool t1 = zmFiltraTmr.isActive();
+    bool t1 = tmZmFiltra.isActive();
     if (t1)
-        zmFiltraTmr.stop();
-    bool t2 = zmProgressBar.isActive();
+        tmZmFiltra.stop();
+    bool t2 = tmZmProgressBar.isActive();
     if (t2)
-        zmProgressBar.stop();
-    bool t3 = resetFiltrow.isActive();
+        tmZmProgressBar.stop();
+    bool t3 = tmSterownika.isActive();
     if (t3)
-        resetFiltrow.stop();
+        tmSterownika.stop();
 
     TestValueDialog * dlg = new TestValueDialog(tlumienie, this);
     if (dlg->exec()) {
@@ -224,11 +203,11 @@ void OknoBadaniaTlumienia::testValue()
     } else {
         delete dlg;
         if (t1)
-            zmFiltraTmr.start();
+            tmZmFiltra.start();
         if (t2)
-            zmProgressBar.start();
+            tmZmProgressBar.start();
         if (t3)
-            resetFiltrow.start();
+            tmSterownika.start();
     }
 }
 

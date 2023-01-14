@@ -59,19 +59,49 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     test->setNazwaDrugiego(badanie.getNazwaDrugiego());
 
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
+    NiewspolosiowoscOsUrzadzenie od;
     switch(test->getId())
     {
         case REPRODUCIBILITY:
             ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar));
-            ui->cbCzujka->setCurrentIndex(nrPomiar-1);
+            if (ui->cbCzujka->count() > nrPomiar)
+                ui->cbCzujka->setCurrentIndex(nrPomiar-1);
+            else
+                ui->cbCzujka->setCurrentIndex(0);
             ui->frameSpec->setVisible(false);
+            nrCzujkiDoWybrania = nrPomiar;
             break;
         case REPEATABILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą")); break;
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            if (ui->cbCzujka->count() > 2)
+                ui->cbCzujka->setCurrentIndex(1);
+            else
+                ui->cbCzujka->setCurrentIndex(0);
             ui->frameSpec->setVisible(true);
             ui->frame_powtarzalnosc->setVisible(true);
+            ui->frame_niewspolosiowosc->setVisible(false);
+            nrCzujkiDoWybrania = 2;
+            break;
         break;
         case TOLERANCE_TO_BEAM_MISALIGNMENT:
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->cbCzujka->setCurrentIndex(0);
+            ui->frameSpec->setVisible(true);
+            ui->frame_powtarzalnosc->setVisible(false);
+            ui->frame_niewspolosiowosc->setVisible(true);
+            ui->pionNadajnik->setText(badanie.getMaksKatowaNieWspolPionowaNadajnika());
+            ui->poziomNadajnik->setText(badanie.getMaksKatowaNieWspolPoziomaNadajnika());
+            ui->pionOdbiornik->setText(badanie.getMaksKatowaNieWspolPionowaOdbiornika());
+            ui->poziomOdbiornik->setText(badanie.getMaksKatowaNieWspolPoziomaOdbiornika());
+            ui->etPierwszy->setText(badanie.getNazwaPierwszego());
+            ui->etDrugi->setText(badanie.getNazwaDrugiego());
+            nrCzujkiDoWybrania = 1;
+            od.nadajnik.pionowo = badanie.getMaksKatowaNieWspolPionowaNadajnika();
+            od.nadajnik.poziomo = badanie.getMaksKatowaNieWspolPoziomaNadajnika();
+            od.odbiornik.pionowo = badanie.getMaksKatowaNieWspolPionowaOdbiornika();
+            od.odbiornik.poziomo = badanie.getMaksKatowaNieWspolPoziomaOdbiornika();
+            test->setKatyProducenta(od);
+            break;
         break;
         default:
         break;
@@ -100,90 +130,72 @@ OknoParametryTestu::~OknoParametryTestu()
     delete ui;
 }
 
+void OknoParametryTestu::check1Pomiar()
+{
+    //ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+    if (ui->osobaWykonujaca->text().isEmpty()) {
+        addError(QString::fromUtf8("Pole 'Osoba Wykonująca test' nie może być puste"), true);
+    }
+    if (ui->temperatura->text().isEmpty()) {
+        addError(QString::fromUtf8("Pole 'Temperatura' nie może być puste"), true);
+    } else {
+        bool ok;
+        double val = ui->temperatura->text().toDouble(&ok);
+        if (!ok) {
+            addError(QString::fromUtf8("Pole 'Temperatura' zawiera niepoprawną wartość"), true);
+        } else if (val < 15 || val > 35 ){
+            addError(QString::fromUtf8("Pole 'Temperatura' zawiera wartość niezgodną z normą"), false);
+        }
+    }
+
+    if (ui->wilgotnosc->text().isEmpty()) {
+        addError(QString::fromUtf8("Pole 'Wilgotność' nie może być puste"), true);
+    } else {
+        bool ok;
+        double val = ui->wilgotnosc->text().toDouble(&ok);
+        if (!ok) {
+            addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niepoprawną wartość"), true);
+        } else if (val < 25 || val > 75 ) {
+            addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niezgodną z normą"), false);
+        }
+    }
+
+    if (ui->cisnienie->text().isEmpty()) {
+        addError(QString::fromUtf8("Pole 'Ciśnienie' nie może być puste"), true);
+    } else {
+        bool ok;
+        double val = ui->cisnienie->text().toDouble(&ok);
+        if (!ok) {
+            addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niepoprawną wartość"), true);
+        } else if (val < 860 || val > 1060 ){
+            addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niezgodną z normą"), false);
+        }
+    }
+
+}
+
 void OknoParametryTestu::check()
 {
     if (nrPomiar == 1) {
-        if (ui->osobaWykonujaca->text().isEmpty()) {
-            ui->errorLab->setText("Pole 'Osoba Wykonująca test' nie może być puste");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
-        }
+        check1Pomiar();
 
-        if (ui->temperatura->text().isEmpty()) {
-            ui->errorLab->setText("Pole 'Temperatura' nie może być puste");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
-        } else {
-            bool ok;
-            double val = ui->temperatura->text().toDouble(&ok);
-            if (!ok) {
-                ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            } else if (val < 15 || val > 35 ){
-                ui->errorLab->setText("Pole 'Temperatura' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            }
-        }
-
-        if (ui->wilgotnosc->text().isEmpty()) {
-            ui->errorLab->setText("Pole 'Wilgotność' nie może być puste");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
-        } else {
-            bool ok;
-            double val = ui->wilgotnosc->text().toDouble(&ok);
-            if (!ok) {
-                ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            } else if (val < 25 || val > 75 ){
-                ui->errorLab->setText("Pole 'Wilgotność' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            }
-        }
-
-        if (ui->cisnienie->text().isEmpty()) {
-            ui->errorLab->setText("Pole 'Ciśnienie' nie może być puste");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-            return;
-        } else {
-            bool ok;
-            double val = ui->cisnienie->text().toDouble(&ok);
-            if (!ok) {
-                ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            } else if (val < 860 || val > 1060 ){
-                ui->errorLab->setText("Pole 'Ciśnienie' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            }
-        }
 
         if (ui->frame_powtarzalnosc->isVisible()) {
             QString ssecs = ui->powtarzalnosc_czas->text();
             if (ssecs.isEmpty()) {
-                ui->errorLab->setText("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            }
-            bool ok;
-            unsigned int secs = ssecs.toInt(&ok);
-            if (!ok) {
-                ui->errorLab->setText("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
-                return;
-            }
-            if (secs < 900 || secs > 3600) {
-                ui->errorLab->setText("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]");
-                ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+                addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
+            } else {
+                bool ok;
+                unsigned int secs = ssecs.toInt(&ok);
+                if (!ok) {
+                    addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
+                } else if (secs < 900 || secs > 3600) {
+                    addError(QString::fromUtf8("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]"), false);
+                }
             }
         }
-
-    } else {
+    }
+    else {
 //Todo sprawdzenie czujki
         if (test->sprawdzCzyBadanaCzujka(ui->typPierwszy->text(), ui->typDrugi->text())) {
             ui->errorLab->setText("Wybrana czujka była już badana");
@@ -202,8 +214,8 @@ void OknoParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->addWybranaCzujka(ui->typPierwszy->text(), ui->typDrugi->text());
-    test->setCzasPowtarzalnosci(900);
+    test->addWybranaCzujka(ui->cbCzujka->currentIndex(), ui->typPierwszy->text(), ui->typDrugi->text());
+
     if(test->getId() == REPEATABILITY)
     {
         QString ssecs = ui->powtarzalnosc_czas->text();
@@ -236,4 +248,15 @@ void OknoParametryTestu::changeCzujka(int index)
         ui->errorLab->setText("Wybrana czujka była już podana badaniu");
         ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
     }
+}
+
+void OknoParametryTestu::addError(const QString &err, bool prio)
+{
+    if (prio)
+        error = true;
+    if (prio)
+        errorsMsg.push_front(QString("<li><span style=\"color:red; font-weight:bold;\">%1<span></li>").arg(err));
+    else
+        errorsMsg.push_back(QString("<li><span style=\"color:yellow; font-weight:bold;\">%1<span></li>").arg(err));
+
 }

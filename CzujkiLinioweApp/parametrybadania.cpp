@@ -173,6 +173,52 @@ void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
     testy[id] = dane;
 }
 
+void ParametryBadania::posortuj()
+{
+    short tmp[7] = { -1, -1, -1, -1, -1, -1, -1};
+    short wyk[7] = { -1, -1, -1, -1, -1, -1, -1};
+    if (testy.at(0).getId() != REPRODUCIBILITY)
+        return;
+
+    if (testy.size() < 2)
+        return;
+
+    auto pomiary =  testy.at(0).getDaneBadanCzujek();
+    float max1 = 0, max2 = 0;
+    short pmax1 = -1, pmax2 = -1;
+    for (int pos = 0; pos < pomiary.size(); ++pos) {
+
+        if (pomiary[pos].value_dB.isEmpty())
+            continue;
+        bool ok;
+        float val = pomiary[pos].value_dB.toFloat(&ok);
+        if (!ok) continue;
+        wyk[pos] = pomiary[pos].nrCzujki;
+        if (val > max1) {
+            pmax1 = pomiary[pos].nrCzujki;
+            max1 = val;
+        }
+    }
+    for (int pos = 0; pos < pomiary.size(); ++pos) {
+        if (wyk[pos] == -1)
+            continue;
+        float val = pomiary[pos].value_dB.toFloat();
+
+        if (pos == pmax1) continue;
+        if (val > max2) {
+            pmax2 = pomiary[pos].nrCzujki;
+            max2 = val;
+        }
+    }
+    for (int pos = 0; pos < pomiary.size(); ++pos) {
+        if (pos == pmax1 || pos == pmax2)
+            continue;
+        sortedId.append(pos);
+    }
+    sortedId.append(pmax2 < 0 ? 0 : pmax2);
+    sortedId.append(pmax1 < 0 ? 1 : pmax1);
+}
+
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);

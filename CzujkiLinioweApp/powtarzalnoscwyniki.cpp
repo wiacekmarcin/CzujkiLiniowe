@@ -30,22 +30,21 @@ void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, c
         headTable(pierwszy, drugi);
         ui->stackedWidget->setCurrentWidget(ui->podsumowanie);
         ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
-        ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
 
-        ui->Crep->setText(QString::number(daneTestu.getCrep(), 'g', 2) + " dB");
-        ui->Crep2->setText(QString::number(daneTestu.getCrep2(), 'g', 2) + " %");
-        ui->cmin->setText(QString::number(daneTestu.getCmin(), 'g', 2) + " dB");
-        ui->cmin2->setText(QString::number(daneTestu.getCmin2(), 'g', 2) + " %");
-        ui->cmax->setText(QString::number(daneTestu.getCmax(), 'g', 2) + " dB");
-        ui->cmax2->setText(QString::number(daneTestu.getCmax(), 'g', 2) + " %");
+        ui->Crep->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
+        ui->Crep2->setText("0 %");
+        ui->cmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->cmin2->setText("0 %");
+        ui->cmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->cmax2->setText("0 %");
         ui->CmaxCrep->setText(QString::number(daneTestu.getCmaxCrep(), 'g', 2));
         ui->CrepCmin->setText(QString::number(daneTestu.getCrepCmin(), 'g', 2));
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addRekordPodsumowanie(num, dane.nrPomiaru, dane.numerNadajnika, dane.numerOdbiornika,
-                              dane.value_dB, dane.value_perc, dane.ok, dane.error);
+            addRekordPodsumowanie(num, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
+                              dane.value_dB, 0, dane.ok, dane.error);
             num++;
         }
         ui->gridLayoutResults->setVerticalSpacing(0);
@@ -54,21 +53,21 @@ void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, c
 
     } else {
         initWynikTable(pierwszy, drugi);
-        ui->stackedWidget->setCurrentWidget(ui->podsumowanie);
-        ui->tableParams->item(0,0)->setText(QString::number(daneTestu.getCmin(), 'g', 2) + " dB");
-        ui->tableParams->item(0,1)->setText(QString::number(daneTestu.getCmin2(), 'g', 2) + " %");
-        ui->tableParams->item(1,0)->setText(QString::number(daneTestu.getCmax(), 'g', 2) + " dB");
-        ui->tableParams->item(1,1)->setText(QString::number(daneTestu.getCmax2(), 'g', 2) + " %");
-        ui->tableParams->item(2,0)->setText(QString::number(daneTestu.getCrep(), 'g', 2) + " dB");
-        ui->tableParams->item(2,1)->setText(QString::number(daneTestu.getCrep2(), 'g', 2) + " %");
-        ui->tableParams->item(3,0)->setText(QString::number(daneTestu.getCmaxCrep(), 'g', 2) + " dB");
-        ui->tableParams->item(4,0)->setText(QString::number(daneTestu.getCrepCmin(), 'g', 2) + " dB");
+        ui->stackedWidget->setCurrentWidget(ui->wyniki);
+        ui->tableParams->item(0,0)->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->tableParams->item(0,1)->setText("0 %");
+        ui->tableParams->item(1,0)->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->tableParams->item(1,1)->setText("0 %");
+        ui->tableParams->item(2,0)->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
+        ui->tableParams->item(2,1)->setText("0 %");
+        ui->tableParams->item(3,0)->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2) + " dB");
+        ui->tableParams->item(4,0)->setText(QString::number(daneTestu.getCrepCmin(), 'f', 2) + " dB");
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addRekordWyniki(num, dane.nrPomiaru, dane.numerNadajnika, dane.numerOdbiornika,
-                              dane.value_dB, dane.value_perc, dane.ok, dane.error);
+            addRekordWyniki(num, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
+                              dane.value_dB, 0, dane.ok, dane.error);
             num++;
         }
     }
@@ -79,12 +78,9 @@ void PowtarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
     bool badanieOk = true;
     int cntAvg = daneTestu.getDaneBadanCzujek().size();
     float Cavg = 0;
-    float C2avg = 0;
-
     float Cmin = 100;
     float Cmax = -100;
-    float C2min = 100;
-    float C2max = -100;
+
 
     for (const auto & dane : daneTestu.getDaneBadanCzujek())
     {
@@ -93,10 +89,9 @@ void PowtarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
             daneTestu.setErrStr(dane.error);
             continue;
         }
-        bool ok, ok2;
+        bool ok;
         double C = dane.value_dB.toDouble(&ok);
-        double C2 = dane.value_perc.toDouble(&ok2);
-        if (!ok || !ok2) {
+        if (!ok) {
             badanieOk = false;
             daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
             continue;
@@ -111,19 +106,11 @@ void PowtarzalnoscWyniki::valueTest(DaneTestu &daneTestu)
             Cmin = C;
         Cavg += C / cntAvg;
 
-        if (C2 > C2max)
-            C2max = C2;
-        if (C2 < C2min)
-            C2min = C2;
-        C2avg += C2 / cntAvg;
     }
 
     daneTestu.setCrep(Cavg);
     daneTestu.setCmin(Cmin);
     daneTestu.setCmax(Cmax);
-    daneTestu.setCrep2(C2avg);
-    daneTestu.setCmin2(C2min);
-    daneTestu.setCmax2(C2max);
     daneTestu.setCmaxCrep(Cmax/Cavg);
     daneTestu.setCrepCmin(Cavg/Cmin);
     daneTestu.setWykonany(true);
@@ -311,7 +298,7 @@ void PowtarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString 
 
 }
 
-void PowtarzalnoscWyniki::addRekordWyniki(short num, short nrPomiaru, const QString & numerNadajnika, const QString & numerOdbiornika,
+void PowtarzalnoscWyniki::addRekordWyniki(short num, short nrCzujki, const QString & numerNadajnika, const QString & numerOdbiornika,
                               const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
 {
     int row = num;

@@ -264,12 +264,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
     if (!zasilenieCzujki(daneBadania))
         return false;
 
-    {
-        QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-                    new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
-                                                dane.getName(), true, parent));
-        dlg6->exec();
-    }
+
     return true;
 }
 
@@ -367,9 +362,7 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
                             dane.getName(), ust, ster, parent);
     bool ret = dlg7->exec();
     QString tlumienie = dlg7->getTlumienie();
-    double tlumienie_PER = ust.getFiltr_prc(dane.getDlugoscFali(), 'A', dlg7->getPosFiltrA());
-    tlumienie_PER *= ust.getFiltr_prc(dane.getDlugoscFali(), 'B', dlg7->getPosFiltrB());
-    tlumienie_PER *= ust.getFiltr_prc(dane.getDlugoscFali(), 'C', dlg7->getPosFiltrC());
+
 
     bool wynikBadania = dlg7->getWynikBadania();
     QString error = dlg7->getError();
@@ -377,9 +370,9 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
     dlg7 = nullptr;
     if (!waitEkran) {
         if (wynikBadania && tlumienie.toDouble() < 0.4) {
-            dane.setSuccessBadaniaCzujki(false, tlumienie, tlumienie_PER, "Crep<0.4");
+            dane.setSuccessBadaniaCzujki(false, tlumienie, "Crep<0.4");
         } else {
-            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, tlumienie_PER, error);
+            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
         }
         return 0;
     }
@@ -392,9 +385,9 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
             return 1;
         }
         if (wynikBadania && tlumienie.toDouble() < 0.4) {
-            dane.setSuccessBadaniaCzujki(false, tlumienie, tlumienie_PER, "Crep<0.4");
+            dane.setSuccessBadaniaCzujki(false, tlumienie, "Crep<0.4");
         } else {
-            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, tlumienie_PER, error);
+            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
         }
     }
     return 0;

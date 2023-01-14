@@ -46,6 +46,7 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     badanie.setDaneTestu(id, test);
     switch(id){
         case REPRODUCIBILITY:
+            badanie.posortuj();
             ui->pOdtwarzalnosc->setDaneTest(false, test, badanie);
             ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
             ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
@@ -221,12 +222,6 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
             ui->stackedWidget->setCurrentIndex(2);
         break;
 
-    }
-
-    if (row == 0) {
-
-    } else {
-        ui->stackedWidget->setCurrentIndex(1);
     }
 }
 

@@ -36,7 +36,7 @@ class OknoBadaniaTlumienia : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali_,
+    explicit OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali,
                           const QString & name, const Ustawienia &ust,
                           Sterownik * ster_, QWidget *parent = 0);
     ~OknoBadaniaTlumienia();
@@ -51,19 +51,11 @@ public:
 
     const QString &getTlumienie() const;
 
-    bool getPowtorzBadanie() const;
 #ifdef DEFVAL
     void testValue();
 #endif
 
     const QString &getError() const;
-
-
-    short getPosFiltrA() const;
-
-    short getPosFiltrB() const;
-
-    short getPosFiltrC() const;
 
     bool getResetFiltrowOk();
     void setResetFiltrowOk(bool newResetFiltrowOk);
@@ -71,29 +63,26 @@ public:
 private slots:
     void uplynalCzasPostojuFiltra();
     void progressBarUpdate();
+protected slots:
+    void timeoutSterownika();
 private:
     Ui::OknoBadaniaTlumienia *ui;
-    QTimer zmFiltraTmr;
-    QTimer zmProgressBar;
-    QTimer resetFiltrow;
-    float actTlumienie;
+    QTimer tmZmFiltra;
+    QTimer tmZmProgressBar;
+    QTimer tmSterownika;
+
     QList<QStringList> tlumienia;
-    float tlumieniaPercent;
-    int dlugoscFali;
+
     unsigned int actTlumPos;
     unsigned int maxTlum;
     Sterownik * ster;
     int czasPostoju;
-    bool resetFiltrowOk;
+
     bool wynikBadania;
     QString tlumienie;
-    bool powtorzBadanie;
-    bool wykryto;
+
     QString error;
-    short posFiltrA;
-    short posFiltrB;
-    short posFiltrC;
-    QMutex mutex;
+
 };
 
 #endif // OKNOBADANIATLUMIENIA_H
