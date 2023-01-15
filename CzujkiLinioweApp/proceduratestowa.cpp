@@ -12,6 +12,10 @@
 #include "oknowynikbadaniatlumienia.h"
 #include "oknopodsumowanietestu.h"
 #include "oknobadaniakata.h"
+#include "oknoczekaniabadaniekatowe.h"
+#include "oknobadaniereakcji6db.h"
+#include "oknobadaniamaksymalnegokata.h"
+
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
@@ -22,7 +26,10 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     ster(nullptr),
     dlg7(nullptr),
     dlg0(nullptr),
-    dlg10(nullptr)
+    dlg10(nullptr),
+    dlg11(nullptr),
+    dlg12(nullptr),
+    dlg13(nullptr)
 {
 
 }
@@ -37,18 +44,26 @@ void ProceduraTestowa::flt_zerowanieFiltrowDone()
     if (dlg7) {
         dlg7->flt_zerowanieFiltrowDone();
     }
+    if (dlg12) {
+        dlg12->flt_zerowanieFiltrowDone();
+    }
 }
 
 void ProceduraTestowa::flt_setUkladFiltrowDone()
 {
     if (dlg7)
         dlg7->flt_setUkladFiltrowDone();
+    if (dlg12) {
+        dlg12->flt_setUkladFiltrowDone();
+    }
 }
 
 void ProceduraTestowa::flt_bladFiltrow(QChar silnik, bool zerowanie)
 {
     if (dlg7)
         dlg7->flt_bladFiltrow(silnik, zerowanie);
+    if (dlg12)
+        dlg12->flt_bladFiltrow(silnik, zerowanie);
 }
 
 void ProceduraTestowa::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
@@ -84,6 +99,10 @@ void ProceduraTestowa::czujkaOn()
 
     if (dlg10)
         dlg10->czujkaOn();
+    if (dlg11)
+        dlg11->czujkaOn();
+    if (dlg12)
+        dlg12->czujkaOn();
 }
 
 bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -392,11 +411,7 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
     delete dlg7;
     dlg7 = nullptr;
     if (!waitEkran) {
-        if (wynikBadania && tlumienie.toDouble() < 0.4) {
-            dane.setSuccessBadaniaCzujki(false, tlumienie, "Crep<0.4");
-        } else {
-            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
-        }
+        dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
         return 0;
     }
 
@@ -418,17 +433,53 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
 
 short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
+    short nrSilnika = 1;
     QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaNumerPierwszego());
-    dlg10 = new OknoBadaniaKata(1, dane.getName(), ptitle,
+    dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
                                 dane.getKatyProducenta().nadajnik.poziomo,
                                 ust, ster, parent);
     bool ret = dlg10->exec();
-    qDebug() << "ret=" << ret;
+    if (!ret) {
+        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas jazdy do kata nominalnego";
+    }
 
     QString error = dlg10->getError();
     qDebug() << "erorr" << error.toStdString().c_str();
     delete dlg10;
     dlg10 = nullptr;
+
+    dlg11 = new OknoCzekaniaBadanieKatowe(120, dane.getName(), ptitle, parent);
+    if (!dlg11->exec()) {
+        //TODO
+        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas czekania 2 min";
+    }
+
+    delete dlg11;
+    dlg11 = nullptr;
+
+    dlg12 = new OknoBadanieReakcji6dB(daneBadania.getDlugoscFaliFiltrow(), dane.getName(), ptitle, ust, ster, parent);
+    if (!dlg12->exec()) {
+        //TODO
+        qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();
+    }
+    delete dlg12;
+    dlg12 = nullptr;
+
+    //reset czujki
+    if (daneBadania.getZasilanieCzujekCentrala()) {
+        QMessageBox::information(parent, "Badanie Zależność kierunkowa", "Należy zresetować czujkę (wyłączyć i włączyć). Po wykonaniu tej czynności należy kliknąć OK");
+    } else if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
+        //zas->setOutput(false);
+        //QThread::currentThread()->msleep(100); //na 5 sekund wylaczenie wlaczenie
+        //zas->setOutput(true);
+    }
+
+    //maks kat
+    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, "15", ust, ster, parent);
+    dlg13->exec();
+    delete dlg13;
+    dlg13 = nullptr;
+
     return 0;
 }
 

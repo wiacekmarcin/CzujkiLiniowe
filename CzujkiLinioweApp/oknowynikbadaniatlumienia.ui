@@ -188,7 +188,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayout_31">
       <property name="spacing">
        <number>0</number>
       </property>
@@ -270,7 +270,7 @@
        <number>20</number>
       </property>
       <item>
-       <spacer name="horizontalSpacer">
+       <spacer name="horizontalSpacer2">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
         </property>

@@ -14,6 +14,9 @@ SOURCES += \
     oczekiwanienaurzadzenia.cpp \
     odtwarzalnoscwyniki.cpp \
     oknobadaniakata.cpp \
+    oknobadaniamaksymalnegokata.cpp \
+    oknobadaniereakcji6db.cpp \
+    oknoczekaniabadaniekatowe.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -57,6 +60,9 @@ HEADERS += \
     oczekiwanienaurzadzenia.h \
     odtwarzalnoscwyniki.h \
     oknobadaniakata.h \
+    oknobadaniamaksymalnegokata.h \
+    oknobadaniereakcji6db.h \
+    oknoczekaniabadaniekatowe.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -100,6 +106,9 @@ FORMS += \
     oczekiwanienaurzadzenia.ui \
     odtwarzalnoscwyniki.ui \
     oknobadaniakata.ui \
+    oknobadaniamaksymalnegokata.ui \
+    oknobadaniereakcji6db.ui \
+    oknoczekaniabadaniekatowe.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \

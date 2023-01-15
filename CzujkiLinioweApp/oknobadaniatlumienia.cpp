@@ -44,7 +44,6 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     connect(&tmZmFiltra, &QTimer::timeout, this, &OknoBadaniaTlumienia::uplynalCzasPostojuFiltra);
 
 
-    qDebug() << "__FILE__" << __LINE__;
     sterResponse = false;
     ster->setFiltrReset();
     tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
@@ -84,7 +83,8 @@ void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
 
 void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "Zmiana filtra";
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                "Filtr zmieniony";
     tmZmFiltra.start();
     ui->progressBar->setValue(0);
     tmZmProgressBar.start();
@@ -93,8 +93,11 @@ void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
 
 void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "Blad filtrow"
-             << filtr << zerowanie;
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                "Blad filtrow" << filtr << zerowanie;
+    //TODO
+    return;
+    wynikBadania = false;
     tmSterownika.stop();
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
@@ -104,7 +107,8 @@ void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
 
 void OknoBadaniaTlumienia::czujkaOn()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+             "czujka on";
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
     tmSterownika.stop();
@@ -116,8 +120,8 @@ void OknoBadaniaTlumienia::czujkaOn()
 void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << ui->progressBar->value() << " timeout postoju filtra " << actTlumPos;
-                ;
+             << " timeout postoju filtra " << actTlumPos;
+
     tmZmProgressBar.stop();
     tmZmFiltra.stop();
 
@@ -141,17 +145,14 @@ void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
     short posFiltrB = pos.at(2).toShort();
     short posFiltrC = pos.at(3).toShort();
 
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Rozpoczynam zmiane filtra";
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+             "Rozpoczynam zmiane filtra " << posFiltrA << posFiltrA << posFiltrB << posFiltrC;
     ster->setFiltrPos(posFiltrA, posFiltrB, posFiltrC);
-    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 }
 
 
 void OknoBadaniaTlumienia::progressBarUpdate()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Progress update " << ui->progressBar->value();
     ui->progressBar->setValue(ui->progressBar->value() + 1);
     ui->pozostal_czas->setText(QString::number(czasPostoju - ui->progressBar->value())+ " s");
 }

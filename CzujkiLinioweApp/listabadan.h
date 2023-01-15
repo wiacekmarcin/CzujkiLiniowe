@@ -11,6 +11,8 @@
 
 class Zasilacz;
 class Sterownik;
+class QWidget;
+
 namespace Ui {
 class ListaBadan;
 }
@@ -35,8 +37,11 @@ public:
 
     void setBadanie(const ParametryBadania & badanie);
 
+    void setDaneTest(DaneTestu &daneTestu, const ParametryBadania &badanie);
 protected:
     void initialTable(const ParametryBadania &badanie);
+    void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
+    void addOdtwarzalnoscRekord(short num, short nrPomiaru, const QString &numerNadajnika, const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc, bool ok, const QString &error);
 private slots:
     void on_tableWidget_cellClicked(int row, int column);
 
@@ -51,6 +56,7 @@ private:
     bool zasilaczZewnetrzny;
     bool badanieWTrakcie;
     unsigned intCurrAlarm;
+    QMap<int, QWidget*> testyWidget;
 };
 
 #endif // LISTABADAN_H

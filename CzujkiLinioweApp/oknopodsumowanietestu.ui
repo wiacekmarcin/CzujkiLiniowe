@@ -37,9 +37,9 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
+     <layout class="QHBoxLayout" name="horizontalLayout_wyniktestu">
       <item>
-       <widget class="QLabel" name="label_3">
+       <widget class="QLabel" name="result">
         <property name="font">
          <font>
           <pointsize>14</pointsize>
@@ -55,7 +55,7 @@
    </item>
    <item row="7" column="0" colspan="2">
     <widget class="QWidget" name="widget_btn" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayoutbuttondalej">
       <property name="spacing">
        <number>20</number>
       </property>
@@ -122,7 +122,7 @@
      <property name="frameShadow">
       <enum>QFrame::Raised</enum>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayouttitle">
       <item>
        <widget class="QLabel" name="label_2">
         <property name="font">
@@ -144,26 +144,249 @@
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="OdtwarzalnoscWyniki" name="odtwarzalnosc"/>
-     <widget class="PowtarzalnoscWyniki" name="powtarzalnosc"/>
+     <widget class="QWidget" name="odtwarzalnosc">
+      <layout class="QGridLayout" name="gridLayout_odtwarzalnosc">
+       <item row="3" column="1">
+        <widget class="QFrame" name="odtwarzalnoscfrcmax">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutodtwarzalnosccmax">
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCmax">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCmax2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QFrame" name="odtwarzalnoscfrcmin">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutodtwarzalnosccmin">
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCmin">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCmin2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="eOdtwarzalnosccmax">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="eOdtwarzalnosctcmaxcrep">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax/Crep</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QFrame" name="odtwarzalnoscfrcrep">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutodtwarzalnosccrep">
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCrep">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="odtwarzalnoscCrep2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="eOdtwarzalnoscCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmin</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0" colspan="2">
+        <widget class="QFrame" name="odtwarzalnoscframeTable">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="odtwarzalnoscGridLayoutResults">
+          <property name="leftMargin">
+           <number>5</number>
+          </property>
+          <property name="topMargin">
+           <number>5</number>
+          </property>
+          <property name="rightMargin">
+           <number>5</number>
+          </property>
+          <property name="bottomMargin">
+           <number>5</number>
+          </property>
+          <property name="spacing">
+           <number>3</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="odtwarzalnoscCmaxCrep">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="eOdtwarzalnosccrep">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Crep</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="eOdtwarzalnoscCrepCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Crep/Cmin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="odtwarzalnoscCrepCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Sunken</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="powtarzalnosc"/>
     </widget>
    </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>OdtwarzalnoscWyniki</class>
-   <extends>QWidget</extends>
-   <header>odtwarzalnoscwyniki.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>PowtarzalnoscWyniki</class>
-   <extends>QWidget</extends>
-   <header>powtarzalnoscwyniki.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

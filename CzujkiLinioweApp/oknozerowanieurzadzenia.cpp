@@ -23,7 +23,10 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool
             silnikZero[id] = true;
         else
             silnikZero[id] = false;
-
+    }
+    qDebug() << __FILE__ << __LINE__ << "R" << ramiona << "F" << filtry << "W" << wozek;
+    for (short id = 0; id < 10; ++id) {
+        qDebug()<< id << silnikZero[id];
     }
     buttons[0] = nullptr;
     buttons[1] = ui->rb_pierwszy_poziom;
@@ -56,6 +59,7 @@ OknoZerowanieUrzadzenia::~OknoZerowanieUrzadzenia()
 void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
 //void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
+    qDebug() << silnik;
     if (!ruch.home || ruch.move)
         return;
 
@@ -78,7 +82,7 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType
     silnikZero[silnik] = true;
     if (buttons[silnik])
         buttons[silnik]->setChecked(true);
-    for (short id = 0; id < 10; ++id) {
+    for (short id = 1; id < 10; ++id) {
         if (!silnikZero[id])
             return;
     }
@@ -92,6 +96,10 @@ void OknoZerowanieUrzadzenia::timeout()
     if (errorMsg)
         return;
     errorMsg = true;
+    qDebug() << __FILE__ << __LINE__ ;
+    for (short id = 0; id < 10; ++id) {
+        qDebug()<< id << silnikZero[id];
+    }
     QMessageBox::warning(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
                 QString("Upłynął czas potrzebny do wyzerowania urządzenia"));
     reject();

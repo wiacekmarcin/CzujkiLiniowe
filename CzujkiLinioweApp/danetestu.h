@@ -90,6 +90,7 @@ public:
 
     void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
+    QList<DanePomiaru> &getDanePomiarowe() { return danePomiarowe; }
 
     float getCrep() const;
     void setCrep(float newCrep);

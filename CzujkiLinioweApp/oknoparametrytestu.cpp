@@ -64,19 +64,25 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     {
         case REPRODUCIBILITY:
             ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar));
-            if (ui->cbCzujka->count() > nrPomiar)
+            if (ui->cbCzujka->count() >= nrPomiar) {
                 ui->cbCzujka->setCurrentIndex(nrPomiar-1);
-            else
+                changeCzujka(nrPomiar-1);
+            } else {
                 ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
             ui->frameSpec->setVisible(false);
             nrCzujkiDoWybrania = nrPomiar;
             break;
         case REPEATABILITY:
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
-            if (ui->cbCzujka->count() > 2)
+            if (ui->cbCzujka->count() > 2) {
                 ui->cbCzujka->setCurrentIndex(1);
-            else
+                changeCzujka(1);
+            } else {
                 ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
             ui->frameSpec->setVisible(true);
             ui->frame_powtarzalnosc->setVisible(true);
             ui->frame_niewspolosiowosc->setVisible(false);
@@ -86,6 +92,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
         case TOLERANCE_TO_BEAM_MISALIGNMENT:
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
+            changeCzujka(0);
             ui->frameSpec->setVisible(true);
             ui->frame_powtarzalnosc->setVisible(false);
             ui->frame_niewspolosiowosc->setVisible(true);
@@ -226,7 +233,7 @@ void OknoParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->addWybranaCzujka(ui->cbCzujka->currentIndex(), ui->typPierwszy->text(), ui->typDrugi->text());
+    test->addWybranaCzujka(ui->cbCzujka->currentIndex()+1, ui->typPierwszy->text(), ui->typDrugi->text());
 
     if(test->getId() == REPEATABILITY)
     {

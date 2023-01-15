@@ -1,5 +1,5 @@
-#include "oknobadaniakata.h"
-#include "ui_oknobadaniakata.h"
+#include "oknobadaniamaksymalnegokata.h"
+#include "ui_oknobadaniamaksymalnegokata.h"
 #include <QDateTime>
 #include <QVBoxLayout>
 #include <QPushButton>
@@ -7,17 +7,17 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
-OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
+OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
                                  const QString & podtitle,
                                  const QString & kat,
                                  const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::OknoBadaniaKata),
+    ui(new Ui::OknoBadaniaMaksymalnegoKata),
     tmSterownika(this),
-    destPos(0),
     ster(ster_),
     wynikBadania(false),
+    destPos(0),
     nrSilnika(nrSilnika_),
     prevVal(0)
 
@@ -25,7 +25,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     ui->setupUi(this);
     ui->testName->setText(name);
     ui->nazwaPodTestu->setText(podtitle);
-    ui->katProducenta->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
+    ui->maxkat->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
 
     unsigned int speed = ust.predkoscRoboczaImp(nrSilnika);
     unsigned int impulsy = ust.wyliczPozycje(nrSilnika, kat.toDouble());
@@ -36,7 +36,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     qDebug() << __FILE__ << __LINE__ << speed << impulsy << "Start ruch";
 
     ster->setPositionSilnik(nrSilnika, false, impulsy, speed);
-    tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
+    tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
     deviceisOk = false;
 
 #ifndef DEFVAL
@@ -46,23 +46,23 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
 #endif
 }
 
-OknoBadaniaKata::~OknoBadaniaKata()
+OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()
 {
     tmSterownika.stop();
     delete ui;
 }
 
-void OknoBadaniaKata::czujkaOn()
+void OknoBadaniaMaksymalnegoKata::czujkaOn()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
-    wynikBadania = false;
+    wynikBadania = true;
     error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
-    reject();
+    accept();
 }
 
 
-void OknoBadaniaKata::timeoutSterownika()
+void OknoBadaniaMaksymalnegoKata::timeoutSterownika()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "hardware timeout ";
@@ -73,13 +73,13 @@ void OknoBadaniaKata::timeoutSterownika()
     reject();
 }
 
-const QString &OknoBadaniaKata::getError() const
+const QString &OknoBadaniaMaksymalnegoKata::getError() const
 {
     return error;
 }
 
-void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
-//void OknoBadaniaKata::ster_setPositionDone(short silnik, bool home, bool move, bool err, bool interrupt)
+void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
+//void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, bool home, bool move, bool err, bool interrupt)
 {
     qDebug() << __FILE__ << __LINE__ <<"home" << r.home << "move" << r.move << "err" << r.err << "interrupt" << r.inter;
     if (r.home || silnik != nrSilnika)
@@ -103,10 +103,13 @@ void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
     }
 }
 
-void OknoBadaniaKata::ster_setValue(short silnik, const double &val)
+void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
 {
     if (silnik != nrSilnika)
         return;
+
+    if (!deviceisOk)
+        deviceisOk = true;
 
     if (prevVal == val)
         return;
@@ -122,7 +125,7 @@ void OknoBadaniaKata::ster_setValue(short silnik, const double &val)
 
 }
 
-bool OknoBadaniaKata::getWynikBadania() const
+bool OknoBadaniaMaksymalnegoKata::getWynikBadania() const
 {
     return wynikBadania;
 }

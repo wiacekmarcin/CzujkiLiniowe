@@ -14,6 +14,9 @@
 class OknoBadaniaTlumienia;
 class OknoZerowanieUrzadzenia;
 class OknoBadaniaKata;
+class OknoCzekaniaBadanieKatowe;
+class OknoBadanieReakcji6dB;
+class OknoBadaniaMaksymalnegoKata;
 
 class ProceduraTestowa
 {
@@ -60,7 +63,10 @@ private:
     Ustawienia u;
     OknoBadaniaTlumienia *dlg7;
     OknoZerowanieUrzadzenia *dlg0;
-    OknoBadaniaKata * dlg10;
+    OknoBadaniaKata *dlg10;
+    OknoCzekaniaBadanieKatowe *dlg11;
+    OknoBadanieReakcji6dB * dlg12;
+    OknoBadaniaMaksymalnegoKata * dlg13;
 };
 
 #endif // PROCEDURATESTOWA_H
