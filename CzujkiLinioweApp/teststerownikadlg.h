@@ -21,7 +21,8 @@ public:
 
     void sd_kontrolerConfigured(int state);
     void sd_deviceName(QString name);
-    void sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    //void sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void sd_setPositionDone(short silnik, RuchSilnikaType r);
     void sd_setParamsDone(bool success);
     void sd_disconnect();
     void sd_setZdarzenieSilnik(short silnik, short zdarzenie);

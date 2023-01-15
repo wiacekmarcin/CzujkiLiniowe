@@ -146,7 +146,7 @@ const QVector<DaneTestu> &ParametryBadania::getTesty() const
     return testy;
 }
 
-const QString &ParametryBadania::getNazwaPierwszego() const
+const QString &ParametryBadania::getNazwaNumerPierwszego() const
 {
     return nazwaPierwszego;
 }
@@ -156,7 +156,7 @@ void ParametryBadania::setNazwaPierwszego(const QString &newNazwaPierwszego)
     nazwaPierwszego = newNazwaPierwszego;
 }
 
-const QString &ParametryBadania::getNazwaDrugiego() const
+const QString &ParametryBadania::getNazwaNumerDrugiego() const
 {
     return nazwaDrugiego;
 }

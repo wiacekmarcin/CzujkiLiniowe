@@ -1,7 +1,7 @@
 #ifndef OKNOZEROWANIEURZADZENIA_H
 #define OKNOZEROWANIEURZADZENIA_H
 
-class Sterownik;
+#include "sterownik.h"
 class QCheckBox;
 
 #include <QDialog>
@@ -19,8 +19,8 @@ public:
     explicit OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik * device, QWidget *parent = nullptr);
     ~OknoZerowanieUrzadzenia();
 
-    void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
-
+    //void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void ster_setPositionDone(short silnik, RuchSilnikaType ruch);
 private slots:
     void timeout();
 private:

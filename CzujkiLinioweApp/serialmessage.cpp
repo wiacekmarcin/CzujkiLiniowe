@@ -237,11 +237,17 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             m_parseReply = MOVEHOME_REPLY;
         else
             m_parseReply = POSITION_REPLY;
-
+//TODO ZMIANA
+#if 0
         interMove = (options & 0x08) == 0x08;
         startMove = (options & 0x02) == 0x02;
         errMove = (options & 0x04) == 0x04;
-
+#else
+        interMove = (options & 0x08) == 0x08;
+        startMove = (options & 0x04) == 0x04;
+        errMove = (options & 0x02) == 0x02;
+        qDebug() << __FILE__ << __LINE__ << "I" << interMove << "M" << startMove << "E" << errMove << "H" << homeRet;
+#endif
         if (data.size() >= 4) {
             steps = getNumber(data);
         } else

@@ -53,12 +53,13 @@ OknoZerowanieUrzadzenia::~OknoZerowanieUrzadzenia()
     delete ui;
 }
 
-void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
+//void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    if (!home || move)
+    if (!ruch.home || ruch.move)
         return;
 
-    if (error) {
+    if (ruch.err) {
         if (!errorMsg) {
             errorMsg = true;
             QMessageBox::critical(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),
@@ -66,7 +67,7 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, bool home, bool
             reject();
         }
     }
-    if (interrupt) {
+    if (ruch.inter) {
         if (!errorMsg) {
             errorMsg = true;
             QMessageBox::warning(this, QString::fromUtf8("Czujki Liniowe - zerowanie urządzenia"),

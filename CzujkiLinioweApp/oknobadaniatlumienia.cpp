@@ -45,6 +45,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
 
 
     qDebug() << "__FILE__" << __LINE__;
+    sterResponse = false;
     ster->setFiltrReset();
     tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 
@@ -67,7 +68,7 @@ void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Rozpoczynam zmiane filtra";
-
+    sterResponse = true;
     tmSterownika.stop();
     actTlumPos = 0;
 
@@ -79,12 +80,10 @@ void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "Rozpoczynam zmiane filtra";
     ster->setFiltrPos(pos.at(1).toShort(), pos.at(2).toShort(), pos.at(3).toShort());
-    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 }
 
 void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
 {
-    tmSterownika.stop();
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "Zmiana filtra";
     tmZmFiltra.start();
     ui->progressBar->setValue(0);
@@ -161,8 +160,12 @@ void OknoBadaniaTlumienia::timeoutSterownika()
 {
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
              << "hardware timeout ";
+    if (sterResponse)
+        return;
     error = QString::fromUtf8("Błąd sprzętowy");
     wynikBadania = false;
+    tmZmProgressBar.stop();
+    tmZmFiltra.stop();
     reject();
 }
 
@@ -190,7 +193,7 @@ void OknoBadaniaTlumienia::testValue()
     bool t2 = tmZmProgressBar.isActive();
     if (t2)
         tmZmProgressBar.stop();
-    bool t3 = tmSterownika.isActive();
+    bool t3 = tmSterownika.isActive() || tmSterownika.isSingleShot();
     if (t3)
         tmSterownika.stop();
 

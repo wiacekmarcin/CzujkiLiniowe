@@ -82,6 +82,7 @@ private:
     QString tlumienie;
 
     QString error;
+    bool sterResponse;
 
 };
 

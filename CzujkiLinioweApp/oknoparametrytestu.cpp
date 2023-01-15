@@ -53,10 +53,10 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
     }
 
-    ui->ePierwszy->setText(badanie.getNazwaPierwszego());
-    ui->eDrugi->setText(badanie.getNazwaDrugiego());
-    test->setNazwaPierwszego(badanie.getNazwaPierwszego());
-    test->setNazwaDrugiego(badanie.getNazwaDrugiego());
+    ui->ePierwszy->setText(badanie.getNazwaNumerPierwszego());
+    ui->eDrugi->setText(badanie.getNazwaNumerDrugiego());
+    test->setNazwaPierwszego(badanie.getNazwaNumerPierwszego());
+    test->setNazwaDrugiego(badanie.getNazwaNumerDrugiego());
 
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
     NiewspolosiowoscOsUrzadzenie od;
@@ -93,8 +93,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->poziomNadajnik->setText(badanie.getMaksKatowaNieWspolPoziomaNadajnika());
             ui->pionOdbiornik->setText(badanie.getMaksKatowaNieWspolPionowaOdbiornika());
             ui->poziomOdbiornik->setText(badanie.getMaksKatowaNieWspolPoziomaOdbiornika());
-            ui->etPierwszy->setText(badanie.getNazwaPierwszego());
-            ui->etDrugi->setText(badanie.getNazwaDrugiego());
+            ui->etPierwszy->setText(badanie.getNazwaNumerPierwszego());
+            ui->etDrugi->setText(badanie.getNazwaNumerDrugiego());
             nrCzujkiDoWybrania = 1;
             od.nadajnik.pionowo = badanie.getMaksKatowaNieWspolPionowaNadajnika();
             od.nadajnik.poziomo = badanie.getMaksKatowaNieWspolPoziomaNadajnika();
@@ -116,10 +116,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     connect(ui->wilgotnosc, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->cisnienie, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->temperatura, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
-
-
-
-    changeCzujka(0);
+    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, [this](int) { this->check(); });
+    connect(ui->powtarzalnosc_czas, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     check();
 
 
@@ -156,7 +154,7 @@ void OknoParametryTestu::check1Pomiar()
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niepoprawną wartość"), true);
         } else if (val < 25 || val > 75 ) {
-            addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niezgodną z normą"), false);
+            addError(QString::fromUtf8("Pole 'Wilgotność' zawiera wartość niezgodną z normą"), false);
         }
     }
 
@@ -168,7 +166,7 @@ void OknoParametryTestu::check1Pomiar()
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niepoprawną wartość"), true);
         } else if (val < 860 || val > 1060 ){
-            addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niezgodną z normą"), false);
+            addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera wartość niezgodną z normą"), false);
         }
     }
 
@@ -176,6 +174,7 @@ void OknoParametryTestu::check1Pomiar()
 
 void OknoParametryTestu::check()
 {
+    errorsMsg.clear();
     if (nrPomiar == 1) {
         check1Pomiar();
 
@@ -198,12 +197,25 @@ void OknoParametryTestu::check()
     else {
 //Todo sprawdzenie czujki
         if (test->sprawdzCzyBadanaCzujka(ui->typPierwszy->text(), ui->typDrugi->text())) {
-            ui->errorLab->setText("Wybrana czujka była już badana");
-            ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
+            addError(QString::fromUtf8("Wybrana czujka była już badana"), true);
         }
     }
-    ui->errorLab->setText("Dane sa prawidłowe");
-    ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
+
+    if (ui->cbCzujka->currentIndex() != nrCzujkiDoWybrania-1) {
+        addError(QString::fromUtf8("Zgodnie z normą powinną się wybrać czujkę numer %1").arg(nrCzujkiDoWybrania),
+                 test->getId() != REPRODUCIBILITY);
+    }
+    if (errorsMsg.size() == 0) {
+        ui->errorLab->setText("Dane sa prawidłowe");
+        ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
+    } else {
+        QString h = "<html><body><p style=\"color:red; font-weight:bold;\">Formularz zawiera błędy</p><ul>";
+        for (const auto & err : errorsMsg) {
+            h += err;
+        }
+        h += "</ul></body></html>";
+        ui->errorLab->setText(h);
+    }
 }
 
 void OknoParametryTestu::pbOK_clicked()
@@ -257,6 +269,6 @@ void OknoParametryTestu::addError(const QString &err, bool prio)
     if (prio)
         errorsMsg.push_front(QString("<li><span style=\"color:red; font-weight:bold;\">%1<span></li>").arg(err));
     else
-        errorsMsg.push_back(QString("<li><span style=\"color:yellow; font-weight:bold;\">%1<span></li>").arg(err));
+        errorsMsg.push_back(QString("<li><span style=\"color:maroon; font-weight:bold;\">%1<span></li>").arg(err));
 
 }

@@ -9,12 +9,19 @@
 #include <QByteArray>
 #include <QVector>
 #include <QEventLoop>
+#include <QSerialPort>
 
-#include "serialmessage.h"
 #include "ustawienia.h"
 #include "sterownik_worker.h"
 
 #define NEWINTERFACE
+
+struct RuchSilnikaType {
+    bool home;
+    bool move;
+    bool err;
+    bool inter;
+};
 
 
 #ifdef NEWINTERFACE
@@ -38,7 +45,7 @@ public:
 public slots:
     void setPos(unsigned short pA, unsigned short pB, unsigned short pC);
     void setZero();
-    void setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void setPositionDone(short silnik, RuchSilnikaType ruch);
 signals:
     void zerowanieFiltrowDone();
     void ukladFiltrowDone();
@@ -150,7 +157,7 @@ signals:
     void paramsDone(int address, bool success, bool silnik);
     void kontrolerConfigured(int state);
     void deviceName(QString name);
-    void positionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void positionDone(short silnik, RuchSilnikaType ruch);
     void zdarzenieSilnik(short silnik, short zdarzenie);
     void czujkaOn();
     void progressImp(short silnik, unsigned int position);

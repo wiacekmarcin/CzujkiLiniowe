@@ -16,8 +16,8 @@ OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *pa
     ui->wilgotnosc->setText(test.getWilgotnosc());
     ui->testName->setText(test.getName());
 
-    ui->ePierwszy->setText(test.getNazwaPierwszego());
-    ui->eDrugi->setText(test.getNazwaDrugiego());
+    ui->ePierwszy->setText(test.getNazwaNumerPierwszego());
+    ui->eDrugi->setText(test.getNazwaNumerDrugiego());
 
     ui->powtarzalnosc_czas->setVisible(test.getId() == REPEATABILITY);
     ui->ePowtarzalnosc->setVisible(test.getId() == REPEATABILITY);

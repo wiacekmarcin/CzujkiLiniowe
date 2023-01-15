@@ -16,7 +16,16 @@ public:
     ~Ustawienia();
     static double wyliczPredkosc(const double & ratioImpJedn, const double & impTime);
     static unsigned long wyliczImp(const double & ratioImpJedn, const double & speed);
-    unsigned long wyliczPozycje(short silnik, unsigned long middle, unsigned long max, const double & ratioImpJedn, const double & x);
+    unsigned long wyliczPozycje(short silnik, unsigned long middle, unsigned long max,
+                                const double & ratioImpJedn, const double & x) const;
+    unsigned long wyliczPozycje(short nrSilnika, const double & x) const
+    { return wyliczPozycje(nrSilnika, getMotorIloscImpSrodek(nrSilnika), getMotorMaksIloscImp(nrSilnika),
+                           getMotorPrzelozenieImpJedn(nrSilnika), x); }
+
+    unsigned long predkoscRoboczaImp(short nrSilnika) const
+    { return getMotorCzasMiedzyImpNormal(nrSilnika); }
+
+
     double convertImp2Value(short silnik, unsigned long impPos);
 
     double getFiltr_prc(unsigned short dlugoscfali, const char & nrTarczy, const short & nrPos) const;

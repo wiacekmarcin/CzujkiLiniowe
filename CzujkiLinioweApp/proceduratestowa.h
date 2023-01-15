@@ -13,6 +13,7 @@
 
 class OknoBadaniaTlumienia;
 class OknoZerowanieUrzadzenia;
+class OknoBadaniaKata;
 
 class ProceduraTestowa
 {
@@ -25,7 +26,9 @@ public:
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar silnik, bool zerowanie);
-    void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    //void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void ster_setPositionDone(short silnik, RuchSilnikaType ruch);
+    void ster_setValue(short silnik, const double & val);
     void zas_value(int kind, int value);
     void czujkaOn();
     DaneTestu &getDane();
@@ -34,6 +37,7 @@ protected:
     bool Odtwarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
+
 
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
@@ -47,6 +51,7 @@ private:
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool nowait, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
+    short pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust);
 private:
     QWidget* parent;
     DaneTestu dane;
@@ -55,6 +60,7 @@ private:
     Ustawienia u;
     OknoBadaniaTlumienia *dlg7;
     OknoZerowanieUrzadzenia *dlg0;
+    OknoBadaniaKata * dlg10;
 };
 
 #endif // PROCEDURATESTOWA_H

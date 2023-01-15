@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
+   <string>Test - badanie wartości tłumienia</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="9" column="1">

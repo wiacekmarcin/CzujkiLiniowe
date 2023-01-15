@@ -324,26 +324,27 @@ void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
     pozycja[silnik]->setText(QString::number(val));
 }
 
-void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void TestSterownikaDlg::sd_setPositionDone(short silnik, RuchSilnikaType r)
+//void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
     addDebug(QString("[Silnik %1] %2 <%3> {Przerwanie:%4 Błąd:%5").arg(silnik).
-             arg(move ? "rozpoczął ruch" : "zakończył ruch").
-             arg(home ? "Powrót do bazy" : "Ustawiona pozycja").
-             arg(interrupt ? "T" : "N").
-             arg(error ? "T" : "N"));
+             arg(r.move ? "rozpoczął ruch" : "zakończył ruch").
+             arg(r.home ? "Powrót do bazy" : "Ustawiona pozycja").
+             arg(r.inter ? "T" : "N").
+             arg(r.err ? "T" : "N"));
 
     if (silnik < 1 || silnik > 9)
         return;
 
     // w ruchu
-    if (move) {
+    if (r.move) {
         ikonyRuchu[silnik].first->setStyleSheet("background-color:blue");
-        if (!home)
+        if (!r.home)
             ikonyRuchu[silnik].second->setStyleSheet("background-color:blue");
     }
 
-    if (home) {
-        if (!error) {
+    if (r.home) {
+        if (!r.err) {
             addDebug(QString("Zerowanie silnika %1 zakończyło się poprawnie").arg(silnik));
             ikonyRuchu[silnik].first->setStyleSheet("background-color:green");
         } else {
@@ -351,8 +352,8 @@ void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, b
             ikonyRuchu[silnik].first->setStyleSheet("background-color:red");
         }
     } else {
-        if (!error) {
-            if (move) {
+        if (!r.err) {
+            if (r.move) {
                 ikonyRuchu[silnik].second->setStyleSheet("background-color:blue");
                 addDebug(QString("Rozpoczynam ustawianie pozycji silnika %1").arg(silnik));
             } else {

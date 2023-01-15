@@ -195,11 +195,15 @@ void MainWindow::ster_deviceName(QString name)
         dlgTestStan->deviceNameSter(name);
 }
 
-void MainWindow::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+//void MainWindow::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void MainWindow::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
 {
-    ui->centralwidget->ster_setPositionDone(silnik, home, move, error, interrupt);
-    if (dlgTestSter)
-        dlgTestSter->sd_setPositionDone(silnik, home, move, error, interrupt);
+    //ui->centralwidget->ster_setPositionDone(silnik, home, move, error, interrupt);
+    ui->centralwidget->ster_setPositionDone(silnik, ruch);
+    if (dlgTestSter) {
+        //dlgTestSter->sd_setPositionDone(silnik, home, move, error, interrupt);
+        dlgTestSter->sd_setPositionDone(silnik, ruch);
+    }
 }
 
 void MainWindow::ster_zdarzenieSilnik(short silnik, short zdarzenie)
@@ -220,6 +224,7 @@ void MainWindow::ster_czujkaOn()
 void MainWindow::ster_progressImp(short silnik, unsigned int position)
 {
     double valReal = u.convertImp2Value(silnik, position);
+    ui->centralwidget->ster_setValue(silnik, valReal);
     if (dlgTestSter)
         dlgTestSter->sd_setValue(silnik, valReal);
     if (dlgTestStan)
@@ -462,7 +467,19 @@ void MainWindow::actionSterownik_triggered()
 
 void MainWindow::actionParametryBadania_triggered()
 {
-
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
+    if (dlg->exec() == QDialog::Rejected) {
+        setWindowTitle("Czujniki Liniowe");
+        setWindowModified(false);
+        delete dlg;
+        return;
+    }
+    if (!b.getTestOdtwarzalnosci()) {
+        ui->centralwidget->setBadanie(b);
+        setWindowTitle("Czujniki Liniowe");
+        setWindowModified(false);
+    }
+    delete dlg;
 }
 
 void MainWindow::actionZamknijBadanie_triggered()

@@ -13,6 +13,7 @@ SOURCES += \
     listabadan.cpp \
     oczekiwanienaurzadzenia.cpp \
     odtwarzalnoscwyniki.cpp \
+    oknobadaniakata.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -55,6 +56,7 @@ HEADERS += \
     listabadan.h \
     oczekiwanienaurzadzenia.h \
     odtwarzalnoscwyniki.h \
+    oknobadaniakata.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -97,6 +99,7 @@ FORMS += \
     mainwindow.ui \
     oczekiwanienaurzadzenia.ui \
     odtwarzalnoscwyniki.ui \
+    oknobadaniakata.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \

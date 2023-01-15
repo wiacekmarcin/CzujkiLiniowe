@@ -11,6 +11,7 @@
 #include "oknobadaniatlumienia.h"
 #include "oknowynikbadaniatlumienia.h"
 #include "oknopodsumowanietestu.h"
+#include "oknobadaniakata.h"
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
@@ -20,7 +21,8 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     zas(nullptr),
     ster(nullptr),
     dlg7(nullptr),
-    dlg0(nullptr)
+    dlg0(nullptr),
+    dlg10(nullptr)
 {
 
 }
@@ -49,10 +51,19 @@ void ProceduraTestowa::flt_bladFiltrow(QChar silnik, bool zerowanie)
         dlg7->flt_bladFiltrow(silnik, zerowanie);
 }
 
-void ProceduraTestowa::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void ProceduraTestowa::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
+//void ProceduraTestowa::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
+    /*
     if (dlg0)
         dlg0->ster_setPositionDone(silnik, home, move, error, interrupt);
+    if (dlg10)
+        dlg10->ster_setPositionDone(silnik, home, move, error, interrupt);
+        */
+    if (dlg0)
+        dlg0->ster_setPositionDone(silnik, ruch);
+    if (dlg10)
+        dlg10->ster_setPositionDone(silnik, ruch);
 }
 
 void ProceduraTestowa::zas_value(int kind, int value)
@@ -60,10 +71,19 @@ void ProceduraTestowa::zas_value(int kind, int value)
 
 }
 
+void ProceduraTestowa::ster_setValue(short silnik, const double & val)
+{
+    if (dlg10)
+        dlg10->ster_setValue(silnik, val);
+}
+
 void ProceduraTestowa::czujkaOn()
 {
     if (dlg7)
-        dlg7->czujkaOn();
+       dlg7->czujkaOn();
+
+    if (dlg10)
+        dlg10->czujkaOn();
 }
 
 bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -72,6 +92,7 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     zas = zas_;
     ster = ster_;
 
+    dane = DaneTestu();
     dane.setId(id);
     dane.setName(nameTest);
     dane.setDlugoscFali(b.getDlugoscFaliFiltrow());
@@ -265,6 +286,8 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
         return false;
 
 
+    pomiarKata(daneBadania, ust);
+
     return true;
 }
 
@@ -392,6 +415,24 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
     }
     return 0;
 }
+
+short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaNumerPierwszego());
+    dlg10 = new OknoBadaniaKata(1, dane.getName(), ptitle,
+                                dane.getKatyProducenta().nadajnik.poziomo,
+                                ust, ster, parent);
+    bool ret = dlg10->exec();
+    qDebug() << "ret=" << ret;
+
+    QString error = dlg10->getError();
+    qDebug() << "erorr" << error.toStdString().c_str();
+    delete dlg10;
+    dlg10 = nullptr;
+    return 0;
+}
+
+
 
 
 DaneTestu &ProceduraTestowa::getDane()

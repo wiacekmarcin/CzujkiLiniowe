@@ -16,9 +16,7 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, ParametryBadania 
     checkValidTmr.setInterval(1000);
     checkValidTmr.start();
     connect(ui->pbOK, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
-    connect(ui->pbOK, &QPushButton::pressed, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
-    connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->pbCancel_clicked(); });
 }
 
 ParametryBadaniaDlg::~ParametryBadaniaDlg()

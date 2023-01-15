@@ -7,6 +7,8 @@
 #include <QElapsedTimer>
 #include <QEventLoop>
 
+#include "serialmessage.h"
+
 #ifdef NEWINTERFACE
 
 #define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
@@ -120,38 +122,38 @@ void SterownikFiltrow::setZero()
     actPosfA = actPosfB = actPosfC = 0;
 }
 
-void SterownikFiltrow::setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void SterownikFiltrow::setPositionDone(short silnik, RuchSilnikaType r)
 {
-    qDebug() << __FILE__ << __LINE__ << silnik << home << move << error << interrupt;
-    if (silnik != nrSilnikFA && silnik != nrSilnikFB && silnik != nrSilnikFC)
+    qDebug() << __FILE__ << __LINE__ << silnik << "home" << r.home << "move" << r.move << "error" << r.err << "interrupt" << r.inter;
+    if (silnik != nrSilnikFA &&  silnik != nrSilnikFB && silnik != nrSilnikFC)
         return;
 
     if (!setMove)
         return;
 
-    qDebug() << "Filtr " << (silnik == nrSilnikFA ? "A" : (silnik == nrSilnikFC ? "B" : "C")) << (home ? "wyzerowany" : "ustawiony") << "Blad" << error;
-    if (error) {
+    qDebug() << "Filtr " << (silnik == nrSilnikFA ? "A" : (silnik == nrSilnikFC ? "B" : "C")) << (r.home ? "wyzerowany" : "ustawiony") << "Blad" << r.err;
+    if (r.err) {
         QMutexLocker lock(&mutex);
         fARuch = false;
         fBRuch = false;
         fCRuch = false;
-        emit bladFiltrow((silnik == nrSilnikFA ? 'A' : (silnik == nrSilnikFB ? 'B' : 'C')), home);
+        emit bladFiltrow((silnik == nrSilnikFA ? 'A' : (silnik == nrSilnikFB ? 'B' : 'C')), r.home);
         return ;
     }
 
     if (silnik == nrSilnikFA) {
         QMutexLocker lock(&mutex);
-        fARuch = move;
+        fARuch = r.move;
     } else if (silnik == nrSilnikFB) {
         QMutexLocker lock(&mutex);
-        fBRuch = move;
+        fBRuch = r.move;
     } else if (silnik == nrSilnikFC) {
         QMutexLocker lock(&mutex);
-        fCRuch = move;
+        fCRuch = r.move;
     }
 
     if (!isRuch()) {
-        if (home) {
+        if (r.home) {
             qDebug() << "Zerowanie fitrow zakonczone";
             setMove = false;
             emit zerowanieFiltrowDone();
@@ -279,7 +281,7 @@ void Sterownik::setParams(short nrSilnika, bool reverse, unsigned int maxImpulse
 {
     if (!connected())
         writer.command(SterownikWriter::CONNECT, QByteArray());
-    if (nrSilnika > 0 || nrSilnika < 10) {
+    if (nrSilnika > 0 && nrSilnika < 10) {
         writer.command(SterownikWriter::SET_PARAMS, SerialMessage::configMotorMsg(
                            nrSilnika, reverse, maxImpulse, baseImpulse, middleImpulse));
     } else if (nrSilnika == 0){
@@ -567,7 +569,7 @@ void Sterownik::parseMessage(QByteArray &reply)
         }
 
         DEBUGSER(QString("Parse Msg success %1").arg(errMap[msg.getParseReply()]));
-
+            RuchSilnikaType ruch;
         switch(msg.getParseReply())
         {
         case SerialMessage::INVALID_REPLY:
@@ -585,13 +587,22 @@ void Sterownik::parseMessage(QByteArray &reply)
             break;
 
         case SerialMessage::MOVEHOME_REPLY:
-            filtry.setPositionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
-            emit positionDone(msg.getSilnik(), true, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
+            ruch.home = true;
+            ruch.move = msg.getStartMove();
+            ruch.err = msg.getErrMove();
+            ruch.inter = msg.getInterMove();
+            filtry.setPositionDone(msg.getSilnik(), ruch);
+            emit positionDone(msg.getSilnik(), ruch);
             break;
 
         case SerialMessage::POSITION_REPLY:
-            filtry.setPositionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
-            emit positionDone(msg.getSilnik(), false, msg.getStartMove(), msg.getErrMove(), msg.getInterMove());
+            ruch.home = false;
+            ruch.move = msg.getStartMove();
+            ruch.err = msg.getErrMove();
+            ruch.inter = msg.getInterMove();
+            filtry.setPositionDone(msg.getSilnik(), ruch);
+
+            emit positionDone(msg.getSilnik(), ruch);
             break;
 
         case SerialMessage::CZUJKA_ZW_REPLY:

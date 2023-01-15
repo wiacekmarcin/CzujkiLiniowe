@@ -117,10 +117,10 @@ public:
     QString getErrStr() const;
     void setErrStr(const QString & err);
 
-    const QString &getNazwaPierwszego() const;
+    const QString &getNazwaNumerPierwszego() const;
     void setNazwaPierwszego(const QString &newNazwaPierwszego);
 
-    const QString &getNazwaDrugiego() const;
+    const QString &getNazwaNumerDrugiego() const;
     void setNazwaDrugiego(const QString &newNazwaDrugiego);
 
     int getDlugoscFali() const;
@@ -134,6 +134,12 @@ public:
 
     const NiewspolosiowoscOsUrzadzenie &getKatyProducenta() const;
     void setKatyProducenta(const NiewspolosiowoscOsUrzadzenie &newKatyProducenta);
+
+    const QString &getNazwaTypPierwszego() const;
+    void setNazwaTypPierwszego(const QString &newNazwaTypPierwszego);
+
+    const QString &getNazwaTypDrugiego() const;
+    void setNazwaTypDrugiego(const QString &newNazwaTypDrugiego);
 
 private:
     short id;
@@ -154,8 +160,10 @@ private:
     float CrepCmin;
     bool ok;
     QString errStr;
-    QString nazwaPierwszego;
-    QString nazwaDrugiego;
+    QString nazwaNumerPierwszego;
+    QString nazwaNumerDrugiego;
+    QString nazwaTypPierwszego;
+    QString nazwaTypDrugiego;
 
     int dlugoscFali;
     unsigned int czasPowtarzalnosci;

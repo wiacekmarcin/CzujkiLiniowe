@@ -49,7 +49,9 @@ unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &sp
     return  round(60 * 1000000 / impCnt);
 }
 
-unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle, unsigned long max, const double &ratioImpJedn, const double &x)
+unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle,
+                                        unsigned long max, const double &ratioImpJedn,
+                                        const double &x) const
 {
     if (ratioImpJedn == 0)
         return 0;

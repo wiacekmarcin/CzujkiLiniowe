@@ -175,9 +175,16 @@ void ListaBadan::flt_bladFiltrow(QChar filtr, bool zerowanie)
     procedura.flt_bladFiltrow(filtr, zerowanie);
 }
 
-void ListaBadan::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
+void ListaBadan::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
+//void ListaBadan::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    procedura.ster_setPositionDone(silnik, home, move, error, interrupt);
+    //procedura.ster_setPositionDone(silnik, home, move, error, interrupt);
+    procedura.ster_setPositionDone(silnik, ruch);
+}
+
+void ListaBadan::ster_setValue(short silnik, const double & val)
+{
+    procedura.ster_setValue(silnik, val);
 }
 
 void ListaBadan::ster_czujkaOn()

@@ -40,10 +40,12 @@ DaneTestu::DaneTestu():
     CrepCmin(0.0),
     ok(false),
     errStr(""),
-    nazwaPierwszego(""),
-    nazwaDrugiego(""),
+    nazwaNumerPierwszego(""),
+    nazwaNumerDrugiego(""),
     dlugoscFali(0),
-    czasPowtarzalnosci(0)
+    czasPowtarzalnosci(0),
+    nazwaTypPierwszego(""),
+    nazwaTypDrugiego("")
 {
     katyProducenta.nadajnik.pionowo = "0";
     katyProducenta.nadajnik.poziomo = "0";
@@ -119,8 +121,10 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.CrepCmin
         << dane.ok
         << dane.errStr
-        << dane.nazwaPierwszego
-        << dane.nazwaDrugiego
+        << dane.nazwaNumerPierwszego
+        << dane.nazwaNumerDrugiego
+        << dane.nazwaTypPierwszego
+        << dane.nazwaTypDrugiego
         << dane.dlugoscFali
         << dane.czasPowtarzalnosci
         << dane.katyProducenta.nadajnik.pionowo
@@ -151,8 +155,10 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.CrepCmin
         >> dane.ok
         >> dane.errStr
-        >> dane.nazwaPierwszego
-        >> dane.nazwaDrugiego
+        >> dane.nazwaNumerPierwszego
+        >> dane.nazwaNumerDrugiego
+        >> dane.nazwaTypPierwszego
+        >> dane.nazwaTypDrugiego
         >> dane.dlugoscFali
         >> dane.czasPowtarzalnosci
         >> dane.katyProducenta.nadajnik.pionowo
@@ -386,24 +392,24 @@ void DaneTestu::setErrStr(const QString & newErr)
     errStr = newErr;
 }
 
-const QString &DaneTestu::getNazwaPierwszego() const
+const QString &DaneTestu::getNazwaNumerPierwszego() const
 {
-    return nazwaPierwszego;
+    return nazwaNumerPierwszego;
 }
 
 void DaneTestu::setNazwaPierwszego(const QString &newNazwaPierwszego)
 {
-    nazwaPierwszego = newNazwaPierwszego;
+    nazwaNumerPierwszego = newNazwaPierwszego;
 }
 
-const QString &DaneTestu::getNazwaDrugiego() const
+const QString &DaneTestu::getNazwaNumerDrugiego() const
 {
-    return nazwaDrugiego;
+    return nazwaNumerDrugiego;
 }
 
 void DaneTestu::setNazwaDrugiego(const QString &newNazwaDrugiego)
 {
-    nazwaDrugiego = newNazwaDrugiego;
+    nazwaNumerDrugiego = newNazwaDrugiego;
 }
 
 int DaneTestu::getDlugoscFali() const
@@ -450,4 +456,24 @@ const NiewspolosiowoscOsUrzadzenie &DaneTestu::getKatyProducenta() const
 void DaneTestu::setKatyProducenta(const NiewspolosiowoscOsUrzadzenie &newKatyProducenta)
 {
     katyProducenta = newKatyProducenta;
+}
+
+const QString &DaneTestu::getNazwaTypPierwszego() const
+{
+    return nazwaTypPierwszego;
+}
+
+void DaneTestu::setNazwaTypPierwszego(const QString &newNazwaTypPierwszego)
+{
+    nazwaTypPierwszego = newNazwaTypPierwszego;
+}
+
+const QString &DaneTestu::getNazwaTypDrugiego() const
+{
+    return nazwaTypDrugiego;
+}
+
+void DaneTestu::setNazwaTypDrugiego(const QString &newNazwaTypDrugiego)
+{
+    nazwaTypDrugiego = newNazwaTypDrugiego;
 }

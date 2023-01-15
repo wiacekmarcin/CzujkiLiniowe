@@ -20,8 +20,8 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->numerDrugi->setText(daneTestu.getNumerOdbiornika());
     ui->testName->setText(daneTestu.getName());
 
-    ui->ePierwszy->setText(daneTestu.getNazwaPierwszego());
-    ui->eDrugi->setText(daneTestu.getNazwaDrugiego());
+    ui->ePierwszy->setText(daneTestu.getNazwaNumerPierwszego());
+    ui->eDrugi->setText(daneTestu.getNazwaNumerDrugiego());
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

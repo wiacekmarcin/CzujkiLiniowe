@@ -38,10 +38,10 @@ public:
 
     const QVector<DaneTestu> &getTesty() const;
 
-    const QString &getNazwaPierwszego() const;
+    const QString &getNazwaNumerPierwszego() const;
     void setNazwaPierwszego(const QString &newNazwaPierwszego);
 
-    const QString &getNazwaDrugiego() const;
+    const QString &getNazwaNumerDrugiego() const;
     void setNazwaDrugiego(const QString &newNazwaDrugiego);
 
     void setDaneTestu(short id, const DaneTestu & dane);

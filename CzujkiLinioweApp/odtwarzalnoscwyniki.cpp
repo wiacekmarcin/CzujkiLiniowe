@@ -23,8 +23,8 @@ OdtwarzalnoscWyniki::~OdtwarzalnoscWyniki()
 void OdtwarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
-    pierwszy = daneTestu.getNazwaPierwszego();
-    drugi = daneTestu.getNazwaDrugiego();
+    pierwszy = daneTestu.getNazwaNumerPierwszego();
+    drugi = daneTestu.getNazwaNumerDrugiego();
 
     if (podsumowanie) {
         headTable(pierwszy, drugi);

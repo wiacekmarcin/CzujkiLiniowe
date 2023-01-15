@@ -7,6 +7,7 @@
 #include "danetestu.h"
 #include "proceduratestowa.h"
 #include "ustawienia.h"
+#include "sterownik.h"
 
 class Zasilacz;
 class Sterownik;
@@ -26,7 +27,9 @@ public:
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar filtr, bool zerowanie);
-    void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    //void ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt);
+    void ster_setPositionDone(short silnik, RuchSilnikaType ruch);
+    void ster_setValue(short silnik, const double & val);
     void ster_czujkaOn();
     void zas_value(int kind, int value);
 
