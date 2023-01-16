@@ -15,7 +15,7 @@ class ParametryBadaniaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit ParametryBadaniaDlg(const Ustawienia &u, ParametryBadania * d, QWidget *parent = nullptr);
+    explicit ParametryBadaniaDlg(bool editData, const Ustawienia &u, ParametryBadania * d, QWidget *parent = nullptr);
     ~ParametryBadaniaDlg();
 private slots:
     void checkValid();

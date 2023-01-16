@@ -20,7 +20,7 @@ class ParametryBadaniaCzujkiDlg : public QWidget
 public:
     explicit ParametryBadaniaCzujkiDlg(QWidget *parent = nullptr);
     ~ParametryBadaniaCzujkiDlg();
-    void init(const Ustawienia & u, ParametryBadania * badanie, QLabel *err);
+    void init(bool edit, const Ustawienia & u, ParametryBadania * badanie, QLabel *err);
     bool check();
     void save(ParametryBadania * badanie);
 protected:

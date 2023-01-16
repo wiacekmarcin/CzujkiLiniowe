@@ -1,7 +1,7 @@
 #include "parametrybadaniadlg.h"
 #include "ui_parametrybadaniadlg.h"
 
-ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, ParametryBadania *d, QWidget *parent) :
+ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, ParametryBadania *d, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::ParametryBadaniaDlg),
     dane(d),
@@ -9,8 +9,8 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(const Ustawienia & u, ParametryBadania 
 {
     ui->setupUi(this);
     //ui->error->setVisible(false);
-    ui->tabBadanie->init(u, d, ui->error);
-    ui->tabCzujki->init(u, d, ui->error);
+    ui->tabBadanie->init(editData, u, d, ui->error);
+    ui->tabCzujki->init(editData, u, d, ui->error);
 
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);
     checkValidTmr.setInterval(1000);

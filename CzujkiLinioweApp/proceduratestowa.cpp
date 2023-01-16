@@ -184,6 +184,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
 
         } while(powtorzPomiar);
     }
+
     {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania));

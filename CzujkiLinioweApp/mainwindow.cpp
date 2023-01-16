@@ -311,7 +311,7 @@ void MainWindow::flt_bladFiltrow(QChar filtr, bool zerowanie)
 
 void MainWindow::actionParametry_Badania_triggered()
 {
-    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(true, u, &b, this);
     dlg->exec();
 
 }
@@ -361,7 +361,7 @@ void MainWindow::actionNoweBadanie_triggered()
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(true);
     b = ParametryBadania();
-    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(false, u, &b, this);
     if (dlg->exec() == QDialog::Rejected) {
         fileDaneBadania = "";
         setWindowTitle("Czujniki Liniowe");
@@ -370,9 +370,6 @@ void MainWindow::actionNoweBadanie_triggered()
         return;
     }
 
-    b.addTest(REPRODUCIBILITY);
-    b.addTest(REPEATABILITY);
-    b.addTest(TOLERANCE_TO_BEAM_MISALIGNMENT);
     ui->centralwidget->setBadanie(b);
     ui->actionStartTestu->setEnabled(true);
     ui->actionParametryBadania->setEnabled(true);
@@ -453,6 +450,14 @@ void MainWindow::actionOtworzBadanie_triggered()
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(false);
     b.load(fileDaneBadania);
+    ui->centralwidget->setBadanie(b);
+    ui->actionStartTestu->setEnabled(true);
+    ui->actionParametryBadania->setEnabled(true);
+    ui->actionUsunBadanie->setEnabled(true);
+    ui->actionZapiszJako->setEnabled(true);
+    ui->actionZapiszZadanie->setEnabled(true);
+    ui->actionUsunBadanie->setEnabled(true);
+    ui->centralwidget->setVisible(true);
 }
 
 void MainWindow::actionUsunBadanie_triggered()
@@ -467,7 +472,7 @@ void MainWindow::actionSterownik_triggered()
 
 void MainWindow::actionParametryBadania_triggered()
 {
-    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(u, &b, this);
+    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(true, u, &b, this);
     if (dlg->exec() == QDialog::Rejected) {
         setWindowTitle("Czujniki Liniowe");
         setWindowModified(false);

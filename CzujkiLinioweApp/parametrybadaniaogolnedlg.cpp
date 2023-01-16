@@ -28,7 +28,7 @@ ParametryBadaniaOgolneDlg::~ParametryBadaniaOgolneDlg()
     delete ui;
 }
 
-void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, ParametryBadania *badanie, QLabel * err)
+void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBadania *badanie, QLabel * err)
 {
     errorLabel = err;
     minVolt = u.getMinNapiecieCzujki();
@@ -95,16 +95,20 @@ void ParametryBadaniaOgolneDlg::init(const Ustawienia &u, ParametryBadania *bada
 
 
 #ifdef DEFVAL
-    ui->numerZlecenia->setText("Numer zlecenia");
-    ui->numerTestu->setText("Numer Testu");
-    ui->osobaOdpowiedzialna->setText("Osoba odpowiedzialna");
-    ui->czasPomiedzyZmianamifiltra->setText("10");;
-    ui->napiecieZasilaniain->setText("12.0");
-    ui->typCentraliSygnalizacji->setText("Centrala sygnalizacji");
-    ui->czasStabilizacjiCzujki->setText("15");
-    ui->pradAlarmu->setText("50");
-    ui->rbInsideSupply->setChecked(true);
-    ui->rbPrad->setChecked(true);
+    if (!edit && !o) {
+        ui->numerZlecenia->setText("Numer zlecenia");
+        ui->numerTestu->setText("Numer Testu");
+        ui->osobaOdpowiedzialna->setText("Osoba odpowiedzialna");
+        ui->czasPomiedzyZmianamifiltra->setText("10");;
+        ui->napiecieZasilaniain->setText("12.0");
+        setWewnetrznyZasilacz(true);
+        ui->typCentraliSygnalizacji->setText("Centrala sygnalizacji");
+        ui->czasStabilizacjiCzujki->setText("15");
+        ui->pradAlarmu->setText("50");
+        ui->rbInsideSupply->setChecked(true);
+        ui->rbPrad->setChecked(true);
+        setWyzwolenieAlarmu(false);
+    }
 #endif
 }
 

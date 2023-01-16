@@ -34,9 +34,7 @@ public:
     bool getTestOdtwarzalnosci() const;
     void setTestOdtwarzalnosci(bool newTestOdtwarzalnossci);
 
-    void addTest(short testId);
-
-    const QVector<DaneTestu> &getTesty() const;
+    const QMap<int, DaneTestu> &getTesty() const;
 
     const QString &getNazwaNumerPierwszego() const;
     void setNazwaPierwszego(const QString &newNazwaPierwszego);
@@ -47,13 +45,23 @@ public:
     void setDaneTestu(short id, const DaneTestu & dane);
 
     void posortuj();
+    const QString &getNazwaPierwszy() const;
+    void setNazwaPierwszy(const QString &newNazwaPierwszy);
+
+    const QString &getNazwaDrugi() const;
+    void setNazwaDrugi(const QString &newNazwaDrugi);
+
+    short getSortedId(short id) const;
+
 private:
     bool testOdtwarzalnosci;
     QVector<QPair<QString, QString>> numbersCzujki;
     QVector<short> sortedId;
-    QVector<DaneTestu> testy;
-    QString nazwaPierwszego;
-    QString nazwaDrugiego;
+    QMap<int, DaneTestu> testy;
+    QString nazwaNumerPierwszego;
+    QString nazwaNumerDrugiego;
+    QString nazwaPierwszy;
+    QString nazwaDrugi;
 };
 
 #endif // PARAMETRYBADANIA_H

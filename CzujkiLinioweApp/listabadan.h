@@ -17,6 +17,12 @@ namespace Ui {
 class ListaBadan;
 }
 
+struct testWidget {
+    QWidget * page;
+    QWidget * wyniki;
+    QPushButton * button;
+};
+
 class ListaBadan : public QWidget
 {
     Q_OBJECT
@@ -41,7 +47,7 @@ public:
 protected:
     void initialTable(const ParametryBadania &badanie);
     void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
-    void addOdtwarzalnoscRekord(short num, short nrPomiaru, const QString &numerNadajnika, const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc, bool ok, const QString &error);
+    void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika, const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc, bool ok, const QString &error);
 private slots:
     void on_tableWidget_cellClicked(int row, int column);
 
@@ -56,7 +62,7 @@ private:
     bool zasilaczZewnetrzny;
     bool badanieWTrakcie;
     unsigned intCurrAlarm;
-    QMap<int, QWidget*> testyWidget;
+    QMap<int, testWidget> testyWidget;
 };
 
 #endif // LISTABADAN_H

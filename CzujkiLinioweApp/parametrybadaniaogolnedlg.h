@@ -20,7 +20,7 @@ public:
     explicit ParametryBadaniaOgolneDlg(QWidget *parent = nullptr);
     ~ParametryBadaniaOgolneDlg();
 
-    void init(const Ustawienia & u, ParametryBadania * badanie, QLabel * errLab);
+    void init(bool edit, const Ustawienia & u, ParametryBadania * badanie, QLabel * errLab);
     void save(ParametryBadania * badanie);
     bool check();
 protected:

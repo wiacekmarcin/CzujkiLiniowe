@@ -39,6 +39,24 @@ ParametryBadania::ParametryBadania()
     setRozstawienieMinCzujki(0);
     setRozstawienieMaxCzujki(0);
     setIloscCzujek(0);
+
+    DaneTestu odtwarzalnosc;
+    odtwarzalnosc.setId(REPRODUCIBILITY);
+    odtwarzalnosc.setName("Odtwarzalność");
+    testy[REPRODUCIBILITY] = odtwarzalnosc;
+
+    DaneTestu powtarzalnosc;
+    powtarzalnosc.setId(REPEATABILITY);
+    powtarzalnosc.setName("Powtarzalność");
+    testy[REPEATABILITY] = powtarzalnosc;
+
+    DaneTestu zaleznosckierunkowa;
+    zaleznosckierunkowa.setId(REPEATABILITY);
+    zaleznosckierunkowa.setName("Zależność kierunkowa");
+    testy[TOLERANCE_TO_BEAM_MISALIGNMENT] = zaleznosckierunkowa;
+
+
+
 }
 
 ParametryBadania::ParametryBadania(const ParametryBadania &e):
@@ -48,7 +66,13 @@ ParametryBadania::ParametryBadania(const ParametryBadania &e):
     this->numbersCzujki = e.numbersCzujki;
     this->sortedId.clear();
     this->sortedId = e.sortedId;
-}
+    this->testy.clear();
+    this->testy = e.testy;
+    this->nazwaNumerPierwszego = e.nazwaNumerPierwszego;
+    this->nazwaNumerDrugiego = e.nazwaNumerDrugiego;
+    this->nazwaPierwszy = e.nazwaPierwszy;
+    this->nazwaDrugi = e.nazwaDrugi;
+};
 
 ParametryBadania &ParametryBadania::operator=(const ParametryBadania &e)
 {
@@ -57,6 +81,12 @@ ParametryBadania &ParametryBadania::operator=(const ParametryBadania &e)
     this->numbersCzujki = e.numbersCzujki;
     this->sortedId.clear();
     this->sortedId = e.sortedId;
+    this->testy.clear();
+    this->testy = e.testy;
+    this->nazwaNumerPierwszego = e.nazwaNumerPierwszego;
+    this->nazwaNumerDrugiego = e.nazwaNumerDrugiego;
+    this->nazwaPierwszy = e.nazwaPierwszy;
+    this->nazwaDrugi = e.nazwaDrugi;
     return *this;
 }
 
@@ -131,39 +161,29 @@ void ParametryBadania::setTestOdtwarzalnosci(bool newTestOdtwarzalnossci)
     testOdtwarzalnosci = newTestOdtwarzalnossci;
 }
 
-void ParametryBadania::addTest(short testId)
-{
-    ListaTestow lt;
-    DaneTestu test;
-    test.setId(testId);
-    test.setWykonany(false);
-    test.setName(lt.nazwyTestow.at(testId));
-    testy.append(test);
-}
-
-const QVector<DaneTestu> &ParametryBadania::getTesty() const
+const QMap<int, DaneTestu> &ParametryBadania::getTesty() const
 {
     return testy;
 }
 
 const QString &ParametryBadania::getNazwaNumerPierwszego() const
 {
-    return nazwaPierwszego;
+    return nazwaNumerPierwszego;
 }
 
 void ParametryBadania::setNazwaPierwszego(const QString &newNazwaPierwszego)
 {
-    nazwaPierwszego = newNazwaPierwszego;
+    nazwaNumerPierwszego = newNazwaPierwszego;
 }
 
 const QString &ParametryBadania::getNazwaNumerDrugiego() const
 {
-    return nazwaDrugiego;
+    return nazwaNumerDrugiego;
 }
 
 void ParametryBadania::setNazwaDrugiego(const QString &newNazwaDrugiego)
 {
-    nazwaDrugiego = newNazwaDrugiego;
+    nazwaNumerDrugiego = newNazwaDrugiego;
 }
 
 void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
@@ -177,13 +197,14 @@ void ParametryBadania::posortuj()
 {
     short tmp[7] = { -1, -1, -1, -1, -1, -1, -1};
     short wyk[7] = { -1, -1, -1, -1, -1, -1, -1};
-    if (testy.at(0).getId() != REPRODUCIBILITY)
+
+    if (!testy[REPRODUCIBILITY].getWykonany())
         return;
 
-    if (testy.size() < 2)
+    if (testy[REPRODUCIBILITY].getDaneBadanCzujek().size() < 2)
         return;
 
-    auto pomiary =  testy.at(0).getDaneBadanCzujek();
+    auto pomiary = testy[REPRODUCIBILITY].getDaneBadanCzujek();
     float max1 = 0, max2 = 0;
     short pmax1 = -1, pmax2 = -1;
     for (int pos = 0; pos < pomiary.size(); ++pos) {
@@ -195,7 +216,7 @@ void ParametryBadania::posortuj()
         if (!ok) continue;
         wyk[pos] = pomiary[pos].nrCzujki;
         if (val > max1) {
-            pmax1 = pomiary[pos].nrCzujki;
+            pmax1 = pos;
             max1 = val;
         }
     }
@@ -206,17 +227,49 @@ void ParametryBadania::posortuj()
 
         if (pos == pmax1) continue;
         if (val > max2) {
-            pmax2 = pomiary[pos].nrCzujki;
+            pmax2 = pos;
             max2 = val;
         }
     }
     for (int pos = 0; pos < pomiary.size(); ++pos) {
         if (pos == pmax1 || pos == pmax2)
             continue;
-        sortedId.append(pos);
+        if (wyk[pos] == -1)
+        sortedId.append(wyk[pos]);
     }
-    sortedId.append(pmax2 < 0 ? 0 : pmax2);
-    sortedId.append(pmax1 < 0 ? 1 : pmax1);
+    if (pmax2 != -1)
+        sortedId.append(wyk[pmax2]);
+    if (pmax1 != -1)
+        sortedId.append(wyk[pmax1]);
+}
+
+const QString &ParametryBadania::getNazwaPierwszy() const
+{
+    return nazwaPierwszy;
+}
+
+void ParametryBadania::setNazwaPierwszy(const QString &newNazwaPierwszy)
+{
+    nazwaPierwszy = newNazwaPierwszy;
+}
+
+const QString &ParametryBadania::getNazwaDrugi() const
+{
+    return nazwaDrugi;
+}
+
+void ParametryBadania::setNazwaDrugi(const QString &newNazwaDrugi)
+{
+    nazwaDrugi = newNazwaDrugi;
+}
+
+short ParametryBadania::getSortedId(short index) const
+{
+    if (index >= numbersCzujki.size() )
+        return -1;
+    if (index >= sortedId.size())
+        return -1;
+    return sortedId[index];
 }
 
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
@@ -225,9 +278,11 @@ QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
     out << dane.testOdtwarzalnosci;
     out << dane.numbersCzujki;
     out << dane.sortedId;
+    out << dane.nazwaNumerPierwszego;
+    out << dane.nazwaNumerDrugiego;
+    out << dane.nazwaPierwszy;
+    out << dane.nazwaDrugi;
     out << dane.testy;
-    out << dane.nazwaPierwszego;
-    out << dane.nazwaDrugiego;
     return out;
 }
 
@@ -237,9 +292,11 @@ QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
     in >> dane.testOdtwarzalnosci;
     in >> dane.numbersCzujki;
     in >> dane.sortedId;
+    in >> dane.nazwaNumerPierwszego;
+    in >> dane.nazwaNumerDrugiego;
+    in >> dane.nazwaPierwszy;
+    in >> dane.nazwaDrugi;
     in >> dane.testy;
-    in >> dane.nazwaPierwszego;
-    in >> dane.nazwaDrugiego;
     return in;
 }
 

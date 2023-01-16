@@ -222,8 +222,10 @@ void OknoPodsumowanieTestu::obliczOdtwarzalnosc(DaneTestu &daneTestu)
     }
     if (cntAvg)
         Cavg = Cavg/cntAvg;
+
     daneTestu.setOk(badanieOk);
     daneTestu.setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
     if (cntAvg && Cavg) {
         daneTestu.setCrep(Cavg);
         daneTestu.setCmin(Cmin);

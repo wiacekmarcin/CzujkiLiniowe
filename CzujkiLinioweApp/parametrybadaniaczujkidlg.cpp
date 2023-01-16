@@ -39,7 +39,7 @@ ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()
     delete ui;
 }
 
-void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *badanie, QLabel *err)
+void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBadania *badanie, QLabel *err)
 {
     (void)u;
     errorLabel = err;
@@ -52,7 +52,7 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
     palette.setBrush(QPalette::Inactive, QPalette::Base, brush1);
     palette.setBrush(QPalette::Disabled, QPalette::Base, brush);
 
-
+    short maxNoEmptyRows = 0;
     for (short nrCz = 0; nrCz < maxNumCzujek; ++nrCz)
     {
         QLineEdit * n = new QLineEdit(ui->frameCzujki);
@@ -67,7 +67,7 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
         n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-        auto row = badanie->getNumeryCzujki(false, nrCz);
+        auto row = badanie->getNumeryCzujki(nrCz, false);
 
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
@@ -79,8 +79,6 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
             this->czujkaNrEdited(nrCz);
         });
 
-
-
         QLineEdit * d = new QLineEdit(ui->frameCzujki);
         d->setObjectName(QString("drugiNumer%1").arg(nrCz+1));
         d->setReadOnly(nrCz > 0);
@@ -90,8 +88,27 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
         connect(d, &QLineEdit::textChanged, [this, nrCz](const QString &) {
             this->czujkaNrEdited(nrCz);
         });
+        if (!row.first.isEmpty() || !row.second.isEmpty()) {
+            maxNoEmptyRows = nrCz;
+        }
         m_numbers.push_back(qMakePair(p,d));
+
+        if (badanie->getTestOdtwarzalnosci()) {
+            QLineEdit * s = new QLineEdit(ui->frameCzujki);
+            s->setObjectName(QString("PoSortowanyNumer%1").arg(nrCz+1));
+            s->setPalette(palette);
+            s->setFrame(true);
+            s->setEchoMode(QLineEdit::Normal);
+            s->setAlignment(Qt::AlignCenter);
+            s->setReadOnly(true);
+            s->setText(QString::number(badanie->getSortedId(nrCz)+1));
+            s->setMinimumSize(QSize(20, 0));
+            s->setMaximumSize(QSize(30, 50));
+            ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 3, 1, 1);
+        }
     }
+    for (short n = 0; n <= maxNoEmptyRows; ++n )
+        czujkaNrEdited(n);
 
     ui->comboBox->setCurrentIndex(badanie->getSystemOdbiornikNadajnik() ? 0 : 1);
     switchOdbiornikReflektor(badanie->getSystemOdbiornikNadajnik());
@@ -122,23 +139,25 @@ void ParametryBadaniaCzujkiDlg::init(const Ustawienia &u, ParametryBadania *bada
     }
 
 #ifdef DEFVAL
-    ui->typPierwszy->setText("Rodzaj nadajnika");
-    ui->producent->setText("Producent");
-    ui->typDrugi->setText("Rodzaj odbiornika");
-    ui->rozstawienieMinimalne->setText("1.0");
-    ui->rozstawienieMaksymalne->setText("10.0");
-    ui->pierwszy_ospozioma->setText("0.51");
-    ui->pierwszy_ospionowa->setText("0.52");
-    ui->drugi_ospozioma->setText("0.53");
-    ui->drugi_ospionowa->setText("0.54");
+    if (!edit && !o) {
+        ui->typPierwszy->setText("Rodzaj nadajnika");
+        ui->producent->setText("Producent");
+        ui->typDrugi->setText("Rodzaj odbiornika");
+        ui->rozstawienieMinimalne->setText("1.0");
+        ui->rozstawienieMaksymalne->setText("10.0");
+        ui->pierwszy_ospozioma->setText("0.51");
+        ui->pierwszy_ospionowa->setText("0.52");
+        ui->drugi_ospozioma->setText("0.53");
+        ui->drugi_ospionowa->setText("0.54");
 
-    auto cw1 = m_numbers.at(0);
-    cw1.first->setText("Nadajnik1");
-    cw1.second->setText("Odbiornik1");
+        auto cw1 = m_numbers.at(0);
+        cw1.first->setText("Nadajnik1");
+        cw1.second->setText("Odbiornik1");
 
-    auto cw2 = m_numbers.at(1);
-    cw2.first->setText("Nadajnik2");
-    cw2.second->setText("Odbiornik2");
+        auto cw2 = m_numbers.at(1);
+        cw2.first->setText("Nadajnik2");
+        cw2.second->setText("Odbiornik2");
+    }
 #endif
 
 
