@@ -108,6 +108,7 @@ void SterownikFiltrow::setZero()
     //    emit ukladFiltrowDone();
     //    return;
     //}
+    isSoftReset = true;
     do {
         QMutexLocker lock(&mutex);
         fARuch = true;
@@ -153,9 +154,10 @@ void SterownikFiltrow::setPositionDone(short silnik, RuchSilnikaType r)
     }
 
     if (!isRuch()) {
-        if (r.home) {
+        if (r.home || isSoftReset) {
             qDebug() << "Zerowanie fitrow zakonczone";
             setMove = false;
+            isSoftReset = false;
             emit zerowanieFiltrowDone();
         } else {
             qDebug() << "Pozycjonowanie filtrow zakonczone";

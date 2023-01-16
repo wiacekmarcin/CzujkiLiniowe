@@ -18,7 +18,7 @@ class OknoBadanieReakcji6dB : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoBadanieReakcji6dB(unsigned int dlugoscFali,
+    explicit OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, unsigned int dlugoscFali, const double & wartTlum, 
                           const QString & name, const QString &subtitle, const Ustawienia &ust,
                           Sterownik * ster_, QWidget *parent = 0);
     ~OknoBadanieReakcji6dB();

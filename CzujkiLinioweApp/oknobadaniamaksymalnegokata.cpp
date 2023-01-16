@@ -9,7 +9,7 @@
 
 OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
                                  const QString & podtitle,
-                                 const QString & kat,
+                                 const dobule & kat,
                                  const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
@@ -28,8 +28,8 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     ui->maxkat->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
 
     unsigned int speed = ust.predkoscRoboczaImp(nrSilnika);
-    unsigned int impulsy = ust.wyliczPozycje(nrSilnika, kat.toDouble());
-    destPos = kat.toDouble();
+    unsigned int impulsy = ust.wyliczPozycje(nrSilnika, kat);
+    destPos = kat;
     speedMin = ust.wyliczPredkosc(ust.getMotorPrzelozenieImpJedn(nrSilnika), speed);
     ui->speed->setText(QString("<html><body>%1 &deg; / <sub>min<sub></body></html>").arg(speedMin, 3, 'f', 2));
 

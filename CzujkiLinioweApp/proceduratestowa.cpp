@@ -165,7 +165,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
         }
 
         do {
-            if(!zerowanieSterownika(nrPom == 1, true, false))
+            if(!zerowanieSterownika(nrPom == 1, nrPom == 1, true, false))
                 return false;
 
             if (!zasilenieCzujki(daneBadania))
@@ -220,7 +220,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
                 return false;
         }
 
-        if(!zerowanieSterownika(true, true, false))
+        if(!zerowanieSterownika(true, true, true, false))
             return false;
 
         if (!zasilenieCzujki(daneBadania))
@@ -252,13 +252,13 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
         dane.addNextPomiar();
 
-        if(!zerowanieSterownika(false, true, false))
+        if(!zerowanieSterownika(false, false, true, false))
             return false;
     }
 
     {
         QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-            new OknoStabilizacjaCzujki(1L*3600*72,
+            new OknoStabilizacjaCzujki(ust.getCzasOczekiwaniaPowtarzalnosc4Test(),
                                     dane.getName(), false, parent));
         dlg6->exec();
     }
@@ -299,7 +299,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
             return false;
     }
 
-    if(!zerowanieSterownika(true, true, false))
+    if(!zerowanieSterownika(true, true, true, false))
         return false;
 
     if (!zasilenieCzujki(daneBadania))
@@ -338,7 +338,7 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
 
     if (!dlg->exec()) {
 #ifdef DEFVAL
-
+        return true;
 #else
         return false;
 #endif
@@ -346,22 +346,17 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
     return true;
 }
 
-bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek)
+bool ProceduraTestowa::zerowanieSterownika(bool firsttime, bool ramiona, bool filtry, bool wozek)
 {
-    dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
+    dlg0 = new OknoZerowanieUrzadzenia(firsttime, ramiona, filtry, wozek, ster, parent);
 
-    if (!dlg0->exec()) {
-#ifdef DEFVAL
-
-#else
-        delete dlg0;
-        dlg0 = nullptr;
-        return false;
-#endif
-    }
+    int ret = dlg0->exec();
     delete dlg0;
     dlg0 = nullptr;
-    return true;
+#ifdef DEFVAL
+        return true;
+#endif
+    return ret;
 }
 
 
@@ -369,12 +364,9 @@ bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const 
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
-    if (!dlg3->exec()) {
-        delete dlg3;
-        return false;
-    }
+    int ret = dlg2->exec();
     delete dlg3;
-    return true;
+    return ret;
 }
 
 
@@ -423,8 +415,8 @@ short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool r
         if (dlg8->getPowtorzPomiar()) {
             return 1;
         }
-        if (wynikBadania && tlumienie.toDouble() < 0.4) {
-            dane.setSuccessBadaniaCzujki(false, tlumienie, "Crep<0.4");
+        if (wynikBadania && tlumienie.toDouble() < ust.getMinimalnaWartoscCzujkiCn()) {
+            dane.setSuccessBadaniaCzujki(false, tlumienie, QString("C<%1").arg(ust.getMinimalnaWartoscCzujkiCn()));
         } else {
             dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
         }
@@ -449,7 +441,7 @@ short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Us
     delete dlg10;
     dlg10 = nullptr;
 
-    dlg11 = new OknoCzekaniaBadanieKatowe(120, dane.getName(), ptitle, parent);
+    dlg11 = new OknoCzekaniaBadanieKatowe(ust.getCzasStabilizacjiDlaKataNieWspolosiowosci(), dane.getName(), ptitle, parent);
     if (!dlg11->exec()) {
         //TODO
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas czekania 2 min";
@@ -457,8 +449,14 @@ short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Us
 
     delete dlg11;
     dlg11 = nullptr;
+u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
+u.addZakresy("maksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '120', checkUnsignedIntContent)
+u.addZakresy("maksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '120', checkUnsignedIntContent)
 
-    dlg12 = new OknoBadanieReakcji6dB(daneBadania.getDlugoscFaliFiltrow(), dane.getName(), ptitle, ust, ster, parent);
+    dlg12 = new OknoBadanieReakcji6dB(daneBadania.getMaksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci(), 
+                                        daneBadania.getMaksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
+                                        daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
+                                        dane.getName(), ptitle, ust, ster, parent);
     if (!dlg12->exec()) {
         //TODO
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();
@@ -476,7 +474,7 @@ short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Us
     }
 
     //maks kat
-    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, "15", ust, ster, parent);
+    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksymalnyKatNieWspolOsiowosci(), ust, ster, parent);
     dlg13->exec();
     delete dlg13;
     dlg13 = nullptr;

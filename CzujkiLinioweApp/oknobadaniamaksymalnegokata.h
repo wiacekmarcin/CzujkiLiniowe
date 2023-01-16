@@ -24,7 +24,7 @@ class OknoBadaniaMaksymalnegoKata : public QDialog
 public:
     explicit OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
                              const QString & podtitle,
-                             const QString & kat,
+                             const double & kat,
                              const Ustawienia &ust,
                              Sterownik * ster_, QWidget *parent = 0);
     ~OknoBadaniaMaksymalnegoKata();

@@ -551,6 +551,13 @@ u.addZakresy("maxCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtr
 #u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
 #u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
+u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "long", "toULong", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
+u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
+u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
+u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
+u.addZakresy("maksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '30', checkUnsignedIntContent)
+u.addZakresy("maksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '60', checkUnsignedIntContent)
+u.addZakresy("maksymalnyKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
 u.createHeader()
 u.createSource()
 

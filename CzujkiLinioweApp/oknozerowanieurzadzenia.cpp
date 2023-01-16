@@ -6,7 +6,7 @@
 #include <QMessageBox>
 #include <QRadioButton>
 
-OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik *device, QWidget *parent) :
+OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool firstTime, bool ramiona, bool filtry, bool wozek, Sterownik *device, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZerowanieUrzadzenia),
     timer(this),
@@ -45,7 +45,13 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool
     ui->frame_wozek->setVisible(wozek);
     adjustSize();
 
-    device->setZerowanieUrzadzen(ramiona, filtry, wozek);
+    if (!firstTime && filtry && !ramiona && !wozek)
+    { 
+        device->setZero();
+    } else {
+        device->setZerowanieUrzadzen(ramiona, filtry, wozek);
+    }
+    
     timer.singleShot(5000, this, &OknoZerowanieUrzadzenia::timeout);
 }
 

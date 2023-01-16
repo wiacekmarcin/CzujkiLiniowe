@@ -7,14 +7,14 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
-OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int dlugoscFali,
+OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, unsigned int dlugoscFali, const double & wartTlum, 
                            const QString & name, const QString & subtitle, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoBadanieReakcji6dB),
     tmZmProgressBar(this),
-    timeCzujkaOn(30),
-    timeOknoClose(60),
+    timeCzujkaOn(time1),
+    timeOknoClose(time2),
     posA("0"),
     posB("0"),
     posC("0"),

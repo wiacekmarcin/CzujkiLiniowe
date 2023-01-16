@@ -553,6 +553,12 @@ public:
 	void setMinCzasPoZmianieFiltra(const int & minCzasPoZmianieFiltra);
 	int getMaxCzasPoZmianieFiltra() const;
 	void setMaxCzasPoZmianieFiltra(const int & maxCzasPoZmianieFiltra);
+	long getCzasOczekiwaniaPowtarzalnosc4Test() const;
+	void setCzasOczekiwaniaPowtarzalnosc4Test(const long & czasOczekiwaniaPowtarzalnosc4Test);
+	double getMinimalnaWartoscCzujkiCn() const;
+	void setMinimalnaWartoscCzujkiCn(const double & minimalnaWartoscCzujkiCn);
+	int getCzasStabilizacjiDlaKataNieWspolosiowosci() const;
+	void setCzasStabilizacjiDlaKataNieWspolosiowosci(const int & czasStabilizacjiDlaKataNieWspolosiowosci);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -738,5 +744,8 @@ private:
 	double maxPrzekrPradZasCzujki;
 	int minCzasPoZmianieFiltra;
 	int maxCzasPoZmianieFiltra;
+	long czasOczekiwaniaPowtarzalnosc4Test;
+	double minimalnaWartoscCzujkiCn;
+	int czasStabilizacjiDlaKataNieWspolosiowosci;
 };
 #endif
