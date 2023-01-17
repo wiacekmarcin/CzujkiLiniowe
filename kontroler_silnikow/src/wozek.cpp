@@ -3,7 +3,8 @@
 #include "main.h"
 #include <TimerOne.h>
 
-#define WOZDEBUG 1
+//#define WOZDEBUG 1
+
 #ifdef WOZDEBUG
 #define WSD(X) Serial.print(X)
 #define WSDN(X) Serial.println(X)

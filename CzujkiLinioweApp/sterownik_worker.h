@@ -28,6 +28,7 @@ public:
         SET_POSITION,
         SET_HOME,
         SET_STOP,
+        SET_ENABLE,
         DISCONNECT,
         RESET,
     } Task;

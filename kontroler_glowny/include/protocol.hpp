@@ -19,7 +19,10 @@ class MessageSerial
         RESET_REQUEST,
         STOP_REQUEST,
         STOPALL_REQUEST,
-        ENABLE_REQUEST
+        ENABLE_ALL_ON,
+        ENABLE_ALL_OFF,
+        ENABLE_OFF,
+        ENABLE_ON
     } Work;
 
     typedef enum _msg {

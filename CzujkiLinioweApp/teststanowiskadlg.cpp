@@ -61,6 +61,11 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
         this->ui->etPrzemieszczenie->setEnabled(index == 1);
         this->ui->unitSpeed->setEnabled(index == 1);
         this->ui->unitMove->setEnabled(index == 1);
+        if (index == 3 || index == 5 || index >= 8) {
+            ui->cbNaped->setDisabled(true);
+        } else {
+            ui->cbNaped->setDisabled(false);
+        }
     });
     connect(ui->pbSet, &QPushButton::clicked, this, &TestStanowiskaDlg::rozkaz);
 
@@ -308,6 +313,19 @@ void TestStanowiskaDlg::rozkaz()
     if (nrSilnika < 1 || nrSilnika > 9)
         return;
     short rozkaz = ui->cbRozkaz->currentIndex();
+    //0"Brak"
+    //1"Przemieszczenie"
+    //2"Zatrzymanie wybranego"
+    //3"Zatrzymanie wszystkich"
+    //4"Reset wybranego"
+    //5"Reset wszystkich"
+    //6"Wylaczenie wybranego"
+    //7"Wlaczenie wybranego"
+    //8"Wylaczenie wszystkich"
+    //9"Wlaczenie wszystkich"
+    //10"Restart"
+
+
     switch(rozkaz) {
     case 0: //brak
         return;
@@ -344,46 +362,61 @@ void TestStanowiskaDlg::rozkaz()
         ster->setPositionSilnik(nrSilnika, false, pozycja, speed);
         break;
     }
-    case 2: //wylaczenie wybranego
-    {
-        ster->setEnableMotor(nrSilnika, false);
-        break;
-    }
-    case 3: //zerowanie wybranego
-    {
-        ster->setPositionSilnik(nrSilnika, true, 0, ust->getMotorCzasMiedzyImpZerow(nrSilnika));
-        break;
-    }
-    case 4: //stop wybranego
+    case 2: //stop wybranego
     {
         ster->setStopMotor(nrSilnika);
         break;
     }
-    case 5: //wylacznie wszystkich
-    {
-        ster->setEnableMotorAll(false);
-        break;
-    }
-    case 6: //zerowanie wszystkich
-    {
-        //ster->setPositionSilnik()
-        break;
-    }
-    case 7: //stop wszystkich
+    case 3: //stop wszystkich
     {
         ster->setStopMotorAll();
         break;
     }
-    case 8: //wlaczenie wybranego
+    case 4: //zerowanie wybranego
+    {
+        ster->setPositionSilnik(nrSilnika, true, 0, ust->getMotorCzasMiedzyImpZerow(nrSilnika));
+        break;
+    }
+    case 5: //zerowanie wszystkich
+    {
+        ster->setPositionSilnik(1, true, 0, ust->getMotorCzasMiedzyImpZerow(1));
+        ster->setPositionSilnik(2, true, 0, ust->getMotorCzasMiedzyImpZerow(2));
+        ster->setPositionSilnik(3, true, 0, ust->getMotorCzasMiedzyImpZerow(3));
+        ster->setPositionSilnik(4, true, 0, ust->getMotorCzasMiedzyImpZerow(4));
+        ster->setPositionSilnik(5, true, 0, ust->getMotorCzasMiedzyImpZerow(5));
+        ster->setPositionSilnik(6, true, 0, ust->getMotorCzasMiedzyImpZerow(6));
+        ster->setPositionSilnik(7, true, 0, ust->getMotorCzasMiedzyImpZerow(7));
+        ster->setPositionSilnik(8, true, 0, ust->getMotorCzasMiedzyImpZerow(8));
+        ster->setPositionSilnik(9, true, 0, ust->getMotorCzasMiedzyImpZerow(9));
+        break;
+    }
+
+    case 6: //wylaczenie wybranego
+    {
+        ster->setEnableMotor(nrSilnika, false);
+        break;
+    }
+    case 7: //wlaczenie wybranego
     {
         ster->setEnableMotor(nrSilnika, true);
         break;
     }
-    case 9: //wlaczneie wszystkich
+    case 8: //wylacznie wszystkich
+    {
+        ster->setEnableMotorAll(false);
+        break;
+    }
+    case 9: //wylacznie wszystkich
     {
         ster->setEnableMotorAll(true);
         break;
     }
+    case 10:
+    {
+        ster->setReset();
+        break;
+    }
+
     default:
         break;
     }

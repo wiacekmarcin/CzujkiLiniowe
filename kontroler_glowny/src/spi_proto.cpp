@@ -27,6 +27,8 @@ SPIMessage::SPIMessage()
 , busyPinOk(false)
 , movePinOk(false)
 , stopPinOk(false)
+, enableOnMsg{0, 0, 0}
+, enableOffMsg{0, 0, 0}
 {
     actJob = JOB_ECHO;
 }
@@ -87,6 +89,22 @@ void SPIMessage::init(const uint8_t stopPin, const uint8_t movePin, const uint8_
     }
     confMsg[15] = c.getCRC();
     confLen = 16;
+
+    enableOnMsg[0] = (uint8_t)((MessageSerial::RESET_REQ << 4) & 0xf0);
+    enableOnMsg[1] = (uint8_t)((id << 4) & 0xf0) | 0x02;
+
+    enableOffMsg[0] = (uint8_t)((MessageSerial::RESET_REQ << 4) & 0xf0);
+    enableOffMsg[1] = (uint8_t)((id << 4) & 0xf0) | 0x03;
+
+    c.reset();
+    c.add(enableOnMsg[0]);
+    c.add(enableOnMsg[1]);
+    enableOnMsg[2] = c.getCRC();
+
+    c.reset();
+    c.add(enableOffMsg[0]);
+    c.add(enableOffMsg[1]);
+    enableOffMsg[2] = c.getCRC();
 }
 
 void SPIMessage::sendEchoMsg()
@@ -121,19 +139,23 @@ void SPIMessage::sendConfiguration()
     sendSpiMsg(sendMsg, confLen);
 }
 
-void SPIMessage::sendEnable(uint8_t *msg, uint8_t len)
+void SPIMessage::sendEnable(bool enable)
 {
-    #ifdef DEBUG
+#ifdef DEBUG
     SERIALDBG.print("M");
     SERIALDBG.print(addr, DEC);
     SERIALDBG.print(" Send Enable Msg : [");
-    for (uint8_t s = 0; s < len; s++) {
-        phex(msg[s]);
-    }
+    SERIALDBG.print(enableOnMsg[0], HEX);
+    SERIALDBG.print((enable ? enableOnMsg[1] : enableOffMsg[1]), HEX);
+    SERIALDBG.print(" ");
+    SERIALDBG.print((enable ? enableOnMsg[2] : enableOffMsg[2]), HEX);
     SERIALDBG.println("]");
 #endif
     replyMsgSize = 3;
-    sendSpiMsg(msg, len);  
+    if (enable)
+        sendSpiMsg(enableOnMsg, 3);  
+    else
+        sendSpiMsg(enableOffMsg, 3);  
 }
 
 void SPIMessage::stop()

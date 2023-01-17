@@ -16,7 +16,7 @@
 
 //#define TEST
 
-#define MAINDEBUG
+//#define MAINDEBUG
 #ifdef MAINDEBUG
 	#define MSD(T) Serial.print(T)
 	#define MSDN(T) Serial.println(T)
@@ -127,7 +127,7 @@ void setup()
 	Serial.print(digitalRead(A2) == 0);
 	Serial.println(digitalRead(A1) == 0);
 
-	Serial.print("Addr = ");
+    Serial.print("Addr = ");
 	Serial.println(address, HEX);
 	
 	

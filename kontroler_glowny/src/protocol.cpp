@@ -185,14 +185,22 @@ bool MessageSerial::parseRozkaz()
                     actWork = RESET_REQUEST;
                 } else if ((options & 0x04) == 0x04) {
                     actWork = STOPALL_REQUEST;    
+                } else if ((options & 0x03) == 0x03) {
+                    actWork = ENABLE_ALL_OFF;
+                } else if ((options & 0x02) == 0x02) {
+                    actWork = ENABLE_ALL_ON;
                 }
+                return true;
             }
             else if (address < 10) {
                 if ((options & 0x04) == 0x04) {
                     actWork = STOP_REQUEST;
+                } else if ((options & 0x03) == 0x03) {
+                    actWork = ENABLE_OFF;
                 } else if ((options & 0x02) == 0x02) {
-                    actWork = ENABLE_REQUEST;
+                    actWork = ENABLE_ON;
                 }
+                return true;
             }
             else
                 actWork = NOP;

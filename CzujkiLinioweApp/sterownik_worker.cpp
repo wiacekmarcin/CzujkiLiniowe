@@ -176,6 +176,14 @@ void SterownikWriter::run()
             emit write(msg, 1000);
             break;
 
+        case SET_STOP:
+            emit write(msg, 1000);
+            break;
+
+        case SET_ENABLE:
+            emit write(msg, 1000);
+            break;
+
         case DISCONNECT:
             emit closeDeviceJob();
             break;

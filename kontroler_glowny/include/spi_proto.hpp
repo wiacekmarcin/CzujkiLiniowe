@@ -33,7 +33,8 @@ public:
     bool sendConfigurationWithResponse(uint16_t activeBusy);
     void moveSteps(uint8_t *msg, uint8_t len);
     void stop();
-    void sendEnable(uint8_t *msg, uint8_t len);
+    void sendEnable(bool en);
+
 
     void getReply();
     inline bool isConnected() const { return comunication; }
@@ -56,6 +57,8 @@ private:
     uint8_t echoMsg[3];
     uint8_t confLen;
     uint8_t confMsg[18];
+    uint8_t enableOnMsg[3];
+    uint8_t enableOffMsg[3];
 
     actJobType actJob;
     bool comunication;
@@ -64,6 +67,8 @@ private:
     bool stopPinOk;
 
     uint8_t replyMsgSize;
+
+
 };
 
 #endif

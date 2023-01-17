@@ -2,7 +2,8 @@
 #include <SPI.h>
 #include "crc8.hpp"
 
-//#define PROTODEBUG
+#define PROTODEBUG
+//#define DEBUG_EXT
 
 #ifdef PROTODEBUG
 	#define PSD(T) Serial.print(T)
@@ -134,7 +135,9 @@ Result Message::parse()
     PSD("| ");
     PSD2(crcMsg, HEX); PSDN("]");
    
+    Serial.println(__LINE__, DEC);
     if (c.getCRC() != crcMsg) {
+        Serial.println(__LINE__, DEC);
         PSD("invalid crc (k)");PSD2(crcMsg, HEX);PSD("!=(w)");PSDN2(c.getCRC(), HEX);
         r.ok = false;
         return r;
@@ -143,14 +146,17 @@ Result Message::parse()
     EPSD("cmdMsg=");EPSD2(cmdMsg, DEC);EPSD(" lenMsg");EPSD2(lenMsg, DEC);EPSD(" addr=");EPSDN2(addrMsg, DEC);
 
     if (cmdMsg == ECHO_REQ) {
+        Serial.println(__LINE__, DEC);
         return r;
     }
 
     if (cmdMsg == PROGRESS_REQ) {
+        Serial.println(__LINE__, DEC);
         return r;
     }
     
     if (cmdMsg == CONF_REQ) {
+        Serial.println(__LINE__, DEC);
         r.data.conf.reverse = (options & 0x01) == 0x01;
         r.data.conf.maxStep = toNumber32(dataCmd[0], dataCmd[1], dataCmd[2], dataCmd[3]);
         r.data.conf.baseSteps = toNumber32(dataCmd[4], dataCmd[5], dataCmd[6], dataCmd[7]);
@@ -159,6 +165,7 @@ Result Message::parse()
     }
 
     if (cmdMsg == MOVE_REQ) {
+        Serial.println(__LINE__, DEC);
         r.data.move.isHome = (options & 0x01);
         if (r.data.move.isHome) 
             r.data.move.position = 0;
@@ -169,12 +176,23 @@ Result Message::parse()
     }
 
     if (cmdMsg == RESET_REQ) {
+        Serial.println(__LINE__, DEC);
         if ((options & 0x03) == 0x03) {
             r.data.reset.enableOff = true;
         } else if ((options & 0x02) == 0x02) {
             r.data.reset.enableOff = false;
         }
+        return r;
+
     }
+    for (short i = 0; i < 3; ++i) {
+        Serial.print(recvBuff[0], HEX);
+        Serial.print(" ");
+    }
+    Serial.println("");
+    Serial.println(cmdMsg);
+    Serial.println(cmdMsg);
+    Serial.println(__LINE__, DEC);
     EPSDN("Nieznana wiadomosc");
     r.ok = false;
     return r;
@@ -202,6 +220,7 @@ Msgtype Message::conv(uint8_t m)
         case CONF_REQ << 4: return CONF_REQ;
         case MOVE_REQ << 4: return MOVE_REQ;
         case PROGRESS_REQ << 4: return PROGRESS_REQ;
+        case RESET_REQ << 4: return RESET_REQ;
         default: return INV_MSG;
     }
 }

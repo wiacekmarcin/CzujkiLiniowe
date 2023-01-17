@@ -95,9 +95,9 @@ bool SPIMessage::proceed()
 			continue;
 		}
 
+		Result status = msg.parse();
 		SSD("Mam wiadomosc: ");SSDN(msg.getMsgCmd());
 
-		Result status = msg.parse();
 		if (!status.ok)
 		{
 			SSDN("CMD:Nie poprawna wiadomosc. BUSY OFF");
@@ -295,7 +295,7 @@ void SPIMessage::moveRequest(bool isHome, uint32_t steps, uint32_t delayImp)
 
 void SPIMessage::enableRequest(bool enableOff)
 {
-	SSD("Enable ");SSDN(isEnable ? "Tak" : "Nie");
+	SSD("Enable ");SSDN(enableOff ? "Tak" : "Nie");
     
 	CRC8 crc;
 	crc.restart();

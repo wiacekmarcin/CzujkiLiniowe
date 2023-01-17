@@ -353,6 +353,9 @@ void Sterownik::closeDeviceJob()
 }
 void Sterownik::setReset()
 {
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
         writer.command(SterownikWriter::RESET, SerialMessage::resetSilniki());
     }
@@ -360,6 +363,9 @@ void Sterownik::setReset()
 
 void Sterownik::setStopMotor(short nrSilnik)
 {
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
         writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
     }
@@ -367,30 +373,49 @@ void Sterownik::setStopMotor(short nrSilnik)
 
 void Sterownik::setStopMotorAll()
 {
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
         writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnikAll());
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(1));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(2));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(3));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(4));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(5));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(6));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(7));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(8));
+        //writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(9));
     }
 }
 
 void Sterownik::setEnableMotor(short nrSilnik, bool enable)
 {
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(nrSilnik, enable));
+        writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(nrSilnik, enable));
     }
 }
 
 void Sterownik::setEnableMotorAll(bool enable)
 {
+    if (!connected())
+        writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(1, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(2, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(3, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(4, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(5, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(6, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(7, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(8, enable));
-        writer.command(SterownikWriter::RESET, SerialMessage::enableSilnik(9, enable));
+        writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnikAll(enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(1, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(2, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(3, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(4, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(5, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(6, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(7, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(8, enable));
+        //writer.command(SterownikWriter::SET_ENABLE, SerialMessage::enableSilnik(9, enable));
     }
 }
 
@@ -1060,6 +1085,9 @@ bool Sterownik::openDevice()
 
 void Sterownik::setReset()
 {
+    if (!connected())
+        m_writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
         m_writer.command(SterownikWriter::RESET, SerialMessage::resetSilniki());
     }
@@ -1067,6 +1095,9 @@ void Sterownik::setReset()
 
 void Sterownik::setStopMotor(short nrSilnik)
 {
+    if (!connected())
+        m_writer.command(SterownikWriter::CONNECT, QByteArray());
+
     if (connected()) {
         m_writer.command(SterownikWriter::SET_STOP, SerialMessage::stopSilnik(nrSilnik));
     }

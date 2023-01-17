@@ -11,6 +11,7 @@ MessageSerial msg;
 
 #define DEBUG
 
+#define CZUJKAPIN 2
 
 #include <PinChangeInterrupt.h>
 #include <TimerOne.h>
@@ -27,7 +28,8 @@ uint8_t statusWord[16] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 SPIMessage motors[maxNumSter];
 
 uint8_t czujkaZwMsg[3] = { 0x10, 0x00, 0x57 };
-
+uint8_t czujkaZwContMsg1[3] = { 0x10, 0x03, 0x5E };
+uint8_t czujkaZwContMsg0[3] = { 0x10, 0x02, 0x59 };
 static void readSerial();
 static void configurationLocal();
 static void welcomeMsg();
@@ -36,7 +38,7 @@ static void moveSteps();
 static void resetRequest();
 static void stopRequest();
 static void stopAllRequest();
-static void enableRequest();
+static void enableRequest(bool all, bool enable);
 
 static void checkPins(uint8_t p);
 
@@ -153,7 +155,7 @@ void setup (void)
     attachInterrupt(digitalPinToInterrupt(2), sendZwCzujkiMsg, FALLING);
     
 
-    Timer1.initialize((unsigned long) 250000UL);
+    Timer1.initialize((unsigned long) 500000UL);
     Timer1.attachInterrupt(timerHandler);
 
 
@@ -214,6 +216,12 @@ void loop (void)
 
             delayMicroseconds(50);
         }
+        if (digitalRead(CZUJKAPIN) == LOW) {
+            SERIALOUT.write(czujkaZwContMsg0, 3);
+        } else {
+            //SERIALOUT.write(czujkaZwContMsg1, 3);
+        }
+
     }
 
 
@@ -227,7 +235,11 @@ void loop (void)
     case MessageSerial::RESET_REQUEST: resetRequest(); break;
     case MessageSerial::STOP_REQUEST: stopRequest(); break;
     case MessageSerial::STOPALL_REQUEST: stopAllRequest(); break;
-    case MessageSerial::ENABLE_REQUEST: enableRequest(); break;
+    case MessageSerial::ENABLE_OFF: enableRequest(false, false); break;
+    case MessageSerial::ENABLE_ON: enableRequest(false, true); break;
+    case MessageSerial::ENABLE_ALL_OFF: enableRequest(true, false); break;
+    case MessageSerial::ENABLE_ALL_ON: enableRequest(true, true); break;
+
     default:
     break;
     }
@@ -345,14 +357,24 @@ void stopAllRequest()
     actWork = MessageSerial::NOP;
 }
 
-void enableRequest()
+void enableRequest(bool all, bool en)
 {
 #ifdef DEBUG
-    SERIALDBG.println("enable request");
+    SERIALDBG.print("ENABLE REQUEST");
+    SERIALDBG.print(" all");
+    SERIALDBG.print( all);
+    SERIALDBG.print(" enable");
+    SERIALDBG.println( en);
 #endif 
-    uint8_t motor = msg.getAddress()-1;
-    motors[motor].moveSteps(msg.msg(), msg.len());
-    actWork = MessageSerial::NOP;    
+    if (all) {
+        for (unsigned int n = 0; n < maxNumSter; ++n) {
+            motors[n].sendEnable(en);
+    }
+    } else {
+        uint8_t motor = msg.getAddress()-1; 
+        motors[motor].sendEnable(en);
+    }
+    actWork = MessageSerial::NOP;
 }
 
 volatile unsigned long prevZw = 0;

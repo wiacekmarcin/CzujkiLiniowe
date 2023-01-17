@@ -3,7 +3,8 @@
 #include "main.h"
 #include <TimerOne.h>
 
-#define FLTDEBUG 1
+//#define FLTDEBUG 1
+
 #ifdef FLTDEBUG
 #define FSD(X) Serial.print(X)
 #define FSDN(X) Serial.println(X)
@@ -44,10 +45,16 @@ void Motor::moveHomeFiltr(uint32_t delayImpOrg)
 
     uint32_t steps = 0;
     FSDPN("Czy krancowka", isKrancowka());
+
+    uint32_t backSteps = 3*baseSteps;
+    if (backSteps == 0) {
+        backSteps = maxSteps/10;
+    }
+
     if (isKrancowka()) {
         FSDN("Odjazd");
         setDirBase(false);
-        for (unsigned short n = 0; n < maxSteps/6; n++) {
+        for (unsigned short n = 0; n < backSteps; n++) {
             PULSE_F
             if (mstate == IDLE) //bylo przerwanie
                 return;
@@ -109,36 +116,22 @@ void Motor::movePositionFiltr(int32_t pos, uint32_t delayImpOrg)
 	} else if (pos > globalPos) {
         FSDN("Pos > globalPos");
         d1 = pos - globalPos;
-        d2 = globalPos - pos + maxSteps;
-        FSDP("d1=", d1);FSDPN(" d2=", d2);
-        if (d2 > d1) {
-            diff = 1;
-            newPosition = pos;
-            upVal = d1 - downVal;
-            moveSteps = d1;
-        } else {
-            diff = -1;
-            newPosition = pos;
-            upVal = d2 - downVal;
-            moveSteps = d2;
-        }
+        FSDP("d1=", d1);
+        diff = 1;
+        newPosition = pos;
+        upVal = d1 - downVal;
+        moveSteps = d1;
         FSDP("diff=", diff);FSDP(" newPosition=", newPosition);FSDP(" upVal=", upVal);FSDPN(" moveSteps", moveSteps);
     } else if (pos < globalPos) {
         FSDN("Pos < globalPos");
         d3 = globalPos - pos;
-        d4 = pos - globalPos + maxSteps;
-        FSDP("d3=", d3);FSDPN(" d4=", d4);
-        if (d3 > d4) {
-            newPosition = pos;
-            diff = 1;
-            upVal = d4 - downVal;
-            moveSteps = d4;
-        } else {
-            diff = -1;
-            newPosition = pos;
-            upVal = d3 - downVal;
-            moveSteps = d3;
-        }
+
+        FSDP("d3=", d3);
+       
+        diff = -1;
+        newPosition = pos;
+        upVal = d3 - downVal;
+        moveSteps = d3;
         FSDP("diff=", diff);FSDP(" newPosition=", newPosition);FSDP(" upVal=", upVal);FSDPN(" moveSteps", moveSteps);
     }
     setDirBase(diff < 0);
@@ -207,13 +200,8 @@ void Motor::impulseFiltr()
         return;
     }
 
-    if (globalPos == (int)maxSteps)
-        globalPos = 0;
-    else if (globalPos == 0)
-        globalPos = maxSteps;
     
-    
-    if (actSteps >= maxSteps/2 + 5) {
+    if (actSteps >= maxSteps + 5) {
 		Timer1.stop();
 		setMove(false);
         stopMove(false, true, false, false);

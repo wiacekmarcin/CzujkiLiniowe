@@ -454,7 +454,12 @@
            </item>
            <item>
             <property name="text">
-             <string>Wyłączenie wybranego</string>
+             <string>Zatrzymanie wybranego</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Zatrzymanie wszystkich</string>
             </property>
            </item>
            <item>
@@ -464,7 +469,17 @@
            </item>
            <item>
             <property name="text">
-             <string>Zatrzymanie wybranego</string>
+             <string>Reset wszystkich</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Wyłączenie wybranego</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Włączenie wybranego</string>
             </property>
            </item>
            <item>
@@ -474,12 +489,12 @@
            </item>
            <item>
             <property name="text">
-             <string>Reset wszystkich</string>
+             <string>Włączenie wszystkich</string>
             </property>
            </item>
            <item>
             <property name="text">
-             <string>Zatrzymanie wszystkich</string>
+             <string>Restart</string>
             </property>
            </item>
           </widget>
@@ -948,7 +963,8 @@
     <bool>true</bool>
    </property>
    <property name="icon">
-    <iconset theme="drive-optical"/>
+    <iconset theme="drive-optical">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>M1Move</string>
