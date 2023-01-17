@@ -38,14 +38,15 @@ DaneTestu::DaneTestu():
     Cmax(0.0),
     CmaxCrep(0.0),
     CrepCmin(0.0),
+    CmaxCmin(0.0),
     ok(false),
     errStr(""),
     nazwaNumerPierwszego(""),
     nazwaNumerDrugiego(""),
-    dlugoscFali(0),
-    czasPowtarzalnosci(0),
     nazwaTypPierwszego(""),
-    nazwaTypDrugiego("")
+    nazwaTypDrugiego(""),
+    dlugoscFali(0),
+    czasPowtarzalnosci(0)
 {
     katyProducenta.nadajnik.pionowo = "0";
     katyProducenta.nadajnik.poziomo = "0";
@@ -119,6 +120,7 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.Cmax
         << dane.CmaxCrep
         << dane.CrepCmin
+        << dane.CmaxCmin
         << dane.ok
         << dane.errStr
         << dane.nazwaNumerPierwszego
@@ -153,6 +155,7 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.Cmax
         >> dane.CmaxCrep
         >> dane.CrepCmin
+        >> dane.CmaxCmin
         >> dane.ok
         >> dane.errStr
         >> dane.nazwaNumerPierwszego
@@ -303,6 +306,15 @@ void DaneTestu::setSuccessBadaniaCzujki(bool ok, const QString &value, const QSt
 const QList<DanePomiaru> &DaneTestu::getDaneBadanCzujek() const
 {
     return danePomiarowe;
+}
+
+QString DaneTestu::getNumerCzujki() const
+{
+    if (danePomiarowe.size() > 0) {
+        return QString("-");
+    }
+    else
+        return QString::number(danePomiarowe.first().nrCzujki);
 }
 
 float DaneTestu::getCrep() const
@@ -476,4 +488,14 @@ const QString &DaneTestu::getNazwaTypDrugiego() const
 void DaneTestu::setNazwaTypDrugiego(const QString &newNazwaTypDrugiego)
 {
     nazwaTypDrugiego = newNazwaTypDrugiego;
+}
+
+float DaneTestu::getCmaxCmin() const
+{
+    return CmaxCmin;
+}
+
+void DaneTestu::setCmaxCmin(float newCmaxCmin)
+{
+    CmaxCmin = newCmaxCmin;
 }

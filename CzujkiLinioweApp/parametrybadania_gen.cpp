@@ -60,7 +60,16 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> maksKatowaNieWspolPoziomaNadajnika
 		 >> maksKatowaNieWspolPionowaOdbiornika
 		 >> maksKatowaNieWspolPoziomaOdbiornika
-		 >> iloscCzujek ;
+		 >> iloscCzujek
+		 >> testOdtwarzalnosci
+		 >> nazwaNumerPierwszego
+		 >> nazwaNumerDrugiego
+		 >> nazwaPierwszy
+		 >> nazwaDrugi
+		 >> odtwarzalnoscCmaxCrep
+		 >> odtwarzalnoscCrepCmin
+		 >> odtwarzalnoscCmin
+		 >> powtarzalnoscCmaxCmin ;
 }
 
 void ParametryBadaniaGen::save(QDataStream &out) const
@@ -90,7 +99,16 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << maksKatowaNieWspolPoziomaNadajnika
 		 << maksKatowaNieWspolPionowaOdbiornika
 		 << maksKatowaNieWspolPoziomaOdbiornika
-		 << iloscCzujek ;
+		 << iloscCzujek
+		 << testOdtwarzalnosci
+		 << nazwaNumerPierwszego
+		 << nazwaNumerDrugiego
+		 << nazwaPierwszy
+		 << nazwaDrugi
+		 << odtwarzalnoscCmaxCrep
+		 << odtwarzalnoscCrepCmin
+		 << odtwarzalnoscCmin
+		 << powtarzalnoscCmaxCmin ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
 {
@@ -375,5 +393,104 @@ unsigned short ParametryBadaniaGen::getIloscCzujek() const
 void ParametryBadaniaGen::setIloscCzujek(const unsigned short & value)
 {
 	iloscCzujek = value;
+	change = true;
+}
+
+bool ParametryBadaniaGen::getTestOdtwarzalnosci() const
+{
+	return testOdtwarzalnosci;
+}
+
+void ParametryBadaniaGen::setTestOdtwarzalnosci(const bool & value)
+{
+	testOdtwarzalnosci = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaNumerPierwszego() const
+{
+	return nazwaNumerPierwszego;
+}
+
+void ParametryBadaniaGen::setNazwaNumerPierwszego(const QString & value)
+{
+	nazwaNumerPierwszego = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaNumerDrugiego() const
+{
+	return nazwaNumerDrugiego;
+}
+
+void ParametryBadaniaGen::setNazwaNumerDrugiego(const QString & value)
+{
+	nazwaNumerDrugiego = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaPierwszy() const
+{
+	return nazwaPierwszy;
+}
+
+void ParametryBadaniaGen::setNazwaPierwszy(const QString & value)
+{
+	nazwaPierwszy = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaDrugi() const
+{
+	return nazwaDrugi;
+}
+
+void ParametryBadaniaGen::setNazwaDrugi(const QString & value)
+{
+	nazwaDrugi = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getOdtwarzalnoscCmaxCrep() const
+{
+	return odtwarzalnoscCmaxCrep;
+}
+
+void ParametryBadaniaGen::setOdtwarzalnoscCmaxCrep(const float & value)
+{
+	odtwarzalnoscCmaxCrep = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getOdtwarzalnoscCrepCmin() const
+{
+	return odtwarzalnoscCrepCmin;
+}
+
+void ParametryBadaniaGen::setOdtwarzalnoscCrepCmin(const float & value)
+{
+	odtwarzalnoscCrepCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getOdtwarzalnoscCmin() const
+{
+	return odtwarzalnoscCmin;
+}
+
+void ParametryBadaniaGen::setOdtwarzalnoscCmin(const float & value)
+{
+	odtwarzalnoscCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getPowtarzalnoscCmaxCmin() const
+{
+	return powtarzalnoscCmaxCmin;
+}
+
+void ParametryBadaniaGen::setPowtarzalnoscCmaxCmin(const float & value)
+{
+	powtarzalnoscCmaxCmin = value;
 	change = true;
 }

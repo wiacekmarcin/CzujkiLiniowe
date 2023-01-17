@@ -19,8 +19,10 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPionowaOdbiornika("0.0");
     setSystemOdbiornikNadajnik(true);
     setTestOdtwarzalnosci(false);
-    setNazwaPierwszego("Nadajnik");
-    setNazwaDrugiego("Odbiornik");
+    setNazwaPierwszy("Nadajnik");
+    setNazwaDrugi("Odbiornik");
+    setNazwaNumerPierwszego("Numer nadajnika");
+    setNazwaNumerDrugiego("Numer odbiornika");
 
     setNumerZlecenia("-");
     setNumerTestu("-");
@@ -58,38 +60,6 @@ ParametryBadania::ParametryBadania()
 
 
 }
-
-ParametryBadania::ParametryBadania(const ParametryBadania &e):
-    ParametryBadaniaGen(e)
-{
-    this->numbersCzujki.clear();
-    this->numbersCzujki = e.numbersCzujki;
-    this->sortedId.clear();
-    this->sortedId = e.sortedId;
-    this->testy.clear();
-    this->testy = e.testy;
-    this->nazwaNumerPierwszego = e.nazwaNumerPierwszego;
-    this->nazwaNumerDrugiego = e.nazwaNumerDrugiego;
-    this->nazwaPierwszy = e.nazwaPierwszy;
-    this->nazwaDrugi = e.nazwaDrugi;
-};
-
-ParametryBadania &ParametryBadania::operator=(const ParametryBadania &e)
-{
-    ParametryBadaniaGen::operator=(e);
-    this->numbersCzujki.clear();
-    this->numbersCzujki = e.numbersCzujki;
-    this->sortedId.clear();
-    this->sortedId = e.sortedId;
-    this->testy.clear();
-    this->testy = e.testy;
-    this->nazwaNumerPierwszego = e.nazwaNumerPierwszego;
-    this->nazwaNumerDrugiego = e.nazwaNumerDrugiego;
-    this->nazwaPierwszy = e.nazwaPierwszy;
-    this->nazwaDrugi = e.nazwaDrugi;
-    return *this;
-}
-
 
 void ParametryBadania::load(const QString &fileName)
 {
@@ -129,7 +99,7 @@ QString ParametryBadania::getNumerNadajnika(unsigned int index, bool sorted) con
     if (sorted && index >= sortedId.size())
         return QString();
     if (sorted)
-        return getNumerNadajnika(sortedId[index], false);
+        return getNumerNadajnika(sortedId[index]-1, false);
     else
         return numbersCzujki[index].first;
 }
@@ -141,7 +111,7 @@ QString ParametryBadania::getNumerOdbiornika(unsigned int index, bool sorted) co
     if (sorted && index >= sortedId.size())
         return QString();
     if (sorted)
-        return getNumerNadajnika(sortedId[index], false);
+        return getNumerNadajnika(sortedId[index]-1, false);
     else
         return numbersCzujki[index].second;
 }
@@ -151,39 +121,9 @@ void ParametryBadania::wyczyscCzujki()
     numbersCzujki.clear();
 }
 
-bool ParametryBadania::getTestOdtwarzalnosci() const
-{
-    return testOdtwarzalnosci;
-}
-
-void ParametryBadania::setTestOdtwarzalnosci(bool newTestOdtwarzalnossci)
-{
-    testOdtwarzalnosci = newTestOdtwarzalnossci;
-}
-
 const QMap<int, DaneTestu> &ParametryBadania::getTesty() const
 {
     return testy;
-}
-
-const QString &ParametryBadania::getNazwaNumerPierwszego() const
-{
-    return nazwaNumerPierwszego;
-}
-
-void ParametryBadania::setNazwaPierwszego(const QString &newNazwaPierwszego)
-{
-    nazwaNumerPierwszego = newNazwaPierwszego;
-}
-
-const QString &ParametryBadania::getNazwaNumerDrugiego() const
-{
-    return nazwaNumerDrugiego;
-}
-
-void ParametryBadania::setNazwaDrugiego(const QString &newNazwaDrugiego)
-{
-    nazwaNumerDrugiego = newNazwaDrugiego;
 }
 
 void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
@@ -243,26 +183,6 @@ void ParametryBadania::posortuj()
         sortedId.append(wyk[pmax1]);
 }
 
-const QString &ParametryBadania::getNazwaPierwszy() const
-{
-    return nazwaPierwszy;
-}
-
-void ParametryBadania::setNazwaPierwszy(const QString &newNazwaPierwszy)
-{
-    nazwaPierwszy = newNazwaPierwszy;
-}
-
-const QString &ParametryBadania::getNazwaDrugi() const
-{
-    return nazwaDrugi;
-}
-
-void ParametryBadania::setNazwaDrugi(const QString &newNazwaDrugi)
-{
-    nazwaDrugi = newNazwaDrugi;
-}
-
 short ParametryBadania::getSortedId(short index) const
 {
     if (index >= numbersCzujki.size() )
@@ -275,13 +195,8 @@ short ParametryBadania::getSortedId(short index) const
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);
-    out << dane.testOdtwarzalnosci;
     out << dane.numbersCzujki;
     out << dane.sortedId;
-    out << dane.nazwaNumerPierwszego;
-    out << dane.nazwaNumerDrugiego;
-    out << dane.nazwaPierwszy;
-    out << dane.nazwaDrugi;
     out << dane.testy;
     return out;
 }
@@ -289,13 +204,8 @@ QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::load(in);
-    in >> dane.testOdtwarzalnosci;
     in >> dane.numbersCzujki;
     in >> dane.sortedId;
-    in >> dane.nazwaNumerPierwszego;
-    in >> dane.nazwaNumerDrugiego;
-    in >> dane.nazwaPierwszy;
-    in >> dane.nazwaDrugi;
     in >> dane.testy;
     return in;
 }

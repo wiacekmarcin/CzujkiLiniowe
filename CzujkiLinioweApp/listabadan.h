@@ -43,11 +43,17 @@ public:
 
     void setBadanie(const ParametryBadania & badanie);
 
-    void setDaneTest(DaneTestu &daneTestu, const ParametryBadania &badanie);
+    void setDaneTest(const DaneTestu &daneTestu, const ParametryBadania &badanie);
+    void setUkonczoneBadanie(short id, const ParametryBadania &badanie);
 protected:
     void initialTable(const ParametryBadania &badanie);
     void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
-    void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika, const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc, bool ok, const QString &error);
+    void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika,
+                                const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc,
+                                bool ok, const QString &error);
+    void addPowtarzalnoscRekord(short num, const QString & value_dB, const QString & value_perc, bool ok, const QString & error);
+    void initPowtarzalnoscTable();
+
 private slots:
     void on_tableWidget_cellClicked(int row, int column);
 

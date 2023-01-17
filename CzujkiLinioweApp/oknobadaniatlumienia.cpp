@@ -202,6 +202,7 @@ void OknoBadaniaTlumienia::testValue()
     if (dlg->exec()) {
         tlumienie = dlg->value();
         wynikBadania = true;
+        error = "";
         delete dlg;
         accept();
     } else {

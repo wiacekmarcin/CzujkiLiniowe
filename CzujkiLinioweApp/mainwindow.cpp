@@ -496,7 +496,12 @@ void MainWindow::actionTest_triggered()
 {
     DaneTestu dt;
     ParametryBadania pb;
-    OknoPodsumowanieTestu * dlg = new OknoPodsumowanieTestu(dt, pb,  this);
+    dt.setId(0);
+    dt.addWybranaCzujka(1, "n1", "o1");
+    dt.addWybranaCzujka(2, "n2", "o2");
+    dt.setSuccessBadaniaCzujki(true, "6.2", "");
+    dt.setSuccessBadaniaCzujki(false, "-", "blad sprzetowy");
+    OknoPodsumowanieTestu * dlg = new OknoPodsumowanieTestu(dt, pb, u,  this);
     dlg->exec();
 }
 

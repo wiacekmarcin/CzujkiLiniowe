@@ -41,6 +41,7 @@ protected:
     double toDouble(const QString & val) const { return val.toDouble(); }
     unsigned int toUInt(const QString & val) const { return val.toUInt(); }
     QString toQString(const QString & val) const { return val; }
+    unsigned long toULong(const QString & val) const { return val.toULong(); }
 
 public:    
 /********** GET SET **********/
@@ -551,13 +552,16 @@ u.addZakresy("maxCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtr
 #u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
 #u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
-u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "long", "toULong", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
+u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "unsigned long", "toULong", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
 u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
-u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
+u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
 u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
-u.addZakresy("maksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '30', checkUnsignedIntContent)
-u.addZakresy("maksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '60', checkUnsignedIntContent)
-u.addZakresy("maksymalnyKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
+u.addZakresy("maksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '30', checkUnsignedIntContent)
+u.addZakresy("maksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '60', checkUnsignedIntContent)
+u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
+u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
+u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.33', checkDoubleContent)
+u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

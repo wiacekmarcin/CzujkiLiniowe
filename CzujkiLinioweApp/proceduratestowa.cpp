@@ -165,7 +165,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
         }
 
         do {
-            if(!zerowanieSterownika(nrPom == 1, nrPom == 1, true, false))
+            if(!zerowanieSterownika(nrPom == 1, true, false))
                 return false;
 
             if (!zasilenieCzujki(daneBadania))
@@ -187,7 +187,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
 
     {
         dane.setWykonany(true);
-        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania));
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     }
     return true;
@@ -220,7 +220,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
                 return false;
         }
 
-        if(!zerowanieSterownika(true, true, true, false))
+        if(!zerowanieSterownika(true, true, false))
             return false;
 
         if (!zasilenieCzujki(daneBadania))
@@ -239,6 +239,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
             return false;
     } while (powtorzPomiar != 0);
 
+    dane.addNextPomiar();
 
     for (short num = 0; num < 2; ++num)
     {
@@ -252,7 +253,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
         dane.addNextPomiar();
 
-        if(!zerowanieSterownika(false, false, true, false))
+        if(!zerowanieSterownika(false, true, false))
             return false;
     }
 
@@ -267,7 +268,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     {
         dane.setWykonany(true);
-        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania));
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     }
     return true;
@@ -299,7 +300,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
             return false;
     }
 
-    if(!zerowanieSterownika(true, true, true, false))
+    if(!zerowanieSterownika(true, true, false))
         return false;
 
     if (!zasilenieCzujki(daneBadania))
@@ -346,9 +347,9 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
     return true;
 }
 
-bool ProceduraTestowa::zerowanieSterownika(bool firsttime, bool ramiona, bool filtry, bool wozek)
+bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek)
 {
-    dlg0 = new OknoZerowanieUrzadzenia(firsttime, ramiona, filtry, wozek, ster, parent);
+    dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
 
     int ret = dlg0->exec();
     delete dlg0;
@@ -364,7 +365,7 @@ bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const 
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
-    int ret = dlg2->exec();
+    int ret = dlg3->exec();
     delete dlg3;
     return ret;
 }
@@ -449,12 +450,8 @@ short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Us
 
     delete dlg11;
     dlg11 = nullptr;
-u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
-u.addZakresy("maksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '120', checkUnsignedIntContent)
-u.addZakresy("maksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '120', checkUnsignedIntContent)
-
-    dlg12 = new OknoBadanieReakcji6dB(daneBadania.getMaksymalnyCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci(), 
-                                        daneBadania.getMaksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
+    dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
+                                        ust.getMaksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
                                         dane.getName(), ptitle, ust, ster, parent);
     if (!dlg12->exec()) {
@@ -474,7 +471,7 @@ u.addZakresy("maksymalnyCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "in
     }
 
     //maks kat
-    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksymalnyKatNieWspolOsiowosci(), ust, ster, parent);
+    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksKatNieWspolOsiowosci(), ust, ster, parent);
     dlg13->exec();
     delete dlg13;
     dlg13 = nullptr;

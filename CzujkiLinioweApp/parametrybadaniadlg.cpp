@@ -12,6 +12,11 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     ui->tabBadanie->init(editData, u, d, ui->error);
     ui->tabCzujki->init(editData, u, d, ui->error);
 
+    d->setOdtwarzalnoscCmaxCrep(u.getOdtwarzalnoscCmaxCrep());
+    d->setOdtwarzalnoscCrepCmin(u.getOdtwarzalnoscCrepCmin());
+    d->setOdtwarzalnoscCmin(u.getMinimalnaWartoscCzujkiCn());
+
+
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);
     checkValidTmr.setInterval(1000);
     checkValidTmr.start();

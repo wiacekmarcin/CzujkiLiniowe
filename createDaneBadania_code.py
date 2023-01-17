@@ -97,7 +97,7 @@ void %(className)s::save(QDataStream &out) const
         return val[0].upper() + val[1:]
     
     def createHeader(self):
-        hfile = open('/home/marcin/mar.devel/CzujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
+        hfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
         hfile.write(self.h_HEAD_1)
         hfile.write("\n".join(["\t"+f for f in self.h_public_fun]))
         hfile.write("\nprotected:\n")
@@ -110,7 +110,7 @@ void %(className)s::save(QDataStream &out) const
         hfile.close()
         
     def createSource(self):
-        cfile = open('/home/marcin/mar.devel/CzujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
+        cfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
         cfile.write(self.c_include)
         cfile.write(self.static_c % { 'className' : self.className,
             'in'  : '\n\t\t'.join([' >> %s' % f for f in self.serin]),
@@ -180,6 +180,15 @@ u.addValue("QString", "maksKatowaNieWspolPoziomaOdbiornika");
 u.addValue("unsigned short", "iloscCzujek");
 u.addValue("bool", "testOdtwarzalnosci");
 
+u.addValue("QString", "nazwaNumerPierwszego");
+u.addValue("QString", "nazwaNumerDrugiego");
+u.addValue("QString", "nazwaPierwszy");
+u.addValue("QString", "nazwaDrugi");
+
+u.addValue("float", "odtwarzalnoscCmaxCrep")
+u.addValue("float", "odtwarzalnoscCrepCmin")
+u.addValue("float", "odtwarzalnoscCmin")
+u.addValue("float", "powtarzalnoscCmaxCmin")
 
 
 u.createHeader()

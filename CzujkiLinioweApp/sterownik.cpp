@@ -117,9 +117,9 @@ void SterownikFiltrow::setZero()
     } while (false);
     qDebug() << "setPosition";
     setMove = true;
-    sd->setPositionSilnik(nrSilnikFA, true, 0, speedZerFA);
-    sd->setPositionSilnik(nrSilnikFB, true, 0, speedZerFB);
-    sd->setPositionSilnik(nrSilnikFC, true, 0, speedZerFC);
+    sd->setPositionSilnik(nrSilnikFA, false, 0, speedZerFA);
+    sd->setPositionSilnik(nrSilnikFB, false, 0, speedZerFB);
+    sd->setPositionSilnik(nrSilnikFC, false, 0, speedZerFC);
     actPosfA = actPosfB = actPosfC = 0;
 }
 

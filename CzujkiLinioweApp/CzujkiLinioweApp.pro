@@ -12,7 +12,6 @@ SOURCES += \
     danetestu.cpp \
     listabadan.cpp \
     oczekiwanienaurzadzenia.cpp \
-    odtwarzalnoscwyniki.cpp \
     oknobadaniakata.cpp \
     oknobadaniamaksymalnegokata.cpp \
     oknobadaniereakcji6db.cpp \
@@ -58,7 +57,6 @@ HEADERS += \
     danetestu.h \
     listabadan.h \
     oczekiwanienaurzadzenia.h \
-    odtwarzalnoscwyniki.h \
     oknobadaniakata.h \
     oknobadaniamaksymalnegokata.h \
     oknobadaniereakcji6db.h \
@@ -104,7 +102,6 @@ FORMS += \
     listabadan.ui \
     mainwindow.ui \
     oczekiwanienaurzadzenia.ui \
-    odtwarzalnoscwyniki.ui \
     oknobadaniakata.ui \
     oknobadaniamaksymalnegokata.ui \
     oknobadaniereakcji6db.ui \

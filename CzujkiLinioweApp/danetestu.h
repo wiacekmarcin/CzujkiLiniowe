@@ -92,6 +92,8 @@ public:
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
     QList<DanePomiaru> &getDanePomiarowe() { return danePomiarowe; }
 
+    QString getNumerCzujki() const;
+
     float getCrep() const;
     void setCrep(float newCrep);
 
@@ -142,6 +144,9 @@ public:
     const QString &getNazwaTypDrugiego() const;
     void setNazwaTypDrugiego(const QString &newNazwaTypDrugiego);
 
+    float getCmaxCmin() const;
+    void setCmaxCmin(float newCmaxCmin);
+
 private:
     short id;
     QString name;
@@ -159,6 +164,7 @@ private:
     float Cmax;
     float CmaxCrep;
     float CrepCmin;
+    float CmaxCmin;
     bool ok;
     QString errStr;
     QString nazwaNumerPierwszego;

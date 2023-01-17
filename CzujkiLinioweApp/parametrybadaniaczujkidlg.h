@@ -47,12 +47,18 @@ private:
     static constexpr char etNumerOdbiornika[] = { "Numer odbiornika" };
     static constexpr char etNumerReflektora[] = { "Numer reflektora" };
 
+    static constexpr char etNazwaNadajnika[] = { "Nadajnik" };
+    static constexpr char etNazwaNadajnikaOdbiornika[] = { "Nadajnik-odbiornik" };
+    static constexpr char etNazwaOdbiornika[] = { "Odbiornik" };
+    static constexpr char etNazwaReflektora[] = { "Reflektor" };
+
     static const char* etTypPierwszy[2];
     static const char* etTypDrugi[2];
     static const char* etNumerPierwszy[2];
     static const char* etNumerDrugi[2];
     static const char* etPierwszy[2];
     static const char* etDrugi[2];
+    static const char* etNazwa[4];
 
     static const short maxNumCzujek = 7;
 

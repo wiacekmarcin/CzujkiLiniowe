@@ -82,7 +82,7 @@ private :
     Sterownik *sd;
     QMutex mutex;
     bool setMove;
-    bool isSoftReset
+    bool isSoftReset;
 };
 
 

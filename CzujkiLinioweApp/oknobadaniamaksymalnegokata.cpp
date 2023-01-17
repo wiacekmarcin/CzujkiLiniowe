@@ -9,7 +9,7 @@
 
 OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
                                  const QString & podtitle,
-                                 const dobule & kat,
+                                 const double & kat,
                                  const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),

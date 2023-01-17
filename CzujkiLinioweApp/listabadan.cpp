@@ -60,38 +60,31 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
 
     DaneTestu test = procedura.getDane();
     test.setDataZakonczenia(QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm"));
+    test.setWykonany(true);
     badanie.setDaneTestu(id, test);
-    switch(id){
-        case REPRODUCIBILITY:
-            badanie.posortuj();
-            ui->odtwarzalnoscWyniki->setVisible(true);
-            ui->pbOdtwarzalnosc->setVisible(false);
-            setDaneTest(test, badanie);
-            ui->odtwarzalnoscResult->setText(test.getOk() ? "POZYTYWNY" : QString("NEGATYWNY ") + test.getErrStr());
-            ui->stackedWidget->setCurrentWidget(ui->pOdtwarzalnosc);
-            ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
-            ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
-            ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
-            ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
-            ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
-            ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
-            ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
-            break;
-        case REPEATABILITY:
-            ui->powtarzalnoscWyniki->setVisible(true);
-            ui->pbPowtarzalnosc->setVisible(false);
-            setDaneTest(test, badanie);
-            ui->stackedWidget->setCurrentWidget(ui->powtarzalnoscWidget);
-            ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
-            ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
-            ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
-            ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
-            ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
-            ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
-            ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
-            break;
-    default:
-        break;
+    if (test.getId() == REPRODUCIBILITY)
+        badanie.posortuj();
+    setUkonczoneBadanie(test.getId(), badanie);
+    ui->stackedWidget->setCurrentWidget(testyWidget[test.getId()].page);
+
+
+}
+
+void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
+{
+    const DaneTestu & test = badanie.getTesty()[id];
+    if (test.getWykonany()) {
+        testyWidget[test.getId()].button->setVisible(false);
+        testyWidget[test.getId()].wyniki->setVisible(true);
+        ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
+        ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
+        ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
+        ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
+        ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
+        ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
+        ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
+
+        setDaneTest(test, badanie);
     }
 }
 
@@ -232,7 +225,17 @@ void ListaBadan::zas_value(int kind, int value)
 void ListaBadan::setBadanie(const ParametryBadania &badanie)
 {
     ui->tableWidget->clear();
+    for (auto val : testyWidget)
+    {
+        val.button->setVisible(true);
+        val.wyniki->setVisible(false);
+    }
     initialTable(badanie);
+    const auto & keys = badanie.getTesty().keys();
+    for (const auto & k : keys) {
+        setUkonczoneBadanie(k, badanie);
+    }
+    ui->stackedWidget->setCurrentWidget(testyWidget[0].page);
 }
 
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
@@ -254,35 +257,86 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
     }
 }
 
-void ListaBadan::setDaneTest(DaneTestu &daneTestu, const ParametryBadania & badanie)
+
+#define ADDITEM(T,S,R,C) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setItem(R,C,item); } while(false)
+#define ADDHEADITEM(T,S,R,W) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setHorizontalHeaderItem(R, item); T->setColumnWidth(0, W); } while(false)
+
+
+void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
     pierwszy = daneTestu.getNazwaNumerPierwszego();
     drugi = daneTestu.getNazwaNumerDrugiego();
+
     if (daneTestu.getId() == REPRODUCIBILITY) {
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
+        tableParams->clear();
+
         initOdtwarzalnoscTable(pierwszy, drugi);
-        ui->stackedWidget->setCurrentWidget(ui->pOdtwarzalnosc);
-        tableParams->item(0,0)->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
-        tableParams->item(0,1)->setText("0 %");
-        tableParams->item(1,0)->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
-        tableParams->item(1,1)->setText("0 %");
-        tableParams->item(2,0)->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
-        tableParams->item(2,1)->setText("0 %");
-        tableParams->item(3,0)->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
-        if (daneTestu.getCmaxCrep() > 1.33) {
+        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        ADDITEM(tableParams, "0 %" , 0, 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        ADDITEM(tableParams, "0 %" , 1, 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCrep(), 'f', 2) + " dB", 2, 0);
+        ADDITEM(tableParams, "0 %" , 2, 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3, 0);
+        ADDITEM(tableParams, QString::number(daneTestu.getCrepCmin(), 'f', 2), 4, 0);
+
+        if (daneTestu.getCmaxCrep() > badanie.getOdtwarzalnoscCmaxCrep()) {
             tableParams->item(3, 0)->setBackground(Qt::red);
         }
-        tableParams->item(4,0)->setText(QString::number(daneTestu.getCrepCmin(), 'f', 2));
-        if (daneTestu.getCrepCmin() > 1.5) {
+
+        if (daneTestu.getCrepCmin() > badanie.getOdtwarzalnoscCrepCmin()) {
             tableParams->item(4, 0)->setBackground(Qt::red);
+        }
+
+        if (daneTestu.getOk()) {
+            ui->odtwarzalnoscResult->setText("POZYTYWNY");
+        } else {
+            ui->odtwarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addOdtwarzalnoscRekord(num, dane.nrCzujki, badanie.getSortedId(dane.nrCzujki-1)+1, dane.numerNadajnika, dane.numerOdbiornika,
-                              dane.value_dB, 0, dane.ok, dane.error);
+            addOdtwarzalnoscRekord(num, dane.nrCzujki, badanie.getSortedId(dane.nrCzujki-1),
+                                   dane.numerNadajnika, dane.numerOdbiornika,
+                              dane.value_dB, "0", dane.ok, dane.error);
+            num++;
+        }
+    } else if (daneTestu.getId() == REPEATABILITY) {
+
+        initPowtarzalnoscTable();
+
+        QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
+        ADDHEADITEM(tableCzujka, "Nr czujki", 0, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerPierwszego(), 1, 150);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerDrugiego(), 2, 150);
+        ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, 0);
+        ADDITEM(tableCzujka, daneTestu.getNumerNadajnika(), 0, 1);
+        ADDITEM(tableCzujka, daneTestu.getNumerOdbiornika(), 0, 2);
+
+        QTableWidget * tableParams = ui->powtarzalnoscTableParams;
+        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        ADDITEM(tableParams, "0 %" , 0, 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        ADDITEM(tableParams, "0 %" , 1, 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
+
+        if (daneTestu.getCmaxCmin() > badanie.getPowtarzalnoscCmaxCmin()) {
+            tableParams->item(2, 0)->setBackground(Qt::red);
+        }
+
+        if (daneTestu.getOk()) {
+            ui->powtarzalnoscResult->setText("POZYTYWNY");
+        } else {
+            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+        }
+
+        short num = 0;
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            addPowtarzalnoscRekord(num, dane.value_dB, "0", dane.ok, dane.error);
             num++;
         }
     }
@@ -291,26 +345,47 @@ void ListaBadan::setDaneTest(DaneTestu &daneTestu, const ParametryBadania & bada
 void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik)
 {
     QTableWidget * tablePrzebieg = ui->odtwarzalnoscTablePrzebieg;
-    if (tablePrzebieg->columnCount() < 4)
-        tablePrzebieg->setColumnCount(4);
+    if (tablePrzebieg->columnCount() < 8)
+        tablePrzebieg->setColumnCount(8);
+
+    int col = 0;
+    QTableWidgetItem *nrCzujki = new QTableWidgetItem("Nr czujki");
+    tablePrzebieg->setHorizontalHeaderItem(col, nrCzujki);
+    tablePrzebieg->setColumnWidth(col, 50);
+    ++col;
+
+    QTableWidgetItem *kolCzujki = new QTableWidgetItem("Kol. czujki");
+    tablePrzebieg->setHorizontalHeaderItem(col, kolCzujki);
+    tablePrzebieg->setColumnWidth(col, 50);
+    ++col;
 
     QTableWidgetItem *itemNadajnik = new QTableWidgetItem(nadajnik);
-    tablePrzebieg->setHorizontalHeaderItem(0, itemNadajnik);
-    tablePrzebieg->setColumnWidth(0, 130);
+    tablePrzebieg->setHorizontalHeaderItem(col, itemNadajnik);
+    tablePrzebieg->setColumnWidth(col, 130);
+    ++col;
 
     QTableWidgetItem *itemOdbiornik = new QTableWidgetItem(odbiornik);
-    tablePrzebieg->setHorizontalHeaderItem(1, itemOdbiornik);
-    tablePrzebieg->setColumnWidth(1, 130);
+    tablePrzebieg->setHorizontalHeaderItem(col, itemOdbiornik);
+    tablePrzebieg->setColumnWidth(col, 130);
+    ++col;
 
     QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
-    tablePrzebieg->setHorizontalHeaderItem(2, cn1);
-    tablePrzebieg->setColumnWidth(2, 50);
+    tablePrzebieg->setHorizontalHeaderItem(col, cn1);
+    tablePrzebieg->setColumnWidth(col, 50);
+    ++col;
 
     QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
-    tablePrzebieg->setHorizontalHeaderItem(3, cn2);
-    tablePrzebieg->setColumnWidth(3, 50);
+    tablePrzebieg->setHorizontalHeaderItem(col, cn2);
+    tablePrzebieg->setColumnWidth(col, 50);
+    ++col;
 
+    QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
+    tablePrzebieg->setHorizontalHeaderItem(col, itemUwagi);
+    tablePrzebieg->setColumnWidth(col, 130);
+    ++col;
 
+    tablePrzebieg->setMaximumWidth(500);
+    tablePrzebieg->setMinimumWidth(500);
 }
 
 void ListaBadan::addOdtwarzalnoscRekord(short num, short nrCzujki, short sortPomiar, const QString & numerNadajnika, const QString & numerOdbiornika,
@@ -323,37 +398,83 @@ void ListaBadan::addOdtwarzalnoscRekord(short num, short nrCzujki, short sortPom
     tablePrzebieg->setVerticalHeaderItem(row, itemVert);
 
     int col = 0;
+
     QTableWidgetItem *item0 = new QTableWidgetItem(QString::number(nrCzujki));
-    ui->tableWidget->setItem(row, col++, item0);
+    tablePrzebieg->setItem(row, col++, item0);
 
     QTableWidgetItem *item1 = new QTableWidgetItem(QString::number(sortPomiar));
-    ui->tableWidget->setItem(row, col++, item0);
-
-    QTableWidgetItem *item2 = new QTableWidgetItem(numerNadajnika);
     tablePrzebieg->setItem(row, col++, item1);
 
-    QTableWidgetItem *item3 = new QTableWidgetItem(numerOdbiornika);
+    QTableWidgetItem *item2 = new QTableWidgetItem(numerNadajnika);
     tablePrzebieg->setItem(row, col++, item2);
 
-    if (ok) {
-        QTableWidgetItem *item4 = new QTableWidgetItem(value_dB);
-        tablePrzebieg->setItem(row, col++, item3);
+    QTableWidgetItem *item3 = new QTableWidgetItem(numerOdbiornika);
+    tablePrzebieg->setItem(row, col++, item3);
 
-        QTableWidgetItem *item5 = new QTableWidgetItem(value_perc);
-        tablePrzebieg->setItem(row, col++, item4);
-    } else {
-        QTableWidgetItem *item3 = new QTableWidgetItem(value_dB);
-        tablePrzebieg->setItem(row, col++, item3);
+    QTableWidgetItem *item4 = new QTableWidgetItem(value_dB);
+    tablePrzebieg->setItem(row, col++, item4);
 
-        QTableWidgetItem *item4 = new QTableWidgetItem(error);
-        tablePrzebieg->setItem(row, col++, item4);
+    QTableWidgetItem *item5 = new QTableWidgetItem(value_perc);
+    tablePrzebieg->setItem(row, col++, item5);
 
+    QTableWidgetItem *item6 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item6);
+
+    if (!ok) {
         for (short e=0; e<col; ++e) {
-            tablePrzebieg->item(row, col)->setBackground(Qt::red);
+            if (tablePrzebieg->item(row, e))
+                tablePrzebieg->item(row, e)->setBackground(Qt::red);
         }
     }
 }
 
+void ListaBadan::initPowtarzalnoscTable()
+{
+    QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
+    tablePrzebieg->clear();
+    if (tablePrzebieg->columnCount() < 3)
+        tablePrzebieg->setColumnCount(3);
+
+    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
+    tablePrzebieg->setHorizontalHeaderItem(0, cn1);
+    tablePrzebieg->setColumnWidth(0, 50);
+
+    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
+    tablePrzebieg->setHorizontalHeaderItem(1, cn2);
+    tablePrzebieg->setColumnWidth(1, 50);
+
+    QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
+    tablePrzebieg->setHorizontalHeaderItem(2, itemUwagi);
+    tablePrzebieg->setColumnWidth(2, 130);
+
+    tablePrzebieg->setMaximumWidth(245);
+    tablePrzebieg->setMinimumWidth(245);
+}
+
+void ListaBadan::addPowtarzalnoscRekord(short num, const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
+{
+    int row = num;
+    QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(num+1));
+    //ui->tablePrzebieg
+    tablePrzebieg->setVerticalHeaderItem(row, itemVert);
+
+    int col = 0;
+    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
+    tablePrzebieg->setItem(row, col++, item0);
+
+    QTableWidgetItem *item1 = new QTableWidgetItem(value_perc);
+    tablePrzebieg->setItem(row, col++, item1);
+
+    QTableWidgetItem *item2 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item2);
+
+    if (!ok) {
+        for (short e=0; e<col; ++e) {
+            tablePrzebieg->item(row, e)->setBackground(Qt::red);
+        }
+    }
+}
 
 
 

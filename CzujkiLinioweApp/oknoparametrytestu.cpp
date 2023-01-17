@@ -76,7 +76,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case REPEATABILITY:
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
-            if (ui->cbCzujka->count() > 2) {
+            if (ui->cbCzujka->count() >= 2) {
                 ui->cbCzujka->setCurrentIndex(1);
                 changeCzujka(1);
             } else {
@@ -233,7 +233,7 @@ void OknoParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->addWybranaCzujka(ui->cbCzujka->currentIndex()+1, ui->typPierwszy->text(), ui->typDrugi->text());
+    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typPierwszy->text(), ui->typDrugi->text());
 
     if(test->getId() == REPEATABILITY)
     {

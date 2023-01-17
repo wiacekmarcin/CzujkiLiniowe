@@ -11,6 +11,7 @@ const char* ParametryBadaniaCzujkiDlg::etPierwszy[2] = { ParametryBadaniaCzujkiD
 const char* ParametryBadaniaCzujkiDlg::etDrugi[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
 const char* ParametryBadaniaCzujkiDlg::etNumerPierwszy[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
 const char* ParametryBadaniaCzujkiDlg::etNumerDrugi[2] = { ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
+const char* ParametryBadaniaCzujkiDlg::etNazwa[4] = { ParametryBadaniaCzujkiDlg::etNazwaNadajnika, ParametryBadaniaCzujkiDlg::etNazwaNadajnikaOdbiornika, ParametryBadaniaCzujkiDlg::etNazwaOdbiornika, ParametryBadaniaCzujkiDlg::etNazwaReflektora };
 
 ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
     QWidget(parent),
@@ -101,10 +102,10 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
             s->setEchoMode(QLineEdit::Normal);
             s->setAlignment(Qt::AlignCenter);
             s->setReadOnly(true);
-            s->setText(QString::number(badanie->getSortedId(nrCz)+1));
+            s->setText(QString::number(badanie->getSortedId(nrCz)));
             s->setMinimumSize(QSize(20, 0));
             s->setMaximumSize(QSize(30, 50));
-            ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 3, 1, 1);
+            ui->gridLayoutNumerCzujek->addWidget(s, nrCz+1, 3, 1, 1);
         }
     }
     for (short n = 0; n <= maxNoEmptyRows; ++n )
@@ -292,8 +293,10 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setMaksKatowaNieWspolPoziomaNadajnika(ui->pierwszy_ospozioma->text());
     badanie->setMaksKatowaNieWspolPionowaOdbiornika(ui->drugi_ospionowa->text());
     badanie->setMaksKatowaNieWspolPoziomaOdbiornika(ui->drugi_ospozioma->text());
-    badanie->setNazwaPierwszego(ui->hpierwszy->text());
-    badanie->setNazwaDrugiego(ui->hdrugi->text());
+    badanie->setNazwaPierwszy(ui->hpierwszy->text());
+    badanie->setNazwaDrugi(ui->hdrugi->text());
+    badanie->setNazwaNumerPierwszego(etNazwa[ui->comboBox->currentIndex()]);
+    badanie->setNazwaNumerDrugiego(etNazwa[2+ui->comboBox->currentIndex()]);
 
     badanie->wyczyscCzujki();
     short num = 0;
@@ -317,6 +320,7 @@ void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
     ui->ldrugi->setText(QString(etDrugi[ind]));
     ui->hpierwszy->setText(QString(etNumerPierwszy[ind]));
     ui->hdrugi->setText(QString(etNumerDrugi[ind]));
+
 }
 
 void ParametryBadaniaCzujkiDlg::czujkaNrEdited(short id)

@@ -1,12 +1,13 @@
 #include "oknopodsumowanietestu.h"
 #include "ui_oknopodsumowanietestu.h"
 #include <QDateTime>
+#include "ustawienia.h"
 
-
-OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & badanie, QWidget *parent) :
+OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & badanie,
+                                             const Ustawienia & ust_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoPodsumowanieTestu),
-    powtorzPomiar(false)
+    ust(ust_)
 
 {
     ui->setupUi(this);
@@ -19,7 +20,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     if (daneTestu.getId() == REPRODUCIBILITY) {
         obliczOdtwarzalnosc(daneTestu);
         ui->stackedWidget->setCurrentWidget(ui->odtwarzalnosc);
-        headTable(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc", pierwszy, drugi);
+        odtwarzalnoscHeadTable(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
+                               pierwszy, drugi);
 
         ui->odtwarzalnoscCrep->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
         ui->odtwarzalnoscCrep2->setText("0 %");
@@ -29,16 +31,17 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->odtwarzalnoscCmax2->setText("0 %");
         ui->odtwarzalnoscCmaxCrep->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
         ui->odtwarzalnoscCrepCmin->setText(QString::number(daneTestu.getCrepCmin(), 'f', 2));
-        if (daneTestu.getCmaxCrep() > 1.33)
+        if (daneTestu.getCmaxCrep() > ust.getOdtwarzalnoscCmaxCrep())
             ui->odtwarzalnoscCmaxCrep->setStyleSheet("background-color:red");
-        if (daneTestu.getCrepCmin() > 1.5)
+        if (daneTestu.getCrepCmin() > ust.getOdtwarzalnoscCrepCmin())
             ui->odtwarzalnoscCrepCmin->setStyleSheet("background-color:red");
 
         short num = 0;
+
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addRekordPodsumowanie(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
-                                  num, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
+            odtwarzalnoscAddRekord(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
+                                  num+1, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
                                     dane.value_dB, "0.0", dane.ok, dane.error);
             num++;
         }
@@ -47,8 +50,30 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->odtwarzalnoscGridLayoutResults->setSpacing(0);
         //badanie->s
     } else if (daneTestu.getId() == REPEATABILITY) {
+        obliczPowtarzalnosc(daneTestu);
+        ui->stackedWidget->setCurrentWidget(ui->powtarzalnosc);
+        powtarzalnoscHeadTable(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc");
 
-    }
+        ui->powtarzalnoscCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->powtarzalnoscCmin2->setText("0 %");
+        ui->powtarzalnoscCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->powtarzalnoscCmax2->setText("0 %");
+        ui->powtarzalnoscCmaxCmin->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
+
+        if (daneTestu.getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin())
+            ui->powtarzalnoscCmaxCmin->setStyleSheet("background-color:red");
+
+        short num = 0;
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            powtarzalnoscAddRekord(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc",
+                                  num, dane.value_dB, "0.0", dane.ok, dane.error);
+            num++;
+        }
+        ui->powtarzalnoscPrzebiegrGridLayout->setVerticalSpacing(0);
+        ui->powtarzalnoscPrzebiegrGridLayout->setHorizontalSpacing(0);
+        ui->powtarzalnoscPrzebiegrGridLayout->setSpacing(0);
+     }
 
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
@@ -59,7 +84,12 @@ OknoPodsumowanieTestu::~OknoPodsumowanieTestu()
     delete ui;
 }
 
-void OknoPodsumowanieTestu::addRekordPodsumowanie(
+#define ADDLINETABLETD(S)  addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));\
+                        ++col;\
+                        oneTableTd(ok, fr, lay, S, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));\
+                        ++col;
+
+void OknoPodsumowanieTestu::odtwarzalnoscAddRekord(
         QFrame * fr, QGridLayout * lay, const QString & suffix,
         short r, short nrCzujki, const QString & nadajnik, const QString & odbiornik,
                                           const QString &tlumienie_db, const QString &tlumienie_per,
@@ -69,57 +99,92 @@ void OknoPodsumowanieTestu::addRekordPodsumowanie(
     short col = 0;
     short row = 2*r+3;
 
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableTd(ok, fr, lay, QString("label_%1_%2").arg(suffix).arg(row).arg(col), QString::number(nrCzujki), row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableFrame(ok, fr, lay, QString("frame_%1_%2_%3").arg(suffix).arg(row, col), nadajnik, row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableFrame(ok, fr, lay, QString("frame_%1_%2_%3").arg(suffix).arg(row, col), odbiornik, row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableFrame(ok, fr, lay, QString("frame_%1_%2_%3").arg(suffix).arg(row, col), tlumienie_db, row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableFrame(ok, fr, lay, QString("frame_%1_%2_%3").arg(suffix).arg(row, col), tlumienie_per, row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
-    oneTableFrame(ok, fr, lay, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col), ok ? "POZYTYWNY" : "NEGATYWNY", row, col);++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
+    ADDLINETABLETD(QString::number(r));
+    ADDLINETABLETD(QString::number(nrCzujki));
+    ADDLINETABLETD(nadajnik);
+    ADDLINETABLETD(odbiornik);
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col++, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     if (inneText.isEmpty())
-        oneTableTd(ok, fr, lay, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col), inneText, row, col);
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
     else
-        oneTableFrame(ok, fr, lay, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col), inneText, row, col);
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
-    addLine(fr, lay, QString("line_%1_%2_%3").arg(suffix).arg(suffix).arg(row).arg(col), true, row, col, 1, 1);++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
 
-    addLine(fr, lay, QString("vertline_%1_%2_%3").arg(suffix).arg(row), false, row+1, 0, 1, col);
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
 
 }
 
-void OknoPodsumowanieTestu::headTable(QFrame * fr, QGridLayout * lay,
+#define ADDLINETABLEHEADTD(S,O,P) addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,O)); \
+                              oneHeadRecord(fr, lay, S, 1, col++, QString("%1 %2").arg(suffix,P));
+
+
+
+void OknoPodsumowanieTestu::odtwarzalnoscHeadTable(QFrame * fr, QGridLayout * lay,
                                       const QString & suffix,
                                       const QString & nadajnik, const QString & odbiornik)
 {
     short col = 0;
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead0"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etProba"), QString::fromUtf8("Próba"), 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead1"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etNadajnik"), nadajnik, 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead2"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etOdbiornik"), odbiornik, 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead3"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etCndB"), "<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead4"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etCnPer"), "<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead5"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etResult"), "Wynik", 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead6"), true, 1, col++, 1, 1);
-    oneHeadRecord(fr, lay, QString("%1 %2").arg(suffix).arg("etUwagi"), "Uwagi", 1, col++);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lhead7"), true, 1, col++, 1, 1);
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("Nr Czujki", "lhead1", "etCzujkaNr");
+    ADDLINETABLEHEADTD(nadajnik, "lhead2", "etNadajnik");
+    ADDLINETABLEHEADTD(odbiornik, "lhead3", "etOdbiornik");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead7", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix, "lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix, "lheadDown"));
+}
 
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lheadUp"),   false, 0, 0, 1, col);
-    addLine(fr, lay, QString("%1 %2").arg(suffix).arg("lheadDown"), false, 2, 0, 1, col);
+void OknoPodsumowanieTestu::powtarzalnoscHeadTable(QFrame * fr, QGridLayout * lay,
+                                      const QString & suffix)
+{
+    short col = 0;
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
+
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
+}
+
+void OknoPodsumowanieTestu::powtarzalnoscAddRekord(
+        QFrame * fr, QGridLayout * lay, const QString & suffix,
+        short r, const QString &tlumienie_db, const QString &tlumienie_per,
+                                          bool ok, const QString &inneText)
+{
+
+    short col = 0;
+    short row = 2*r+3;
+
+    ADDLINETABLETD(QString::number(r));
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col++, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    if (inneText.isEmpty())
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    else
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(suffix).arg(row).arg(col));
+    ++col;
+
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
+
 }
 
 void OknoPodsumowanieTestu::oneHeadRecord(QFrame * frameTable, QGridLayout * layout,
-                                          const QString & objectName, const QString & text, int row, int col)
+                                          const QString & text, int row, int col, const QString & objectName)
 {
     QLabel * lh = new QLabel(frameTable);
     lh->setObjectName(objectName);
@@ -131,8 +196,8 @@ void OknoPodsumowanieTestu::oneHeadRecord(QFrame * frameTable, QGridLayout * lay
     layout->addWidget(lh, row, col, 1, 1);
 }
 
-void OknoPodsumowanieTestu::oneTableTd(bool err, QFrame * frameTable, QGridLayout * layout,
-                                       const QString & objectName, const QString & text, int row, int col)
+void OknoPodsumowanieTestu::oneTableTd(bool err, QFrame * frameTable, QGridLayout * layout, const QString & text, int row, int col,
+                                       const QString & objectName)
 {
     QLabel * l = new QLabel(frameTable);
     l->setObjectName(objectName);
@@ -144,7 +209,7 @@ void OknoPodsumowanieTestu::oneTableTd(bool err, QFrame * frameTable, QGridLayou
 }
 
 void OknoPodsumowanieTestu::oneTableFrame(bool err, QFrame * frameTable, QGridLayout * layout,
-                                          const QString & objectName, const QString & text, int row, int col)
+                                          const QString & text, int row, int col, const QString & objectName)
 {
     QFrame * frame = new QFrame(frameTable);
     frame->setObjectName(objectName);
@@ -166,8 +231,9 @@ void OknoPodsumowanieTestu::oneTableFrame(bool err, QFrame * frameTable, QGridLa
 }
 
 void OknoPodsumowanieTestu::addLine(QFrame * frameTable, QGridLayout * layout,
-                                                  const QString & objectName, bool vert, int row, int col,
-                                                  int rowspan, int colspan)
+                                                  bool vert, int row, int col,
+                                                  int rowspan, int colspan,
+                                                  const QString & objectName)
 {
     QFrame * line = new QFrame(frameTable);
     line->setObjectName(objectName);
@@ -189,11 +255,6 @@ void OknoPodsumowanieTestu::obliczOdtwarzalnosc(DaneTestu &daneTestu)
 
     for (DanePomiaru & dane : daneTestu.getDanePomiarowe())
     {
-        if (!dane.ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(dane.error);
-            continue;
-        }
         bool ok;
         double C = dane.value_dB.toDouble(&ok);
 
@@ -202,22 +263,27 @@ void OknoPodsumowanieTestu::obliczOdtwarzalnosc(DaneTestu &daneTestu)
             daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
             dane.ok = false;
             continue;
-        }
-        if (C > Cmax)
-            Cmax = C;
-        if (C < Cmin)
-            Cmin = C;
+        } else {
+            if (C > Cmax)
+                Cmax = C;
+            if (C < Cmin)
+                Cmin = C;
 
-        if (dane.ok) {
             Cavg += C;
             ++cntAvg;
         }
 
-        if (C < 0.4) {
+        if (!dane.ok) {
             badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Cn < 0.4"));
+            daneTestu.setErrStr(dane.error);
+            continue;
+        }
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
             dane.ok = false;
-            dane.error = QString::fromUtf8("Cn < 0.4");
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
         }
     }
     if (cntAvg)
@@ -241,14 +307,80 @@ void OknoPodsumowanieTestu::obliczOdtwarzalnosc(DaneTestu &daneTestu)
     }
     daneTestu.setWykonany(true);
 
-    if (daneTestu.getCmaxCrep() > 1.33) {
+    if (daneTestu.getCmaxCrep() > ust.getOdtwarzalnoscCmaxCrep()) {
         daneTestu.setOk(false);
-        daneTestu.setErrStr("Cmax/Crep>1.33");
-    } else if (daneTestu.getCrepCmin() > 1.5) {
+        daneTestu.setErrStr(QString("Cmax/Crep>%1").arg(ust.getOdtwarzalnoscCmaxCrep(), 3, 'f', 2));
+    } else if (daneTestu.getCrepCmin() > ust.getOdtwarzalnoscCrepCmin()) {
         daneTestu.setOk(false);
-        daneTestu.setErrStr("Crep/Cmin<1.5");
+        daneTestu.setErrStr(QString("Crep/Cmin>%1").arg(ust.getOdtwarzalnoscCrepCmin(), 3, 'f', 2));
     } else {
         daneTestu.setOk(badanieOk);
     }
 }
 
+void OknoPodsumowanieTestu::obliczPowtarzalnosc(DaneTestu &daneTestu)
+{
+    bool badanieOk = true;
+
+    float Cmin = 100;
+    float Cmax = -100;
+
+
+    for (DanePomiaru & dane : daneTestu.getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            badanieOk = false;
+            daneTestu.setErrStr(dane.error);
+            continue;
+        }
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            continue;
+        }
+
+        if (!dane.ok) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
+            continue;
+        }
+
+        if (C > Cmax)
+            Cmax = C;
+        if (C < Cmin)
+            Cmin = C;
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            daneTestu.setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+
+
+    daneTestu.setOk(badanieOk);
+    daneTestu.setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
+    if (Cmin) {
+        daneTestu.setCmin(Cmin);
+        daneTestu.setCmax(Cmax);
+        daneTestu.setCmaxCmin(Cmax/Cmin);
+    } else {
+        daneTestu.setCmin(0);
+        daneTestu.setCmax(0);
+        daneTestu.setCmaxCmin(0);
+    }
+    daneTestu.setWykonany(true);
+
+    if (daneTestu.getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin()) {
+        daneTestu.setOk(false);
+        daneTestu.setErrStr(QString("Cmax/Cmin>%1").arg(ust.getPowtarzalnoscCmaxCmin(), 3, 'f', 2));
+    } else {
+        daneTestu.setOk(badanieOk);
+    }
+}
