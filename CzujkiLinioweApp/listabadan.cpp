@@ -260,7 +260,7 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 
 #define ADDITEM(T,S,R,C) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setItem(R,C,item); } while(false)
 #define ADDHEADITEM(T,S,R,W) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setHorizontalHeaderItem(R, item); T->setColumnWidth(0, W); } while(false)
-
+#define ADDVHEADITEM(T,S,R) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setVerticalHeaderItem(R, item); } while(false)
 
 void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
@@ -272,16 +272,25 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
         tableParams->clear();
 
-        initOdtwarzalnoscTable(pierwszy, drugi);
+        ADDVHEADITEM(tableParams, "Cmin", 0);
         ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
         ADDITEM(tableParams, "0 %" , 0, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax", 1);
         ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
         ADDITEM(tableParams, "0 %" , 1, 1);
+
+        ADDVHEADITEM(tableParams, "Crep", 2);
         ADDITEM(tableParams, QString::number(daneTestu.getCrep(), 'f', 2) + " dB", 2, 0);
         ADDITEM(tableParams, "0 %" , 2, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax/Crep", 3);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3, 0);
+
+        ADDVHEADITEM(tableParams, "Crep/Cmax", 4);
         ADDITEM(tableParams, QString::number(daneTestu.getCrepCmin(), 'f', 2), 4, 0);
 
+        initOdtwarzalnoscTable(pierwszy, drugi);
         if (daneTestu.getCmaxCrep() > badanie.getOdtwarzalnoscCmaxCrep()) {
             tableParams->item(3, 0)->setBackground(Qt::red);
         }
@@ -317,10 +326,15 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         ADDITEM(tableCzujka, daneTestu.getNumerOdbiornika(), 0, 2);
 
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
+        ADDVHEADITEM(tableParams, "Cmin", 0);
         ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
         ADDITEM(tableParams, "0 %" , 0, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax", 1);
         ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
         ADDITEM(tableParams, "0 %" , 1, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
 
         if (daneTestu.getCmaxCmin() > badanie.getPowtarzalnoscCmaxCmin()) {
@@ -345,8 +359,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik)
 {
     QTableWidget * tablePrzebieg = ui->odtwarzalnoscTablePrzebieg;
-    if (tablePrzebieg->columnCount() < 8)
-        tablePrzebieg->setColumnCount(8);
+    if (tablePrzebieg->columnCount() != 7)
+        tablePrzebieg->setColumnCount(7);
 
     int col = 0;
     QTableWidgetItem *nrCzujki = new QTableWidgetItem("Nr czujki");
@@ -354,7 +368,7 @@ void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &
     tablePrzebieg->setColumnWidth(col, 50);
     ++col;
 
-    QTableWidgetItem *kolCzujki = new QTableWidgetItem("Kol. czujki");
+    QTableWidgetItem *kolCzujki = new QTableWidgetItem("Kol. pomiarów");
     tablePrzebieg->setHorizontalHeaderItem(col, kolCzujki);
     tablePrzebieg->setColumnWidth(col, 50);
     ++col;
@@ -369,12 +383,12 @@ void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &
     tablePrzebieg->setColumnWidth(col, 130);
     ++col;
 
-    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
+    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("C[n] dB"));
     tablePrzebieg->setHorizontalHeaderItem(col, cn1);
     tablePrzebieg->setColumnWidth(col, 50);
     ++col;
 
-    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("C[n]"));
+    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("C[n] %"));
     tablePrzebieg->setHorizontalHeaderItem(col, cn2);
     tablePrzebieg->setColumnWidth(col, 50);
     ++col;
@@ -384,8 +398,10 @@ void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &
     tablePrzebieg->setColumnWidth(col, 130);
     ++col;
 
-    tablePrzebieg->setMaximumWidth(500);
-    tablePrzebieg->setMinimumWidth(500);
+    tablePrzebieg->adjustSize();
+
+    QTableWidget * tableParametry = ui->odtwarzalnoscTableParams;
+
 }
 
 void ListaBadan::addOdtwarzalnoscRekord(short num, short nrCzujki, short sortPomiar, const QString & numerNadajnika, const QString & numerOdbiornika,

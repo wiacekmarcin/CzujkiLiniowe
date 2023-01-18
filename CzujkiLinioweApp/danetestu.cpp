@@ -79,6 +79,7 @@ QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
     return in;
 }
 
+/*
 QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane)
 {
     out << dane.size();
@@ -101,7 +102,7 @@ QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane)
     }
     return in;
 }
-
+*/
 QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
 {
     out << dane.id

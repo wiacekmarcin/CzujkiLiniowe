@@ -70,6 +70,9 @@ void ParametryBadania::load(const QString &fileName)
     }
 
     QDataStream in(&file);
+    numbersCzujki.clear();
+    sortedId.clear();
+    testy.clear();
     in >> *this;
     file.close();
 }
@@ -174,7 +177,10 @@ void ParametryBadania::posortuj()
     for (int pos = 0; pos < pomiary.size(); ++pos) {
         if (pos == pmax1 || pos == pmax2)
             continue;
+
         if (wyk[pos] == -1)
+            continue;
+
         sortedId.append(wyk[pos]);
     }
     if (pmax2 != -1)

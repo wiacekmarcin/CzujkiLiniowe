@@ -7,6 +7,13 @@ namespace Ui {
 class DebugDialog;
 }
 
+typedef enum eDebugType {
+    DEBUG_COM,
+    DEBUG_USER,
+    DEBUG_GUI,
+    DEBUG_TEST,
+} DebugType;
+
 class DebugDialog : public QDialog
 {
     Q_OBJECT
@@ -14,7 +21,7 @@ class DebugDialog : public QDialog
 public:
     explicit DebugDialog(QWidget *parent = nullptr);
     ~DebugDialog();
-    void add(const QString & text);
+    void add(DebugType t, const QString & text);
 private:
     Ui::DebugDialog *ui;
 };

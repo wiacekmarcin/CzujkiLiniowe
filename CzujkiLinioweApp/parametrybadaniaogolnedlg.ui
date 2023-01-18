@@ -25,6 +25,9 @@
         <property name="text">
          <string>Wprowadź hasło</string>
         </property>
+        <property name="buddy">
+         <cstring>password1</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -34,6 +37,9 @@
        <widget class="QLabel" name="lhaslo2">
         <property name="text">
          <string>Powtórz hasło</string>
+        </property>
+        <property name="buddy">
+         <cstring>password2</cstring>
         </property>
        </widget>
       </item>
@@ -88,6 +94,9 @@
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>numerZlecenia</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -101,6 +110,9 @@
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
         </property>
+        <property name="buddy">
+         <cstring>numerTestu</cstring>
+        </property>
        </widget>
       </item>
       <item row="2" column="0">
@@ -110,6 +122,9 @@
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+        <property name="buddy">
+         <cstring>osobaOdpowiedzialna</cstring>
         </property>
        </widget>
       </item>
@@ -133,6 +148,9 @@
         <property name="text">
          <string>Użyj zestawu filtrów dla długości fali</string>
         </property>
+        <property name="buddy">
+         <cstring>dlugoscFali</cstring>
+        </property>
        </widget>
       </item>
       <item row="0" column="1">
@@ -144,6 +162,12 @@
             <width>145</width>
             <height>0</height>
            </size>
+          </property>
+          <property name="editable">
+           <bool>false</bool>
+          </property>
+          <property name="insertPolicy">
+           <enum>QComboBox::InsertAtBottom</enum>
           </property>
           <item>
            <property name="text">
@@ -158,6 +182,9 @@
          </widget>
         </item>
         <item>
+         <widget class="QLineEdit" name="dlugoscFaliLineEdit"/>
+        </item>
+        <item>
          <widget class="QLabel" name="lunumdlugoscfali">
           <property name="text">
            <string>[nm]</string>
@@ -170,6 +197,9 @@
        <widget class="QLabel" name="label_2">
         <property name="text">
          <string>Czas pomiędzy zmianami tłumienia filtra</string>
+        </property>
+        <property name="buddy">
+         <cstring>czasPomiedzyZmianamifiltra</cstring>
         </property>
        </widget>
       </item>
@@ -244,6 +274,9 @@
        <widget class="QLabel" name="lczasstabilizacjiczujki">
         <property name="text">
          <string>Czas stabilizacji czujki</string>
+        </property>
+        <property name="buddy">
+         <cstring>czasStabilizacjiCzujki</cstring>
         </property>
        </widget>
       </item>

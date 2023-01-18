@@ -42,8 +42,8 @@ public:
 
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane);
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane);
-QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
-QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
+//QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
+//QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
 
 class DaneTestu
 {

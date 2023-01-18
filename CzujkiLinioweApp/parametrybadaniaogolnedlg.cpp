@@ -92,6 +92,12 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
     ui->pradAlarmu->setReadOnly(o);
     ui->rbInsideSupply->setCheckable(!o);
     ui->rbPrad->setCheckable(!o);
+    ui->dlugoscFali->setEditable(!o);
+    ui->dlugoscFaliLineEdit->setVisible(o);
+    ui->dlugoscFaliLineEdit->setReadOnly(true);
+    ui->dlugoscFali->setVisible(!o);
+    ui->dlugoscFaliLineEdit->setText(ui->dlugoscFali->currentText());
+    ui->uwagi->setReadOnly(o);
 
 
 #ifdef DEFVAL

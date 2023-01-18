@@ -45,7 +45,7 @@
       <item row="2" column="3">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>WIlgotność</string>
+         <string>Wilgotność</string>
         </property>
        </widget>
       </item>
@@ -62,7 +62,7 @@
       <item row="3" column="5">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>mbar</string>
+         <string>[mbar]</string>
         </property>
        </widget>
       </item>

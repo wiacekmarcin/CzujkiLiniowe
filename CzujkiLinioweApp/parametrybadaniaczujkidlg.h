@@ -29,6 +29,8 @@ protected:
     void showInfo7Number(bool show);
     void showInfoSorted(bool sorted);
     void showError(const QString & err);
+    void createCzujkaTable(ParametryBadania *badanie);
+    void createCzujkaTableReadOlny(ParametryBadania *badanie);
 private slots:
     void changeTypUkladu(int index);
 

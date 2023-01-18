@@ -133,12 +133,12 @@ void MainWindow::actionOtw_rz_okno_triggered()
 
 void MainWindow::ster_error(QString s)
 {
-    dbgDlg->add(s);
+    dbgDlg->add(DEBUG_COM, s);
 }
 
 void MainWindow::ster_debug(QString d)
 {
-    dbgDlg->add(d);
+    dbgDlg->add(DEBUG_COM, d);
 }
 
 void MainWindow::ster_setParamsDone(bool success)

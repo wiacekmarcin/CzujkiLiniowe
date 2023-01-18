@@ -44,6 +44,80 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
 {
     (void)u;
     errorLabel = err;
+
+
+    testOdtwarzalnosci = badanie->getTestOdtwarzalnosci();
+
+    if (!testOdtwarzalnosci) {
+        createCzujkaTable(badanie);
+    } else {
+        createCzujkaTableReadOlny(badanie);
+    }
+
+    ui->comboBox->setCurrentIndex(badanie->getSystemOdbiornikNadajnik() ? 0 : 1);
+    switchOdbiornikReflektor(badanie->getSystemOdbiornikNadajnik());
+    ui->producent->setText(badanie->getProducentCzujki());
+    ui->typPierwszy->setText(badanie->getTypPierwszejCzujki());
+    ui->typDrugi->setText(badanie->getTypDrugiejCzujki());
+    ui->rozstawienieMaksymalne->setText(badanie->getRozstawienieMaxCzujki());
+    ui->rozstawienieMinimalne->setText(badanie->getRozstawienieMinCzujki());
+    ui->pierwszy_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaNadajnika());
+    ui->pierwszy_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaNadajnika());
+    ui->drugi_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaOdbiornika());
+    ui->drugi_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaOdbiornika());
+
+
+    showInfoSorted(testOdtwarzalnosci);
+    ui->typPierwszy->setReadOnly(testOdtwarzalnosci);
+    ui->producent->setReadOnly(testOdtwarzalnosci);
+    ui->typDrugi->setReadOnly(testOdtwarzalnosci);
+    ui->rozstawienieMinimalne->setReadOnly(testOdtwarzalnosci);
+    ui->rozstawienieMaksymalne->setReadOnly(testOdtwarzalnosci);
+    ui->pierwszy_ospozioma->setReadOnly(testOdtwarzalnosci);
+    ui->pierwszy_ospionowa->setReadOnly(testOdtwarzalnosci);
+    ui->drugi_ospozioma->setReadOnly(testOdtwarzalnosci);
+    ui->drugi_ospionowa->setReadOnly(testOdtwarzalnosci);
+    ui->comboBox->setEditable(false);
+
+    ui->comboBox->setEditable(!testOdtwarzalnosci);
+    ui->lineEdit->setVisible(testOdtwarzalnosci);
+    ui->lineEdit->setReadOnly(true);
+    ui->comboBox->setVisible(!testOdtwarzalnosci);
+    ui->lineEdit->setText(ui->comboBox->currentText());
+
+
+    for( auto le : m_numbers ) {
+        le.first->setReadOnly(testOdtwarzalnosci);
+        le.second->setReadOnly(testOdtwarzalnosci);
+    }
+
+#ifdef DEFVAL
+    if (!edit && !testOdtwarzalnosci) {
+        ui->typPierwszy->setText("Rodzaj nadajnika");
+        ui->producent->setText("Producent");
+        ui->typDrugi->setText("Rodzaj odbiornika");
+        ui->rozstawienieMinimalne->setText("1.0");
+        ui->rozstawienieMaksymalne->setText("10.0");
+        ui->pierwszy_ospozioma->setText("0.51");
+        ui->pierwszy_ospionowa->setText("0.52");
+        ui->drugi_ospozioma->setText("0.53");
+        ui->drugi_ospionowa->setText("0.54");
+
+        auto cw1 = m_numbers.at(0);
+        cw1.first->setText("Nadajnik1");
+        cw1.second->setText("Odbiornik1");
+
+        auto cw2 = m_numbers.at(1);
+        cw2.first->setText("Nadajnik2");
+        cw2.second->setText("Odbiornik2");
+    }
+#endif
+
+
+}
+
+void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
+{
     QPalette palette;
     QBrush brush(QColor(239, 239, 239, 255));
     brush.setStyle(Qt::SolidPattern);
@@ -110,57 +184,40 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
     }
     for (short n = 0; n <= maxNoEmptyRows; ++n )
         czujkaNrEdited(n);
+}
 
-    ui->comboBox->setCurrentIndex(badanie->getSystemOdbiornikNadajnik() ? 0 : 1);
-    switchOdbiornikReflektor(badanie->getSystemOdbiornikNadajnik());
-    ui->producent->setText(badanie->getProducentCzujki());
-    ui->typPierwszy->setText(badanie->getTypPierwszejCzujki());
-    ui->typDrugi->setText(badanie->getTypDrugiejCzujki());
-    ui->rozstawienieMaksymalne->setText(badanie->getRozstawienieMaxCzujki());
-    ui->rozstawienieMinimalne->setText(badanie->getRozstawienieMinCzujki());
-    ui->pierwszy_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaNadajnika());
-    ui->pierwszy_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaNadajnika());
-    ui->drugi_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaOdbiornika());
-    ui->drugi_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaOdbiornika());
+void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *badanie)
+{
+    ui->iloscczujek->setText(QString::number(badanie->getIloscCzujek()));
+    for (short nrCz = 0; nrCz < badanie->getIloscCzujek(); ++nrCz)
+    {
+        short nrCzujki = badanie->getSortedId(nrCz);
+        QLabel * n = new QLabel(ui->frameCzujki);
+        n->setObjectName(QString("PorzadkowyNumerLabel%1").arg(nrCz+1));
+        n->setFrameStyle(QFrame::Box);
+        n->setText(QString::number(nrCz+1));
+        n->setMinimumSize(QSize(20, 0));
+        n->setMaximumSize(QSize(30, 50));
+        ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-    bool o = badanie->getTestOdtwarzalnosci();
-    showInfoSorted(o);
-    ui->typPierwszy->setReadOnly(o);
-    ui->producent->setReadOnly(o);
-    ui->typDrugi->setReadOnly(o);
-    ui->rozstawienieMinimalne->setReadOnly(o);
-    ui->rozstawienieMaksymalne->setReadOnly(o);
-    ui->pierwszy_ospozioma->setReadOnly(o);
-    ui->pierwszy_ospionowa->setReadOnly(o);
-    ui->drugi_ospozioma->setReadOnly(o);
-    ui->drugi_ospionowa->setReadOnly(o);
-    for( auto le : m_numbers ) {
-        le.first->setReadOnly(o);
-        le.second->setReadOnly(o);
+        QLabel * p = new QLabel(ui->frameCzujki);
+        p->setObjectName(QString("pierwszyNumerLabel%1").arg(nrCz+1));
+        p->setText(badanie->getNumerNadajnika(nrCz, true));
+        p->setFrameStyle(QFrame::Box);
+        ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
+
+        QLabel * d = new QLabel(ui->frameCzujki);
+        d->setObjectName(QString("drugiNumerLabel%1").arg(nrCz+1));
+        d->setText(badanie->getNumerOdbiornika(nrCz, true));
+        d->setFrameStyle(QFrame::Box);
+        ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
+
+        QLabel * k = new QLabel(ui->frameCzujki);
+        k->setObjectName(QString("numePorzadkowyLabel%1").arg(nrCzujki));
+        k->setText(QString::number(nrCzujki));
+        k->setFrameStyle(QFrame::Box);
+        ui->gridLayoutNumerCzujek->addWidget(k, nrCz+1, 3, 1, 1);
     }
-
-#ifdef DEFVAL
-    if (!edit && !o) {
-        ui->typPierwszy->setText("Rodzaj nadajnika");
-        ui->producent->setText("Producent");
-        ui->typDrugi->setText("Rodzaj odbiornika");
-        ui->rozstawienieMinimalne->setText("1.0");
-        ui->rozstawienieMaksymalne->setText("10.0");
-        ui->pierwszy_ospozioma->setText("0.51");
-        ui->pierwszy_ospionowa->setText("0.52");
-        ui->drugi_ospozioma->setText("0.53");
-        ui->drugi_ospionowa->setText("0.54");
-
-        auto cw1 = m_numbers.at(0);
-        cw1.first->setText("Nadajnik1");
-        cw1.second->setText("Odbiornik1");
-
-        auto cw2 = m_numbers.at(1);
-        cw2.first->setText("Nadajnik2");
-        cw2.second->setText("Odbiornik2");
-    }
-#endif
-
 
 }
 
