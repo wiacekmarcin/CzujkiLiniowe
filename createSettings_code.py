@@ -562,6 +562,8 @@ u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadani
 u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
 u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.33', checkDoubleContent)
 u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("niewspolosiowoscCzasResetuCzasuCzujki", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasResetuCzujki", '10', checkUnsignedIntContent)
+u.addZakresy("niewspolosiowoscWartoscTlumnika", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", '6.0', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

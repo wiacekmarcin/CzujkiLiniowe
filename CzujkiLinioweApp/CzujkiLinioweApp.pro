@@ -16,6 +16,7 @@ SOURCES += \
     oknobadaniamaksymalnegokata.cpp \
     oknobadaniereakcji6db.cpp \
     oknoczekaniabadaniekatowe.cpp \
+    oknoresetuzasilaniaczujki.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -61,6 +62,7 @@ HEADERS += \
     oknobadaniamaksymalnegokata.h \
     oknobadaniereakcji6db.h \
     oknoczekaniabadaniekatowe.h \
+    oknoresetuzasilaniaczujki.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -106,6 +108,7 @@ FORMS += \
     oknobadaniamaksymalnegokata.ui \
     oknobadaniereakcji6db.ui \
     oknoczekaniabadaniekatowe.ui \
+    oknoresetuzasilaniaczujki.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \

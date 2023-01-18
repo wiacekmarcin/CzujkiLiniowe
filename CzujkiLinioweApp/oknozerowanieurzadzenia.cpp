@@ -36,7 +36,7 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
 #else
         ui->pbDalej->setVisible(false);
 #endif
-        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ reject(); });
+        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ this->pbCancel_clicked(); });
         connect(ui->pbAgain, &QPushButton::clicked, this, [this](){ init(); });
 }
 
@@ -45,19 +45,23 @@ void OknoZerowanieUrzadzenia::init()
     ui->frameError->setVisible(false);
     for (short id = 0; id < 10; ++id) {
         silnikZero[id] = id == 0;
-        if (!ramiona && (id == 1 || id == 2 || id == 8 || id == 9))
+        if (!ramiona && (id == 1 || id == 2 || id == 8 || id == 9)) {
             silnikZero[id] = true;
-        else if (!filtry && (id == 3 || id == 4 || id == 5))
+            buttons[id]->setDisabled(true);
+        } else if (!filtry && (id == 3 || id == 4 || id == 5)) {
             silnikZero[id] = true;
-        else if (!wozek && (id == 6 || id == 7))
+            buttons[id]->setDisabled(true);
+        } else if (!wozek && (id == 6 || id == 7)) {
             silnikZero[id] = true;
+            buttons[id]->setDisabled(true);
+        }
         else
             silnikZero[id] = false;
     }
 
-    for (short i = 1; i <= 9; ++i) {
-        buttons[i]->setStyleSheet("color:black");
-    }
+    //for (short i = 1; i <= 9; ++i) {
+    //    buttons[i]->setStyleSheet("color:black");
+    //}
 
     ui->frame_filtry->setDisabled(!filtry);
     ui->frame_nadajnik->setDisabled(!ramiona);
@@ -115,4 +119,12 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType
 void OknoZerowanieUrzadzenia::timeout()
 {
     ui->frameError->setVisible(true);
+}
+
+void OknoZerowanieUrzadzenia::pbCancel_clicked()
+{
+    int ret = QMessageBox::question(this, QString("Oczekiwanie zerowanie stanowiska"),
+                                    "Czy napewno chcesz przerwać badanie");
+    if (ret == QMessageBox::Yes)
+        reject();
 }

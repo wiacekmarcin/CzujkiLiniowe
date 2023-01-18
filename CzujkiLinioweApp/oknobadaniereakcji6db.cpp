@@ -7,7 +7,7 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
-OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, unsigned int dlugoscFali, const double & wartTlum, 
+OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, const double & tlumnienie, unsigned int dlugoscFali, const double & wartTlum,
                            const QString & name, const QString & subtitle, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
@@ -43,7 +43,7 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
             pos0C = pos.at(3);
             //break;
         }
-        if (pos.at(0).toDouble() == 6.0) {
+        if (pos.at(0).toDouble() == tlumnienie) {
             posA = pos.at(1);
             posB = pos.at(2);
             posC = pos.at(3);
@@ -119,13 +119,10 @@ void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
     qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
                 "Blad filtrow" << filtr << zerowanie;
     sterResponse = true;
-    //TODO
-    return;
     wynikBadania = false;
     tmSterownika.stop();
     tmZmProgressBar.stop();
-    error = QString::fromUtf8("Błąd filtra %1").arg(filtr);
-
+    error = QString::fromUtf8("Błąd ustawienia filtra %1").arg(filtr);
     reject();
 }
 
@@ -143,16 +140,14 @@ void OknoBadanieReakcji6dB::czujkaOn()
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = false;
-        //accept();
         usunTlumnik();
     } else {
-        error = "Czujka zadziała po 30 sekudnach";
+        error = QString("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
         wynikBadania = false;
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = true;
         usunTlumnik();
-        //reject();
     }
 }
 
@@ -169,11 +164,10 @@ void OknoBadanieReakcji6dB::progressBarUpdate()
     } else if (waitForZeroFiltr) {
         return;
     } else {
-        error = QString::fromUtf8("Upłynęło 60 sekund bez reakcji czujki");
+        error = QString::fromUtf8("Upłynęło %1 sekund bez reakcji czujki").arg(timeOknoClose);
         wynikBadania = false;
         endReject = true;
         usunTlumnik();
-        //reject();
     }
 }
 
@@ -183,10 +177,10 @@ void OknoBadanieReakcji6dB::timeoutSterownika()
              << "hardware timeout ";
     if (sterResponse)
         return;
-    error = QString::fromUtf8("Błąd sprzętowy");
-    //wynikBadania = false;
-    //tmZmProgressBar.stop();
-    //reject();
+    error = QString::fromUtf8("Błąd stanowiska");
+    wynikBadania = false;
+    tmZmProgressBar.stop();
+    reject();
 }
 
 const QString &OknoBadanieReakcji6dB::getError() const

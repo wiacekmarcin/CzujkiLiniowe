@@ -58,7 +58,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->powtarzalnoscCmin2->setText("0 %");
         ui->powtarzalnoscCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
         ui->powtarzalnoscCmax2->setText("0 %");
-        ui->powtarzalnoscCmaxCmin->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
+        ui->powtarzalnoscCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin())
             ui->powtarzalnoscCmaxCmin->setStyleSheet("background-color:red");
@@ -166,7 +166,7 @@ void OknoPodsumowanieTestu::powtarzalnoscAddRekord(
     short col = 0;
     short row = 2*r+3;
 
-    ADDLINETABLETD(QString::number(r));
+    ADDLINETABLETD(QString::number(r+1));
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
     ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");

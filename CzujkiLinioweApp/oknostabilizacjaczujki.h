@@ -14,6 +14,7 @@ class OknoStabilizacjaCzujki : public QDialog
 public:
     explicit OknoStabilizacjaCzujki(unsigned long timeWait, const QString &name, bool stabikizacja, QWidget *parent = 0);
     ~OknoStabilizacjaCzujki();
+    void czujkaOn();
 protected:
     QString getMM_SS(unsigned long secs);
 private slots:

@@ -17,6 +17,7 @@ class OknoBadaniaKata;
 class OknoCzekaniaBadanieKatowe;
 class OknoBadanieReakcji6dB;
 class OknoBadaniaMaksymalnegoKata;
+class OknoStabilizacjaCzujki;
 
 class ProceduraTestowa
 {
@@ -42,31 +43,32 @@ protected:
     bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
 
 
+
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek);
-
     bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
-
     bool zasilenieCzujki(const ParametryBadania &daneBadania);
+    bool montazZerowanieZasilanie(bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    short pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool nowait, const Ustawienia &);
+    short pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool nowait, unsigned long timeWait, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
-    short pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust);
 private:
     QWidget* parent;
     DaneTestu dane;
     Zasilacz * zas;
     Sterownik* ster;
     Ustawienia u;
+    OknoStabilizacjaCzujki *dlg6;
     OknoBadaniaTlumienia *dlg7;
     OknoZerowanieUrzadzenia *dlg0;
     OknoBadaniaKata *dlg10;
     OknoCzekaniaBadanieKatowe *dlg11;
     OknoBadanieReakcji6dB * dlg12;
-    OknoBadaniaMaksymalnegoKata * dlg13;
+    OknoBadaniaMaksymalnegoKata * dlg14;
 };
 
 #endif // PROCEDURATESTOWA_H

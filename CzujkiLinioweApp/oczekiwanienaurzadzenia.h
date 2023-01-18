@@ -18,6 +18,10 @@ public:
 public slots:
     void zasilacz(int state);
     void sterownik(int state);
+protected:
+
+    void init();
+    void pbCancel_clicked();
 private slots:
     void timeout();
 private:

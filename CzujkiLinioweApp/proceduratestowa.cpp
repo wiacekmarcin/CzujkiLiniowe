@@ -15,6 +15,7 @@
 #include "oknoczekaniabadaniekatowe.h"
 #include "oknobadaniereakcji6db.h"
 #include "oknobadaniamaksymalnegokata.h"
+#include "oknoresetuzasilaniaczujki.h"
 
 #include "zasilacz.h"
 #include <QMessageBox>
@@ -24,12 +25,13 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
     zas(nullptr),
     ster(nullptr),
+    dlg6(nullptr),
     dlg7(nullptr),
     dlg0(nullptr),
     dlg10(nullptr),
     dlg11(nullptr),
     dlg12(nullptr),
-    dlg13(nullptr)
+    dlg14(nullptr)
 {
 
 }
@@ -67,14 +69,7 @@ void ProceduraTestowa::flt_bladFiltrow(QChar silnik, bool zerowanie)
 }
 
 void ProceduraTestowa::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
-//void ProceduraTestowa::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    /*
-    if (dlg0)
-        dlg0->ster_setPositionDone(silnik, home, move, error, interrupt);
-    if (dlg10)
-        dlg10->ster_setPositionDone(silnik, home, move, error, interrupt);
-        */
     if (dlg0)
         dlg0->ster_setPositionDone(silnik, ruch);
     if (dlg10)
@@ -94,15 +89,18 @@ void ProceduraTestowa::ster_setValue(short silnik, const double & val)
 
 void ProceduraTestowa::czujkaOn()
 {
-    if (dlg7)
+    if (dlg6)
+        dlg6->czujkaOn();
+    else if (dlg7)
        dlg7->czujkaOn();
-
-    if (dlg10)
+    else if (dlg10)
         dlg10->czujkaOn();
-    if (dlg11)
+    else if (dlg11)
         dlg11->czujkaOn();
-    if (dlg12)
+    else if (dlg12)
         dlg12->czujkaOn();
+    else if (dlg14)
+        dlg14->czujkaOn();
 }
 
 bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -140,48 +138,18 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     short powtorzPomiar;
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
-        {
-            QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(nrPom, &dane, daneBadania, parent));
-            if (!(dlg1->exec()))
-                return false;
-        }
+        if (!parametryTest(nrPom, daneBadania, ust))
+            return false;
 
-        {
-            QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
-            if (!(dlg2->exec()))
-                return false;
-        }
-
-        {
-            QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
-            if (!(dlg4->exec()))
-                return false;
-        }
-
-
-        if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
-            if (!oczekiwanieNaUrzadzenie(daneBadania))
-                return false;
-        }
-
+        bool pomiar1 = true;
         do {
-            if(!zerowanieSterownika(nrPom == 1, true, false))
+            if (!montazZerowanieZasilanie(nrPom == 1, true, false, daneBadania))
                 return false;
 
-            if (!zasilenieCzujki(daneBadania))
-                return false;
-
-            {
-                QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-                            new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
-                                                        dane.getName(), true, parent));
-                dlg6->exec();
-            }
-
-            powtorzPomiar = pomiarCzujki(daneBadania, true, true, ust);
+            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+            pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;
-
         } while(powtorzPomiar);
     }
 
@@ -196,45 +164,17 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
 bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const Ustawienia & ust)
 {
     short powtorzPomiar;
-    {
-        QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(1, &dane, daneBadania, parent));
-        if (!(dlg1->exec()))
-            return false;
-    }
 
-    {
-        QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
-        if (!(dlg2->exec()))
-            return false;
-    }
+    if (!parametryTest(1, daneBadania, ust))
+        return false;
 
+    bool firstTime = true;
     do {
-        {
-            QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
-            if (!(dlg4->exec()))
-                return false;
-        }
-
-        if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
-            if (!oczekiwanieNaUrzadzenie(daneBadania))
-                return false;
-        }
-
-        if(!zerowanieSterownika(true, true, false))
+        if (!montazZerowanieZasilanie(true, true, false, daneBadania))
             return false;
 
-        if (!zasilenieCzujki(daneBadania))
-            return false;
-
-        {
-            QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-                new OknoStabilizacjaCzujki(daneBadania.getCzasStabilizacjiCzujki_s(),
-                                            dane.getName(), true, parent));
-            dlg6->exec();
-        }
-
-
-        powtorzPomiar = pomiarCzujki(daneBadania, true, true, ust);
+        powtorzPomiar = pomiarCzujki(firstTime, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        firstTime = false;
         if (powtorzPomiar == -1)
             return false;
     } while (powtorzPomiar != 0);
@@ -243,13 +183,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     for (short num = 0; num < 2; ++num)
     {
-        {
-            QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-                new OknoStabilizacjaCzujki(dane.getCzasPowtarzalnosci(),
-                                        dane.getName(), false, parent));
-            dlg6->exec();
-        }
-        pomiarCzujki(daneBadania, false, false, ust);
+        pomiarCzujki(false, true, false, false, dane.getCzasPowtarzalnosci(), daneBadania, ust);
 
         dane.addNextPomiar();
 
@@ -257,55 +191,25 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
             return false;
     }
 
-    {
-        QSharedPointer<OknoStabilizacjaCzujki> dlg6(
-            new OknoStabilizacjaCzujki(ust.getCzasOczekiwaniaPowtarzalnosc4Test(),
-                                    dane.getName(), false, parent));
-        dlg6->exec();
-    }
-
-    pomiarCzujki(daneBadania, false, false, ust);
-
-    {
+    pomiarCzujki(false, true, false, false, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
+    do {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
-    }
+    } while(false);
     return true;
 }
 
 bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    {
-        QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(1, &dane, daneBadania, parent));
-        if (!(dlg1->exec()))
-            return false;
-    }
-
-    {
-        QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
-        if (!(dlg2->exec()))
-            return false;
-    }
-
-    {
-        QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
-        if (!(dlg4->exec()))
-            return false;
-    }
-
-
-    if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
-        if (!oczekiwanieNaUrzadzenie(daneBadania))
-            return false;
-    }
-
-    if(!zerowanieSterownika(true, true, false))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
-    if (!zasilenieCzujki(daneBadania))
-        return false;
+    bool firstTime = true;
+    short powtorzPomiar;
 
+    if (!montazZerowanieZasilanie(true, true, false, daneBadania))
+        return false;
 
     pomiarKata(daneBadania, ust);
 
@@ -338,11 +242,7 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
     ster->connectToDevice();
 
     if (!dlg->exec()) {
-#ifdef DEFVAL
-        return true;
-#else
         return false;
-#endif
     }
     return true;
 }
@@ -354,9 +254,6 @@ bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek
     int ret = dlg0->exec();
     delete dlg0;
     dlg0 = nullptr;
-#ifdef DEFVAL
-        return true;
-#endif
     return ret;
 }
 
@@ -392,41 +289,91 @@ bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
     return true;
 }
 
-short ProceduraTestowa::pomiarCzujki(const ParametryBadania &daneBadania, bool repeatPomiar, bool waitEkran, const Ustawienia &ust)
+short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool waitEkran,
+                                     unsigned long timeWait, const ParametryBadania &daneBadania,
+                                      const Ustawienia &ust)
 {
-    dlg7 = new OknoBadaniaTlumienia(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
+    bool stabOk = true;
+    bool pomOk = true;
+    QString tlumienie = "-";
+    QString error = "";
+    if (stabilizacja || oczekiwanie) {
+        dlg6 = new OknoStabilizacjaCzujki(timeWait, dane.getName(), stabilizacja, parent);
+        stabOk = dlg6->exec() == QDialog::Accepted;
+        delete dlg6;
+        dlg6 = nullptr;
+        if (!stabOk) {
+            error = stabilizacja ?
+                        QString::fromUtf8("Czujka zgłosiła alarm podczas stabilizacji")
+                      : QString::fromUtf8("Czujka zgłosiła alarm podczas oczekiwania na kolejny pomiar");
+            tlumienie = "-";
+        }
+    }
+    if (stabOk) {
+        dlg7 = new OknoBadaniaTlumienia(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
                             dane.getName(), ust, ster, parent);
-    bool ret = dlg7->exec();
-    QString tlumienie = dlg7->getTlumienie();
+        pomOk = dlg7->exec() == QDialog::Accepted;
+        tlumienie = dlg7->getTlumienie();
+        error = dlg7->getError();
+        delete dlg7;
+        dlg7 = nullptr;
 
-
-    bool wynikBadania = dlg7->getWynikBadania();
-    QString error = dlg7->getError();
-    delete dlg7;
-    dlg7 = nullptr;
-    if (!waitEkran) {
-        dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
-        return 0;
+        if (!waitEkran) {
+            dane.setSuccessBadaniaCzujki(pomOk, tlumienie, error);
+            return 0;
+        }
     }
 
-    QSharedPointer<OknoWynikBadaniaTlumienia> dlg8(new OknoWynikBadaniaTlumienia(wynikBadania, tlumienie, dane.getName(), repeatPomiar, parent));
-    if(!(dlg8->exec())) {
+    QSharedPointer<OknoWynikBadaniaTlumienia> dlg8(new OknoWynikBadaniaTlumienia(pomOk && stabOk,
+                                                                                 tlumienie, dane.getName(),
+                                                                                 repeatPomiar, parent));
+    if(dlg8->exec() == QDialog::Rejected) {
         return -1;
     } else {
         if (dlg8->getPowtorzPomiar()) {
             return 1;
-        }
-        if (wynikBadania && tlumienie.toDouble() < ust.getMinimalnaWartoscCzujkiCn()) {
-            dane.setSuccessBadaniaCzujki(false, tlumienie, QString("C<%1").arg(ust.getMinimalnaWartoscCzujkiCn()));
         } else {
-            dane.setSuccessBadaniaCzujki(wynikBadania, tlumienie, error);
+            dane.setSuccessBadaniaCzujki(stabOk && pomOk, tlumienie, error);
         }
     }
     return 0;
 }
 
-short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust)
+bool ProceduraTestowa::montazZerowanieZasilanie(bool filtry, bool ramiona, bool wozek,
+                                                const ParametryBadania &daneBadania)
 {
+    do {
+        QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
+        if (!(dlg4->exec()))
+            return false;
+    } while(false);
+
+    if (!ster->getConnected() || (daneBadania.getWyzwalanieAlarmuPradem() && !zas->getConnected())) {
+        if (!oczekiwanieNaUrzadzenie(daneBadania))
+            return false;
+    }
+
+    if(!zerowanieSterownika(filtry, ramiona, wozek))
+        return false;
+
+    if (!zasilenieCzujki(daneBadania))
+        return false;
+
+    return true;
+}
+
+
+bool ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    struct PomiarKata {
+        QString nazwaBadania ; //ktora os, nadajnik/odbiornik
+        bool ok;
+        QString errorStr;
+        QString errorDetail;
+    };
+
+    PomiarKata pomiar;
+
     short nrSilnika = 1;
     QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaNumerPierwszego());
     dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
@@ -434,47 +381,55 @@ short ProceduraTestowa::pomiarKata(const ParametryBadania &daneBadania, const Us
                                 ust, ster, parent);
     bool ret = dlg10->exec();
     if (!ret) {
-        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas jazdy do kata nominalnego";
+        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
+        pomiar.errorStr = "Czujka wyzwoliła się przed osiągnięciem kąta nominalnego podanego przez producenta";
+        pomiar.errorDetail = dlg10->getError();
+        pomiar.ok = false;
+        return false;
     }
-
-    QString error = dlg10->getError();
-    qDebug() << "erorr" << error.toStdString().c_str();
     delete dlg10;
     dlg10 = nullptr;
 
     dlg11 = new OknoCzekaniaBadanieKatowe(ust.getCzasStabilizacjiDlaKataNieWspolosiowosci(), dane.getName(), ptitle, parent);
     if (!dlg11->exec()) {
-        //TODO
+        pomiar.errorStr = "Czujka wyzwoliła się dla kąta nominalnego podanego przez producenta";
+        pomiar.errorDetail = "Czujka wyzwoliła się w czasie stabilizacji w położeniu dla nominalnego kąta podanego przez producenta";
+        pomiar.ok = false;
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas czekania 2 min";
+        return false;
     }
-
     delete dlg11;
     dlg11 = nullptr;
+
     dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
                                         ust.getMaksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
+                                        ust.getNiewspolosiowoscCzasResetuCzasuCzujki(),
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
                                         dane.getName(), ptitle, ust, ster, parent);
     if (!dlg12->exec()) {
-        //TODO
+        pomiar.errorStr = QString::fromUtf8("Czujka nie zareagowała prawidłowo na tłumnik %1").arg(ust.getNiewspolosiowoscWartoscTlumnika(), 3, 'f',1);
+        pomiar.errorDetail = dlg12->getError();
+        pomiar.ok = false;
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();
     }
     delete dlg12;
     dlg12 = nullptr;
 
     //reset czujki
-    if (daneBadania.getZasilanieCzujekCentrala()) {
-        QMessageBox::information(parent, "Badanie Zależność kierunkowa", "Należy zresetować czujkę (wyłączyć i włączyć). Po wykonaniu tej czynności należy kliknąć OK");
-    } else if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
-        //zas->setOutput(false);
-        //QThread::currentThread()->msleep(100); //na 5 sekund wylaczenie wlaczenie
-        //zas->setOutput(true);
+    OknoResetuZasilaniaCzujki * dlg12 = new OknoResetuZasilaniaCzujki(dane.getName(), ptitle,
+                                                   ust.getNiewspolosiowoscCzasResetuCzasuCzujki(),
+                                                   daneBadania, zas, parent);
+    if (!dlg12->exec()) {
+        delete dlg12;
+        return false;
     }
+    delete dlg12;
 
     //maks kat
-    dlg13 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksKatNieWspolOsiowosci(), ust, ster, parent);
-    dlg13->exec();
-    delete dlg13;
-    dlg13 = nullptr;
+    dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksKatNieWspolOsiowosci(), ust, ster, parent);
+    dlg14->exec();
+    delete dlg14;
+    dlg14 = nullptr;
 
     return 0;
 }

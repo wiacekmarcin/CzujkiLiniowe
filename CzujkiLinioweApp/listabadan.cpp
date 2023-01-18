@@ -42,6 +42,8 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
 
 
     QString nameTest = "Nieznane Badanie";
+    if (id == -1)
+        return;
     if (id < lt.nazwyTestow.size())
         nameTest = lt.nazwyTestow.at(id);
     wyzwalaniePradem = badanie.getWyzwalanieAlarmuPradem();
@@ -318,12 +320,14 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         initPowtarzalnoscTable();
 
         QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
-        ADDHEADITEM(tableCzujka, "Nr czujki", 0, 50);
-        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerPierwszego(), 1, 150);
-        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerDrugiego(), 2, 150);
-        ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, 0);
-        ADDITEM(tableCzujka, daneTestu.getNumerNadajnika(), 0, 1);
-        ADDITEM(tableCzujka, daneTestu.getNumerOdbiornika(), 0, 2);
+        int col = 0;
+        //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerPierwszego(), col++, 150);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerDrugiego(), col++, 150);
+        col = 0;
+        //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerNadajnika(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerOdbiornika(), 0, col++);
 
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
         ADDVHEADITEM(tableParams, "Cmin", 0);

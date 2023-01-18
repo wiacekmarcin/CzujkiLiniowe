@@ -15,9 +15,9 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     QDialog(parent),
     ui(new Ui::OknoBadaniaKata),
     tmSterownika(this),
-    destPos(0),
     ster(ster_),
     wynikBadania(false),
+    destPos(0),
     nrSilnika(nrSilnika_),
     prevVal(0)
 
@@ -32,8 +32,6 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     destPos = kat.toDouble();
     speedMin = ust.wyliczPredkosc(ust.getMotorPrzelozenieImpJedn(nrSilnika), speed);
     ui->speed->setText(QString("<html><body>%1 &deg; / <sub>min<sub></body></html>").arg(speedMin, 3, 'f', 2));
-
-    qDebug() << __FILE__ << __LINE__ << speed << impulsy << "Start ruch";
 
     ster->setPositionSilnik(nrSilnika, false, impulsy, speed);
     tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
@@ -68,7 +66,7 @@ void OknoBadaniaKata::timeoutSterownika()
              << "hardware timeout ";
     if (deviceisOk)
         return;
-    error = QString::fromUtf8("Błąd sprzętowy");
+    error = QString::fromUtf8("Błąd stanowiska");
     wynikBadania = false;
     reject();
 }
@@ -81,7 +79,6 @@ const QString &OknoBadaniaKata::getError() const
 void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
 //void OknoBadaniaKata::ster_setPositionDone(short silnik, bool home, bool move, bool err, bool interrupt)
 {
-    qDebug() << __FILE__ << __LINE__ <<"home" << r.home << "move" << r.move << "err" << r.err << "interrupt" << r.inter;
     if (r.home || silnik != nrSilnika)
         return;
     deviceisOk = true;
@@ -98,7 +95,6 @@ void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
     }
     if (!r.move) {
         error = "";
-        qDebug() << __FILE__ << __LINE__ <<  "Stop";
         accept();
     }
 }

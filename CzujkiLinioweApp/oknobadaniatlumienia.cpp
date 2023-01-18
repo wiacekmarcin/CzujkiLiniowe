@@ -18,9 +18,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     actTlumPos(0),
     maxTlum(0),
     ster(ster_),
-    czasPostoju(czasPostojuFiltra),
-    wynikBadania(false)
-
+    czasPostoju(czasPostojuFiltra)
 {
     ui->setupUi(this);
 
@@ -46,7 +44,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
 
     sterResponse = false;
     ster->setFiltrReset();
-    tmSterownika.singleShot(5000, this, &OknoBadaniaTlumienia::timeoutSterownika);
+    tmSterownika.singleShot(15000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 
 #ifndef DEFVAL
     ui->pbTest->setVisible(false);
@@ -65,8 +63,6 @@ OknoBadaniaTlumienia::~OknoBadaniaTlumienia()
 
 void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Rozpoczynam zmiane filtra";
     sterResponse = true;
     tmSterownika.stop();
     actTlumPos = 0;
@@ -85,6 +81,7 @@ void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
 {
     qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
                 "Filtr zmieniony";
+    sterResponse = true;
     tmZmFiltra.start();
     ui->progressBar->setValue(0);
     tmZmProgressBar.start();
@@ -95,24 +92,18 @@ void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
     qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
                 "Blad filtrow" << filtr << zerowanie;
-    //TODO
-    return;
-    wynikBadania = false;
+    sterResponse = true;
     tmSterownika.stop();
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
-    error = QString::fromUtf8("Błąd filtra %1").arg(filtr);
+    error = QString::fromUtf8("Błąd ustawienia filtra %1").arg(filtr);
     reject();
 }
 
 void OknoBadaniaTlumienia::czujkaOn()
 {
-    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-             "czujka on";
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
-    tmSterownika.stop();
-    wynikBadania = true;
     error = "";
     accept();
 }
@@ -130,7 +121,6 @@ void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
     ++actTlumPos;
     if (actTlumPos == maxTlum) {
         error = QString::fromUtf8("Czujka nie zadziała");
-        wynikBadania = false;
         reject();
         return;
     }
@@ -163,8 +153,7 @@ void OknoBadaniaTlumienia::timeoutSterownika()
              << "hardware timeout ";
     if (sterResponse)
         return;
-    error = QString::fromUtf8("Błąd sprzętowy");
-    wynikBadania = false;
+    error = QString::fromUtf8("Brak komunikacji ze stanowiskiem");
     tmZmProgressBar.stop();
     tmZmFiltra.stop();
     reject();
@@ -180,39 +169,18 @@ const QString &OknoBadaniaTlumienia::getTlumienie() const
     return tlumienie;
 }
 
-bool OknoBadaniaTlumienia::getWynikBadania() const
-{
-    return wynikBadania;
-}
-
 #ifdef DEFVAL
 void OknoBadaniaTlumienia::testValue()
 {
-    bool t1 = tmZmFiltra.isActive();
-    if (t1)
-        tmZmFiltra.stop();
-    bool t2 = tmZmProgressBar.isActive();
-    if (t2)
-        tmZmProgressBar.stop();
-    bool t3 = tmSterownika.isActive() || tmSterownika.isSingleShot();
-    if (t3)
-        tmSterownika.stop();
-
     TestValueDialog * dlg = new TestValueDialog(tlumienie, this);
     if (dlg->exec()) {
         tlumienie = dlg->value();
-        wynikBadania = true;
         error = "";
         delete dlg;
         accept();
     } else {
-        delete dlg;
-        if (t1)
-            tmZmFiltra.start();
-        if (t2)
-            tmZmProgressBar.start();
-        if (t3)
-            tmSterownika.start();
+        error = QString::fromUtf8("Czujka nie zadziała");
+        reject();
     }
 }
 

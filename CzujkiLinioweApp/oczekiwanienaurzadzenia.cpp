@@ -3,6 +3,7 @@
 #include "zasilacz.h"
 #include "sterownik.h"
 #include <QTimer>
+#include <QMessageBox>
 
 OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent) :
     QDialog(parent),
@@ -14,18 +15,35 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent)
     koniecznyZasilacz(zasilacz)
 {
     ui->setupUi(this);
+    timer.setInterval(1000);
+
+    connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
+#ifndef DEFVAL
+    ui->pbSkip->setVisible(false);
+#endif
+
+    connect(ui->pbBreak, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    connect(ui->pbAgain, &QPushButton::clicked, this, [this]() { this->init(); });
+    connect(ui->pbSkip, &QPushButton::clicked, this, [this]() { this->accept(); });
+    init();
+}
+
+void OczekiwanieNaUrzadzenia::init()
+{
+    zasilaczOk = false;
+    sterownikOk = false;
+    cntTmt = 0;
+    ui->errorSterownik->setVisible(false);
+    ui->errorZasilacz->setVisible(false);
+    ui->frameError->setVisible(false);
     ui->progressBarSterownik->setMaximum(maxCzas);
     ui->progressBarZasilacz->setMaximum(maxCzas);
-    if (!zasilacz) {
+    if (!koniecznyZasilacz) {
         ui->frZasilacz->setEnabled(false);
         ui->errorZasilacz->setEnabled(false);
     }
 
-    timer.setInterval(1000);
 
-    connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
-    connect(ui->pushButton, &QPushButton::clicked, this, [this]() { this->reject(); });
-    connect(ui->pushButton, &QPushButton::pressed, this, [this]() { this->reject(); });
     ui->frameError->setVisible(false);
     timer.start();
 }
@@ -117,4 +135,13 @@ void OczekiwanieNaUrzadzenia::sterownik(int state)
         default:
             break;
     }
+}
+
+
+void OczekiwanieNaUrzadzenia::pbCancel_clicked()
+{
+    int ret = QMessageBox::question(this, QString("Oczekiwanie na urządzenia"),
+                                    "Czy napewno chcesz przerwać badanie");
+    if (ret == QMessageBox::Yes)
+        reject();
 }

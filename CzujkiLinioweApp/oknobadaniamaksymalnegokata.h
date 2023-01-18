@@ -33,6 +33,7 @@ public:
     void czujkaOn();
 
     bool getWynikBadania() const;
+    double getDegrees() const;
 
     const QString &getError() const;
 
@@ -54,7 +55,7 @@ private:
     double wspolImpKat;
     short nrSilnika;
     bool deviceisOk;
-    double prevVal;
+    float prevVal;
     double speedMin;
 
 };

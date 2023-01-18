@@ -78,7 +78,6 @@ private:
     Sterownik * ster;
     int czasPostoju;
 
-    bool wynikBadania;
     QString tlumienie;
 
     QString error;

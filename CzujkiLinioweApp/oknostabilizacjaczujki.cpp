@@ -43,6 +43,11 @@ OknoStabilizacjaCzujki::~OknoStabilizacjaCzujki()
     delete ui;
 }
 
+void OknoStabilizacjaCzujki::czujkaOn()
+{
+    reject();
+}
+
 QString OknoStabilizacjaCzujki::getMM_SS(unsigned long secs)
 {
     QString ret;

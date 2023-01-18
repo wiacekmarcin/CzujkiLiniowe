@@ -57,7 +57,7 @@ void OknoBadaniaMaksymalnegoKata::czujkaOn()
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = true;
-    error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
+    //error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
     accept();
 }
 
@@ -79,7 +79,6 @@ const QString &OknoBadaniaMaksymalnegoKata::getError() const
 }
 
 void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
-//void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, bool home, bool move, bool err, bool interrupt)
 {
     qDebug() << __FILE__ << __LINE__ <<"home" << r.home << "move" << r.move << "err" << r.err << "interrupt" << r.inter;
     if (r.home || silnik != nrSilnika)
@@ -90,16 +89,32 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
     if (r.err) {
         wynikBadania = false;
         error = QString("Błąd ustawienia silnika nr %1").arg(silnik);
+        tmSterownika.stop();
         reject();
     }
     if (r.inter) {
-        error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
-        reject();
+        if (abs(destPos - prevVal) > 0.3) {
+            error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
+            wynikBadania = false;
+            tmSterownika.stop();
+            reject();
+        } else {
+            wynikBadania = true;
+            tmSterownika.stop();
+            accept();
+        }
     }
     if (!r.move) {
-        error = "";
-        qDebug() << __FILE__ << __LINE__ <<  "Stop";
-        accept();
+        if (abs(destPos - prevVal) > 0.3) {
+            error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
+            wynikBadania = false;
+            tmSterownika.stop();
+            reject();
+        } else {
+            wynikBadania = true;
+            tmSterownika.stop();
+            accept();
+        }
     }
 }
 
@@ -123,10 +138,19 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
     qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
+    if (abs(destPos - prevVal) > 0.5) {
+        tmSterownika.stop();
+        reject();
+    }
 }
 
 bool OknoBadaniaMaksymalnegoKata::getWynikBadania() const
 {
     return wynikBadania;
+}
+
+double OknoBadaniaMaksymalnegoKata::getDegrees() const
+{
+    return prevVal;
 }
 
