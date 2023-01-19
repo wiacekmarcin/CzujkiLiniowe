@@ -46,10 +46,12 @@ DaneTestu::DaneTestu():
     CmaxCmin(0.0),
     ok(false),
     errStr(""),
-    nazwaNumerPierwszego(""),
-    nazwaNumerDrugiego(""),
-    nazwaTypPierwszego(""),
-    nazwaTypDrugiego(""),
+    nazwaNumerTransmitter(""),
+    nazwaNumerReceiver(""),
+    nazwaTransmitter(""),
+    nazwaReceiver(""),
+    nazwaTransmitter_a(""),
+    nazwaReceiver_a(""),
     dlugoscFali(0),
     czasPowtarzalnosci(0),
     minimalneRozstawienie("0"),
@@ -156,10 +158,12 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.CmaxCmin
         << dane.ok
         << dane.errStr
-        << dane.nazwaNumerPierwszego
-        << dane.nazwaNumerDrugiego
-        << dane.nazwaTypPierwszego
-        << dane.nazwaTypDrugiego
+        << dane.nazwaNumerTransmitter
+        << dane.nazwaNumerReceiver
+        << dane.nazwaTransmitter
+        << dane.nazwaReceiver
+        << dane.nazwaTransmitter_a
+        << dane.nazwaReceiver_a
         << dane.dlugoscFali
         << dane.czasPowtarzalnosci
         << dane.katyProducenta.nadajnik.pionowo
@@ -194,10 +198,12 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.CmaxCmin
         >> dane.ok
         >> dane.errStr
-        >> dane.nazwaNumerPierwszego
-        >> dane.nazwaNumerDrugiego
-        >> dane.nazwaTypPierwszego
-        >> dane.nazwaTypDrugiego
+        >> dane.nazwaNumerTransmitter
+        >> dane.nazwaNumerReceiver
+        >> dane.nazwaTransmitter
+        >> dane.nazwaReceiver
+        >> dane.nazwaTransmitter_a
+        >> dane.nazwaReceiver_a
         >> dane.dlugoscFali
         >> dane.czasPowtarzalnosci
         >> dane.katyProducenta.nadajnik.pionowo
@@ -301,14 +307,14 @@ void DaneTestu::setUwagi(const QString &newUwagi)
     uwagi = newUwagi;
 }
 
-QString DaneTestu::getNumerNadajnika() const
+QString DaneTestu::getNumerTransmitter() const
 {
     if (danePomiarowe.size() == 0)
         return QString();
     return danePomiarowe[danePomiarowe.size()-1].numerNadajnika;
 }
 
-QString DaneTestu::getNumerOdbiornika() const
+QString DaneTestu::getNumerReceiver() const
 {
     if (danePomiarowe.size() == 0)
         return QString();
@@ -450,24 +456,24 @@ void DaneTestu::setErrStr(const QString & newErr)
     errStr = newErr;
 }
 
-const QString &DaneTestu::getNazwaNumerPierwszego() const
+const QString &DaneTestu::getNazwaNumerTransmitter() const
 {
-    return nazwaNumerPierwszego;
+    return nazwaNumerTransmitter;
 }
 
-void DaneTestu::setNazwaPierwszego(const QString &newNazwaPierwszego)
+void DaneTestu::setNazwaNumerTransmitter(const QString &newNazwaPierwszego)
 {
-    nazwaNumerPierwszego = newNazwaPierwszego;
+    nazwaNumerTransmitter = newNazwaPierwszego;
 }
 
-const QString &DaneTestu::getNazwaNumerDrugiego() const
+const QString &DaneTestu::getNazwaNumerReceiver() const
 {
-    return nazwaNumerDrugiego;
+    return nazwaNumerReceiver;
 }
 
-void DaneTestu::setNazwaDrugiego(const QString &newNazwaDrugiego)
+void DaneTestu::setNazwaNumerReceiver(const QString &newNazwaDrugiego)
 {
-    nazwaNumerDrugiego = newNazwaDrugiego;
+    nazwaNumerReceiver = newNazwaDrugiego;
 }
 
 int DaneTestu::getDlugoscFali() const
@@ -516,24 +522,24 @@ void DaneTestu::setKatyProducenta(const NiewspolosiowoscOsUrzadzenie &newKatyPro
     katyProducenta = newKatyProducenta;
 }
 
-const QString &DaneTestu::getNazwaTypPierwszego() const
+const QString &DaneTestu::getNazwaTransmitter() const
 {
-    return nazwaTypPierwszego;
+    return nazwaTransmitter;
 }
 
-void DaneTestu::setNazwaTypPierwszego(const QString &newNazwaTypPierwszego)
+void DaneTestu::setNazwaTransmitter(const QString &newNazwaTransmitter)
 {
-    nazwaTypPierwszego = newNazwaTypPierwszego;
+    nazwaTransmitter = newNazwaTransmitter;
 }
 
-const QString &DaneTestu::getNazwaTypDrugiego() const
+const QString &DaneTestu::getNazwaReceiver() const
 {
-    return nazwaTypDrugiego;
+    return nazwaReceiver;
 }
 
-void DaneTestu::setNazwaTypDrugiego(const QString &newNazwaTypDrugiego)
+void DaneTestu::setNazwaReceiver(const QString &newNazwaTypDrugiego)
 {
-    nazwaTypDrugiego = newNazwaTypDrugiego;
+    nazwaReceiver = newNazwaTypDrugiego;
 }
 
 float DaneTestu::getCmaxCmin() const
@@ -785,6 +791,26 @@ void DaneTestu::obliczDlugoscOptyczna(const Ustawienia &ust)
         setOk(badanieOk);
     }
 
+}
+
+const QString &DaneTestu::getNazwaTransmitter_a() const
+{
+    return nazwaTransmitter_a;
+}
+
+void DaneTestu::setNazwaTransmitter_a(const QString &newNazwaTransmitter_a)
+{
+    nazwaTransmitter_a = newNazwaTransmitter_a;
+}
+
+const QString &DaneTestu::getNazwaReceiver_a() const
+{
+    return nazwaReceiver_a;
+}
+
+void DaneTestu::setNazwaReceiver_a(const QString &newNazwaReceiver_a)
+{
+    nazwaReceiver_a = newNazwaReceiver_a;
 }
 
 const QString &DaneTestu::getMinimalneRozstawienie() const

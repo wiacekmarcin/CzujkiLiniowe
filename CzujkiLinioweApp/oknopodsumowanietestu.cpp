@@ -18,8 +18,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
     qDebug() << "id" << daneTestu.getId();
-    QString pierwszy = daneTestu.getNazwaNumerPierwszego();
-    QString  drugi = daneTestu.getNazwaNumerDrugiego();
+    QString pierwszy = daneTestu.getNazwaNumerTransmitter();
+    QString  drugi = daneTestu.getNazwaNumerReceiver();
 
     ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
     if (daneTestu.getId() == REPRODUCIBILITY) {

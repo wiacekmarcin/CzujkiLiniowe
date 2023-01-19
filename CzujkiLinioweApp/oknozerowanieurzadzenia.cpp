@@ -19,15 +19,15 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
     ui->setupUi(this);
 
     buttons[0] = nullptr;
-    buttons[1] = ui->rb_pierwszy_poziom;
-    buttons[2] = ui->rb_pierwwszy_pion;
+    buttons[1] = ui->rb_transmitter_poziom;
+    buttons[2] = ui->rb_transmitter_pion;
     buttons[3] = ui->rb_a;
     buttons[4] = ui->rb_b;
     buttons[5] = ui->rb_c;
     buttons[6] = ui->wozek_poziom;
     buttons[7] = ui->wozek_pion;
-    buttons[8] = ui->rb_drugi_poziom;
-    buttons[9] = ui->rb_drugi_pion;
+    buttons[8] = ui->rb_receiver_poziom;
+    buttons[9] = ui->rb_receiver_pion;
 
     init();
 #ifdef DEFVAL
@@ -64,8 +64,8 @@ void OknoZerowanieUrzadzenia::init()
     //}
 
     ui->frame_filtry->setDisabled(!filtry);
-    ui->frame_nadajnik->setDisabled(!ramiona);
-    ui->frame_odbiornik->setDisabled(!ramiona);
+    ui->frame_transmitter->setDisabled(!ramiona);
+    ui->frame_receiver->setDisabled(!ramiona);
     ui->frame_wozek->setDisabled(!wozek);
     adjustSize();
     //QString debug = QString("<ul>Zerowanie urzadzenia");

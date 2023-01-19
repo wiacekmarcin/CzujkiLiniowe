@@ -9,15 +9,15 @@ OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *pa
     ui->setupUi(this);
 
     ui->osobaWykonujacaTest->setText(test.getOsobaWykonujaca());
-    ui->numerNadajnika->setText(test.getNumerNadajnika());
-    ui->numerDrugi->setText(test.getNumerOdbiornika());
+    ui->numerNadajnika->setText(test.getNumerTransmitter());
+    ui->numerDrugi->setText(test.getNumerReceiver());
     ui->temperatura->setText(QString("<html><body>%1 &deg;</body></html>").arg(test.getTemperatura()));
     ui->cisnienie->setText(QString("%1 mbar").arg(test.getCisnienie()));
     ui->wilgotnosc->setText(QString("%1 %").arg(test.getWilgotnosc()));
     ui->testName->setText(test.getName());
 
-    ui->ePierwszy->setText(QString("Wybrany %1:").arg(test.getNazwaNumerPierwszego()));
-    ui->eDrugi->setText(QString("Wybrany %1:").arg(test.getNazwaNumerDrugiego()));
+    ui->ePierwszy->setText(QString("Wybrany %1:").arg(test.getNazwaNumerTransmitter()));
+    ui->eDrugi->setText(QString("Wybrany %1:").arg(test.getNazwaNumerReceiver()));
 
     ui->powtarzalnosc_czas->setVisible(test.getId() == REPEATABILITY);
     ui->ePowtarzalnosc->setVisible(test.getId() == REPEATABILITY);

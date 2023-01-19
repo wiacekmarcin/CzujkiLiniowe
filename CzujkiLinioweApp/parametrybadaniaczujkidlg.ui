@@ -59,24 +59,24 @@
        <widget class="QLineEdit" name="producent"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="ltyppierwszy">
+       <widget class="QLabel" name="ltypTransmitter">
         <property name="text">
          <string>Typ nadajnika</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="typPierwszy"/>
+       <widget class="QLineEdit" name="typTransmitter"/>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="ltypdrugi">
+       <widget class="QLabel" name="ltypReceiver">
         <property name="text">
          <string>Typ odbiornika</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QLineEdit" name="typDrugi"/>
+       <widget class="QLineEdit" name="typReceiver"/>
       </item>
       <item row="4" column="0">
        <widget class="QLabel" name="lrozstawienieminimalne">
@@ -189,7 +189,7 @@
           </widget>
          </item>
          <item row="5" column="1">
-          <widget class="QLineEdit" name="pierwszy_ospozioma"/>
+          <widget class="QLineEdit" name="transmitter_ospozioma"/>
          </item>
          <item row="4" column="2">
           <widget class="QLabel" name="lunitpionowa">
@@ -199,7 +199,7 @@
           </widget>
          </item>
          <item row="4" column="5">
-          <widget class="QLineEdit" name="drugi_ospionowa"/>
+          <widget class="QLineEdit" name="receiver_ospionowa"/>
          </item>
          <item row="5" column="0">
           <widget class="QLabel" name="lospozioma">
@@ -209,7 +209,7 @@
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="pierwszy_ospionowa"/>
+          <widget class="QLineEdit" name="transmitter_ospionowa"/>
          </item>
          <item row="2" column="0" colspan="7">
           <widget class="Line" name="line_2">
@@ -235,14 +235,14 @@
           </widget>
          </item>
          <item row="3" column="5" colspan="2">
-          <widget class="QLabel" name="ldrugi">
+          <widget class="QLabel" name="lReceiver">
            <property name="text">
             <string>Odbiornik</string>
            </property>
           </widget>
          </item>
          <item row="5" column="5">
-          <widget class="QLineEdit" name="drugi_ospozioma"/>
+          <widget class="QLineEdit" name="receiver_ospozioma"/>
          </item>
          <item row="5" column="2">
           <widget class="QLabel" name="lunitospozioma">
@@ -252,7 +252,7 @@
           </widget>
          </item>
          <item row="3" column="1" colspan="2">
-          <widget class="QLabel" name="lpierwszy">
+          <widget class="QLabel" name="lTransmitter">
            <property name="text">
             <string>Nadajnik</string>
            </property>
@@ -303,7 +303,7 @@ Czujki</string>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLabel" name="hpierwszy">
+          <widget class="QLabel" name="hnumerTransmitter">
            <property name="minimumSize">
             <size>
              <width>60</width>
@@ -319,7 +319,7 @@ Czujki</string>
           </widget>
          </item>
          <item row="0" column="2">
-          <widget class="QLabel" name="hdrugi">
+          <widget class="QLabel" name="hnumerReceiver">
            <property name="minimumSize">
             <size>
              <width>60</width>
@@ -474,14 +474,14 @@ powinna być równa 7</string>
  <tabstops>
   <tabstop>comboBox</tabstop>
   <tabstop>producent</tabstop>
-  <tabstop>typPierwszy</tabstop>
-  <tabstop>typDrugi</tabstop>
+  <tabstop>typTransmitter</tabstop>
+  <tabstop>typReceiver</tabstop>
   <tabstop>rozstawienieMinimalne</tabstop>
   <tabstop>rozstawienieMaksymalne</tabstop>
-  <tabstop>pierwszy_ospionowa</tabstop>
-  <tabstop>pierwszy_ospozioma</tabstop>
-  <tabstop>drugi_ospionowa</tabstop>
-  <tabstop>drugi_ospozioma</tabstop>
+  <tabstop>transmitter_ospionowa</tabstop>
+  <tabstop>transmitter_ospozioma</tabstop>
+  <tabstop>receiver_ospionowa</tabstop>
+  <tabstop>receiver_ospozioma</tabstop>
  </tabstops>
  <resources/>
  <connections/>

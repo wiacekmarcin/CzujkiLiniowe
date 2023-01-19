@@ -53,10 +53,10 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
     }
 
-    ui->ePierwszy->setText(badanie.getNazwaNumerPierwszego());
-    ui->eDrugi->setText(badanie.getNazwaNumerDrugiego());
-    test->setNazwaPierwszego(badanie.getNazwaNumerPierwszego());
-    test->setNazwaDrugiego(badanie.getNazwaNumerDrugiego());
+    ui->ePierwszy->setText(badanie.getNazwaNumerTransmitter());
+    ui->eDrugi->setText(badanie.getNazwaNumerReceiver());
+    //test->setNazwaPierwszego(badanie.getNazwaNumerPierwszego());
+    //test->setNazwaDrugiego(badanie.getNazwaNumerDrugiego());
 
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
     NiewspolosiowoscOsUrzadzenie od;
@@ -102,8 +102,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->poziomNadajnik->setText(badanie.getMaksKatowaNieWspolPoziomaNadajnika());
             ui->pionOdbiornik->setText(badanie.getMaksKatowaNieWspolPionowaOdbiornika());
             ui->poziomOdbiornik->setText(badanie.getMaksKatowaNieWspolPoziomaOdbiornika());
-            ui->etPierwszy->setText(badanie.getNazwaNumerPierwszego());
-            ui->etDrugi->setText(badanie.getNazwaNumerDrugiego());
+            ui->etTransmitter->setText(badanie.getNazwaNumerTransmitter());
+            ui->etReceiver->setText(badanie.getNazwaNumerReceiver());
             nrCzujkiDoWybrania = 1;
             od.nadajnik.pionowo = badanie.getMaksKatowaNieWspolPionowaNadajnika();
             od.nadajnik.poziomo = badanie.getMaksKatowaNieWspolPoziomaNadajnika();
@@ -220,7 +220,7 @@ void OknoParametryTestu::check()
     }
     else {
 //Todo sprawdzenie czujki
-        if (test->sprawdzCzyBadanaCzujka(ui->typPierwszy->text(), ui->typDrugi->text())) {
+        if (test->sprawdzCzyBadanaCzujka(ui->typTransmitter->text(), ui->typReceiver->text())) {
             addError(QString::fromUtf8("Wybrana czujka była już badana"), true);
         }
     }
@@ -250,7 +250,7 @@ void OknoParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typPierwszy->text(), ui->typDrugi->text());
+    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
 
     if(test->getId() == REPEATABILITY)
     {
@@ -282,8 +282,8 @@ void OknoParametryTestu::changeCzujka(int index)
 {
     QVariant v = ui->cbCzujka->itemData(index);
     QStringList sl = v.toStringList();
-    ui->typPierwszy->setText(sl.first());
-    ui->typDrugi->setText(sl.last());
+    ui->typTransmitter->setText(sl.first());
+    ui->typReceiver->setText(sl.last());
     if (test->sprawdzCzyBadanaCzujka(sl.first(), sl.last())) {
         ui->errorLab->setText("Wybrana czujka była już podana badaniu");
         ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");

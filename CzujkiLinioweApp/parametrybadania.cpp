@@ -19,11 +19,12 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPionowaOdbiornika("0.0");
     setSystemOdbiornikNadajnik(true);
     setTestOdtwarzalnosci(false);
-    setNazwaPierwszy("Nadajnik");
-    setNazwaDrugi("Odbiornik");
-    setNazwaNumerPierwszego("Numer nadajnika");
-    setNazwaNumerDrugiego("Numer odbiornika");
-
+    setNazwaTransmitter("Nadajnik");
+    setNazwaReceiver("Odbiornik");
+    setNazwaNumerTransmitter("Numer nadajnika");
+    setNazwaNumerReceiver("Numer odbiornika");
+    setNazwaTransmitter_a("Nadajnika");
+    setNazwaReceiver_a("Odbiornika");
     setNumerZlecenia("-");
     setNumerTestu("-");
     setOsobaOdpowiedzialna("-");
@@ -36,8 +37,8 @@ ParametryBadania::ParametryBadania()
     setDlugoscFaliFiltrow(880);
     setSystemOdbiornikNadajnik(true);
     setProducentCzujki("-");
-    setTypPierwszejCzujki("-");
-    setTypDrugiejCzujki("-");
+    setTypTransmitter("-");
+    setTypReceiver("-");
     setRozstawienieMinCzujki(0);
     setRozstawienieMaxCzujki(0);
     setIloscCzujek(0);
@@ -103,26 +104,26 @@ void ParametryBadania::dodajCzujki(const QString &odbiornik, const QString &nada
     numbersCzujki.push_back(qMakePair(odbiornik, nadajnik));
 }
 
-QString ParametryBadania::getNumerNadajnika(unsigned int index, bool sorted) const
+QString ParametryBadania::getNumerTransmitter(unsigned int index, bool sorted) const
 {
     if (!sorted && index >= numbersCzujki.size() )
         return QString();
     if (sorted && index >= sortedId.size())
         return QString();
     if (sorted)
-        return getNumerNadajnika(sortedId[index]-1, false);
+        return getNumerTransmitter(sortedId[index]-1, false);
     else
         return numbersCzujki[index].first;
 }
 
-QString ParametryBadania::getNumerOdbiornika(unsigned int index, bool sorted) const
+QString ParametryBadania::getNumerReceiver(unsigned int index, bool sorted) const
 {
     if (!sorted && index >= numbersCzujki.size() )
         return QString();
     if (sorted && index >= sortedId.size())
         return QString();
     if (sorted)
-        return getNumerNadajnika(sortedId[index]-1, false);
+        return getNumerTransmitter(sortedId[index]-1, false);
     else
         return numbersCzujki[index].second;
 }

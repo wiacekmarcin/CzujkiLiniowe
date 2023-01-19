@@ -5,13 +5,29 @@
 
 //#define DEFVAL
 
-const char* ParametryBadaniaCzujkiDlg::etTypPierwszy[2] = { ParametryBadaniaCzujkiDlg::etTypOdbiornika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
-const char* ParametryBadaniaCzujkiDlg::etTypDrugi[2] = { ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypReflektora };
-const char* ParametryBadaniaCzujkiDlg::etPierwszy[2] = { ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
-const char* ParametryBadaniaCzujkiDlg::etDrugi[2] = { ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etReflektora };
-const char* ParametryBadaniaCzujkiDlg::etNumerPierwszy[2] = { ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
-const char* ParametryBadaniaCzujkiDlg::etNumerDrugi[2] = { ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
-const char* ParametryBadaniaCzujkiDlg::etNazwa[4] = { ParametryBadaniaCzujkiDlg::etNazwaNadajnika, ParametryBadaniaCzujkiDlg::etNazwaNadajnikaOdbiornika, ParametryBadaniaCzujkiDlg::etNazwaOdbiornika, ParametryBadaniaCzujkiDlg::etNazwaReflektora };
+const char* ParametryBadaniaCzujkiDlg::etTransmitter_a[2] = {
+    ParametryBadaniaCzujkiDlg::etNadajnika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
+
+const char* ParametryBadaniaCzujkiDlg::etTypTransmitter[2] = {
+    ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
+
+const char* ParametryBadaniaCzujkiDlg::etNumerTransmitter[2] = {
+    ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
+
+const char* ParametryBadaniaCzujkiDlg::etTransmitter[2] = {
+    ParametryBadaniaCzujkiDlg::etNadajnik, ParametryBadaniaCzujkiDlg::etNadajnikOdbiornik };
+
+const char* ParametryBadaniaCzujkiDlg::etReceiver_a[2] = {
+    ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
+
+const char* ParametryBadaniaCzujkiDlg::etTypReceiver[2] = {
+    ParametryBadaniaCzujkiDlg::etTypOdbiornika, ParametryBadaniaCzujkiDlg::etTypReflektora };
+
+const char* ParametryBadaniaCzujkiDlg::etNumerReceiver[2] = {
+    ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
+
+const char* ParametryBadaniaCzujkiDlg::etReceiver[2] = {
+    ParametryBadaniaCzujkiDlg::etOdbiornik,  ParametryBadaniaCzujkiDlg::etReflektor };
 
 ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
     QWidget(parent),
@@ -25,14 +41,14 @@ ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
 
     connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [this](int id) { this->changeTypUkladu(id); this->check(); });
     connect(ui->producent, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->typPierwszy, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->typDrugi, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->typTransmitter, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->typReceiver, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->rozstawienieMinimalne, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->rozstawienieMaksymalne, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->pierwszy_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->pierwszy_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->drugi_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-    connect(ui->drugi_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->transmitter_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->transmitter_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->receiver_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    connect(ui->receiver_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
 }
 
 ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()
@@ -57,26 +73,26 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
     ui->comboBox->setCurrentIndex(badanie->getSystemOdbiornikNadajnik() ? 0 : 1);
     switchOdbiornikReflektor(badanie->getSystemOdbiornikNadajnik());
     ui->producent->setText(badanie->getProducentCzujki());
-    ui->typPierwszy->setText(badanie->getTypPierwszejCzujki());
-    ui->typDrugi->setText(badanie->getTypDrugiejCzujki());
+    ui->typTransmitter->setText(badanie->getTypTransmitter());
+    ui->typReceiver->setText(badanie->getTypReceiver());
     ui->rozstawienieMaksymalne->setText(badanie->getRozstawienieMaxCzujki());
     ui->rozstawienieMinimalne->setText(badanie->getRozstawienieMinCzujki());
-    ui->pierwszy_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaNadajnika());
-    ui->pierwszy_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaNadajnika());
-    ui->drugi_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaOdbiornika());
-    ui->drugi_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaOdbiornika());
+    ui->transmitter_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaNadajnika());
+    ui->transmitter_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaNadajnika());
+    ui->receiver_ospionowa->setText(badanie->getMaksKatowaNieWspolPionowaOdbiornika());
+    ui->receiver_ospozioma->setText(badanie->getMaksKatowaNieWspolPoziomaOdbiornika());
 
 
     showInfoSorted(testOdtwarzalnosci);
-    ui->typPierwszy->setReadOnly(testOdtwarzalnosci);
+    ui->typTransmitter->setReadOnly(testOdtwarzalnosci);
     ui->producent->setReadOnly(testOdtwarzalnosci);
-    ui->typDrugi->setReadOnly(testOdtwarzalnosci);
+    ui->typReceiver->setReadOnly(testOdtwarzalnosci);
     ui->rozstawienieMinimalne->setReadOnly(testOdtwarzalnosci);
     ui->rozstawienieMaksymalne->setReadOnly(testOdtwarzalnosci);
-    ui->pierwszy_ospozioma->setReadOnly(testOdtwarzalnosci);
-    ui->pierwszy_ospionowa->setReadOnly(testOdtwarzalnosci);
-    ui->drugi_ospozioma->setReadOnly(testOdtwarzalnosci);
-    ui->drugi_ospionowa->setReadOnly(testOdtwarzalnosci);
+    ui->transmitter_ospozioma->setReadOnly(testOdtwarzalnosci);
+    ui->transmitter_ospionowa->setReadOnly(testOdtwarzalnosci);
+    ui->receiver_ospozioma->setReadOnly(testOdtwarzalnosci);
+    ui->receiver_ospionowa->setReadOnly(testOdtwarzalnosci);
     ui->comboBox->setEditable(false);
 
     ui->comboBox->setEditable(!testOdtwarzalnosci);
@@ -93,15 +109,15 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
 
 #ifdef DEFVAL
     if (!edit && !testOdtwarzalnosci) {
-        ui->typPierwszy->setText("Rodzaj nadajnika");
+        ui->typTransmitter->setText("Rodzaj nadajnika");
         ui->producent->setText("Producent");
-        ui->typDrugi->setText("Rodzaj odbiornika");
+        ui->typReceiver->setText("Rodzaj odbiornika");
         ui->rozstawienieMinimalne->setText("1.0");
         ui->rozstawienieMaksymalne->setText("10.0");
-        ui->pierwszy_ospozioma->setText("0.51");
-        ui->pierwszy_ospionowa->setText("0.52");
-        ui->drugi_ospozioma->setText("0.53");
-        ui->drugi_ospionowa->setText("0.54");
+        ui->transmitter_ospozioma->setText("0.51");
+        ui->transmitter_ospionowa->setText("0.52");
+        ui->receiver_ospozioma->setText("0.53");
+        ui->receiver_ospionowa->setText("0.54");
 
         auto cw1 = m_numbers.at(0);
         cw1.first->setText("Nadajnik1");
@@ -201,14 +217,14 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *bada
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
         QLabel * p = new QLabel(ui->frameCzujki);
-        p->setObjectName(QString("pierwszyNumerLabel%1").arg(nrCz+1));
-        p->setText(badanie->getNumerNadajnika(nrCz, true));
+        p->setObjectName(QString("transmitterNumerLabel%1").arg(nrCz+1));
+        p->setText(badanie->getNumerTransmitter(nrCz, true));
         p->setFrameStyle(QFrame::Box);
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
 
         QLabel * d = new QLabel(ui->frameCzujki);
-        d->setObjectName(QString("drugiNumerLabel%1").arg(nrCz+1));
-        d->setText(badanie->getNumerOdbiornika(nrCz, true));
+        d->setObjectName(QString("receiverNumerLabel%1").arg(nrCz+1));
+        d->setText(badanie->getNumerReceiver(nrCz, true));
         d->setFrameStyle(QFrame::Box);
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
 
@@ -231,13 +247,13 @@ bool ParametryBadaniaCzujkiDlg::check()
         return false;
     }
 
-    if (ui->typPierwszy->text().isEmpty()) {
-        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypPierwszy[ui->comboBox->currentIndex()]));
+    if (ui->typTransmitter->text().isEmpty()) {
+        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypTransmitter[ui->comboBox->currentIndex()]));
         return false;
     }
 
-    if (ui->typDrugi->text().isEmpty()) {
-        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypDrugi[ui->comboBox->currentIndex()]));
+    if (ui->typReceiver->text().isEmpty()) {
+        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypReceiver[ui->comboBox->currentIndex()]));
         return false;
     }
 
@@ -265,58 +281,58 @@ bool ParametryBadaniaCzujkiDlg::check()
         }
     }
 
-    if (ui->pierwszy_ospionowa->text().isEmpty()) {
+    if (ui->transmitter_ospionowa->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etTransmitter_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
-        ui->pierwszy_ospionowa->text().toDouble(&ok);
+        ui->transmitter_ospionowa->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etTransmitter_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
-    if (ui->pierwszy_ospozioma->text().isEmpty()) {
+    if (ui->transmitter_ospozioma->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etTransmitter_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
-        ui->pierwszy_ospozioma->text().toDouble(&ok);
+        ui->transmitter_ospozioma->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etTransmitter_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
-    if (ui->drugi_ospionowa->text().isEmpty()) {
+    if (ui->receiver_ospionowa->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etReceiver_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
-        ui->drugi_ospionowa->text().toDouble(&ok);
+        ui->receiver_ospionowa->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etReceiver_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
-    if (ui->drugi_ospozioma->text().isEmpty()) {
+    if (ui->receiver_ospozioma->text().isEmpty()) {
         errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
-                            arg(etPierwszy[ui->comboBox->currentIndex()]));
+                            arg(etReceiver_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
-        ui->drugi_ospozioma->text().toDouble(&ok);
+        ui->receiver_ospozioma->text().toDouble(&ok);
         if (!ok) {
             errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
-                                arg(etDrugi[ui->comboBox->currentIndex()]));
+                                arg(etReceiver_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
@@ -342,18 +358,18 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 {
     badanie->setSystemOdbiornikNadajnik(ui->comboBox->currentIndex() == 0);
     badanie->setProducentCzujki(ui->producent->text());
-    badanie->setTypPierwszejCzujki(ui->typPierwszy->text());
-    badanie->setTypDrugiejCzujki(ui->typDrugi->text());
+    badanie->setTypTransmitter(ui->typTransmitter->text());
+    badanie->setTypReceiver(ui->typReceiver->text());
     badanie->setRozstawienieMaxCzujki(ui->rozstawienieMaksymalne->text());
     badanie->setRozstawienieMinCzujki(ui->rozstawienieMinimalne->text());
-    badanie->setMaksKatowaNieWspolPionowaNadajnika(ui->pierwszy_ospionowa->text());
-    badanie->setMaksKatowaNieWspolPoziomaNadajnika(ui->pierwszy_ospozioma->text());
-    badanie->setMaksKatowaNieWspolPionowaOdbiornika(ui->drugi_ospionowa->text());
-    badanie->setMaksKatowaNieWspolPoziomaOdbiornika(ui->drugi_ospozioma->text());
-    badanie->setNazwaPierwszy(ui->hpierwszy->text());
-    badanie->setNazwaDrugi(ui->hdrugi->text());
-    badanie->setNazwaNumerPierwszego(etNazwa[ui->comboBox->currentIndex()]);
-    badanie->setNazwaNumerDrugiego(etNazwa[2+ui->comboBox->currentIndex()]);
+    badanie->setMaksKatowaNieWspolPionowaNadajnika(ui->transmitter_ospionowa->text());
+    badanie->setMaksKatowaNieWspolPoziomaNadajnika(ui->transmitter_ospozioma->text());
+    badanie->setMaksKatowaNieWspolPionowaOdbiornika(ui->receiver_ospionowa->text());
+    badanie->setMaksKatowaNieWspolPoziomaOdbiornika(ui->receiver_ospozioma->text());
+    badanie->setNazwaTransmitter(etTransmitter[ui->comboBox->currentIndex()]);
+    badanie->setNazwaReceiver(etReceiver[ui->comboBox->currentIndex()]);
+    badanie->setNazwaNumerTransmitter(etNumerTransmitter[ui->comboBox->currentIndex()]);
+    badanie->setNazwaNumerReceiver(etNumerReceiver[ui->comboBox->currentIndex()]);
 
     badanie->wyczyscCzujki();
     short num = 0;
@@ -371,12 +387,12 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
 {
     short ind = odbiornik ? 0 : 1;
-    ui->ltyppierwszy->setText(QString(etTypPierwszy[ind]));
-    ui->ltypdrugi->setText(QString(etTypDrugi[ind]));
-    ui->lpierwszy->setText(QString(etPierwszy[ind]));
-    ui->ldrugi->setText(QString(etDrugi[ind]));
-    ui->hpierwszy->setText(QString(etNumerPierwszy[ind]));
-    ui->hdrugi->setText(QString(etNumerDrugi[ind]));
+    ui->ltypTransmitter->setText(QString(etTypTransmitter[ind]));
+    ui->ltypReceiver->setText(QString(etTypReceiver[ind]));
+    ui->lTransmitter->setText(QString(etTransmitter_a[ind]));
+    ui->lReceiver->setText(QString(etReceiver_a[ind]));
+    ui->hnumerTransmitter->setText(QString(etNumerTransmitter[ind]));
+    ui->hnumerReceiver->setText(QString(etNumerReceiver[ind]));
 
 }
 

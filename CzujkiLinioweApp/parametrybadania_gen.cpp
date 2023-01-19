@@ -53,8 +53,6 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> czasPomZmianaTlumenia_s
 		 >> systemOdbiornikNadajnik
 		 >> producentCzujki
-		 >> typPierwszejCzujki
-		 >> typDrugiejCzujki
 		 >> rozstawienieMinCzujki
 		 >> rozstawienieMaxCzujki
 		 >> maksKatowaNieWspolPionowaNadajnika
@@ -63,10 +61,14 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> maksKatowaNieWspolPoziomaOdbiornika
 		 >> iloscCzujek
 		 >> testOdtwarzalnosci
-		 >> nazwaNumerPierwszego
-		 >> nazwaNumerDrugiego
-		 >> nazwaPierwszy
-		 >> nazwaDrugi
+		 >> nazwaNumerTransmitter
+		 >> nazwaNumerReceiver
+		 >> nazwaTransmitter
+		 >> nazwaReceiver
+		 >> nazwaTransmitter_a
+		 >> nazwaReceiver_a
+		 >> typTransmitter
+		 >> typReceiver
 		 >> odtwarzalnoscCmaxCrep
 		 >> odtwarzalnoscCrepCmin
 		 >> odtwarzalnoscCmin
@@ -93,8 +95,6 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << czasPomZmianaTlumenia_s
 		 << systemOdbiornikNadajnik
 		 << producentCzujki
-		 << typPierwszejCzujki
-		 << typDrugiejCzujki
 		 << rozstawienieMinCzujki
 		 << rozstawienieMaxCzujki
 		 << maksKatowaNieWspolPionowaNadajnika
@@ -103,10 +103,14 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << maksKatowaNieWspolPoziomaOdbiornika
 		 << iloscCzujek
 		 << testOdtwarzalnosci
-		 << nazwaNumerPierwszego
-		 << nazwaNumerDrugiego
-		 << nazwaPierwszy
-		 << nazwaDrugi
+		 << nazwaNumerTransmitter
+		 << nazwaNumerReceiver
+		 << nazwaTransmitter
+		 << nazwaReceiver
+		 << nazwaTransmitter_a
+		 << nazwaReceiver_a
+		 << typTransmitter
+		 << typReceiver
 		 << odtwarzalnoscCmaxCrep
 		 << odtwarzalnoscCrepCmin
 		 << odtwarzalnoscCmin
@@ -310,28 +314,6 @@ void ParametryBadaniaGen::setProducentCzujki(const QString & value)
 	change = true;
 }
 
-QString ParametryBadaniaGen::getTypPierwszejCzujki() const
-{
-	return typPierwszejCzujki;
-}
-
-void ParametryBadaniaGen::setTypPierwszejCzujki(const QString & value)
-{
-	typPierwszejCzujki = value;
-	change = true;
-}
-
-QString ParametryBadaniaGen::getTypDrugiejCzujki() const
-{
-	return typDrugiejCzujki;
-}
-
-void ParametryBadaniaGen::setTypDrugiejCzujki(const QString & value)
-{
-	typDrugiejCzujki = value;
-	change = true;
-}
-
 QString ParametryBadaniaGen::getRozstawienieMinCzujki() const
 {
 	return rozstawienieMinCzujki;
@@ -420,47 +402,91 @@ void ParametryBadaniaGen::setTestOdtwarzalnosci(const bool & value)
 	change = true;
 }
 
-QString ParametryBadaniaGen::getNazwaNumerPierwszego() const
+QString ParametryBadaniaGen::getNazwaNumerTransmitter() const
 {
-	return nazwaNumerPierwszego;
+	return nazwaNumerTransmitter;
 }
 
-void ParametryBadaniaGen::setNazwaNumerPierwszego(const QString & value)
+void ParametryBadaniaGen::setNazwaNumerTransmitter(const QString & value)
 {
-	nazwaNumerPierwszego = value;
+	nazwaNumerTransmitter = value;
 	change = true;
 }
 
-QString ParametryBadaniaGen::getNazwaNumerDrugiego() const
+QString ParametryBadaniaGen::getNazwaNumerReceiver() const
 {
-	return nazwaNumerDrugiego;
+	return nazwaNumerReceiver;
 }
 
-void ParametryBadaniaGen::setNazwaNumerDrugiego(const QString & value)
+void ParametryBadaniaGen::setNazwaNumerReceiver(const QString & value)
 {
-	nazwaNumerDrugiego = value;
+	nazwaNumerReceiver = value;
 	change = true;
 }
 
-QString ParametryBadaniaGen::getNazwaPierwszy() const
+QString ParametryBadaniaGen::getNazwaTransmitter() const
 {
-	return nazwaPierwszy;
+	return nazwaTransmitter;
 }
 
-void ParametryBadaniaGen::setNazwaPierwszy(const QString & value)
+void ParametryBadaniaGen::setNazwaTransmitter(const QString & value)
 {
-	nazwaPierwszy = value;
+	nazwaTransmitter = value;
 	change = true;
 }
 
-QString ParametryBadaniaGen::getNazwaDrugi() const
+QString ParametryBadaniaGen::getNazwaReceiver() const
 {
-	return nazwaDrugi;
+	return nazwaReceiver;
 }
 
-void ParametryBadaniaGen::setNazwaDrugi(const QString & value)
+void ParametryBadaniaGen::setNazwaReceiver(const QString & value)
 {
-	nazwaDrugi = value;
+	nazwaReceiver = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaTransmitter_a() const
+{
+	return nazwaTransmitter_a;
+}
+
+void ParametryBadaniaGen::setNazwaTransmitter_a(const QString & value)
+{
+	nazwaTransmitter_a = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getNazwaReceiver_a() const
+{
+	return nazwaReceiver_a;
+}
+
+void ParametryBadaniaGen::setNazwaReceiver_a(const QString & value)
+{
+	nazwaReceiver_a = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getTypTransmitter() const
+{
+	return typTransmitter;
+}
+
+void ParametryBadaniaGen::setTypTransmitter(const QString & value)
+{
+	typTransmitter = value;
+	change = true;
+}
+
+QString ParametryBadaniaGen::getTypReceiver() const
+{
+	return typReceiver;
+}
+
+void ParametryBadaniaGen::setTypReceiver(const QString & value)
+{
+	typReceiver = value;
 	change = true;
 }
 

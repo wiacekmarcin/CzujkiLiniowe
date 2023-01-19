@@ -97,8 +97,8 @@ public:
     const QString &getUwagi() const;
     void setUwagi(const QString &newUwagi);
 
-    QString getNumerNadajnika() const;
-    QString getNumerOdbiornika() const;
+    QString getNumerTransmitter() const;
+    QString getNumerReceiver() const;
 
     void addWybranaCzujka(short nrCzujki, const QString & nadajnik, const QString & odbiornik);
     bool sprawdzCzyBadanaCzujka(const QString & odbiornik, const QString & nadajnik);
@@ -135,11 +135,11 @@ public:
     QString getErrStr() const;
     void setErrStr(const QString & err);
 
-    const QString &getNazwaNumerPierwszego() const;
-    void setNazwaPierwszego(const QString &newNazwaPierwszego);
+    const QString &getNazwaNumerTransmitter() const;
+    void setNazwaNumerTransmitter(const QString &newNazwaTransmitter);
 
-    const QString &getNazwaNumerDrugiego() const;
-    void setNazwaDrugiego(const QString &newNazwaDrugiego);
+    const QString &getNazwaNumerReceiver() const;
+    void setNazwaNumerReceiver(const QString &newNazwaNumerReceive);
 
     int getDlugoscFali() const;
     void setDlugoscFali(int newDlugoscFali);
@@ -153,11 +153,11 @@ public:
     const NiewspolosiowoscOsUrzadzenie &getKatyProducenta() const;
     void setKatyProducenta(const NiewspolosiowoscOsUrzadzenie &newKatyProducenta);
 
-    const QString &getNazwaTypPierwszego() const;
-    void setNazwaTypPierwszego(const QString &newNazwaTypPierwszego);
+    const QString &getNazwaTransmitter() const;
+    void setNazwaTransmitter(const QString &newNazwaTransmitter);
 
-    const QString &getNazwaTypDrugiego() const;
-    void setNazwaTypDrugiego(const QString &newNazwaTypDrugiego);
+    const QString &getNazwaReceiver() const;
+    void setNazwaReceiver(const QString &newNazwaReceiver);
 
     float getCmaxCmin() const;
     void setCmaxCmin(float newCmaxCmin);
@@ -199,10 +199,10 @@ private:
     float CmaxCmin;
     bool ok;
     QString errStr;
-    QString nazwaNumerPierwszego;
-    QString nazwaNumerDrugiego;
-    QString nazwaTypPierwszego;
-    QString nazwaTypDrugiego;
+    QString nazwaNumerTransmitter;
+    QString nazwaNumerReceiver;
+    QString nazwaTransmitter;
+    QString nazwaReceiver;
 
     int dlugoscFali;
     unsigned int czasPowtarzalnosci;

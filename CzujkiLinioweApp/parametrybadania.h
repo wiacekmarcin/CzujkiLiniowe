@@ -21,10 +21,10 @@ public:
     void save(const QString &fileName);
 
     void dodajCzujki(const QString &odbiornik, const QString &nadajnik);
-    QString getNumerNadajnika(unsigned int index, bool sorted) const;
-    QString getNumerOdbiornika(unsigned int index, bool sorted) const;
+    QString getNumerTransmitter(unsigned int index, bool sorted) const;
+    QString getNumerReceiver(unsigned int index, bool sorted) const;
     QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const
-    { return qMakePair(getNumerNadajnika(index, sorted), getNumerOdbiornika(index, sorted)); }
+    { return qMakePair(getNumerTransmitter(index, sorted), getNumerReceiver(index, sorted)); }
 
     void wyczyscCzujki();
     const QMap<int, DaneTestu> &getTesty() const;

@@ -179,7 +179,7 @@
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QFrame" name="frame_nadajnik">
+    <widget class="QFrame" name="frame_transmitter">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -188,21 +188,21 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout">
       <item>
-       <widget class="QLabel" name="pierwszy">
+       <widget class="QLabel" name="transmitter">
         <property name="text">
          <string>Nadajnik</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="rb_pierwwszy_pion">
+       <widget class="QCheckBox" name="rb_transmitter_pion">
         <property name="text">
          <string>oś pionowa</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="rb_pierwszy_poziom">
+       <widget class="QCheckBox" name="rb_transmitter_poziom">
         <property name="text">
          <string>oś pozioma</string>
         </property>
@@ -225,7 +225,7 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QFrame" name="frame_odbiornik">
+    <widget class="QFrame" name="frame_receiver">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -234,21 +234,21 @@
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <item>
-       <widget class="QLabel" name="drugi">
+       <widget class="QLabel" name="reciver">
         <property name="text">
          <string>Odbiornik</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="rb_drugi_poziom">
+       <widget class="QCheckBox" name="rb_receiver_poziom">
         <property name="text">
          <string>oś pionowa</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QCheckBox" name="rb_drugi_pion">
+       <widget class="QCheckBox" name="rb_receiver_pion">
         <property name="text">
          <string>oś pozioma</string>
         </property>

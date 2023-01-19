@@ -23,8 +23,8 @@ PowtarzalnoscWyniki::~PowtarzalnoscWyniki()
 void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
-    pierwszy = daneTestu.getNazwaNumerPierwszego();
-    drugi = daneTestu.getNazwaNumerDrugiego();
+    pierwszy = daneTestu.getNazwaNumerTransmitter();
+    drugi = daneTestu.getNazwaNumerReceiver();
 
     if (podsumowanie) {
         headTable(pierwszy, drugi);

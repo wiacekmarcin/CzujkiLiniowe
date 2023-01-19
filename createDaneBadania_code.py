@@ -170,8 +170,6 @@ u.addValue("unsigned int", "dlugoscFaliFiltrow")
 u.addValue("unsigned int", "czasPomZmianaTlumenia_s");
 u.addValue("bool", "systemOdbiornikNadajnik");
 u.addValue("QString", "producentCzujki");
-u.addValue("QString", "typPierwszejCzujki");
-u.addValue("QString", "typDrugiejCzujki");
 u.addValue("QString", "rozstawienieMinCzujki");
 u.addValue("QString", "rozstawienieMaxCzujki");
 u.addValue("QString", "maksKatowaNieWspolPionowaNadajnika");
@@ -181,10 +179,14 @@ u.addValue("QString", "maksKatowaNieWspolPoziomaOdbiornika");
 u.addValue("unsigned short", "iloscCzujek");
 u.addValue("bool", "testOdtwarzalnosci");
 
-u.addValue("QString", "nazwaNumerPierwszego");
-u.addValue("QString", "nazwaNumerDrugiego");
-u.addValue("QString", "nazwaPierwszy");
-u.addValue("QString", "nazwaDrugi");
+u.addValue("QString", "nazwaNumerTransmitter");
+u.addValue("QString", "nazwaNumerReceiver");
+u.addValue("QString", "nazwaTransmitter");
+u.addValue("QString", "nazwaReceiver");
+u.addValue("QString", "nazwaTransmitter_a");
+u.addValue("QString", "nazwaReceiver_a");
+u.addValue("QString", "typTransmitter");
+u.addValue("QString", "typReceiver");
 
 u.addValue("float", "odtwarzalnoscCmaxCrep")
 u.addValue("float", "odtwarzalnoscCrepCmin")

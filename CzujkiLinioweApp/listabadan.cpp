@@ -275,8 +275,8 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString pierwszy, drugi;
-    pierwszy = daneTestu.getNazwaNumerPierwszego();
-    drugi = daneTestu.getNazwaNumerDrugiego();
+    pierwszy = daneTestu.getNazwaNumerTransmitter();
+    drugi = daneTestu.getNazwaNumerReceiver();
 
     if (daneTestu.getId() == REPRODUCIBILITY) {
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
@@ -330,12 +330,13 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
         int col = 0;
         //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
-        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerPierwszego(), col++, 150);
-        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerDrugiego(), col++, 150);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerTransmitter(), col++, 150);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerReceiver(), col++, 150);
         col = 0;
         //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
-        ADDITEM(tableCzujka, daneTestu.getNumerNadajnika(), 0, col++);
-        ADDITEM(tableCzujka, daneTestu.getNumerOdbiornika(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerTransmitter(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
+
 
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
         ADDVHEADITEM(tableParams, "Cmin", 0);
