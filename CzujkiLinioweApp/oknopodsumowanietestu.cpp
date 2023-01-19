@@ -3,6 +3,7 @@
 #include <QDateTime>
 #include "ustawienia.h"
 
+
 OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & badanie,
                                              const Ustawienia & ust_, QWidget *parent) :
     QDialog(parent),
@@ -10,6 +11,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     ust(ust_)
 
 {
+
+
+
+
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
     qDebug() << "id" << daneTestu.getId();
@@ -18,7 +23,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 
     ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
     if (daneTestu.getId() == REPRODUCIBILITY) {
-        obliczOdtwarzalnosc(daneTestu);
+        daneTestu.obliczOdtwarzalnosc(ust);
         ui->stackedWidget->setCurrentWidget(ui->odtwarzalnosc);
         odtwarzalnoscHeadTable(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
                                pierwszy, drugi);
@@ -50,7 +55,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->odtwarzalnoscGridLayoutResults->setSpacing(0);
         //badanie->s
     } else if (daneTestu.getId() == REPEATABILITY) {
-        obliczPowtarzalnosc(daneTestu);
+        daneTestu.obliczPowtarzalnosc(ust);
         ui->stackedWidget->setCurrentWidget(ui->powtarzalnosc);
         powtarzalnoscHeadTable(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc");
 
@@ -73,7 +78,34 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->powtarzalnoscPrzebiegrGridLayout->setVerticalSpacing(0);
         ui->powtarzalnoscPrzebiegrGridLayout->setHorizontalSpacing(0);
         ui->powtarzalnoscPrzebiegrGridLayout->setSpacing(0);
-     }
+     } else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
+        daneTestu.obliczZaleznoscKatowa(ust);
+        ui->stackedWidget->setCurrentWidget(ui->zaleznosckatowa);
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_1katproducent, ui->zaleznosckatowa_1_kat, ui->zaleznosckatowa_wyniki_1});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_2katproducent, ui->zaleznosckatowa_2_kat, ui->zaleznosckatowa_wyniki_2});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_3katproducent, ui->zaleznosckatowa_3_kat, ui->zaleznosckatowa_wyniki_3});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_4katproducent, ui->zaleznosckatowa_4_kat, ui->zaleznosckatowa_wyniki_4});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_5katproducent, ui->zaleznosckatowa_5_kat, ui->zaleznosckatowa_wyniki_5});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_6katproducent, ui->zaleznosckatowa_6_kat, ui->zaleznosckatowa_wyniki_6});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_7katproducent, ui->zaleznosckatowa_7_kat, ui->zaleznosckatowa_wyniki_7});
+        zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_8katproducent, ui->zaleznosckatowa_8_kat, ui->zaleznosckatowa_wyniki_8});
+        ui->zaleznosckatowaframeerror->setVisible(!daneTestu.getOk());
+        ui->zaleznosckatowaetnadajnik->setText(pierwszy);
+        ui->zaleznosckatowaetodbiornik->setText(drugi);
+        short id = 0;
+        QString err;
+        for (const auto & wynik : daneTestu.getPomiaryKatow()) {
+            if (!wynik.errorStr.isEmpty() || !wynik.errorDetail.isEmpty()) {
+                ui->zaleznosckatowa_errinfo->setText(wynik.errorStr);
+                ui->zaleznosckatowa_errExt->setText(wynik.errorDetail);
+            }
+            zaleznoscKatowaVector[id].katmierzony->setText(QString("<html><body>%1 &deg'</body></html>").arg(wynik.katZmierzony, 2, 'f', 1));
+            zaleznoscKatowaVector[id].katproducenta->setText(QString("<html><body>%1 &deg'</body></html>").arg(wynik.katProducenta, 2, 'f', 1));
+            if (!wynik.ok) {
+                zaleznoscKatowaVector[id].wynik->setText(wynik.errorStr);
+            }
+        }
+    }
 
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
@@ -106,7 +138,8 @@ void OknoPodsumowanieTestu::odtwarzalnoscAddRekord(
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
     ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
-    addLine(fr, lay, true, row, col++, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
     if (inneText.isEmpty())
         oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
     else
@@ -170,7 +203,8 @@ void OknoPodsumowanieTestu::powtarzalnoscAddRekord(
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
     ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
-    addLine(fr, lay, true, row, col++, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
     if (inneText.isEmpty())
         oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
     else
@@ -243,144 +277,6 @@ void OknoPodsumowanieTestu::addLine(QFrame * frameTable, QGridLayout * layout,
     layout->addWidget(line, row, col, rowspan, colspan);
 }
 
-void OknoPodsumowanieTestu::obliczOdtwarzalnosc(DaneTestu &daneTestu)
-{
-    bool badanieOk = true;
-    int cntAvg = 0;
-    float Cavg = 0;
-
-    float Cmin = 100;
-    float Cmax = -100;
 
 
-    for (DanePomiaru & dane : daneTestu.getDanePomiarowe())
-    {
-        bool ok;
-        double C = dane.value_dB.toDouble(&ok);
 
-        if (!ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
-            dane.ok = false;
-            continue;
-        } else {
-            if (C > Cmax)
-                Cmax = C;
-            if (C < Cmin)
-                Cmin = C;
-
-            Cavg += C;
-            ++cntAvg;
-        }
-
-        if (!dane.ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(dane.error);
-            continue;
-        }
-
-        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
-            badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
-            dane.ok = false;
-            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
-        }
-    }
-    if (cntAvg)
-        Cavg = Cavg/cntAvg;
-
-    daneTestu.setOk(badanieOk);
-    daneTestu.setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
-
-    if (cntAvg && Cavg) {
-        daneTestu.setCrep(Cavg);
-        daneTestu.setCmin(Cmin);
-        daneTestu.setCmax(Cmax);
-        daneTestu.setCmaxCrep(Cmax/Cavg);
-        daneTestu.setCrepCmin(Cavg/Cmin);
-    } else {
-        daneTestu.setCrep(0);
-        daneTestu.setCmin(0);
-        daneTestu.setCmax(0);
-        daneTestu.setCmaxCrep(0);
-        daneTestu.setCrepCmin(0);
-    }
-    daneTestu.setWykonany(true);
-
-    if (daneTestu.getCmaxCrep() > ust.getOdtwarzalnoscCmaxCrep()) {
-        daneTestu.setOk(false);
-        daneTestu.setErrStr(QString("Cmax/Crep>%1").arg(ust.getOdtwarzalnoscCmaxCrep(), 3, 'f', 2));
-    } else if (daneTestu.getCrepCmin() > ust.getOdtwarzalnoscCrepCmin()) {
-        daneTestu.setOk(false);
-        daneTestu.setErrStr(QString("Crep/Cmin>%1").arg(ust.getOdtwarzalnoscCrepCmin(), 3, 'f', 2));
-    } else {
-        daneTestu.setOk(badanieOk);
-    }
-}
-
-void OknoPodsumowanieTestu::obliczPowtarzalnosc(DaneTestu &daneTestu)
-{
-    bool badanieOk = true;
-
-    float Cmin = 100;
-    float Cmax = -100;
-
-
-    for (DanePomiaru & dane : daneTestu.getDanePomiarowe())
-    {
-        if (!dane.ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(dane.error);
-            continue;
-        }
-        bool ok;
-        double C = dane.value_dB.toDouble(&ok);
-
-        if (!ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Błędna wartość C"));
-            dane.ok = false;
-            continue;
-        }
-
-        if (!dane.ok) {
-            badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
-            continue;
-        }
-
-        if (C > Cmax)
-            Cmax = C;
-        if (C < Cmin)
-            Cmin = C;
-
-        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
-            badanieOk = false;
-            daneTestu.setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
-            dane.ok = false;
-            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
-        }
-    }
-
-
-    daneTestu.setOk(badanieOk);
-    daneTestu.setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
-
-    if (Cmin) {
-        daneTestu.setCmin(Cmin);
-        daneTestu.setCmax(Cmax);
-        daneTestu.setCmaxCmin(Cmax/Cmin);
-    } else {
-        daneTestu.setCmin(0);
-        daneTestu.setCmax(0);
-        daneTestu.setCmaxCmin(0);
-    }
-    daneTestu.setWykonany(true);
-
-    if (daneTestu.getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin()) {
-        daneTestu.setOk(false);
-        daneTestu.setErrStr(QString("Cmax/Cmin>%1").arg(ust.getPowtarzalnoscCmaxCmin(), 3, 'f', 2));
-    } else {
-        daneTestu.setOk(badanieOk);
-    }
-}

@@ -45,6 +45,7 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> zasilanieCzujekZasilaczZewnetrzny
 		 >> napiecieZasilaniaCzujki_mV
 		 >> czasStabilizacjiCzujki_s
+		 >> czasStabilizacjiPoResecie_s
 		 >> wyzwalanieAlarmuPrzekaznikiem
 		 >> wyzwalanieAlarmuPradem
 		 >> przekroczeniePraduZasilania_mA
@@ -84,6 +85,7 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << zasilanieCzujekZasilaczZewnetrzny
 		 << napiecieZasilaniaCzujki_mV
 		 << czasStabilizacjiCzujki_s
+		 << czasStabilizacjiPoResecie_s
 		 << wyzwalanieAlarmuPrzekaznikiem
 		 << wyzwalanieAlarmuPradem
 		 << przekroczeniePraduZasilania_mA
@@ -217,6 +219,17 @@ unsigned int ParametryBadaniaGen::getCzasStabilizacjiCzujki_s() const
 void ParametryBadaniaGen::setCzasStabilizacjiCzujki_s(const unsigned int & value)
 {
 	czasStabilizacjiCzujki_s = value;
+	change = true;
+}
+
+unsigned int ParametryBadaniaGen::getCzasStabilizacjiPoResecie_s() const
+{
+	return czasStabilizacjiPoResecie_s;
+}
+
+void ParametryBadaniaGen::setCzasStabilizacjiPoResecie_s(const unsigned int & value)
+{
+	czasStabilizacjiPoResecie_s = value;
 	change = true;
 }
 

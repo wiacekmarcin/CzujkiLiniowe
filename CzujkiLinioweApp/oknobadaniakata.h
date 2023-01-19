@@ -32,9 +32,6 @@ public:
 
     void czujkaOn();
 
-    bool getWynikBadania() const;
-
-    const QString &getTlumienie() const;
 
 #ifdef DEFVAL
     void testValue();

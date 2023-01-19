@@ -24,7 +24,12 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
 {
     ui->setupUi(this);
     ui->testName->setText(name);
-    ui->nazwaPodTestu->setText(podtitle);
+    if (podtitle.isEmpty()) {
+        ui->nazwaPodTestu->setVisible(false);
+    } else {
+        ui->nazwaPodTestu->setText(podtitle);
+        ui->nazwaPodTestu->setVisible(true);
+    }
     ui->maxkat->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
 
     unsigned int speed = ust.predkoscRoboczaImp(nrSilnika);
@@ -139,6 +144,8 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
     if (abs(destPos - prevVal) > 0.5) {
+        error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
+        wynikBadania = false;
         tmSterownika.stop();
         reject();
     }

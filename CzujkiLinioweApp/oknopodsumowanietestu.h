@@ -10,10 +10,17 @@
 
 class QFrame;
 class QGridLayout;
+class QLabel;
 
 namespace Ui {
 class OknoPodsumowanieTestu;
 }
+
+struct ZaleznoscKatowaLabelsPtr {
+    QLabel * katproducenta;
+    QLabel * katmierzony;
+    QLabel * wynik;
+};
 
 
 class OknoPodsumowanieTestu : public QDialog
@@ -48,11 +55,12 @@ protected:
     void oneTableFrame(bool err, QFrame *frame, QGridLayout *layout, const QString &text, int row, int col, const QString &objectName);
     void addLine(QFrame * frameTable, QGridLayout * layout, bool vert, int row, int col, int rowspan, int colspan, const QString & objectName);
 
-    void obliczOdtwarzalnosc(DaneTestu &daneTestu);
-    void obliczPowtarzalnosc(DaneTestu &daneTestu);
+
 private:
     Ui::OknoPodsumowanieTestu *ui;
     const Ustawienia & ust;
+
+    QVector<ZaleznoscKatowaLabelsPtr> zaleznoscKatowaVector;
 };
 
 #endif // OKNOPODSUMOWANIETESTU_H

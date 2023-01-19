@@ -24,7 +24,12 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
 {
     ui->setupUi(this);
     ui->testName->setText(name);
-    ui->nazwaPodTestu->setText(podtitle);
+    if (podtitle.isEmpty()) {
+        ui->nazwaPodTestu->setVisible(false);
+    } else {
+        ui->nazwaPodTestu->setText(podtitle);
+        ui->nazwaPodTestu->setVisible(true);
+    }
     ui->katProducenta->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
 
     unsigned int speed = ust.predkoscRoboczaImp(nrSilnika);
@@ -116,10 +121,5 @@ void OknoBadaniaKata::ster_setValue(short silnik, const double &val)
     qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
-}
-
-bool OknoBadaniaKata::getWynikBadania() const
-{
-    return wynikBadania;
 }
 

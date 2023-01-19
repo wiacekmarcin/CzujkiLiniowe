@@ -89,6 +89,7 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
     ui->napiecieZasilaniain->setReadOnly(o);
     ui->typCentraliSygnalizacji->setReadOnly(o);
     ui->czasStabilizacjiCzujki->setReadOnly(o);
+    ui->czasStabilizacjipoResecie->setReadOnly(o);
     ui->pradAlarmu->setReadOnly(o);
     ui->rbInsideSupply->setCheckable(!o);
     ui->rbPrad->setCheckable(!o);
@@ -110,6 +111,7 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
         setWewnetrznyZasilacz(true);
         ui->typCentraliSygnalizacji->setText("Centrala sygnalizacji");
         ui->czasStabilizacjiCzujki->setText("15");
+        ui->czasStabilizacjipoResecie->setText("2");
         ui->pradAlarmu->setText("50");
         ui->rbInsideSupply->setChecked(true);
         ui->rbPrad->setChecked(true);
@@ -134,15 +136,18 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
         badanie->setZasilanieCzujekZasilaczZewnetrzny(false);
         badanie->setZasilanieCzujekTypCentrali(ui->typCentraliSygnalizacji->text());
     }
+    badanie->setCzasStabilizacjiCzujki_s(ui->czasStabilizacjiCzujki->text().toUInt());
+    badanie->setCzasStabilizacjiPoResecie_s(ui->czasStabilizacjipoResecie->text().toUInt());
 
-    ui->czasStabilizacjiCzujki->setText(QString::number(badanie->getCzasStabilizacjiCzujki_s()));
-    if (badanie->getWyzwalanieAlarmuPrzekaznikiem()) {
-        setWyzwolenieAlarmu(true);
-    } else {
-        setWyzwolenieAlarmu(false);
-        QString prad = badanie->getPrzekroczeniePraduZasilania_mA();
-        if (!prad.isEmpty())
-            ui->pradAlarmu->setText(QString::number(prad.toDouble(), 'g', 3));
+    if (ui->rbAlarmPrzekaznik->isChecked()) {
+        badanie->setWyzwalanieAlarmuPrzekaznikiem(true);
+        badanie->setWyzwalanieAlarmuPradem(false);
+        badanie->setPrzekroczeniePraduZasilania_mA("0");
+    }
+    if (ui->rbPrad->isChecked()) {
+        badanie->setWyzwalanieAlarmuPrzekaznikiem(false);
+        badanie->setWyzwalanieAlarmuPradem(true);
+        badanie->setPrzekroczeniePraduZasilania_mA(ui->pradAlarmu->text());
     }
 
     badanie->setDlugoscFaliFiltrow(ui->dlugoscFali->currentText().toUInt());
@@ -213,6 +218,22 @@ bool ParametryBadaniaOgolneDlg::check()
     }
 
     if (czas < minCzasStab || czas > maxCzasStab) {
+        errorLabel->setText("Wartość czasu stabilizacji dla czujki poza dopuszczalnym zakresem");
+        return false;
+    }
+
+    if (ui->czasStabilizacjipoResecie->text().isEmpty()) {
+        errorLabel->setText("Pole 'Czas stabilizacji czujki po resecie' nie może być puste");
+        return false;
+    }
+
+    czas = ui->czasStabilizacjipoResecie->text().toInt(&ok);
+    if (!ok || ui->czasStabilizacjipoResecie->text() != QString::number(czas)) {
+        errorLabel->setText("Nie poprawna wartość liczbowa dla czasu stabilizacji po resecie");
+        return false;
+    }
+
+    if (czas < 1 || czas > maxCzasStab) {
         errorLabel->setText("Wartość czasu stabilizacji dla czujki poza dopuszczalnym zakresem");
         return false;
     }

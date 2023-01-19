@@ -41,11 +41,10 @@ protected:
     bool Odtwarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
-
-
+    bool NiewspolosiowoscBadanie(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
-    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
+    bool parametryTest(short numerProby, const ParametryBadania &b);
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek);
@@ -55,7 +54,9 @@ private:
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool nowait, unsigned long timeWait, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
-    bool pomiarKata(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    short pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle, const ParametryBadania &daneBadania, const Ustawienia &ust);
+    short pomiarKata(short nrSilnika, const QString & ptitle, const double & kat, const ParametryBadania &daneBadania, const Ustawienia &ust);
+    short resetCzujki(const QString &testName, const QString &subTestName, unsigned int czasOffOn, unsigned int czasStabilizacji, const ParametryBadania &daneBadania);
 private:
     QWidget* parent;
     DaneTestu dane;
@@ -69,6 +70,7 @@ private:
     OknoCzekaniaBadanieKatowe *dlg11;
     OknoBadanieReakcji6dB * dlg12;
     OknoBadaniaMaksymalnegoKata * dlg14;
+
 };
 
 #endif // PROCEDURATESTOWA_H

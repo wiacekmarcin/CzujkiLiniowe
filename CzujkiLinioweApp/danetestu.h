@@ -1,6 +1,7 @@
 #ifndef DANETESTU_H
 #define DANETESTU_H
 
+#include "ustawienia.h"
 #include <QObject>
 #include <QSet>
 
@@ -40,8 +41,20 @@ public:
     QString error;
 };
 
+struct PomiarKata {
+    QString nazwaBadania ; //ktora os, nadajnik/odbiornik
+    bool ok;
+    QString errorStr;
+    QString errorDetail;
+    double katZmierzony;
+    double katProducenta;
+};
+
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane);
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane);
+QDataStream &operator<<(QDataStream &out, const PomiarKata &dane);
+QDataStream &operator>>(QDataStream &in, PomiarKata &dane);
+
 //QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
 //QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
 
@@ -147,6 +160,14 @@ public:
     float getCmaxCmin() const;
     void setCmaxCmin(float newCmaxCmin);
 
+    const QVector<PomiarKata> &getPomiaryKatow() const;
+    void setPomiaryKatow(const QVector<PomiarKata> &newPomiaryKatow);
+
+    void dodajPomiarKata(const PomiarKata &kat);
+    void setDataZakonczenia();
+    void obliczZaleznoscKatowa(const Ustawienia & ust);
+    void obliczOdtwarzalnosc(const Ustawienia & ust);
+    void obliczPowtarzalnosc(const Ustawienia & ust);
 private:
     short id;
     QString name;
@@ -176,6 +197,7 @@ private:
     unsigned int czasPowtarzalnosci;
 
     NiewspolosiowoscOsUrzadzenie katyProducenta;
+    QVector<PomiarKata> pomiaryKatow;
 
 };
 

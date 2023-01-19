@@ -162,6 +162,7 @@ u.addValue("bool", "zasilanieCzujekZasilaczZewnetrzny")
 u.addValue("unsigned int", "napiecieZasilaniaCzujki_mV")
 
 u.addValue("unsigned int", "czasStabilizacjiCzujki_s")
+u.addValue("unsigned int", "czasStabilizacjiPoResecie_s")
 u.addValue("bool", "wyzwalanieAlarmuPrzekaznikiem")
 u.addValue("bool", "wyzwalanieAlarmuPradem")
 u.addValue("QString", "przekroczeniePraduZasilania_mA")

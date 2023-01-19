@@ -3,7 +3,9 @@
 #include <QTimer>
 #include <QDebug>
 
-OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(unsigned long timeWait, const QString & name, bool stabilizacja, QWidget *parent) :
+OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long timeWait,
+                                               const QString & name, const QString & podTitle,
+                                               QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoStabilizacjaCzujki),
     timer(this)
@@ -12,6 +14,12 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(unsigned long timeWait, const QSt
     elapsedTime = timeWait;
     ui->setupUi(this);
     ui->testName->setText(name);
+    if (podTitle.isEmpty()) {
+        ui->podTestName->setVisible(false);
+    } else {
+        ui->podTestName->setText(podTitle);
+        ui->podTestName->setVisible(true);
+    }
     ui->progressBar->setMaximum(elapsedTime);
     ui->progressBar->setValue(elapsedTime);
     ui->czas->setText(getMM_SS(elapsedTime));

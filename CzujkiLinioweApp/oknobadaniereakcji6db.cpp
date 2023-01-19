@@ -7,7 +7,8 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
-OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, const double & tlumnienie, unsigned int dlugoscFali, const double & wartTlum,
+OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2,
+                           const double & tlumnienie, unsigned int dlugoscFali,
                            const QString & name, const QString & subtitle, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
@@ -52,7 +53,12 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     }
     ui->dlugoscFali->setText(QString::number(dlugoscFali));
     ui->testName->setText(name);
-    ui->podTestName->setText(subtitle);
+    if (subtitle.isEmpty()) {
+        ui->podTestName->setVisible(false);
+    } else {
+        ui->podTestName->setText(subtitle);
+        ui->podTestName->setVisible(true);
+    }
 
     ui->pbCzujki->setMinimum(0);
     ui->pbCzujki->setMaximum(timeCzujkaOn);

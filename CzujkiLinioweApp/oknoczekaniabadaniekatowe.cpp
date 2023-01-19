@@ -13,7 +13,12 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     elapsedTime = timeWait;
     ui->setupUi(this);
     ui->testName->setText(name);
-    ui->podTestName->setText(ptitle);
+    if (ptitle.isEmpty()) {
+        ui->podTestName->setVisible(false);
+    } else {
+        ui->podTestName->setText(ptitle);
+        ui->podTestName->setVisible(true);
+    }
     ui->progressBar->setMaximum(elapsedTime);
     ui->progressBar->setValue(elapsedTime);
     ui->czas->setText(getMM_SS(elapsedTime));

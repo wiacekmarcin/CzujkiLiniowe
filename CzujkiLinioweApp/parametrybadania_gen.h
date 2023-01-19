@@ -42,6 +42,8 @@ public:
 	void setNapiecieZasilaniaCzujki_mV(const unsigned int & napiecieZasilaniaCzujki_mV);
 	unsigned int getCzasStabilizacjiCzujki_s() const;
 	void setCzasStabilizacjiCzujki_s(const unsigned int & czasStabilizacjiCzujki_s);
+	unsigned int getCzasStabilizacjiPoResecie_s() const;
+	void setCzasStabilizacjiPoResecie_s(const unsigned int & czasStabilizacjiPoResecie_s);
 	bool getWyzwalanieAlarmuPrzekaznikiem() const;
 	void setWyzwalanieAlarmuPrzekaznikiem(const bool & wyzwalanieAlarmuPrzekaznikiem);
 	bool getWyzwalanieAlarmuPradem() const;
@@ -106,6 +108,7 @@ private:
 	bool zasilanieCzujekZasilaczZewnetrzny;
 	unsigned int napiecieZasilaniaCzujki_mV;
 	unsigned int czasStabilizacjiCzujki_s;
+	unsigned int czasStabilizacjiPoResecie_s;
 	bool wyzwalanieAlarmuPrzekaznikiem;
 	bool wyzwalanieAlarmuPradem;
 	QString przekroczeniePraduZasilania_mA;

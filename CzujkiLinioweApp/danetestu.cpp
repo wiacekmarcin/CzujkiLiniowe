@@ -1,4 +1,7 @@
 #include "danetestu.h"
+#include <QDate>
+#include <QTime>
+
 
 ListaTestow::ListaTestow()
 {
@@ -79,6 +82,31 @@ QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
     return in;
 }
 
+QDataStream &operator<<(QDataStream &out, const PomiarKata &dane)
+{
+    out << dane.nazwaBadania
+        << dane.ok
+        << dane.errorStr
+        << dane.errorDetail
+        << dane.katZmierzony
+        << dane.katProducenta
+           ;
+   return out;
+}
+
+QDataStream &operator>>(QDataStream &in, PomiarKata &dane)
+{
+    in  >> dane.nazwaBadania
+        >> dane.ok
+        >> dane.errorStr
+        >> dane.errorDetail
+        >> dane.katZmierzony
+        >> dane.katProducenta
+
+            ;
+    return in;
+}
+
 /*
 QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane)
 {
@@ -134,6 +162,7 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.katyProducenta.nadajnik.poziomo
         << dane.katyProducenta.odbiornik.pionowo
         << dane.katyProducenta.odbiornik.poziomo
+        << dane.pomiaryKatow
            ;
     return out;
 }
@@ -169,6 +198,7 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.katyProducenta.nadajnik.poziomo
         >> dane.katyProducenta.odbiornik.pionowo
         >> dane.katyProducenta.odbiornik.poziomo
+        >> dane.pomiaryKatow
             ;
     return in;
 }
@@ -395,6 +425,13 @@ void DaneTestu::setDataZakonczenia(const QString &newDataZakonczen)
     dataZakonczenia = newDataZakonczen;
 }
 
+void DaneTestu::setDataZakonczenia()
+{
+    dataZakonczenia = QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm");
+}
+
+
+
 QString DaneTestu::getErrStr() const
 {
     return errStr;
@@ -499,4 +536,175 @@ float DaneTestu::getCmaxCmin() const
 void DaneTestu::setCmaxCmin(float newCmaxCmin)
 {
     CmaxCmin = newCmaxCmin;
+}
+
+const QVector<PomiarKata> &DaneTestu::getPomiaryKatow() const
+{
+    return pomiaryKatow;
+}
+
+void DaneTestu::setPomiaryKatow(const QVector<PomiarKata> &newPomiaryKatow)
+{
+    pomiaryKatow = newPomiaryKatow;
+}
+
+void DaneTestu::dodajPomiarKata(const PomiarKata & kat)
+{
+    pomiaryKatow.append(kat);
+}
+
+void DaneTestu::obliczZaleznoscKatowa(const Ustawienia &ust)
+{
+    for (auto & wynik : pomiaryKatow) {
+        if (wynik.ok) {
+            double val = wynik.katZmierzony - wynik.katProducenta;
+            double delta = ust.getNiewspolosiowoscMinimalnyKatProducentMierzony();
+            if (val < delta || val < -delta) {
+                wynik.ok = false;
+                wynik.errorStr = QString::fromUtf8("Różnica<%1").arg(delta,2,'f',1);
+            }
+        }
+    }
+}
+
+void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
+{
+    bool badanieOk = true;
+    int cntAvg = 0;
+    float Cavg = 0;
+
+    float Cmin = 100;
+    float Cmax = -100;
+
+
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            continue;
+        } else {
+            if (C > Cmax)
+                Cmax = C;
+            if (C < Cmin)
+                Cmin = C;
+
+            Cavg += C;
+            ++cntAvg;
+        }
+
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(dane.error);
+            continue;
+        }
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+    if (cntAvg)
+        Cavg = Cavg/cntAvg;
+
+    setOk(badanieOk);
+    setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
+    if (cntAvg && Cavg) {
+        setCrep(Cavg);
+        setCmin(Cmin);
+        setCmax(Cmax);
+        setCmaxCrep(Cmax/Cavg);
+        setCrepCmin(Cavg/Cmin);
+    } else {
+        setCrep(0);
+        setCmin(0);
+        setCmax(0);
+        setCmaxCrep(0);
+        setCrepCmin(0);
+    }
+    setWykonany(true);
+
+    if (getCmaxCrep() > ust.getOdtwarzalnoscCmaxCrep()) {
+        setOk(false);
+        setErrStr(QString("Cmax/Crep>%1").arg(ust.getOdtwarzalnoscCmaxCrep(), 3, 'f', 2));
+    } else if (getCrepCmin() > ust.getOdtwarzalnoscCrepCmin()) {
+        setOk(false);
+        setErrStr(QString("Crep/Cmin>%1").arg(ust.getOdtwarzalnoscCrepCmin(), 3, 'f', 2));
+    } else {
+        setOk(badanieOk);
+    }
+}
+
+void DaneTestu::obliczPowtarzalnosc(const Ustawienia & ust)
+{
+    bool badanieOk = true;
+
+    float Cmin = 100;
+    float Cmax = -100;
+
+
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(dane.error);
+            continue;
+        }
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            continue;
+        }
+
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
+            continue;
+        }
+
+        if (C > Cmax)
+            Cmax = C;
+        if (C < Cmin)
+            Cmin = C;
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+
+
+    setOk(badanieOk);
+    setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
+    if (Cmin) {
+        setCmin(Cmin);
+        setCmax(Cmax);
+        setCmaxCmin(Cmax/Cmin);
+    } else {
+        setCmin(0);
+        setCmax(0);
+        setCmaxCmin(0);
+    }
+    setWykonany(true);
+
+    if (getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin()) {
+        setOk(false);
+        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getPowtarzalnoscCmaxCmin(), 3, 'f', 2));
+    } else {
+        setOk(badanieOk);
+    }
 }

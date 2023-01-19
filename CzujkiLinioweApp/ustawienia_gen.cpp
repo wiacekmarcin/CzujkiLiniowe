@@ -196,8 +196,9 @@ void UstawieniaGen::load()
 	odtwarzalnoscCmaxCrep = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/CmaxCrep", QVariant::fromValue(1.33)).toString());
 	odtwarzalnoscCrepCmin = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/CrepCmin", QVariant::fromValue(1.33)).toString());
 	powtarzalnoscCmaxCmin = toDouble(settings.value("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(1.6)).toString());
-	niewspolosiowoscCzasResetuCzasuCzujki = toUInt(settings.value("ParamentryBadania-NieWspolOsiowosc/CzasResetuCzujki", QVariant::fromValue(10)).toString());
 	niewspolosiowoscWartoscTlumnika = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(6.0)).toString());
+	czasWylaczeniaCzujkiDlaResetu = toUInt(settings.value("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(15)).toString());
+	niewspolosiowoscMinimalnyKatProducentMierzony = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(0.4)).toString());
 }
 
 void UstawieniaGen::save()
@@ -378,8 +379,9 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/CmaxCrep", QVariant::fromValue(odtwarzalnoscCmaxCrep));
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/CrepCmin", QVariant::fromValue(odtwarzalnoscCrepCmin));
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(powtarzalnoscCmaxCmin));
-	settings.setValue("ParamentryBadania-NieWspolOsiowosc/CzasResetuCzujki", QVariant::fromValue(niewspolosiowoscCzasResetuCzasuCzujki));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(niewspolosiowoscWartoscTlumnika));
+	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(czasWylaczeniaCzujkiDlaResetu));
+	settings.setValue("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(niewspolosiowoscMinimalnyKatProducentMierzony));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -2938,17 +2940,6 @@ void UstawieniaGen::setPowtarzalnoscCmaxCmin(const double & value)
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(value));
 }
 
-unsigned int UstawieniaGen::getNiewspolosiowoscCzasResetuCzasuCzujki() const
-{
-	return niewspolosiowoscCzasResetuCzasuCzujki;
-}
-
-void UstawieniaGen::setNiewspolosiowoscCzasResetuCzasuCzujki(const unsigned int & value)
-{
-	niewspolosiowoscCzasResetuCzasuCzujki = value;
-	settings.setValue("ParamentryBadania-NieWspolOsiowosc/CzasResetuCzujki", QVariant::fromValue(value));
-}
-
 double UstawieniaGen::getNiewspolosiowoscWartoscTlumnika() const
 {
 	return niewspolosiowoscWartoscTlumnika;
@@ -2958,4 +2949,26 @@ void UstawieniaGen::setNiewspolosiowoscWartoscTlumnika(const double & value)
 {
 	niewspolosiowoscWartoscTlumnika = value;
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getCzasWylaczeniaCzujkiDlaResetu() const
+{
+	return czasWylaczeniaCzujkiDlaResetu;
+}
+
+void UstawieniaGen::setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & value)
+{
+	czasWylaczeniaCzujkiDlaResetu = value;
+	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getNiewspolosiowoscMinimalnyKatProducentMierzony() const
+{
+	return niewspolosiowoscMinimalnyKatProducentMierzony;
+}
+
+void UstawieniaGen::setNiewspolosiowoscMinimalnyKatProducentMierzony(const double & value)
+{
+	niewspolosiowoscMinimalnyKatProducentMierzony = value;
+	settings.setValue("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(value));
 }

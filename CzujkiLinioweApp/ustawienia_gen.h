@@ -574,10 +574,12 @@ public:
 	void setOdtwarzalnoscCrepCmin(const double & odtwarzalnoscCrepCmin);
 	double getPowtarzalnoscCmaxCmin() const;
 	void setPowtarzalnoscCmaxCmin(const double & powtarzalnoscCmaxCmin);
-	unsigned int getNiewspolosiowoscCzasResetuCzasuCzujki() const;
-	void setNiewspolosiowoscCzasResetuCzasuCzujki(const unsigned int & niewspolosiowoscCzasResetuCzasuCzujki);
 	double getNiewspolosiowoscWartoscTlumnika() const;
 	void setNiewspolosiowoscWartoscTlumnika(const double & niewspolosiowoscWartoscTlumnika);
+	unsigned int getCzasWylaczeniaCzujkiDlaResetu() const;
+	void setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & czasWylaczeniaCzujkiDlaResetu);
+	double getNiewspolosiowoscMinimalnyKatProducentMierzony() const;
+	void setNiewspolosiowoscMinimalnyKatProducentMierzony(const double & niewspolosiowoscMinimalnyKatProducentMierzony);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -773,7 +775,8 @@ private:
 	double odtwarzalnoscCmaxCrep;
 	double odtwarzalnoscCrepCmin;
 	double powtarzalnoscCmaxCmin;
-	unsigned int niewspolosiowoscCzasResetuCzasuCzujki;
 	double niewspolosiowoscWartoscTlumnika;
+	unsigned int czasWylaczeniaCzujkiDlaResetu;
+	double niewspolosiowoscMinimalnyKatProducentMierzony;
 };
 #endif

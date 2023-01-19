@@ -14,7 +14,12 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
 {
     ui->setupUi(this);
     ui->testName->setText(testName);
-    ui->testName->setText(podtitle);
+    if (podtitle.isEmpty()) {
+        ui->podTestName->setVisible(false);
+    } else {
+        ui->podTestName->setText(podtitle);
+        ui->podTestName->setVisible(true);
+    }
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
