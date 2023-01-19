@@ -115,7 +115,7 @@
        <widget class="QLineEdit" name="currLimit1"/>
       </item>
       <item row="4" column="2">
-       <widget class="QLineEdit" name="lineEdit_4">
+       <widget class="QLineEdit" name="currOCP2">
         <property name="readOnly">
          <bool>true</bool>
         </property>
@@ -174,7 +174,7 @@
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="currOCP"/>
       </item>
       <item row="1" column="2">
        <widget class="QLineEdit" name="volt2">
@@ -215,7 +215,7 @@
        </widget>
       </item>
       <item row="8" column="2">
-       <widget class="QLineEdit" name="voltcurr"/>
+       <widget class="QLineEdit" name="currmeas"/>
       </item>
       <item row="1" column="3">
        <widget class="QLabel" name="lvoltunit">
@@ -239,7 +239,7 @@
        </widget>
       </item>
       <item row="5" column="0" colspan="2">
-       <widget class="QCheckBox" name="checkBox">
+       <widget class="QCheckBox" name="cbZasialnieOn">
         <property name="text">
          <string>Włącz zasilanie czujki</string>
         </property>
@@ -979,12 +979,12 @@
   <tabstop>currLimit2</tabstop>
   <tabstop>lineEdit</tabstop>
   <tabstop>lineEdit_2</tabstop>
-  <tabstop>lineEdit_3</tabstop>
-  <tabstop>lineEdit_4</tabstop>
-  <tabstop>checkBox</tabstop>
+  <tabstop>currOCP</tabstop>
+  <tabstop>currOCP2</tabstop>
+  <tabstop>cbZasialnieOn</tabstop>
   <tabstop>pbUstaw</tabstop>
   <tabstop>voltmeas</tabstop>
-  <tabstop>voltcurr</tabstop>
+  <tabstop>currmeas</tabstop>
   <tabstop>cb_przekaznikNI</tabstop>
   <tabstop>cb_pradZadzialania</tabstop>
   <tabstop>cb_pradMaks</tabstop>

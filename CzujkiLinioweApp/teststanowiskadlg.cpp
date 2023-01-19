@@ -68,6 +68,9 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
         }
     });
     connect(ui->pbSet, &QPushButton::clicked, this, &TestStanowiskaDlg::rozkaz);
+    connect(ui->pbUstaw, &QPushButton::clicked, this, &TestStanowiskaDlg::ustawZasilacz);
+
+
 
     this->ui->speed->setEnabled(false);
     this->ui->przemieszczenie->setEnabled(false);
@@ -111,12 +114,27 @@ void TestStanowiskaDlg::valueZasilacz(int kind, int value)
         ui->volt2->setText(ui->volt1->text());
         break;
 
-    case Zasilacz::CURRENT_SET: break;
+    case Zasilacz::CURRENT_SET:
+        if (ui->currLimit1->text().isEmpty())
+            ui->currLimit1->setText(QString::number(value));
+        ui->currLimit2->setText(QString::number(value));
+        break;
+
     case Zasilacz::VOLTAGE_LIMIT: break;
-    case Zasilacz::CURRENT_LIMIT: break;
-    case Zasilacz::VOLTAGE_MEAS: break;
-    case Zasilacz::CURRENT_MEAS: break;
-    case Zasilacz::OUTPUT: break;
+    case Zasilacz::CURRENT_LIMIT:
+        if (ui->currOCP->text().isEmpty())
+            ui->currOCP->setText(QString::number(value));
+        ui->currOCP2->setText(QString::number(value));
+        break;
+    case Zasilacz::VOLTAGE_MEAS:
+        ui->voltmeas->setText(QString::number(value/1000.0, 'f', 3));
+        break;
+    case Zasilacz::CURRENT_MEAS:
+        ui->currmeas->setText(QString::number(value));
+        break;
+    case Zasilacz::OUTPUT:
+        ui->cbZasialnieOn->setChecked(value > 0);
+        break;
     default: break;
     }
 }
@@ -420,4 +438,31 @@ void TestStanowiskaDlg::rozkaz()
     default:
         break;
     }
+}
+
+void TestStanowiskaDlg::ustawZasilacz()
+{
+    if (!ui->volt1->text().isEmpty()) {
+        bool ok;
+        double val = ui->volt1->text().toDouble(&ok);
+        if (ok) {
+            zas->setVoltage_mV(1000*val);
+            zas->setVoltageLimit_mV(30000);
+        }
+    }
+    if (!ui->currLimit1->text().isEmpty()) {
+        bool ok;
+        double val = ui->currLimit1->text().toUInt(&ok);
+        if (ok) {
+            zas->setCurrent_mA(val);
+        }
+    }
+    if (!ui->currOCP->text().isEmpty()) {
+        bool ok;
+        double val = ui->currOCP->text().toUInt(&ok);
+        if (ok) {
+            zas->setCurrentLimit_mA(val);
+        }
+    }
+    zas->setOutput(ui->cbZasialnieOn->isChecked());
 }

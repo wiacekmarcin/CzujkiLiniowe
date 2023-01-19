@@ -24,7 +24,7 @@ void Zasilacz::setConnected(bool connected)
 
 void Zasilacz::closeDevice(bool waitForDone)
 {
-    DEBUGSER(QString("close device %1").arg(waitForDone));
+    //DEBUGSER(QString("close device %1").arg(waitForDone));
     if (waitForDone) {
         m_worker.command(SerialZasilacz::DISCONNECT, QByteArray(), false);
     } else {
@@ -55,7 +55,7 @@ Zasilacz::Zasilacz(Ustawienia *ust, QObject *parent):
     cntTimeout(9),
     u(ust)
 {
-    readMeas.setInterval(10000);
+    readMeas.setInterval(500);
     connect(&readMeas, &QTimer::timeout, this, &Zasilacz::timeout100ms);
     readMeas.start();
 }
@@ -86,6 +86,7 @@ void Zasilacz::timeout100ms()
         getVoltageLimit();
         getCurrentLimit();
         getOutput();
+
     }
 
     getVoltageMeas();

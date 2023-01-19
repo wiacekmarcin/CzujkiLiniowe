@@ -29,6 +29,8 @@ ListaBadan::ListaBadan(QWidget *parent) :
         val.wyniki->setVisible(false);
     }
 
+
+
 }
 
 ListaBadan::~ListaBadan()
@@ -49,6 +51,9 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     wyzwalaniePradem = badanie.getWyzwalanieAlarmuPradem();
     wyzwalaniePrzekaznikiem = badanie.getWyzwalanieAlarmuPrzekaznikiem();
     zasilaczZewnetrzny = badanie.getZasilanieCzujekZasilaczZewnetrzny();
+    if (badanie.getWyzwalanieAlarmuPradem()) {
+        intCurrAlarm = badanie.getPrzekroczeniePraduZasilania_mA().toUInt();
+    }
 
     badanieWTrakcie = true;
     if (!procedura.startBadanie(id, nameTest, badanie, ust, zas, ster))
@@ -205,6 +210,7 @@ void ListaBadan::ster_setValue(short silnik, const double & val)
 
 void ListaBadan::ster_czujkaOn()
 {
+
     if (badanieWTrakcie && wyzwalaniePrzekaznikiem)
         procedura.czujkaOn();
 }
@@ -218,6 +224,7 @@ void ListaBadan::zas_value(int kind, int value)
         procedura.zas_value(kind, value);
 
     if (wyzwalaniePradem && kind == Zasilacz::CURRENT_MEAS) {
+        qDebug() << __FILE__ << __LINE__ << "value=" << value << "alarm" << intCurrAlarm;
         if (value >= (int)intCurrAlarm)
             procedura.czujkaOn();
     }

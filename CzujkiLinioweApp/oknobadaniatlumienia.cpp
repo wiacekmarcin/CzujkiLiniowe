@@ -6,6 +6,7 @@
 #include <QDialogButtonBox>
 #include "sterownik.h"
 #include <QMutexLocker>
+#include <QDebug>
 
 OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali,
                            const QString & name, const Ustawienia &ust,
@@ -18,6 +19,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     actTlumPos(0),
     maxTlum(0),
     ster(ster_),
+    tlumienie("0.0"),
     czasPostoju(czasPostojuFiltra)
 {
     ui->setupUi(this);
@@ -102,6 +104,7 @@ void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
 
 void OknoBadaniaTlumienia::czujkaOn()
 {
+    qDebug() << "Czujka ON";
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
     error = "";

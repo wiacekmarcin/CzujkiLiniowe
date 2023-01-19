@@ -41,6 +41,7 @@ private slots:
     void ukladFiltrowTimeout();
     void zerowanieFiltrow();
     void rozkaz();
+    void ustawZasilacz();
 private:
     Ui::TestStanowiskaDlg *ui;
 
