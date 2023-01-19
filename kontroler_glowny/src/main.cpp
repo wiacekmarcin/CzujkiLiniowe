@@ -381,7 +381,7 @@ volatile unsigned long prevZw = 0;
 void sendZwCzujkiMsg()
 {
     unsigned long actTime = millis();
-    if (actTime - prevZw < 10)
+    if (actTime - prevZw < 200)
         return;
     prevZw = actTime;
     SERIALDBG.println("ID2");

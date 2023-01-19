@@ -18,8 +18,8 @@ class OknoBadanieReakcji6dB : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2, const double &tlumnienie,
-                                   unsigned int dlugoscFali,
+    explicit OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2,
+                                   unsigned int dlugoscFali, const double &tlumnienie,
                           const QString & name, const QString &subtitle, const Ustawienia &ust,
                           Sterownik * ster_, QWidget *parent = 0);
     ~OknoBadanieReakcji6dB();
@@ -58,6 +58,7 @@ private:
     bool waitForZeroFiltr;
     bool endReject;
     QString pos0A, pos0B, pos0C;
+    bool czujkaWyzwolona;
 };
 
 #endif // OKNOBADANIEREAKCJI6DB_H

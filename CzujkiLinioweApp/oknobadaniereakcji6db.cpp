@@ -8,7 +8,7 @@
 #include <QMutexLocker>
 
 OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2,
-                           const double & tlumnienie, unsigned int dlugoscFali,
+                           unsigned int dlugoscFali, const double & tlumnienie,
                            const QString & name, const QString & subtitle, const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
@@ -27,16 +27,20 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     endReject(true),
     pos0A(""),
     pos0B(""),
-    pos0C("")
+    pos0C(""),
+    czujkaWyzwolona(false)
 
 {
     ui->setupUi(this);
+
+    qDebug() << __FILE__ << __LINE__ << tlumnienie;
     QList<QStringList> tlumienia;
     if (dlugoscFali == 880) {
         tlumienia = ust.getTlumienia880();
     } else {
         tlumienia = ust.getTlumienia655();
     }
+
     for (const auto & pos : tlumienia) {
         if (pos.at(0).toDouble() == 0.0) {
             pos0A = pos.at(1);
@@ -51,6 +55,7 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
             //break;
         }
     }
+    //qDebug
     ui->dlugoscFali->setText(QString::number(dlugoscFali));
     ui->testName->setText(name);
     if (subtitle.isEmpty()) {
@@ -115,6 +120,7 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
         return;
     }
 
+
     ui->pbCzujki->setValue(timeCzujkaOn);
     ui->pbOkna->setValue(timeOknoClose);
     tmZmProgressBar.start();
@@ -136,6 +142,9 @@ void OknoBadanieReakcji6dB::czujkaOn()
 {
     qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
              "czujka on";
+    if (czujkaWyzwolona)
+        return;
+    czujkaWyzwolona = true;
     tmZmProgressBar.stop();
     tmSterownika.stop();
     wynikBadania = true;
@@ -146,6 +155,8 @@ void OknoBadanieReakcji6dB::czujkaOn()
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = false;
+        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                 "Prawidlowe dzialanie";
         usunTlumnik();
     } else {
         error = QString("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
@@ -153,6 +164,8 @@ void OknoBadanieReakcji6dB::czujkaOn()
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = true;
+        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                 "Po czasie";
         usunTlumnik();
     }
 }

@@ -63,6 +63,10 @@ ParametryBadania::ParametryBadania()
     testy[RAPID_CHANGES_IN_ATTENUATION] = szybkiezmiany;
 
 
+    DaneTestu dlugoscdrogioptycznej;
+    dlugoscdrogioptycznej.setId(OPTICAL_PATH_LENGTH_DEPEDENCE);
+    dlugoscdrogioptycznej.setName("Zależność od długości drogi optycznej");
+    testy[OPTICAL_PATH_LENGTH_DEPEDENCE] = dlugoscdrogioptycznej;
 }
 
 void ParametryBadania::load(const QString &fileName)

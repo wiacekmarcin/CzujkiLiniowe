@@ -51,6 +51,7 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
 
 OknoResetuZasilaniaCzujki::~OknoResetuZasilaniaCzujki()
 {
+    //zas->setOutput(true);
     timer.stop();
     delete ui;
 }
@@ -60,7 +61,7 @@ void OknoResetuZasilaniaCzujki::timeoutProgress()
     ++actTime;
     if (actTime == maxTime) {
         timer.stop();
-        zas->setOutput(true);
+        //emit setZasilanie(true);
         accept();
     }
     ui->progressBar->setValue(actTime);

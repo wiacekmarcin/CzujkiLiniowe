@@ -31,7 +31,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     }
     maxTlum=tlumienia.size();
 
-    ui->dlugoscFali->setText(QString::number(dlugoscFali));
+    ui->dlugoscFali->setText(QString::number(dlugoscFali) + " nm");
     ui->testName->setText(name);
     ui->czas->setText(QString::number(czasPostoju) + QString(" s"));
     ui->progressBar->setMinimum(0);

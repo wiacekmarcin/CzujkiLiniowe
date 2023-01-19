@@ -126,6 +126,9 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     case RAPID_CHANGES_IN_ATTENUATION:
         return SzybkieZmianyTlumienia(b, ust);
 
+    case OPTICAL_PATH_LENGTH_DEPEDENCE:
+        return DlugoscDrogiOptycznej(b, ust);
+
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
@@ -488,10 +491,7 @@ bool ProceduraTestowa::zasilenieCzujki(bool maksCzulosc, const ParametryBadania 
         zas->setVoltage_mV(daneBadania.getNapiecieZasilaniaCzujki_mV());
         zas->setOutput(true);
     }
-    //TODO
-    if (daneBadania.getWyzwalanieAlarmuPradem()) {
-        zas->setCurrentLimit_mA(daneBadania.getPrzekroczeniePraduZasilania_mA().toInt());
-    }
+
 
     QSharedPointer<OknoZasilaniaCzujki> dlg5(new OknoZasilaniaCzujki(maksCzulosc, dane, daneBadania, parent));
     dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &OknoZasilaniaCzujki::value);

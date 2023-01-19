@@ -20,6 +20,8 @@ public:
                                   QWidget *parent = 0);
     ~OknoResetuZasilaniaCzujki();
 
+signals:
+    void setZasilanie(bool on);
 public slots:
     void timeoutProgress();
 protected:
