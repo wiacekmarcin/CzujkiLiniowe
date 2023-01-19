@@ -21,6 +21,7 @@ typedef enum _testId {
     REPEATABILITY,
     TOLERANCE_TO_BEAM_MISALIGNMENT,
     RAPID_CHANGES_IN_ATTENUATION,
+    OPTICAL_PATH_LENGTH_DEPEDENCE,
 } TestIdType;
 
 struct ListaTestow {
@@ -164,11 +165,20 @@ public:
     const QVector<PomiarKata> &getPomiaryKatow() const;
     void setPomiaryKatow(const QVector<PomiarKata> &newPomiaryKatow);
 
+    const QString &getMinimalneRozstawienie() const;
+    void setMinimalneRozstawienie(const QString &newMinimalneRozstawienie);
+
+    const QString &getMaksymalneRozstawienie() const;
+    void setMaksymalneRozstawienie(const QString &newMaksymalneRozstawienie);
+
+
     void dodajPomiarKata(const PomiarKata &kat);
     void setDataZakonczenia();
     void obliczZaleznoscKatowa(const Ustawienia & ust);
     void obliczOdtwarzalnosc(const Ustawienia & ust);
     void obliczPowtarzalnosc(const Ustawienia & ust);
+    void obliczDlugoscOptyczna(const Ustawienia & ust);
+
 private:
     short id;
     QString name;
@@ -199,6 +209,9 @@ private:
 
     NiewspolosiowoscOsUrzadzenie katyProducenta;
     QVector<PomiarKata> pomiaryKatow;
+
+    QString minimalneRozstawienie;
+    QString maksymalneRozstawienie;
 
 };
 

@@ -146,7 +146,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
 
         bool pomiar1 = true;
         do {
-            if (!montazZerowanieZasilanie(true, nrPom == 1, true, false, daneBadania))
+            if (!montazZerowanieZasilanie(0, true, nrPom == 1, true, false, daneBadania))
                 return false;
 
             powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
@@ -155,7 +155,8 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
                 return false;
         } while(powtorzPomiar);
     }
-
+    zerowanieSterownika(false, true, false);
+    dane.obliczOdtwarzalnosc(ust);
     {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -173,7 +174,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     bool firstTime = true;
     do {
-        if (!montazZerowanieZasilanie(true, true, true, false, daneBadania))
+        if (!montazZerowanieZasilanie(0, true, true, true, false, daneBadania))
             return false;
 
         powtorzPomiar = pomiarCzujki(firstTime, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
@@ -195,6 +196,8 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
     }
 
     pomiarCzujki(false, true, false, false, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
+    zerowanieSterownika(false, true, false);
+    dane.obliczPowtarzalnosc(ust);
     do {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -208,12 +211,12 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
     if (!parametryTest(1, daneBadania))
         return false;
 
-    if (!montazZerowanieZasilanie(true, true, true, false, daneBadania))
+    if (!montazZerowanieZasilanie(0, true, true, true, false, daneBadania))
         return false;
 
     if (!NiewspolosiowoscBadanie(daneBadania, ust))
         return false;
-
+    dane.obliczZaleznoscKatowa(ust);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -332,7 +335,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
     if (!parametryTest(1, daneBadania))
         return false;
 
-    if (!montazZerowanieZasilanie(false, true, true, false, daneBadania))
+    if (!montazZerowanieZasilanie(0, false, true, true, false, daneBadania))
         return false;
 
     QString tlumienie = "-";
@@ -381,6 +384,44 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
     dane.setWykonany(true);
     zerowanieSterownika(false, true, false);
 
+    do {
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+        dlg->exec();
+    } while(false);
+    return true;
+}
+
+bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    if (!parametryTest(1, daneBadania))
+        return false;
+
+    short powtorzPomiar = 0;
+    bool ok1, ok2;
+    do {
+        if (!montazZerowanieZasilanie(1, true, true, true, false, daneBadania))
+            return false;
+
+        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        if (powtorzPomiar == -1)
+            return false;
+        ok1 = powtorzPomiar == 0;
+    } while (powtorzPomiar != 0);
+    dane.addNextPomiar();
+    do {
+        if (!montazZerowanieZasilanie(2, true, true, true, false, daneBadania))
+            return false;
+
+        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        if (powtorzPomiar == -1)
+            return false;
+        ok2 = powtorzPomiar == 0;
+    } while (powtorzPomiar != 0);
+    dane.setOk(ok1 & ok2);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+    zerowanieSterownika(false, true, false);
+    dane.obliczDlugoscOptyczna(ust);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -511,11 +552,11 @@ short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool r
     return 0;
 }
 
-bool ProceduraTestowa::montazZerowanieZasilanie(bool maxCzulosc, bool filtry, bool ramiona, bool wozek,
+bool ProceduraTestowa::montazZerowanieZasilanie(short rozstawienie, bool maxCzulosc, bool filtry, bool ramiona, bool wozek,
                                                 const ParametryBadania &daneBadania)
 {
     do {
-        QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(dane, parent));
+        QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(rozstawienie, dane, parent));
         if (!(dlg4->exec()))
             return false;
     } while(false);

@@ -290,7 +290,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         ADDVHEADITEM(tableParams, "Cmax/Crep", 3);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3, 0);
 
-        ADDVHEADITEM(tableParams, "Crep/Cmax", 4);
+        ADDVHEADITEM(tableParams, "Crep/Cmin", 4);
         ADDITEM(tableParams, QString::number(daneTestu.getCrepCmin(), 'f', 2), 4, 0);
 
         initOdtwarzalnoscTable(pierwszy, drugi);

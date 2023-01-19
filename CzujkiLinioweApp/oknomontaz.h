@@ -12,7 +12,7 @@ class OknoMontaz : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoMontaz(const DaneTestu &daneTestu,
+    explicit OknoMontaz(short opticalLen, const DaneTestu &daneTestu,
                          QWidget *parent = nullptr);
     ~OknoMontaz();
 

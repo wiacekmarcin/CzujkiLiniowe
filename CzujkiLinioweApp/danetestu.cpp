@@ -51,7 +51,9 @@ DaneTestu::DaneTestu():
     nazwaTypPierwszego(""),
     nazwaTypDrugiego(""),
     dlugoscFali(0),
-    czasPowtarzalnosci(0)
+    czasPowtarzalnosci(0),
+    minimalneRozstawienie("0"),
+    maksymalneRozstawienie("0")
 {
     katyProducenta.nadajnik.pionowo = "0";
     katyProducenta.nadajnik.poziomo = "0";
@@ -165,6 +167,8 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.katyProducenta.odbiornik.pionowo
         << dane.katyProducenta.odbiornik.poziomo
         << dane.pomiaryKatow
+        << dane.minimalneRozstawienie
+        << dane.maksymalneRozstawienie
            ;
     return out;
 }
@@ -201,6 +205,8 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.katyProducenta.odbiornik.pionowo
         >> dane.katyProducenta.odbiornik.poziomo
         >> dane.pomiaryKatow
+        >> dane.minimalneRozstawienie
+        >> dane.maksymalneRozstawienie
             ;
     return in;
 }
@@ -709,4 +715,94 @@ void DaneTestu::obliczPowtarzalnosc(const Ustawienia & ust)
     } else {
         setOk(badanieOk);
     }
+}
+
+void DaneTestu::obliczDlugoscOptyczna(const Ustawienia &ust)
+{
+    if (!getOk())
+        return;
+    bool badanieOk = true;
+
+    float Cmin = 100;
+    float Cmax = -100;
+
+
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(dane.error);
+            continue;
+        }
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            continue;
+        }
+
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
+            continue;
+        }
+
+        if (C > Cmax)
+            Cmax = C;
+        if (C < Cmin)
+            Cmin = C;
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+
+
+    setOk(badanieOk);
+    setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
+    if (Cmin) {
+        setCmin(Cmin);
+        setCmax(Cmax);
+        setCmaxCmin(Cmax/Cmin);
+    } else {
+        setCmin(0);
+        setCmax(0);
+        setCmaxCmin(0);
+    }
+    setWykonany(true);
+
+    if (getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin()) {
+        setOk(false);
+        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getDlugoscDrogiOptycznejCmaxCmin(), 3, 'f', 2));
+    } else {
+        setOk(badanieOk);
+    }
+
+}
+
+const QString &DaneTestu::getMinimalneRozstawienie() const
+{
+    return minimalneRozstawienie;
+}
+
+void DaneTestu::setMinimalneRozstawienie(const QString &newMinimalneRozstawienie)
+{
+    minimalneRozstawienie = newMinimalneRozstawienie;
+}
+
+const QString &DaneTestu::getMaksymalneRozstawienie() const
+{
+    return maksymalneRozstawienie;
+}
+
+void DaneTestu::setMaksymalneRozstawienie(const QString &newMaksymalneRozstawienie)
+{
+    maksymalneRozstawienie = newMaksymalneRozstawienie;
 }

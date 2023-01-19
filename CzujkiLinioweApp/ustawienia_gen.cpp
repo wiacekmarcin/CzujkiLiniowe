@@ -205,6 +205,7 @@ void UstawieniaGen::load()
 	maksCzasTestuCzujkidlaTlumnikaB = toUInt(settings.value("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(70)).toString());
 	szybkieZmianyWartoscTlumnikaA = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(6.0)).toString());
 	szybkieZmianyWartoscTlumnikaB = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(10.0)).toString());
+	dlugoscDrogiOptycznejCmaxCmin = toDouble(settings.value("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(1.6)).toString());
 }
 
 void UstawieniaGen::save()
@@ -394,6 +395,7 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(maksCzasTestuCzujkidlaTlumnikaB));
 	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(szybkieZmianyWartoscTlumnikaA));
 	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(szybkieZmianyWartoscTlumnikaB));
+	settings.setValue("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(dlugoscDrogiOptycznejCmaxCmin));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -3049,4 +3051,15 @@ void UstawieniaGen::setSzybkieZmianyWartoscTlumnikaB(const double & value)
 {
 	szybkieZmianyWartoscTlumnikaB = value;
 	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getDlugoscDrogiOptycznejCmaxCmin() const
+{
+	return dlugoscDrogiOptycznejCmaxCmin;
+}
+
+void UstawieniaGen::setDlugoscDrogiOptycznejCmaxCmin(const double & value)
+{
+	dlugoscDrogiOptycznejCmaxCmin = value;
+	settings.setValue("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(value));
 }

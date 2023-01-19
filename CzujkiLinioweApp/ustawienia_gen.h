@@ -592,6 +592,8 @@ public:
 	void setSzybkieZmianyWartoscTlumnikaA(const double & szybkieZmianyWartoscTlumnikaA);
 	double getSzybkieZmianyWartoscTlumnikaB() const;
 	void setSzybkieZmianyWartoscTlumnikaB(const double & szybkieZmianyWartoscTlumnikaB);
+	double getDlugoscDrogiOptycznejCmaxCmin() const;
+	void setDlugoscDrogiOptycznejCmaxCmin(const double & dlugoscDrogiOptycznejCmaxCmin);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -796,5 +798,6 @@ private:
 	unsigned int maksCzasTestuCzujkidlaTlumnikaB;
 	double szybkieZmianyWartoscTlumnikaA;
 	double szybkieZmianyWartoscTlumnikaB;
+	double dlugoscDrogiOptycznejCmaxCmin;
 };
 #endif

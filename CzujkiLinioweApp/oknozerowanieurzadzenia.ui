@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>606</width>
-    <height>403</height>
+    <height>443</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -99,7 +99,7 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Zerowanie nie powinno trwać dłużej niż kilka sekund, dla silników bezpośrednio powiązanych z badaniem (dwie osie nadajnika, filtry i dwie osie odbiornika. Dla wóżka na którym zamontowane jest to czas kilkanaście - kilkadziesiąt sekund</string>
+         <string>Zerowanie nie powinno trwać dłużej niż kilka sekund, dla silników bezpośrednio powiązanych z badaniem (dwie osie nadajnika, filtry i dwie osie odbiornika. Dla wóżka na którym zamontowane są filtry, czas ten nie powinien być większy niż kilkadziesiąt sekund</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

@@ -23,7 +23,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 
     ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
     if (daneTestu.getId() == REPRODUCIBILITY) {
-        daneTestu.obliczOdtwarzalnosc(ust);
         ui->stackedWidget->setCurrentWidget(ui->odtwarzalnosc);
         odtwarzalnoscHeadTable(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
                                pierwszy, drugi);
@@ -55,7 +54,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->odtwarzalnoscGridLayoutResults->setSpacing(0);
         //badanie->s
     } else if (daneTestu.getId() == REPEATABILITY) {
-        daneTestu.obliczPowtarzalnosc(ust);
         ui->stackedWidget->setCurrentWidget(ui->powtarzalnosc);
         powtarzalnoscHeadTable(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc");
 
@@ -79,7 +77,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->powtarzalnoscPrzebiegrGridLayout->setHorizontalSpacing(0);
         ui->powtarzalnoscPrzebiegrGridLayout->setSpacing(0);
      } else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
-        daneTestu.obliczZaleznoscKatowa(ust);
         ui->stackedWidget->setCurrentWidget(ui->zaleznosckatowa);
         zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_1katproducent, ui->zaleznosckatowa_1_kat, ui->zaleznosckatowa_wyniki_1});
         zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_2katproducent, ui->zaleznosckatowa_2_kat, ui->zaleznosckatowa_wyniki_2});
@@ -118,8 +115,25 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->szybkiezmianytlumieniagridlayout->setVerticalSpacing(0);
         ui->szybkiezmianytlumieniagridlayout->setHorizontalSpacing(0);
         ui->szybkiezmianytlumieniagridlayout->setSpacing(0);
+    } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
+        ui->stackedWidget->setCurrentWidget(ui->dlugoscdrogioptycznej);
+        ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
+        ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
+        ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+        short num = 0;
+        dlugoscdrogioptycznejHeadTable(ui->frSzybkieZmianyPrzebieg, ui->dlugoscDrogiOptycznejGridLayout,"dlugoscdrogioptycznej");
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            dlugoscdrogioptycznejAddRekord(ui->frSzybkieZmianyPrzebieg, ui->dlugoscDrogiOptycznejGridLayout, "dlugoscdrogioptycznej",
+                              num, dane.value_dB, "0.0",
+                                           (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()) ,
+                                           dane.ok, dane.error);
+            num++;
+        }
+        ui->dlugoscDrogiOptycznejGridLayout->setVerticalSpacing(0);
+        ui->dlugoscDrogiOptycznejGridLayout->setHorizontalSpacing(0);
+        ui->dlugoscDrogiOptycznejGridLayout->setSpacing(0);
     }
-
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
 }
@@ -273,6 +287,50 @@ void OknoPodsumowanieTestu::szybkiezmianytlumieniaAddRekord(
 
 }
 
+void OknoPodsumowanieTestu::dlugoscdrogioptycznejHeadTable(QFrame * fr, QGridLayout * lay,
+                                      const QString & suffix)
+{
+    short col = 0;
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("Rozstawienie", "lhead10", "etRozstawienie");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
+
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
+}
+
+
+void OknoPodsumowanieTestu::dlugoscdrogioptycznejAddRekord(
+        QFrame * fr, QGridLayout * lay, const QString & suffix,
+        short r, const QString &tlumienie_db, const QString &tlumienie_per,
+        const QString & rozstawienie, bool ok, const QString &inneText)
+{
+
+    short col = 0;
+    short row = 2*r+3;
+
+    ADDLINETABLETD(QString::number(r+1));
+    ADDLINETABLETD(QString("%1 m").arg(rozstawienie));
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    if (inneText.isEmpty())
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    else
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
+
+}
 
 void OknoPodsumowanieTestu::oneHeadRecord(QFrame * frameTable, QGridLayout * layout,
                                           const QString & text, int row, int col, const QString & objectName)

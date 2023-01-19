@@ -58,6 +58,8 @@ protected:
 
     void szybkiezmianytlumieniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, bool ok, const QString &inneText);
     void szybkieZmianyTlumieniaHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
+    void dlugoscdrogioptycznejAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, const QString &rozstawienie, bool ok, const QString &inneText);
+    void dlugoscdrogioptycznejHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
 private:
     Ui::OknoPodsumowanieTestu *ui;
     const Ustawienia & ust;

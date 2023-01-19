@@ -571,7 +571,7 @@ u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaB", "unsigned int", "toUInt", 
 u.addZakresy("maksCzasTestuCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '70', checkUnsignedIntContent)
 u.addZakresy("szybkieZmianyWartoscTlumnikaA", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", '6.0', checkDoubleContent)
 u.addZakresy("szybkieZmianyWartoscTlumnikaB", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", '10.0', checkDoubleContent)
-
+u.addZakresy("dlugoscDrogiOptycznejCmaxCmin", "double", "toDouble", "ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", '1.6', checkDoubleContent)
 u.createHeader()
 u.createSource()
 
