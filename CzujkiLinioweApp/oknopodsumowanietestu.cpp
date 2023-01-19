@@ -105,6 +105,19 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
                 zaleznoscKatowaVector[id].wynik->setText(wynik.errorStr);
             }
         }
+    } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
+        ui->stackedWidget->setCurrentWidget(ui->szybkiezmianytlumienia);
+        short num = 0;
+        szybkieZmianyTlumieniaHeadTable(ui->frSzybkieZmianyPrzebieg, ui->szybkiezmianytlumieniagridlayout,"szybkiezmiany");
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            powtarzalnoscAddRekord(ui->frSzybkieZmianyPrzebieg, ui->szybkiezmianytlumieniagridlayout, "szybkiezmiany",
+                                  num, dane.value_dB, "0.0", dane.ok, dane.error);
+            num++;
+        }
+        ui->szybkiezmianytlumieniagridlayout->setVerticalSpacing(0);
+        ui->szybkiezmianytlumieniagridlayout->setHorizontalSpacing(0);
+        ui->szybkiezmianytlumieniagridlayout->setSpacing(0);
     }
 
 
@@ -210,12 +223,56 @@ void OknoPodsumowanieTestu::powtarzalnoscAddRekord(
     else
         oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
-    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(suffix).arg(row).arg(col));
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
 
     addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
 
 }
+
+void OknoPodsumowanieTestu::szybkieZmianyTlumieniaHeadTable(QFrame * fr, QGridLayout * lay,
+                                      const QString & suffix)
+{
+    short col = 0;
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
+
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
+}
+
+
+void OknoPodsumowanieTestu::szybkiezmianytlumieniaAddRekord(
+        QFrame * fr, QGridLayout * lay, const QString & suffix,
+        short r, const QString &tlumienie_db, const QString &tlumienie_per,
+                                          bool ok, const QString &inneText)
+{
+
+    short col = 0;
+    short row = 2*r+3;
+
+    ADDLINETABLETD(QString::number(r+1));
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    if (inneText.isEmpty())
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    else
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
+
+}
+
 
 void OknoPodsumowanieTestu::oneHeadRecord(QFrame * frameTable, QGridLayout * layout,
                                           const QString & text, int row, int col, const QString & objectName)

@@ -252,6 +252,7 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
             ui->stackedWidget->setCurrentIndex(1);
             break;
         case TOLERANCE_TO_BEAM_MISALIGNMENT:
+        case RAPID_CHANGES_IN_ATTENUATION:
         default:
             ui->stackedWidget->setCurrentIndex(2);
         break;

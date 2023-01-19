@@ -57,6 +57,10 @@ ParametryBadania::ParametryBadania()
     zaleznosckierunkowa.setName("Zależność kierunkowa");
     testy[TOLERANCE_TO_BEAM_MISALIGNMENT] = zaleznosckierunkowa;
 
+    DaneTestu szybkiezmiany;
+    szybkiezmiany.setId(RAPID_CHANGES_IN_ATTENUATION);
+    szybkiezmiany.setName("Szybkie zmiany tłumienia");
+    testy[RAPID_CHANGES_IN_ATTENUATION] = szybkiezmiany;
 
 
 }

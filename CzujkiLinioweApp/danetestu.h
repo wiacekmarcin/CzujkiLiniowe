@@ -19,7 +19,8 @@ struct NiewspolosiowoscOsUrzadzenie {
 typedef enum _testId {
     REPRODUCIBILITY = 0,
     REPEATABILITY,
-    TOLERANCE_TO_BEAM_MISALIGNMENT
+    TOLERANCE_TO_BEAM_MISALIGNMENT,
+    RAPID_CHANGES_IN_ATTENUATION,
 } TestIdType;
 
 struct ListaTestow {

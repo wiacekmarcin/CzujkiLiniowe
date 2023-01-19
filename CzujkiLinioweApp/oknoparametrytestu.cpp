@@ -109,7 +109,11 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             od.odbiornik.poziomo = badanie.getMaksKatowaNieWspolPoziomaOdbiornika();
             test->setKatyProducenta(od);
             break;
-        break;
+        case RAPID_CHANGES_IN_ATTENUATION:
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->cbCzujka->setCurrentIndex(0);
+            changeCzujka(0);
+            ui->frameSpec->setVisible(true);
         default:
         break;
     }

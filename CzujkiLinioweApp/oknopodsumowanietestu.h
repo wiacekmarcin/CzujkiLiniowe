@@ -56,6 +56,8 @@ protected:
     void addLine(QFrame * frameTable, QGridLayout * layout, bool vert, int row, int col, int rowspan, int colspan, const QString & objectName);
 
 
+    void szybkiezmianytlumieniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, bool ok, const QString &inneText);
+    void szybkieZmianyTlumieniaHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
 private:
     Ui::OknoPodsumowanieTestu *ui;
     const Ustawienia & ust;

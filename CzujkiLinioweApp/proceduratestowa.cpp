@@ -123,6 +123,9 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     case TOLERANCE_TO_BEAM_MISALIGNMENT:
         return Niewspolosiowosc(b, ust);
 
+    case RAPID_CHANGES_IN_ATTENUATION:
+        return SzybkieZmianyTlumienia(b, ust);
+
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
@@ -143,7 +146,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
 
         bool pomiar1 = true;
         do {
-            if (!montazZerowanieZasilanie(nrPom == 1, true, false, daneBadania))
+            if (!montazZerowanieZasilanie(true, nrPom == 1, true, false, daneBadania))
                 return false;
 
             powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
@@ -170,7 +173,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     bool firstTime = true;
     do {
-        if (!montazZerowanieZasilanie(true, true, false, daneBadania))
+        if (!montazZerowanieZasilanie(true, true, true, false, daneBadania))
             return false;
 
         powtorzPomiar = pomiarCzujki(firstTime, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
@@ -205,7 +208,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
     if (!parametryTest(1, daneBadania))
         return false;
 
-    if (!montazZerowanieZasilanie(true, true, false, daneBadania))
+    if (!montazZerowanieZasilanie(true, true, true, false, daneBadania))
         return false;
 
     if (!NiewspolosiowoscBadanie(daneBadania, ust))
@@ -324,6 +327,67 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     return true;
 }
 
+bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    if (!parametryTest(1, daneBadania))
+        return false;
+
+    if (!montazZerowanieZasilanie(false, true, true, false, daneBadania))
+        return false;
+
+    QString tlumienie = "-";
+    QString error = "";
+    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), "", parent);
+    bool stabOk = dlg6->exec() == QDialog::Accepted;
+    delete dlg6;
+    dlg6 = nullptr;
+    if (!stabOk)
+        return false;
+
+    bool testOk = true;
+    dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaA(),
+                                        ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaA(),
+                                        daneBadania.getDlugoscFaliFiltrow(),
+                                        ust.getSzybkieZmianyWartoscTlumnikaA(),
+                                        dane.getName(), QString::fromUtf8("Pomiar dla tłumnika A"), ust, ster, parent);
+    if (!dlg12->exec()) {
+        testOk = false;
+        dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+    }
+    dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+    dane.addNextPomiar();
+    delete dlg12;
+    dlg12 = nullptr;
+
+    resetCzujki(dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust.getCzasWylaczeniaCzujkiDlaResetu(),
+                daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania);
+
+    dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaB(),
+                                        ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaB(),
+                                        daneBadania.getDlugoscFaliFiltrow(),
+                                        ust.getSzybkieZmianyWartoscTlumnikaB(),
+                                        dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust, ster, parent);
+    if (!dlg12->exec()) {
+        testOk = false;
+        dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+    }
+    dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+
+    delete dlg12;
+    dlg12 = nullptr;
+
+    dane.setOk(testOk);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+    zerowanieSterownika(false, true, false);
+
+    do {
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+        dlg->exec();
+    } while(false);
+    return true;
+}
+
 bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania)
 {
 
@@ -376,7 +440,7 @@ bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const 
 }
 
 
-bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
+bool ProceduraTestowa::zasilenieCzujki(bool maksCzulosc, const ParametryBadania &daneBadania)
 {
     //ustawienia zasilania czujki z zasilacza
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
@@ -388,7 +452,7 @@ bool ProceduraTestowa::zasilenieCzujki(const ParametryBadania &daneBadania)
         zas->setCurrentLimit_mA(daneBadania.getPrzekroczeniePraduZasilania_mA().toInt());
     }
 
-    QSharedPointer<OknoZasilaniaCzujki> dlg5(new OknoZasilaniaCzujki(dane, daneBadania, parent));
+    QSharedPointer<OknoZasilaniaCzujki> dlg5(new OknoZasilaniaCzujki(maksCzulosc, dane, daneBadania, parent));
     dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &OknoZasilaniaCzujki::value);
     if (!dlg5->exec()) {
         zas->setOutput(false);
@@ -447,7 +511,7 @@ short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool r
     return 0;
 }
 
-bool ProceduraTestowa::montazZerowanieZasilanie(bool filtry, bool ramiona, bool wozek,
+bool ProceduraTestowa::montazZerowanieZasilanie(bool maxCzulosc, bool filtry, bool ramiona, bool wozek,
                                                 const ParametryBadania &daneBadania)
 {
     do {
@@ -464,7 +528,7 @@ bool ProceduraTestowa::montazZerowanieZasilanie(bool filtry, bool ramiona, bool 
     if(!zerowanieSterownika(filtry, ramiona, wozek))
         return false;
 
-    if (!zasilenieCzujki(daneBadania))
+    if (!zasilenieCzujki(maxCzulosc, daneBadania))
         return false;
 
     return true;

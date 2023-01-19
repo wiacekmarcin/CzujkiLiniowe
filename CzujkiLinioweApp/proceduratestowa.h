@@ -42,6 +42,7 @@ protected:
     bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
     bool NiewspolosiowoscBadanie(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool SzybkieZmianyTlumienia(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b);
@@ -49,8 +50,8 @@ private:
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek);
     bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    bool zasilenieCzujki(const ParametryBadania &daneBadania);
-    bool montazZerowanieZasilanie(bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
+    bool zasilenieCzujki(bool maksCzulosc, const ParametryBadania &daneBadania);
+    bool montazZerowanieZasilanie(bool maksCzulosc, bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool nowait, unsigned long timeWait, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);

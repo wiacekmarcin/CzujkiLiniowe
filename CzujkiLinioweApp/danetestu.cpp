@@ -5,9 +5,11 @@
 
 ListaTestow::ListaTestow()
 {
-    nazwyTestow << "Odtwarzalność" << "Powtarzalność" << "Zależność kierunkowa" << "Zmiana parametrów zasilania"
-    << "Szybkie zmiany tłumienia" << "Powolne zmiany tłumienia" << "Zależność od długości drogi optycznej"
-    << "Czułość na pożar" << "Światło rozproszone" << "Odporność na suche gorąco"
+    nazwyTestow << "Odtwarzalność" << "Powtarzalność" << "Zależność kierunkowa"
+    << "Szybkie zmiany tłumienia" << "Zależność od długości drogi optycznej" ;
+
+    /*<< "Powolne zmiany tłumienia"
+    << "Czułość na pożar" << "Światło rozproszone" << "Zmiana parametrów zasilania" << "Odporność na suche gorąco"
     << "Odporność na zimno" << "Odporność na wilgotne gorąco, stan ustalony"
     << "Wytrzymałość na wilgotne gorąco, stan ustalony" << "Wytrzymałość na wibracje"
     << "Odporność na wyładowania elektrostatyczne"
@@ -16,7 +18,7 @@ ListaTestow::ListaTestow()
     << "Odporność na szybkie impulsy przejściowe"
     << "Odporność na powolne udary napęciowe wysokiej energii"
     << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki"
-    << "Odporność na uderzenie"
+    << "Odporność na uderzenie"*/
     ;
     odtwarzalnosc = false;
 

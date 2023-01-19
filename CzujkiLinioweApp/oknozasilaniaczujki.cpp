@@ -3,7 +3,8 @@
 #include "zasilacz.h"
 #include <QMessageBox>
 
-OknoZasilaniaCzujki::OknoZasilaniaCzujki(const DaneTestu &daneTestu, const ParametryBadania &daneBadania, QWidget *parent) :
+OknoZasilaniaCzujki::OknoZasilaniaCzujki(bool maksCzulosc, const DaneTestu &daneTestu,
+                                         const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZasilaniaCzujki)
 {
@@ -14,6 +15,14 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(const DaneTestu &daneTestu, const Param
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
     ui->testName->setText(daneTestu.getName());
+    if (maksCzulosc) {
+        ui->info->setText(ui->info->text().replace("[CZULOSC]", "maksymalną czułość"));
+        ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najwyższą czułość"));
+    } else {
+        ui->info->setText(ui->info->text().replace("[CZULOSC]", "minimalną czułość"));
+        ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najniższą czułość"));
+    }
+
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
         ui->infoZasilanie->setText("Zasilanie czujki zostało włączone");
         ui->rodzajZasilania->setText("Zasilacz");

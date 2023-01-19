@@ -580,6 +580,18 @@ public:
 	void setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & czasWylaczeniaCzujkiDlaResetu);
 	double getNiewspolosiowoscMinimalnyKatProducentMierzony() const;
 	void setNiewspolosiowoscMinimalnyKatProducentMierzony(const double & niewspolosiowoscMinimalnyKatProducentMierzony);
+	unsigned int getMaksCzasZadzialaniaCzujkidlaTlumnikaA() const;
+	void setMaksCzasZadzialaniaCzujkidlaTlumnikaA(const unsigned int & maksCzasZadzialaniaCzujkidlaTlumnikaA);
+	unsigned int getMaksCzasTestuCzujkidlaTlumnikaA() const;
+	void setMaksCzasTestuCzujkidlaTlumnikaA(const unsigned int & maksCzasTestuCzujkidlaTlumnikaA);
+	unsigned int getMaksCzasZadzialaniaCzujkidlaTlumnikaB() const;
+	void setMaksCzasZadzialaniaCzujkidlaTlumnikaB(const unsigned int & maksCzasZadzialaniaCzujkidlaTlumnikaB);
+	unsigned int getMaksCzasTestuCzujkidlaTlumnikaB() const;
+	void setMaksCzasTestuCzujkidlaTlumnikaB(const unsigned int & maksCzasTestuCzujkidlaTlumnikaB);
+	double getSzybkieZmianyWartoscTlumnikaA() const;
+	void setSzybkieZmianyWartoscTlumnikaA(const double & szybkieZmianyWartoscTlumnikaA);
+	double getSzybkieZmianyWartoscTlumnikaB() const;
+	void setSzybkieZmianyWartoscTlumnikaB(const double & szybkieZmianyWartoscTlumnikaB);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -778,5 +790,11 @@ private:
 	double niewspolosiowoscWartoscTlumnika;
 	unsigned int czasWylaczeniaCzujkiDlaResetu;
 	double niewspolosiowoscMinimalnyKatProducentMierzony;
+	unsigned int maksCzasZadzialaniaCzujkidlaTlumnikaA;
+	unsigned int maksCzasTestuCzujkidlaTlumnikaA;
+	unsigned int maksCzasZadzialaniaCzujkidlaTlumnikaB;
+	unsigned int maksCzasTestuCzujkidlaTlumnikaB;
+	double szybkieZmianyWartoscTlumnikaA;
+	double szybkieZmianyWartoscTlumnikaB;
 };
 #endif

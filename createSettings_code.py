@@ -565,6 +565,13 @@ u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-P
 u.addZakresy("niewspolosiowoscWartoscTlumnika", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", '6.0', checkDoubleContent)
 u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", '15', checkUnsignedIntContent)
 u.addZakresy("niewspolosiowoscMinimalnyKatProducentMierzony", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", '0.4', checkDoubleContent)
+u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '30', checkUnsignedIntContent)
+u.addZakresy("maksCzasTestuCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '40', checkUnsignedIntContent)
+u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '60', checkUnsignedIntContent)
+u.addZakresy("maksCzasTestuCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '70', checkUnsignedIntContent)
+u.addZakresy("szybkieZmianyWartoscTlumnikaA", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", '6.0', checkDoubleContent)
+u.addZakresy("szybkieZmianyWartoscTlumnikaB", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", '10.0', checkDoubleContent)
+
 u.createHeader()
 u.createSource()
 

@@ -199,6 +199,12 @@ void UstawieniaGen::load()
 	niewspolosiowoscWartoscTlumnika = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(6.0)).toString());
 	czasWylaczeniaCzujkiDlaResetu = toUInt(settings.value("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(15)).toString());
 	niewspolosiowoscMinimalnyKatProducentMierzony = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(0.4)).toString());
+	maksCzasZadzialaniaCzujkidlaTlumnikaA = toUInt(settings.value("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(30)).toString());
+	maksCzasTestuCzujkidlaTlumnikaA = toUInt(settings.value("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(40)).toString());
+	maksCzasZadzialaniaCzujkidlaTlumnikaB = toUInt(settings.value("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(60)).toString());
+	maksCzasTestuCzujkidlaTlumnikaB = toUInt(settings.value("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(70)).toString());
+	szybkieZmianyWartoscTlumnikaA = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(6.0)).toString());
+	szybkieZmianyWartoscTlumnikaB = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(10.0)).toString());
 }
 
 void UstawieniaGen::save()
@@ -382,6 +388,12 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(niewspolosiowoscWartoscTlumnika));
 	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(czasWylaczeniaCzujkiDlaResetu));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(niewspolosiowoscMinimalnyKatProducentMierzony));
+	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(maksCzasZadzialaniaCzujkidlaTlumnikaA));
+	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(maksCzasTestuCzujkidlaTlumnikaA));
+	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(maksCzasZadzialaniaCzujkidlaTlumnikaB));
+	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(maksCzasTestuCzujkidlaTlumnikaB));
+	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(szybkieZmianyWartoscTlumnikaA));
+	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(szybkieZmianyWartoscTlumnikaB));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -2971,4 +2983,70 @@ void UstawieniaGen::setNiewspolosiowoscMinimalnyKatProducentMierzony(const doubl
 {
 	niewspolosiowoscMinimalnyKatProducentMierzony = value;
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getMaksCzasZadzialaniaCzujkidlaTlumnikaA() const
+{
+	return maksCzasZadzialaniaCzujkidlaTlumnikaA;
+}
+
+void UstawieniaGen::setMaksCzasZadzialaniaCzujkidlaTlumnikaA(const unsigned int & value)
+{
+	maksCzasZadzialaniaCzujkidlaTlumnikaA = value;
+	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getMaksCzasTestuCzujkidlaTlumnikaA() const
+{
+	return maksCzasTestuCzujkidlaTlumnikaA;
+}
+
+void UstawieniaGen::setMaksCzasTestuCzujkidlaTlumnikaA(const unsigned int & value)
+{
+	maksCzasTestuCzujkidlaTlumnikaA = value;
+	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getMaksCzasZadzialaniaCzujkidlaTlumnikaB() const
+{
+	return maksCzasZadzialaniaCzujkidlaTlumnikaB;
+}
+
+void UstawieniaGen::setMaksCzasZadzialaniaCzujkidlaTlumnikaB(const unsigned int & value)
+{
+	maksCzasZadzialaniaCzujkidlaTlumnikaB = value;
+	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getMaksCzasTestuCzujkidlaTlumnikaB() const
+{
+	return maksCzasTestuCzujkidlaTlumnikaB;
+}
+
+void UstawieniaGen::setMaksCzasTestuCzujkidlaTlumnikaB(const unsigned int & value)
+{
+	maksCzasTestuCzujkidlaTlumnikaB = value;
+	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getSzybkieZmianyWartoscTlumnikaA() const
+{
+	return szybkieZmianyWartoscTlumnikaA;
+}
+
+void UstawieniaGen::setSzybkieZmianyWartoscTlumnikaA(const double & value)
+{
+	szybkieZmianyWartoscTlumnikaA = value;
+	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getSzybkieZmianyWartoscTlumnikaB() const
+{
+	return szybkieZmianyWartoscTlumnikaB;
+}
+
+void UstawieniaGen::setSzybkieZmianyWartoscTlumnikaB(const double & value)
+{
+	szybkieZmianyWartoscTlumnikaB = value;
+	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(value));
 }

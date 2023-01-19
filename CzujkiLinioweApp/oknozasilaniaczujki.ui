@@ -28,7 +28,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Należy wyregulować czujkę na maksymalną czułość i przygotować do wykonania wybranego testu zgodnie z opisem w instrukcji obsługi stanowiska i typem zainstalowanej czujki</string>
+      <string>Należy wyregulować czujkę na [CZULOSC] i przygotować do wykonania wybranego testu zgodnie z opisem w instrukcji obsługi stanowiska i typem zainstalowanej czujki</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>
@@ -116,14 +116,14 @@
      </property>
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QLabel" name="label_9">
+       <widget class="QLabel" name="info2">
         <property name="font">
          <font>
           <pointsize>14</pointsize>
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Po wykonaniu powyższych czynność (czujka ustawiona jest na &lt;span style=&quot; text-decoration: underline;&quot;&gt;najwyższą czułość&lt;/span&gt;, proszę wcisnąć przycisk&lt;span style=&quot; color:#3584e4;&quot;&gt; Dalej&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Po wykonaniu powyższych czynność (czujka ustawiona jest na &lt;span style=&quot; text-decoration: underline;&quot;&gt;[CZULOSC]&lt;/span&gt;, proszę wcisnąć przycisk&lt;span style=&quot; color:#3584e4;&quot;&gt; Dalej&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
