@@ -793,6 +793,20 @@ void DaneTestu::obliczDlugoscOptyczna(const Ustawienia &ust)
 
 }
 
+void DaneTestu::obliczSzybkieZmianyTlumienia(const Ustawienia &)
+{
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            errStr = dane.error;
+            ok = false;
+            return;
+        }
+    }
+    ok = true;
+    errStr = "";
+}
+
 const QString &DaneTestu::getNazwaTransmitter_a() const
 {
     return nazwaTransmitter_a;

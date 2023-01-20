@@ -178,6 +178,7 @@ public:
     void obliczOdtwarzalnosc(const Ustawienia & ust);
     void obliczPowtarzalnosc(const Ustawienia & ust);
     void obliczDlugoscOptyczna(const Ustawienia & ust);
+    void obliczSzybkieZmianyTlumienia(const Ustawienia & ust);
 
     const QString &getNazwaTransmitter_a() const;
     void setNazwaTransmitter_a(const QString &newNazwaTransmitter_a);

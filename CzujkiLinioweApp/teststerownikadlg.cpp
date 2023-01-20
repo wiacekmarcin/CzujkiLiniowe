@@ -42,7 +42,18 @@
                 connect(ui->delay##N, &QLineEdit::editingFinished, this, [this]() { \
                                                               this->changeTimeZerowania(ui->delay##N->text(), \
                                                                     this->ui->ratio##N->text(), \
-                                                                    this->ui->speed##N); });
+                                                                    this->ui->speed##N); });\
+                connect(ui->delayWork##N, &QLineEdit::editingFinished, this, [this]() { \
+                                                              this->changeTimeZerowania(ui->delayWork##N->text(), \
+                                                                    this->ui->ratio##N->text(), \
+                                                                    this->ui->speedWork##N); }); \
+                connect(ui->ratio##N, &QLineEdit::editingFinished, this, [this]() { \
+                                                              this->changeTimeZerowania(ui->delay##N->text(), \
+                                                                    this->ui->ratio##N->text(), \
+                                                                    this->ui->speed##N); \
+                                                              this->changeTimeZerowania(ui->delayWork##N->text(), \
+                                                                    this->ui->ratio##N->text(), \
+                                                                    this->ui->speedWork##N); });
 
 
 #define CONN_ALL CONN(1) \
@@ -109,7 +120,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     connect(ui->pbDisconnect,&QPushButton::clicked, this, &TestSterownikaDlg::pbDisconnect_clicked);
     connect(ui->pbReset, &QPushButton::clicked, this, &TestSterownikaDlg::pbResett_clicked);
     connect(ui->pbStop, &QPushButton::clicked, this, &TestSterownikaDlg::pbStop_clicked);
-
+    connect(ui->pbWylicz, &QPushButton::clicked, this, &TestSterownikaDlg::pbWyliczImpulsy_clicked);
 
 
     ADDICONS_ALL
@@ -418,6 +429,34 @@ void TestSterownikaDlg::pbLoadConf_clicked()
     KONF(8);
     KONF(9);
     sd->setParams(0);
+}
+
+void TestSterownikaDlg::pbWyliczImpulsy_clicked()
+{
+    if (ui->predkoscdoobliczen->text().isEmpty()) {
+        ui->wyliczoneimpulsy->setText("-");
+        return ;
+    }
+    bool ok;
+    double val = ui->predkoscdoobliczen->text().toDouble(&ok);
+    if (!ok) {
+        ui->wyliczoneimpulsy->setText("-");
+        return ;
+    }
+    if (val == 0) {
+        ui->wyliczoneimpulsy->setText("-");
+        return ;
+    }
+    double ratio = u->getMotorPrzelozenieImpJedn(ui->cbSilnikSpeed->currentIndex()+1);
+    if (ratio == 0) {
+        ui->wyliczoneimpulsy->setText("-");
+        return ;
+    }
+    double ilosc_impulsow_per_1min = (val/ratio);
+
+    double czasImp = 60*1000000/ilosc_impulsow_per_1min;
+    ui->wyliczoneimpulsy->setText(QString::number(czasImp, 'f', 2));
+
 }
 
 void TestSterownikaDlg::pbHome_clicked(int silnik, const QString & impTime)

@@ -254,40 +254,42 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
 
     bool testOk = true;
     dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaA(),
-                                        ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaA(),
+                                        ust.getMaksCzasTestuCzujkidlaTlumnikaA(),
                                         daneBadania.getDlugoscFaliFiltrow(),
                                         ust.getSzybkieZmianyWartoscTlumnikaA(),
                                         dane.getName(), QString::fromUtf8("Pomiar dla tłumnika A"), ust, ster, parent);
     if (!dlg12->exec()) {
         testOk = false;
         dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+    } else {
+        dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
     }
-    dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
-    dane.addNextPomiar();
     delete dlg12;
     dlg12 = nullptr;
+    dane.addNextPomiar();
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
 
     resetCzujki(dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust.getCzasWylaczeniaCzujkiDlaResetu(),
                 daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania);
 
     dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaB(),
-                                        ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaB(),
+                                        ust.getMaksCzasTestuCzujkidlaTlumnikaB(),
                                         daneBadania.getDlugoscFaliFiltrow(),
                                         ust.getSzybkieZmianyWartoscTlumnikaB(),
                                         dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust, ster, parent);
     if (!dlg12->exec()) {
         testOk = false;
-        dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+        dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaB(), 'f', 1), dlg12->getError());
+    } else {
+        dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaB(), 'f', 1), dlg12->getError());
     }
-    dane.setSuccessBadaniaCzujki(true, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
-
     delete dlg12;
     dlg12 = nullptr;
-
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.setOk(testOk);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
+    dane.obliczSzybkieZmianyTlumienia(ust);
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
         zas->setOutput(false);
     do {
@@ -657,7 +659,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
                                         dane.getName(), ptitle, ust, ster, parent);
     if (!dlg12->exec()) {
-        pomiar.errorStr = QString::fromUtf8("Tłumnik %1 dB nie wykryty").arg(ust.getNiewspolosiowoscWartoscTlumnika(), 3, 'f',1);
+        pomiar.errorStr = QString::fromUtf8("Tłumnik %1 dB nie wykryty").arg(ust.getWartoscTlumienieDlaKataNieWspolosiowosci(), 3, 'f',1);
         pomiar.errorDetail = dlg12->getError();
         pomiar.ok = false;
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();

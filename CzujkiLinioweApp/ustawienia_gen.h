@@ -554,8 +554,10 @@ public:
 	void setMinCzasPoZmianieFiltra(const int & minCzasPoZmianieFiltra);
 	int getMaxCzasPoZmianieFiltra() const;
 	void setMaxCzasPoZmianieFiltra(const int & maxCzasPoZmianieFiltra);
-	unsigned long getCzasOczekiwaniaPowtarzalnosc4Test() const;
-	void setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned long & czasOczekiwaniaPowtarzalnosc4Test);
+	unsigned int getCzasWylaczeniaCzujkiDlaResetu() const;
+	void setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & czasWylaczeniaCzujkiDlaResetu);
+	unsigned int getCzasOczekiwaniaPowtarzalnosc4Test() const;
+	void setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned int & czasOczekiwaniaPowtarzalnosc4Test);
 	double getMinimalnaWartoscCzujkiCn() const;
 	void setMinimalnaWartoscCzujkiCn(const double & minimalnaWartoscCzujkiCn);
 	unsigned int getCzasStabilizacjiDlaKataNieWspolosiowosci() const;
@@ -574,10 +576,6 @@ public:
 	void setOdtwarzalnoscCrepCmin(const double & odtwarzalnoscCrepCmin);
 	double getPowtarzalnoscCmaxCmin() const;
 	void setPowtarzalnoscCmaxCmin(const double & powtarzalnoscCmaxCmin);
-	double getNiewspolosiowoscWartoscTlumnika() const;
-	void setNiewspolosiowoscWartoscTlumnika(const double & niewspolosiowoscWartoscTlumnika);
-	unsigned int getCzasWylaczeniaCzujkiDlaResetu() const;
-	void setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & czasWylaczeniaCzujkiDlaResetu);
 	double getNiewspolosiowoscMinimalnyKatProducentMierzony() const;
 	void setNiewspolosiowoscMinimalnyKatProducentMierzony(const double & niewspolosiowoscMinimalnyKatProducentMierzony);
 	unsigned int getMaksCzasZadzialaniaCzujkidlaTlumnikaA() const;
@@ -779,7 +777,8 @@ private:
 	double maxPrzekrPradZasCzujki;
 	int minCzasPoZmianieFiltra;
 	int maxCzasPoZmianieFiltra;
-	unsigned long czasOczekiwaniaPowtarzalnosc4Test;
+	unsigned int czasWylaczeniaCzujkiDlaResetu;
+	unsigned int czasOczekiwaniaPowtarzalnosc4Test;
 	double minimalnaWartoscCzujkiCn;
 	unsigned int czasStabilizacjiDlaKataNieWspolosiowosci;
 	double wartoscTlumienieDlaKataNieWspolosiowosci;
@@ -789,8 +788,6 @@ private:
 	double odtwarzalnoscCmaxCrep;
 	double odtwarzalnoscCrepCmin;
 	double powtarzalnoscCmaxCmin;
-	double niewspolosiowoscWartoscTlumnika;
-	unsigned int czasWylaczeniaCzujkiDlaResetu;
 	double niewspolosiowoscMinimalnyKatProducentMierzony;
 	unsigned int maksCzasZadzialaniaCzujkidlaTlumnikaA;
 	unsigned int maksCzasTestuCzujkidlaTlumnikaA;

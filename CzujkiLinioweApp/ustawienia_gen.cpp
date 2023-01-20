@@ -20,24 +20,24 @@ UstawieniaGen::~UstawieniaGen()
 
 void UstawieniaGen::load()
 {
-	motorNazwa1 = toQString(settings.value("Silnik-1/Nazwa", QVariant::fromValue(QString("M1"))).toString());
-	motorNazwa2 = toQString(settings.value("Silnik-2/Nazwa", QVariant::fromValue(QString("M2"))).toString());
-	motorNazwa3 = toQString(settings.value("Silnik-3/Nazwa", QVariant::fromValue(QString("M3"))).toString());
-	motorNazwa4 = toQString(settings.value("Silnik-4/Nazwa", QVariant::fromValue(QString("M4"))).toString());
-	motorNazwa5 = toQString(settings.value("Silnik-5/Nazwa", QVariant::fromValue(QString("M5"))).toString());
-	motorNazwa6 = toQString(settings.value("Silnik-6/Nazwa", QVariant::fromValue(QString("M6"))).toString());
-	motorNazwa7 = toQString(settings.value("Silnik-7/Nazwa", QVariant::fromValue(QString("M7"))).toString());
-	motorNazwa8 = toQString(settings.value("Silnik-8/Nazwa", QVariant::fromValue(QString("M8"))).toString());
-	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa", QVariant::fromValue(QString("M9"))).toString());
-	motorPrzelozenieImpJedn1 = toDouble(settings.value("Silnik-1/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
-	motorPrzelozenieImpJedn2 = toDouble(settings.value("Silnik-2/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
+	motorNazwa1 = toQString(settings.value("Silnik-1/Nazwa", QVariant::fromValue(QString("Nadajnik Lewo-Prawo"))).toString());
+	motorNazwa2 = toQString(settings.value("Silnik-2/Nazwa", QVariant::fromValue(QString("Nadajnik Gora-Dol"))).toString());
+	motorNazwa3 = toQString(settings.value("Silnik-3/Nazwa", QVariant::fromValue(QString("Filtr A"))).toString());
+	motorNazwa4 = toQString(settings.value("Silnik-4/Nazwa", QVariant::fromValue(QString("Filtr B"))).toString());
+	motorNazwa5 = toQString(settings.value("Silnik-5/Nazwa", QVariant::fromValue(QString("Filtr C"))).toString());
+	motorNazwa6 = toQString(settings.value("Silnik-6/Nazwa", QVariant::fromValue(QString("Wozek Lewo-Prawo"))).toString());
+	motorNazwa7 = toQString(settings.value("Silnik-7/Nazwa", QVariant::fromValue(QString("Wozek Gora-Dol"))).toString());
+	motorNazwa8 = toQString(settings.value("Silnik-8/Nazwa", QVariant::fromValue(QString("Odbiornik Lewo-Prawo"))).toString());
+	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa", QVariant::fromValue(QString("Odbiornik Gora-Dol"))).toString());
+	motorPrzelozenieImpJedn1 = toDouble(settings.value("Silnik-1/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
+	motorPrzelozenieImpJedn2 = toDouble(settings.value("Silnik-2/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
 	motorPrzelozenieImpJedn3 = toDouble(settings.value("Silnik-3/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn6 = toDouble(settings.value("Silnik-6/PrzelozenieImpJedn", QVariant::fromValue(0.013)).toString());
 	motorPrzelozenieImpJedn7 = toDouble(settings.value("Silnik-7/PrzelozenieImpJedn", QVariant::fromValue(0.000266667)).toString());
-	motorPrzelozenieImpJedn8 = toDouble(settings.value("Silnik-8/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
-	motorPrzelozenieImpJedn9 = toDouble(settings.value("Silnik-9/PrzelozenieImpJedn", QVariant::fromValue(0.0375)).toString());
+	motorPrzelozenieImpJedn8 = toDouble(settings.value("Silnik-8/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
+	motorPrzelozenieImpJedn9 = toDouble(settings.value("Silnik-9/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
 	motorMinOdstepImp1 = toUInt(settings.value("Silnik-1/MinOdstepImp", QVariant::fromValue(29)).toString());
 	motorMinOdstepImp2 = toUInt(settings.value("Silnik-2/MinOdstepImp", QVariant::fromValue(29)).toString());
 	motorMinOdstepImp3 = toUInt(settings.value("Silnik-3/MinOdstepImp", QVariant::fromValue(29)).toString());
@@ -49,31 +49,31 @@ void UstawieniaGen::load()
 	motorMinOdstepImp9 = toUInt(settings.value("Silnik-9/MinOdstepImp", QVariant::fromValue(29)).toString());
 	motorOdwrocObroty1 = toBool(settings.value("Silnik-1/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorOdwrocObroty2 = toBool(settings.value("Silnik-2/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorOdwrocObroty3 = toBool(settings.value("Silnik-3/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorOdwrocObroty4 = toBool(settings.value("Silnik-4/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty3 = toBool(settings.value("Silnik-3/OdwrocObroty", QVariant::fromValue(true)).toString());
+	motorOdwrocObroty4 = toBool(settings.value("Silnik-4/OdwrocObroty", QVariant::fromValue(true)).toString());
 	motorOdwrocObroty5 = toBool(settings.value("Silnik-5/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorOdwrocObroty6 = toBool(settings.value("Silnik-6/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty", QVariant::fromValue(false)).toString());
+	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty", QVariant::fromValue(true)).toString());
 	motorOdwrocObroty8 = toBool(settings.value("Silnik-8/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorCzasMiedzyImpZerow1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(300000)).toString());
+	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(true)).toString());
+	motorCzasMiedzyImpZerow1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
 	motorCzasMiedzyImpZerow2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
-	motorCzasMiedzyImpZerow3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
-	motorCzasMiedzyImpZerow4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
-	motorCzasMiedzyImpZerow5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(60)).toString());
+	motorCzasMiedzyImpZerow3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(200)).toString());
+	motorCzasMiedzyImpZerow4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(200)).toString());
+	motorCzasMiedzyImpZerow5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(200)).toString());
 	motorCzasMiedzyImpZerow6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpZerow", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpZerow7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(250)).toString());
 	motorCzasMiedzyImpZerow8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
 	motorCzasMiedzyImpZerow9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
-	motorCzasMiedzyImpNormal1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
-	motorCzasMiedzyImpNormal2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
+	motorCzasMiedzyImpNormal1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
+	motorCzasMiedzyImpNormal2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
 	motorCzasMiedzyImpNormal3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpNormal4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpNormal5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpNormal6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpNormal", QVariant::fromValue(500)).toString());
 	motorCzasMiedzyImpNormal7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(1000)).toString());
-	motorCzasMiedzyImpNormal8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
-	motorCzasMiedzyImpNormal9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(10000)).toString());
+	motorCzasMiedzyImpNormal8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
+	motorCzasMiedzyImpNormal9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
 	motorMaksIloscImp1 = toUInt(settings.value("Silnik-1/MaksIloscImp", QVariant::fromValue(1000)).toString());
 	motorMaksIloscImp2 = toUInt(settings.value("Silnik-2/MaksIloscImp", QVariant::fromValue(1002)).toString());
 	motorMaksIloscImp3 = toUInt(settings.value("Silnik-3/MaksIloscImp", QVariant::fromValue(31003)).toString());
@@ -93,14 +93,14 @@ void UstawieniaGen::load()
 	motorIloscImpBaza8 = toUInt(settings.value("Silnik-8/IloscImpBaza", QVariant::fromValue(0)).toString());
 	motorIloscImpBaza9 = toUInt(settings.value("Silnik-9/IloscImpBaza", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek1 = toUInt(settings.value("Silnik-1/IloscImpSrodek", QVariant::fromValue(440)).toString());
-	motorIloscImpSrodek2 = toUInt(settings.value("Silnik-2/IloscImpSrodek", QVariant::fromValue(350)).toString());
+	motorIloscImpSrodek2 = toUInt(settings.value("Silnik-2/IloscImpSrodek", QVariant::fromValue(440)).toString());
 	motorIloscImpSrodek3 = toUInt(settings.value("Silnik-3/IloscImpSrodek", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek4 = toUInt(settings.value("Silnik-4/IloscImpSrodek", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek5 = toUInt(settings.value("Silnik-5/IloscImpSrodek", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek6 = toUInt(settings.value("Silnik-6/IloscImpSrodek", QVariant::fromValue(0)).toString());
 	motorIloscImpSrodek7 = toUInt(settings.value("Silnik-7/IloscImpSrodek", QVariant::fromValue(0)).toString());
-	motorIloscImpSrodek8 = toUInt(settings.value("Silnik-8/IloscImpSrodek", QVariant::fromValue(350)).toString());
-	motorIloscImpSrodek9 = toUInt(settings.value("Silnik-9/IloscImpSrodek", QVariant::fromValue(350)).toString());
+	motorIloscImpSrodek8 = toUInt(settings.value("Silnik-8/IloscImpSrodek", QVariant::fromValue(440)).toString());
+	motorIloscImpSrodek9 = toUInt(settings.value("Silnik-9/IloscImpSrodek", QVariant::fromValue(440)).toString());
 	filtr_db_880_A_0 = toDouble(settings.value("Filtr_db_880_A/Pos0", QVariant::fromValue(0)).toString());
 	filtr_db_880_B_0 = toDouble(settings.value("Filtr_db_880_B/Pos0", QVariant::fromValue(0)).toString());
 	filtr_db_880_C_0 = toDouble(settings.value("Filtr_db_880_C/Pos0", QVariant::fromValue(0)).toString());
@@ -186,7 +186,8 @@ void UstawieniaGen::load()
 	maxPrzekrPradZasCzujki = toDouble(settings.value("ParamentryBadania-Alarm/MaksymalnyPrzekroczonyPradZasilania", QVariant::fromValue(200.0)).toString());
 	minCzasPoZmianieFiltra = toUInt(settings.value("ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", QVariant::fromValue(10)).toString());
 	maxCzasPoZmianieFiltra = toUInt(settings.value("ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", QVariant::fromValue(3600)).toString());
-	czasOczekiwaniaPowtarzalnosc4Test = toULong(settings.value("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(259200)).toString());
+	czasWylaczeniaCzujkiDlaResetu = toUInt(settings.value("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(15)).toString());
+	czasOczekiwaniaPowtarzalnosc4Test = toUInt(settings.value("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(259200)).toString());
 	minimalnaWartoscCzujkiCn = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", QVariant::fromValue(0.4)).toString());
 	czasStabilizacjiDlaKataNieWspolosiowosci = toUInt(settings.value("ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", QVariant::fromValue(120)).toString());
 	wartoscTlumienieDlaKataNieWspolosiowosci = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", QVariant::fromValue(6.0)).toString());
@@ -194,10 +195,8 @@ void UstawieniaGen::load()
 	maksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci = toUInt(settings.value("ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", QVariant::fromValue(60)).toString());
 	maksKatNieWspolOsiowosci = toDouble(settings.value("ParamentryBadania-Urzadzenie/MaksymalnyKat", QVariant::fromValue(15)).toString());
 	odtwarzalnoscCmaxCrep = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/CmaxCrep", QVariant::fromValue(1.33)).toString());
-	odtwarzalnoscCrepCmin = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/CrepCmin", QVariant::fromValue(1.33)).toString());
+	odtwarzalnoscCrepCmin = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/CrepCmin", QVariant::fromValue(1.5)).toString());
 	powtarzalnoscCmaxCmin = toDouble(settings.value("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(1.6)).toString());
-	niewspolosiowoscWartoscTlumnika = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(6.0)).toString());
-	czasWylaczeniaCzujkiDlaResetu = toUInt(settings.value("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(15)).toString());
 	niewspolosiowoscMinimalnyKatProducentMierzony = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(0.4)).toString());
 	maksCzasZadzialaniaCzujkidlaTlumnikaA = toUInt(settings.value("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(30)).toString());
 	maksCzasTestuCzujkidlaTlumnikaA = toUInt(settings.value("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(40)).toString());
@@ -376,6 +375,7 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-Alarm/MaksymalnyPrzekroczonyPradZasilania", QVariant::fromValue(maxPrzekrPradZasCzujki));
 	settings.setValue("ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", QVariant::fromValue(minCzasPoZmianieFiltra));
 	settings.setValue("ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", QVariant::fromValue(maxCzasPoZmianieFiltra));
+	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(czasWylaczeniaCzujkiDlaResetu));
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(czasOczekiwaniaPowtarzalnosc4Test));
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", QVariant::fromValue(minimalnaWartoscCzujkiCn));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", QVariant::fromValue(czasStabilizacjiDlaKataNieWspolosiowosci));
@@ -386,8 +386,6 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/CmaxCrep", QVariant::fromValue(odtwarzalnoscCmaxCrep));
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/CrepCmin", QVariant::fromValue(odtwarzalnoscCrepCmin));
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(powtarzalnoscCmaxCmin));
-	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(niewspolosiowoscWartoscTlumnika));
-	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(czasWylaczeniaCzujkiDlaResetu));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", QVariant::fromValue(niewspolosiowoscMinimalnyKatProducentMierzony));
 	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(maksCzasZadzialaniaCzujkidlaTlumnikaA));
 	settings.setValue("ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", QVariant::fromValue(maksCzasTestuCzujkidlaTlumnikaA));
@@ -2844,12 +2842,23 @@ void UstawieniaGen::setMaxCzasPoZmianieFiltra(const int & value)
 	settings.setValue("ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", QVariant::fromValue(value));
 }
 
-unsigned long UstawieniaGen::getCzasOczekiwaniaPowtarzalnosc4Test() const
+unsigned int UstawieniaGen::getCzasWylaczeniaCzujkiDlaResetu() const
+{
+	return czasWylaczeniaCzujkiDlaResetu;
+}
+
+void UstawieniaGen::setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & value)
+{
+	czasWylaczeniaCzujkiDlaResetu = value;
+	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getCzasOczekiwaniaPowtarzalnosc4Test() const
 {
 	return czasOczekiwaniaPowtarzalnosc4Test;
 }
 
-void UstawieniaGen::setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned long & value)
+void UstawieniaGen::setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned int & value)
 {
 	czasOczekiwaniaPowtarzalnosc4Test = value;
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(value));
@@ -2952,28 +2961,6 @@ void UstawieniaGen::setPowtarzalnoscCmaxCmin(const double & value)
 {
 	powtarzalnoscCmaxCmin = value;
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CmaxCmin", QVariant::fromValue(value));
-}
-
-double UstawieniaGen::getNiewspolosiowoscWartoscTlumnika() const
-{
-	return niewspolosiowoscWartoscTlumnika;
-}
-
-void UstawieniaGen::setNiewspolosiowoscWartoscTlumnika(const double & value)
-{
-	niewspolosiowoscWartoscTlumnika = value;
-	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", QVariant::fromValue(value));
-}
-
-unsigned int UstawieniaGen::getCzasWylaczeniaCzujkiDlaResetu() const
-{
-	return czasWylaczeniaCzujkiDlaResetu;
-}
-
-void UstawieniaGen::setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & value)
-{
-	czasWylaczeniaCzujkiDlaResetu = value;
-	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(value));
 }
 
 double UstawieniaGen::getNiewspolosiowoscMinimalnyKatProducentMierzony() const

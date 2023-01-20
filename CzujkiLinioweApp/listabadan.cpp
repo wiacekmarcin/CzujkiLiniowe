@@ -15,7 +15,14 @@ ListaBadan::ListaBadan(QWidget *parent) :
 
     testyWidget[REPRODUCIBILITY] = testWidget{ui->pOdtwarzalnosc, ui->odtwarzalnoscWyniki, ui->pbOdtwarzalnosc};
     testyWidget[REPEATABILITY] = testWidget{ui->pPowtarzalnosc, ui->powtarzalnoscWyniki, ui->pbPowtarzalnosc};
+    testyWidget[TOLERANCE_TO_BEAM_MISALIGNMENT] = testWidget{ui->pZaleznoscKierunkowa, ui->zaleznoscKierunkowaWyniki,
+                                                ui->pbZaleznoscKierunkowa};
 
+    testyWidget[RAPID_CHANGES_IN_ATTENUATION] = testWidget{ui->pSzybkieZmianyTlumienia, ui->szybkieZmianyTlumieniaWyniki,
+                                                ui->pbSzybkieZmianyTlumienia};
+
+    testyWidget[OPTICAL_PATH_LENGTH_DEPEDENCE] = testWidget{ui->pbZaleznoscDlugisciDrogiOptycznej, ui->zaleznoscDlugisciDrogiOptycznejWyniki,
+                                                ui->pbZaleznoscDlugisciDrogiOptycznej};
 
     ui->odtwarzalnoscWyniki->setVisible(false);
     ui->pbOdtwarzalnosc->setVisible(true);
@@ -81,8 +88,8 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
 {
     const DaneTestu & test = badanie.getTesty()[id];
     if (test.getWykonany()) {
-        testyWidget[test.getId()].button->setVisible(false);
-        testyWidget[test.getId()].wyniki->setVisible(true);
+        testyWidget[id].button->setVisible(false);
+        testyWidget[id].wyniki->setVisible(true);
         ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
         ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
         ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
@@ -224,7 +231,6 @@ void ListaBadan::zas_value(int kind, int value)
         procedura.zas_value(kind, value);
 
     if (wyzwalaniePradem && kind == Zasilacz::CURRENT_MEAS) {
-        qDebug() << __FILE__ << __LINE__ << "value=" << value << "alarm" << intCurrAlarm;
         if (value >= (int)intCurrAlarm)
             procedura.czujkaOn();
     }
@@ -250,21 +256,8 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 {
     (void)column;
-    switch(row)
-    {
-        case REPRODUCIBILITY:
-            ui->stackedWidget->setCurrentIndex(0);
-            break;
-        case REPEATABILITY:
-            ui->stackedWidget->setCurrentIndex(1);
-            break;
-        case TOLERANCE_TO_BEAM_MISALIGNMENT:
-        case RAPID_CHANGES_IN_ATTENUATION:
-        default:
-            ui->stackedWidget->setCurrentIndex(2);
-        break;
 
-    }
+    ui->stackedWidget->setCurrentWidget(testyWidget[ui->tableWidget->item(row, 0)->text().toInt()].page);
 }
 
 
@@ -365,6 +358,30 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         {
             addPowtarzalnoscRekord(num, dane.value_dB, "0", dane.ok, dane.error);
             num++;
+        }
+    } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
+
+        QTableWidget * tableCzujka = ui->szybkieZmianyTlumieniatableCzujka;
+        int col = 0;
+        //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerTransmitter(), col++, 200);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerReceiver(), col++, 200);
+        col = 0;
+        //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerTransmitter(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
+
+        short num = 0;
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            addSzybkieZmianyTlumieniaRekord(num, dane.value_dB, dane.ok, dane.error);
+            num++;
+        }
+
+        if (daneTestu.getOk()) {
+            ui->powtarzalnoscResult->setText("POZYTYWNY");
+        } else {
+            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     }
 }
@@ -504,6 +521,55 @@ void ListaBadan::addPowtarzalnoscRekord(short num, const QString & value_dB, con
         }
     }
 }
+
+void ListaBadan::initSzybkieZmianyTlumieniaTable()
+{
+    QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
+    tablePrzebieg->clear();
+    if (tablePrzebieg->columnCount() < 3)
+        tablePrzebieg->setColumnCount(3);
+
+    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("Wielkość tłumnika"));
+    tablePrzebieg->setHorizontalHeaderItem(0, cn1);
+    tablePrzebieg->setColumnWidth(0, 50);
+
+    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("Wynik"));
+    tablePrzebieg->setHorizontalHeaderItem(1, cn2);
+    tablePrzebieg->setColumnWidth(1, 50);
+
+    QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
+    tablePrzebieg->setHorizontalHeaderItem(2, itemUwagi);
+    tablePrzebieg->setColumnWidth(2, 130);
+
+    tablePrzebieg->setMaximumWidth(245);
+    tablePrzebieg->setMinimumWidth(245);
+}
+
+void ListaBadan::addSzybkieZmianyTlumieniaRekord(short num, const QString &value_dB, bool ok, const QString &error)
+{
+    int row = num;
+    QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(num+1));
+    //ui->tablePrzebieg
+    tablePrzebieg->setVerticalHeaderItem(row, itemVert);
+
+    int col = 0;
+    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
+    tablePrzebieg->setItem(row, col++, item0);
+
+    QTableWidgetItem *item1 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    tablePrzebieg->setItem(row, col++, item1);
+
+    QTableWidgetItem *item2 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item2);
+
+    if (!ok) {
+        for (short e=0; e<col; ++e) {
+            tablePrzebieg->item(row, e)->setBackground(Qt::red);
+        }
+    }
+}
+
 
 
 

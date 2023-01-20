@@ -97,7 +97,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLabel" name="%(nazwaResultE)s">
+              <widget class="QLabel" name="%(nazwaResult)s">
                <property name="frameShape">
                 <enum>QFrame::WinPanel</enum>
                </property>
@@ -398,7 +398,7 @@ def printonePage(nazwa):
     d['pbNazwa'] = 'pb%s' % nazwa
     d['nazwaWyniki'] = '%sWyniki' % func(nazwa)
     d['nazwaResultE'] = 'et%sResult' % nazwa
-    d['nazwaResultE'] = '%sResult' % func(nazwa)
+    d['nazwaResult'] = '%sResult' % func(nazwa)
     d['nazwaParametryE'] = 'et%sParametry'  % func(nazwa)
     d['nazwaTableParams'] = '%sTableParams'  % func(nazwa)
     d['nazwaPrzebiegE'] = 'et%sPrzebieg' % nazwa

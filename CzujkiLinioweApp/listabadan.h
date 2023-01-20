@@ -51,8 +51,12 @@ protected:
     void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika,
                                 const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc,
                                 bool ok, const QString &error);
+
     void addPowtarzalnoscRekord(short num, const QString & value_dB, const QString & value_perc, bool ok, const QString & error);
     void initPowtarzalnoscTable();
+
+    void initSzybkieZmianyTlumieniaTable();
+    void addSzybkieZmianyTlumieniaRekord(short num, const QString & value_dB, bool ok, const QString & error);
 
 private slots:
     void on_tableWidget_cellClicked(int row, int column);

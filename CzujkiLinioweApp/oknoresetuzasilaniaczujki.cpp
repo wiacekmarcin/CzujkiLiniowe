@@ -6,11 +6,12 @@
 OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, const QString &podtitle,
                                                      unsigned int maxTime_,
                                                      const ParametryBadania &daneBadania,
-                                                     Zasilacz * zas, QWidget *parent) :
+                                                     Zasilacz * zas_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoResetuZasilaniaCzujki),
     maxTime(maxTime_),
-    actTime(0)
+    actTime(0),
+    zas(zas_)
 {
     ui->setupUi(this);
     ui->testName->setText(testName);
@@ -29,12 +30,14 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
         ui->rodzajZasilania->setText("Zasilacz");
         ui->lTypCentrali->setEnabled(false);
         ui->typCentrali->setEnabled(false);
-        ui->progressBar->setValue(true);
+        ui->pbCzasResetu->setTextVisible(true);
         ui->widget->setVisible(false);
+        ui->frczujkaonoff->setVisible(false);
+        ui->frame_next->setVisible(false);
         timer.start();
         zas->setOutput(false);
-        ui->progressBar->setMaximum(maxTime);
-        ui->progressBar->setValue(actTime);
+        ui->pbCzasResetu->setMaximum(maxTime);
+        ui->pbCzasResetu->setValue(actTime);
         connect(&timer, &QTimer::timeout, this, &OknoResetuZasilaniaCzujki::timeoutProgress);
         timer.setInterval(1000);
         timer.start();
@@ -44,8 +47,9 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
         ui->typCentrali->setText(daneBadania.getZasilanieCzujekTypCentrali());
         ui->lTypCentrali->setEnabled(true);
         ui->typCentrali->setEnabled(true);
-        ui->progressBar->setValue(false);
+        ui->pbCzasResetu->setTextVisible(false);
         ui->widget->setVisible(true);
+        ui->automatyczmyReset->setVisible(true);
     }
 }
 
@@ -61,10 +65,10 @@ void OknoResetuZasilaniaCzujki::timeoutProgress()
     ++actTime;
     if (actTime == maxTime) {
         timer.stop();
-        //emit setZasilanie(true);
+        zas->setOutput(true);
         accept();
     }
-    ui->progressBar->setValue(actTime);
+    ui->pbCzasResetu->setValue(actTime);
 }
 
 void OknoResetuZasilaniaCzujki::pbCancel_clicked()

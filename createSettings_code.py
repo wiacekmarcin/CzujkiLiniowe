@@ -365,37 +365,38 @@ checkFuns["iloscImpBaza"] = checkUnsignedIntContent
 checkFuns["iloscImpSrodek"] = checkUnsignedIntContent
 checkFuns["jednostka"] = checkUnsignedIntContent
 
+
 motordefVals = {
     1 : {
-        "nazwa" : 'QString("M1")',
-        "przelozenieImpJedn" : 0.0375,
+        "nazwa" : 'QString("Nadajnik Lewo-Prawo")',
+        "przelozenieImpJedn" : 0.028,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImpZerow" : 300000,
-        "czasMiedzyImpNormal" : 10000,
+        "czasMiedzyImpZerow" : 1000,
+        "czasMiedzyImpNormal" : 5600000,
         "maksIloscImp" : 1000,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 440,
         "jednostka" : "*",
     },
     2 : {
-        "nazwa" : 'QString("M2")',
-        "przelozenieImpJedn" : 0.0375,
+        "nazwa" : 'QString("Nadajnik Gora-Dol")',
+        "przelozenieImpJedn" : 0.028,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImpZerow" : 1000,
-        "czasMiedzyImpNormal" : 10000,
+        "czasMiedzyImpNormal" : 5600000,
         "maksIloscImp" : 1002,
         "iloscImpBaza" : 0,
-        "iloscImpSrodek" : 350,
+        "iloscImpSrodek" : 440,
         "jednostka" : "*",
     },
     3 : {
-        "nazwa" : 'QString("M3")',
+        "nazwa" : 'QString("Filtr A")',
         "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
-        "odwrocObroty" : "false",
-        "czasMiedzyImpZerow" : 60,
+        "odwrocObroty" : "true",
+        "czasMiedzyImpZerow" : 200,
         "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31003,
         "iloscImpBaza" : 260,
@@ -403,11 +404,11 @@ motordefVals = {
         "jednostka" : "*",
     },
     4 : {
-        "nazwa" : 'QString("M4")',
+        "nazwa" : 'QString("Filtr B")',
         "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
-        "odwrocObroty" : "false",
-        "czasMiedzyImpZerow" : 60,
+        "odwrocObroty" : "true",
+        "czasMiedzyImpZerow" : 200,
         "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31004,
         "iloscImpBaza" : 260,
@@ -415,11 +416,11 @@ motordefVals = {
         "jednostka" : "*",
     },
     5 : {
-        "nazwa" : 'QString("M5")',
+        "nazwa" : 'QString("Filtr C")',
         "przelozenieImpJedn" : 0.011613,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
-        "czasMiedzyImpZerow" : 60,
+        "czasMiedzyImpZerow" : 200,
         "czasMiedzyImpNormal" : 50,
         "maksIloscImp" : 31005,
         "iloscImpBaza" : 260,
@@ -427,7 +428,7 @@ motordefVals = {
         "jednostka" : "*",
     },
     6 : {
-        "nazwa" : 'QString("M6")',
+        "nazwa" : 'QString("Wozek Lewo-Prawo")',
         "przelozenieImpJedn" : 0.013,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
@@ -439,10 +440,10 @@ motordefVals = {
         "jednostka" : "mm",
     },
     7 : {
-        "nazwa" : 'QString("M7")',
+        "nazwa" : 'QString("Wozek Gora-Dol")',
         "przelozenieImpJedn" : 0.000266667,
         "minOdstepImp" : 29,
-        "odwrocObroty" : "false",
+        "odwrocObroty" : "true",
         "czasMiedzyImpZerow" : 250,
         "czasMiedzyImpNormal" : 1000,
         "maksIloscImp" : 1007,
@@ -451,27 +452,27 @@ motordefVals = {
         "jednostka" : "mm",
     },
     8 : {
-        "nazwa" : 'QString("M8")',
-        "przelozenieImpJedn" : 0.0375,
+        "nazwa" : 'QString("Odbiornik Lewo-Prawo")',
+        "przelozenieImpJedn" : 0.028,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImpZerow" : 1000,
-        "czasMiedzyImpNormal" : 10000,
+        "czasMiedzyImpNormal" : 5600000,
         "maksIloscImp" : 1008,
         "iloscImpBaza" : 0,
-        "iloscImpSrodek" : 350,
+        "iloscImpSrodek" : 440,
         "jednostka" : "*",
     },
     9 : {
-        "nazwa" : 'QString("M9")',
-        "przelozenieImpJedn" : 0.0375,
+        "nazwa" : 'QString("Odbiornik Gora-Dol")',
+        "przelozenieImpJedn" : 0.028,
         "minOdstepImp" : 29,
-        "odwrocObroty" : "false",
+        "odwrocObroty" : "true",
         "czasMiedzyImpZerow" : 1000,
-        "czasMiedzyImpNormal" : 10000,
+        "czasMiedzyImpNormal" : 5600000,
         "maksIloscImp" : 1009,
         "iloscImpBaza" : 0,
-        "iloscImpSrodek" : 350,
+        "iloscImpSrodek" : 440,
         "jednostka" : "*",
     },
 }
@@ -549,10 +550,12 @@ u.addZakresy("maxPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-
 u.addZakresy("minCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
 u.addZakresy("maxCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
+u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", '15', checkUnsignedIntContent)
+
 #u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
 #u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
-u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "unsigned long", "toULong", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
+u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
 u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
 u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
 u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
@@ -560,10 +563,10 @@ u.addZakresy("maksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int"
 u.addZakresy("maksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '60', checkUnsignedIntContent)
 u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
 u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
-u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.33', checkDoubleContent)
+u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.5', checkDoubleContent)
 u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)
-u.addZakresy("niewspolosiowoscWartoscTlumnika", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumnika", '6.0', checkDoubleContent)
-u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", '15', checkUnsignedIntContent)
+
+
 u.addZakresy("niewspolosiowoscMinimalnyKatProducentMierzony", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", '0.4', checkDoubleContent)
 u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '30', checkUnsignedIntContent)
 u.addZakresy("maksCzasTestuCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '40', checkUnsignedIntContent)
