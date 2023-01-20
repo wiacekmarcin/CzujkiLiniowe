@@ -6,7 +6,9 @@
 #include <QMessageBox>
 #include <QRadioButton>
 
-OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bool wozek_, Sterownik *device_, QWidget *parent) :
+OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bool wozek_,
+                                                 const QString & trans, const QString & receiv,
+                                                 Sterownik *device_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZerowanieUrzadzenia),
     timer(this),
@@ -17,6 +19,8 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
     device(device_)
 {
     ui->setupUi(this);
+    ui->transmitter->setText(trans);
+    ui->reciver->setText(receiv);
 
     buttons[0] = nullptr;
     buttons[1] = ui->rb_transmitter_poziom;

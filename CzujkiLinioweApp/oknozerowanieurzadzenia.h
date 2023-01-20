@@ -17,7 +17,9 @@ class OknoZerowanieUrzadzenia : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek, Sterownik * device, QWidget *parent = nullptr);
+    explicit OknoZerowanieUrzadzenia(bool ramiona, bool filtry, bool wozek,
+                                     const QString & trans, const QString & receiv,
+                                     Sterownik * device, QWidget *parent = nullptr);
     ~OknoZerowanieUrzadzenia();
 
 

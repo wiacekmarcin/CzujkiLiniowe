@@ -233,14 +233,14 @@ void MainWindow::ster_progressImp(short silnik, unsigned int position)
 
 void MainWindow::zas_error(QString s)
 {
-    qDebug() << s;
+    //qDebug() << s;
     if (dlgTestZas)
         dlgTestZas->errorZasilacz(s);
 }
 
 void MainWindow::zas_debug(QString d)
 {
-    qDebug() << d;
+    //qDebug() << d;
     if (dlgTestZas)
         dlgTestZas->debugZasilacz(d);
 }
@@ -416,7 +416,7 @@ void MainWindow::actionZapiszZadanie_triggered()
 
 void MainWindow::actionZapiszJako_triggered()
 {
-    qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    //qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QString fileName = QFileDialog::getSaveFileName(this, tr("Zachowaj dane w pliku"),
                                QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
                                tr("Badania (*.dat)"));

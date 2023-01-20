@@ -74,7 +74,7 @@ void ParametryBadania::load(const QString &fileName)
 {
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {
-        qDebug() << "Could not open bin file for reading";
+        //qDebug() << "Could not open bin file for reading";
         return;
     }
 
@@ -123,7 +123,7 @@ QString ParametryBadania::getNumerReceiver(unsigned int index, bool sorted) cons
     if (sorted && index >= sortedId.size())
         return QString();
     if (sorted)
-        return getNumerTransmitter(sortedId[index]-1, false);
+        return getNumerReceiver(sortedId[index]-1, false);
     else
         return numbersCzujki[index].second;
 }

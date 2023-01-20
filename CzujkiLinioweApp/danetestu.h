@@ -101,7 +101,7 @@ public:
     QString getNumerReceiver() const;
 
     void addWybranaCzujka(short nrCzujki, const QString & nadajnik, const QString & odbiornik);
-    bool sprawdzCzyBadanaCzujka(const QString & odbiornik, const QString & nadajnik);
+    bool sprawdzCzyBadanaCzujka(const QString &nadajnik, const QString &odbiornik);
 
     void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
@@ -179,6 +179,12 @@ public:
     void obliczPowtarzalnosc(const Ustawienia & ust);
     void obliczDlugoscOptyczna(const Ustawienia & ust);
 
+    const QString &getNazwaTransmitter_a() const;
+    void setNazwaTransmitter_a(const QString &newNazwaTransmitter_a);
+
+    const QString &getNazwaReceiver_a() const;
+    void setNazwaReceiver_a(const QString &newNazwaReceiver_a);
+
 private:
     short id;
     QString name;
@@ -203,6 +209,8 @@ private:
     QString nazwaNumerReceiver;
     QString nazwaTransmitter;
     QString nazwaReceiver;
+    QString nazwaTransmitter_a;
+    QString nazwaReceiver_a;
 
     int dlugoscFali;
     unsigned int czasPowtarzalnosci;

@@ -70,6 +70,7 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
     }
 
     ui->czasStabilizacjiCzujki->setText(QString::number(badanie->getCzasStabilizacjiCzujki_s()));
+    ui->czasStabilizacjipoResecie->setText(QString::number(badanie->getCzasStabilizacjiPoResecie_s()));
     bool przekaznik = badanie->getWyzwalanieAlarmuPrzekaznikiem();
     setWyzwolenieAlarmu(przekaznik);
     ui->rbAlarmPrzekaznik->setChecked(przekaznik);

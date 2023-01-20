@@ -421,7 +421,7 @@
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="1" column="4">
-       <widget class="QLabel" name="eDrugi">
+       <widget class="QLabel" name="eReceiver">
         <property name="text">
          <string>Odbiornik</string>
         </property>
@@ -454,7 +454,7 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLabel" name="ePierwszy">
+       <widget class="QLabel" name="eTransmitter">
         <property name="text">
          <string>Nadajnik</string>
         </property>

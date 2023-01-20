@@ -159,11 +159,14 @@
     <widget class="QLabel" name="result">
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>16</pointsize>
       </font>
      </property>
      <property name="text">
       <string>Błędem/Poprawnie</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </item>

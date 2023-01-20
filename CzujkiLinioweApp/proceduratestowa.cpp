@@ -158,7 +158,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
                 return false;
         } while(powtorzPomiar);
     }
-    zerowanieSterownika(false, true, false);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczOdtwarzalnosc(ust);
     {
         dane.setWykonany(true);
@@ -194,12 +194,12 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
         dane.addNextPomiar();
 
-        if(!zerowanieSterownika(false, true, false))
+        if(!zerowanieSterownika(false, true, false,daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
             return false;
     }
 
     pomiarCzujki(false, true, false, false, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
-    zerowanieSterownika(false, true, false);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczPowtarzalnosc(ust);
     do {
         dane.setWykonany(true);
@@ -385,7 +385,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
     dane.setOk(testOk);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    zerowanieSterownika(false, true, false);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
 
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -423,7 +423,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
     dane.setOk(ok1 & ok2);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    zerowanieSterownika(false, true, false);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczDlugoscOptyczna(ust);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -449,23 +449,18 @@ bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &d
 
 bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania)
 {
-    QSharedPointer<OczekiwanieNaUrzadzenia> dlg(new OczekiwanieNaUrzadzenia(daneBadania.getZasilanieCzujekZasilaczZewnetrzny(), parent));
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
-        dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg.get(), &OczekiwanieNaUrzadzenia::zasilacz);
-        zas->connectToDevice();
-    }
-    dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg.get(), &OczekiwanieNaUrzadzenia::sterownik);
-    ster->connectToDevice();
-
+    QSharedPointer<OczekiwanieNaUrzadzenia> dlg(new OczekiwanieNaUrzadzenia(
+                                                    daneBadania.getZasilanieCzujekZasilaczZewnetrzny(),
+                                                    zas, ster, parent));
     if (!dlg->exec()) {
         return false;
     }
     return true;
 }
 
-bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek)
+bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek ,const QString & trans, const QString & receiv )
 {
-    dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, ster, parent);
+    dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, trans, receiv, ster, parent);
 
     int ret = dlg0->exec();
     delete dlg0;
@@ -566,7 +561,7 @@ bool ProceduraTestowa::montazZerowanieZasilanie(short rozstawienie, bool maxCzul
             return false;
     }
 
-    if(!zerowanieSterownika(filtry, ramiona, wozek))
+    if(!zerowanieSterownika(filtry, ramiona, wozek, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
         return false;
 
     if (!zasilenieCzujki(maxCzulosc, daneBadania))
@@ -667,7 +662,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     dlg14 = nullptr;
 
     //zerowanie
-    if(!zerowanieSterownika(false, true, false)) {
+    if(!zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
         pomiar.errorStr = QString::fromUtf8("Błąd stanowiska");
         pomiar.errorDetail = QString::fromUtf8("Błąd zerowania czujki");
         pomiar.ok = false;

@@ -57,7 +57,7 @@ OknoBadaniaKata::~OknoBadaniaKata()
 
 void OknoBadaniaKata::czujkaOn()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = false;
     error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
@@ -67,8 +67,8 @@ void OknoBadaniaKata::czujkaOn()
 
 void OknoBadaniaKata::timeoutSterownika()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "hardware timeout ";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+             //<< "hardware timeout ";
     if (deviceisOk)
         return;
     error = QString::fromUtf8("Błąd stanowiska");
@@ -118,7 +118,7 @@ void OknoBadaniaKata::ster_setValue(short silnik, const double &val)
         dt = 60.0*(destPos-val)/speedMin;
     else
         dt = 0;
-    qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
+    //qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
 }

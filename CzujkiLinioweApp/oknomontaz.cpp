@@ -15,11 +15,11 @@ OknoMontaz::OknoMontaz(short opticalLen, const DaneTestu &daneTestu, QWidget *pa
     ui->setupUi(this);
 
     ui->numerNadajnika->setText(daneTestu.getNumerTransmitter());
-    ui->numerDrugi->setText(daneTestu.getNumerReceiver());
+    ui->numerReceiver->setText(daneTestu.getNumerReceiver());
     ui->testName->setText(daneTestu.getName());
 
-    ui->ePierwszy->setText(QString("%1:").arg(daneTestu.getNazwaNumerTransmitter()));
-    ui->eDrugi->setText(QString("%1:").arg(daneTestu.getNazwaNumerReceiver()));
+    ui->eTransmitter->setText(QString("%1:").arg(daneTestu.getNazwaTransmitter_a()));
+    ui->eReceiver->setText(QString("%1:").arg(daneTestu.getNazwaReceiver_a()));
 
     if (opticalLen > 0) {
         ui->frame_dlugoscDrogiOptycznej->setVisible(true);

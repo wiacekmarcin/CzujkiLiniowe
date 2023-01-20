@@ -93,7 +93,7 @@ double Ustawienia::convertImp2Value(short silnik, unsigned long impPosu)
     } else if (silnik == 6 || silnik == 7) {
         //wozek lewo - prawo
         long middle = (long)getMotorIloscImpSrodek(silnik);
-        qDebug() << silnik << impPos << middle << (impPos - middle) << (ratio*(impPos - middle));
+        //qDebug() << silnik << impPos << middle << (impPos - middle) << (ratio*(impPos - middle));
 
         double val = ratio*(impPos - middle);
         return val;

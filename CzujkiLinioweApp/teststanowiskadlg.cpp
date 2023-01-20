@@ -234,12 +234,8 @@ void TestStanowiskaDlg::ster_setValue(short nrSilnika, const double &val)
 
 void TestStanowiskaDlg::connect2Device()
 {
-    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(true, this);
+    OczekiwanieNaUrzadzenia *dlg = new OczekiwanieNaUrzadzenia(true, zas, ster, this);
 
-    dlg->connect(zas, &Zasilacz::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::zasilacz);
-    dlg->connect(ster, &Sterownik::kontrolerConfigured, dlg, &OczekiwanieNaUrzadzenia::sterownik);
-    zas->connectToDevice();
-    ster->connectToDevice();
     dlg->exec();
     delete dlg;
 }
@@ -320,7 +316,7 @@ void TestStanowiskaDlg::ukladFiltrowTimeout()
 
 void TestStanowiskaDlg::zerowanieFiltrow()
 {
-    qDebug() << __FILE__ << __LINE__;
+    //qDebug() << __FILE__ << __LINE__;
     ster->setFiltrReset();
     //ui->
 }

@@ -12,19 +12,19 @@ const char* ParametryBadaniaCzujkiDlg::etTypTransmitter[2] = {
     ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
 
 const char* ParametryBadaniaCzujkiDlg::etNumerTransmitter[2] = {
-    ParametryBadaniaCzujkiDlg::etTypNadajnika, ParametryBadaniaCzujkiDlg::etTypNadajnikaOdbiornika };
+    ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerNadajnikaOdiornika };
 
 const char* ParametryBadaniaCzujkiDlg::etTransmitter[2] = {
     ParametryBadaniaCzujkiDlg::etNadajnik, ParametryBadaniaCzujkiDlg::etNadajnikOdbiornik };
 
 const char* ParametryBadaniaCzujkiDlg::etReceiver_a[2] = {
-    ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etNadajnikaOdbiornika };
+    ParametryBadaniaCzujkiDlg::etOdbiornika, ParametryBadaniaCzujkiDlg::etReflektora };
 
 const char* ParametryBadaniaCzujkiDlg::etTypReceiver[2] = {
     ParametryBadaniaCzujkiDlg::etTypOdbiornika, ParametryBadaniaCzujkiDlg::etTypReflektora };
 
 const char* ParametryBadaniaCzujkiDlg::etNumerReceiver[2] = {
-    ParametryBadaniaCzujkiDlg::etNumerNadajnika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
+    ParametryBadaniaCzujkiDlg::etNumerOdbiornika, ParametryBadaniaCzujkiDlg::etNumerReflektora };
 
 const char* ParametryBadaniaCzujkiDlg::etReceiver[2] = {
     ParametryBadaniaCzujkiDlg::etOdbiornik,  ParametryBadaniaCzujkiDlg::etReflektor };
@@ -100,7 +100,7 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
     ui->lineEdit->setReadOnly(true);
     ui->comboBox->setVisible(!testOdtwarzalnosci);
     ui->lineEdit->setText(ui->comboBox->currentText());
-
+    ui->headSortowanie->setVisible(testOdtwarzalnosci);
 
     for( auto le : m_numbers ) {
         le.first->setReadOnly(testOdtwarzalnosci);
@@ -161,7 +161,7 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
         auto row = badanie->getNumeryCzujki(nrCz, false);
 
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
-        p->setObjectName(QString("pierwszyNumer%1").arg(nrCz+1));
+        p->setObjectName(QString("transmitterNumer%1").arg(nrCz+1));
         p->setReadOnly(nrCz > 0);
         p->setEnabled(nrCz == 0);
         p->setText(row.first);
@@ -171,7 +171,7 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
         });
 
         QLineEdit * d = new QLineEdit(ui->frameCzujki);
-        d->setObjectName(QString("drugiNumer%1").arg(nrCz+1));
+        d->setObjectName(QString("receiverNumer%1").arg(nrCz+1));
         d->setReadOnly(nrCz > 0);
         d->setEnabled(nrCz == 0);
         d->setText(row.second);
@@ -211,6 +211,7 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *bada
         QLabel * n = new QLabel(ui->frameCzujki);
         n->setObjectName(QString("PorzadkowyNumerLabel%1").arg(nrCz+1));
         n->setFrameStyle(QFrame::Box);
+        n->setMargin(3);
         n->setText(QString::number(nrCz+1));
         n->setMinimumSize(QSize(20, 0));
         n->setMaximumSize(QSize(30, 50));
@@ -220,21 +221,27 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *bada
         p->setObjectName(QString("transmitterNumerLabel%1").arg(nrCz+1));
         p->setText(badanie->getNumerTransmitter(nrCz, true));
         p->setFrameStyle(QFrame::Box);
+        p->setMargin(3);
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
 
         QLabel * d = new QLabel(ui->frameCzujki);
         d->setObjectName(QString("receiverNumerLabel%1").arg(nrCz+1));
         d->setText(badanie->getNumerReceiver(nrCz, true));
         d->setFrameStyle(QFrame::Box);
+        d->setMargin(3);
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
 
         QLabel * k = new QLabel(ui->frameCzujki);
         k->setObjectName(QString("numePorzadkowyLabel%1").arg(nrCzujki));
+        k->setMargin(3);
         k->setText(QString::number(nrCzujki));
         k->setFrameStyle(QFrame::Box);
         ui->gridLayoutNumerCzujek->addWidget(k, nrCz+1, 3, 1, 1);
     }
-
+    QSpacerItem * spacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
+    ui->gridLayoutNumerCzujek->addItem(spacer, badanie->getIloscCzujek()+1, 0, 1, 1);
+    ui->error->setVisible(false);
+    ui->lError->setVisible(false);
 }
 
 bool ParametryBadaniaCzujkiDlg::check()
@@ -336,21 +343,22 @@ bool ParametryBadaniaCzujkiDlg::check()
             return false;
         }
     }
-    bool noempty = false;
-    for (short id = m_numbers.size(); id > 0; --id) {
-        auto v = m_numbers.at(id-1);
-        bool empty = v.first->text().isEmpty() && v.second->text().isEmpty();
-        if (!empty)
-            noempty = true;
-        else {
-            if (noempty) {
-                errorLabel->setText(QString("Nie prawidłowe dane dla czujek w wierszu %1 w tabeli numery fabryczne").
-                                    arg(id));
-                return false;
+    if (!testOdtwarzalnosci) {
+        bool noempty = false;
+        for (short id = m_numbers.size(); id > 0; --id) {
+            auto v = m_numbers.at(id-1);
+            bool empty = v.first->text().isEmpty() && v.second->text().isEmpty();
+            if (!empty)
+                noempty = true;
+            else {
+                if (noempty) {
+                    errorLabel->setText(QString("Nie prawidłowe dane dla czujek w wierszu %1 w tabeli numery fabryczne").
+                                        arg(id));
+                    return false;
+                }
             }
         }
     }
-
     return true;
 }
 
@@ -368,6 +376,8 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setMaksKatowaNieWspolPoziomaOdbiornika(ui->receiver_ospozioma->text());
     badanie->setNazwaTransmitter(etTransmitter[ui->comboBox->currentIndex()]);
     badanie->setNazwaReceiver(etReceiver[ui->comboBox->currentIndex()]);
+    badanie->setNazwaTransmitter_a(etTransmitter_a[ui->comboBox->currentIndex()]);
+    badanie->setNazwaReceiver_a(etReceiver_a[ui->comboBox->currentIndex()]);
     badanie->setNazwaNumerTransmitter(etNumerTransmitter[ui->comboBox->currentIndex()]);
     badanie->setNazwaNumerReceiver(etNumerReceiver[ui->comboBox->currentIndex()]);
 

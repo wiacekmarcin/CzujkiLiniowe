@@ -17,11 +17,11 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->setupUi(this);
     ui->osobaWykonujacaTest->setText(daneTestu.getOsobaWykonujaca());
     ui->numerNadajnika->setText(daneTestu.getNumerTransmitter());
-    ui->numerDrugi->setText(daneTestu.getNumerReceiver());
+    ui->numerReceiver->setText(daneTestu.getNumerReceiver());
     ui->testName->setText(daneTestu.getName());
 
-    ui->ePierwszy->setText(daneTestu.getNazwaNumerTransmitter());
-    ui->eDrugi->setText(daneTestu.getNazwaNumerReceiver());
+    ui->eTransmitter->setText(daneTestu.getNazwaNumerTransmitter());
+    ui->eReceiver->setText(daneTestu.getNazwaNumerReceiver());
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

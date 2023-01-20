@@ -5,16 +5,23 @@
 #include <QTimer>
 #include <QMessageBox>
 
-OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent) :
+OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_, Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OczekiwanieNaUrzadzenia),
     timer(this),
     cntTmt(0),
     zasilaczOk(false),
     sterownikOk(false),
-    koniecznyZasilacz(zasilacz)
+    koniecznyZasilacz(zasilacz),
+    ster(ster_),
+    zas(zas_)
 {
     ui->setupUi(this);
+
+    if (zasilacz) {
+        connect(zas, &Zasilacz::kontrolerConfigured, this, &OczekiwanieNaUrzadzenia::zasilacz);
+    }
+    connect(ster, &Sterownik::kontrolerConfigured, this, &OczekiwanieNaUrzadzenia::sterownik);
     timer.setInterval(1000);
 
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
@@ -42,9 +49,11 @@ void OczekiwanieNaUrzadzenia::init()
         ui->frZasilacz->setEnabled(false);
         ui->errorZasilacz->setEnabled(false);
     }
-
-
     ui->frameError->setVisible(false);
+    if (koniecznyZasilacz) {
+        zas->connectToDevice();
+    }
+    ster->connectToDevice();
     timer.start();
 }
 
@@ -94,7 +103,7 @@ void OczekiwanieNaUrzadzenia::timeout()
 
     if (sterownikOk && ((koniecznyZasilacz && zasilaczOk) || !koniecznyZasilacz)) {
         timer.stop();
-        QTimer::singleShot(3000, this, [this]() {this->accept();});
+        accept();
     }
     if (cntTmt == maxCzas || (ui->progressBarSterownik->value() == maxCzas &&
                                 ((koniecznyZasilacz && ui->progressBarZasilacz->value() == maxCzas) || !koniecznyZasilacz))) {

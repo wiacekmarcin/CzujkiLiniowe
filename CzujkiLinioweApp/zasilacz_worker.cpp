@@ -220,7 +220,7 @@ bool SerialWorkerZas::connectToSerialJob()
         short found = 0;
         for (const auto & port : getComPorts())
         {
-            qDebug() << port;
+            //qDebug() << port;
             if (port.count() != 7)
                 continue;
 

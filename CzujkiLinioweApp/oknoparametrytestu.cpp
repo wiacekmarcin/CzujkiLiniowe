@@ -53,10 +53,17 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));
     }
 
-    ui->ePierwszy->setText(badanie.getNazwaNumerTransmitter());
-    ui->eDrugi->setText(badanie.getNazwaNumerReceiver());
-    //test->setNazwaPierwszego(badanie.getNazwaNumerPierwszego());
-    //test->setNazwaDrugiego(badanie.getNazwaNumerDrugiego());
+    ui->eTransmitter->setText(badanie.getNazwaNumerTransmitter());
+    ui->eReceiver->setText(badanie.getNazwaNumerReceiver());
+
+    //dodajmy odpowiednie koncowki
+    test->setNazwaNumerTransmitter(badanie.getNazwaNumerTransmitter());
+    test->setNazwaNumerReceiver(badanie.getNazwaNumerReceiver());
+    test->setNazwaTransmitter(badanie.getNazwaTransmitter());
+    test->setNazwaReceiver(badanie.getNazwaReceiver());
+    test->setNazwaTransmitter_a(badanie.getNazwaTransmitter_a());
+    test->setNazwaReceiver_a(badanie.getNazwaReceiver_a());
+
 
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
     NiewspolosiowoscOsUrzadzenie od;

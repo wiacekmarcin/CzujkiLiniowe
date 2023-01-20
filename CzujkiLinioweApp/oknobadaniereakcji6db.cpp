@@ -33,7 +33,7 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
 {
     ui->setupUi(this);
 
-    qDebug() << __FILE__ << __LINE__ << tlumnienie;
+    //qDebug() << __FILE__ << __LINE__ << tlumnienie;
     QList<QStringList> tlumienia;
     if (dlugoscFali == 880) {
         tlumienia = ust.getTlumienia880();
@@ -94,23 +94,23 @@ OknoBadanieReakcji6dB::~OknoBadanieReakcji6dB()
 
 void OknoBadanieReakcji6dB::flt_zerowanieFiltrowDone()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Rozpoczynam zmiane filtra";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+    //         << "Rozpoczynam zmiane filtra";
     sterResponse = true;
     tmSterownika.stop();
 
     ui->a->setText(posA);
     ui->b->setText(posB);
     ui->c->setText(posC);
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Rozpoczynam zmiane filtra na 6.0 dB";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+    //         << "Rozpoczynam zmiane filtra na 6.0 dB";
     ster->setFiltrPos(posA.toShort(), posB.toShort(), posC.toShort());
 }
 
 void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
 {
-    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-                "Filtr zmieniony";
+    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+    //            "Filtr zmieniony";
 
     if (waitForZeroFiltr) {
         if (endReject)
@@ -128,8 +128,8 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
 
 void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
-    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-                "Blad filtrow" << filtr << zerowanie;
+    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+    //            "Blad filtrow" << filtr << zerowanie;
     sterResponse = true;
     wynikBadania = false;
     tmSterownika.stop();
@@ -140,8 +140,8 @@ void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
 
 void OknoBadanieReakcji6dB::czujkaOn()
 {
-    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-             "czujka on";
+    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+    //         "czujka on";
     if (czujkaWyzwolona)
         return;
     czujkaWyzwolona = true;
@@ -155,8 +155,8 @@ void OknoBadanieReakcji6dB::czujkaOn()
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = false;
-        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-                 "Prawidlowe dzialanie";
+        //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+        //         "Prawidlowe dzialanie";
         usunTlumnik();
     } else {
         error = QString("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
@@ -164,8 +164,8 @@ void OknoBadanieReakcji6dB::czujkaOn()
         tmSterownika.stop();
         tmZmProgressBar.stop();
         endReject = true;
-        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-                 "Po czasie";
+        //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+        //         "Po czasie";
         usunTlumnik();
     }
 }
@@ -192,8 +192,8 @@ void OknoBadanieReakcji6dB::progressBarUpdate()
 
 void OknoBadanieReakcji6dB::timeoutSterownika()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "hardware timeout ";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+    //         << "hardware timeout ";
     if (sterResponse)
         return;
     error = QString::fromUtf8("Błąd stanowiska");
@@ -216,8 +216,8 @@ void OknoBadanieReakcji6dB::usunTlumnik()
     ui->b->setText(pos0B);
     ui->c->setText(pos0C);
 
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "Rozpoczynam zmiane filtra na 0.0 dB";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+    //         << "Rozpoczynam zmiane filtra na 0.0 dB";
     ster->setFiltrPos(pos0A.toShort(), pos0B.toShort(), pos0C.toShort());
 }
 

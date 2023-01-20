@@ -471,9 +471,9 @@ const QString &DaneTestu::getNazwaNumerReceiver() const
     return nazwaNumerReceiver;
 }
 
-void DaneTestu::setNazwaNumerReceiver(const QString &newNazwaDrugiego)
+void DaneTestu::setNazwaNumerReceiver(const QString &newNazwaReceiverego)
 {
-    nazwaNumerReceiver = newNazwaDrugiego;
+    nazwaNumerReceiver = newNazwaReceiverego;
 }
 
 int DaneTestu::getDlugoscFali() const
@@ -537,9 +537,9 @@ const QString &DaneTestu::getNazwaReceiver() const
     return nazwaReceiver;
 }
 
-void DaneTestu::setNazwaReceiver(const QString &newNazwaTypDrugiego)
+void DaneTestu::setNazwaReceiver(const QString &newNazwaTypReceiverego)
 {
-    nazwaReceiver = newNazwaTypDrugiego;
+    nazwaReceiver = newNazwaTypReceiverego;
 }
 
 float DaneTestu::getCmaxCmin() const

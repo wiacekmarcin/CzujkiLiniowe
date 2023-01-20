@@ -44,7 +44,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>0</number>
+         <number>1</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -831,11 +831,6 @@
                  <string>1</string>
                 </property>
                </row>
-               <column>
-                <property name="text">
-                 <string>Nr Czujki</string>
-                </property>
-               </column>
                <column>
                 <property name="text">
                  <string>Nadajnik</string>

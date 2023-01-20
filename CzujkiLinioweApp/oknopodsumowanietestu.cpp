@@ -18,14 +18,14 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
     qDebug() << "id" << daneTestu.getId();
-    QString pierwszy = daneTestu.getNazwaNumerTransmitter();
-    QString  drugi = daneTestu.getNazwaNumerReceiver();
+    QString transmitter = daneTestu.getNazwaNumerTransmitter();
+    QString  receiver = daneTestu.getNazwaNumerReceiver();
 
     ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
     if (daneTestu.getId() == REPRODUCIBILITY) {
         ui->stackedWidget->setCurrentWidget(ui->odtwarzalnosc);
         odtwarzalnoscHeadTable(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
-                               pierwszy, drugi);
+                               transmitter, receiver);
 
         ui->odtwarzalnoscCrep->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
         ui->odtwarzalnoscCrep2->setText("0 %");
@@ -87,8 +87,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_7katproducent, ui->zaleznosckatowa_7_kat, ui->zaleznosckatowa_wyniki_7});
         zaleznoscKatowaVector.push_back(ZaleznoscKatowaLabelsPtr{ui->zaleznosckatowa_8katproducent, ui->zaleznosckatowa_8_kat, ui->zaleznosckatowa_wyniki_8});
         ui->zaleznosckatowaframeerror->setVisible(!daneTestu.getOk());
-        ui->zaleznosckatowaetnadajnik->setText(pierwszy);
-        ui->zaleznosckatowaetodbiornik->setText(drugi);
+        ui->zaleznosckatowaetnadajnik->setText(transmitter);
+        ui->zaleznosckatowaetodbiornik->setText(receiver);
         short id = 0;
         QString err;
         for (const auto & wynik : daneTestu.getPomiaryKatow()) {

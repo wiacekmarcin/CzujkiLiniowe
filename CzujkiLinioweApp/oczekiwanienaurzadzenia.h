@@ -1,6 +1,8 @@
 #ifndef OCZEKIWANIENAURZADZENIA_H
 #define OCZEKIWANIENAURZADZENIA_H
 
+#include "sterownik.h"
+#include "zasilacz.h"
 #include <QTimer>
 #include <QDialog>
 
@@ -13,7 +15,7 @@ class OczekiwanieNaUrzadzenia : public QDialog
     Q_OBJECT
 
 public:
-    explicit OczekiwanieNaUrzadzenia(bool zasilacz, QWidget *parent = nullptr);
+    explicit OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_, Sterownik * ster_, QWidget *parent = nullptr);
     ~OczekiwanieNaUrzadzenia();
 public slots:
     void zasilacz(int state);
@@ -31,6 +33,9 @@ private:
     bool zasilaczOk;
     bool sterownikOk;
     bool koniecznyZasilacz;
+    Sterownik * ster;
+    Zasilacz * zas;
+
 #ifdef DEFVAL
     static constexpr short maxCzas = 10;
 #else

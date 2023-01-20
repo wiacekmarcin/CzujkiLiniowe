@@ -8,10 +8,13 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
                                                QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoStabilizacjaCzujki),
-    timer(this)
+    timer(this),
+    elapsedTime(0)
 {
-    qDebug() << "Wait window" << timeWait;
+    //qDebug() << "Wait window" << timeWait;
     elapsedTime = timeWait;
+    if (elapsedTime > 1000000L)
+        elapsedTime = 1000000L;
     ui->setupUi(this);
     ui->testName->setText(name);
     if (podTitle.isEmpty()) {
@@ -93,7 +96,8 @@ QString OknoStabilizacjaCzujki::getMM_SS(unsigned long secs)
 
 void OknoStabilizacjaCzujki::timeout()
 {
-    --elapsedTime;
+    if (elapsedTime > 0)
+        --elapsedTime;
     if (elapsedTime == 0)
         accept();
     ui->progressBar->setValue(elapsedTime);

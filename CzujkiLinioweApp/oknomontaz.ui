@@ -68,7 +68,7 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="eDrugi">
+    <widget class="QLabel" name="eReceiver">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -292,7 +292,7 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="ePierwszy">
+    <widget class="QLabel" name="eTransmitter">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
@@ -338,7 +338,7 @@
     </spacer>
    </item>
    <item row="6" column="1">
-    <widget class="QLabel" name="numerDrugi">
+    <widget class="QLabel" name="numerReceiver">
      <property name="font">
       <font>
        <pointsize>14</pointsize>

@@ -182,14 +182,14 @@ bool SerialMessage::parseCommand(QByteArray &arr)
 
     switch (cmd) {
         case ECHO_CLEAR_REP:
-            qDebug() << "ECHO_CLEAR_REP";
+            //qDebug() << "ECHO_CLEAR_REP";
             return true;
         case CZUJKA_ZW_REP:
             m_parseReply = CZUJKA_ZW_REPLY;
             return true;
         case WELCOME_MSG_REP:
         {
-            qDebug() << "WELCOME_MSG_REP";
+            //qDebug() << "WELCOME_MSG_REP";
             if (len != 15) {
                 return false;
             }
@@ -220,7 +220,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
                     pinsOK[s] = (data[s-1] & 0x03) == 0x03;
                     replyConf[s] = false;
                 }
-                qDebug() << "CONF_MSG_REP addr" << addr << "opt =" << options;
+                //qDebug() << "CONF_MSG_REP addr" << addr << "opt =" << options;
                 return true;
             } else if (silnik < 10) {
                 replyConf[silnik] = (options & 0x0C) == 0x0C;
@@ -234,7 +234,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         silnik = addr;
 
         if (silnik < 1 || silnik > 9) {
-            qDebug() << "Nie poprawna wiadomosc";
+            //qDebug() << "Nie poprawna wiadomosc";
             m_parseReply = INVALID_REPLY;
             return false;
         }
@@ -259,7 +259,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         silnik = addr;
 
         if (!(options & 0x08) || silnik < 1 || silnik > 9) {
-            qDebug() << "Nie poprawna wiadomosc";
+            //qDebug() << "Nie poprawna wiadomosc";
             m_parseReply = INVALID_REPLY;
             return false;
         }
@@ -268,7 +268,7 @@ bool SerialMessage::parseCommand(QByteArray &arr)
         return true;
         }
         default: {
-            qDebug() << "UNKNOWN cmd=" << cmd;
+            //qDebug() << "UNKNOWN cmd=" << cmd;
             return false;
         }
     }

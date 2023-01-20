@@ -52,7 +52,7 @@ void TestZasilaczaDlg::errorZasilacz(QString s)
 
 void TestZasilaczaDlg::debugZasilacz(QString d)
 {
-    qDebug() << d;
+    //qDebug() << d;
 }
 
 void TestZasilaczaDlg::configuredZasilacz(int state)

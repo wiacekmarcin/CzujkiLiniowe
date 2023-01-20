@@ -22,12 +22,12 @@ PowtarzalnoscWyniki::~PowtarzalnoscWyniki()
 
 void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
-    QString pierwszy, drugi;
-    pierwszy = daneTestu.getNazwaNumerTransmitter();
-    drugi = daneTestu.getNazwaNumerReceiver();
+    QString transmitter, receiver;
+    transmitter = daneTestu.getNazwaNumerTransmitter();
+    receiver = daneTestu.getNazwaNumerReceiver();
 
     if (podsumowanie) {
-        headTable(pierwszy, drugi);
+        headTable(transmitter, receiver);
         ui->stackedWidget->setCurrentWidget(ui->podsumowanie);
         ui->result->setText(daneTestu.getOk() ? "POZYTYWNY" : "NEGATYWNY");
 
@@ -52,7 +52,7 @@ void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, c
         ui->gridLayoutResults->setSpacing(0);
 
     } else {
-        initWynikTable(pierwszy, drugi);
+        initWynikTable(transmitter, receiver);
         ui->stackedWidget->setCurrentWidget(ui->wyniki);
         ui->tableParams->item(0,0)->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
         ui->tableParams->item(0,1)->setText("0 %");
