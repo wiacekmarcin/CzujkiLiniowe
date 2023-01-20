@@ -160,6 +160,8 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     }
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczOdtwarzalnosc(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
     {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -201,6 +203,8 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
     pomiarCzujki(false, true, false, false, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczPowtarzalnosc(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
     do {
         dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
@@ -220,6 +224,8 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
     if (!NiewspolosiowoscBadanie(daneBadania, ust))
         return false;
     dane.obliczZaleznoscKatowa(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -228,110 +234,6 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
 
 }
 
-bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadania, const Ustawienia &ust)
-{
-
-    NiewspolosiowoscOsUrzadzenie k = dane.getKatyProducenta();
-    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
-    short ret = pomiarKata(2, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ret = pomiarKata(2, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
-    ret = pomiarKata(1, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
-    ret = pomiarKata(1, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-    if (!daneBadania.getSystemOdbiornikNadajnik()) {
-        dane.setOk(true);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
-    ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaReceiver());
-    ret = pomiarKata(8, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    ret = pomiarKata(8, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
-    if (ret == -1)
-        return false;
-
-    if (ret == 1) {
-        dane.setOk(false);
-        dane.setDataZakonczenia();
-        dane.setWykonany(true);
-        return true;
-    }
-
-    dane.setOk(true);
-    dane.setDataZakonczenia();
-    dane.setWykonany(true);
-    return true;
-}
 
 bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
@@ -386,7 +288,8 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
     dane.setDataZakonczenia();
     dane.setWykonany(true);
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
-
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -425,6 +328,8 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
     dane.setWykonany(true);
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczDlugoscOptyczna(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -588,6 +493,136 @@ short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, cons
     return ret;
 }
 
+
+
+short ProceduraTestowa::resetCzujki(const QString & testName, const QString & subTestName,
+                                   unsigned int czasOffOn, unsigned int czasStabilizacji,
+                                   const ParametryBadania &daneBadania)
+{
+    OknoResetuZasilaniaCzujki * dlg12 = new OknoResetuZasilaniaCzujki(testName, subTestName,
+                                             czasOffOn, daneBadania, zas, parent);
+    if (!dlg12->exec()) {
+        delete dlg12;
+        return -1;
+    }
+    delete dlg12;
+
+    dlg6 = new OknoStabilizacjaCzujki(true, czasStabilizacji, testName, subTestName, parent);
+    bool stabOk = dlg6->exec() == QDialog::Accepted;
+    delete dlg6;
+    dlg6 = nullptr;
+    if (!stabOk) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+
+    NiewspolosiowoscOsUrzadzenie k = dane.getKatyProducenta();
+    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
+    short ret = pomiarKata(2, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ret = pomiarKata(2, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
+    ret = pomiarKata(1, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
+    ret = pomiarKata(1, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+    if (!daneBadania.getSystemOdbiornikNadajnik()) {
+        dane.setOk(true);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
+    ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaReceiver());
+    ret = pomiarKata(8, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    ret = pomiarKata(8, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
+    if (ret == -1)
+        return false;
+
+    if (ret == 1) {
+        dane.setOk(false);
+        dane.setDataZakonczenia();
+        dane.setWykonany(true);
+        return true;
+    }
+
+    dane.setOk(true);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+    return true;
+}
+
 short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle,
                                    const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
@@ -683,30 +718,6 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
 
     pomiar.ok = true;
     return 0;
-}
-
-
-short ProceduraTestowa::resetCzujki(const QString & testName, const QString & subTestName,
-                                   unsigned int czasOffOn, unsigned int czasStabilizacji,
-                                   const ParametryBadania &daneBadania)
-{
-    OknoResetuZasilaniaCzujki * dlg12 = new OknoResetuZasilaniaCzujki(testName, subTestName,
-                                             czasOffOn, daneBadania, zas, parent);
-    if (!dlg12->exec()) {
-        delete dlg12;
-        return -1;
-    }
-    delete dlg12;
-
-    dlg6 = new OknoStabilizacjaCzujki(true, czasStabilizacji, testName, subTestName, parent);
-    bool stabOk = dlg6->exec() == QDialog::Accepted;
-    delete dlg6;
-    dlg6 = nullptr;
-    if (!stabOk) {
-        return 1;
-    } else {
-        return 0;
-    }
 }
 
 

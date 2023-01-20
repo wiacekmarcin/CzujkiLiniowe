@@ -120,10 +120,12 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             nrCzujkiDoWybrania = 1;
             break;
         case RAPID_CHANGES_IN_ATTENUATION:
+            ui->frameSpec->setVisible(false);
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
-            ui->frameSpec->setVisible(true);
+            nrCzujkiDoWybrania = 1;
+            break;
         case OPTICAL_PATH_LENGTH_DEPEDENCE:
             ui->frameSpec->setVisible(true);
             ui->frame_powtarzalnosc->setVisible(false);
@@ -134,6 +136,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             changeCzujka(0);
             ui->rozstawienieMinimalne->setText(badanie.getRozstawienieMinCzujki());
             ui->rozstawienieMinimalne->setText(badanie.getRozstawienieMaxCzujki());
+            nrCzujkiDoWybrania = 1;
+            break;
         default:
         break;
     }

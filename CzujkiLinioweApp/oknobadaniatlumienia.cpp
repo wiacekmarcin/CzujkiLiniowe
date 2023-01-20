@@ -19,8 +19,8 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     actTlumPos(0),
     maxTlum(0),
     ster(ster_),
-    tlumienie("0.0"),
-    czasPostoju(czasPostojuFiltra)
+    czasPostoju(czasPostojuFiltra),
+    tlumienie("0.0")
 {
     ui->setupUi(this);
 
