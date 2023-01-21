@@ -22,6 +22,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     prevVal(0)
 
 {
+    qDebug() << __FILE__ << __LINE__ << "kat" << kat;
     ui->setupUi(this);
     ui->testName->setText(name);
     if (podtitle.isEmpty()) {
@@ -39,6 +40,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     ui->speed->setText(QString("<html><body>%1 &deg; / <sub>min<sub></body></html>").arg(speedMin, 3, 'f', 2));
 
     ster->setPositionSilnik(nrSilnika, false, impulsy, speed);
+    qDebug() << __FILE__ << __LINE__ << "impulsy" << impulsy << speed;
     tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
     deviceisOk = false;
 

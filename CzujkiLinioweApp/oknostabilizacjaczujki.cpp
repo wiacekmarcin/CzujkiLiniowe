@@ -36,12 +36,12 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
 #endif
 
     if (stabilizacja) {
-        setWindowTitle(QString::fromUtf8("Parametry Testu - oczekiwanie na stabilizację czujki"));
-        ui->head->setText(QString::fromUtf8("Parametry Testu - oczekiwanie na stabilizację czujki"));
+        setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
+        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
         ui->lczas->setText("Pozostały czas stabilizacji czujki");
     } else {
-        setWindowTitle(QString::fromUtf8("Parametry Testu - oczekiwanie na kolejną próbę"));
-        ui->head->setText(QString::fromUtf8("Parametry Testu - oczekiwanie na kolejną próbę"));
+        setWindowTitle(QString::fromUtf8("Test - oczekiwanie na kolejną próbę"));
+        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na kolejną próbę"));
         ui->lczas->setText("Pozostały czas bezczynności czujki");
     }
     connect(&timer, &QTimer::timeout, this, &OknoStabilizacjaCzujki::timeout);

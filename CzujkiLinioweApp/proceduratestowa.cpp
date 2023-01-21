@@ -85,6 +85,9 @@ void ProceduraTestowa::ster_setValue(short silnik, const double & val)
 {
     if (dlg10)
         dlg10->ster_setValue(silnik, val);
+
+    if (dlg14)
+        dlg14->ster_setValue(silnik, val);
 }
 
 void ProceduraTestowa::czujkaOn()
@@ -158,11 +161,13 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
             if (!montazZerowanieZasilanie(0, 0, true, nrPom == 1, true, false, daneBadania))
                 return false;
 
-            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasPomZmianaTlumenia_s(), daneBadania, ust);
             pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;
         } while(powtorzPomiar);
+        if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+            zas->setOutput(false);
     }
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczOdtwarzalnosc(ust);
@@ -195,6 +200,9 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
     } while (powtorzPomiar != 0);
 
     dane.addNextPomiar();
+
+    if(!zerowanieSterownika(false, true, false,daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
 
     for (short num = 0; num < 2; ++num)
     {
@@ -275,7 +283,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
     dane.addNextPomiar();
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
 
-    resetCzujki(dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust.getCzasWylaczeniaCzujkiDlaResetu(),
+    resetCzujki(dane.getName(), QString::fromUtf8("Resetowanie czujki"), ust.getCzasWylaczeniaCzujkiDlaResetu(),
                 daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania);
 
     dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkidlaTlumnikaB(),
@@ -321,6 +329,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
             return false;
         ok1 = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
+
     dane.addNextPomiar();
     do {
         if (!montazZerowanieZasilanie(0, 2, true, true, true, false, daneBadania))
@@ -331,6 +340,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
             return false;
         ok2 = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
+
     dane.setOk(ok1 & ok2);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
@@ -701,7 +711,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
                                 ust, ster, parent);
     bool ret = dlg10->exec();
     if (!ret) {
-        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
+        qDebug() << __FILE__ << __LINE__ << "ERROR czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
         pomiar.errorStr = "Kąt wyzw.<Kąt prod.";
         pomiar.errorDetail = dlg10->getError();
         pomiar.ok = false;
@@ -710,17 +720,19 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     delete dlg10;
     dlg10 = nullptr;
 
+    qDebug() << __FILE__ << __LINE__ << "OK czekam 2 minuty";
     dlg11 = new OknoCzekaniaBadanieKatowe(ust.getCzasStabilizacjiDlaKataNieWspolosiowosci(), dane.getName(), ptitle, parent);
     if (!dlg11->exec()) {
         pomiar.errorStr = "Kąt wyzw.=Kąt prod.";
         pomiar.errorDetail = "Czujka wyzwoliła się w czasie stabilizacji w położeniu dla nominalnego kąta podanego przez producenta";
         pomiar.ok = false;
-        qDebug() << "ERROR" << __FILE__ << __LINE__ << "czujka sie wyzwolila podczas czekania 2 min";
+        qDebug() << __FILE__ << __LINE__ << "ERROR czujka sie wyzwolila podczas czekania 2 min";
         return 1;
     }
     delete dlg11;
     dlg11 = nullptr;
 
+    qDebug() << __FILE__ << __LINE__ << "Badanie reakcji 6dB" ;
     dlg12 = new OknoBadanieReakcji6dB(ust.getMaksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
                                         ust.getMaksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
@@ -738,6 +750,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     dlg12 = nullptr;
 
     //reset czujki
+    qDebug() << __FILE__ << __LINE__ << "Reset czujki";
     short ret2 = resetCzujki(dane.getName(), ptitle, ust.getCzasWylaczeniaCzujkiDlaResetu(),
                              daneBadania.getCzasStabilizacjiPoResecie_s(),
                            daneBadania);
@@ -750,10 +763,12 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
         return 1;
     }
 
+    qDebug() << __FILE__ << __LINE__ << "Dojazd do maksa " << ust.getMaksKatNieWspolOsiowosci();
 
     //maks kat
     dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksKatNieWspolOsiowosci(), ust, ster, parent);
     if (!dlg14->exec()) {
+        qDebug() << __FILE__ << __LINE__ << "NOT OK";
         pomiar.errorDetail = dlg14->getError();
         pomiar.errorStr = QString::fromUtf8("Maksymalny kąt");
         pomiar.ok = false;
@@ -762,6 +777,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
         dlg14 = nullptr;
         return 1;
     }
+    qDebug() << __FILE__ << __LINE__ << "OK";
     delete dlg14;
     dlg14 = nullptr;
 

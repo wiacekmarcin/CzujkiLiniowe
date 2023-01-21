@@ -284,7 +284,7 @@ QString ListaBadan::d2p(const QString &val)
     double dval = val.toDouble(&ok);
     if (!ok)
         return "-";
-    return QString::number(d2p(dval), 'g', 1);
+    return QString::number(d2p(dval), 'f', 1);
 }
 
 const QMap<int, testWidget> &ListaBadan::getTestyWidget() const
@@ -686,22 +686,26 @@ void ListaBadan::addPowtarzalnoscRekord(short num, const QString & value_dB, con
 
 void ListaBadan::initSzybkieZmianyTlumieniaTable()
 {
-    QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
+    QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
     tablePrzebieg->clear();
-    if (tablePrzebieg->columnCount() < 3)
-        tablePrzebieg->setColumnCount(3);
+    if (tablePrzebieg->columnCount() < 4)
+        tablePrzebieg->setColumnCount(4);
 
-    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("Wielkość tłumnika"));
+    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("Wielkość tłumnika [dB]"));
     tablePrzebieg->setHorizontalHeaderItem(0, cn1);
     tablePrzebieg->setColumnWidth(0, 50);
 
-    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("Wynik"));
+    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("Wielkość tłumnika [%]"));
     tablePrzebieg->setHorizontalHeaderItem(1, cn2);
     tablePrzebieg->setColumnWidth(1, 50);
 
+    QTableWidgetItem *wynik = new QTableWidgetItem(QString::fromUtf8("Wynik"));
+    tablePrzebieg->setHorizontalHeaderItem(2, wynik);
+    tablePrzebieg->setColumnWidth(2, 50);
+
     QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
-    tablePrzebieg->setHorizontalHeaderItem(2, itemUwagi);
-    tablePrzebieg->setColumnWidth(2, 130);
+    tablePrzebieg->setHorizontalHeaderItem(3, itemUwagi);
+    tablePrzebieg->setColumnWidth(3, 130);
 
     //tablePrzebieg->setMaximumWidth(245);
     //tablePrzebieg->setMinimumWidth(245);
@@ -720,11 +724,14 @@ void ListaBadan::addSzybkieZmianyTlumieniaRekord(short num, const QString &value
     QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
     tablePrzebieg->setItem(row, col++, item0);
 
-    QTableWidgetItem *item1 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    QTableWidgetItem *item1 = new QTableWidgetItem(d2p(value_dB));
     tablePrzebieg->setItem(row, col++, item1);
 
-    QTableWidgetItem *item2 = new QTableWidgetItem(error);
+    QTableWidgetItem *item2 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
     tablePrzebieg->setItem(row, col++, item2);
+
+    QTableWidgetItem *item3 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item3);
 
     if (!ok) {
         for (short e=0; e<col; ++e) {
@@ -779,7 +786,7 @@ void ListaBadan::addZaleznoscDrogiOptycznejRekord(short row, const QString &rozs
     QTableWidgetItem *item1 = new QTableWidgetItem(value_dB);
     tablePrzebieg->setItem(row, col++, item1);
 
-    QTableWidgetItem *item2 = new QTableWidgetItem(value_dB);
+    QTableWidgetItem *item2 = new QTableWidgetItem(d2p(value_dB));
     tablePrzebieg->setItem(row, col++, item2);
 
     QTableWidgetItem *item3 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");

@@ -583,6 +583,7 @@ void Sterownik::parseMessage(QByteArray &reply)
     errMap[SerialMessage::RESET_REPLY] = "Wiadomość RESET_REPLY";
     errMap[SerialMessage::CONF_MEGA_REPLY] = "Wiadomość MEGA_REPLY";
     errMap[SerialMessage::CZUJKA_ZW_REPLY] = "Wiadomość CZUJKA ZW";
+    errMap[SerialMessage::CZUJKA_ZW_CONT_REPLY] = "Wiadomość CZUJKA ZW_CONT";
     do {
         SerialMessage msg;
         if (!msg.parseCommand(reply)) {
@@ -604,6 +605,7 @@ void Sterownik::parseMessage(QByteArray &reply)
         case SerialMessage::EMPTY_MESSAGE:
         case SerialMessage::INPROGRESS_REPLY:
         case SerialMessage::WELCOME_REPLY:
+        case SerialMessage::CZUJKA_ZW_CONT_REPLY:
         default:
             break;
 

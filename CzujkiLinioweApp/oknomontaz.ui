@@ -269,7 +269,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czujka - montaż czujki</string>
+         <string>Test - montaż czujki</string>
         </property>
        </widget>
       </item>

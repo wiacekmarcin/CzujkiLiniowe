@@ -9,7 +9,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     ui(new Ui::OknoCzekaniaBadanieKatowe),
     timer(this)
 {
-    qDebug() << "Wait window" << timeWait;
+    //qDebug() << "Wait window" << timeWait;
     elapsedTime = timeWait;
     ui->setupUi(this);
     ui->testName->setText(name);

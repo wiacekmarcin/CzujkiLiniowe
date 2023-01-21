@@ -80,7 +80,14 @@ void OknoZerowanieUrzadzenia::init()
     //emit debug(DEBUG_TEST, debug);
     device->setZerowanieUrzadzen(ramiona, filtry, wozek);
     ui->error->setVisible(false);
-    timer.singleShot(wozek ? 20000 : 5000, this, &OknoZerowanieUrzadzenia::timeout);
+    unsigned int timCzas = 1000;
+    if (filtry)
+        timCzas += 4000;
+    if (ramiona)
+        timCzas += 10000;
+    if (wozek)
+        timCzas += 20000;
+    timer.singleShot(timCzas, this, &OknoZerowanieUrzadzenia::timeout);
 }
 
 OknoZerowanieUrzadzenia::~OknoZerowanieUrzadzenia()

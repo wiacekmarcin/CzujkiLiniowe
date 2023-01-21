@@ -62,10 +62,14 @@ protected:
     void dlugoscdrogioptycznejHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
 
     void rozproszoneswiatloHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
-    void rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, bool ok, const QString &inneText);
+    void rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, bool ok, const QString &inneText);
 
     void tolerancjanapieciazasilaniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, const QString &rozstawienie, bool ok, const QString &inneText);
     void tolerancjanapieciazasilaniaHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix);
+private:
+    double d2p(const double & val);
+    QString d2p(const QString & val);
+
 private:
     Ui::OknoPodsumowanieTestu *ui;
     const Ustawienia & ust;

@@ -217,7 +217,7 @@ void Ustawienia::loadListUstawienFiltra()
     } else {
         for (short p = 0; p < cntPos; ++p)
         {
-            QString k = QString("Tlumienia_655/pos%1").arg((int)(p+1),3,10,QChar('0'));
+            QString k = QString("Tlumienia_880/pos%1").arg((int)(p+1),3,10,QChar('0'));
             QString tl = settings.value(k, QVariant::fromValue(QString())).toString();
             if (tl.isEmpty())
                 continue;

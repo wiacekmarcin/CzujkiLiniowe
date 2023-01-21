@@ -155,7 +155,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frameSpec->setVisible(true);
             ui->frame_powtarzalnosc->setVisible(false);
             ui->frame_niewspolosiowosc->setVisible(false);
-            ui->frame_dlugoscDrogiOptycznej->setVisible(true);
+            ui->frame_dlugoscDrogiOptycznej->setVisible(false);
             ui->frame_Napiecie->setVisible(true);
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
 

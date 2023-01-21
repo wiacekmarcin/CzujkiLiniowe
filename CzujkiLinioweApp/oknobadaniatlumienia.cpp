@@ -71,6 +71,7 @@ void OknoBadaniaTlumienia::flt_zerowanieFiltrowDone()
 
     auto pos = tlumienia.at(actTlumPos);
     ui->tlumienie->setText(pos.at(0) + QString(" dB"));
+    ui->realdb->setText(pos.at(4) + QString(" dB"));
     ui->a->setText(pos.at(1));
     ui->b->setText(pos.at(2));
     ui->c->setText(pos.at(3));
@@ -129,8 +130,9 @@ void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
     }
 
     auto pos = tlumienia.at(actTlumPos);
-    tlumienie = pos.at(0);
+    tlumienie = pos.at(4);
     ui->tlumienie->setText(pos.at(0) + QString(" dB"));
+    ui->realdb->setText(pos.at(4) + QString(" dB"));
     ui->a->setText(pos.at(1));
     ui->b->setText(pos.at(2));
     ui->c->setText(pos.at(3));

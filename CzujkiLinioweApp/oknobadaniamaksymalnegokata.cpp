@@ -41,7 +41,7 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     qDebug() << __FILE__ << __LINE__ << speed << impulsy << "Start ruch";
 
     ster->setPositionSilnik(nrSilnika, false, impulsy, speed);
-    tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
+    //tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
     deviceisOk = false;
 
 #ifndef DEFVAL
@@ -125,6 +125,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
 
 void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
 {
+    qDebug() << __FILE__ << __LINE__ << "silnik" << silnik << "val" << val << "destPos" << destPos << "prevVal" << prevVal;
     if (silnik != nrSilnika)
         return;
 
@@ -140,14 +141,15 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
         dt = 60.0*(destPos-val)/speedMin;
     else
         dt = 0;
-    qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
+    qDebug() << __FILE__ << __LINE__ << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
     if (abs(destPos - prevVal) > 0.5) {
         error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
+        qDebug() << __FILE__ << __LINE__ << "Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)";
         wynikBadania = false;
-        tmSterownika.stop();
-        reject();
+        //tmSterownika.stop();
+        //reject();
     }
 }
 

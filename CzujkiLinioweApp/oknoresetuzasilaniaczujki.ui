@@ -168,7 +168,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czujka - podłączenie zasilania </string>
+         <string>Test - Resetowanie czujki</string>
         </property>
        </widget>
       </item>
@@ -207,7 +207,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Po wykonaniu powyższych czynność (czujka  &lt;span style=&quot; text-decoration: underline;&quot;&gt;zresetowana&lt;/span&gt;, proszę wcisnąć przycisk&lt;span style=&quot; color:#3584e4;&quot;&gt; Dalej&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Po wykonaniu powyższych czynność (czujka &lt;span style=&quot; text-decoration: underline;&quot;&gt;zresetowana)&lt;/span&gt;, proszę wcisnąć przycisk&lt;span style=&quot; color:#3584e4;&quot;&gt; Dalej&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -228,7 +228,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Należy wyłączyć zasilanie czujki na kilkanaście sekund i włączyć je ponownie w celu zresetowania alarmu czujki</string>
+         <string>Należy wyłączyć zasilanie czujki na kilka sekund i włączyć je ponownie w celu zresetowania alarmu czujki</string>
         </property>
        </widget>
       </item>
@@ -317,7 +317,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Resetowanie zasilanie czujki</string>
+      <string>Odłączenie zasilania czujki / Reset czujki</string>
      </property>
     </widget>
    </item>

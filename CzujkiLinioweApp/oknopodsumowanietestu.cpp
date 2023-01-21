@@ -17,7 +17,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
-    qDebug() << "id" << daneTestu.getId();
+    //qDebug() << "id" << daneTestu.getId();
     QString transmitter = daneTestu.getNazwaNumerTransmitter();
     QString  receiver = daneTestu.getNazwaNumerReceiver();
 
@@ -28,11 +28,11 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
                                transmitter, receiver);
 
         ui->odtwarzalnoscCrep->setText(QString::number(daneTestu.getCrep(), 'f', 2) + " dB");
-        ui->odtwarzalnoscCrep2->setText("0 %");
+        ui->odtwarzalnoscCrep2->setText(QString::number(d2p(daneTestu.getCrep()), 'f', 2) + " %");
         ui->odtwarzalnoscCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
-        ui->odtwarzalnoscCmin2->setText("0 %");
+        ui->odtwarzalnoscCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
         ui->odtwarzalnoscCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
-        ui->odtwarzalnoscCmax2->setText("0 %");
+        ui->odtwarzalnoscCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2)+ " %");
         ui->odtwarzalnoscCmaxCrep->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
         ui->odtwarzalnoscCrepCmin->setText(QString::number(daneTestu.getCrepCmin(), 'f', 2));
         if (daneTestu.getCmaxCrep() > ust.getOdtwarzalnoscCmaxCrep())
@@ -46,7 +46,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         {
             odtwarzalnoscAddRekord(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
                                   num+1, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
-                                    dane.value_dB, "0.0", dane.ok, dane.error);
+                                    dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
         ui->odtwarzalnoscGridLayoutResults->setVerticalSpacing(0);
@@ -58,9 +58,9 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         powtarzalnoscHeadTable(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc");
 
         ui->powtarzalnoscCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
-        ui->powtarzalnoscCmin2->setText("0 %");
+        ui->powtarzalnoscCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
         ui->powtarzalnoscCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
-        ui->powtarzalnoscCmax2->setText("0 %");
+        ui->powtarzalnoscCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
         ui->powtarzalnoscCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin())
@@ -70,7 +70,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             powtarzalnoscAddRekord(ui->frPowatarzalnoscPrzbieg, ui->powtarzalnoscPrzebiegrGridLayout, "powtarzalnosc",
-                                  num, dane.value_dB, "0.0", dane.ok, dane.error);
+                                  num, dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
         ui->powtarzalnoscPrzebiegrGridLayout->setVerticalSpacing(0);
@@ -109,7 +109,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             powtarzalnoscAddRekord(ui->frSzybkieZmianyPrzebieg, ui->szybkiezmianytlumieniagridlayout, "szybkiezmiany",
-                                  num, dane.value_dB, "0.0", dane.ok, dane.error);
+                                  num, dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
         ui->szybkiezmianytlumieniagridlayout->setVerticalSpacing(0);
@@ -117,9 +117,11 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->szybkiezmianytlumieniagridlayout->setSpacing(0);
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         ui->stackedWidget->setCurrentWidget(ui->dlugoscdrogioptycznej);
-        ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
-        ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
-        ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+        ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
+        ui->dlugoscdrogioptycznejCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
+        ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1)+ " dB");
+        ui->dlugoscdrogioptycznejCmax2->setText(d2p(QString::number(daneTestu.getCmax(), 'f', 1))+ " %");
+        ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin())
             ui->dlugoscdrogioptycznejCmaxCmin->setStyleSheet("background-color:red");
@@ -129,7 +131,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             dlugoscdrogioptycznejAddRekord(ui->frDlugoscDrogiOptycznej, ui->dlugoscDrogiOptycznejGridLayout, "dlugoscdrogioptycznej",
-                              num, dane.value_dB, "0.0",
+                              num, dane.value_dB, d2p(dane.value_dB),
                                            (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()) ,
                                            dane.ok, dane.error);
             num++;
@@ -139,9 +141,9 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->dlugoscDrogiOptycznejGridLayout->setSpacing(0);
     } else if (daneTestu.getId() == STRAY_LIGHT) {
         ui->stackedWidget->setCurrentWidget(ui->rozporoszoneswiatlo);
-        ui->rozporoszoneswiatloCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
-        ui->rozporoszoneswiatloCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
-        ui->rozporoszoneswiatloCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+        ui->rozporoszoneswiatloCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1));
+        ui->rozporoszoneswiatloCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1));
+        ui->rozporoszoneswiatloCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin())
             ui->rozporoszoneswiatloCmaxCmin->setStyleSheet("background-color:red");
@@ -151,17 +153,20 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             rozproszoneswiatloAddRekord(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout, "rozproszoneswiatlo",
-                                        num, dane.value_dB,   dane.ok, dane.error);
+                                        num, dane.value_dB, d2p(dane.value_dB),   dane.ok, dane.error);
             num++;
         }
         ui->rozporoszoneswiatloPrzebiegGridLayout->setVerticalSpacing(0);
         ui->rozporoszoneswiatloPrzebiegGridLayout->setHorizontalSpacing(0);
         ui->rozporoszoneswiatloPrzebiegGridLayout->setSpacing(0);
     } else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+
         ui->stackedWidget->setCurrentWidget(ui->tolerancjanapieciazasilania);
-        ui->tolerancjanapieciazasilaniaCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
-        ui->tolerancjanapieciazasilaniaCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
-        ui->tolerancjanapieciazasilaniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+        ui->tolerancjanapieciazasilaniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
+        ui->tolerancjanapieciazasilaniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1) + " dB");
+        ui->tolerancjanapieciazasilaniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
+        ui->tolerancjanapieciazasilaniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
+        ui->tolerancjanapieciazasilaniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin())
             ui->tolerancjanapieciazasilaniaCmaxCmin->setStyleSheet("background-color:red");
@@ -172,8 +177,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             tolerancjanapieciazasilaniaAddRekord(ui->frTolerancjaNapieciaZasilaniaPrzebieg, ui->tolerancjanapieciazasilaniaPrzebiegGridLayout, "tolerancjanapieciazasilania",
-                              num, dane.value_dB, "0.0",
-                                           (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()) ,
+                              num, dane.value_dB, d2p(dane.value_dB),
+                                           (num == 0 ? daneTestu.getMinimalneNapiecie() : daneTestu.getMaksymalneNapiecie()) ,
                                            dane.ok, dane.error);
             num++;
         }
@@ -351,22 +356,76 @@ void OknoPodsumowanieTestu::dlugoscdrogioptycznejHeadTable(QFrame * fr, QGridLay
 
 void OknoPodsumowanieTestu::rozproszoneswiatloHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix)
 {
+    short col = 0;
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
 
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
 }
 
-void OknoPodsumowanieTestu::rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, bool ok, const QString &inneText)
+void OknoPodsumowanieTestu::rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString & tlumienie_per, bool ok, const QString &inneText)
 {
+    short col = 0;
+    short row = 2*r+3;
 
+    ADDLINETABLETD(QString::number(r+1));
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    if (inneText.isEmpty())
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    else
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
 }
 
-void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, const QString &rozstawienie, bool ok, const QString &inneText)
+void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, const QString &napiecie, bool ok, const QString &inneText)
 {
+    short col = 0;
+    short row = 2*r+3;
 
+    ADDLINETABLETD(QString::number(r+1));
+    ADDLINETABLETD(QString("%1 V").arg(napiecie));
+    ADDLINETABLETD(tlumienie_db);
+    ADDLINETABLETD(tlumienie_per);
+    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    if (inneText.isEmpty())
+        oneTableTd(ok, fr, lay, inneText, row, col, QString("label_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    else
+        oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+    addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
+    ++col;
+
+    addLine(fr, lay, false, row+1, 0, 1, col, QString("vertline_%1_%2").arg(suffix).arg(row));
 }
 
 void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix)
 {
+    short col = 0;
+    ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
+    ADDLINETABLEHEADTD("Napiecie", "lhead10", "etNapiecie");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
 
+    addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
+    addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
 }
 
 
@@ -458,6 +517,22 @@ void OknoPodsumowanieTestu::addLine(QFrame * frameTable, QGridLayout * layout,
     layout->addWidget(line, row, col, rowspan, colspan);
 }
 
+double OknoPodsumowanieTestu::d2p(const double &val)
+{
+    double l = pow(10, val/10);
+    if (l == 0)
+        return 0;
+    return 100.0/l;
+}
+
+QString OknoPodsumowanieTestu::d2p(const QString &val)
+{
+    bool ok;
+    double dval = val.toDouble(&ok);
+    if (!ok)
+        return "-";
+    return QString::number(d2p(dval), 'f', 1);
+}
 
 
 

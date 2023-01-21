@@ -6,10 +6,12 @@
 ListaTestow::ListaTestow()
 {
     nazwyTestow << "Odtwarzalność" << "Powtarzalność" << "Zależność kierunkowa"
-    << "Szybkie zmiany tłumienia" << "Zależność od długości drogi optycznej" ;
+    << "Szybkie zmiany tłumienia" << "Zależność od długości drogi optycznej"
+    << "Światło rozproszone" << "Zmiana parametrów zasilania";
 
-    /*<< "Powolne zmiany tłumienia"
-    << "Czułość na pożar" << "Światło rozproszone" << "Zmiana parametrów zasilania" << "Odporność na suche gorąco"
+
+    /*
+    << "Czułość na pożar" <<  << "Odporność na suche gorąco"
     << "Odporność na zimno" << "Odporność na wilgotne gorąco, stan ustalony"
     << "Wytrzymałość na wilgotne gorąco, stan ustalony" << "Wytrzymałość na wibracje"
     << "Odporność na wyładowania elektrostatyczne"
@@ -815,6 +817,71 @@ void DaneTestu::obliczSzybkieZmianyTlumienia(const Ustawienia &)
 
 void DaneTestu::obliczZaleznoscNapieciaZasilania(const Ustawienia &ust)
 {
+    if (!getOk())
+        return;
+    bool badanieOk = true;
+
+    float Cmin = 100;
+    float Cmax = -100;
+
+
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(dane.error);
+            continue;
+        }
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            continue;
+        }
+
+        if (!dane.ok) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
+            continue;
+        }
+
+        if (C > Cmax)
+            Cmax = C;
+        if (C < Cmin)
+            Cmin = C;
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+
+
+    setOk(badanieOk);
+    setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
+
+    if (Cmin) {
+        setCmin(Cmin);
+        setCmax(Cmax);
+        setCmaxCmin(Cmax/Cmin);
+    } else {
+        setCmin(0);
+        setCmax(0);
+        setCmaxCmin(0);
+    }
+    setWykonany(true);
+
+    if (getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin()) {
+        setOk(false);
+        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getTolerancjaNapieciaZasilaniaCmaxCmin(), 3, 'f', 2));
+    } else {
+        setOk(badanieOk);
+    }
 
 }
 

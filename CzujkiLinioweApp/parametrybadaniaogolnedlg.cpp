@@ -58,7 +58,7 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
     ui->uwagi->setText(badanie->getUwagi());
 
     if (badanie->getZasilanieCzujekZasilaczZewnetrzny()) {
-        ui->napiecieZasilaniain->setText(QString::number(badanie->getNapiecieZasilaniaCzujki_mV()/1000.0, 'g', 3));
+        ui->napiecieZasilaniain->setText(QString::number(badanie->getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3));
         setWewnetrznyZasilacz(true);
         ui->rbInsideSupply->setChecked(true);
         ui->rbCentralSupply->setChecked(false);
@@ -107,11 +107,11 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
         ui->numerZlecenia->setText("Numer zlecenia");
         ui->numerTestu->setText("Numer Testu");
         ui->osobaOdpowiedzialna->setText("Osoba odpowiedzialna");
-        ui->czasPomiedzyZmianamifiltra->setText("10");;
+        ui->czasPomiedzyZmianamifiltra->setText("2");;
         ui->napiecieZasilaniain->setText("12.0");
         setWewnetrznyZasilacz(true);
         ui->typCentraliSygnalizacji->setText("Centrala sygnalizacji");
-        ui->czasStabilizacjiCzujki->setText("15");
+        ui->czasStabilizacjiCzujki->setText("5");
         ui->czasStabilizacjipoResecie->setText("2");
         ui->pradAlarmu->setText("50");
         ui->rbInsideSupply->setChecked(true);
@@ -137,8 +137,10 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
         badanie->setZasilanieCzujekZasilaczZewnetrzny(false);
         badanie->setZasilanieCzujekTypCentrali(ui->typCentraliSygnalizacji->text());
     }
+    badanie->setCzasPomZmianaTlumenia_s(ui->czasPomiedzyZmianamifiltra->text().toUInt());
     badanie->setCzasStabilizacjiCzujki_s(ui->czasStabilizacjiCzujki->text().toUInt());
     badanie->setCzasStabilizacjiPoResecie_s(ui->czasStabilizacjipoResecie->text().toUInt());
+
 
     if (ui->rbAlarmPrzekaznik->isChecked()) {
         badanie->setWyzwalanieAlarmuPrzekaznikiem(true);

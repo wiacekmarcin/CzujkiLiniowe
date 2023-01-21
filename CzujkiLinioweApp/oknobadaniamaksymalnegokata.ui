@@ -73,7 +73,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Test - Pomiary</string>
+         <string>Test - Ustalanie maksymalnego kąta</string>
         </property>
        </widget>
       </item>

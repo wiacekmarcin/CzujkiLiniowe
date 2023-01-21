@@ -185,7 +185,11 @@ bool SerialMessage::parseCommand(QByteArray &arr)
             //qDebug() << "ECHO_CLEAR_REP";
             return true;
         case CZUJKA_ZW_REP:
-            m_parseReply = CZUJKA_ZW_REPLY;
+            qDebug() << "Czujka wyzwolona" << options;
+            if (options == 0x00)
+                m_parseReply = CZUJKA_ZW_REPLY;
+            else
+                m_parseReply = CZUJKA_ZW_CONT_REPLY;
             return true;
         case WELCOME_MSG_REP:
         {

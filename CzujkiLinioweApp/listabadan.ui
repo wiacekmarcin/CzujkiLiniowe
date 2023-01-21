@@ -44,7 +44,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>6</number>
+         <number>4</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -1741,7 +1741,7 @@
                </item>
                <item row="2" column="1">
                 <property name="text">
-                 <string>0</string>
+                 <string/>
                 </property>
                </item>
               </widget>
@@ -1826,6 +1826,11 @@
                <row>
                 <property name="text">
                  <string>1</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>2</string>
                 </property>
                </row>
                <column>

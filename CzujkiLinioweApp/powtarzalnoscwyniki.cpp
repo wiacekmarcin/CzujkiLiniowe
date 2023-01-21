@@ -37,8 +37,8 @@ void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, c
         ui->cmin2->setText("0 %");
         ui->cmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
         ui->cmax2->setText("0 %");
-        ui->CmaxCrep->setText(QString::number(daneTestu.getCmaxCrep(), 'g', 2));
-        ui->CrepCmin->setText(QString::number(daneTestu.getCrepCmin(), 'g', 2));
+        ui->CmaxCrep->setText(QString::number(daneTestu.getCmaxCrep(), 'f', 2));
+        ui->CrepCmin->setText(QString::number(daneTestu.getCrepCmin(), 'f', 2));
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
