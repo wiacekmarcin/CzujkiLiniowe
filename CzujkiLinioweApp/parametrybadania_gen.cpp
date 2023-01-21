@@ -77,7 +77,9 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> szybkieZmianyWartoscTlumnikaA
 		 >> szybkieZmianyWartoscTlumnikaB
 		 >> wartoscTlumienieDlaKataNieWspolosiowosci
-		 >> niewspolosiowoscMinimalnyKatProducentMierzony ;
+		 >> niewspolosiowoscMinimalnyKatProducentMierzony
+		 >> rozproszoneSwiatloCmaxCmin
+		 >> tolerancjaNapieciaZasilaniaCmaxCmin ;
 }
 
 void ParametryBadaniaGen::save(QDataStream &out) const
@@ -124,7 +126,9 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << szybkieZmianyWartoscTlumnikaA
 		 << szybkieZmianyWartoscTlumnikaB
 		 << wartoscTlumienieDlaKataNieWspolosiowosci
-		 << niewspolosiowoscMinimalnyKatProducentMierzony ;
+		 << niewspolosiowoscMinimalnyKatProducentMierzony
+		 << rozproszoneSwiatloCmaxCmin
+		 << tolerancjaNapieciaZasilaniaCmaxCmin ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
 {
@@ -596,5 +600,27 @@ float ParametryBadaniaGen::getNiewspolosiowoscMinimalnyKatProducentMierzony() co
 void ParametryBadaniaGen::setNiewspolosiowoscMinimalnyKatProducentMierzony(const float & value)
 {
 	niewspolosiowoscMinimalnyKatProducentMierzony = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getRozproszoneSwiatloCmaxCmin() const
+{
+	return rozproszoneSwiatloCmaxCmin;
+}
+
+void ParametryBadaniaGen::setRozproszoneSwiatloCmaxCmin(const float & value)
+{
+	rozproszoneSwiatloCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getTolerancjaNapieciaZasilaniaCmaxCmin() const
+{
+	return tolerancjaNapieciaZasilaniaCmaxCmin;
+}
+
+void ParametryBadaniaGen::setTolerancjaNapieciaZasilaniaCmaxCmin(const float & value)
+{
+	tolerancjaNapieciaZasilaniaCmaxCmin = value;
 	change = true;
 }

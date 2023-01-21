@@ -21,6 +21,8 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     d->setSzybkieZmianyWartoscTlumnikaB(u.getSzybkieZmianyWartoscTlumnikaB());
     d->setWartoscTlumienieDlaKataNieWspolosiowosci(u.getWartoscTlumienieDlaKataNieWspolosiowosci());
     d->setNiewspolosiowoscMinimalnyKatProducentMierzony(u.getNiewspolosiowoscMinimalnyKatProducentMierzony());
+    d->setRozproszoneSwiatloCmaxCmin(u.getRozproszoneSwiatloCmaxCmin());
+    d->setTolerancjaNapieciaZasilaniaCmaxCmin(u.getTolerancjaNapieciaZasilaniaCmaxCmin());
 
 
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);

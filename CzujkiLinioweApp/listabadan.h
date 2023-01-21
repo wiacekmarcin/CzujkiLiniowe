@@ -63,12 +63,22 @@ protected:
     void initZaleznoscDrogiOptycznejTable();
     void addZaleznoscDrogiOptycznejRekord(short num, const QString & rozstawienie, const QString & value_dB, bool ok, const QString & error);
 
+    void initRozproszoneSwiatloTable();
+    void addRozproszoneSwiatloRekord(short num, const QString & value_dB, bool ok, const QString & error);
+
+    void initTolerancjaZasilaniaTable();
+    void addTolerancjaNapieciaZasilaniaRekord(short num, const QString & napiecie1, const QString & value_dB, bool ok, const QString & error);
+
     void startBadanieRequest(int testId);
 private slots:
     void on_tableWidget_cellClicked(int row, int column);
 
 signals:
     void startBadanieReq(int tid);
+
+protected:
+    double d2p(const double & val);
+    QString d2p(const QString & val);
 
 private:
     Ui::ListaBadan *ui;

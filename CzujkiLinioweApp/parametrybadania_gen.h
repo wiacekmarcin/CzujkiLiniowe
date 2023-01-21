@@ -108,6 +108,10 @@ public:
 	void setWartoscTlumienieDlaKataNieWspolosiowosci(const float & wartoscTlumienieDlaKataNieWspolosiowosci);
 	float getNiewspolosiowoscMinimalnyKatProducentMierzony() const;
 	void setNiewspolosiowoscMinimalnyKatProducentMierzony(const float & niewspolosiowoscMinimalnyKatProducentMierzony);
+	float getRozproszoneSwiatloCmaxCmin() const;
+	void setRozproszoneSwiatloCmaxCmin(const float & rozproszoneSwiatloCmaxCmin);
+	float getTolerancjaNapieciaZasilaniaCmaxCmin() const;
+	void setTolerancjaNapieciaZasilaniaCmaxCmin(const float & tolerancjaNapieciaZasilaniaCmaxCmin);
 protected:
 
 private:
@@ -155,5 +159,7 @@ private:
 	float szybkieZmianyWartoscTlumnikaB;
 	float wartoscTlumienieDlaKataNieWspolosiowosci;
 	float niewspolosiowoscMinimalnyKatProducentMierzony;
+	float rozproszoneSwiatloCmaxCmin;
+	float tolerancjaNapieciaZasilaniaCmaxCmin;
 };
 #endif

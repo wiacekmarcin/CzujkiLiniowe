@@ -125,10 +125,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
             ui->dlugoscdrogioptycznejCmaxCmin->setStyleSheet("background-color:red");
 
         short num = 0;
-        dlugoscdrogioptycznejHeadTable(ui->frSzybkieZmianyPrzebieg, ui->dlugoscDrogiOptycznejGridLayout,"dlugoscdrogioptycznej");
+        dlugoscdrogioptycznejHeadTable(ui->frDlugoscDrogiOptycznej, ui->dlugoscDrogiOptycznejGridLayout,"dlugoscdrogioptycznej");
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            dlugoscdrogioptycznejAddRekord(ui->frSzybkieZmianyPrzebieg, ui->dlugoscDrogiOptycznejGridLayout, "dlugoscdrogioptycznej",
+            dlugoscdrogioptycznejAddRekord(ui->frDlugoscDrogiOptycznej, ui->dlugoscDrogiOptycznejGridLayout, "dlugoscdrogioptycznej",
                               num, dane.value_dB, "0.0",
                                            (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()) ,
                                            dane.ok, dane.error);
@@ -137,8 +137,50 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->dlugoscDrogiOptycznejGridLayout->setVerticalSpacing(0);
         ui->dlugoscDrogiOptycznejGridLayout->setHorizontalSpacing(0);
         ui->dlugoscDrogiOptycznejGridLayout->setSpacing(0);
-    }
+    } else if (daneTestu.getId() == STRAY_LIGHT) {
+        ui->stackedWidget->setCurrentWidget(ui->rozporoszoneswiatlo);
+        ui->rozporoszoneswiatloCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
+        ui->rozporoszoneswiatloCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
+        ui->rozporoszoneswiatloCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
 
+        if (daneTestu.getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin())
+            ui->rozporoszoneswiatloCmaxCmin->setStyleSheet("background-color:red");
+
+        short num = 0;
+        rozproszoneswiatloHeadTable(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout,"rozproszoneswiatlo");
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            rozproszoneswiatloAddRekord(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout, "rozproszoneswiatlo",
+                                        num, dane.value_dB,   dane.ok, dane.error);
+            num++;
+        }
+        ui->rozporoszoneswiatloPrzebiegGridLayout->setVerticalSpacing(0);
+        ui->rozporoszoneswiatloPrzebiegGridLayout->setHorizontalSpacing(0);
+        ui->rozporoszoneswiatloPrzebiegGridLayout->setSpacing(0);
+    } else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+        ui->stackedWidget->setCurrentWidget(ui->tolerancjanapieciazasilania);
+        ui->tolerancjanapieciazasilaniaCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
+        ui->tolerancjanapieciazasilaniaCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
+        ui->tolerancjanapieciazasilaniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+
+        if (daneTestu.getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin())
+            ui->tolerancjanapieciazasilaniaCmaxCmin->setStyleSheet("background-color:red");
+
+        short num = 0;
+        tolerancjanapieciazasilaniaHeadTable(ui->frTolerancjaNapieciaZasilaniaPrzebieg,
+                                             ui->tolerancjanapieciazasilaniaPrzebiegGridLayout,"tolerancjanapieciazasilania");
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            tolerancjanapieciazasilaniaAddRekord(ui->frTolerancjaNapieciaZasilaniaPrzebieg, ui->tolerancjanapieciazasilaniaPrzebiegGridLayout, "tolerancjanapieciazasilania",
+                              num, dane.value_dB, "0.0",
+                                           (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()) ,
+                                           dane.ok, dane.error);
+            num++;
+        }
+        ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setVerticalSpacing(0);
+        ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setHorizontalSpacing(0);
+        ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setSpacing(0);
+    }
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
 }
 
@@ -305,6 +347,26 @@ void OknoPodsumowanieTestu::dlugoscdrogioptycznejHeadTable(QFrame * fr, QGridLay
 
     addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
     addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix,"lheadDown"));
+}
+
+void OknoPodsumowanieTestu::rozproszoneswiatloHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix)
+{
+
+}
+
+void OknoPodsumowanieTestu::rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, bool ok, const QString &inneText)
+{
+
+}
+
+void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaAddRekord(QFrame *fr, QGridLayout *lay, const QString &suffix, short r, const QString &tlumienie_db, const QString &tlumienie_per, const QString &rozstawienie, bool ok, const QString &inneText)
+{
+
+}
+
+void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaHeadTable(QFrame *fr, QGridLayout *lay, const QString &suffix)
+{
+
 }
 
 

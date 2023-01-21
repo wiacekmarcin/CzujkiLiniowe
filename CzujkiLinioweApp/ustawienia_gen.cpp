@@ -205,6 +205,8 @@ void UstawieniaGen::load()
 	szybkieZmianyWartoscTlumnikaA = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(6.0)).toString());
 	szybkieZmianyWartoscTlumnikaB = toDouble(settings.value("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(10.0)).toString());
 	dlugoscDrogiOptycznejCmaxCmin = toDouble(settings.value("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	rozproszoneSwiatloCmaxCmin = toDouble(settings.value("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	tolerancjaNapieciaZasilaniaCmaxCmin = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(1.6)).toString());
 }
 
 void UstawieniaGen::save()
@@ -394,6 +396,8 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", QVariant::fromValue(szybkieZmianyWartoscTlumnikaA));
 	settings.setValue("ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", QVariant::fromValue(szybkieZmianyWartoscTlumnikaB));
 	settings.setValue("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(dlugoscDrogiOptycznejCmaxCmin));
+	settings.setValue("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(rozproszoneSwiatloCmaxCmin));
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(tolerancjaNapieciaZasilaniaCmaxCmin));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -3049,4 +3053,26 @@ void UstawieniaGen::setDlugoscDrogiOptycznejCmaxCmin(const double & value)
 {
 	dlugoscDrogiOptycznejCmaxCmin = value;
 	settings.setValue("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getRozproszoneSwiatloCmaxCmin() const
+{
+	return rozproszoneSwiatloCmaxCmin;
+}
+
+void UstawieniaGen::setRozproszoneSwiatloCmaxCmin(const double & value)
+{
+	rozproszoneSwiatloCmaxCmin = value;
+	settings.setValue("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getTolerancjaNapieciaZasilaniaCmaxCmin() const
+{
+	return tolerancjaNapieciaZasilaniaCmaxCmin;
+}
+
+void UstawieniaGen::setTolerancjaNapieciaZasilaniaCmaxCmin(const double & value)
+{
+	tolerancjaNapieciaZasilaniaCmaxCmin = value;
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(value));
 }

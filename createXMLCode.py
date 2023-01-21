@@ -407,5 +407,5 @@ def printonePage(nazwa):
     d['nazwaCzujkaTable'] = '%stableCzujka'  % func(nazwa)
     print(xmlcode % d)
 
-nazwa = 'ZaleznoscDlugisciDrogiOptycznej'
+nazwa = 'TolerancjaNapieciaZasilania'
 printonePage(nazwa)

@@ -197,6 +197,8 @@ u.addValue("float", "szybkieZmianyWartoscTlumnikaA")
 u.addValue("float", "szybkieZmianyWartoscTlumnikaB")
 u.addValue("float", "wartoscTlumienieDlaKataNieWspolosiowosci")
 u.addValue("float", "niewspolosiowoscMinimalnyKatProducentMierzony")
+u.addValue("float", "rozproszoneSwiatloCmaxCmin")
+u.addValue("float", "tolerancjaNapieciaZasilaniaCmaxCmin")
 
 u.createHeader()
 u.createSource()

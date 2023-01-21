@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>890</width>
-    <height>537</height>
+    <height>704</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -142,7 +142,7 @@
    <item row="6" column="0" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="odtwarzalnosc">
       <layout class="QGridLayout" name="gridLayout_odtwarzalnosc">
@@ -1601,6 +1601,294 @@
           <enum>QFrame::Raised</enum>
          </property>
          <layout class="QGridLayout" name="dlugoscDrogiOptycznejGridLayout"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="rozporoszoneswiatlo">
+      <layout class="QGridLayout" name="gridLayoutrozporoszoneswiatlo">
+       <item row="1" column="1">
+        <widget class="QFrame" name="rozporoszoneswiatlofrcmax">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutrozporoszoneswiatlocmax">
+          <item>
+           <widget class="QLabel" name="rozporoszoneswiatloCmax">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="rozporoszoneswiatloCmax2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="rozporoszoneswiatlofrcmin">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutrozporoszoneswiatlocmin">
+          <item>
+           <widget class="QLabel" name="rozporoszoneswiatloCmin">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="rozporoszoneswiatloCmin2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="eRozproszoneSwiatloCmaxCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax/Cmin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="eRozproszoneSwiatloCmax">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="eRozproszoneSwiatloCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmin</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="rozporoszoneswiatloCmaxCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QFrame" name="frRozproszoneSwiatloPrzebieg">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="rozporoszoneswiatloPrzebiegGridLayout"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tolerancjanapieciazasilania">
+      <layout class="QGridLayout" name="gridLayouttolerancjanapieciazasilania">
+       <item row="1" column="1">
+        <widget class="QFrame" name="tolerancjanapieciazasilaniafrcmax">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayouttolerancjanapieciazasilaniacmax">
+          <item>
+           <widget class="QLabel" name="tolerancjanapieciazasilaniaCmax">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="tolerancjanapieciazasilaniaCmax2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="tolerancjanapieciazasilaniafrcmin">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayouttolerancjanapieciazasilaniacmin">
+          <item>
+           <widget class="QLabel" name="tolerancjanapieciazasilaniaCmin">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="tolerancjanapieciazasilaniaCmin2">
+            <property name="font">
+             <font>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmaxCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax/Cmin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmax">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmin</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="tolerancjanapieciazasilaniaCmaxCmin">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QFrame" name="frTolerancjaNapieciaZasilaniaPrzebieg">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="tolerancjanapieciazasilaniaPrzebiegGridLayout"/>
         </widget>
        </item>
       </layout>

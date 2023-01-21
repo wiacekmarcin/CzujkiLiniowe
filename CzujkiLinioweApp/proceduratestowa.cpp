@@ -129,6 +129,12 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     case OPTICAL_PATH_LENGTH_DEPEDENCE:
         return DlugoscDrogiOptycznej(b, ust);
 
+    case STRAY_LIGHT:
+        return RozproszoneSwiatlo(b, ust);
+
+    case TOLERANCE_TO_SUPPLY_VOLTAGE:
+        return RozproszoneSwiatlo(b, ust);
+
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
@@ -338,6 +344,17 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
     } while(false);
     return true;
 }
+
+bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    return true;
+}
+
+bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    return true;
+}
+
 
 bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania)
 {

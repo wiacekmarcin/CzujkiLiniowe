@@ -21,8 +21,14 @@ ListaBadan::ListaBadan(QWidget *parent) :
     testyWidget[RAPID_CHANGES_IN_ATTENUATION] = testWidget{ui->pSzybkieZmianyTlumienia, ui->szybkieZmianyTlumieniaWyniki,
                                                 ui->pbSzybkieZmianyTlumienia};
 
-    testyWidget[OPTICAL_PATH_LENGTH_DEPEDENCE] = testWidget{ui->pbZaleznoscDlugisciDrogiOptycznej, ui->zaleznoscDlugisciDrogiOptycznejWyniki,
+    testyWidget[OPTICAL_PATH_LENGTH_DEPEDENCE] = testWidget{ui->pZaleznoscDlugisciDrogiOptycznej, ui->zaleznoscDlugisciDrogiOptycznejWyniki,
                                                 ui->pbZaleznoscDlugisciDrogiOptycznej};
+
+    testyWidget[STRAY_LIGHT] = testWidget{ui->pRozproszoneSwiatlo, ui->rozproszoneSwiatloWyniki,
+                                                ui->pbRozproszoneSwiatlo};
+
+    testyWidget[TOLERANCE_TO_SUPPLY_VOLTAGE] = testWidget{ui->pTolerancjaNapieciaZasilania, ui->tolerancjaNapieciaZasilaniaWyniki,
+                                                ui->pbTolerancjaNapieciaZasilania};
 
     ui->stackedWidget->setCurrentWidget(ui->pOdtwarzalnosc);
 
@@ -264,6 +270,23 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
     ui->stackedWidget->setCurrentWidget(testyWidget[ui->tableWidget->item(row, 0)->text().toInt()].page);
 }
 
+double ListaBadan::d2p(const double &val)
+{
+    double l = pow(10, val/10);
+    if (l == 0)
+        return 0;
+    return 100.0/l;
+}
+
+QString ListaBadan::d2p(const QString &val)
+{
+    bool ok;
+    double dval = val.toDouble(&ok);
+    if (!ok)
+        return "-";
+    return QString::number(d2p(dval), 'g', 1);
+}
+
 const QMap<int, testWidget> &ListaBadan::getTestyWidget() const
 {
     return testyWidget;
@@ -286,15 +309,15 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         ADDVHEADITEM(tableParams, "Cmin", 0);
         ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
-        ADDITEM(tableParams, "0 %" , 0, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0, 1);
 
         ADDVHEADITEM(tableParams, "Cmax", 1);
         ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
-        ADDITEM(tableParams, "0 %" , 1, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 2) + "  %" , 1, 1);
 
         ADDVHEADITEM(tableParams, "Crep", 2);
         ADDITEM(tableParams, QString::number(daneTestu.getCrep(), 'f', 2) + " dB", 2, 0);
-        ADDITEM(tableParams, "0 %" , 2, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCrep()), 'f', 2) + " %" , 2, 1);
 
         ADDVHEADITEM(tableParams, "Cmax/Crep", 3);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3, 0);
@@ -322,7 +345,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         {
             addOdtwarzalnoscRekord(num, dane.nrCzujki, badanie.getSortedId(dane.nrCzujki-1),
                                    dane.numerNadajnika, dane.numerOdbiornika,
-                              dane.value_dB, "0", dane.ok, dane.error);
+                              dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
     } else if (daneTestu.getId() == REPEATABILITY) {
@@ -343,11 +366,11 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
         ADDVHEADITEM(tableParams, "Cmin", 0);
         ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
-        ADDITEM(tableParams, "0 %" , 0, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
 
         ADDVHEADITEM(tableParams, "Cmax", 1);
         ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
-        ADDITEM(tableParams, "0 %" , 1, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %" , 1, 1);
 
         ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
@@ -365,10 +388,12 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addPowtarzalnoscRekord(num, dane.value_dB, "0", dane.ok, dane.error);
+            addPowtarzalnoscRekord(num, dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
+
+        initSzybkieZmianyTlumieniaTable();
 
         QTableWidget * tableCzujka = ui->szybkieZmianyTlumieniatableCzujka;
         int col = 0;
@@ -388,11 +413,13 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         }
 
         if (daneTestu.getOk()) {
-            ui->powtarzalnoscResult->setText("POZYTYWNY");
+            ui->szybkieZmianyTlumieniaResult->setText("POZYTYWNY");
         } else {
-            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->szybkieZmianyTlumieniaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
+
+        initZaleznoscDrogiOptycznejTable();
         QTableWidget * tableCzujka = ui->zaleznoscDlugisciDrogiOptycznejtableCzujka;
         int col = 0;
         //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
@@ -406,11 +433,11 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QTableWidget * tableParams = ui->zaleznoscDlugisciDrogiOptycznejTableParams;
         ADDVHEADITEM(tableParams, "Cmin", 0);
         ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
-        ADDITEM(tableParams, "0 %" , 0, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
 
         ADDVHEADITEM(tableParams, "Cmax", 1);
         ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
-        ADDITEM(tableParams, "0 %" , 1, 1);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %" , 1, 1);
 
         ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
         ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
@@ -424,17 +451,100 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             addZaleznoscDrogiOptycznejRekord(num,
-                (num == 0 ? : daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()),
+                (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()),
                 dane.value_dB, dane.ok, dane.error);
             num++;
         }
 
         if (daneTestu.getOk()) {
-            ui->powtarzalnoscResult->setText("POZYTYWNY");
+            ui->zaleznoscDlugisciDrogiOptycznejResult->setText("POZYTYWNY");
         } else {
-            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->zaleznoscDlugisciDrogiOptycznejResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+        }
+    } else if (daneTestu.getId() == STRAY_LIGHT) {
+        initRozproszoneSwiatloTable();
+        QTableWidget * tableCzujka = ui->rozproszoneSwiatlotableCzujka;
+        int col = 0;
+        //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerTransmitter(), col++, 200);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerReceiver(), col++, 200);
+        col = 0;
+        //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerTransmitter(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
+
+        QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
+        ADDVHEADITEM(tableParams, "Cmin", 0);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax", 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %" , 1, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
+
+        if (daneTestu.getCmaxCmin() > badanie.getRozproszoneSwiatloCmaxCmin()) {
+            tableParams->item(2, 0)->setBackground(Qt::red);
+        }
+
+        short num = 0;
+
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            addRozproszoneSwiatloRekord(num,  dane.value_dB, dane.ok, dane.error);
+            num++;
+        }
+
+        if (daneTestu.getOk()) {
+            ui->rozproszoneSwiatloResult->setText("POZYTYWNY");
+        } else {
+            ui->rozproszoneSwiatloResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+        }
+    } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+        initTolerancjaZasilaniaTable();
+        QTableWidget * tableCzujka = ui->tolerancjaNapieciaZasilaniatableCzujka;
+        int col = 0;
+        //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerTransmitter(), col++, 200);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerReceiver(), col++, 200);
+        col = 0;
+        //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerTransmitter(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
+
+        QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
+        ADDVHEADITEM(tableParams, "Cmin", 0);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax", 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %" , 1, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
+
+        if (daneTestu.getCmaxCmin() > badanie.getTolerancjaNapieciaZasilaniaCmaxCmin()) {
+            tableParams->item(2, 0)->setBackground(Qt::red);
+        }
+
+        short num = 0;
+
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            addTolerancjaNapieciaZasilaniaRekord(num, "Napiecie", dane.value_dB, dane.ok, dane.error);
+            num++;
+        }
+
+        if (daneTestu.getOk()) {
+            ui->tolerancjaNapieciaZasilaniaResult->setText("POZYTYWNY");
+        } else {
+            ui->tolerancjaNapieciaZasilaniaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     }
+
 }
 
 void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik)
@@ -635,7 +745,7 @@ void ListaBadan::initZaleznoscDrogiOptycznejTable()
     tablePrzebieg->setColumnWidth(0, 150);
 
     QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("Cn [dB]"));
-    tablePrzebieg->setHorizontalHeaderItem(1, cn2);
+    tablePrzebieg->setHorizontalHeaderItem(1, cn1);
     tablePrzebieg->setColumnWidth(1, 50);
 
     QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("Cn [%]"));
@@ -655,31 +765,54 @@ void ListaBadan::initZaleznoscDrogiOptycznejTable()
     tablePrzebieg->adjustSize();
 }
 
-void ListaBadan::addZaleznoscDrogiOptycznejRekord(short num, const QString &rozstawienie, const QString &value_dB, bool ok, const QString &error)
+void ListaBadan::addZaleznoscDrogiOptycznejRekord(short row, const QString &rozstawienie, const QString &value_dB, bool ok, const QString &error)
 {
-    QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg
-    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(num+1));
+    QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg;
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(row+1));
     //ui->tablePrzebieg
     tablePrzebieg->setVerticalHeaderItem(row, itemVert);
 
     int col = 0;
-    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
+    QTableWidgetItem *item0 = new QTableWidgetItem(QString("%1 m").arg(rozstawienie));
     tablePrzebieg->setItem(row, col++, item0);
 
-    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
-    tablePrzebieg->setItem(row, col++, item0);
-
-    QTableWidgetItem *item1 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    QTableWidgetItem *item1 = new QTableWidgetItem(value_dB);
     tablePrzebieg->setItem(row, col++, item1);
 
-    QTableWidgetItem *item2 = new QTableWidgetItem(error);
+    QTableWidgetItem *item2 = new QTableWidgetItem(value_dB);
     tablePrzebieg->setItem(row, col++, item2);
+
+    QTableWidgetItem *item3 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    tablePrzebieg->setItem(row, col++, item3);
+
+    QTableWidgetItem *item4 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item4);
 
     if (!ok) {
         for (short e=0; e<col; ++e) {
             tablePrzebieg->item(row, e)->setBackground(Qt::red);
         }
     }
+}
+
+void ListaBadan::initRozproszoneSwiatloTable()
+{
+
+}
+
+void ListaBadan::addRozproszoneSwiatloRekord(short num, const QString &value_dB, bool ok, const QString &error)
+{
+
+}
+
+void ListaBadan::initTolerancjaZasilaniaTable()
+{
+
+}
+
+void ListaBadan::addTolerancjaNapieciaZasilaniaRekord(short num, const QString &napiecie1, const QString &value_dB, bool ok, const QString &error)
+{
+
 }
 
 

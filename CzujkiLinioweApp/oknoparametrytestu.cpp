@@ -138,6 +138,23 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->rozstawienieMaksymalne->setText(badanie.getRozstawienieMaxCzujki());
             nrCzujkiDoWybrania = 1;
             break;
+        case STRAY_LIGHT:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 6 zgodnie z normą"));
+            //TODO
+            //if (ui->cbCzujka)
+            ui->cbCzujka->setCurrentIndex(0);
+            changeCzujka(0);
+            nrCzujkiDoWybrania = 6;
+            break;
+        case TOLERANCE_TO_SUPPLY_VOLTAGE:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+
+            ui->cbCzujka->setCurrentIndex(0);
+            changeCzujka(0);
+            nrCzujkiDoWybrania = 6;
+            break;
         default:
         break;
     }

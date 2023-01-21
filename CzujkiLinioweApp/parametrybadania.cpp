@@ -68,6 +68,17 @@ ParametryBadania::ParametryBadania()
     dlugoscdrogioptycznej.setId(OPTICAL_PATH_LENGTH_DEPEDENCE);
     dlugoscdrogioptycznej.setName("Zależność od długości drogi optycznej");
     testy[OPTICAL_PATH_LENGTH_DEPEDENCE] = dlugoscdrogioptycznej;
+
+    DaneTestu rozproszoneSwiatlo;
+    rozproszoneSwiatlo.setId(STRAY_LIGHT);
+    rozproszoneSwiatlo.setName("Rozproszone Światło");
+    testy[STRAY_LIGHT] = rozproszoneSwiatlo;
+
+    DaneTestu tolerancjaNapieciaZasilania;
+    tolerancjaNapieciaZasilania.setId(TOLERANCE_TO_SUPPLY_VOLTAGE);
+    tolerancjaNapieciaZasilania.setName("Zmienność parametrów zasilania");
+    testy[TOLERANCE_TO_SUPPLY_VOLTAGE] = tolerancjaNapieciaZasilania;
+
 }
 
 void ParametryBadania::load(const QString &fileName)
