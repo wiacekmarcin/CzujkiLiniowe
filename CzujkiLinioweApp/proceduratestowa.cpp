@@ -653,7 +653,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
-    ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
@@ -663,7 +663,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
