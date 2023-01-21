@@ -125,7 +125,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
 
 void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
 {
-    qDebug() << __FILE__ << __LINE__ << "silnik" << silnik << "val" << val << "destPos" << destPos << "prevVal" << prevVal;
+    //qDebug() << __FILE__ << __LINE__ << "silnik" << silnik << "val" << val << "destPos" << destPos << "prevVal" << prevVal;
     if (silnik != nrSilnika)
         return;
 
@@ -141,7 +141,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
         dt = 60.0*(destPos-val)/speedMin;
     else
         dt = 0;
-    qDebug() << __FILE__ << __LINE__ << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
+    //qDebug() << __FILE__ << __LINE__ << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
     if (abs(destPos - prevVal) > 0.5) {

@@ -712,8 +712,9 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     if (!stabOk)
         return 2;
 
+    qDebug() << "Kat " << pomiar.katProducenta;
     dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
-                                dane.getKatyProducenta().nadajnik.poziomo,
+                                QString::number(pomiar.katProducenta),
                                 ust, ster, parent);
     bool ret = dlg10->exec();
     if (!ret) {
@@ -776,6 +777,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     double maxkat = ust.getMaksKatNieWspolOsiowosci();
     if (pomiar.katProducenta < 0)
         maxkat *= -1;
+    qDebug() << "Max kat " << maxkat;
     dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, maxkat, ust, ster, parent);
     if (!dlg14->exec()) {
         qDebug() << __FILE__ << __LINE__ << "NOT OK";
@@ -788,6 +790,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
         return 1;
     }
     qDebug() << __FILE__ << __LINE__ << "OK";
+    pomiar.katZmierzony = dlg14->getDegrees();
     delete dlg14;
     dlg14 = nullptr;
 

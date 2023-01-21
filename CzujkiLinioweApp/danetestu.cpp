@@ -572,6 +572,7 @@ void DaneTestu::setPomiaryKatow(const QVector<PomiarKata> &newPomiaryKatow)
 
 void DaneTestu::dodajPomiarKata(const PomiarKata & kat)
 {
+    qDebug() << __FILE__ << __LINE__ << kat.katProducenta << kat.ok << kat.katZmierzony;
     pomiaryKatow.append(kat);
 }
 

@@ -112,8 +112,15 @@ void OknoBadanieReakcji6dB::flt_zerowanieFiltrowDone()
 
 void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
 {
-    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-    //            "Filtr zmieniony";
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                "Filtr zmieniony";
+    if (waitForZeroFiltr) {
+        if (endReject)
+            reject();
+        else
+            accept();
+    }
+
 
     ui->pbCzujki->setValue(timeCzujkaOn);
     ui->pbOkna->setValue(timeOknoClose);
@@ -148,20 +155,19 @@ void OknoBadanieReakcji6dB::czujkaOn()
         wynikBadania = true;
         tmSterownika.stop();
         tmZmProgressBar.stop();
-        accept();
-        //endReject = false;
-        //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-        //         "Prawidlowe dzialanie";
-        //usunTlumnik();
+        endReject = false;
+        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                 "Prawidlowe dzialanie";
+        usunTlumnik();
     } else {
         error = QString("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
         wynikBadania = false;
         tmSterownika.stop();
         tmZmProgressBar.stop();
-        reject();
-        //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-        //        "Po czasie";
-        //usunTlumnik();
+        qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                "Po czasie";
+        endReject = true;
+        usunTlumnik();
     }
 }
 
@@ -182,9 +188,8 @@ void OknoBadanieReakcji6dB::progressBarUpdate()
         wynikBadania = false;
         tmSterownika.stop();
         tmZmProgressBar.stop();
-        reject();
-        //endReject = true;
-        //usunTlumnik();
+        endReject = true;
+        usunTlumnik();
     }
 }
 
@@ -205,7 +210,6 @@ const QString &OknoBadanieReakcji6dB::getError() const
     return error;
 }
 
-/*
 void OknoBadanieReakcji6dB::usunTlumnik()
 {
     waitForZeroFiltr = true;
@@ -215,11 +219,11 @@ void OknoBadanieReakcji6dB::usunTlumnik()
     ui->b->setText(pos0B);
     ui->c->setText(pos0C);
 
-    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-    //         << "Rozpoczynam zmiane filtra na 0.0 dB";
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+             << "Rozpoczynam zmiane filtra na 0.0 dB";
     ster->setFiltrPos(pos0A.toShort(), pos0B.toShort(), pos0C.toShort());
 }
-*/
+
 bool OknoBadanieReakcji6dB::getWynikBadania() const
 {
     return wynikBadania;

@@ -37,7 +37,7 @@ public:
     void setResetFiltrowOk(bool newResetFiltrowOk);
 
 protected:
-    //void usunTlumnik();
+    void usunTlumnik();
 
 private slots:
     void progressBarUpdate();

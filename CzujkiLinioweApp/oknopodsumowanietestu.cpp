@@ -91,16 +91,18 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->zaleznosckatowaetodbiornik->setText(receiver);
         short id = 0;
         QString err;
+        qDebug() << __FILE__ << __LINE__ << daneTestu.getPomiaryKatow().size();
         for (const auto & wynik : daneTestu.getPomiaryKatow()) {
             if (!wynik.errorStr.isEmpty() || !wynik.errorDetail.isEmpty()) {
                 ui->zaleznosckatowa_errinfo->setText(wynik.errorStr);
                 ui->zaleznosckatowa_errExt->setText(wynik.errorDetail);
             }
-            zaleznoscKatowaVector[id].katmierzony->setText(QString("<html><body>%1 &deg'</body></html>").arg(wynik.katZmierzony, 2, 'f', 1));
-            zaleznoscKatowaVector[id].katproducenta->setText(QString("<html><body>%1 &deg'</body></html>").arg(wynik.katProducenta, 2, 'f', 1));
+            zaleznoscKatowaVector[id].katmierzony->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katZmierzony, 2, 'f', 1));
+            zaleznoscKatowaVector[id].katproducenta->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katProducenta, 2, 'f', 1));
             if (!wynik.ok) {
                 zaleznoscKatowaVector[id].wynik->setText(wynik.errorStr);
             }
+           ++id;
         }
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         ui->stackedWidget->setCurrentWidget(ui->szybkiezmianytlumienia);
