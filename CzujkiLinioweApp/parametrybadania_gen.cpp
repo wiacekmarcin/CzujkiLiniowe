@@ -79,7 +79,11 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> wartoscTlumienieDlaKataNieWspolosiowosci
 		 >> niewspolosiowoscMinimalnyKatProducentMierzony
 		 >> rozproszoneSwiatloCmaxCmin
-		 >> tolerancjaNapieciaZasilaniaCmaxCmin ;
+		 >> tolerancjaNapieciaZasilaniaCmaxCmin
+		 >> minimalneNapieciaTolerancjaNapiecia
+		 >> maksymalneNapieciaTolerancjaNapiecia
+		 >> minimalnyCzasOczekiwaniaPowtarzalnosc1Test
+		 >> maksymalnyCzasOczekiwaniaPowtarzalnosc1Test ;
 }
 
 void ParametryBadaniaGen::save(QDataStream &out) const
@@ -128,7 +132,11 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << wartoscTlumienieDlaKataNieWspolosiowosci
 		 << niewspolosiowoscMinimalnyKatProducentMierzony
 		 << rozproszoneSwiatloCmaxCmin
-		 << tolerancjaNapieciaZasilaniaCmaxCmin ;
+		 << tolerancjaNapieciaZasilaniaCmaxCmin
+		 << minimalneNapieciaTolerancjaNapiecia
+		 << maksymalneNapieciaTolerancjaNapiecia
+		 << minimalnyCzasOczekiwaniaPowtarzalnosc1Test
+		 << maksymalnyCzasOczekiwaniaPowtarzalnosc1Test ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
 {
@@ -622,5 +630,49 @@ float ParametryBadaniaGen::getTolerancjaNapieciaZasilaniaCmaxCmin() const
 void ParametryBadaniaGen::setTolerancjaNapieciaZasilaniaCmaxCmin(const float & value)
 {
 	tolerancjaNapieciaZasilaniaCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getMinimalneNapieciaTolerancjaNapiecia() const
+{
+	return minimalneNapieciaTolerancjaNapiecia;
+}
+
+void ParametryBadaniaGen::setMinimalneNapieciaTolerancjaNapiecia(const float & value)
+{
+	minimalneNapieciaTolerancjaNapiecia = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getMaksymalneNapieciaTolerancjaNapiecia() const
+{
+	return maksymalneNapieciaTolerancjaNapiecia;
+}
+
+void ParametryBadaniaGen::setMaksymalneNapieciaTolerancjaNapiecia(const float & value)
+{
+	maksymalneNapieciaTolerancjaNapiecia = value;
+	change = true;
+}
+
+unsigned int ParametryBadaniaGen::getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test() const
+{
+	return minimalnyCzasOczekiwaniaPowtarzalnosc1Test;
+}
+
+void ParametryBadaniaGen::setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & value)
+{
+	minimalnyCzasOczekiwaniaPowtarzalnosc1Test = value;
+	change = true;
+}
+
+unsigned int ParametryBadaniaGen::getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() const
+{
+	return maksymalnyCzasOczekiwaniaPowtarzalnosc1Test;
+}
+
+void ParametryBadaniaGen::setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & value)
+{
+	maksymalnyCzasOczekiwaniaPowtarzalnosc1Test = value;
 	change = true;
 }

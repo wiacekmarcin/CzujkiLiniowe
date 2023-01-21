@@ -558,6 +558,10 @@ public:
 	void setCzasWylaczeniaCzujkiDlaResetu(const unsigned int & czasWylaczeniaCzujkiDlaResetu);
 	unsigned int getCzasOczekiwaniaPowtarzalnosc4Test() const;
 	void setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned int & czasOczekiwaniaPowtarzalnosc4Test);
+	unsigned int getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test() const;
+	void setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & minimalnyCzasOczekiwaniaPowtarzalnosc1Test);
+	unsigned int getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() const;
+	void setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & maksymalnyCzasOczekiwaniaPowtarzalnosc1Test);
 	double getMinimalnaWartoscCzujkiCn() const;
 	void setMinimalnaWartoscCzujkiCn(const double & minimalnaWartoscCzujkiCn);
 	unsigned int getCzasStabilizacjiDlaKataNieWspolosiowosci() const;
@@ -596,6 +600,10 @@ public:
 	void setRozproszoneSwiatloCmaxCmin(const double & rozproszoneSwiatloCmaxCmin);
 	double getTolerancjaNapieciaZasilaniaCmaxCmin() const;
 	void setTolerancjaNapieciaZasilaniaCmaxCmin(const double & tolerancjaNapieciaZasilaniaCmaxCmin);
+	double getMinimalneNapieciaTolerancjaNapiecia() const;
+	void setMinimalneNapieciaTolerancjaNapiecia(const double & minimalneNapieciaTolerancjaNapiecia);
+	double getMaksymalneNapieciaTolerancjaNapiecia() const;
+	void setMaksymalneNapieciaTolerancjaNapiecia(const double & maksymalneNapieciaTolerancjaNapiecia);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -783,6 +791,8 @@ private:
 	int maxCzasPoZmianieFiltra;
 	unsigned int czasWylaczeniaCzujkiDlaResetu;
 	unsigned int czasOczekiwaniaPowtarzalnosc4Test;
+	unsigned int minimalnyCzasOczekiwaniaPowtarzalnosc1Test;
+	unsigned int maksymalnyCzasOczekiwaniaPowtarzalnosc1Test;
 	double minimalnaWartoscCzujkiCn;
 	unsigned int czasStabilizacjiDlaKataNieWspolosiowosci;
 	double wartoscTlumienieDlaKataNieWspolosiowosci;
@@ -802,5 +812,7 @@ private:
 	double dlugoscDrogiOptycznejCmaxCmin;
 	double rozproszoneSwiatloCmaxCmin;
 	double tolerancjaNapieciaZasilaniaCmaxCmin;
+	double minimalneNapieciaTolerancjaNapiecia;
+	double maksymalneNapieciaTolerancjaNapiecia;
 };
 #endif

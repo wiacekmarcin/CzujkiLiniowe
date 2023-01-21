@@ -381,6 +381,7 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
     badanie->setNazwaNumerTransmitter(etNumerTransmitter[ui->comboBox->currentIndex()]);
     badanie->setNazwaNumerReceiver(etNumerReceiver[ui->comboBox->currentIndex()]);
 
+
     badanie->wyczyscCzujki();
     short num = 0;
     for (short i=0; i<m_numbers.size(); ++i)

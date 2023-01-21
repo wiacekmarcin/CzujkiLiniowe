@@ -35,6 +35,7 @@ private:
     bool error;
     QStringList errorsMsg;
     short nrCzujkiDoWybrania;
+    const ParametryBadania & badanie;
 
     void check1Pomiar();
 };

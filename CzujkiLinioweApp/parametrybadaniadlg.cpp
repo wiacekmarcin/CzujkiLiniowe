@@ -23,6 +23,10 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     d->setNiewspolosiowoscMinimalnyKatProducentMierzony(u.getNiewspolosiowoscMinimalnyKatProducentMierzony());
     d->setRozproszoneSwiatloCmaxCmin(u.getRozproszoneSwiatloCmaxCmin());
     d->setTolerancjaNapieciaZasilaniaCmaxCmin(u.getTolerancjaNapieciaZasilaniaCmaxCmin());
+    d->setMinimalneNapieciaTolerancjaNapiecia(u.getMinimalneNapieciaTolerancjaNapiecia());
+    d->setMaksymalneNapieciaTolerancjaNapiecia(u.getMaksymalneNapieciaTolerancjaNapiecia());
+    d->setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(u.getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test());
+    d->setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(u.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test());
 
 
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);

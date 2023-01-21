@@ -3,7 +3,7 @@
 #include "zasilacz.h"
 #include <QMessageBox>
 
-OknoZasilaniaCzujki::OknoZasilaniaCzujki(bool maksCzulosc, const DaneTestu &daneTestu,
+OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulosc, const DaneTestu &daneTestu,
                                          const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZasilaniaCzujki)
@@ -23,10 +23,25 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(bool maksCzulosc, const DaneTestu &dane
         ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najniższą czułość"));
     }
 
+    ui->enomVoltege->setVisible(normalneNapiecie != 0);
+    ui->nominalVolt->setVisible(normalneNapiecie != 0);
+
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
         ui->infoZasilanie->setText("Zasilanie czujki zostało włączone");
         ui->rodzajZasilania->setText("Zasilacz");
-        ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
+
+        if (normalneNapiecie == 0) {
+            ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
+        } else {
+            ui->nominalVolt->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
+        }
+
+        if (normalneNapiecie == 1) {
+            ui->napiecieUst->setText(daneTestu.getMinimalneNapiecie() + " V");
+        } if (normalneNapiecie == 2) {
+            ui->napiecieUst->setText(daneTestu.getMaksymalneNapiecie() + " V");
+        }
+
         ui->napiecieMierz->setText("0.000");
         ui->pradMierz->setText("0.000");
         ui->lTypCentrali->setEnabled(false);
@@ -37,18 +52,27 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(bool maksCzulosc, const DaneTestu &dane
         ui->napiecieUst->setEnabled(true);
         ui->napiecieMierz->setEnabled(true);
         ui->pradMierz->setEnabled(true);
+        ui->frame_errorzasilanie->setVisible(false);
     } else if (daneBadania.getZasilanieCzujekCentrala()) {
-        ui->infoZasilanie->setText("Proszę załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
-        ui->rodzajZasilania->setText("Centrala sygnalizacji pożarowej");
-        ui->typCentrali->setText(daneBadania. getZasilanieCzujekTypCentrali());
-        ui->lTypCentrali->setEnabled(true);
-        ui->typCentrali->setEnabled(true);
-        ui->lNapiecieUst->setEnabled(false);
-        ui->lNapiecieMierz->setEnabled(false);
-        ui->lPradMierz->setEnabled(false);
-        ui->napiecieUst->setEnabled(false);
-        ui->napiecieMierz->setEnabled(false);
-        ui->pradMierz->setEnabled(false);
+        if (normalneNapiecie == 0) {
+            ui->infoZasilanie->setText("Proszę załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
+            ui->rodzajZasilania->setText("Centrala sygnalizacji pożarowej");
+            ui->typCentrali->setText(daneBadania. getZasilanieCzujekTypCentrali());
+            ui->lTypCentrali->setEnabled(true);
+            ui->typCentrali->setEnabled(true);
+            ui->lNapiecieUst->setEnabled(false);
+            ui->lNapiecieMierz->setEnabled(false);
+            ui->lPradMierz->setEnabled(false);
+            ui->napiecieUst->setEnabled(false);
+            ui->napiecieMierz->setEnabled(false);
+            ui->pradMierz->setEnabled(false);
+            ui->frame_errorzasilanie->setVisible(false);
+        } else {
+            ui->infoZasilanie->setVisible(false);
+            ui->frame_errorzasilanie->setVisible(true);
+            ui->frame_2->setVisible(false);
+            ui->pbDalej->setEnabled(false);
+        }
     }
 }
 

@@ -112,6 +112,14 @@ public:
 	void setRozproszoneSwiatloCmaxCmin(const float & rozproszoneSwiatloCmaxCmin);
 	float getTolerancjaNapieciaZasilaniaCmaxCmin() const;
 	void setTolerancjaNapieciaZasilaniaCmaxCmin(const float & tolerancjaNapieciaZasilaniaCmaxCmin);
+	float getMinimalneNapieciaTolerancjaNapiecia() const;
+	void setMinimalneNapieciaTolerancjaNapiecia(const float & minimalneNapieciaTolerancjaNapiecia);
+	float getMaksymalneNapieciaTolerancjaNapiecia() const;
+	void setMaksymalneNapieciaTolerancjaNapiecia(const float & maksymalneNapieciaTolerancjaNapiecia);
+	unsigned int getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test() const;
+	void setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & minimalnyCzasOczekiwaniaPowtarzalnosc1Test);
+	unsigned int getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() const;
+	void setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & maksymalnyCzasOczekiwaniaPowtarzalnosc1Test);
 protected:
 
 private:
@@ -161,5 +169,9 @@ private:
 	float niewspolosiowoscMinimalnyKatProducentMierzony;
 	float rozproszoneSwiatloCmaxCmin;
 	float tolerancjaNapieciaZasilaniaCmaxCmin;
+	float minimalneNapieciaTolerancjaNapiecia;
+	float maksymalneNapieciaTolerancjaNapiecia;
+	unsigned int minimalnyCzasOczekiwaniaPowtarzalnosc1Test;
+	unsigned int maksymalnyCzasOczekiwaniaPowtarzalnosc1Test;
 };
 #endif

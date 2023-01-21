@@ -55,7 +55,9 @@ DaneTestu::DaneTestu():
     dlugoscFali(0),
     czasPowtarzalnosci(0),
     minimalneRozstawienie("0"),
-    maksymalneRozstawienie("0")
+    maksymalneRozstawienie("0"),
+    minimalneNapiecie("0"),
+    maksymalneNapiecie("0")
 {
     katyProducenta.nadajnik.pionowo = "0";
     katyProducenta.nadajnik.poziomo = "0";
@@ -173,6 +175,8 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.pomiaryKatow
         << dane.minimalneRozstawienie
         << dane.maksymalneRozstawienie
+        << dane.minimalneNapiecie
+        << dane.maksymalneNapiecie
            ;
     return out;
 }
@@ -213,6 +217,8 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.pomiaryKatow
         >> dane.minimalneRozstawienie
         >> dane.maksymalneRozstawienie
+        >> dane.minimalneNapiecie
+        >> dane.maksymalneNapiecie
             ;
     return in;
 }
@@ -807,6 +813,11 @@ void DaneTestu::obliczSzybkieZmianyTlumienia(const Ustawienia &)
     errStr = "";
 }
 
+void DaneTestu::obliczZaleznoscNapieciaZasilania(const Ustawienia &ust)
+{
+
+}
+
 const QString &DaneTestu::getNazwaTransmitter_a() const
 {
     return nazwaTransmitter_a;
@@ -825,6 +836,26 @@ const QString &DaneTestu::getNazwaReceiver_a() const
 void DaneTestu::setNazwaReceiver_a(const QString &newNazwaReceiver_a)
 {
     nazwaReceiver_a = newNazwaReceiver_a;
+}
+
+const QString &DaneTestu::getMinimalneNapiecie() const
+{
+    return minimalneNapiecie;
+}
+
+void DaneTestu::setMinimalneNapiecie(const QString &newMinimalneNapiecie)
+{
+    minimalneNapiecie = newMinimalneNapiecie;
+}
+
+const QString &DaneTestu::getMaksymalneNapiecie() const
+{
+    return maksymalneNapiecie;
+}
+
+void DaneTestu::setMaksymalneNapiecie(const QString &newMaksymalneNapiecie)
+{
+    maksymalneNapiecie = newMaksymalneNapiecie;
 }
 
 const QString &DaneTestu::getMinimalneRozstawienie() const

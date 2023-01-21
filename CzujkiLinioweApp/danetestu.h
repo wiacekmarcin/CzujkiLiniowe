@@ -181,12 +181,19 @@ public:
     void obliczPowtarzalnosc(const Ustawienia & ust);
     void obliczDlugoscOptyczna(const Ustawienia & ust);
     void obliczSzybkieZmianyTlumienia(const Ustawienia & ust);
+    void obliczZaleznoscNapieciaZasilania(const Ustawienia & ust);
 
     const QString &getNazwaTransmitter_a() const;
     void setNazwaTransmitter_a(const QString &newNazwaTransmitter_a);
 
     const QString &getNazwaReceiver_a() const;
     void setNazwaReceiver_a(const QString &newNazwaReceiver_a);
+
+    const QString &getMinimalneNapiecie() const;
+    void setMinimalneNapiecie(const QString &newMinimalneNapiecie);
+
+    const QString &getMaksymalneNapiecie() const;
+    void setMaksymalneNapiecie(const QString &newMaksymalneNapiecie);
 
 private:
     short id;
@@ -223,6 +230,9 @@ private:
 
     QString minimalneRozstawienie;
     QString maksymalneRozstawienie;
+
+    QString minimalneNapiecie;
+    QString maksymalneNapiecie;
 
 };
 

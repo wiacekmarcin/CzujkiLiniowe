@@ -556,6 +556,8 @@ u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "Paramen
 #u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
 u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
+u.addZakresy("minimalnyCzasOczekiwaniaPowtarzalnosc1Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/minimalnyCzasOczekiwania1Test", '900', checkUnsignedIntContent)
+u.addZakresy("maksymalnyCzasOczekiwaniaPowtarzalnosc1Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/maksymalnyCzasOczekiwania1Test", '3600', checkUnsignedIntContent)
 u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
 u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
 u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
@@ -577,7 +579,8 @@ u.addZakresy("szybkieZmianyWartoscTlumnikaB", "double", "toDouble", "ParamentryB
 u.addZakresy("dlugoscDrogiOptycznejCmaxCmin", "double", "toDouble", "ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", '1.6', checkDoubleContent)
 u.addZakresy("rozproszoneSwiatloCmaxCmin", "double", "toDouble", "ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", '1.6', checkDoubleContent)
 u.addZakresy("tolerancjaNapieciaZasilaniaCmaxCmin", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", '1.6', checkDoubleContent)
-
+u.addZakresy("minimalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", '2', checkDoubleContent)
+u.addZakresy("maksymalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", '30', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

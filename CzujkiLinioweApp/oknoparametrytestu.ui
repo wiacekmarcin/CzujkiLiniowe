@@ -408,6 +408,65 @@
         </layout>
        </widget>
       </item>
+      <item>
+       <widget class="QFrame" name="frame_Napiecie">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <layout class="QGridLayout" name="gridLayout_6">
+         <item row="0" column="4">
+          <widget class="QLabel" name="eMaksymalneNapiecie">
+           <property name="text">
+            <string>Maksymalne napięcie zasilania czujki</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <spacer name="horizontalSpacer_7">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="eMinimalneNapiecie">
+           <property name="text">
+            <string>Minimalne napięcie zasilania czujki</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="minVolt"/>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_19">
+           <property name="text">
+            <string>V</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="5">
+          <widget class="QLineEdit" name="maxVolt"/>
+         </item>
+         <item row="0" column="6">
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>V</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </item>
      </layout>
     </widget>
    </item>
@@ -420,10 +479,47 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>Wybór czujki</string>
+        </property>
+       </widget>
+      </item>
       <item row="1" column="4">
        <widget class="QLabel" name="eReceiver">
         <property name="text">
          <string>Odbiornik</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="2" colspan="4">
+       <widget class="QLabel" name="lUwagaWyborCzujek">
+        <property name="text">
+         <string>Uwaga.&lt;dla testu 0 / odtwarzalnosc&gt; , [Zamontuj kolejna czujkę z serii] / &lt;Dla pozostalych testow&gt; [&quot;Wybierz czujke zgdonie z normą : xx&quot;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="cbCzujka"/>
+      </item>
+      <item row="1" column="3">
+       <spacer name="horizontalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="eTransmitter">
+        <property name="text">
+         <string>Nadajnik</string>
         </property>
        </widget>
       </item>
@@ -446,20 +542,6 @@
         </property>
        </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Wybór czujki</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="eTransmitter">
-        <property name="text">
-         <string>Nadajnik</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="5">
        <widget class="QLineEdit" name="typReceiver">
         <property name="minimumSize">
@@ -478,29 +560,6 @@
          <bool>true</bool>
         </property>
        </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="cbCzujka"/>
-      </item>
-      <item row="0" column="2" colspan="4">
-       <widget class="QLabel" name="lUwagaWyborCzujek">
-        <property name="text">
-         <string>Uwaga.&lt;dla testu 0 / odtwarzalnosc&gt; , [Zamontuj kolejna czujkę z serii] / &lt;Dla pozostalych testow&gt; [&quot;Wybierz czujke zgdonie z normą : xx&quot;</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <spacer name="horizontalSpacer_4">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
       </item>
      </layout>
     </widget>

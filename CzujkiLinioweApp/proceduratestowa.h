@@ -53,8 +53,8 @@ private:
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek, const QString &trans, const QString &receiv);
     bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    bool zasilenieCzujki(bool maksCzulosc, const ParametryBadania &daneBadania);
-    bool montazZerowanieZasilanie(short rozstawienie, bool maksCzulosc, bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
+    bool zasilenieCzujki(short napiecie, bool maksCzulosc, const ParametryBadania &daneBadania);
+    bool montazZerowanieZasilanie(short napiecie, short rozstawienie, bool maksCzulosc, bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool nowait, unsigned long timeWait, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);

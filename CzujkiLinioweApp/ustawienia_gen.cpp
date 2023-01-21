@@ -188,6 +188,8 @@ void UstawieniaGen::load()
 	maxCzasPoZmianieFiltra = toUInt(settings.value("ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", QVariant::fromValue(3600)).toString());
 	czasWylaczeniaCzujkiDlaResetu = toUInt(settings.value("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(15)).toString());
 	czasOczekiwaniaPowtarzalnosc4Test = toUInt(settings.value("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(259200)).toString());
+	minimalnyCzasOczekiwaniaPowtarzalnosc1Test = toUInt(settings.value("ParamentryBadania-Powtarzalnosc/minimalnyCzasOczekiwania1Test", QVariant::fromValue(900)).toString());
+	maksymalnyCzasOczekiwaniaPowtarzalnosc1Test = toUInt(settings.value("ParamentryBadania-Powtarzalnosc/maksymalnyCzasOczekiwania1Test", QVariant::fromValue(3600)).toString());
 	minimalnaWartoscCzujkiCn = toDouble(settings.value("ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", QVariant::fromValue(0.4)).toString());
 	czasStabilizacjiDlaKataNieWspolosiowosci = toUInt(settings.value("ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", QVariant::fromValue(120)).toString());
 	wartoscTlumienieDlaKataNieWspolosiowosci = toDouble(settings.value("ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", QVariant::fromValue(6.0)).toString());
@@ -207,6 +209,8 @@ void UstawieniaGen::load()
 	dlugoscDrogiOptycznejCmaxCmin = toDouble(settings.value("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(1.6)).toString());
 	rozproszoneSwiatloCmaxCmin = toDouble(settings.value("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(1.6)).toString());
 	tolerancjaNapieciaZasilaniaCmaxCmin = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	minimalneNapieciaTolerancjaNapiecia = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", QVariant::fromValue(2)).toString());
+	maksymalneNapieciaTolerancjaNapiecia = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(30)).toString());
 }
 
 void UstawieniaGen::save()
@@ -379,6 +383,8 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", QVariant::fromValue(maxCzasPoZmianieFiltra));
 	settings.setValue("ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", QVariant::fromValue(czasWylaczeniaCzujkiDlaResetu));
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(czasOczekiwaniaPowtarzalnosc4Test));
+	settings.setValue("ParamentryBadania-Powtarzalnosc/minimalnyCzasOczekiwania1Test", QVariant::fromValue(minimalnyCzasOczekiwaniaPowtarzalnosc1Test));
+	settings.setValue("ParamentryBadania-Powtarzalnosc/maksymalnyCzasOczekiwania1Test", QVariant::fromValue(maksymalnyCzasOczekiwaniaPowtarzalnosc1Test));
 	settings.setValue("ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", QVariant::fromValue(minimalnaWartoscCzujkiCn));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", QVariant::fromValue(czasStabilizacjiDlaKataNieWspolosiowosci));
 	settings.setValue("ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", QVariant::fromValue(wartoscTlumienieDlaKataNieWspolosiowosci));
@@ -398,6 +404,8 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", QVariant::fromValue(dlugoscDrogiOptycznejCmaxCmin));
 	settings.setValue("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(rozproszoneSwiatloCmaxCmin));
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(tolerancjaNapieciaZasilaniaCmaxCmin));
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", QVariant::fromValue(minimalneNapieciaTolerancjaNapiecia));
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(maksymalneNapieciaTolerancjaNapiecia));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -2868,6 +2876,28 @@ void UstawieniaGen::setCzasOczekiwaniaPowtarzalnosc4Test(const unsigned int & va
 	settings.setValue("ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", QVariant::fromValue(value));
 }
 
+unsigned int UstawieniaGen::getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test() const
+{
+	return minimalnyCzasOczekiwaniaPowtarzalnosc1Test;
+}
+
+void UstawieniaGen::setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & value)
+{
+	minimalnyCzasOczekiwaniaPowtarzalnosc1Test = value;
+	settings.setValue("ParamentryBadania-Powtarzalnosc/minimalnyCzasOczekiwania1Test", QVariant::fromValue(value));
+}
+
+unsigned int UstawieniaGen::getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() const
+{
+	return maksymalnyCzasOczekiwaniaPowtarzalnosc1Test;
+}
+
+void UstawieniaGen::setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & value)
+{
+	maksymalnyCzasOczekiwaniaPowtarzalnosc1Test = value;
+	settings.setValue("ParamentryBadania-Powtarzalnosc/maksymalnyCzasOczekiwania1Test", QVariant::fromValue(value));
+}
+
 double UstawieniaGen::getMinimalnaWartoscCzujkiCn() const
 {
 	return minimalnaWartoscCzujkiCn;
@@ -3075,4 +3105,26 @@ void UstawieniaGen::setTolerancjaNapieciaZasilaniaCmaxCmin(const double & value)
 {
 	tolerancjaNapieciaZasilaniaCmaxCmin = value;
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMinimalneNapieciaTolerancjaNapiecia() const
+{
+	return minimalneNapieciaTolerancjaNapiecia;
+}
+
+void UstawieniaGen::setMinimalneNapieciaTolerancjaNapiecia(const double & value)
+{
+	minimalneNapieciaTolerancjaNapiecia = value;
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMaksymalneNapieciaTolerancjaNapiecia() const
+{
+	return maksymalneNapieciaTolerancjaNapiecia;
+}
+
+void UstawieniaGen::setMaksymalneNapieciaTolerancjaNapiecia(const double & value)
+{
+	maksymalneNapieciaTolerancjaNapiecia = value;
+	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(value));
 }

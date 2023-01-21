@@ -8,11 +8,12 @@
 
 #define SETREADONLY(w) w->setReadOnly(true);
 
-OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie, QWidget *parent) :
+OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoParametryTestu),
     test(test_),
-    nrPomiar(nrPomiar_)
+    nrPomiar(nrPomiar_),
+    badanie(badanie_)
 {
     ui->setupUi(this);
     ui->testName->setText(test->getName());
@@ -94,6 +95,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_powtarzalnosc->setVisible(true);
             ui->frame_niewspolosiowosc->setVisible(false);
             ui->frame_dlugoscDrogiOptycznej->setVisible(false);
+            ui->frame_Napiecie->setVisible(false);
             nrCzujkiDoWybrania = 2;
             break;
         break;
@@ -105,6 +107,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_powtarzalnosc->setVisible(false);
             ui->frame_niewspolosiowosc->setVisible(true);
             ui->frame_dlugoscDrogiOptycznej->setVisible(false);
+            ui->frame_Napiecie->setVisible(false);
             ui->pionNadajnik->setText(badanie.getMaksKatowaNieWspolPionowaNadajnika());
             ui->poziomNadajnik->setText(badanie.getMaksKatowaNieWspolPoziomaNadajnika());
             ui->pionOdbiornik->setText(badanie.getMaksKatowaNieWspolPionowaOdbiornika());
@@ -131,6 +134,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_powtarzalnosc->setVisible(false);
             ui->frame_niewspolosiowosc->setVisible(false);
             ui->frame_dlugoscDrogiOptycznej->setVisible(true);
+            ui->frame_Napiecie->setVisible(false);
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
@@ -148,7 +152,11 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             nrCzujkiDoWybrania = 6;
             break;
         case TOLERANCE_TO_SUPPLY_VOLTAGE:
-            ui->frameSpec->setVisible(false);
+            ui->frameSpec->setVisible(true);
+            ui->frame_powtarzalnosc->setVisible(false);
+            ui->frame_niewspolosiowosc->setVisible(false);
+            ui->frame_dlugoscDrogiOptycznej->setVisible(true);
+            ui->frame_Napiecie->setVisible(true);
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
 
             ui->cbCzujka->setCurrentIndex(0);
@@ -170,6 +178,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     connect(ui->temperatura, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, [this](int) { this->check(); });
     connect(ui->powtarzalnosc_czas, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
+    connect(ui->minVolt, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
+    connect(ui->maxVolt, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     check();
 
 
@@ -221,7 +231,6 @@ void OknoParametryTestu::check1Pomiar()
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera wartość niezgodną z normą"), false);
         }
     }
-
 }
 
 void OknoParametryTestu::check()
@@ -240,12 +249,41 @@ void OknoParametryTestu::check()
                 unsigned int secs = ssecs.toInt(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
-                } else if (secs < 900 || secs > 3600) {
+                } else if (secs < badanie.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() ||
+                           secs > badanie.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test()) {
                     addError(QString::fromUtf8("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]"), false);
                 }
             }
+        } else if (ui->frame_Napiecie->isVisible()) {
+            QString sminvolt = ui->minVolt->text();
+            if (sminvolt.isEmpty()) {
+                addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+            } else {
+                bool ok;
+                unsigned int mvolt = sminvolt.toDouble(&ok);
+                if (!ok) {
+                    addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                } else if (mvolt < badanie.getMinimalneNapieciaTolerancjaNapiecia() ||
+                           mvolt > badanie.getMaksymalneNapieciaTolerancjaNapiecia()) {
+                    addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
+                }
+            }
+
+            QString smaxvolt = ui->maxVolt->text();
+            if (smaxvolt.isEmpty()) {
+                addError(QString::fromUtf8("Pole 'Maksymalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+            } else {
+                bool ok;
+                unsigned int mvolt = smaxvolt.toDouble(&ok);
+                if (!ok) {
+                    addError(QString::fromUtf8("Pole 'Miaksymalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                } else if (mvolt < badanie.getMinimalneNapieciaTolerancjaNapiecia() ||
+                           mvolt > badanie.getMaksymalneNapieciaTolerancjaNapiecia()) {
+                    addError(QString::fromUtf8("Pole 'Maksymalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
+                }
+            }
         }
-    }
+    } //1 pomiar
     else {
 //Todo sprawdzenie czujki
         if (test->sprawdzCzyBadanaCzujka(ui->typTransmitter->text(), ui->typReceiver->text())) {
@@ -294,6 +332,10 @@ void OknoParametryTestu::pbOK_clicked()
     else if (test->getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         test->setMinimalneRozstawienie(ui->rozstawienieMinimalne->text());
         test->setMaksymalneRozstawienie(ui->rozstawienieMaksymalne->text());
+    }
+    else if (test->getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+        test->setMinimalneNapiecie(ui->minVolt->text());
+        test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
 
     accept();
