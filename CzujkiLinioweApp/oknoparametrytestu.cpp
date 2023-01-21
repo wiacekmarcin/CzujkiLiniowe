@@ -135,7 +135,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
             ui->rozstawienieMinimalne->setText(badanie.getRozstawienieMinCzujki());
-            ui->rozstawienieMinimalne->setText(badanie.getRozstawienieMaxCzujki());
+            ui->rozstawienieMaksymalne->setText(badanie.getRozstawienieMaxCzujki());
             nrCzujkiDoWybrania = 1;
             break;
         default:
@@ -276,7 +276,7 @@ void OknoParametryTestu::pbOK_clicked()
     }
     else if (test->getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         test->setMinimalneRozstawienie(ui->rozstawienieMinimalne->text());
-        test->setMinimalneRozstawienie(ui->rozstawienieMaksymalne->text());
+        test->setMaksymalneRozstawienie(ui->rozstawienieMaksymalne->text());
     }
 
     accept();

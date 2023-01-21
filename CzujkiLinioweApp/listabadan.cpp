@@ -24,20 +24,21 @@ ListaBadan::ListaBadan(QWidget *parent) :
     testyWidget[OPTICAL_PATH_LENGTH_DEPEDENCE] = testWidget{ui->pbZaleznoscDlugisciDrogiOptycznej, ui->zaleznoscDlugisciDrogiOptycznejWyniki,
                                                 ui->pbZaleznoscDlugisciDrogiOptycznej};
 
-    ui->odtwarzalnoscWyniki->setVisible(false);
-    ui->pbOdtwarzalnosc->setVisible(true);
-    ui->powtarzalnoscWyniki->setVisible(false);
-    ui->pbPowtarzalnosc->setVisible(true);
-    ui->stackedWidget->setCurrentWidget(ui->odtwarzalnoscWidget);
+    ui->stackedWidget->setCurrentWidget(ui->pOdtwarzalnosc);
 
-    for (auto val : testyWidget)
+    for (const auto & tid : testyWidget.keys())
     {
-        val.button->setVisible(true);
-        val.wyniki->setVisible(false);
+        const auto & wid = testyWidget[tid];
+        wid.button->setVisible(true);
+        wid.wyniki->setVisible(false);
+        connect(wid.button, &QPushButton::clicked, this, [this, tid]() { this->startBadanieRequest(tid);});
+        wid.button->setEnabled(false);
     }
+}
 
-
-
+void ListaBadan::startBadanieRequest(int testId)
+{
+    emit startBadanieReq(testId);
 }
 
 ListaBadan::~ListaBadan()
@@ -240,17 +241,20 @@ void ListaBadan::zas_value(int kind, int value)
 void ListaBadan::setBadanie(const ParametryBadania &badanie)
 {
     ui->tableWidget->clear();
-    for (auto val : testyWidget)
+    for (const auto & tid : testyWidget.keys())
     {
-        val.button->setVisible(true);
-        val.wyniki->setVisible(false);
+        const auto & wid = testyWidget[tid];
+        wid.button->setEnabled(tid == REPRODUCIBILITY || badanie.getTestOdtwarzalnosci());
+        wid.button->setVisible(true);
+        wid.wyniki->setVisible(false);
     }
+
     initialTable(badanie);
     const auto & keys = badanie.getTesty().keys();
     for (const auto & k : keys) {
         setUkonczoneBadanie(k, badanie);
     }
-    ui->stackedWidget->setCurrentWidget(testyWidget[0].page);
+    ui->stackedWidget->setCurrentWidget(testyWidget[REPRODUCIBILITY].page);
 }
 
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
@@ -258,6 +262,11 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
     (void)column;
 
     ui->stackedWidget->setCurrentWidget(testyWidget[ui->tableWidget->item(row, 0)->text().toInt()].page);
+}
+
+const QMap<int, testWidget> &ListaBadan::getTestyWidget() const
+{
+    return testyWidget;
 }
 
 
@@ -383,6 +392,48 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
+    } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
+        QTableWidget * tableCzujka = ui->zaleznoscDlugisciDrogiOptycznejtableCzujka;
+        int col = 0;
+        //ADDHEADITEM(tableCzujka, "Nr czujki", col++, 50);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerTransmitter(), col++, 200);
+        ADDHEADITEM(tableCzujka, badanie.getNazwaNumerReceiver(), col++, 200);
+        col = 0;
+        //ADDITEM(tableCzujka, daneTestu.getNumerCzujki(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerTransmitter(), 0, col++);
+        ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
+
+        QTableWidget * tableParams = ui->zaleznoscDlugisciDrogiOptycznejTableParams;
+        ADDVHEADITEM(tableParams, "Cmin", 0);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        ADDITEM(tableParams, "0 %" , 0, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax", 1);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        ADDITEM(tableParams, "0 %" , 1, 1);
+
+        ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
+        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
+
+        if (daneTestu.getCmaxCmin() > badanie.getDrogaoptycznaCmaxCmin()) {
+            tableParams->item(2, 0)->setBackground(Qt::red);
+        }
+
+        short num = 0;
+
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            addZaleznoscDrogiOptycznejRekord(num,
+                (num == 0 ? : daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()),
+                dane.value_dB, dane.ok, dane.error);
+            num++;
+        }
+
+        if (daneTestu.getOk()) {
+            ui->powtarzalnoscResult->setText("POZYTYWNY");
+        } else {
+            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+        }
     }
 }
 
@@ -493,8 +544,9 @@ void ListaBadan::initPowtarzalnoscTable()
     tablePrzebieg->setHorizontalHeaderItem(2, itemUwagi);
     tablePrzebieg->setColumnWidth(2, 130);
 
-    tablePrzebieg->setMaximumWidth(245);
-    tablePrzebieg->setMinimumWidth(245);
+    //tablePrzebieg->setMaximumWidth(245);
+    //tablePrzebieg->setMinimumWidth(245);
+    tablePrzebieg->adjustSize();
 }
 
 void ListaBadan::addPowtarzalnoscRekord(short num, const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
@@ -541,8 +593,9 @@ void ListaBadan::initSzybkieZmianyTlumieniaTable()
     tablePrzebieg->setHorizontalHeaderItem(2, itemUwagi);
     tablePrzebieg->setColumnWidth(2, 130);
 
-    tablePrzebieg->setMaximumWidth(245);
-    tablePrzebieg->setMinimumWidth(245);
+    //tablePrzebieg->setMaximumWidth(245);
+    //tablePrzebieg->setMinimumWidth(245);
+    tablePrzebieg->adjustSize();
 }
 
 void ListaBadan::addSzybkieZmianyTlumieniaRekord(short num, const QString &value_dB, bool ok, const QString &error)
@@ -554,6 +607,65 @@ void ListaBadan::addSzybkieZmianyTlumieniaRekord(short num, const QString &value
     tablePrzebieg->setVerticalHeaderItem(row, itemVert);
 
     int col = 0;
+    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
+    tablePrzebieg->setItem(row, col++, item0);
+
+    QTableWidgetItem *item1 = new QTableWidgetItem(ok ? "POZYTYWNY" : "NEGATYWNY");
+    tablePrzebieg->setItem(row, col++, item1);
+
+    QTableWidgetItem *item2 = new QTableWidgetItem(error);
+    tablePrzebieg->setItem(row, col++, item2);
+
+    if (!ok) {
+        for (short e=0; e<col; ++e) {
+            tablePrzebieg->item(row, e)->setBackground(Qt::red);
+        }
+    }
+}
+
+void ListaBadan::initZaleznoscDrogiOptycznejTable()
+{
+    QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg;
+    tablePrzebieg->clear();
+    if (tablePrzebieg->columnCount() < 5)
+        tablePrzebieg->setColumnCount(5);
+
+    QTableWidgetItem *rozs = new QTableWidgetItem(QString::fromUtf8("Rozstawienie [m]"));
+    tablePrzebieg->setHorizontalHeaderItem(0, rozs);
+    tablePrzebieg->setColumnWidth(0, 150);
+
+    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("Cn [dB]"));
+    tablePrzebieg->setHorizontalHeaderItem(1, cn2);
+    tablePrzebieg->setColumnWidth(1, 50);
+
+    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("Cn [%]"));
+    tablePrzebieg->setHorizontalHeaderItem(2, cn2);
+    tablePrzebieg->setColumnWidth(2, 50);
+
+    QTableWidgetItem *itemWynik = new QTableWidgetItem("Wynik");
+    tablePrzebieg->setHorizontalHeaderItem(3, itemWynik);
+    tablePrzebieg->setColumnWidth(3, 130);
+
+    QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
+    tablePrzebieg->setHorizontalHeaderItem(4, itemUwagi);
+    tablePrzebieg->setColumnWidth(4, 130);
+
+    //tablePrzebieg->setMaximumWidth(245);
+    //tablePrzebieg->setMinimumWidth(245);
+    tablePrzebieg->adjustSize();
+}
+
+void ListaBadan::addZaleznoscDrogiOptycznejRekord(short num, const QString &rozstawienie, const QString &value_dB, bool ok, const QString &error)
+{
+    QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(num+1));
+    //ui->tablePrzebieg
+    tablePrzebieg->setVerticalHeaderItem(row, itemVert);
+
+    int col = 0;
+    QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
+    tablePrzebieg->setItem(row, col++, item0);
+
     QTableWidgetItem *item0 = new QTableWidgetItem(value_dB);
     tablePrzebieg->setItem(row, col++, item0);
 

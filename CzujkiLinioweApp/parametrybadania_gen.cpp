@@ -72,7 +72,12 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> odtwarzalnoscCmaxCrep
 		 >> odtwarzalnoscCrepCmin
 		 >> odtwarzalnoscCmin
-		 >> powtarzalnoscCmaxCmin ;
+		 >> powtarzalnoscCmaxCmin
+		 >> drogaoptycznaCmaxCmin
+		 >> szybkieZmianyWartoscTlumnikaA
+		 >> szybkieZmianyWartoscTlumnikaB
+		 >> wartoscTlumienieDlaKataNieWspolosiowosci
+		 >> niewspolosiowoscMinimalnyKatProducentMierzony ;
 }
 
 void ParametryBadaniaGen::save(QDataStream &out) const
@@ -114,7 +119,12 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << odtwarzalnoscCmaxCrep
 		 << odtwarzalnoscCrepCmin
 		 << odtwarzalnoscCmin
-		 << powtarzalnoscCmaxCmin ;
+		 << powtarzalnoscCmaxCmin
+		 << drogaoptycznaCmaxCmin
+		 << szybkieZmianyWartoscTlumnikaA
+		 << szybkieZmianyWartoscTlumnikaB
+		 << wartoscTlumienieDlaKataNieWspolosiowosci
+		 << niewspolosiowoscMinimalnyKatProducentMierzony ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
 {
@@ -531,5 +541,60 @@ float ParametryBadaniaGen::getPowtarzalnoscCmaxCmin() const
 void ParametryBadaniaGen::setPowtarzalnoscCmaxCmin(const float & value)
 {
 	powtarzalnoscCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getDrogaoptycznaCmaxCmin() const
+{
+	return drogaoptycznaCmaxCmin;
+}
+
+void ParametryBadaniaGen::setDrogaoptycznaCmaxCmin(const float & value)
+{
+	drogaoptycznaCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getSzybkieZmianyWartoscTlumnikaA() const
+{
+	return szybkieZmianyWartoscTlumnikaA;
+}
+
+void ParametryBadaniaGen::setSzybkieZmianyWartoscTlumnikaA(const float & value)
+{
+	szybkieZmianyWartoscTlumnikaA = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getSzybkieZmianyWartoscTlumnikaB() const
+{
+	return szybkieZmianyWartoscTlumnikaB;
+}
+
+void ParametryBadaniaGen::setSzybkieZmianyWartoscTlumnikaB(const float & value)
+{
+	szybkieZmianyWartoscTlumnikaB = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getWartoscTlumienieDlaKataNieWspolosiowosci() const
+{
+	return wartoscTlumienieDlaKataNieWspolosiowosci;
+}
+
+void ParametryBadaniaGen::setWartoscTlumienieDlaKataNieWspolosiowosci(const float & value)
+{
+	wartoscTlumienieDlaKataNieWspolosiowosci = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getNiewspolosiowoscMinimalnyKatProducentMierzony() const
+{
+	return niewspolosiowoscMinimalnyKatProducentMierzony;
+}
+
+void ParametryBadaniaGen::setNiewspolosiowoscMinimalnyKatProducentMierzony(const float & value)
+{
+	niewspolosiowoscMinimalnyKatProducentMierzony = value;
 	change = true;
 }

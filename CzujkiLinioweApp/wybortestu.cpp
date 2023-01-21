@@ -5,37 +5,38 @@
 #include <QCheckBox>
 #include <QButtonGroup>
 
-WyborTestu::WyborTestu(const ListaTestow & testy, bool powtarzalnosc, QWidget *parent) :
+WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::WyborTestu)
     ,wyborTestu(-1)
 {
     ui->setupUi(this);
-
-    for (int s = 0; s < testy.nazwyTestow.size(); s++) {
+    int num = 0;
+    for( const auto & t : testy.keys()) {
+        const DaneTestu & test = testy[t];
         QRadioButton* radioButton = new QRadioButton(ui->groupBox);
-        radioButton->setObjectName(QString("radioButton%1").arg(s));
-        radioButton->setText(QString(testy.nazwyTestow[s]));
+        radioButton->setObjectName(QString("radioButton%1").arg(t));
+        radioButton->setText(QString(test.getName()));
         radioButton->setAutoExclusive(true);
-        radio.append(qMakePair(s, radioButton));
-        //radioButton->setEnabled(s == 0 ? !powtarzalnosc : powtarzalnosc);
-        ui->gridLayout->addWidget(radioButton, s, 0, 1, 1);
-        //if (s == 0 && !powtarzalnosc) {
-        //    radioButton->setChecked(true);
-        //}
+        radio.append(qMakePair(t, radioButton));
+        radioButton->setEnabled(t == REPRODUCIBILITY ? !powtarzalnosc : powtarzalnosc);
+        ui->gridLayout->addWidget(radioButton, num, 0, 1, 1);
+        if (t == REPRODUCIBILITY && !powtarzalnosc) {
+            radioButton->setChecked(true);
+        }
 
         QCheckBox * checkbox = new QCheckBox(ui->groupBox);
-        checkbox->setObjectName(QString("checkbox%1").arg(s));
+        checkbox->setObjectName(QString("checkbox%1").arg(t));
         checkbox->setText("Wykonany");
-        checkbox->setCheckable(false);
-        checkbox->setEnabled(s == 0 ? !powtarzalnosc : powtarzalnosc);
-        if (testy.wykonane.contains(s)) {
+        checkbox->setEnabled(t == REPRODUCIBILITY ? !powtarzalnosc : powtarzalnosc);
+        if (test.getWykonany()) {
             checkbox->setChecked(true);
             radioButton->setCheckable(false);
         }
-        ui->gridLayout->addWidget(checkbox, s, 1, 1, 1);
+        checkbox->setCheckable(false);
+        ui->gridLayout->addWidget(checkbox, num, 1, 1, 1);
+        num += 1;
     }
-
 
     connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->reject(); });
     connect(ui->pbNext, &QPushButton::clicked, this, [this]() { this->accept(); });

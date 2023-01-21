@@ -98,6 +98,16 @@ public:
 	void setOdtwarzalnoscCmin(const float & odtwarzalnoscCmin);
 	float getPowtarzalnoscCmaxCmin() const;
 	void setPowtarzalnoscCmaxCmin(const float & powtarzalnoscCmaxCmin);
+	float getDrogaoptycznaCmaxCmin() const;
+	void setDrogaoptycznaCmaxCmin(const float & drogaoptycznaCmaxCmin);
+	float getSzybkieZmianyWartoscTlumnikaA() const;
+	void setSzybkieZmianyWartoscTlumnikaA(const float & szybkieZmianyWartoscTlumnikaA);
+	float getSzybkieZmianyWartoscTlumnikaB() const;
+	void setSzybkieZmianyWartoscTlumnikaB(const float & szybkieZmianyWartoscTlumnikaB);
+	float getWartoscTlumienieDlaKataNieWspolosiowosci() const;
+	void setWartoscTlumienieDlaKataNieWspolosiowosci(const float & wartoscTlumienieDlaKataNieWspolosiowosci);
+	float getNiewspolosiowoscMinimalnyKatProducentMierzony() const;
+	void setNiewspolosiowoscMinimalnyKatProducentMierzony(const float & niewspolosiowoscMinimalnyKatProducentMierzony);
 protected:
 
 private:
@@ -140,5 +150,10 @@ private:
 	float odtwarzalnoscCrepCmin;
 	float odtwarzalnoscCmin;
 	float powtarzalnoscCmaxCmin;
+	float drogaoptycznaCmaxCmin;
+	float szybkieZmianyWartoscTlumnikaA;
+	float szybkieZmianyWartoscTlumnikaB;
+	float wartoscTlumienieDlaKataNieWspolosiowosci;
+	float niewspolosiowoscMinimalnyKatProducentMierzony;
 };
 #endif

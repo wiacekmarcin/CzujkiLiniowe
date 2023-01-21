@@ -15,6 +15,12 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     d->setOdtwarzalnoscCmaxCrep(u.getOdtwarzalnoscCmaxCrep());
     d->setOdtwarzalnoscCrepCmin(u.getOdtwarzalnoscCrepCmin());
     d->setOdtwarzalnoscCmin(u.getMinimalnaWartoscCzujkiCn());
+    d->setPowtarzalnoscCmaxCmin(u.getPowtarzalnoscCmaxCmin());
+    d->setDrogaoptycznaCmaxCmin(u.getDlugoscDrogiOptycznejCmaxCmin());
+    d->setSzybkieZmianyWartoscTlumnikaA(u.getSzybkieZmianyWartoscTlumnikaA());
+    d->setSzybkieZmianyWartoscTlumnikaB(u.getSzybkieZmianyWartoscTlumnikaB());
+    d->setWartoscTlumienieDlaKataNieWspolosiowosci(u.getWartoscTlumienieDlaKataNieWspolosiowosci());
+    d->setNiewspolosiowoscMinimalnyKatProducentMierzony(u.getNiewspolosiowoscMinimalnyKatProducentMierzony());
 
 
     connect(&checkValidTmr, &QTimer::timeout, this, &ParametryBadaniaDlg::checkValid);

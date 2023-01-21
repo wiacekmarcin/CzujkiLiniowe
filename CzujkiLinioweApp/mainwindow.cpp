@@ -95,6 +95,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     CONN_PB_ALL
 
+    connect(ui->centralwidget, &ListaBadan::startBadanieReq, this, [this](int tid) { this->ui->centralwidget->startBadanie(tid, b, u, zas, sd); });
+
     //connect(ui->pbDisconnect, &QPushButton::clicked, this, &MainWindow::pbDisconnect_clicked);
 
     //QIcon icon5(QString::fromUtf8(":/zasilacz/zasilacz_on"));
@@ -384,8 +386,9 @@ void MainWindow::actionNoweBadanie_triggered()
 
 void MainWindow::actionStartTestu_triggered()
 {
-    WyborTestu *dlg1 = new WyborTestu(lt, b.getTestOdtwarzalnosci(), this);
+    WyborTestu *dlg1 = new WyborTestu(b.getTesty(), b.getTestOdtwarzalnosci(), this);
     if(!dlg1->exec()) {
+        delete dlg1;
         return;
     }
     short idTest = dlg1->getWyborTestu();

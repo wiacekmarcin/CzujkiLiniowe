@@ -15,7 +15,7 @@ class WyborTestu : public QDialog
     Q_OBJECT
 
 public:
-    explicit WyborTestu(const ListaTestow & testy, bool powtarzalnosc, QWidget *parent = nullptr);
+    explicit WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, QWidget *parent = nullptr);
     ~WyborTestu();
 
     short getWyborTestu() const;

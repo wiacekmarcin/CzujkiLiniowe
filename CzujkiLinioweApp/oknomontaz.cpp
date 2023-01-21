@@ -23,8 +23,8 @@ OknoMontaz::OknoMontaz(short opticalLen, const DaneTestu &daneTestu, QWidget *pa
 
     if (opticalLen > 0) {
         ui->frame_dlugoscDrogiOptycznej->setVisible(true);
-        ui->emaksymalnerozstawienie->setVisible(opticalLen == 1);
-        ui->eminimalnerozstawienie->setVisible(opticalLen == 2);
+        ui->eminimalnerozstawienie->setVisible(opticalLen == 1);
+        ui->emaksymalnerozstawienie->setVisible(opticalLen == 2);
         ui->minimalnerozstawienie->setVisible(opticalLen == 1);
         ui->maksymalnerozstawienie->setVisible(opticalLen == 2);
         ui->minimalnerozstawienie->setText(QString("%1 m").arg(daneTestu.getMinimalneRozstawienie()));

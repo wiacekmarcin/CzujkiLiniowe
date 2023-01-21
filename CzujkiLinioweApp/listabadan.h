@@ -45,6 +45,8 @@ public:
 
     void setDaneTest(const DaneTestu &daneTestu, const ParametryBadania &badanie);
     void setUkonczoneBadanie(short id, const ParametryBadania &badanie);
+    const QMap<int, testWidget> &getTestyWidget() const;
+
 protected:
     void initialTable(const ParametryBadania &badanie);
     void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
@@ -58,8 +60,15 @@ protected:
     void initSzybkieZmianyTlumieniaTable();
     void addSzybkieZmianyTlumieniaRekord(short num, const QString & value_dB, bool ok, const QString & error);
 
+    void initZaleznoscDrogiOptycznejTable();
+    void addZaleznoscDrogiOptycznejRekord(short num, const QString & rozstawienie, const QString & value_dB, bool ok, const QString & error);
+
+    void startBadanieRequest(int testId);
 private slots:
     void on_tableWidget_cellClicked(int row, int column);
+
+signals:
+    void startBadanieReq(int tid);
 
 private:
     Ui::ListaBadan *ui;

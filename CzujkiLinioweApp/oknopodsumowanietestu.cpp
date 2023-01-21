@@ -120,6 +120,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'g', 1));
         ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'g', 1));
         ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'g', 2));
+
+        if (daneTestu.getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin())
+            ui->dlugoscdrogioptycznejCmaxCmin->setStyleSheet("background-color:red");
+
         short num = 0;
         dlugoscdrogioptycznejHeadTable(ui->frSzybkieZmianyPrzebieg, ui->dlugoscDrogiOptycznejGridLayout,"dlugoscdrogioptycznej");
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
