@@ -192,7 +192,11 @@ u.addValue("float", "odtwarzalnoscCmaxCrep")
 u.addValue("float", "odtwarzalnoscCrepCmin")
 u.addValue("float", "odtwarzalnoscCmin")
 u.addValue("float", "powtarzalnoscCmaxCmin")
-
+u.addValue("float", "drogaoptycznaCmaxCmin")
+u.addValue("float", "szybkieZmianyWartoscTlumnikaA")
+u.addValue("float", "szybkieZmianyWartoscTlumnikaB")
+u.addValue("float", "wartoscTlumienieDlaKataNieWspolosiowosci")
+u.addValue("float", "niewspolosiowoscMinimalnyKatProducentMierzony")
 
 u.createHeader()
 u.createSource()
