@@ -111,7 +111,7 @@ public:
     void setDirBase(bool back);
 
     inline void startImpulse() { if (!timerActive && move && delayStart) { timerActive = true; Timer1.start(); } }
-
+    void setReverseHome(bool rev) { reverseHome = rev; };
 protected:
 
     void setMove(bool move);
@@ -142,5 +142,6 @@ protected:
     bool slowMove;                 //czy wolny ruch dla filtrow - jezeli tak bedzie progress
     bool delayStart;
     volatile bool timerActive;    //czy start po wiadomosci (request i reply trwaja kilka ms na ISR)
+    bool reverseHome;
 };
 #endif // __SILNIK_H__

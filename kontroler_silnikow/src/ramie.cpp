@@ -15,18 +15,18 @@ void Motor::moveHomeRamieGoraDol(uint32_t delayImpOrg)
     error = false;
     interrupted = false;
     mstate = HOMEPOS;
-    setDirBase(true);
+    setDirBase(reverseHome ? false : true);
 
     uint32_t steps = 0;
     
     if (isKrancowka()) {
-        setDirBase(false);
+        setDirBase(reverseHome ? true : false);
         for (unsigned short n = 0; n < middleSteps; n++) {
             PULSE_H
             if (mstate == IDLE) //bylo przerwanie
                 return;
         }
-        setDirBase(true);
+        setDirBase(reverseHome ? false : true);
     }
     while(!isKrancowka()) {
         PULSE_H
@@ -46,7 +46,7 @@ void Motor::moveHomeRamieGoraDol(uint32_t delayImpOrg)
     }
 
     globalPos = 0;
-    setDirBase(false);
+    setDirBase(reverseHome ? true : false);
     for (globalPos = 0; globalPos < (int)middleSteps; globalPos++) {
         PULSE_H
         if (mstate == IDLE) //bylo przerwanie

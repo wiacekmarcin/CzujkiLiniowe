@@ -705,6 +705,12 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
 short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle,
                                    const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
+    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), "", parent);
+    bool stabOk = dlg6->exec() == QDialog::Accepted;
+    delete dlg6;
+    dlg6 = nullptr;
+    if (!stabOk)
+        return 2;
 
     dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
                                 dane.getKatyProducenta().nadajnik.poziomo,
@@ -749,6 +755,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     delete dlg12;
     dlg12 = nullptr;
 
+
     //reset czujki
     qDebug() << __FILE__ << __LINE__ << "Reset czujki";
     short ret2 = resetCzujki(dane.getName(), ptitle, ust.getCzasWylaczeniaCzujkiDlaResetu(),
@@ -766,7 +773,10 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     qDebug() << __FILE__ << __LINE__ << "Dojazd do maksa " << ust.getMaksKatNieWspolOsiowosci();
 
     //maks kat
-    dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, ust.getMaksKatNieWspolOsiowosci(), ust, ster, parent);
+    double maxkat = ust.getMaksKatNieWspolOsiowosci();
+    if (pomiar.katProducenta < 0)
+        maxkat *= -1;
+    dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, maxkat, ust, ster, parent);
     if (!dlg14->exec()) {
         qDebug() << __FILE__ << __LINE__ << "NOT OK";
         pomiar.errorDetail = dlg14->getError();
@@ -782,7 +792,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     dlg14 = nullptr;
 
     //zerowanie
-    if(!zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
+    if(!zerowanieSterownika(true, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
         pomiar.errorStr = QString::fromUtf8("Błąd stanowiska");
         pomiar.errorDetail = QString::fromUtf8("Błąd zerowania czujki");
         pomiar.ok = false;

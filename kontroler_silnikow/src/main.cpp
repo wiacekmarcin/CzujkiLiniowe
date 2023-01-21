@@ -133,6 +133,7 @@ void setup()
 	
 	mode.init(address - baseAddr);
 	mot.init(mode.getMode());
+	mot.setReverseHome(address - baseAddr == 9);
 
 	if (mode.isDebugMode()) {
 		Serial.println("DEBUG MODE");

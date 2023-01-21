@@ -23,6 +23,7 @@ Motor::Motor() :
     ,maxCntSkip(0)
 	,slowMove(true) // domyslnie
 	,delayStart(false)
+	,reverseHome(false)
 {
 	setStopPtr = &Motor::setStopDef;
     moveHomePtr = &Motor::moveHomeDef;
