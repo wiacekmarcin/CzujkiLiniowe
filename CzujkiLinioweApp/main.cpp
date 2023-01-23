@@ -5,7 +5,7 @@
 #include <QTranslator>
 #include <QObject>
 #include <QSerialPort>
-
+#include "symulator.h"
 
 
 int main(int argc, char *argv[])
@@ -24,10 +24,15 @@ int main(int argc, char *argv[])
 
     Ustawienia u;
     u.save();
+
+
     a.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");
-    MainWindow w;
+    MainWindow w(nullptr);
     w.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");
+    w.activateWindow();
     w.show();
+    w.setWindowModality(Qt::WindowModal);
+
     return a.exec();
 }
 

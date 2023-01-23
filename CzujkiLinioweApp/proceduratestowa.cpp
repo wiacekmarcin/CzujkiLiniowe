@@ -76,13 +76,14 @@ void ProceduraTestowa::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
         dlg10->ster_setPositionDone(silnik, ruch);
 }
 
-void ProceduraTestowa::zas_value(int kind, int value)
+void ProceduraTestowa::zas_value(int , int )
 {
 
 }
 
 void ProceduraTestowa::ster_setValue(short silnik, const double & val)
 {
+    qDebug() << silnik << val;
     if (dlg10)
         dlg10->ster_setValue(silnik, val);
 
@@ -90,7 +91,7 @@ void ProceduraTestowa::ster_setValue(short silnik, const double & val)
         dlg14->ster_setValue(silnik, val);
 }
 
-void ProceduraTestowa::czujkaOn()
+void ProceduraTestowa::czujkaOn(bool hardware)
 {
     if (dlg6)
         dlg6->czujkaOn();
@@ -104,6 +105,8 @@ void ProceduraTestowa::czujkaOn()
         dlg12->czujkaOn();
     else if (dlg14)
         dlg14->czujkaOn();
+    if (!hardware)
+        ster->setStopMotorAll();
 }
 
 bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
@@ -716,12 +719,20 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
                                 QString::number(pomiar.katProducenta),
                                 ust, ster, parent);
-    bool ret = dlg10->exec();
+    // This loop will wait for the window is destroyed
+    dlg10->exec();
+
+
+    bool ret = dlg10->exec() == QDialog::Accepted;
+
     if (!ret) {
         qDebug() << __FILE__ << __LINE__ << "ERROR czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
         pomiar.errorStr = "Kąt wyzw.<Kąt prod.";
         pomiar.errorDetail = dlg10->getError();
         pomiar.ok = false;
+        pomiar.katZmierzony = dlg10->getDegrees();
+        delete dlg10;
+        dlg10 = nullptr;
         return 1;
     }
     delete dlg10;
@@ -778,7 +789,8 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     if (pomiar.katProducenta < 0)
         maxkat *= -1;
     qDebug() << "Max kat " << maxkat;
-    dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, maxkat, ust, ster, parent);
+    dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, pomiar.katProducenta,
+                                            maxkat, ust, ster, parent);
     if (!dlg14->exec()) {
         qDebug() << __FILE__ << __LINE__ << "NOT OK";
         pomiar.errorDetail = dlg14->getError();

@@ -8,6 +8,7 @@
 #include "proceduratestowa.h"
 #include "ustawienia.h"
 #include "sterownik.h"
+#include <QDateTime>
 
 class Zasilacz;
 class Sterownik;
@@ -92,6 +93,7 @@ private:
     bool badanieWTrakcie;
     unsigned intCurrAlarm;
     QMap<int, testWidget> testyWidget;
+    QDateTime prevCzujkaOn;
 };
 
 #endif // LISTABADAN_H

@@ -21,7 +21,7 @@
 #include "oknopodsumowanietestu.h"
 #include "danetestu.h"
 #include "parametrybadania.h"
-
+#include "symulator.h"
 
 #define CONN_PB(F) connect(ui->action##F, &QAction::triggered, this, &MainWindow::action##F##_triggered)
 #define CONN_PB_ALL CONN_PB(Parametry_Badania); \
@@ -43,7 +43,7 @@
 
 
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(Symulator * s, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , sd(nullptr)
@@ -92,6 +92,12 @@ MainWindow::MainWindow(QWidget *parent)
     connect(sd, &Sterownik::zerowanieFiltrowDone, this, &MainWindow::flt_zerowanieFiltrowDone);
     connect(sd, &Sterownik::setUkladFiltrowDone, this, &MainWindow::flt_setUkladFiltrowDone);
     connect(sd, &Sterownik::bladFiltrow, this, &MainWindow::flt_bladFiltrow);
+
+    if (s != nullptr) {
+        connect(s, &Symulator::ster_czujkaOn, this, &MainWindow::ster_czujkaOn);
+        connect(s, &Symulator::ster_setPositionDone, this, &MainWindow::ster_setPositionDone);
+        connect(s, &Symulator::ster_progressImp, this, &MainWindow::ster_progressImp);
+    }
 
     CONN_PB_ALL
 

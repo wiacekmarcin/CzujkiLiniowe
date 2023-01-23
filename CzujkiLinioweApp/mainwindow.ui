@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Czujniki Liniowe</string>
   </property>
+  <property name="documentMode">
+   <bool>true</bool>
+  </property>
   <widget class="ListaBadan" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3"/>
   </widget>
@@ -241,7 +244,8 @@
   </action>
   <action name="actionTest">
    <property name="icon">
-    <iconset theme="applications-system"/>
+    <iconset theme="applications-system">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Test</string>

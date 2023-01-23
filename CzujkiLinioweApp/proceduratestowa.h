@@ -34,7 +34,7 @@ public:
     void ster_setPositionDone(short silnik, RuchSilnikaType ruch);
     void ster_setValue(short silnik, const double & val);
     void zas_value(int kind, int value);
-    void czujkaOn();
+    void czujkaOn(bool hardware);
     DaneTestu &getDane();
 
 protected:

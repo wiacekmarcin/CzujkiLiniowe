@@ -9,6 +9,7 @@
 
 OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
                                  const QString & podtitle,
+                                 const double & startKat,
                                  const double & kat,
                                  const Ustawienia &ust,
                            Sterownik * ster_, QWidget *parent) :
@@ -17,9 +18,10 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     tmSterownika(this),
     ster(ster_),
     wynikBadania(false),
-    destPos(0),
+    destPos(kat),
     nrSilnika(nrSilnika_),
-    prevVal(0)
+    prevVal(startKat),
+    startPos(startKat)
 
 {
     ui->setupUi(this);
@@ -31,6 +33,8 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
         ui->nazwaPodTestu->setVisible(true);
     }
     ui->maxkat->setText(QString("<html><body>%1 &deg;</body></html>").arg(kat));
+    ui->kat->setText(QString("<html><body>%1 &deg;</body></html>").arg(startKat, 4, 'f', 2));
+    maxDelta = ust.getMaksRoznicaKatNieWspolOsiowosci();
 
     unsigned int speed = ust.predkoscRoboczaImp(nrSilnika);
     unsigned int impulsy = ust.wyliczPozycje(nrSilnika, kat);
@@ -59,18 +63,19 @@ OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()
 
 void OknoBadaniaMaksymalnegoKata::czujkaOn()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = true;
     //error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
+    ster->setStopMotor(nrSilnika);
     accept();
 }
 
 
 void OknoBadaniaMaksymalnegoKata::timeoutSterownika()
 {
-    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-             << "hardware timeout ";
+    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+    //         << "hardware timeout ";
     if (deviceisOk)
         return;
     error = QString::fromUtf8("Błąd sprzętowy");
@@ -85,10 +90,10 @@ const QString &OknoBadaniaMaksymalnegoKata::getError() const
 
 void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
 {
-    qDebug() << __FILE__ << __LINE__ <<"home" << r.home << "move" << r.move << "err" << r.err << "interrupt" << r.inter;
+    //qDebug() << __FILE__ << __LINE__ <<"home" << r.home << "move" << r.move << "err" << r.err << "interrupt" << r.inter;
+    deviceisOk = true;
     if (r.home || silnik != nrSilnika)
         return;
-    deviceisOk = true;
 
 
     if (r.err) {
@@ -97,6 +102,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
         tmSterownika.stop();
         reject();
     }
+    /*
     if (r.inter) {
         if (abs(destPos - prevVal) > 0.3) {
             error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
@@ -120,7 +126,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
             tmSterownika.stop();
             accept();
         }
-    }
+    }*/
 }
 
 void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
@@ -135,22 +141,29 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
     if (prevVal == val)
         return;
     prevVal = val;
+
+     if (val == destPos) {
+        error = QString::fromUtf8("Osiągnięto maksymalny kąt bez wyzwolenia czujki");
+        wynikBadania = false;
+        tmSterownika.stop();
+        reject();
+    }
+
+    if (abs(destPos - val) > maxDelta) {
+        error = QString::fromUtf8("Osiągnięto maksymalny różnicę kątową, gdzie czujka powinna zadziałać");
+        wynikBadania = false;
+        tmSterownika.stop();
+        reject();
+    }
+
     ui->kat->setText(QString("<html><body>%1 &deg;</body></html>").arg(val, 4, 'f', 2));
     int dt;
     if (speedMin)
-        dt = 60.0*(destPos-val)/speedMin;
+        dt = 60.0*(abs(destPos-val))/speedMin;
     else
         dt = 0;
     //qDebug() << __FILE__ << __LINE__ << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
-
-    if (abs(destPos - prevVal) > 0.5) {
-        error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
-        qDebug() << __FILE__ << __LINE__ << "Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)";
-        wynikBadania = false;
-        //tmSterownika.stop();
-        //reject();
-    }
 }
 
 bool OknoBadaniaMaksymalnegoKata::getWynikBadania() const

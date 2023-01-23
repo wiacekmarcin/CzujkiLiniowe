@@ -24,6 +24,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
 {
     qDebug() << __FILE__ << __LINE__ << "kat" << kat;
     ui->setupUi(this);
+    //this->setwi
     ui->testName->setText(name);
     if (podtitle.isEmpty()) {
         ui->nazwaPodTestu->setVisible(false);
@@ -45,27 +46,55 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     deviceisOk = false;
 
 #ifndef DEFVAL
-    ui->pbDalej->setVisible(true);
+    ui->frameDebug->setVisible(false);
 #else
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; accept(); });
+    moveTimer = new QTimer(this);
+    ui->frameDebug->setVisible(true);
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; this->prevVal = this->destPos; accept(); });
+    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() {this->czujkaOn(); });
+    connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
 #endif
 }
 
 OknoBadaniaKata::~OknoBadaniaKata()
 {
+#ifdef DEFVAL
+    moveTimer->stop();
+    delete moveTimer;
+#endif
     tmSterownika.stop();
     delete ui;
 }
 
 void OknoBadaniaKata::czujkaOn()
 {
-    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = false;
     error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
     reject();
 }
 
+#ifdef DEFVAL
+void OknoBadaniaKata::testValue()
+{
+    valBeg = 0.0;
+    valEnd = destPos;
+    valAct = valBeg;
+    valPer100ms = 0.3/60/5;
+    moveTimer->setInterval(200);
+    moveTimer->start();
+    this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, true, false, false});
+    connect(moveTimer, &QTimer::timeout, this, [this]() {this->valAct+=this->valPer100ms;
+                    this->ster_setValue(this->nrSilnika, this->valAct);
+                    if (abs(this->valAct) > abs(this->destPos)) {
+                        this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, false, false});
+                        moveTimer->stop();
+                    }
+                    });
+
+}
+#endif
 
 void OknoBadaniaKata::timeoutSterownika()
 {
@@ -76,6 +105,16 @@ void OknoBadaniaKata::timeoutSterownika()
     error = QString::fromUtf8("Błąd stanowiska");
     wynikBadania = false;
     reject();
+}
+
+bool OknoBadaniaKata::getWynikBadania() const
+{
+    return wynikBadania;
+}
+
+double OknoBadaniaKata::getDegrees() const
+{
+    return prevVal;
 }
 
 const QString &OknoBadaniaKata::getError() const
@@ -97,10 +136,13 @@ void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
         reject();
     }
     if (r.inter) {
+        wynikBadania = false;
         error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
         reject();
     }
     if (!r.move) {
+        prevVal = destPos;
+        wynikBadania = true;
         error = "";
         accept();
     }
@@ -117,10 +159,10 @@ void OknoBadaniaKata::ster_setValue(short silnik, const double &val)
     ui->kat->setText(QString("<html><body>%1 &deg;</body></html>").arg(val, 4, 'f', 2));
     int dt;
     if (speedMin)
-        dt = 60.0*(destPos-val)/speedMin;
+        dt = 60.0*(abs(destPos-val))/speedMin;
     else
         dt = 0;
-    //qDebug() << destPos << val << (destPos-val) << (60.0*(destPos-val)/speedMin);
+
     ui->szacowanyczas->setText(QString("%1 s").arg(dt));
 
 }

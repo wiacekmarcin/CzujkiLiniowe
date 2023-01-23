@@ -3,6 +3,7 @@
 #include "zasilacz.h"
 #include <QDate>
 #include <QTime>
+#include <QDateTime>
 
 ListaBadan::ListaBadan(QWidget *parent) :
     QWidget(parent),
@@ -40,6 +41,7 @@ ListaBadan::ListaBadan(QWidget *parent) :
         connect(wid.button, &QPushButton::clicked, this, [this, tid]() { this->startBadanieRequest(tid);});
         wid.button->setEnabled(false);
     }
+    prevCzujkaOn = QDateTime::currentDateTime();
 }
 
 void ListaBadan::startBadanieRequest(int testId)
@@ -226,7 +228,7 @@ void ListaBadan::ster_czujkaOn()
 {
 
     if (badanieWTrakcie && wyzwalaniePrzekaznikiem)
-        procedura.czujkaOn();
+        procedura.czujkaOn(true);
 }
 
 void ListaBadan::zas_value(int kind, int value)
@@ -238,8 +240,13 @@ void ListaBadan::zas_value(int kind, int value)
         procedura.zas_value(kind, value);
 
     if (wyzwalaniePradem && kind == Zasilacz::CURRENT_MEAS) {
-        if (value >= (int)intCurrAlarm)
-            procedura.czujkaOn();
+        if (value >= (int)intCurrAlarm) {
+            auto t = QDateTime::currentDateTime();
+            if (t.toMSecsSinceEpoch() - prevCzujkaOn.toMSecsSinceEpoch() > 100) {
+                prevCzujkaOn = t;
+                procedura.czujkaOn(false);
+            }
+        }
     }
 
 }

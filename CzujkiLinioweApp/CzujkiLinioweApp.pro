@@ -35,6 +35,7 @@ SOURCES += \
     oknobadaniatlumienia.cpp \
     oknowynikbadaniatlumienia.cpp \
     oknopodsumowanietestu.cpp \
+    symulator.cpp \
     teststanowiskadlg.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
@@ -81,6 +82,7 @@ HEADERS += \
     oknobadaniatlumienia.h \
     oknowynikbadaniatlumienia.h \
     oknopodsumowanietestu.h \
+    symulator.h \
     teststanowiskadlg.h \
     wybortestu.h \
     zasilacz.h \
@@ -125,6 +127,7 @@ FORMS += \
     oknobadaniatlumienia.ui \
     oknowynikbadaniatlumienia.ui \
     oknopodsumowanietestu.ui \
+    symulator.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \

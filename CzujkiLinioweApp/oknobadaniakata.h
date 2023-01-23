@@ -44,6 +44,10 @@ public:
     void ster_setValue(short silnik, const double & val);
 
 
+    bool getWynikBadania() const;
+
+    double getDegrees() const;
+
 protected slots:
     void timeoutSterownika();
 private:
@@ -60,7 +64,13 @@ private:
     bool deviceisOk;
     double prevVal;
     double speedMin;
-
+#ifdef DEFVAL
+    QTimer * moveTimer;
+    float valBeg;
+    float valEnd;
+    float valAct;
+    float valPer100ms;
+#endif
 };
 
 #endif // OKNOBADANIAKATA_H

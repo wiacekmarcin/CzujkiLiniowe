@@ -101,54 +101,46 @@ double Ustawienia::convertImp2Value(short silnik, unsigned long impPosu)
     return 0;
 }
 
-double Ustawienia::getFiltr_prc(unsigned short dlugoscfali, const char &nrTarczy, const short &nrPos) const
-{
-    if (dlugoscfali == 880)
-        return getFiltr_prc_880(nrTarczy, nrPos);
-    if (dlugoscfali == 655)
-        return getFiltr_prc_655(nrTarczy, nrPos);
-    return 0.0;
-}
-
 void Ustawienia::loadListUstawienFiltra()
 {
     short cntPos = settings.value("Tlumienia_655/IloscPozycji", QVariant::fromValue(0)).toInt();
     if (cntPos == 0) {
         listaUstawienFiltra655["0.0"] = UkladFiltrow{0,0,0};
-        listaUstawienFiltra655["0.1"] = UkladFiltrow{1,0,0};
-        listaUstawienFiltra655["0.2"] = UkladFiltrow{0,1,0};
-        listaUstawienFiltra655["0.3"] = UkladFiltrow{1,1,0};
+        listaUstawienFiltra655["0.1"] = UkladFiltrow{0,3,0};
+        listaUstawienFiltra655["0.2"] = UkladFiltrow{3,0,0};
+        listaUstawienFiltra655["0.3"] = UkladFiltrow{4,0,0};
         listaUstawienFiltra655["0.4"] = UkladFiltrow{0,2,0};
-        listaUstawienFiltra655["0.5"] = UkladFiltrow{0,3,0};
-        listaUstawienFiltra655["0.6"] = UkladFiltrow{1,3,0};
-        listaUstawienFiltra655["0.7"] = UkladFiltrow{2,3,0};
-        listaUstawienFiltra655["0.8"] = UkladFiltrow{3,3,0};
-        listaUstawienFiltra655["0.9"] = UkladFiltrow{4,3,0};
-        listaUstawienFiltra655["1.0"] = UkladFiltrow{0,0,1};
-        listaUstawienFiltra655["1.2"] = UkladFiltrow{0,1,1};
-        listaUstawienFiltra655["1.4"] = UkladFiltrow{0,2,1};
-        listaUstawienFiltra655["1.6"] = UkladFiltrow{2,2,1};
-        listaUstawienFiltra655["1.8"] = UkladFiltrow{4,2,1};
-        listaUstawienFiltra655["2.0"] = UkladFiltrow{0,0,2};
-        listaUstawienFiltra655["2.3"] = UkladFiltrow{1,1,2};
-        listaUstawienFiltra655["2.6"] = UkladFiltrow{2,2,2};
-        listaUstawienFiltra655["2.9"] = UkladFiltrow{4,3,2};
-        listaUstawienFiltra655["3.2"] = UkladFiltrow{0,1,3};
-        listaUstawienFiltra655["3.5"] = UkladFiltrow{3,1,3};
-        listaUstawienFiltra655["4.0"] = UkladFiltrow{0,0,4};
-        listaUstawienFiltra655["4.4"] = UkladFiltrow{0,2,4};
-        listaUstawienFiltra655["4.8"] = UkladFiltrow{4,2,4};
-        listaUstawienFiltra655["5.2"] = UkladFiltrow{0,1,5};
-        listaUstawienFiltra655["5.6"] = UkladFiltrow{4,1,5};
-        listaUstawienFiltra655["6.0"] = UkladFiltrow{0,4,0};
-        listaUstawienFiltra655["7.0"] = UkladFiltrow{0,4,1};
-        listaUstawienFiltra655["8.0"] = UkladFiltrow{0,4,2};
-        listaUstawienFiltra655["9.0"] = UkladFiltrow{0,4,3};
-        listaUstawienFiltra655["10.0"] = UkladFiltrow{0,4,3};
-        listaUstawienFiltra655["11.0"] = UkladFiltrow{0,4,5};
-        listaUstawienFiltra655["12.0"] = UkladFiltrow{0,4,5};
-        listaUstawienFiltra655["13.0"] = UkladFiltrow{5,0,0};
-        listaUstawienFiltra655["14.0"] = UkladFiltrow{5,0,1};
+        listaUstawienFiltra655["0.5"] = UkladFiltrow{0,1,0};
+        listaUstawienFiltra655["0.6"] = UkladFiltrow{2,0,0};
+        listaUstawienFiltra655["0.7"] = UkladFiltrow{3,3,0};
+        listaUstawienFiltra655["0.8"] = UkladFiltrow{4,3,0};
+        listaUstawienFiltra655["0.9"] = UkladFiltrow{4,2,0};
+        listaUstawienFiltra655["1.0"] = UkladFiltrow{3,1,0};
+        listaUstawienFiltra655["1.2"] = UkladFiltrow{2,1,0};
+        listaUstawienFiltra655["1.4"] = UkladFiltrow{1,3,0};
+        listaUstawienFiltra655["1.6"] = UkladFiltrow{1,2,0};
+        listaUstawienFiltra655["1.8"] = UkladFiltrow{1,1,0};
+        listaUstawienFiltra655["2.0"] = UkladFiltrow{1,1,0};
+        listaUstawienFiltra655["2.3"] = UkladFiltrow{0,0,2};
+        listaUstawienFiltra655["2.6"] = UkladFiltrow{0,0,1};
+        listaUstawienFiltra655["2.9"] = UkladFiltrow{0,3,2};
+        listaUstawienFiltra655["3.2"] = UkladFiltrow{0,3,1};
+        listaUstawienFiltra655["3.5"] = UkladFiltrow{2,0,1};
+        listaUstawienFiltra655["4.0"] = UkladFiltrow{0,0,3};
+        listaUstawienFiltra655["4.4"] = UkladFiltrow{0,0,4};
+        listaUstawienFiltra655["4.8"] = UkladFiltrow{0,3,4};
+        listaUstawienFiltra655["5.2"] = UkladFiltrow{1,0,3};
+        listaUstawienFiltra655["5.6"] = UkladFiltrow{2,1,4};
+        listaUstawienFiltra655["6.0"] = UkladFiltrow{1,1,4};
+        listaUstawienFiltra655["7.0"] = UkladFiltrow{2,0,5};
+        listaUstawienFiltra655["8.0"] = UkladFiltrow{1,1,5};
+        listaUstawienFiltra655["9.0"] = UkladFiltrow{1,4,0};
+        listaUstawienFiltra655["10.0"] = UkladFiltrow{0,4,2};
+        listaUstawienFiltra655["11.0"] = UkladFiltrow{3,4,1};
+        listaUstawienFiltra655["12.0"] = UkladFiltrow{0,5,1};
+        listaUstawienFiltra655["13.0"] = UkladFiltrow{1,5,1};
+        listaUstawienFiltra655["14.0"] = UkladFiltrow{0,4,5};
+        listaUstawienFiltra655["15.0"] = UkladFiltrow{0,5,5};
     } else {
         for (short p = 0; p < cntPos; ++p)
         {
@@ -177,15 +169,21 @@ void Ustawienia::loadListUstawienFiltra()
         }
     }
 
+
+
+
+
+
+
     cntPos = settings.value("Tlumienia_880/IloscPozycji", QVariant::fromValue(0)).toInt();
     if (cntPos == 0) {
         listaUstawienFiltra880["0.0"] = UkladFiltrow{0,0,0};
         listaUstawienFiltra880["0.1"] = UkladFiltrow{1,0,0};
         listaUstawienFiltra880["0.2"] = UkladFiltrow{0,1,0};
-        listaUstawienFiltra880["0.3"] = UkladFiltrow{1,1,0};
+        listaUstawienFiltra880["0.3"] = UkladFiltrow{3,0,0};
         listaUstawienFiltra880["0.4"] = UkladFiltrow{0,2,0};
         listaUstawienFiltra880["0.5"] = UkladFiltrow{0,3,0};
-        listaUstawienFiltra880["0.6"] = UkladFiltrow{1,3,0};
+        listaUstawienFiltra880["0.6"] = UkladFiltrow{4,1,0};
         listaUstawienFiltra880["0.7"] = UkladFiltrow{2,3,0};
         listaUstawienFiltra880["0.8"] = UkladFiltrow{3,3,0};
         listaUstawienFiltra880["0.9"] = UkladFiltrow{4,3,0};
@@ -203,8 +201,8 @@ void Ustawienia::loadListUstawienFiltra()
         listaUstawienFiltra880["4.0"] = UkladFiltrow{0,0,4};
         listaUstawienFiltra880["4.4"] = UkladFiltrow{0,2,4};
         listaUstawienFiltra880["4.8"] = UkladFiltrow{4,2,4};
-        listaUstawienFiltra880["5.2"] = UkladFiltrow{0,1,5};
-        listaUstawienFiltra880["5.6"] = UkladFiltrow{4,1,5};
+        listaUstawienFiltra880["5.2"] = UkladFiltrow{0,2,5};
+        listaUstawienFiltra880["5.6"] = UkladFiltrow{4,2,5};
         listaUstawienFiltra880["6.0"] = UkladFiltrow{0,4,0};
         listaUstawienFiltra880["7.0"] = UkladFiltrow{0,4,1};
         listaUstawienFiltra880["8.0"] = UkladFiltrow{0,4,2};
@@ -214,6 +212,7 @@ void Ustawienia::loadListUstawienFiltra()
         listaUstawienFiltra880["12.0"] = UkladFiltrow{0,4,5};
         listaUstawienFiltra880["13.0"] = UkladFiltrow{5,0,0};
         listaUstawienFiltra880["14.0"] = UkladFiltrow{5,0,1};
+        listaUstawienFiltra880["15.0"] = UkladFiltrow{5,0,2};
     } else {
         for (short p = 0; p < cntPos; ++p)
         {

@@ -8,6 +8,7 @@
 #include "ustawienia.h"
 #include "sterownik.h"
 #include "zasilacz.h"
+#include "symulator.h"
 #include <QThread>
 
 class TestZasilaczaDlg;
@@ -22,7 +23,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    MainWindow(Symulator *s, QWidget *parent = nullptr);
     ~MainWindow();
 
 protected slots:

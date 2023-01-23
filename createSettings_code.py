@@ -477,31 +477,21 @@ motordefVals = {
     },
 }
 
+
 defFiltrValsdb = {
     655: {
-        'A': [0, 0.1, 0.2, 0.3, 0.4, 13.0],
-        'B': [0, 0.2, 0.4, 0.5, 6.0, 7.0],
-        'C': [0, 1.0, 2.0, 3.0, 4.0, 5.0],
+        'A': [0, 1.0, 0.57, 0.44, 0.47, 18.36],
+        'B': [0, 0.56, 0.47, 0.41, 7.69, 9.31],
+        'C': [0, 2.84, 2.48, 4.13, 4.41, 6.22],
     },
     880 : {
-        'A': [0, 0.1, 0.2, 0.3, 0.4, 13.0],
-        'B': [0, 0.2, 0.4, 0.5, 6.0, 7.0],
-        'C': [0, 1.0, 2.0, 3.0, 4.0, 5.0],
+        'A': [0, 0.16, 0.23, 0.29, 0.39, 13.46],
+        'B': [0, 0.22, 0.4, 0.5, 6.0, 7.12],
+        'C': [0, 0.99, 1.94, 2.96, 3.95, 4.81],
     }
 }
 
-defFiltrValsPer = {
-    655: {
-        'A': [0, 0, 0, 0, 0, 0],
-        'B': [0, 0, 0, 0, 0, 0],
-        'C': [0, 0, 0, 0, 0, 0],
-    },
-    880 : {
-        'A': [0, 0, 0, 0, 0, 0],
-        'B': [0, 0, 0, 0, 0, 0],
-        'C': [0, 0, 0, 0, 0, 0]
-    }
-}
+
 
 u = UstawieniaCode()
 def motorSett(nazwa, typ, fun, checkFuns, devVals): 
@@ -526,10 +516,8 @@ def addFiltrSett(fala, defFiltrVals, path, suffix):
             
 addFiltrSett(880, defFiltrValsdb, "Filtr_db_", "db")
 addFiltrSett(655, defFiltrValsdb, "Filtr_db_", "db")
-addFiltrSett(880, defFiltrValsPer, "Filtr_percent_", "prc")
-addFiltrSett(655, defFiltrValsPer, "Filtr_percent_", "prc")
+
 u.addSummFiltr(checkDoubleContent, "db")
-u.addSummFiltr(checkDoubleContent, "prc")
 
 u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
 u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
@@ -564,6 +552,7 @@ u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "
 u.addZakresy("maksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '30', checkUnsignedIntContent)
 u.addZakresy("maksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '60', checkUnsignedIntContent)
 u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
+u.addZakresy("maksRoznicaKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyRzonacaKat", '15', checkUnsignedIntContent)
 u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
 u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.5', checkDoubleContent)
 u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)

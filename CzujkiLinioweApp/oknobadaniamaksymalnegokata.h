@@ -23,7 +23,7 @@ class OknoBadaniaMaksymalnegoKata : public QDialog
 
 public:
     explicit OknoBadaniaMaksymalnegoKata(short nrSilnika_, const QString &name,
-                             const QString & podtitle,
+                             const QString & podtitle, const double &startKat,
                              const double & kat,
                              const Ustawienia &ust,
                              Sterownik * ster_, QWidget *parent = 0);
@@ -57,6 +57,8 @@ private:
     bool deviceisOk;
     float prevVal;
     double speedMin;
+    float startPos;
+    float maxDelta;
 
 };
 
