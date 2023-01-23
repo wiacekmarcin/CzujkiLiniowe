@@ -48,6 +48,8 @@ public:
 
     double getDegrees() const;
 
+    QString getErrDetails() const;
+
 protected slots:
     void timeoutSterownika();
 private:
@@ -58,6 +60,7 @@ private:
     Sterownik * ster;
     bool wynikBadania;
     QString error;
+    QString errDetails;
     float destPos;
     double wspolImpKat;
     short nrSilnika;
