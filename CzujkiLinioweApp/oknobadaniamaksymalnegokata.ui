@@ -19,6 +19,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -32,6 +33,7 @@
      <property name="font">
       <font>
        <pointsize>33</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -69,6 +71,7 @@
         <property name="font">
          <font>
           <pointsize>16</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -85,6 +88,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -138,6 +142,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -174,18 +179,12 @@
      </property>
     </widget>
    </item>
-   <item row="12" column="1">
-    <widget class="QPushButton" name="pbDalej">
-     <property name="text">
-      <string>Przejdż dalej</string>
-     </property>
-    </widget>
-   </item>
    <item row="8" column="1">
     <widget class="QLabel" name="maxkat">
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -216,6 +215,59 @@
      <property name="text">
       <string>Szacowany pozostały czas ruchu</string>
      </property>
+    </widget>
+   </item>
+   <item row="12" column="0">
+    <widget class="QFrame" name="frameDebug">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QPushButton" name="pbStartRuchu">
+        <property name="text">
+         <string>Start ruchu</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbCzujkaOn">
+        <property name="text">
+         <string>Czujka on</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbStop">
+        <property name="text">
+         <string>Stop</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbDalej">
+        <property name="text">
+         <string>Przejdż dalej</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </widget>
    </item>
   </layout>

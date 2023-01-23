@@ -114,6 +114,7 @@
      <property name="font">
       <font>
        <pointsize>10</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -330,6 +331,7 @@
         <property name="font">
          <font>
           <pointsize>14</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -356,12 +358,30 @@
    </item>
    <item row="6" column="0">
     <widget class="QPushButton" name="pbDalej">
+     <property name="styleSheet">
+      <string notr="true">display:none</string>
+     </property>
      <property name="text">
       <string>Dalej</string>
+     </property>
+     <property name="default">
+      <bool>false</bool>
+     </property>
+     <property name="flat">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
   </layout>
+  <zorder>pbDalej</zorder>
+  <zorder>frameError</zorder>
+  <zorder>frame</zorder>
+  <zorder>error</zorder>
+  <zorder>frame_filtry</zorder>
+  <zorder>frame_transmitter</zorder>
+  <zorder>frame_receiver</zorder>
+  <zorder>frame_wozek</zorder>
+  <zorder>frTitle</zorder>
  </widget>
  <resources/>
  <connections/>

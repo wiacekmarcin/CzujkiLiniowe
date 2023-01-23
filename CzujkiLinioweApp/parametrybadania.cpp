@@ -158,7 +158,6 @@ void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
 
 void ParametryBadania::posortuj()
 {
-    short tmp[7] = { -1, -1, -1, -1, -1, -1, -1};
     short wyk[7] = { -1, -1, -1, -1, -1, -1, -1};
 
     if (!testy[REPRODUCIBILITY].getWykonany())

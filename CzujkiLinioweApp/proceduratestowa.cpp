@@ -275,7 +275,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
                                         daneBadania.getDlugoscFaliFiltrow(),
                                         ust.getSzybkieZmianyWartoscTlumnikaA(),
                                         dane.getName(), QString::fromUtf8("Pomiar dla tłumnika A"), ust, ster, parent);
-    if (!dlg12->exec()) {
+    if (dlg12->exec() == QDialog::Rejected) {
         testOk = false;
         dane.setSuccessBadaniaCzujki(false, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
     } else {
@@ -413,11 +413,11 @@ bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &d
 {
 
     QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(numerProby, &dane, daneBadania, parent));
-    if (!(dlg1->exec()))
+    if (dlg1->exec() == QDialog::Rejected)
         return false;
 
     QSharedPointer<OknoSprawdzenieDanych> dlg2(new OknoSprawdzenieDanych(dane, parent));
-    if (!(dlg2->exec()))
+    if (dlg2->exec() == QDialog::Rejected)
         return false;
     return true;
 }
@@ -429,7 +429,7 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
     QSharedPointer<OczekiwanieNaUrzadzenia> dlg(new OczekiwanieNaUrzadzenia(
                                                     daneBadania.getZasilanieCzujekZasilaczZewnetrzny(),
                                                     zas, ster, parent));
-    if (!dlg->exec()) {
+    if (dlg->exec() == QDialog::Rejected) {
         return false;
     }
     return true;
@@ -439,7 +439,7 @@ bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek
 {
     dlg0 = new OknoZerowanieUrzadzenia(ramiona, filtry, wozek, trans, receiv, ster, parent);
 
-    int ret = dlg0->exec();
+    int ret = dlg0->exec() == QDialog::Accepted;
     delete dlg0;
     dlg0 = nullptr;
     return ret;
@@ -450,7 +450,7 @@ bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const 
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
-    int ret = dlg3->exec();
+    int ret = dlg3->exec() == QDialog::Accepted;
     delete dlg3;
     return ret;
 }
@@ -477,7 +477,7 @@ bool ProceduraTestowa::zasilenieCzujki(short napiecie, bool maksCzulosc, const P
 
     QSharedPointer<OknoZasilaniaCzujki> dlg5(new OknoZasilaniaCzujki(napiecie, maksCzulosc, dane, daneBadania, parent));
     dlg5->connect(zas, &Zasilacz::value, dlg5.get(), &OknoZasilaniaCzujki::value);
-    if (!dlg5->exec()) {
+    if (dlg5->exec() ==  QDialog::Rejected) {
         zas->setOutput(false);
         return false;
     }
@@ -539,7 +539,7 @@ bool ProceduraTestowa::montazZerowanieZasilanie(short napiecie, short rozstawien
 {
     do {
         QSharedPointer<OknoMontaz> dlg4(new OknoMontaz(rozstawienie, dane, parent));
-        if (!(dlg4->exec()))
+        if ((dlg4->exec() == QDialog::Rejected))
             return false;
     } while(false);
 
@@ -557,23 +557,7 @@ bool ProceduraTestowa::montazZerowanieZasilanie(short napiecie, short rozstawien
     return true;
 }
 
-short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, const double & kat,
-                          const ParametryBadania &daneBadania, const Ustawienia &ust)
-{
-    PomiarKata p;
-    p.ok = true;
-    p.nazwaBadania = ptitle;
-    p.katProducenta = kat;
-    p.katZmierzony = 0;
-    p.errorDetail = "";
-    p.errorStr = "";
 
-    short ret = pomiarKataProcedura(p, nrSilnika, ptitle, daneBadania, ust);
-    if (ret == -1)
-        return -1;
-    dane.dodajPomiarKata(p);
-    return ret;
-}
 
 
 
@@ -583,7 +567,7 @@ short ProceduraTestowa::resetCzujki(const QString & testName, const QString & su
 {
     OknoResetuZasilaniaCzujki * dlg12 = new OknoResetuZasilaniaCzujki(testName, subTestName,
                                              czasOffOn, daneBadania, zas, parent);
-    if (!dlg12->exec()) {
+    if (dlg12->exec() == QDialog::Rejected) {
         delete dlg12;
         return -1;
     }
@@ -604,7 +588,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
 {
 
     NiewspolosiowoscOsUrzadzenie k = dane.getKatyProducenta();
-    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
+    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
     short ret = pomiarKata(2, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -615,6 +599,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(2, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -625,7 +610,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(1, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -637,7 +622,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaTransmitter());
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(1, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -655,7 +640,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej").arg(dane.getNazwaTransmitter());
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -666,6 +651,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -676,7 +662,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej").arg(dane.getNazwaReceiver());
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(8, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -688,6 +674,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
+    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(8, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -705,10 +692,50 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     return true;
 }
 
+short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, const double & kat,
+                          const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    PomiarKata pomiar;
+    pomiar.ok = true;
+    pomiar.nazwaBadania = ptitle;
+    pomiar.katProducenta = kat;
+    pomiar.katZmierzony = 0;
+    pomiar.errorDetail = "";
+    pomiar.errorStr = "";
+
+    short ret = pomiarKataProcedura(pomiar, nrSilnika, ptitle, daneBadania, ust);
+    if (ret == -1)
+        return -1;
+
+    //zerowanie
+    if(!zerowanieSterownika(true, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
+        pomiar.errorStr = QString::fromUtf8("Błąd stanowiska");
+        pomiar.errorDetail = QString::fromUtf8("Błąd zerowania czujki po wykoaniu pomiarów dla kąta niewspółosowiości.");
+        pomiar.ok = false;
+        return 1;
+    }
+
+    short ret3 = resetCzujki(dane.getName(), ptitle, ust.getCzasWylaczeniaCzujkiDlaResetu(),
+                             daneBadania.getCzasStabilizacjiPoResecie_s(),
+                           daneBadania);
+    if (ret3 == -1)
+        return -1;
+    if (ret3 == 1) {
+        pomiar.errorStr = QString::fromUtf8("Alarm w pozycji 0");
+        pomiar.errorDetail = QString::fromUtf8("Czujka po wyłączeniu i włączeniu zasilania zgłosiła alarm podczas stabilizacji");
+        pomiar.ok = false;
+        return 1;
+    }
+
+    pomiar.ok = true;
+    dane.dodajPomiarKata(pomiar);
+    return ret;
+}
+
 short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle,
                                    const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), "", parent);
+    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), ptitle, parent);
     bool stabOk = dlg6->exec() == QDialog::Accepted;
     delete dlg6;
     dlg6 = nullptr;
@@ -719,16 +746,12 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     dlg10 = new OknoBadaniaKata(nrSilnika, dane.getName(), ptitle,
                                 QString::number(pomiar.katProducenta),
                                 ust, ster, parent);
-    // This loop will wait for the window is destroyed
-    dlg10->exec();
-
-
     bool ret = dlg10->exec() == QDialog::Accepted;
 
     if (!ret) {
-        qDebug() << __FILE__ << __LINE__ << "ERROR czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
-        pomiar.errorStr = "Kąt wyzw.<Kąt prod.";
-        pomiar.errorDetail = dlg10->getError();
+        //qDebug() << __FILE__ << __LINE__ << "ERROR czujka sie wyzwolila podczas jazdy do kata nominalnego" << dlg10->getError().toStdString().c_str();
+        pomiar.errorStr = dlg10->getError();
+        pomiar.errorDetail = dlg10->getErrDetails();
         pomiar.ok = false;
         pomiar.katZmierzony = dlg10->getDegrees();
         delete dlg10;
@@ -738,9 +761,9 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     delete dlg10;
     dlg10 = nullptr;
 
-    qDebug() << __FILE__ << __LINE__ << "OK czekam 2 minuty";
+    //qDebug() << __FILE__ << __LINE__ << "OK czekam 2 minuty";
     dlg11 = new OknoCzekaniaBadanieKatowe(ust.getCzasStabilizacjiDlaKataNieWspolosiowosci(), dane.getName(), ptitle, parent);
-    if (!dlg11->exec()) {
+    if (dlg11->exec() == QDialog::Rejected) {
         pomiar.errorStr = "Kąt wyzw.=Kąt prod.";
         pomiar.errorDetail = "Czujka wyzwoliła się w czasie stabilizacji w położeniu dla nominalnego kąta podanego przez producenta";
         pomiar.ok = false;
@@ -755,8 +778,8 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
                                         ust.getMaksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci(),
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
                                         dane.getName(), ptitle, ust, ster, parent);
-    if (!dlg12->exec()) {
-        pomiar.errorStr = QString::fromUtf8("Tłumnik %1 dB nie wykryty").arg(ust.getWartoscTlumienieDlaKataNieWspolosiowosci(), 3, 'f',1);
+    if (dlg12->exec() == QDialog::Rejected) {
+        pomiar.errorStr = QString::fromUtf8("Brak reakcji na %1 dB").arg(ust.getWartoscTlumienieDlaKataNieWspolosiowosci(), 3, 'f',1);
         pomiar.errorDetail = dlg12->getError();
         pomiar.ok = false;
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();
@@ -791,7 +814,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     qDebug() << "Max kat " << maxkat;
     dlg14 = new OknoBadaniaMaksymalnegoKata(nrSilnika, dane.getName(), ptitle, pomiar.katProducenta,
                                             maxkat, ust, ster, parent);
-    if (!dlg14->exec()) {
+    if (dlg14->exec() == QDialog::Rejected) {
         qDebug() << __FILE__ << __LINE__ << "NOT OK";
         pomiar.errorDetail = dlg14->getError();
         pomiar.errorStr = QString::fromUtf8("Maksymalny kąt");
@@ -803,31 +826,12 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
     }
     qDebug() << __FILE__ << __LINE__ << "OK";
     pomiar.katZmierzony = dlg14->getDegrees();
+    pomiar.ok = true;
     delete dlg14;
     dlg14 = nullptr;
 
-    //zerowanie
-    if(!zerowanieSterownika(true, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
-        pomiar.errorStr = QString::fromUtf8("Błąd stanowiska");
-        pomiar.errorDetail = QString::fromUtf8("Błąd zerowania czujki");
-        pomiar.ok = false;
-        return 1;
-    }
-
-    short ret3 = resetCzujki(dane.getName(), ptitle, ust.getCzasWylaczeniaCzujkiDlaResetu(),
-                             daneBadania.getCzasStabilizacjiPoResecie_s(),
-                           daneBadania);
-    if (ret3 == -1)
-        return -1;
-    if (ret3 == 1) {
-        pomiar.errorStr = QString::fromUtf8("Alarm w pozycji 0");
-        pomiar.errorDetail = QString::fromUtf8("Czujka po wyłączeniu i włączeniu zasilania zgłosiła alarm podczas stabilizacji");
-        pomiar.ok = false;
-        return 1;
-    }
-
-    pomiar.ok = true;
     return 0;
+
 }
 
 

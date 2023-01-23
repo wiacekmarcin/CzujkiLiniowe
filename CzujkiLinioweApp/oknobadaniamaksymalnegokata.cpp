@@ -49,14 +49,26 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     deviceisOk = false;
 
 #ifndef DEFVAL
-    ui->pbDalej->setVisible(true);
+    ui->frameDebug->setVisible(false);
 #else
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; accept(); });
+    moveTimer = new QTimer(this);
+    valBeg = startPos;
+    valEnd = destPos;
+    valAct = valBeg;
+    ui->frameDebug->setVisible(true);
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; this->prevVal = this->destPos; done(QDialog::Accepted); });
+    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() {this->czujkaOn(); });
+    connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
+    connect(ui->pbStop, &QPushButton::clicked, this, [this]() {this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, true, false}); });
 #endif
 }
 
 OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()
 {
+#ifdef DEFVAL
+    moveTimer->stop();
+    delete moveTimer;
+#endif
     tmSterownika.stop();
     delete ui;
 }
@@ -68,7 +80,7 @@ void OknoBadaniaMaksymalnegoKata::czujkaOn()
     wynikBadania = true;
     //error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
     ster->setStopMotor(nrSilnika);
-    accept();
+    done(QDialog::Accepted);
 }
 
 
@@ -80,7 +92,7 @@ void OknoBadaniaMaksymalnegoKata::timeoutSterownika()
         return;
     error = QString::fromUtf8("Błąd sprzętowy");
     wynikBadania = false;
-    reject();
+    done(QDialog::Rejected);
 }
 
 const QString &OknoBadaniaMaksymalnegoKata::getError() const
@@ -100,7 +112,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
         wynikBadania = false;
         error = QString("Błąd ustawienia silnika nr %1").arg(silnik);
         tmSterownika.stop();
-        reject();
+        done(QDialog::Rejected);
     }
     /*
     if (r.inter) {
@@ -108,11 +120,11 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
             error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
             wynikBadania = false;
             tmSterownika.stop();
-            reject();
+            done(QDialog::Rejected);
         } else {
             wynikBadania = true;
             tmSterownika.stop();
-            accept();
+            done(QDialog::Accepted);
         }
     }
     if (!r.move) {
@@ -120,11 +132,11 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
             error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
             wynikBadania = false;
             tmSterownika.stop();
-            reject();
+            done(QDialog::Rejected);
         } else {
             wynikBadania = true;
             tmSterownika.stop();
-            accept();
+            done(QDialog::Accepted);
         }
     }*/
 }
@@ -146,14 +158,14 @@ void OknoBadaniaMaksymalnegoKata::ster_setValue(short silnik, const double &val)
         error = QString::fromUtf8("Osiągnięto maksymalny kąt bez wyzwolenia czujki");
         wynikBadania = false;
         tmSterownika.stop();
-        reject();
+        done(QDialog::Rejected);
     }
 
     if (abs(destPos - val) > maxDelta) {
         error = QString::fromUtf8("Osiągnięto maksymalny różnicę kątową, gdzie czujka powinna zadziałać");
         wynikBadania = false;
         tmSterownika.stop();
-        reject();
+        done(QDialog::Rejected);
     }
 
     ui->kat->setText(QString("<html><body>%1 &deg;</body></html>").arg(val, 4, 'f', 2));
@@ -176,3 +188,20 @@ double OknoBadaniaMaksymalnegoKata::getDegrees() const
     return prevVal;
 }
 
+#ifdef DEFVAL
+void OknoBadaniaMaksymalnegoKata::testValue()
+{
+    valPer100ms = 0.3/60/5;
+    moveTimer->setInterval(200);
+    moveTimer->start();
+    this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, true, false, false});
+    connect(moveTimer, &QTimer::timeout, this, [this]() {this->valAct+=this->valPer100ms;
+                    this->ster_setValue(this->nrSilnika, this->valAct);
+                    if (abs(this->valAct) > abs(this->destPos)) {
+                        this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, false, false});
+                        moveTimer->stop();
+                    }
+                    });
+
+}
+#endif

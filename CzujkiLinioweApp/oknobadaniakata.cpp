@@ -41,17 +41,17 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     ui->speed->setText(QString("<html><body>%1 &deg; / <sub>min<sub></body></html>").arg(speedMin, 3, 'f', 2));
 
     ster->setPositionSilnik(nrSilnika, false, impulsy, speed);
-    qDebug() << __FILE__ << __LINE__ << "impulsy" << impulsy << speed;
     tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
     deviceisOk = false;
 
 #ifndef DEFVAL
     ui->frameDebug->setVisible(false);
 #else
+    deviceisOk = true;
     moveTimer = new QTimer(this);
     ui->frameDebug->setVisible(true);
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; this->prevVal = this->destPos; accept(); });
-    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() {this->czujkaOn(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, false, false}); });
+    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() { this->czujkaOn(); });
     connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
 #endif
 }
@@ -71,8 +71,9 @@ void OknoBadaniaKata::czujkaOn()
     qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = false;
-    error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
-    reject();
+    errDetails = QString::fromUtf8("Czujka zglosiła alarm za wcześnie (kąt = %1 < %2)").arg(prevVal, 4, 'f' , 2).arg(destPos, 4, 'f', 2);
+    error = QString::fromUtf8("Alarm Katwyz < Katprod");
+    done(QDialog::Rejected);
 }
 
 #ifdef DEFVAL
@@ -82,6 +83,8 @@ void OknoBadaniaKata::testValue()
     valEnd = destPos;
     valAct = valBeg;
     valPer100ms = 0.3/60/5;
+    if (destPos < 0)
+        valPer100ms *= -1;
     moveTimer->setInterval(200);
     moveTimer->start();
     this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, true, false, false});
@@ -102,9 +105,15 @@ void OknoBadaniaKata::timeoutSterownika()
              //<< "hardware timeout ";
     if (deviceisOk)
         return;
+    errDetails = QString::fromUtf8("Błąd komunikacji ze stanowiskiem podczas ustawianie kąta niewspółosowiości");
     error = QString::fromUtf8("Błąd stanowiska");
     wynikBadania = false;
-    reject();
+    done(QDialog::Rejected);
+}
+
+QString OknoBadaniaKata::getErrDetails() const
+{
+    return errDetails;
 }
 
 bool OknoBadaniaKata::getWynikBadania() const
@@ -132,19 +141,21 @@ void OknoBadaniaKata::ster_setPositionDone(short silnik, RuchSilnikaType r)
 
     if (r.err) {
         wynikBadania = false;
-        error = QString("Błąd ustawienia silnika nr %1").arg(silnik);
-        reject();
+        error = QString::fromUtf8("Błąd stanowiska");
+        errDetails = QString::fromUtf8("Błąd ustawienia silnika nr %1").arg(silnik);
+        done(QDialog::Rejected);
     }
     if (r.inter) {
         wynikBadania = false;
-        error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
-        reject();
+        error = QString::fromUtf8("Błąd stanowiska");
+        errDetails = QString::fromUtf8("Awawryjne zatrzymanie silnika nr %1").arg(silnik);
+        done(QDialog::Rejected);
     }
     if (!r.move) {
         prevVal = destPos;
         wynikBadania = true;
         error = "";
-        accept();
+        done(QDialog::Accepted);
     }
 }
 

@@ -36,7 +36,7 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
     init();
 #ifdef DEFVAL
         ui->pbDalej->setVisible(true);
-        connect(ui->pbDalej, &QPushButton::clicked, this, [this](){ accept(); });
+        connect(ui->pbDalej, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else
         ui->pbDalej->setVisible(false);
 #endif
@@ -124,7 +124,7 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType
             return;
     }
     timer.stop();
-    accept();
+    done(QDialog::Accepted);
 }
 
 void OknoZerowanieUrzadzenia::timeout()
@@ -137,5 +137,5 @@ void OknoZerowanieUrzadzenia::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Oczekiwanie zerowanie stanowiska"),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

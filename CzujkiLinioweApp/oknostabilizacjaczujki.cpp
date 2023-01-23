@@ -30,19 +30,19 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
 
 #ifdef DEFVAL
         ui->pbBreak->setVisible(true);
-        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ accept(); });
+        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else
         ui->pbBreak->setVisible(false);
 #endif
 
     if (stabilizacja) {
         setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
-        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
+        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki po włączeniu zasilania"));
         ui->lczas->setText("Pozostały czas stabilizacji czujki");
     } else {
-        setWindowTitle(QString::fromUtf8("Test - oczekiwanie na kolejną próbę"));
-        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na kolejną próbę"));
-        ui->lczas->setText("Pozostały czas bezczynności czujki");
+        setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
+        ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki po resecie zasilania"));
+        ui->lczas->setText("Pozostały czas bezczynności czujki po resecie");
     }
     connect(&timer, &QTimer::timeout, this, &OknoStabilizacjaCzujki::timeout);
     timer.start();
@@ -56,7 +56,7 @@ OknoStabilizacjaCzujki::~OknoStabilizacjaCzujki()
 
 void OknoStabilizacjaCzujki::czujkaOn()
 {
-    reject();
+    done(QDialog::Rejected);
 }
 
 QString OknoStabilizacjaCzujki::getMM_SS(unsigned long secs)
@@ -99,7 +99,7 @@ void OknoStabilizacjaCzujki::timeout()
     if (elapsedTime > 0)
         --elapsedTime;
     if (elapsedTime == 0)
-        accept();
+        done(QDialog::Accepted);
     ui->progressBar->setValue(elapsedTime);
     ui->czas->setText(getMM_SS(elapsedTime));
 }

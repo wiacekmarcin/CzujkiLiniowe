@@ -31,7 +31,7 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_,
 
     connect(ui->pbBreak, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->pbAgain, &QPushButton::clicked, this, [this]() { this->init(); });
-    connect(ui->pbSkip, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbSkip, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     init();
 }
 
@@ -103,7 +103,7 @@ void OczekiwanieNaUrzadzenia::timeout()
 
     if (sterownikOk && ((koniecznyZasilacz && zasilaczOk) || !koniecznyZasilacz)) {
         timer.stop();
-        accept();
+        done(QDialog::Accepted);
     }
     if (cntTmt == maxCzas || (ui->progressBarSterownik->value() == maxCzas &&
                                 ((koniecznyZasilacz && ui->progressBarZasilacz->value() == maxCzas) || !koniecznyZasilacz))) {
@@ -152,5 +152,5 @@ void OczekiwanieNaUrzadzenia::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Oczekiwanie na urządzenia"),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

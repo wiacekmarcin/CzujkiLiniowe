@@ -1,7 +1,9 @@
 #include "sterownik.h"
 #include <QTime>
 #include <QThread>
+#ifndef NOSERIAL
 #include <QSerialPortInfo>
+#endif
 #include <QDebug>
 #include <QMutexLocker>
 #include <QElapsedTimer>
@@ -186,9 +188,10 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     writeThread->start();
 
     filtry.setUstawienia(this, *u);
-
+#ifndef NOSERIAL
     connect(&serialPort, &QSerialPort::readyRead, this, &Sterownik::handleReadyRead);
     connect(&serialPort, &QSerialPort::errorOccurred, this, &Sterownik::handleError);
+#endif    
     connect(&m_timer, &QTimer::timeout, this, &Sterownik::handleTimeout);
     connect(&filtry, &SterownikFiltrow::bladFiltrow, this, &Sterownik::bladFiltrow);
     connect(&filtry, &SterownikFiltrow::ukladFiltrowDone, this, &Sterownik::setUkladFiltrowDone);
@@ -198,14 +201,18 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
 bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
 {
+#ifndef NOSERIAL       
     if (currentRequest.size() > 0)
     {
+
         //() << "write " << currentRequest.size() << "[" << currentRequest.toHex().toStdString().data() << "]";
         int sendsize = serialPort.write(currentRequest);
         bool ret = serialPort.waitForBytesWritten(waitWrite);
+        
         //qDebug() << ret;
         return ret && sendsize == currentRequest.size();
     }
+#endif    
     return true;
 }
 
@@ -338,7 +345,7 @@ void Sterownik::closeDeviceJob()
     writer.setStop();
     writer.wait();
     //portThread.quit();
-
+#ifndef NOSERIAL
     if (serialPort.isOpen()) {
         serialPort.flush();
         serialPort.clear();
@@ -346,6 +353,7 @@ void Sterownik::closeDeviceJob()
         serialPort.close();
 
     }
+#endif    
     setConnected(false);
     emit kontrolerConfigured(CLOSE);
     emit deviceName("");
@@ -532,6 +540,7 @@ bool Sterownik::configureDevice()
 
 bool Sterownik::openDevice()
 {
+#ifndef NOSERIAL    
     serialPort.setPort(QSerialPortInfo(m_portName));
     emit deviceName(serialPort.portName());
 
@@ -551,7 +560,7 @@ bool Sterownik::openDevice()
     serialPort.setParity(QSerialPort::NoParity);
     serialPort.setStopBits(QSerialPort::OneStop);
     serialPort.setReadBufferSize(32);
-
+#endif
     QThread::currentThread()->sleep(1);
 
     emit kontrolerConfigured(OPEN);
@@ -653,7 +662,11 @@ const QString &Sterownik::portName() const
 
 void Sterownik::handleReadyRead()
 {
+#ifndef NOSERIAL
     QByteArray input = serialPort.readAll();
+#else
+    QByteArray input;
+#endif    
     DEBUGSER(QString("Recv %1 [%2]").arg(input.size()).arg(input.toHex().toStdString().data()));
     //qDebug() << "Recv " << input.size() << "[" << input.toHex().toStdString().data() << "]";
     receiveData.append(input);
@@ -673,14 +686,16 @@ void Sterownik::handleTimeout()
     //qDebug() << "no recv data timeout";
 }
 
+#ifndef NOSERIAL   
 void Sterownik::handleError(QSerialPort::SerialPortError err)
 {
+ 
     if (err == QSerialPort::NoError)
         return;
     DEBUGSER(QString("Error %1").arg(err));
     emit error(serialPort.errorString());
 }
-
+#endif    
 void Sterownik::closeDevice(bool waitForDone)
 {
     DEBUGSER(QString("close device %1").arg(waitForDone));
@@ -713,7 +728,7 @@ void Sterownik::connectToSerialJob()
         bool findDevice = false;
 
         DEBUGSER(QString("Szukam urządzenia"));
-
+#ifndef NOSERIAL
         const auto serialPortInfos = QSerialPortInfo::availablePorts();
 
         for (const QSerialPortInfo &serialPortInfo : serialPortInfos) {
@@ -746,6 +761,7 @@ void Sterownik::connectToSerialJob()
 
         DEBUGSER("openDevice");
         setConnected(openDevice());
+#endif        
     }
 
     if (connected()) {

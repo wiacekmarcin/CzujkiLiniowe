@@ -22,7 +22,7 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
         ui->podTestName->setVisible(true);
     }
 
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
@@ -66,7 +66,7 @@ void OknoResetuZasilaniaCzujki::timeoutProgress()
     if (actTime == maxTime) {
         timer.stop();
         zas->setOutput(true);
-        accept();
+        done(QDialog::Accepted);
     }
     ui->pbCzasResetu->setValue(actTime);
 }
@@ -76,5 +76,5 @@ void OknoResetuZasilaniaCzujki::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

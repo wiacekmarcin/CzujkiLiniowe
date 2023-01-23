@@ -100,7 +100,7 @@ void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
     error = QString::fromUtf8("Błąd ustawienia filtra %1").arg(filtr);
-    reject();
+    done(QDialog::Rejected);
 }
 
 void OknoBadaniaTlumienia::czujkaOn()
@@ -109,7 +109,7 @@ void OknoBadaniaTlumienia::czujkaOn()
     tmZmFiltra.stop();
     tmZmProgressBar.stop();
     error = "";
-    accept();
+    done(QDialog::Accepted);
 }
 
 void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
@@ -125,7 +125,7 @@ void OknoBadaniaTlumienia::uplynalCzasPostojuFiltra()
     ++actTlumPos;
     if (actTlumPos == maxTlum) {
         error = QString::fromUtf8("Czujka nie zadziała");
-        reject();
+        done(QDialog::Rejected);
         return;
     }
 
@@ -161,7 +161,7 @@ void OknoBadaniaTlumienia::timeoutSterownika()
     error = QString::fromUtf8("Brak komunikacji ze stanowiskiem");
     tmZmProgressBar.stop();
     tmZmFiltra.stop();
-    reject();
+    done(QDialog::Rejected);
 }
 
 const QString &OknoBadaniaTlumienia::getError() const
@@ -178,14 +178,14 @@ const QString &OknoBadaniaTlumienia::getTlumienie() const
 void OknoBadaniaTlumienia::testValue()
 {
     TestValueDialog * dlg = new TestValueDialog(tlumienie, this);
-    if (dlg->exec()) {
+    if (!dlg->exec() == QDialog::Rejected) {
         tlumienie = dlg->value();
         error = "";
         delete dlg;
-        accept();
+        done(QDialog::Accepted);
     } else {
         error = QString::fromUtf8("Czujka nie zadziała");
-        reject();
+        done(QDialog::Rejected);
     }
 }
 
@@ -206,8 +206,8 @@ TestValueDialog::TestValueDialog(const QString &val, QWidget *parent) :
     buttonBox->addButton(searchButton, QDialogButtonBox::AcceptRole);
     buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(done(QDialog::Accepted)));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(done(QDialog::Rejected)));
 
     QVBoxLayout *lt = new QVBoxLayout;
     lt->addWidget(m_lineEdit);

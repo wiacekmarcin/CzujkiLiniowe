@@ -32,7 +32,7 @@ OknoMontaz::OknoMontaz(short opticalLen, const DaneTestu &daneTestu, QWidget *pa
     } else
         ui->frame_dlugoscDrogiOptycznej->setVisible(false);
 
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
 }
@@ -47,5 +47,5 @@ void OknoMontaz::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

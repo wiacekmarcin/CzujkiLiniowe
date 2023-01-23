@@ -24,7 +24,7 @@ OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *pa
     ui->powtarzalnosc_czas->setText(QString("%1 s").arg(test.getCzasPowtarzalnosci()));
 
 
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
 }
@@ -38,5 +38,5 @@ void OknoSprawdzenieDanych::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()), "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

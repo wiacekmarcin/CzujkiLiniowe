@@ -188,7 +188,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setHorizontalSpacing(0);
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setSpacing(0);
     }
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
 }
 
 OknoPodsumowanieTestu::~OknoPodsumowanieTestu()

@@ -338,14 +338,14 @@ void OknoParametryTestu::pbOK_clicked()
         test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
 
-    accept();
+    done(QDialog::Accepted);
 }
 
 void OknoParametryTestu::pbCancel_clicked()
 {
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()), "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }
 
 void OknoParametryTestu::changeCzujka(int index)

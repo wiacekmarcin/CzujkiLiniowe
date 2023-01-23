@@ -84,7 +84,8 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
 #ifndef DEFVAL
     ui->pbTest->setVisible(false);
 #else
-    connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); });
+    connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); this->flt_setUkladFiltrowDone(); });
+    sterResponse = true;
 #endif
 }
 
@@ -116,9 +117,10 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
                 "Filtr zmieniony";
     if (waitForZeroFiltr) {
         if (endReject)
-            reject();
+            done(QDialog::Rejected);
         else
-            accept();
+            done(QDialog::Accepted);
+        return;
     }
 
 
@@ -129,6 +131,7 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
 
 void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
+    (void)zerowanie;
     //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
     //            "Blad filtrow" << filtr << zerowanie;
     sterResponse = true;
@@ -136,7 +139,7 @@ void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
     tmSterownika.stop();
     tmZmProgressBar.stop();
     error = QString::fromUtf8("Błąd ustawienia filtra %1").arg(filtr);
-    reject();
+    done(QDialog::Rejected);
 }
 
 void OknoBadanieReakcji6dB::czujkaOn()
@@ -184,7 +187,7 @@ void OknoBadanieReakcji6dB::progressBarUpdate()
     } else if (waitForZeroFiltr) {
         return;
     } else {
-        error = QString::fromUtf8("Upłynęło %1 sekund bez reakcji czujki").arg(timeOknoClose);
+        error = QString::fromUtf8("Czujka nie zareagowała po upływie %1 sekund").arg(timeOknoClose);
         wynikBadania = false;
         tmSterownika.stop();
         tmZmProgressBar.stop();
@@ -202,7 +205,7 @@ void OknoBadanieReakcji6dB::timeoutSterownika()
     error = QString::fromUtf8("Błąd stanowiska");
     wynikBadania = false;
     tmZmProgressBar.stop();
-    reject();
+    done(QDialog::Rejected);
 }
 
 const QString &OknoBadanieReakcji6dB::getError() const

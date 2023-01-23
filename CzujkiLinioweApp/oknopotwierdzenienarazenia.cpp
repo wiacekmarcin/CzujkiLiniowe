@@ -23,7 +23,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->eTransmitter->setText(daneTestu.getNazwaNumerTransmitter());
     ui->eReceiver->setText(daneTestu.getNazwaNumerReceiver());
 
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 }
 
@@ -37,5 +37,5 @@ void OknoPotwierdzenieNarazenia::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

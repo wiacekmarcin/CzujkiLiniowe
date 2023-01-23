@@ -20,7 +20,7 @@ PowtarzalnoscWyniki::~PowtarzalnoscWyniki()
     delete ui;
 }
 
-void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & badanie)
+void PowtarzalnoscWyniki::setDaneTest(bool podsumowanie, DaneTestu &daneTestu, const ParametryBadania & /*badanie*/)
 {
     QString transmitter, receiver;
     transmitter = daneTestu.getNazwaNumerTransmitter();
@@ -298,7 +298,7 @@ void PowtarzalnoscWyniki::initWynikTable(const QString &nadajnik, const QString 
 
 }
 
-void PowtarzalnoscWyniki::addRekordWyniki(short num, short nrCzujki, const QString & numerNadajnika, const QString & numerOdbiornika,
+void PowtarzalnoscWyniki::addRekordWyniki(short num, short /*nrCzujki*/, const QString & numerNadajnika, const QString & numerOdbiornika,
                               const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
 {
     int row = num;

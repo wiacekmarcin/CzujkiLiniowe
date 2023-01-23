@@ -598,7 +598,6 @@ void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &
 
     tablePrzebieg->adjustSize();
 
-    QTableWidget * tableParametry = ui->odtwarzalnoscTableParams;
 
 }
 
@@ -814,7 +813,7 @@ void ListaBadan::initRozproszoneSwiatloTable()
 
 }
 
-void ListaBadan::addRozproszoneSwiatloRekord(short num, const QString &value_dB, bool ok, const QString &error)
+void ListaBadan::addRozproszoneSwiatloRekord(short /*num*/, const QString &/*value_dB*/, bool /*ok*/, const QString &/*error*/)
 {
 
 }
@@ -824,7 +823,7 @@ void ListaBadan::initTolerancjaZasilaniaTable()
 
 }
 
-void ListaBadan::addTolerancjaNapieciaZasilaniaRekord(short num, const QString &napiecie1, const QString &value_dB, bool ok, const QString &error)
+void ListaBadan::addTolerancjaNapieciaZasilaniaRekord(short /*num*/, const QString &/*napiecie1*/, const QString &/*value_dB*/, bool /*ok*/, const QString &/*error*/)
 {
 
 }

@@ -10,7 +10,10 @@
 #include <QByteArray>
 #include <QVector>
 #include <QTimer>
+
+#ifndef NOSERIAL
 #include <QSerialPort>
+#endif
 
 //#include "ustawienia.h"
 
@@ -118,7 +121,10 @@ private:
     QMutex mutexRun;
     bool runWorker;
     Zasilacz * sd;
+#ifndef NOSERIAL    
     QSerialPort * m_serialPort;
+#endif
+    
     QVector<SerialZasilacz::TaskExt> futureTask;
 };
 

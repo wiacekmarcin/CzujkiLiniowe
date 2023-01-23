@@ -11,7 +11,7 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulos
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
 
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->accept(); });
+    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
     ui->testName->setText(daneTestu.getName());
@@ -104,5 +104,5 @@ void OknoZasilaniaCzujki::pbCancel_clicked()
     int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
                                     "Czy napewno chcesz przerwać badanie");
     if (ret == QMessageBox::Yes)
-        reject();
+        done(QDialog::Rejected);
 }

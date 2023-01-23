@@ -38,10 +38,10 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
         num += 1;
     }
 
-    connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->reject(); });
-    connect(ui->pbNext, &QPushButton::clicked, this, [this]() { this->accept(); });
-    connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->reject(); });
-    connect(ui->pbNext, &QPushButton::pressed, this, [this]() { this->accept(); });
+    connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->done(QDialog::Rejected); });
+    connect(ui->pbNext, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
+    connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->done(QDialog::Rejected); });
+    connect(ui->pbNext, &QPushButton::pressed, this, [this]() { this->done(QDialog::Accepted); });
 }
 
 WyborTestu::~WyborTestu()

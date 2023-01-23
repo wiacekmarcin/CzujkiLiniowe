@@ -60,14 +60,14 @@ void ParametryBadaniaDlg::pbOK_clicked()
 {
     ui->tabBadanie->save(dane);
     ui->tabCzujki->save(dane);
-    accept();
+    done(QDialog::Accepted);
 }
 
 
 void ParametryBadaniaDlg::pbCancel_clicked()
 {
     //qDebug() << "clicked";
-    reject();
+    done(QDialog::Rejected);
 }
 
 

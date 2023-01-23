@@ -26,7 +26,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
 
 #ifdef DEFVAL
         ui->pbBreak->setVisible(true);
-        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ accept(); });
+        connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else
         ui->pbBreak->setVisible(false);
 #endif
@@ -47,7 +47,7 @@ OknoCzekaniaBadanieKatowe::~OknoCzekaniaBadanieKatowe()
 
 void OknoCzekaniaBadanieKatowe::czujkaOn()
 {
-    reject();
+    done(QDialog::Rejected);
 }
 
 QString OknoCzekaniaBadanieKatowe::getMM_SS(unsigned long secs)
@@ -89,7 +89,7 @@ void OknoCzekaniaBadanieKatowe::timeout()
 {
     --elapsedTime;
     if (elapsedTime == 0)
-        accept();
+        done(QDialog::Accepted);
     ui->progressBar->setValue(elapsedTime);
     ui->czas->setText(getMM_SS(elapsedTime));
 }

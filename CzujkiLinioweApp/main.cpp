@@ -4,14 +4,14 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QObject>
-#include <QSerialPort>
+
 #include "symulator.h"
 
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-
+/*
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
     for (const QString &locale : uiLanguages) {
@@ -21,7 +21,7 @@ int main(int argc, char *argv[])
             break;
         }
     }
-
+*/
     Ustawienia u;
     u.save();
 

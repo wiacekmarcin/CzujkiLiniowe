@@ -393,7 +393,7 @@ void MainWindow::actionNoweBadanie_triggered()
 void MainWindow::actionStartTestu_triggered()
 {
     WyborTestu *dlg1 = new WyborTestu(b.getTesty(), b.getTestOdtwarzalnosci(), this);
-    if(!dlg1->exec()) {
+    if(dlg1->exec() == QDialog::Rejected) {
         delete dlg1;
         return;
     }
