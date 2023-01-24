@@ -482,6 +482,18 @@ public:
 	void setMinimalneNapieciaTolerancjaNapiecia(const double & minimalneNapieciaTolerancjaNapiecia);
 	double getMaksymalneNapieciaTolerancjaNapiecia() const;
 	void setMaksymalneNapieciaTolerancjaNapiecia(const double & maksymalneNapieciaTolerancjaNapiecia);
+	double getMinimalnaTemperatura() const;
+	void setMinimalnaTemperatura(const double & minimalnaTemperatura);
+	double getMaksymalnaTemperatura() const;
+	void setMaksymalnaTemperatura(const double & maksymalnaTemperatura);
+	double getMinimalnaWilgotnosc() const;
+	void setMinimalnaWilgotnosc(const double & minimalnaWilgotnosc);
+	double getMaksymalnaWilgotnosc() const;
+	void setMaksymalnaWilgotnosc(const double & maksymalnaWilgotnosc);
+	double getMinimalnaCisnienie() const;
+	void setMinimalnaCisnienie(const double & minimalnaCisnienie);
+	double getMaksymalnaCisnienie() const;
+	void setMaksymalnaCisnienie(const double & maksymalnaCisnienie);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -654,5 +666,11 @@ private:
 	double tolerancjaNapieciaZasilaniaCmaxCmin;
 	double minimalneNapieciaTolerancjaNapiecia;
 	double maksymalneNapieciaTolerancjaNapiecia;
+	double minimalnaTemperatura;
+	double maksymalnaTemperatura;
+	double minimalnaWilgotnosc;
+	double maksymalnaWilgotnosc;
+	double minimalnaCisnienie;
+	double maksymalnaCisnienie;
 };
 #endif

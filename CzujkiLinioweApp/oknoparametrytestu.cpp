@@ -8,7 +8,8 @@
 
 #define SETREADONLY(w) w->setReadOnly(true);
 
-OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie_, QWidget *parent) :
+OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const ParametryBadania & badanie_,
+                                       const Ustawienia & ust, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoParametryTestu),
     test(test_),
@@ -18,6 +19,13 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     ui->setupUi(this);
     ui->testName->setText(test->getName());
     ui->testName->setReadOnly(true);
+
+    minTemp = ust.getMinimalnaTemperatura();
+    maxTemp = ust.getMaksymalnaTemperatura();
+    minCisn = ust.getMinimalnaCisnienie();
+    maxCisn = ust.getMaksymalnaCisnienie();
+    minHumi = ust.getMinimalnaWilgotnosc();
+    maxHumi = ust.getMaksymalnaWilgotnosc();
 
     if (nrPomiar > 1) {
         SETREADONLY(ui->osobaWykonujaca);
@@ -203,7 +211,7 @@ void OknoParametryTestu::check1Pomiar()
         double val = ui->temperatura->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Temperatura' zawiera niepoprawną wartość"), true);
-        } else if (val < 15 || val > 35 ){
+        } else if (val < minTemp || val > maxTemp ){
             addError(QString::fromUtf8("Pole 'Temperatura' zawiera wartość niezgodną z normą"), false);
         }
     }
@@ -215,7 +223,7 @@ void OknoParametryTestu::check1Pomiar()
         double val = ui->wilgotnosc->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niepoprawną wartość"), true);
-        } else if (val < 25 || val > 75 ) {
+        } else if (val < minHumi || val > maxHumi ) {
             addError(QString::fromUtf8("Pole 'Wilgotność' zawiera wartość niezgodną z normą"), false);
         }
     }
@@ -227,7 +235,7 @@ void OknoParametryTestu::check1Pomiar()
         double val = ui->cisnienie->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niepoprawną wartość"), true);
-        } else if (val < 860 || val > 1060 ){
+        } else if (val < minCisn || val > maxCisn ){
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera wartość niezgodną z normą"), false);
         }
     }
@@ -370,3 +378,4 @@ void OknoParametryTestu::addError(const QString &err, bool prio)
         errorsMsg.push_back(QString("<li><span style=\"color:maroon; font-weight:bold;\">%1<span></li>").arg(err));
 
 }
+

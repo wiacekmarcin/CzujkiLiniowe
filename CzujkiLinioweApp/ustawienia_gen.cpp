@@ -176,6 +176,12 @@ void UstawieniaGen::load()
 	tolerancjaNapieciaZasilaniaCmaxCmin = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(1.6)).toString());
 	minimalneNapieciaTolerancjaNapiecia = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", QVariant::fromValue(2)).toString());
 	maksymalneNapieciaTolerancjaNapiecia = toDouble(settings.value("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(30)).toString());
+	minimalnaTemperatura = toDouble(settings.value("ParamentryBadania-ParametryTestu/minimalneTemperatura", QVariant::fromValue(15)).toString());
+	maksymalnaTemperatura = toDouble(settings.value("ParamentryBadania-ParametryTestu/maksymalnaTemperatura", QVariant::fromValue(35)).toString());
+	minimalnaWilgotnosc = toDouble(settings.value("ParamentryBadania-ParametryTestu/minimalneWilgotnosc", QVariant::fromValue(25)).toString());
+	maksymalnaWilgotnosc = toDouble(settings.value("ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", QVariant::fromValue(75)).toString());
+	minimalnaCisnienie = toDouble(settings.value("ParamentryBadania-ParametryTestu/minimalneCisnienie", QVariant::fromValue(860)).toString());
+	maksymalnaCisnienie = toDouble(settings.value("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(1060)).toString());
 }
 
 void UstawieniaGen::save()
@@ -336,6 +342,12 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(tolerancjaNapieciaZasilaniaCmaxCmin));
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", QVariant::fromValue(minimalneNapieciaTolerancjaNapiecia));
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(maksymalneNapieciaTolerancjaNapiecia));
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneTemperatura", QVariant::fromValue(minimalnaTemperatura));
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaTemperatura", QVariant::fromValue(maksymalnaTemperatura));
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneWilgotnosc", QVariant::fromValue(minimalnaWilgotnosc));
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", QVariant::fromValue(maksymalnaWilgotnosc));
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneCisnienie", QVariant::fromValue(minimalnaCisnienie));
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(maksymalnaCisnienie));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -2574,4 +2586,70 @@ void UstawieniaGen::setMaksymalneNapieciaTolerancjaNapiecia(const double & value
 {
 	maksymalneNapieciaTolerancjaNapiecia = value;
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMinimalnaTemperatura() const
+{
+	return minimalnaTemperatura;
+}
+
+void UstawieniaGen::setMinimalnaTemperatura(const double & value)
+{
+	minimalnaTemperatura = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneTemperatura", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMaksymalnaTemperatura() const
+{
+	return maksymalnaTemperatura;
+}
+
+void UstawieniaGen::setMaksymalnaTemperatura(const double & value)
+{
+	maksymalnaTemperatura = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaTemperatura", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMinimalnaWilgotnosc() const
+{
+	return minimalnaWilgotnosc;
+}
+
+void UstawieniaGen::setMinimalnaWilgotnosc(const double & value)
+{
+	minimalnaWilgotnosc = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneWilgotnosc", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMaksymalnaWilgotnosc() const
+{
+	return maksymalnaWilgotnosc;
+}
+
+void UstawieniaGen::setMaksymalnaWilgotnosc(const double & value)
+{
+	maksymalnaWilgotnosc = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMinimalnaCisnienie() const
+{
+	return minimalnaCisnienie;
+}
+
+void UstawieniaGen::setMinimalnaCisnienie(const double & value)
+{
+	minimalnaCisnienie = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/minimalneCisnienie", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getMaksymalnaCisnienie() const
+{
+	return maksymalnaCisnienie;
+}
+
+void UstawieniaGen::setMaksymalnaCisnienie(const double & value)
+{
+	maksymalnaCisnienie = value;
+	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(value));
 }

@@ -4,7 +4,7 @@
 #include <QDialog>
 #include "parametrybadania.h"
 #include "danetestu.h"
-
+#include "ustawienia.h"
 
 namespace Ui {
 class OknoParametryTestu;
@@ -16,7 +16,7 @@ class OknoParametryTestu : public QDialog
 
 public:
     explicit OknoParametryTestu(short nrPomiaru, DaneTestu * test, const ParametryBadania & badanie,
-                                 QWidget *parent = nullptr);
+                                const Ustawienia & ust, QWidget *parent = nullptr);
     ~OknoParametryTestu();
 protected:
     void check();
@@ -38,6 +38,8 @@ private:
     const ParametryBadania & badanie;
 
     void check1Pomiar();
+
+    float minTemp, maxTemp, minCisn, maxCisn, minHumi, maxHumi;
 };
 
 #endif // OKNOPARAMETRYTESTU_H

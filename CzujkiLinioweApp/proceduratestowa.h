@@ -48,7 +48,7 @@ protected:
     bool ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
-    bool parametryTest(short numerProby, const ParametryBadania &b);
+    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek, const QString &trans, const QString &receiv);

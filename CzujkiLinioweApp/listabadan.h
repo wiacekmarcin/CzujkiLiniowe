@@ -9,10 +9,13 @@
 #include "ustawienia.h"
 #include "sterownik.h"
 #include <QDateTime>
+#include <QList>
+#include <QStringList>
 
 class Zasilacz;
 class Sterownik;
 class QWidget;
+class QTableWidget;
 
 namespace Ui {
 class ListaBadan;
@@ -47,9 +50,10 @@ public:
     void setDaneTest(const DaneTestu &daneTestu, const ParametryBadania &badanie);
     void setUkonczoneBadanie(short id, const ParametryBadania &badanie);
     const QMap<int, testWidget> &getTestyWidget() const;
+    void closeBadanie();
 
 protected:
-    void initialTable(const ParametryBadania &badanie);
+    void initialTestyTable(const ParametryBadania &badanie);
     void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
     void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika,
                                 const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc,
@@ -80,6 +84,29 @@ signals:
 protected:
     double d2p(const double & val);
     QString d2p(const QString & val);
+
+private:
+    void addC(QTableWidget * table, const QString & Cname, const QString & val1, const QString & val2, int row);
+    void addC(QTableWidget * table, const QString & Cname, const QString & val, int row);
+    void clearinitTable( QTableWidget * table, const QStringList & head, const QList<int> & width);
+
+    void addR0(QTableWidget * table, int row);
+    short addR1(QTableWidget * table, int row, int col, const QString & C1);
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2);
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3);
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4);
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5);
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+                const QString & C6);
+
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+                const QString & C6, const QString & C7);
+
+    short addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+                const QString & C6, const QString & C7, const QString & C8);
+
+    short addR(QTableWidget * table, int row, int col, const QString &C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+                const QString & C6, const QString & C7, const QString &C8, const QString &C9);
 
 private:
     Ui::ListaBadan *ui;

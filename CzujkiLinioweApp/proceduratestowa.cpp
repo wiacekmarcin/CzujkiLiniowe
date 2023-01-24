@@ -156,7 +156,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     short powtorzPomiar;
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
     {
-        if (!parametryTest(nrPom, daneBadania))
+        if (!parametryTest(nrPom, daneBadania, ust))
             return false;
 
         bool pomiar1 = true;
@@ -188,7 +188,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 {
     short powtorzPomiar;
 
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
     bool firstTime = true;
@@ -232,7 +232,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
 bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
     if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
@@ -254,7 +254,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
 
 bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
     if (!montazZerowanieZasilanie(0, 0, false, true, true, false, daneBadania))
@@ -318,7 +318,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
 
 bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
     short powtorzPomiar = 0;
@@ -360,7 +360,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
 
 bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
     if (potwierdzenieNarazenia(dane, daneBadania, ust))
         return false;
@@ -369,7 +369,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
 
 bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (!parametryTest(1, daneBadania))
+    if (!parametryTest(1, daneBadania, ust))
         return false;
 
     short powtorzPomiar = 0;
@@ -409,10 +409,10 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
 }
 
 
-bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania)
+bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania, const Ustawienia & ust)
 {
 
-    QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(numerProby, &dane, daneBadania, parent));
+    QSharedPointer<OknoParametryTestu> dlg1(new OknoParametryTestu(numerProby, &dane, daneBadania, ust, parent));
     if (dlg1->exec() == QDialog::Rejected)
         return false;
 

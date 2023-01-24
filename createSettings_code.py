@@ -570,6 +570,13 @@ u.addZakresy("rozproszoneSwiatloCmaxCmin", "double", "toDouble", "ParamentryBada
 u.addZakresy("tolerancjaNapieciaZasilaniaCmaxCmin", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", '1.6', checkDoubleContent)
 u.addZakresy("minimalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", '2', checkDoubleContent)
 u.addZakresy("maksymalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", '30', checkDoubleContent)
+
+u.addZakresy("minimalnaTemperatura", "double", "toDouble", "ParamentryBadania-ParametryTestu/minimalneTemperatura", '15', checkDoubleContent)
+u.addZakresy("maksymalnaTemperatura", "double", "toDouble", "ParamentryBadania-ParametryTestu/maksymalnaTemperatura", '35', checkDoubleContent)
+u.addZakresy("minimalnaWilgotnosc", "double", "toDouble", "ParamentryBadania-ParametryTestu/minimalneWilgotnosc", '25', checkDoubleContent)
+u.addZakresy("maksymalnaWilgotnosc", "double", "toDouble", "ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", '75', checkDoubleContent)
+u.addZakresy("minimalnaCisnienie", "double", "toDouble", "ParamentryBadania-ParametryTestu/minimalneCisnienie", '860', checkDoubleContent)
+u.addZakresy("maksymalnaCisnienie", "double", "toDouble", "ParamentryBadania-ParametryTestu/maksymalnaCisnienie", '1060', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

@@ -111,8 +111,10 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
     }
 }
 
-void ListaBadan::initialTable(const ParametryBadania & badanie)
+void ListaBadan::initialTestyTable(const ParametryBadania & badanie)
 {
+    ui->tableWidget->clear();
+
     if (ui->tableWidget->columnCount() < 9)
         ui->tableWidget->setColumnCount(9);
 
@@ -191,8 +193,6 @@ void ListaBadan::initialTable(const ParametryBadania & badanie)
 
         ++row;
     }
-
-
 }
 
 
@@ -262,12 +262,25 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
         wid.wyniki->setVisible(false);
     }
 
-    initialTable(badanie);
+    initialTestyTable(badanie);
     const auto & keys = badanie.getTesty().keys();
     for (const auto & k : keys) {
         setUkonczoneBadanie(k, badanie);
     }
     ui->stackedWidget->setCurrentWidget(testyWidget[REPRODUCIBILITY].page);
+}
+
+void ListaBadan::closeBadanie()
+{
+    ui->tableWidget->clear();
+    ui->frame_tab->setVisible(false);
+    for (const auto & tid : testyWidget.keys())
+    {
+        const auto & wid = testyWidget[tid];
+        wid.button->setEnabled(true);
+        wid.button->setVisible(true);
+        wid.wyniki->setVisible(false);
+    }
 }
 
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
@@ -304,6 +317,27 @@ const QMap<int, testWidget> &ListaBadan::getTestyWidget() const
 #define ADDHEADITEM(T,S,R,W) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setHorizontalHeaderItem(R, item); T->setColumnWidth(0, W); } while(false)
 #define ADDVHEADITEM(T,S,R) do { QTableWidgetItem *item = new QTableWidgetItem(S); T->setVerticalHeaderItem(R, item); } while(false)
 
+void ListaBadan::addC(QTableWidget * table, const QString & Cname, const QString & val1, const QString & val2, int row)
+{
+    QTableWidgetItem *headitem = new QTableWidgetItem(Cname); 
+    table->setVerticalHeaderItem(row, headitem);
+    
+    QTableWidgetItem *item1 = new QTableWidgetItem(val1); 
+    table->setItem(row, 0, item1);
+
+    QTableWidgetItem *item2 = new QTableWidgetItem(val2); 
+    table->setItem(row, 1, item2);
+}
+
+void ListaBadan::addC(QTableWidget * table, const QString & Cname, const QString & val1, int row)
+{
+    QTableWidgetItem *headitem = new QTableWidgetItem(Cname); 
+    table->setVerticalHeaderItem(row, headitem);
+    
+    QTableWidgetItem *item1 = new QTableWidgetItem(val1); 
+    table->setItem(row, 0, item1);
+}
+
 void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania & badanie)
 {
     QString transmitter, receiver;
@@ -311,28 +345,19 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     receiver = daneTestu.getNazwaNumerReceiver();
 
     if (daneTestu.getId() == REPRODUCIBILITY) {
+        
+ 
+
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
         tableParams->clear();
 
-        ADDVHEADITEM(tableParams, "Cmin", 0);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
-        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0, 1);
+        addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
+        addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
+        addC(tableParams, "Crep", QString::number(daneTestu.getCrep(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCrep()), 'f', 2) + " %", 2);
+        addC(tableParams, "Cmax/Crep", QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3);
+        addC(tableParams, "Crep/Cmin", QString::number(daneTestu.getCrepCmin(), 'f', 2), 4);
 
-        ADDVHEADITEM(tableParams, "Cmax", 1);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
-        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 2) + "  %" , 1, 1);
-
-        ADDVHEADITEM(tableParams, "Crep", 2);
-        ADDITEM(tableParams, QString::number(daneTestu.getCrep(), 'f', 2) + " dB", 2, 0);
-        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCrep()), 'f', 2) + " %" , 2, 1);
-
-        ADDVHEADITEM(tableParams, "Cmax/Crep", 3);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCrep(), 'f', 2), 3, 0);
-
-        ADDVHEADITEM(tableParams, "Crep/Cmin", 4);
-        ADDITEM(tableParams, QString::number(daneTestu.getCrepCmin(), 'f', 2), 4, 0);
-
-        initOdtwarzalnoscTable(transmitter, receiver);
+        
         if (daneTestu.getCmaxCrep() > badanie.getOdtwarzalnoscCmaxCrep()) {
             tableParams->item(3, 0)->setBackground(Qt::red);
         }
@@ -346,17 +371,36 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->odtwarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
+        //initOdtwarzalnoscTable(transmitter, receiver);
+        QStringList head;
+        QList<int> width;
+        head << "Nr czujki" << "Kol. pomiarów" << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi";
+        width << 75 << 75 << 150 << 150 << 50 << 50 << 200;
+        clearinitTable(ui->odtwarzalnoscTablePrzebieg, head, width);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            addOdtwarzalnoscRekord(num, dane.nrCzujki, badanie.getSortedId(dane.nrCzujki-1),
-                                   dane.numerNadajnika, dane.numerOdbiornika,
-                              dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
-            num++;
+            int col = addR(ui->odtwarzalnoscTablePrzebieg, num, 0, QString::number(dane.nrCzujki), QString::number(badanie.getSortedId(dane.nrCzujki-1)),
+                                    dane.numerNadajnika, dane.numerOdbiornika,
+                                    dane.value_dB, d2p(dane.value_dB), dane.error);
+            if (!dane.ok) {
+                for (short e=0; e<col; ++e) {
+                if (ui->odtwarzalnoscTablePrzebieg->item(num, e))
+                    ui->odtwarzalnoscTablePrzebieg->item(num, e)->setBackground(Qt::red);
+                }
+            }
         }
     } else if (daneTestu.getId() == REPEATABILITY) {
 
+        QTableWidget * tableParams = ui->powtarzalnoscTableParams;
+        tableParams->clear();
+        addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
+        addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
+        addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 3);
+
+        //clearinitTable()
+        
         initPowtarzalnoscTable();
 
         QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
@@ -370,17 +414,19 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         ADDITEM(tableCzujka, daneTestu.getNumerReceiver(), 0, col++);
 
 
-        QTableWidget * tableParams = ui->powtarzalnoscTableParams;
-        ADDVHEADITEM(tableParams, "Cmin", 0);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
-        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
 
-        ADDVHEADITEM(tableParams, "Cmax", 1);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
-        ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %" , 1, 1);
+        
+        
+        //ADDVHEADITEM(tableParams, "Cmin", 0);
+        //ADDITEM(tableParams, QString::number(daneTestu.getCmin(), 'f', 2) + " dB", 0, 0);
+        //ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %" , 0, 1);
 
-        ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
-        ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
+        //ADDVHEADITEM(tableParams, "Cmax", 1);
+        //ADDITEM(tableParams, QString::number(daneTestu.getCmax(), 'f', 2) + " dB", 1, 0);
+        //ADDITEM(tableParams, QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %" , 1, 1);
+
+        //ADDVHEADITEM(tableParams, "Cmax/Cmin", 2);
+        //ADDITEM(tableParams, QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2, 0);
 
         if (daneTestu.getCmaxCmin() > badanie.getPowtarzalnoscCmaxCmin()) {
             tableParams->item(2, 0)->setBackground(Qt::red);
@@ -554,52 +600,123 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
 }
 
-void ListaBadan::initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik)
+void ListaBadan::clearinitTable( QTableWidget * table, const QStringList & head, const QList<int> & width)
 {
-    QTableWidget * tablePrzebieg = ui->odtwarzalnoscTablePrzebieg;
-    if (tablePrzebieg->columnCount() != 7)
-        tablePrzebieg->setColumnCount(7);
-
+    table->clear();
+    if (table->columnCount() != head.size())
+        table->setColumnCount(head.size());
+    
     int col = 0;
-    QTableWidgetItem *nrCzujki = new QTableWidgetItem("Nr czujki");
-    tablePrzebieg->setHorizontalHeaderItem(col, nrCzujki);
-    tablePrzebieg->setColumnWidth(col, 50);
-    ++col;
-
-    QTableWidgetItem *kolCzujki = new QTableWidgetItem("Kol. pomiarów");
-    tablePrzebieg->setHorizontalHeaderItem(col, kolCzujki);
-    tablePrzebieg->setColumnWidth(col, 50);
-    ++col;
-
-    QTableWidgetItem *itemNadajnik = new QTableWidgetItem(nadajnik);
-    tablePrzebieg->setHorizontalHeaderItem(col, itemNadajnik);
-    tablePrzebieg->setColumnWidth(col, 130);
-    ++col;
-
-    QTableWidgetItem *itemOdbiornik = new QTableWidgetItem(odbiornik);
-    tablePrzebieg->setHorizontalHeaderItem(col, itemOdbiornik);
-    tablePrzebieg->setColumnWidth(col, 130);
-    ++col;
-
-    QTableWidgetItem *cn1 = new QTableWidgetItem(QString::fromUtf8("C[n] dB"));
-    tablePrzebieg->setHorizontalHeaderItem(col, cn1);
-    tablePrzebieg->setColumnWidth(col, 50);
-    ++col;
-
-    QTableWidgetItem *cn2 = new QTableWidgetItem(QString::fromUtf8("C[n] %"));
-    tablePrzebieg->setHorizontalHeaderItem(col, cn2);
-    tablePrzebieg->setColumnWidth(col, 50);
-    ++col;
-
-    QTableWidgetItem *itemUwagi = new QTableWidgetItem("Uwagi");
-    tablePrzebieg->setHorizontalHeaderItem(col, itemUwagi);
-    tablePrzebieg->setColumnWidth(col, 130);
-    ++col;
-
-    tablePrzebieg->adjustSize();
-
-
+    for (const auto & h : head) {
+        QTableWidgetItem *item = new QTableWidgetItem(h);
+        table->setHorizontalHeaderItem(col, item);
+        if (col < width.size())
+            table->setColumnWidth(col, width.at(col));
+        ++col;
+    }
 }
+
+void ListaBadan::addR0(QTableWidget * table, int row)
+{
+    QTableWidgetItem *itemVert = new QTableWidgetItem(QString::number(row+1));
+    table->setVerticalHeaderItem(row, itemVert);
+}
+
+short ListaBadan::addR1(QTableWidget * table, int row, int col, const QString & C1)
+{
+    QTableWidgetItem *item = new QTableWidgetItem(C1);
+    table->setItem(row, col, item);
+    return 1;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    return 2;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    return 3;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    return 4;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    addR1(table, row, col+4, C5);
+    return 5;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+            const QString & C6) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    addR1(table, row, col+4, C5);
+    addR1(table, row, col+5, C6);
+    return 6;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+            const QString & C6, const QString & C7) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    addR1(table, row, col+4, C5);
+    addR1(table, row, col+5, C6);
+    addR1(table, row, col+6, C7);
+    return 7;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+            const QString & C6, const QString & C7, const QString & C8) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    addR1(table, row, col+4, C5);
+    addR1(table, row, col+5, C6);
+    addR1(table, row, col+6, C7);
+    addR1(table, row, col+7, C8);
+    return 8;
+}
+
+short ListaBadan::addR(QTableWidget * table, int row, int col, const QString & C1, const QString & C2, const QString &C3, const QString &C4, const QString &C5,
+            const QString & C6, const QString & C7, const QString & C8, const QString & C9) {
+    addR0(table, row);
+    addR1(table, row, col, C1);
+    addR1(table, row, col+1, C2);
+    addR1(table, row, col+2, C3);
+    addR1(table, row, col+3, C4);
+    addR1(table, row, col+4, C5);
+    addR1(table, row, col+5, C6);
+    addR1(table, row, col+6, C7);
+    addR1(table, row, col+7, C8);
+    addR1(table, row, col+8, C9);
+    return 9;
+}
+
 
 void ListaBadan::addOdtwarzalnoscRekord(short num, short nrCzujki, short sortPomiar, const QString & numerNadajnika, const QString & numerOdbiornika,
                               const QString & value_dB, const QString & value_perc, bool ok, const QString & error)
