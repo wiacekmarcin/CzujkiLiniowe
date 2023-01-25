@@ -153,10 +153,13 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
         case STRAY_LIGHT:
             ui->frameSpec->setVisible(false);
             ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 6 zgodnie z normą"));
-            //TODO
-            //if (ui->cbCzujka)
-            ui->cbCzujka->setCurrentIndex(0);
-            changeCzujka(0);
+            if (ui->cbCzujka->count() >= 6) {
+                ui->cbCzujka->setCurrentIndex(5);
+                changeCzujka(5);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
             nrCzujkiDoWybrania = 6;
             break;
         case TOLERANCE_TO_SUPPLY_VOLTAGE:
@@ -169,12 +172,79 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
 
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
-            nrCzujkiDoWybrania = 6;
+            nrCzujkiDoWybrania = 1;
             break;
+        case DRY_HEAT:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 3 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 3) {
+                ui->cbCzujka->setCurrentIndex(2);
+                changeCzujka(2);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 3;
+            break;
+        case COLD:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 3 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 3) {
+                ui->cbCzujka->setCurrentIndex(2);
+                changeCzujka(2);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 3;
+            break;
+        case DAMP_HEAT_STADY_STATE_OPERATIONAL:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 2) {
+                ui->cbCzujka->setCurrentIndex(1);
+                changeCzujka(1);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 2;
+            break; 
+        case DAMP_HEAT_STADY_STATE_ENDURANCE:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 2) {
+                ui->cbCzujka->setCurrentIndex(1);
+                changeCzujka(1);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 2;
+            break; 
+        case VIBRATION:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 7) {
+                ui->cbCzujka->setCurrentIndex(6);
+                changeCzujka(6);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 7;
+            break;  
         default:
         break;
     }
 
+    ,
+    ,
+    ,
+    ,
+    ,
+    IMPACT,
+    SULPHUR_DIOXIDE_SO2_CORROSION
 
 
 
@@ -345,10 +415,13 @@ void OknoParametryTestu::pbOK_clicked()
         test->setMinimalneNapiecie(ui->minVolt->text());
         test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
-    else if (test->getId() == STRAY_LIGHT) {
+    else if (test->getId() == STRAY_LIGHT || test->getId() == DRY_HEAT || test->getId() == COLD || test->getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||
+                test->getId() == DAMP_HEAT_STADY_STATE_ENDURANCE || test->getId() == VIBRATION || test->getId() == IMPACT || 
+                test->getId() == SULPHUR_DIOXIDE_SO2_CORROSION) 
+    {
         test->setDanePomiarowe(badanie.getDaneDlaCzujki(ui->typTransmitter->text(), ui->typReceiver->text()));
     }
-
+    
     done(QDialog::Accepted);
 }
 

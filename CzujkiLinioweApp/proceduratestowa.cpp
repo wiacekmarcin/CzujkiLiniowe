@@ -145,6 +145,15 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
     case TOLERANCE_TO_SUPPLY_VOLTAGE:
         return ZmienneParametryZasilania(b, ust);
 
+    case DRY_HEAT:
+    case COLD:
+    case DAMP_HEAT_STADY_STATE_OPERATIONAL:
+    case DAMP_HEAT_STADY_STATE_ENDURANCE:
+    case VIBRATION:
+    case IMPACT:
+    case SULPHUR_DIOXIDE_SO2_CORROSION:
+        return KlimatyczneMechaniczneNarazenia(b, ust);
+
     default:
         QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
@@ -422,6 +431,41 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
     } while(false);
     return true;
 }
+
+bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    if (!parametryTest(1, daneBadania, ust))
+        return false;
+    
+    bool ret = potwierdzenieNarazenia(dane, daneBadania, ust);
+    if (!ret)
+        return false;
+
+    bool ok;
+    do {
+        if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
+            return false;
+
+        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        if (powtorzPomiar == -1)
+            return false;
+        ok1 = powtorzPomiar == 0;
+    } while (powtorzPomiar != 0);
+    dane.setOk(ok1 & ok2);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
+    dane.obliczZaleznoscNapieciaZasilania(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+    do {
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+        dlg->exec();
+    } while(false);
+    return true;
+}
+
+
 
 
 bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania, const Ustawienia & ust)

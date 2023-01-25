@@ -46,6 +46,7 @@ protected:
     bool DlugoscDrogiOptycznej(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool RozproszoneSwiatlo(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
