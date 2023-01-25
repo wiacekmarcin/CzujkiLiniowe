@@ -237,7 +237,27 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </property>
               </widget>
              </item>
+            <item row="3" column="0">
+              <widget class="QLabel" name="%(nazwaEtNarazeniaWynik)s">
+               <property name="font">
+                <font>
+                 <weight>75</weight>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Narażenie</string>
+               </property>
+              </widget>
+             </item>
              <item row="3" column="1">
+              <widget class="QLabel" name="%(nazwaNarazeniaWynik)s">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
               <widget class="QTableWidget" name="%(nazwaPrzebiegTable)s">
                <property name="minimumSize">
                 <size>
@@ -324,7 +344,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <spacer name="verticalSpacer%(nazwa)s">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -405,7 +425,9 @@ def printonePage(nazwa):
     d['nazwaPrzebiegTable'] = '%sTablePrzebieg'  % func(nazwa)
     d['nazwaCzujkaE'] = 'et%sCzujka' % nazwa
     d['nazwaCzujkaTable'] = '%stableCzujka'  % func(nazwa)
+    d['nazwaEtNarazeniaWynik'] = 'et%sWynikNarazenia' % nazwa
+    d['nazwaNarazeniaWynik'] = '%sWynikNarazenia' % func(nazwa)
     print(xmlcode % d)
 
-nazwa = 'TolerancjaNapieciaZasilania'
+nazwa = 'KorozjaS02'
 printonePage(nazwa)

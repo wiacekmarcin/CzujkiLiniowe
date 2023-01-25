@@ -31,6 +31,29 @@ ListaBadan::ListaBadan(QWidget *parent) :
     testyWidget[TOLERANCE_TO_SUPPLY_VOLTAGE] = testWidget{ui->pTolerancjaNapieciaZasilania, ui->tolerancjaNapieciaZasilaniaWyniki,
                                                 ui->pbTolerancjaNapieciaZasilania};
 
+    testyWidget[DRY_HEAT] = testWidget{ui->pSucheCieplo, ui->sucheCieploWyniki,
+                                                ui->pbSucheCieplo};
+
+    testyWidget[COLD] = testWidget{ui->pZimno, ui->zimnoWyniki,
+                                                ui->pbZimno};
+
+    testyWidget[DAMP_HEAT_STADY_STATE_OPERATIONAL] = testWidget{ui->pWilgotneCieploUstalone, ui->wilgotneCieploUstaloneWyniki,
+                                                ui->pbWilgotneCieploUstalone};
+
+    testyWidget[DAMP_HEAT_STADY_STATE_ENDURANCE] = testWidget{ui->pWilgotneCieploStanStacjonarny,
+                                                 ui->wilgotneCieploStanStacjonarnyWyniki,
+                                                 ui->pbWilgotneCieploStanStacjonarny};
+
+
+    testyWidget[VIBRATION] = testWidget{ui->pWibracja, ui->wibracjaWyniki,
+                                                ui->pbWibracja};
+
+    testyWidget[IMPACT] = testWidget{ui->pUderzenia, ui->uderzeniaWyniki,
+                                                ui->pbUderzenia};
+
+    testyWidget[SULPHUR_DIOXIDE_SO2_CORROSION] = testWidget{ui->pKorozjaS02, ui->korozjaS02Wyniki,
+                                                    ui->pbKorozjaS02};
+    
     ui->stackedWidget->setCurrentWidget(ui->pOdtwarzalnosc);
 
     for (const auto & tid : testyWidget.keys())

@@ -79,6 +79,41 @@ ParametryBadania::ParametryBadania()
     tolerancjaNapieciaZasilania.setName("Zmienność parametrów zasilania");
     testy[TOLERANCE_TO_SUPPLY_VOLTAGE] = tolerancjaNapieciaZasilania;
 
+    DaneTestu sucheCieplo;
+    sucheCieplo.setId(DRY_HEAT);
+    sucheCieplo.setName("Odporność na suche gorąco");
+    testy[DRY_HEAT] = sucheCieplo;
+
+    DaneTestu sucheZimno;
+    sucheZimno.setId(COLD);
+    sucheZimno.setName("Odporność na zimno");
+    testy[COLD] = sucheZimno;
+        
+    DaneTestu odpornoscWilgotnoscGoraco;
+    odpornoscWilgotnoscGoraco.setId(DAMP_HEAT_STADY_STATE_OPERATIONAL);
+    odpornoscWilgotnoscGoraco.setName("Odporność na wilgotne gorąco, stan ustalony");
+    testy[DAMP_HEAT_STADY_STATE_OPERATIONAL] = odpornoscWilgotnoscGoraco;
+
+    DaneTestu wytrzymaloscWilgotnoscGoraco;
+    wytrzymaloscWilgotnoscGoraco.setId(DAMP_HEAT_STADY_STATE_ENDURANCE);
+    wytrzymaloscWilgotnoscGoraco.setName("Odporność na wilgotne gorąco, stan ustalony");
+    testy[DAMP_HEAT_STADY_STATE_ENDURANCE] = wytrzymaloscWilgotnoscGoraco;
+        
+    DaneTestu wibracje;
+    wibracje.setId(VIBRATION);
+    wibracje.setName("Wytrzymałość na wibracje");
+    testy[VIBRATION] = wibracje;        
+    
+    DaneTestu uderzenie;
+    uderzenie.setId(IMPACT);
+    uderzenie.setName("Odporność na uderzenie");
+    testy[IMPACT] = uderzenie;        
+    
+    DaneTestu korozjaS02;
+    korozjaS02.setId(SULPHUR_DIOXIDE_SO2_CORROSION);
+    korozjaS02.setName("Wytrzymałość na korozję powodowaną przez dwutlenek siarki");
+    testy[SULPHUR_DIOXIDE_SO2_CORROSION] = korozjaS02;        
+    
 }
 
 void ParametryBadania::load(const QString &fileName)
