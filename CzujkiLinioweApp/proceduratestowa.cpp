@@ -16,6 +16,7 @@
 #include "oknobadaniereakcji6db.h"
 #include "oknobadaniamaksymalnegokata.h"
 #include "oknoresetuzasilaniaczujki.h"
+#include "oknotestrozproszoneswiatlo.h"
 
 #include "zasilacz.h"
 #include <QMessageBox>
@@ -31,7 +32,8 @@ ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     dlg10(nullptr),
     dlg11(nullptr),
     dlg12(nullptr),
-    dlg14(nullptr)
+    dlg14(nullptr),
+    dlg15(nullptr)
 {
 
 }
@@ -105,6 +107,8 @@ void ProceduraTestowa::czujkaOn(bool hardware)
         dlg12->czujkaOn();
     else if (dlg14)
         dlg14->czujkaOn();
+    else if (dlg15)
+        dlg15->czujkaOn();
     if (!hardware)
         ster->setStopMotorAll();
 }
@@ -362,8 +366,19 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
 {
     if (!parametryTest(1, daneBadania, ust))
         return false;
-    if (potwierdzenieNarazenia(dane, daneBadania, ust))
+
+    if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
         return false;
+
+    OknoTestRozproszoneSwiatlo * dlg15 = new OknoTestRozproszoneSwiatlo(dane, parent);
+    bool ret = dlg15->exec() == QDialog::Accepted;
+
+    if (!ret) {
+        qDebug() << "czujka zglosila alarm;";
+        return false;
+    }
+
+    pomiarCzujki(false, false, false, true, 0, daneBadania, ust);
     return true;
 }
 

@@ -32,6 +32,7 @@ public:
     void posortuj();
     short getSortedId(short id) const;
 
+    DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const;
 
 private:
     QVector<QPair<QString, QString>> numbersCzujki;

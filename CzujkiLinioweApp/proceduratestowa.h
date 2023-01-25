@@ -18,7 +18,7 @@ class OknoCzekaniaBadanieKatowe;
 class OknoBadanieReakcji6dB;
 class OknoBadaniaMaksymalnegoKata;
 class OknoStabilizacjaCzujki;
-
+class OknoTestRozproszoneSwiatlo;
 class ProceduraTestowa
 {
 
@@ -74,6 +74,7 @@ private:
     OknoCzekaniaBadanieKatowe *dlg11;
     OknoBadanieReakcji6dB * dlg12;
     OknoBadaniaMaksymalnegoKata * dlg14;
+    OknoTestRozproszoneSwiatlo * dlg15;
 
 };
 

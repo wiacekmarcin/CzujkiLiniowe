@@ -345,6 +345,9 @@ void OknoParametryTestu::pbOK_clicked()
         test->setMinimalneNapiecie(ui->minVolt->text());
         test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
+    else if (test->getId() == STRAY_LIGHT) {
+        test->setDanePomiarowe(badanie.getDaneDlaCzujki(ui->typTransmitter->text(), ui->typReceiver->text()));
+    }
 
     done(QDialog::Accepted);
 }

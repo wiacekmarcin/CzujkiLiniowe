@@ -54,25 +54,6 @@ public:
 
 protected:
     void initialTestyTable(const ParametryBadania &badanie);
-    void initOdtwarzalnoscTable(const QString &nadajnik, const QString &odbiornik);
-    void addOdtwarzalnoscRekord(short num, short nrPomiaru, short sortPomiar, const QString &numerNadajnika,
-                                const QString &numerOdbiornika, const QString &value_dB, const QString &value_perc,
-                                bool ok, const QString &error);
-
-    void addPowtarzalnoscRekord(short num, const QString & value_dB, const QString & value_perc, bool ok, const QString & error);
-    void initPowtarzalnoscTable();
-
-    void initSzybkieZmianyTlumieniaTable();
-    void addSzybkieZmianyTlumieniaRekord(short num, const QString & value_dB, bool ok, const QString & error);
-
-    void initZaleznoscDrogiOptycznejTable();
-    void addZaleznoscDrogiOptycznejRekord(short num, const QString & rozstawienie, const QString & value_dB, bool ok, const QString & error);
-
-    void initRozproszoneSwiatloTable();
-    void addRozproszoneSwiatloRekord(short num, const QString & value_dB, bool ok, const QString & error);
-
-    void initTolerancjaZasilaniaTable();
-    void addTolerancjaNapieciaZasilaniaRekord(short num, const QString & napiecie1, const QString & value_dB, bool ok, const QString & error);
 
     void startBadanieRequest(int testId);
 private slots:
@@ -89,6 +70,7 @@ private:
     void addC(QTableWidget * table, const QString & Cname, const QString & val1, const QString & val2, int row);
     void addC(QTableWidget * table, const QString & Cname, const QString & val, int row);
     void clearinitTable( QTableWidget * table, const QStringList & head, const QList<int> & width);
+    void initCzujkaInfo(QTableWidget *table, const QString &transmitterName, const QString &receiverName, const QString &transmitter, const QString &receiver);
 
     void addR0(QTableWidget * table, int row);
     short addR1(QTableWidget * table, int row, int col, const QString & C1);
@@ -121,6 +103,7 @@ private:
     unsigned intCurrAlarm;
     QMap<int, testWidget> testyWidget;
     QDateTime prevCzujkaOn;
+
 };
 
 #endif // LISTABADAN_H

@@ -217,6 +217,21 @@ short ParametryBadania::getSortedId(short index) const
     return sortedId[index];
 }
 
+DanePomiaru ParametryBadania::getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const
+{
+    if (!testy[REPRODUCIBILITY].getWykonany()) {
+        DanePomiaru p ;
+        p.error = "Nie wykonany";
+        p.nrCzujki = -1;
+        p.numerNadajnika = p.numerOdbiornika = "-";
+        p.ok = false;
+        p.value_dB = 0;
+        return p;
+    } else {
+        return testy[REPRODUCIBILITY].getDaneDlaCzujki(nadajnik, odbiornik);
+    }
+}
+
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);

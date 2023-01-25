@@ -19,6 +19,7 @@ SOURCES += \
     oknobadaniereakcji6db.cpp \
     oknoczekaniabadaniekatowe.cpp \
     oknoresetuzasilaniaczujki.cpp \
+    oknotestrozproszoneswiatlo.cpp \
     parametrybadania.cpp \
     parametrybadania_gen.cpp \
     parametrybadaniaczujkidlg.cpp \
@@ -66,6 +67,7 @@ HEADERS += \
     oknobadaniereakcji6db.h \
     oknoczekaniabadaniekatowe.h \
     oknoresetuzasilaniaczujki.h \
+    oknotestrozproszoneswiatlo.h \
     parametrybadania.h \
     parametrybadania_gen.h \
     parametrybadaniaczujkidlg.h \
@@ -113,6 +115,7 @@ FORMS += \
     oknobadaniereakcji6db.ui \
     oknoczekaniabadaniekatowe.ui \
     oknoresetuzasilaniaczujki.ui \
+    oknotestrozproszoneswiatlo.ui \
     parametrybadaniaczujkidlg.ui \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \

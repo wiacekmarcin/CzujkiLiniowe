@@ -360,10 +360,11 @@ void OknoPodsumowanieTestu::rozproszoneswiatloHeadTable(QFrame *fr, QGridLayout 
 {
     short col = 0;
     ADDLINETABLEHEADTD("Nr Próby", "lhead0", "etProba");
-    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead4", "etCndB");
-    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
-    ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
-    ADDLINETABLEHEADTD("Uwagi", "lhead6", "etUwagi");
+    ADDLINETABLEHEADTD("Stan Czujki", "lhead1", "etStan");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[dB]</i></body></html>", "lhead2", "etCndB");
+    ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead3", "etCndPer");
+    ADDLINETABLEHEADTD("Wynik", "lhead4", "etResult");
+    ADDLINETABLEHEADTD("Uwagi", "lhead5", "etUwagi");
     addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
 
     addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix,"lheadUp"));
@@ -376,6 +377,7 @@ void OknoPodsumowanieTestu::rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout 
     short row = 2*r+3;
 
     ADDLINETABLETD(QString::number(r+1));
+    ADDLINETABLETD(r == 0 ? "Przed narażeniem" : "Po narażeniu");
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
     ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");

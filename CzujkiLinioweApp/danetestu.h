@@ -195,6 +195,9 @@ public:
     const QString &getMaksymalneNapiecie() const;
     void setMaksymalneNapiecie(const QString &newMaksymalneNapiecie);
 
+    DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik);
+    void setDanePomiarowe(const DanePomiaru & podtw);
+
 private:
     short id;
     QString name;

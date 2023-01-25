@@ -178,13 +178,15 @@ const QString &OknoBadaniaTlumienia::getTlumienie() const
 void OknoBadaniaTlumienia::testValue()
 {
     TestValueDialog * dlg = new TestValueDialog(tlumienie, this);
-    if (!dlg->exec() == QDialog::Rejected) {
+    if (!(dlg->exec() == QDialog::Rejected)) {
         tlumienie = dlg->value();
         error = "";
         delete dlg;
+
         done(QDialog::Accepted);
     } else {
         error = QString::fromUtf8("Czujka nie zadziała");
+        delete dlg;
         done(QDialog::Rejected);
     }
 }

@@ -926,6 +926,30 @@ void DaneTestu::setMaksymalneNapiecie(const QString &newMaksymalneNapiecie)
     maksymalneNapiecie = newMaksymalneNapiecie;
 }
 
+DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik)
+{
+    for(const auto & czujka : danePomiarowe) {
+        if (czujka.numerNadajnika == nadajnik && czujka.numerOdbiornika == odbiornik)
+            return czujka;
+    }
+    DanePomiaru p;
+    p.error = "Nie znaleziono";
+    p.ok = false;
+    p.value_dB = 0;
+    p.numerNadajnika = "";
+    p.numerOdbiornika = "";
+    p.nrCzujki = 0;
+
+    return p;
+}
+
+void DaneTestu::setDanePomiarowe(const DanePomiaru &podtw)
+{
+    if (danePomiarowe.size() != 0)
+        return;
+    danePomiarowe.append(podtw);
+}
+
 const QString &DaneTestu::getMinimalneRozstawienie() const
 {
     return minimalneRozstawienie;
