@@ -11,7 +11,7 @@ ListaTestow::ListaTestow()
     << "Odporność na zimno" << "Odporność na wilgotne gorąco, stan ustalony"
     << "Wytrzymałość na wilgotne gorąco, stan ustalony" << "Wytrzymałość na wibracje"
     << "Odporność na uderzenie"
-    << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki" 
+    << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki" ;
 
     /*
     << "Czułość na pożar" <<   
@@ -23,7 +23,7 @@ ListaTestow::ListaTestow()
     << "Odporność na powolne udary napęciowe wysokiej energii"
     */
     
-    ;
+    
     odtwarzalnosc = false;
 
 }

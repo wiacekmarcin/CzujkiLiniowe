@@ -234,19 +234,35 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             }
             nrCzujkiDoWybrania = 7;
             break;  
+
+        case IMPACT:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 7) {
+                ui->cbCzujka->setCurrentIndex(6);
+                changeCzujka(6);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 7;
+            break;
+
+        case SULPHUR_DIOXIDE_SO2_CORROSION:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 7) {
+                ui->cbCzujka->setCurrentIndex(6);
+                changeCzujka(6);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 7;
+            break;    
         default:
         break;
     }
-
-    ,
-    ,
-    ,
-    ,
-    ,
-    IMPACT,
-    SULPHUR_DIOXIDE_SO2_CORROSION
-
-
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

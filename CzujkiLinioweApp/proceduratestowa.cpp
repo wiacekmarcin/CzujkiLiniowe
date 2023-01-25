@@ -442,6 +442,7 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
         return false;
 
     bool ok;
+    short powtorzPomiar;
     do {
         if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
             return false;
@@ -449,9 +450,9 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
         powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
-        ok1 = powtorzPomiar == 0;
+        ok = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
-    dane.setOk(ok1 & ok2);
+    dane.setOk(ok);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
