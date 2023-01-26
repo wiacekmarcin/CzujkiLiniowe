@@ -93,6 +93,7 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
     for (short s=1; s<10; ++s) {
         ui->cbNaped->addItem(ust->getMotorNazwa(s), QVariant::fromValue(s));
     }
+    adjustSize();
 }
 
 TestStanowiskaDlg::~TestStanowiskaDlg()

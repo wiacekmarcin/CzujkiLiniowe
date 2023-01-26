@@ -27,6 +27,7 @@ OknoWynikBadaniaTlumienia::OknoWynikBadaniaTlumienia(bool success, const QString
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbRepeat, &QPushButton::clicked, this, [this]() { powtorzPomiar = true; this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    adjustSize();
 }
 
 OknoWynikBadaniaTlumienia::~OknoWynikBadaniaTlumienia()

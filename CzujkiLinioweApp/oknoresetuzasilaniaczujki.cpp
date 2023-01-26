@@ -51,6 +51,7 @@ OknoResetuZasilaniaCzujki::OknoResetuZasilaniaCzujki(const QString & testName, c
         ui->widget->setVisible(true);
         ui->automatyczmyReset->setVisible(true);
     }
+    adjustSize();
 }
 
 OknoResetuZasilaniaCzujki::~OknoResetuZasilaniaCzujki()

@@ -276,7 +276,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     connect(ui->maxVolt, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     check();
 
-
+    adjustSize();
 }
 
 OknoParametryTestu::~OknoParametryTestu()

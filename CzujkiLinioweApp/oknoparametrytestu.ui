@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>1100</width>
-    <height>687</height>
+    <height>653</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1100</width>
+    <height>400</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Parametry testu</string>
@@ -179,7 +191,7 @@
        <number>0</number>
       </property>
       <property name="bottomMargin">
-       <number>13</number>
+       <number>0</number>
       </property>
       <item>
        <widget class="QFrame" name="frame_niewspolosiowosc">

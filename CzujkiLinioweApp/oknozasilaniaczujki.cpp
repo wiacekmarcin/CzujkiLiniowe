@@ -74,6 +74,7 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulos
             ui->pbDalej->setEnabled(false);
         }
     }
+    adjustSize();
 }
 
 OknoZasilaniaCzujki::~OknoZasilaniaCzujki()

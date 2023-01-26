@@ -12,9 +12,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 
 {
 
-
-
-
     ui->setupUi(this);
     ui->testName->setText(daneTestu.getName());
     //qDebug() << "id" << daneTestu.getId();
@@ -189,6 +186,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setSpacing(0);
     }
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
+    adjustSize();
 }
 
 OknoPodsumowanieTestu::~OknoPodsumowanieTestu()

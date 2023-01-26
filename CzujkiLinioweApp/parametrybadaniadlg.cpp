@@ -34,6 +34,7 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     checkValidTmr.start();
     connect(ui->pbOK, &QPushButton::clicked, this, [this]() { this->pbOK_clicked(); });
     connect(ui->pbCancel, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    adjustSize();
 }
 
 ParametryBadaniaDlg::~ParametryBadaniaDlg()

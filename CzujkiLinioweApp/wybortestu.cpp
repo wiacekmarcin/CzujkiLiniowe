@@ -4,6 +4,8 @@
 #include <QRadioButton>
 #include <QCheckBox>
 #include <QButtonGroup>
+#include <QStyle>
+#include <QScreen>
 
 WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, QWidget *parent) :
     QDialog(parent),
@@ -42,6 +44,16 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
     connect(ui->pbNext, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->done(QDialog::Rejected); });
     connect(ui->pbNext, &QPushButton::pressed, this, [this]() { this->done(QDialog::Accepted); });
+    adjustSize();
+
+    setGeometry(
+        QStyle::alignedRect(
+            Qt::LeftToRight,
+            Qt::AlignCenter,
+            size(),
+            screen()->availableGeometry()
+        )
+    );
 }
 
 WyborTestu::~WyborTestu()

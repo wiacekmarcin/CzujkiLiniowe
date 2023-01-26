@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>743</width>
-    <height>275</height>
+    <width>750</width>
+    <height>300</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>750</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Wybierz test</string>
@@ -53,7 +65,8 @@
          <string>Anuluj</string>
         </property>
         <property name="icon">
-         <iconset theme="media-playback-stop"/>
+         <iconset theme="media-playback-stop">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>
@@ -75,7 +88,8 @@
          <string>Dalej</string>
         </property>
         <property name="icon">
-         <iconset theme="media-playback-start"/>
+         <iconset theme="media-playback-start">
+          <normaloff>.</normaloff>.</iconset>
         </property>
        </widget>
       </item>

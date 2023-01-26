@@ -17,6 +17,8 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QFileInfo>
+#include <QStyle>
+#include <QScreen>
 
 #include "oknopodsumowanietestu.h"
 #include "danetestu.h"
@@ -118,6 +120,14 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
     //ui->actionSterownik->setIcon(icon6);
 
     ui->centralwidget->setVisible(false);
+    setGeometry(
+        QStyle::alignedRect(
+            Qt::LeftToRight,
+            Qt::AlignCenter,
+            size(),
+            screen()->availableGeometry()
+        )
+    );
 }
 
 MainWindow::~MainWindow()

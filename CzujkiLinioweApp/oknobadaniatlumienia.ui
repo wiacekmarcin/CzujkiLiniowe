@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>606</width>
-    <height>493</height>
+    <height>500</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>500</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Test - badanie wartości tłumienia</string>
@@ -40,6 +52,7 @@
         <property name="font">
          <font>
           <pointsize>16</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -126,6 +139,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -175,6 +189,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -203,6 +218,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -231,6 +247,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -281,6 +298,7 @@
      <property name="font">
       <font>
        <pointsize>33</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -297,6 +315,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>

@@ -11,6 +11,7 @@ ParametryKalibracyjneDlg::ParametryKalibracyjneDlg(Ustawienia * u, QWidget *pare
     ui->tabNapedy->setUstawienia(u);
     connect(ui->buttonBox, &QDialogButtonBox::accepted, this, &ParametryKalibracyjneDlg::acceptButton);
     connect(ui->buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    adjustSize();
 }
 
 ParametryKalibracyjneDlg::~ParametryKalibracyjneDlg()
