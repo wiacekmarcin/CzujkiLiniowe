@@ -410,6 +410,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
                         tablePrzebieg->item(num, e)->setBackground(Qt::red);
                 }
             }
+            ++num;
         }
     } else if (daneTestu.getId() == REPEATABILITY) {
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;

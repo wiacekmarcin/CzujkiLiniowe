@@ -208,8 +208,8 @@ TestValueDialog::TestValueDialog(const QString &val, QWidget *parent) :
     buttonBox->addButton(searchButton, QDialogButtonBox::AcceptRole);
     buttonBox->addButton(cancelButton, QDialogButtonBox::RejectRole);
 
-    connect(buttonBox, SIGNAL(accepted()), this, SLOT(done(QDialog::Accepted)));
-    connect(buttonBox, SIGNAL(rejected()), this, SLOT(done(QDialog::Rejected)));
+    connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
+    connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     QVBoxLayout *lt = new QVBoxLayout;
     lt->addWidget(m_lineEdit);
