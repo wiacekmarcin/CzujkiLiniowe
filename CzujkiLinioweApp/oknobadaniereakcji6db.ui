@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>606</width>
-    <height>520</height>
+    <height>550</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>550</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Test - Badanie kątowe - tłumienie 6dB</string>
@@ -133,6 +145,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -161,6 +174,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -189,6 +203,7 @@
         <property name="font">
          <font>
           <pointsize>12</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -212,6 +227,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -289,6 +305,7 @@
      <property name="font">
       <font>
        <pointsize>33</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -305,6 +322,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -364,6 +382,7 @@
         <property name="font">
          <font>
           <pointsize>16</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>

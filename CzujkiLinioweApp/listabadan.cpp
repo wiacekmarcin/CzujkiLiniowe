@@ -4,6 +4,7 @@
 #include <QDate>
 #include <QTime>
 #include <QDateTime>
+#include <QScreen>
 
 ListaBadan::ListaBadan(QWidget *parent) :
     QWidget(parent),
@@ -65,6 +66,7 @@ ListaBadan::ListaBadan(QWidget *parent) :
         wid.button->setEnabled(false);
     }
     prevCzujkaOn = QDateTime::currentDateTime();
+
 }
 
 void ListaBadan::startBadanieRequest(int testId)

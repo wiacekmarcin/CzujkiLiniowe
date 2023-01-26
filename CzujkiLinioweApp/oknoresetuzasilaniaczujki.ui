@@ -6,9 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1015</width>
-    <height>729</height>
+    <width>1100</width>
+    <height>630</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1100</width>
+    <height>630</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>16777215</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Parametry Testu - zasilanie czujki</string>
@@ -63,6 +75,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -76,6 +89,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -89,6 +103,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -105,6 +120,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -164,6 +180,7 @@
         <property name="font">
          <font>
           <pointsize>17</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -247,6 +264,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -286,6 +304,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>

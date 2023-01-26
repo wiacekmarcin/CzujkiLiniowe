@@ -27,7 +27,7 @@ TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *pa
     ui->frame->setDisabled(true);
 
     ui->zasilaczKomendy->setDisabled(true);
-
+    adjustSize();
 }
 
 TestZasilaczaDlg::~TestZasilaczaDlg()

@@ -33,6 +33,7 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_,
     connect(ui->pbAgain, &QPushButton::clicked, this, [this]() { this->init(); });
     connect(ui->pbSkip, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     init();
+    adjustSize();
 }
 
 void OczekiwanieNaUrzadzenia::init()

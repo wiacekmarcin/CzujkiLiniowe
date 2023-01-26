@@ -87,6 +87,7 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); this->flt_setUkladFiltrowDone(); });
     sterResponse = true;
 #endif
+    adjustSize();
 }
 
 OknoBadanieReakcji6dB::~OknoBadanieReakcji6dB()

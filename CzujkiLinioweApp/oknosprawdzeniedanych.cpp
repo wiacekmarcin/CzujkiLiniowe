@@ -26,7 +26,7 @@ OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *pa
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
-
+    adjustSize();
 }
 
 OknoSprawdzenieDanych::~OknoSprawdzenieDanych()

@@ -42,6 +42,7 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
 #endif
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ this->pbCancel_clicked(); });
         connect(ui->pbAgain, &QPushButton::clicked, this, [this](){ init(); });
+        adjustSize();
 }
 
 void OknoZerowanieUrzadzenia::init()

@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>708</width>
-    <height>349</height>
+    <height>350</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>700</width>
+    <height>350</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -68,6 +80,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -156,6 +169,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -306,6 +320,7 @@
     <widget class="QLabel" name="head1">
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -354,6 +369,7 @@
     <widget class="QLabel" name="head3">
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -372,6 +388,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -390,6 +407,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -408,6 +426,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -426,6 +445,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -451,6 +471,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -488,6 +509,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -639,6 +661,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -702,6 +725,7 @@
      </property>
      <property name="font">
       <font>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>

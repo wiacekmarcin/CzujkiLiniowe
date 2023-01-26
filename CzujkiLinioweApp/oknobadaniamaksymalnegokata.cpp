@@ -61,6 +61,7 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
     connect(ui->pbStop, &QPushButton::clicked, this, [this]() {this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, true, false}); });
 #endif
+    adjustSize();
 }
 
 OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()

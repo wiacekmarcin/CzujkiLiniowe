@@ -49,6 +49,7 @@ ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
     connect(ui->transmitter_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->receiver_ospozioma, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->receiver_ospionowa, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
+    adjustSize();
 }
 
 ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()

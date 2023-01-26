@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>1200</width>
-    <height>800</height>
+    <height>600</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1200</width>
+    <height>600</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -392,6 +404,7 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -426,6 +439,7 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -480,6 +494,7 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
+             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>

@@ -7,8 +7,20 @@
     <x>0</x>
     <y>0</y>
     <width>606</width>
-    <height>537</height>
+    <height>540</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>600</width>
+    <height>540</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1920</width>
+    <height>1200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
@@ -44,6 +56,7 @@
      <property name="font">
       <font>
        <pointsize>33</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -75,6 +88,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -255,6 +269,7 @@
         <property name="font">
          <font>
           <pointsize>16</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>

@@ -54,6 +54,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() { this->czujkaOn(); });
     connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
 #endif
+    adjustSize();
 }
 
 OknoBadaniaKata::~OknoBadaniaKata()

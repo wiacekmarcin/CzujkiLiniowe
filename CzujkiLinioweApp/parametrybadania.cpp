@@ -113,7 +113,6 @@ ParametryBadania::ParametryBadania()
     korozjaS02.setId(SULPHUR_DIOXIDE_SO2_CORROSION);
     korozjaS02.setName("Wytrzymałość na korozję powodowaną przez dwutlenek siarki");
     testy[SULPHUR_DIOXIDE_SO2_CORROSION] = korozjaS02;        
-    
 }
 
 void ParametryBadania::load(const QString &fileName)

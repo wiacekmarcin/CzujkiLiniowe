@@ -19,7 +19,7 @@ ParametryBadaniaOgolneDlg::ParametryBadaniaOgolneDlg(QWidget *parent) :
     connect(ui->typCentraliSygnalizacji, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->czasStabilizacjiCzujki, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->pradAlarmu, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
-
+    adjustSize();
 
 }
 

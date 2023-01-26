@@ -8,7 +8,7 @@ UstawieniaNapedow::UstawieniaNapedow(QWidget *parent) :
     ui(new Ui::UstawieniaNapedow)
 {
     ui->setupUi(this);
-
+    adjustSize();
 }
 
 UstawieniaNapedow::~UstawieniaNapedow()

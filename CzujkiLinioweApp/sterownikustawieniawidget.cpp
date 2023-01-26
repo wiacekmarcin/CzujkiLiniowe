@@ -13,6 +13,7 @@ SterownikUstawieniaWidget::SterownikUstawieniaWidget(QWidget *parent) :
     ui(new Ui::SterownikUstawieniaWidget)
 {
     ui->setupUi(this);
+    adjustSize();
 }
 
 SterownikUstawieniaWidget::~SterownikUstawieniaWidget()

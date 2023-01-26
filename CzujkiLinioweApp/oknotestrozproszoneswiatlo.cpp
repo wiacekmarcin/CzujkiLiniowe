@@ -25,6 +25,7 @@ OknoTestRozproszoneSwiatlo::OknoTestRozproszoneSwiatlo(const DaneTestu & daneTes
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    adjustSize();
 }
 
 OknoTestRozproszoneSwiatlo::~OknoTestRozproszoneSwiatlo()

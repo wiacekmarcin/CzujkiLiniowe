@@ -46,6 +46,7 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
     }
     connect(&timer, &QTimer::timeout, this, &OknoStabilizacjaCzujki::timeout);
     timer.start();
+    adjustSize();
 }
 
 OknoStabilizacjaCzujki::~OknoStabilizacjaCzujki()

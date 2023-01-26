@@ -53,6 +53,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
 #else
     connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->testValue(); });
 #endif
+    adjustSize();
 }
 
 OknoBadaniaTlumienia::~OknoBadaniaTlumienia()

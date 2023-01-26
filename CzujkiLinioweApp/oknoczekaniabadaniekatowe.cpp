@@ -37,6 +37,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
 
     connect(&timer, &QTimer::timeout, this, &OknoCzekaniaBadanieKatowe::timeout);
     timer.start();
+    adjustSize();
 }
 
 OknoCzekaniaBadanieKatowe::~OknoCzekaniaBadanieKatowe()

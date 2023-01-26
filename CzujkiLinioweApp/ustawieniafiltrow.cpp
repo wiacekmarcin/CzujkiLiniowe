@@ -8,6 +8,7 @@ UstawieniaFiltrow::UstawieniaFiltrow(QWidget *parent) :
     ui(new Ui::UstawieniaFiltrow)
 {
     ui->setupUi(this);
+    adjustSize();
 }
 
 UstawieniaFiltrow::~UstawieniaFiltrow()
