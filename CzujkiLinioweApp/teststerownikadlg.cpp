@@ -335,8 +335,17 @@ void TestSterownikaDlg::sd_setValue(short silnik, const double &val)
     pozycja[silnik]->setText(QString::number(val));
 }
 
+void TestSterownikaDlg::sd_error(const QString &err)
+{
+    ui->debug->appendHtml(QString("<html><i>%1</i><span style=\"color:red\"><b>ERROR:</b> %2 </span></html>").arg(QTime::currentTime().toString("HH:mm:ss.zzz"), err));
+}
+
+void TestSterownikaDlg::sd_debug(const QString &dbg)
+{
+    ui->debug->appendHtml(QString("<html><i>%1</i><span style=\"color:blue\"> %2 </span></html>").arg(QTime::currentTime().toString("HH:mm:ss.zzz"), dbg));
+}
+
 void TestSterownikaDlg::sd_setPositionDone(short silnik, RuchSilnikaType r)
-//void TestSterownikaDlg::sd_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
     addDebug(QString("[Silnik %1] %2 <%3> {Przerwanie:%4 Błąd:%5").arg(silnik).
              arg(r.move ? "rozpoczął ruch" : "zakończył ruch").
@@ -381,7 +390,7 @@ void TestSterownikaDlg::sd_setPositionDone(short silnik, RuchSilnikaType r)
 void TestSterownikaDlg::pbConnect_clicked()
 {
     ui->debug->clear();
-    addDebug(QString("Szukam urządzenia vendor=%1 product=%2").arg(sd->getVendor(), sd->getProduct()));
+    addDebug(QString("Szukam urządzenia vendor=%1 product=%2 serial=%3").arg(sd->getVendor(), sd->getProduct(), sd->getSerialNumber()));
     sd->connectToDevice();
 }
 

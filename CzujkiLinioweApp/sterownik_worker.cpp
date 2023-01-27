@@ -2,9 +2,7 @@
 #include "sterownik.h"
 #include <QTime>
 #include <QThread>
-#ifndef NOSERIAL
 #include <QSerialPortInfo>
-#endif
 #include <QDebug>
 #include <QMutexLocker>
 #include <QElapsedTimer>

@@ -7,7 +7,7 @@
 #include <QMutex>
 #include "ustawienia.h"
 
-#ifdef DEFVAL
+#ifdef TESTVAL
 
 #include <QDialog>
 #include <QLineEdit>
@@ -51,7 +51,7 @@ public:
 
     const QString &getTlumienie() const;
 
-#ifdef DEFVAL
+#ifdef TESTVAL
     void testValue();
 #endif
 

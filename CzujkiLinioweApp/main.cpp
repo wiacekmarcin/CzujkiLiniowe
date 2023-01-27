@@ -4,7 +4,7 @@
 #include <QLocale>
 #include <QTranslator>
 #include <QObject>
-
+#include <QFont>
 #include "symulator.h"
 
 
@@ -25,7 +25,8 @@ int main(int argc, char *argv[])
     Ustawienia u;
     u.save();
 
-
+    QFont font(QStringList() << "Ariel" << "Times New Roman");
+    a.setFont(font);
     a.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");
     MainWindow w(nullptr);
     w.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");

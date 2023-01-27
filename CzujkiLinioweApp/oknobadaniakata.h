@@ -33,7 +33,7 @@ public:
     void czujkaOn();
 
 
-#ifdef DEFVAL
+#ifdef TESTVAL
     void testValue();
 #endif
 
@@ -67,7 +67,7 @@ private:
     bool deviceisOk;
     double prevVal;
     double speedMin;
-#ifdef DEFVAL
+#ifdef TESTVAL
     QTimer * moveTimer;
     float valBeg;
     float valEnd;

@@ -7,8 +7,11 @@
 #include <QWidget>
 #include <QVector>
 #include <QPair>
+#include <QPalette>
+
 class QLineEdit;
 class QLabel;
+class QFrame;
 namespace Ui {
 class ParametryBadaniaCzujkiDlg;
 }
@@ -70,6 +73,9 @@ private:
     ParametryBadania * badanie;
     QLabel * errorLabel;
     bool testOdtwarzalnosci;
+
+    void configCellLE(QLineEdit *l, const QString &objectName);
+    void configCellLAB(QLabel *l, const QString &objectName, bool s = false, const QSize &s1 = QSize(), const QSize &s2 = QSize());
 };
 
 #endif // PARAMETRYBADANIACZUJKIDLG_H

@@ -6,13 +6,13 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1100</width>
+    <width>800</width>
     <height>630</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1100</width>
+    <width>800</width>
     <height>630</height>
    </size>
   </property>
@@ -75,7 +75,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -89,7 +88,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -103,7 +101,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -120,12 +117,14 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
      <property name="text">
       <string/>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -180,7 +179,6 @@
         <property name="font">
          <font>
           <pointsize>17</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -247,6 +245,9 @@
         <property name="text">
          <string>Należy wyłączyć zasilanie czujki na kilka sekund i włączyć je ponownie w celu zresetowania alarmu czujki</string>
         </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -264,7 +265,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -304,7 +304,6 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -338,6 +337,9 @@
      <property name="text">
       <string>Odłączenie zasilania czujki / Reset czujki</string>
      </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item row="7" column="0">
@@ -364,6 +366,9 @@
      </property>
      <property name="text">
       <string>Trwa resetowanie czujki proszę czekać...</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>

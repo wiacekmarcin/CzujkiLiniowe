@@ -19,6 +19,7 @@
 #include <QFileInfo>
 #include <QStyle>
 #include <QScreen>
+#include <QFont>
 
 #include "oknopodsumowanietestu.h"
 #include "danetestu.h"
@@ -120,14 +121,12 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
     //ui->actionSterownik->setIcon(icon6);
 
     ui->centralwidget->setVisible(false);
-    setGeometry(
-        QStyle::alignedRect(
-            Qt::LeftToRight,
-            Qt::AlignCenter,
-            size(),
-            screen()->availableGeometry()
-        )
-    );
+    setMinimumSize(screen()->availableSize());
+    move(0,0);
+    adjustSize();
+
+
+    //qDebug() << screen()->availableGeometry() << screen()->availableSize();
 }
 
 MainWindow::~MainWindow()
@@ -151,12 +150,14 @@ void MainWindow::actionOtw_rz_okno_triggered()
 
 void MainWindow::ster_error(QString s)
 {
-    dbgDlg->add(DEBUG_COM, s);
+    if (dlgTestSter)
+        dlgTestSter->sd_error(s);
 }
 
 void MainWindow::ster_debug(QString d)
 {
-    dbgDlg->add(DEBUG_COM, d);
+    if (dlgTestSter)
+        dlgTestSter->sd_debug(d);
 }
 
 void MainWindow::ster_setParamsDone(bool success)

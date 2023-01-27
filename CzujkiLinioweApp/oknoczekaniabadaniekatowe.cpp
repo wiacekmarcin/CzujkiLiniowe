@@ -24,7 +24,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     ui->czas->setText(getMM_SS(elapsedTime));
     timer.setInterval(1000);
 
-#ifdef DEFVAL
+#ifdef TESTVAL
         ui->pbBreak->setVisible(true);
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else

@@ -30,6 +30,26 @@ ParametryBadaniaOgolneDlg::~ParametryBadaniaOgolneDlg()
 
 void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBadania *badanie, QLabel * err)
 {
+    bool o = badanie->getTestOdtwarzalnosci();
+
+    ui->numerZlecenia->setReadOnly(o);
+    ui->numerTestu->setReadOnly(o);
+    ui->osobaOdpowiedzialna->setReadOnly(o);
+    ui->czasPomiedzyZmianamifiltra->setReadOnly(o);
+    ui->napiecieZasilaniain->setReadOnly(o);
+    ui->typCentraliSygnalizacji->setReadOnly(o);
+    ui->czasStabilizacjiCzujki->setReadOnly(o);
+    ui->czasStabilizacjipoResecie->setReadOnly(o);
+    ui->pradAlarmu->setReadOnly(o);
+    ui->rbInsideSupply->setCheckable(!o);
+    ui->rbPrad->setCheckable(!o);
+    ui->dlugoscFali->setEditable(!o);
+    ui->dlugoscFaliLineEdit->setVisible(o);
+    ui->dlugoscFaliLineEdit->setReadOnly(true);
+    ui->dlugoscFali->setVisible(!o);
+    ui->dlugoscFaliLineEdit->setText(ui->dlugoscFali->currentText());
+    ui->uwagi->setReadOnly(o);
+
     errorLabel = err;
     minVolt = u.getMinNapiecieCzujki();
     maxVolt = u.getMaxNapiecieCzujki();
@@ -60,46 +80,68 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
     if (badanie->getZasilanieCzujekZasilaczZewnetrzny()) {
         ui->napiecieZasilaniain->setText(QString::number(badanie->getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3));
         setWewnetrznyZasilacz(true);
-        ui->rbInsideSupply->setChecked(true);
-        ui->rbCentralSupply->setChecked(false);
+
+        if (o) {
+            ui->rbInsideSupply->setCheckable(true);
+            ui->rbCentralSupply->setCheckable(true);
+            ui->rbCentralSupply->setCheckable(false);
+            ui->rbInsideSupply->setChecked(true);
+            ui->rbCentralSupply->setEnabled(false);
+        } else {
+            ui->rbCentralSupply->setChecked(false);
+            ui->rbInsideSupply->setChecked(true);
+        }
+
     } else {
         ui->typCentraliSygnalizacji->setText(badanie->getZasilanieCzujekTypCentrali());
         setWewnetrznyZasilacz(false);
         ui->rbInsideSupply->setChecked(false);
-        ui->rbCentralSupply->setChecked(true);
+        if (o) {
+            ui->rbCentralSupply->setCheckable(true);
+            ui->rbInsideSupply->setCheckable(true);
+            ui->rbInsideSupply->setChecked(false);
+            ui->rbCentralSupply->setCheckable(true);
+            ui->rbInsideSupply->setEnabled(false);
+        } else {
+            ui->rbCentralSupply->setChecked(true);
+            ui->rbInsideSupply->setChecked(false);
+        }
     }
 
     ui->czasStabilizacjiCzujki->setText(QString::number(badanie->getCzasStabilizacjiCzujki_s()));
     ui->czasStabilizacjipoResecie->setText(QString::number(badanie->getCzasStabilizacjiPoResecie_s()));
     bool przekaznik = badanie->getWyzwalanieAlarmuPrzekaznikiem();
     setWyzwolenieAlarmu(przekaznik);
-    ui->rbAlarmPrzekaznik->setChecked(przekaznik);
-    ui->rbPrad->setChecked(!przekaznik);
+    if (o) {
+        if (przekaznik) {
+            ui->rbAlarmPrzekaznik->setCheckable(true);
+            ui->rbPrad->setCheckable(true);
+            ui->rbPrad->setChecked(false);
+            ui->rbAlarmPrzekaznik->setChecked(true);
+            ui->rbAlarmPrzekaznik->setEnabled(true);
+            ui->rbPrad->setEnabled(false);
+        } else {
+            ui->rbPrad->setCheckable(true);
+            ui->rbAlarmPrzekaznik->setCheckable(true);
+            ui->rbAlarmPrzekaznik->setChecked(false);
+            ui->rbPrad->setChecked(true);
+            ui->rbAlarmPrzekaznik->setEnabled(false);
+            ui->rbPrad->setEnabled(true);
+        }
+    } else {
+        if (przekaznik) {
+            ui->rbPrad->setChecked(false);
+            ui->rbAlarmPrzekaznik->setChecked(true);
+        } else {
+            ui->rbAlarmPrzekaznik->setChecked(false);
+            ui->rbPrad->setChecked(true);
+        }
+    }
     ui->pradAlarmu->setText(badanie->getPrzekroczeniePraduZasilania_mA());
 
     ui->czasPomiedzyZmianamifiltra->setText(QString::number(badanie->getCzasPomZmianaTlumenia_s()));
     ui->dlugoscFali->setCurrentText(QString::number(badanie->getDlugoscFaliFiltrow()));
     check();
-
-    bool o = badanie->getTestOdtwarzalnosci();
-
-    ui->numerZlecenia->setReadOnly(o);
-    ui->numerTestu->setReadOnly(o);
-    ui->osobaOdpowiedzialna->setReadOnly(o);
-    ui->czasPomiedzyZmianamifiltra->setReadOnly(o);
-    ui->napiecieZasilaniain->setReadOnly(o);
-    ui->typCentraliSygnalizacji->setReadOnly(o);
-    ui->czasStabilizacjiCzujki->setReadOnly(o);
-    ui->czasStabilizacjipoResecie->setReadOnly(o);
-    ui->pradAlarmu->setReadOnly(o);
-    ui->rbInsideSupply->setCheckable(!o);
-    ui->rbPrad->setCheckable(!o);
-    ui->dlugoscFali->setEditable(!o);
-    ui->dlugoscFaliLineEdit->setVisible(o);
-    ui->dlugoscFaliLineEdit->setReadOnly(true);
-    ui->dlugoscFali->setVisible(!o);
-    ui->dlugoscFaliLineEdit->setText(ui->dlugoscFali->currentText());
-    ui->uwagi->setReadOnly(o);
 
 
 #ifdef DEFVAL

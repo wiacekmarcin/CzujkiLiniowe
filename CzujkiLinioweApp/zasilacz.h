@@ -11,9 +11,8 @@
 #include <QVector>
 #include <QTimer>
 
-#ifndef NOSERIAL
 #include <QSerialPort>
-#endif
+
 
 #include "zasilacz_worker.h"
 

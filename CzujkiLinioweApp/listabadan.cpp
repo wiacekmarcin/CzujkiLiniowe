@@ -133,6 +133,7 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
 
         setDaneTest(test, badanie);
     }
+    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
 
 void ListaBadan::initialTestyTable(const ParametryBadania & badanie)
@@ -149,35 +150,35 @@ void ListaBadan::initialTestyTable(const ParametryBadania & badanie)
 
     QTableWidgetItem *itemName = new QTableWidgetItem(QString::fromUtf8("Nazwa Badania"));
     ui->tableWidget->setHorizontalHeaderItem(1, itemName);
-    ui->tableWidget->setColumnWidth(0, 150);
+    ui->tableWidget->setColumnWidth(0, 700);
 
     QTableWidgetItem *itemPerson = new QTableWidgetItem(QString::fromUtf8("Osoba wykonująca test"));
     ui->tableWidget->setHorizontalHeaderItem(2, itemPerson);
-    ui->tableWidget->setColumnWidth(0, 120);
+    ui->tableWidget->setColumnWidth(0, 250);
 
     QTableWidgetItem *itemStatus = new QTableWidgetItem(QString::fromUtf8("Wynik"));
     ui->tableWidget->setHorizontalHeaderItem(3, itemStatus);
-    ui->tableWidget->setColumnWidth(0, 70);
+    ui->tableWidget->setColumnWidth(0, 100);
 
     QTableWidgetItem *itemBegin = new QTableWidgetItem(QString::fromUtf8("Rozpoczęto"));
     ui->tableWidget->setHorizontalHeaderItem(4, itemBegin);
-    ui->tableWidget->setColumnWidth(0, 70);
+    ui->tableWidget->setColumnWidth(0, 100);
 
     QTableWidgetItem *itemEnd = new QTableWidgetItem(QString::fromUtf8("Zakończono"));
     ui->tableWidget->setHorizontalHeaderItem(5, itemEnd);
-    ui->tableWidget->setColumnWidth(0, 70);
+    ui->tableWidget->setColumnWidth(0, 100);
 
     QTableWidgetItem *itemTemp = new QTableWidgetItem(QString::fromUtf8("Temp."));
     ui->tableWidget->setHorizontalHeaderItem(6, itemTemp);
-    ui->tableWidget->setColumnWidth(0, 50);
+    ui->tableWidget->setColumnWidth(0, 75);
 
     QTableWidgetItem *itemWilg = new QTableWidgetItem(QString::fromUtf8("Wilgotn."));
     ui->tableWidget->setHorizontalHeaderItem(7, itemWilg);
-    ui->tableWidget->setColumnWidth(0, 50);
+    ui->tableWidget->setColumnWidth(0, 75);
 
     QTableWidgetItem *itemCisn = new QTableWidgetItem(QString::fromUtf8("Ciśnienie"));
     ui->tableWidget->setHorizontalHeaderItem(8, itemCisn);
-    ui->tableWidget->setColumnWidth(0, 60);
+    ui->tableWidget->setColumnWidth(0, 75);
 
     short row = 0;
 
@@ -237,9 +238,7 @@ void ListaBadan::flt_bladFiltrow(QChar filtr, bool zerowanie)
 }
 
 void ListaBadan::ster_setPositionDone(short silnik, RuchSilnikaType ruch)
-//void ListaBadan::ster_setPositionDone(short silnik, bool home, bool move, bool error, bool interrupt)
 {
-    //procedura.ster_setPositionDone(silnik, home, move, error, interrupt);
     procedura.ster_setPositionDone(silnik, ruch);
 }
 
@@ -391,21 +390,24 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Nr czujki" << "Kol. pomiarów" << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi";
-        width << 75 << 75 << 150 << 150 << 50 << 50 << 200;
+        head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi" ;
+        width << 90 << 90 << 90 << 150 << 150 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             int col = addR(tablePrzebieg, num, 0,
+                           QString::number(num+1),
                            QString::number(dane.nrCzujki),
                            QString::number(badanie.getSortedId(dane.nrCzujki-1)),
                            dane.numerNadajnika,
                            dane.numerOdbiornika,
                            dane.value_dB,
                            d2p(dane.value_dB),
-                           dane.error);
+                           dane.error
+                           );
+
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
                     if (tablePrzebieg->item(num, e))
@@ -426,7 +428,10 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             tableParams->item(2, 0)->setBackground(Qt::red);
         }
 
-        initCzujkaInfo(ui->powarzalnosctableCzujka, transmitter, receiver,
+        initCzujkaInfo(ui->powarzalnosctableCzujka,                        transmitter, receiver,
+                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
+
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
@@ -440,6 +445,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             int col = addR(tablePrzebieg, num, 0,
+                           QString::number(num+1),
                            dane.value_dB, d2p(dane.value_dB), dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
@@ -455,12 +461,16 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
+    } else if (daneTestu.getId() == REPEATABILITY) {
+
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
 
 
         initCzujkaInfo(ui->szybkieZmianyTlumieniatableCzujka,
                        transmitter, receiver,
+                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
@@ -503,6 +513,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         initCzujkaInfo(ui->zaleznoscDlugisciDrogiOptycznejtableCzujka,
                        transmitter, receiver,
+                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
@@ -544,6 +556,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         }
         initCzujkaInfo(ui->rozproszoneSwiatlotableCzujka,
                        transmitter, receiver,
+                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
@@ -582,6 +596,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         initCzujkaInfo(ui->tolerancjaNapieciaZasilaniatableCzujka,
                        transmitter, receiver,
+                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
@@ -625,32 +641,44 @@ void ListaBadan::clearinitTable( QTableWidget * table, const QStringList & head,
         table->setColumnCount(head.size());
 
     int col = 0;
+    unsigned int wAll = 0;
     for (const auto & h : head) {
         QTableWidgetItem *item = new QTableWidgetItem(h);
         table->setHorizontalHeaderItem(col, item);
-        if (col < width.size())
+        if (col < width.size()) {
             table->setColumnWidth(col, width.at(col));
+            wAll += width.at(col);
+        }
         ++col;
     }
+    table->setMinimumWidth(wAll);
+    table->setMaximumWidth(wAll + 20);
 }
 
 void ListaBadan::initCzujkaInfo(QTableWidget * table, const QString & transmitterName, const QString & receiverName,
-                                const QString & transmitter, const QString & receiver)
+                                const QString & nrCzujki, const QString & transmitter, const QString & receiver)
 {
     table->clear();
-    if (table->columnCount() != 2)
-        table->setColumnCount(2);
+    if (table->columnCount() != 3)
+        table->setColumnCount(3);
+
+    QTableWidgetItem *itemh0 = new QTableWidgetItem(QString::fromUtf8("Nr czujki"));
+    table->setHorizontalHeaderItem(0, itemh0);
+    table->setColumnWidth(0, 75);
 
     QTableWidgetItem *itemh1 = new QTableWidgetItem(transmitterName);
-    table->setHorizontalHeaderItem(0, itemh1);
-    table->setColumnWidth(0, 150);
+    table->setHorizontalHeaderItem(1, itemh1);
+    table->setColumnWidth(1, 150);
 
     QTableWidgetItem *itemh2 = new QTableWidgetItem(receiverName);
-    table->setHorizontalHeaderItem(0, itemh2);
-    table->setColumnWidth(0, 150);
+    table->setHorizontalHeaderItem(2, itemh2);
+    table->setColumnWidth(2, 150);
+
+    table->setMinimumWidth(375);
+    table->setMaximumWidth(400);
 
 
-    addR(table, 0, 0, transmitter, receiver);
+    addR(table, 0, 0, nrCzujki, transmitter, receiver);
 
 }
 

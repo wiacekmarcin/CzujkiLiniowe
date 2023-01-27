@@ -43,6 +43,18 @@
           <height>200</height>
          </size>
         </property>
+        <property name="editTriggers">
+         <set>QAbstractItemView::NoEditTriggers</set>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="dragDropOverwriteMode">
+         <bool>false</bool>
+        </property>
+        <attribute name="horizontalHeaderCascadingSectionResizes">
+         <bool>true</bool>
+        </attribute>
        </widget>
       </item>
      </layout>
@@ -222,6 +234,9 @@
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
                </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
                </attribute>
@@ -326,6 +341,9 @@
              </item>
              <item row="2" column="1">
               <widget class="QTableWidget" name="odtwarzalnoscTablePrzebieg">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
                <property name="minimumSize">
                 <size>
                  <width>900</width>
@@ -334,7 +352,7 @@
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>900</width>
+                 <width>1500</width>
                  <height>240</height>
                 </size>
                </property>
@@ -348,7 +366,7 @@
                 <bool>false</bool>
                </property>
                <property name="editTriggers">
-                <set>QAbstractItemView::DoubleClicked</set>
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
                <property name="tabKeyNavigation">
                 <bool>false</bool>
@@ -375,7 +393,10 @@
                 <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
-                <number>130</number>
+                <number>50</number>
+               </attribute>
+               <attribute name="horizontalHeaderStretchLastSection">
+                <bool>false</bool>
                </attribute>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
@@ -632,6 +653,9 @@
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
                </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
                </attribute>
@@ -755,13 +779,13 @@
                 <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
-                <number>130</number>
+                <number>50</number>
                </attribute>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
                </attribute>
                <attribute name="verticalHeaderCascadingSectionResizes">
-                <bool>true</bool>
+                <bool>false</bool>
                </attribute>
                <attribute name="verticalHeaderShowSortIndicator" stdset="0">
                 <bool>false</bool>
@@ -789,6 +813,11 @@
                  <string>4</string>
                 </property>
                </row>
+               <column>
+                <property name="text">
+                 <string>Nr próby</string>
+                </property>
+               </column>
                <column>
                 <property name="text">
                  <string>C[n]</string>
@@ -845,11 +874,34 @@
                  <height>70</height>
                 </size>
                </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <property name="showDropIndicator" stdset="0">
+                <bool>false</bool>
+               </property>
+               <property name="dragDropOverwriteMode">
+                <bool>false</bool>
+               </property>
+               <attribute name="horizontalHeaderCascadingSectionResizes">
+                <bool>true</bool>
+               </attribute>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
+               <attribute name="verticalHeaderHighlightSections">
+                <bool>false</bool>
+               </attribute>
                <row>
                 <property name="text">
                  <string>1</string>
                 </property>
                </row>
+               <column>
+                <property name="text">
+                 <string>Nr czujki</string>
+                </property>
+               </column>
                <column>
                 <property name="text">
                  <string>Nadajnik</string>
@@ -1033,8 +1085,14 @@
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
                </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
+               </attribute>
+               <attribute name="verticalHeaderVisible">
+                <bool>true</bool>
                </attribute>
                <row>
                 <property name="text">
@@ -1231,6 +1289,9 @@
                  <height>70</height>
                 </size>
                </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <row>
                 <property name="text">
                  <string>1</string>
@@ -1395,6 +1456,12 @@
                  <height>70</height>
                 </size>
                </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <row>
                 <property name="text">
                  <string>1</string>
@@ -1705,6 +1772,9 @@
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
                </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
                </attribute>
@@ -1908,6 +1978,12 @@
                  <height>70</height>
                 </size>
                </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <row>
                 <property name="text">
                  <string>1</string>
@@ -2096,6 +2172,9 @@
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
                </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
+               </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
                </attribute>
@@ -2192,7 +2271,7 @@
                 <bool>false</bool>
                </property>
                <property name="editTriggers">
-                <set>QAbstractItemView::DoubleClicked</set>
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
                <property name="tabKeyNavigation">
                 <bool>false</bool>
@@ -2294,6 +2373,12 @@
                  <height>70</height>
                 </size>
                </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <attribute name="verticalHeaderVisible">
+                <bool>false</bool>
+               </attribute>
                <row>
                 <property name="text">
                  <string>1</string>

@@ -40,6 +40,8 @@ private:
     void check1Pomiar();
 
     float minTemp, maxTemp, minCisn, maxCisn, minHumi, maxHumi;
+    unsigned int miniCzasPowt, maxiCzasPowt;
+    float minVolt, maxVolt;
 };
 
 #endif // OKNOPARAMETRYTESTU_H

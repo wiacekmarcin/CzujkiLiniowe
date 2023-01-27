@@ -3,7 +3,7 @@
 #include <QTimer>
 #include <QDebug>
 
-OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long timeWait,
+OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, bool odtwarzalnosc, unsigned long timeWait,
                                                const QString & name, const QString & podTitle,
                                                QWidget *parent) :
     QDialog(parent),
@@ -28,7 +28,7 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
     ui->czas->setText(getMM_SS(elapsedTime));
     timer.setInterval(1000);
 
-#ifdef DEFVAL
+#ifdef TESTVAL
         ui->pbBreak->setVisible(true);
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else
@@ -39,6 +39,10 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool stabilizacja, unsigned long 
         setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
         ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki po włączeniu zasilania"));
         ui->lczas->setText("Pozostały czas stabilizacji czujki");
+    } else if (odtwarzalnosc) {
+        setWindowTitle(QString::fromUtf8("Test - czas bezczyności czujki"));
+        ui->head->setText(QString::fromUtf8("Test - czas bezczynności czujki między próbami w badaniu"));
+        ui->lczas->setText("Pozostały czas bezczynności czujki");
     } else {
         setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));
         ui->head->setText(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki po resecie zasilania"));

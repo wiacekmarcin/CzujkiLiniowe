@@ -34,7 +34,7 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bo
     buttons[9] = ui->rb_receiver_pion;
 
     init();
-#ifdef DEFVAL
+#ifdef TESTVAL
         ui->pbDalej->setVisible(true);
         connect(ui->pbDalej, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
 #else

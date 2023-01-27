@@ -39,7 +39,7 @@ public:
 
     void ster_setPositionDone(short silnik, RuchSilnikaType r);
     void ster_setValue(short silnik, const double & val);
-#ifdef DEFVAL
+#ifdef TESTVAL
     void testValue();
 #endif
 
@@ -61,7 +61,7 @@ private:
     double speedMin;
     float startPos;
     float maxDelta;
-#ifdef DEFVAL
+#ifdef TESTVAL
     QTimer * moveTimer;
     float valBeg;
     float valEnd;

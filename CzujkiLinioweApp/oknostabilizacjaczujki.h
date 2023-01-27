@@ -12,7 +12,7 @@ class OknoStabilizacjaCzujki : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoStabilizacjaCzujki(bool stabilizacja, unsigned long timeWait,
+    explicit OknoStabilizacjaCzujki(bool stabilizacja, bool odtwarzalnosc, unsigned long timeWait,
                                     const QString & name, const QString & podTitle,
                                     QWidget *parent = 0);
     ~OknoStabilizacjaCzujki();

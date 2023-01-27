@@ -294,6 +294,57 @@
          <enum>QFrame::Raised</enum>
         </property>
         <layout class="QGridLayout" name="gridLayoutNumerCzujek">
+         <item row="0" column="3" colspan="2">
+          <widget class="QLabel" name="headSortowanie">
+           <property name="minimumSize">
+            <size>
+             <width>100</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>120</width>
+             <height>50</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="text">
+            <string>Pocz. kol. czujek
+Zmierz. czułość</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>3</number>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="2">
+          <widget class="QLabel" name="hnumerReceiver">
+           <property name="minimumSize">
+            <size>
+             <width>60</width>
+             <height>20</height>
+            </size>
+           </property>
+           <property name="frameShape">
+            <enum>QFrame::Box</enum>
+           </property>
+           <property name="text">
+            <string>Numer nadajnika</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignCenter</set>
+           </property>
+           <property name="margin">
+            <number>3</number>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="hlp">
            <property name="minimumSize">
@@ -342,57 +393,6 @@ Czujki</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="2">
-          <widget class="QLabel" name="hnumerReceiver">
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>20</height>
-            </size>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Box</enum>
-           </property>
-           <property name="text">
-            <string>Numer nadajnika</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="margin">
-            <number>3</number>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="headSortowanie">
-           <property name="minimumSize">
-            <size>
-             <width>100</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>100</width>
-             <height>50</height>
-            </size>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Box</enum>
-           </property>
-           <property name="text">
-            <string>Kol. czujek
-po sortowaniu</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignCenter</set>
-           </property>
-           <property name="margin">
-            <number>3</number>
-           </property>
-          </widget>
-         </item>
         </layout>
        </widget>
       </item>
@@ -404,7 +404,6 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -439,7 +438,6 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>
@@ -494,7 +492,6 @@ po sortowaniu</string>
            <property name="font">
             <font>
              <pointsize>14</pointsize>
-             <weight>75</weight>
              <bold>true</bold>
             </font>
            </property>

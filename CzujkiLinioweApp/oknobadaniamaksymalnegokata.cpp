@@ -48,7 +48,7 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     //tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
     deviceisOk = false;
 
-#ifndef DEFVAL
+#ifndef TESTVAL
     ui->frameDebug->setVisible(false);
 #else
     moveTimer = new QTimer(this);
@@ -66,7 +66,7 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
 
 OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()
 {
-#ifdef DEFVAL
+#ifdef TESTVAL
     moveTimer->stop();
     delete moveTimer;
 #endif
@@ -189,7 +189,7 @@ double OknoBadaniaMaksymalnegoKata::getDegrees() const
     return prevVal;
 }
 
-#ifdef DEFVAL
+#ifdef TESTVAL
 void OknoBadaniaMaksymalnegoKata::testValue()
 {
     valPer100ms = 0.3/60/5;

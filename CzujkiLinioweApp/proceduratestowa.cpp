@@ -177,7 +177,7 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
             if (!montazZerowanieZasilanie(0, 0, true, nrPom == 1, true, false, daneBadania))
                 return false;
 
-            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, daneBadania.getCzasPomZmianaTlumenia_s(), daneBadania, ust);
+            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, true, daneBadania.getCzasPomZmianaTlumenia_s(), daneBadania, ust);
             pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;
@@ -209,7 +209,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
         if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(firstTime, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(firstTime, false, true, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         firstTime = false;
         if (powtorzPomiar == -1)
             return false;
@@ -217,20 +217,26 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
 
     dane.addNextPomiar();
 
+    resetCzujki(dane.getName(), "Resetowanie czujki",  ust.getCzasWylaczeniaCzujkiDlaResetu(),
+                     daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania );
+
     if(!zerowanieSterownika(false, true, false,daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
         return false;
 
     for (short num = 0; num < 2; ++num)
     {
-        pomiarCzujki(false, true, false, false, dane.getCzasPowtarzalnosci(), daneBadania, ust);
+        pomiarCzujki(false, true, false, false, true, dane.getCzasPowtarzalnosci(), daneBadania, ust);
 
         dane.addNextPomiar();
+
+        resetCzujki(dane.getName(), "Resetowanie czujki",  ust.getCzasWylaczeniaCzujkiDlaResetu(),
+                         daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania );
 
         if(!zerowanieSterownika(false, true, false,daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
             return false;
     }
 
-    pomiarCzujki(false, true, false, false, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
+    pomiarCzujki(false, true, false, false, true, ust.getCzasOczekiwaniaPowtarzalnosc4Test(), daneBadania, ust);
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczPowtarzalnosc(ust);
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
@@ -275,7 +281,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
 
     QString tlumienie = "-";
     QString error = "";
-    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), "", parent);
+    dlg6 = new OknoStabilizacjaCzujki(true, false, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), "", parent);
     bool stabOk = dlg6->exec() == QDialog::Accepted;
     delete dlg6;
     dlg6 = nullptr;
@@ -340,7 +346,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
         if (!montazZerowanieZasilanie(0, 1, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
         ok1 = powtorzPomiar == 0;
@@ -351,7 +357,7 @@ bool ProceduraTestowa::DlugoscDrogiOptycznej(const ParametryBadania &daneBadania
         if (!montazZerowanieZasilanie(0, 2, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
         ok2 = powtorzPomiar == 0;
@@ -387,7 +393,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
         return false;
     }
 
-    pomiarCzujki(false, false, false, true, 0, daneBadania, ust);
+    pomiarCzujki(false, false, false, true, false, 0, daneBadania, ust);
     return true;
 }
 
@@ -402,7 +408,7 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
         if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
         ok1 = powtorzPomiar == 0;
@@ -412,7 +418,7 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
         if (!montazZerowanieZasilanie(2, 0, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
         ok2 = powtorzPomiar == 0;
@@ -447,7 +453,7 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
         if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
         ok = powtorzPomiar == 0;
@@ -544,7 +550,8 @@ bool ProceduraTestowa::zasilenieCzujki(short napiecie, bool maksCzulosc, const P
     return true;
 }
 
-short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool waitEkran,
+short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, 
+                                     bool waitEkran, bool powtarzalnosc,
                                      unsigned long timeWait, const ParametryBadania &daneBadania,
                                       const Ustawienia &ust)
 {
@@ -553,7 +560,7 @@ short ProceduraTestowa::pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool r
     QString tlumienie = "-";
     QString error = "";
     if (stabilizacja || oczekiwanie) {
-        dlg6 = new OknoStabilizacjaCzujki(stabilizacja, timeWait, dane.getName(), "", parent);
+        dlg6 = new OknoStabilizacjaCzujki(stabilizacja, powtarzalnosc, timeWait, dane.getName(), "", parent);
         stabOk = dlg6->exec() == QDialog::Accepted;
         delete dlg6;
         dlg6 = nullptr;
@@ -633,7 +640,7 @@ short ProceduraTestowa::resetCzujki(const QString & testName, const QString & su
     }
     delete dlg12;
 
-    dlg6 = new OknoStabilizacjaCzujki(true, czasStabilizacji, testName, subTestName, parent);
+    dlg6 = new OknoStabilizacjaCzujki(true, czasStabilizacji, false, testName, subTestName, parent);
     bool stabOk = dlg6->exec() == QDialog::Accepted;
     delete dlg6;
     dlg6 = nullptr;
@@ -795,7 +802,7 @@ short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, cons
 short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle,
                                    const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    dlg6 = new OknoStabilizacjaCzujki(true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), ptitle, parent);
+    dlg6 = new OknoStabilizacjaCzujki(true, false, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), ptitle, parent);
     bool stabOk = dlg6->exec() == QDialog::Accepted;
     delete dlg6;
     dlg6 = nullptr;

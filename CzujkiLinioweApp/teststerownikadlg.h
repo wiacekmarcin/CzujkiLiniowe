@@ -28,6 +28,8 @@ public:
     void sd_setZdarzenieSilnik(short silnik, short zdarzenie);
     void sd_czujkaOn(bool hardware); // hardware zwarcie czujki
     void sd_setValue(short silnik, const double & val);
+    void sd_error(const QString & err);
+    void sd_debug(const QString & dbg);
 
 protected slots:
     void pbSetConfiguration_clicked();

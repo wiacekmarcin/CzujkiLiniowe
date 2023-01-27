@@ -7,3 +7,8 @@ kontroler_silnikow/src/build/*
 CzujkiLinioweApp/build*
 build-CzujkiLinioweApp-Desktop*/*
 
+CppProperties.json
+.gitignore
+.vs/slnx.sqlite
+.vs/CzujkiLiniowe/v16/*
+install/*

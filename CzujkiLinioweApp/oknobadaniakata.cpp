@@ -44,7 +44,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
     deviceisOk = false;
 
-#ifndef DEFVAL
+#ifndef TESTVAL
     ui->frameDebug->setVisible(false);
 #else
     deviceisOk = true;
@@ -59,7 +59,7 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
 
 OknoBadaniaKata::~OknoBadaniaKata()
 {
-#ifdef DEFVAL
+#ifdef TESTVAL
     moveTimer->stop();
     delete moveTimer;
 #endif
@@ -77,7 +77,7 @@ void OknoBadaniaKata::czujkaOn()
     done(QDialog::Rejected);
 }
 
-#ifdef DEFVAL
+#ifdef TESTVAL
 void OknoBadaniaKata::testValue()
 {
     valBeg = 0.0;

@@ -23,7 +23,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
+   <string>Parametry Testu - wynik pomiaru</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="8" column="0" colspan="2">

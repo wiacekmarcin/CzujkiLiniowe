@@ -25,7 +25,7 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_,
     timer.setInterval(1000);
 
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
-#ifndef DEFVAL
+#ifndef TESTVAL
     ui->pbSkip->setVisible(false);
 #endif
 

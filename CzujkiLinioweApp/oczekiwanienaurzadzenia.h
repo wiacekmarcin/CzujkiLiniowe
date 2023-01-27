@@ -36,7 +36,7 @@ private:
     Sterownik * ster;
     Zasilacz * zas;
 
-#ifdef DEFVAL
+#ifdef TESTVAL
     static constexpr short maxCzas = 10;
 #else
     static constexpr short maxCzas = 60;

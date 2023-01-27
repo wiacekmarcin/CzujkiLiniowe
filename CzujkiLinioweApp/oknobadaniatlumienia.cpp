@@ -48,7 +48,7 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     ster->setFiltrReset();
     tmSterownika.singleShot(15000, this, &OknoBadaniaTlumienia::timeoutSterownika);
 
-#ifndef DEFVAL
+#ifndef TESTVAL
     ui->pbTest->setVisible(false);
 #else
     connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->testValue(); });
@@ -175,7 +175,7 @@ const QString &OknoBadaniaTlumienia::getTlumienie() const
     return tlumienie;
 }
 
-#ifdef DEFVAL
+#ifdef TESTVAL
 void OknoBadaniaTlumienia::testValue()
 {
     TestValueDialog * dlg = new TestValueDialog(tlumienie, this);

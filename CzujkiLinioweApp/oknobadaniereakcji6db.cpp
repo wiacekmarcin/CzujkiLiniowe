@@ -81,7 +81,7 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     ster->setFiltrReset();
     tmSterownika.singleShot(5000, this, &OknoBadanieReakcji6dB::timeoutSterownika);
 
-#ifndef DEFVAL
+#ifndef TESTVAL
     ui->pbTest->setVisible(false);
 #else
     connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); this->flt_setUkladFiltrowDone(); });

@@ -26,6 +26,10 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     maxCisn = ust.getMaksymalnaCisnienie();
     minHumi = ust.getMinimalnaWilgotnosc();
     maxHumi = ust.getMaksymalnaWilgotnosc();
+    miniCzasPowt = ust.getMinimalnaWilgotnosc();
+    maxiCzasPowt = ust.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test();
+    minVolt = ust.getMinimalneNapieciaTolerancjaNapiecia();
+    maxVolt = ust.getMaksymalneNapieciaTolerancjaNapiecia();
 
     if (nrPomiar > 1) {
         SETREADONLY(ui->osobaWykonujaca);
@@ -105,6 +109,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_dlugoscDrogiOptycznej->setVisible(false);
             ui->frame_Napiecie->setVisible(false);
             nrCzujkiDoWybrania = 2;
+            ui->powtarzalnosc_czas->setText("900");
+            check();
             break;
         break;
         case TOLERANCE_TO_BEAM_MISALIGNMENT:
@@ -343,8 +349,8 @@ void OknoParametryTestu::check()
                 unsigned int secs = ssecs.toInt(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
-                } else if (secs < badanie.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() ||
-                           secs > badanie.getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test()) {
+                } else if (secs < miniCzasPowt ||
+                           secs > maxiCzasPowt) {
                     addError(QString::fromUtf8("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]"), false);
                 }
             }
@@ -357,8 +363,8 @@ void OknoParametryTestu::check()
                 unsigned int mvolt = sminvolt.toDouble(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
-                } else if (mvolt < badanie.getMinimalneNapieciaTolerancjaNapiecia() ||
-                           mvolt > badanie.getMaksymalneNapieciaTolerancjaNapiecia()) {
+                } else if (mvolt < minVolt ||
+                           mvolt > maxVolt) {
                     addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
                 }
             }
@@ -371,8 +377,8 @@ void OknoParametryTestu::check()
                 unsigned int mvolt = smaxvolt.toDouble(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Miaksymalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
-                } else if (mvolt < badanie.getMinimalneNapieciaTolerancjaNapiecia() ||
-                           mvolt > badanie.getMaksymalneNapieciaTolerancjaNapiecia()) {
+                } else if (mvolt < minVolt ||
+                           mvolt > maxVolt) {
                     addError(QString::fromUtf8("Pole 'Maksymalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
                 }
             }

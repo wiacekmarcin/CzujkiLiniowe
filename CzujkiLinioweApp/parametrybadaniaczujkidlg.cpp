@@ -133,6 +133,28 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
 
 }
 
+void ParametryBadaniaCzujkiDlg::configCellLE(QLineEdit * l, const QString & objectName)
+{
+    l->setObjectName(objectName);
+    l->setFrame(true);
+    l->setEchoMode(QLineEdit::Normal);
+    l->setAlignment(Qt::AlignCenter);
+    l->setReadOnly(true);
+    l->setMinimumSize(QSize(20, 15));
+    l->setMaximumSize(QSize(30, 50));
+}
+
+void ParametryBadaniaCzujkiDlg::configCellLAB(QLabel * l, const QString & objectName, bool s, const QSize & s1, const QSize & s2)
+{
+    l->setObjectName(objectName);
+    l->setFrameStyle(QFrame::Box);
+    l->setMargin(3);
+    if (s) {
+        l->setMinimumSize(s1);
+        l->setMaximumSize(s2);
+    }
+}
+
 void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
 {
     QPalette palette;
@@ -148,15 +170,9 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
     for (short nrCz = 0; nrCz < maxNumCzujek; ++nrCz)
     {
         QLineEdit * n = new QLineEdit(ui->frameCzujki);
-        n->setObjectName(QString("PorzadkowyNumer%1").arg(nrCz+1));
+        configCellLE(n, QString("PorzadkowyNumer%1").arg(nrCz+1));
         n->setPalette(palette);
-        n->setFrame(true);
-        n->setEchoMode(QLineEdit::Normal);
-        n->setAlignment(Qt::AlignCenter);
-        n->setReadOnly(true);
         n->setText(QString::number(nrCz+1));
-        n->setMinimumSize(QSize(20, 0));
-        n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
         auto row = badanie->getNumeryCzujki(nrCz, false);
@@ -206,38 +222,36 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
 void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *badanie)
 {
     ui->iloscczujek->setText(QString::number(badanie->getIloscCzujek()));
+    showInfo7Number(badanie->getIloscCzujek() != 7);
     for (short nrCz = 0; nrCz < badanie->getIloscCzujek(); ++nrCz)
     {
-        short nrCzujki = badanie->getSortedId(nrCz);
+        auto czujka = badanie->getNumeryCzujki(nrCz, true);
+        auto dane = badanie->getDaneDlaCzujki(czujka.first, czujka.second);
+
         QLabel * n = new QLabel(ui->frameCzujki);
-        n->setObjectName(QString("PorzadkowyNumerLabel%1").arg(nrCz+1));
-        n->setFrameStyle(QFrame::Box);
-        n->setMargin(3);
+        configCellLAB(n, QString("PorzadkowyNumerLabel%1").arg(nrCz+1), true, QSize(20, 20), QSize(30,50));
         n->setText(QString::number(nrCz+1));
-        n->setMinimumSize(QSize(20, 0));
-        n->setMaximumSize(QSize(30, 50));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
         QLabel * p = new QLabel(ui->frameCzujki);
-        p->setObjectName(QString("transmitterNumerLabel%1").arg(nrCz+1));
-        p->setText(badanie->getNumerTransmitter(nrCz, true));
-        p->setFrameStyle(QFrame::Box);
-        p->setMargin(3);
+        configCellLAB(p, QString("transmitterNumerLabel%1").arg(nrCz+1));
+        p->setText(czujka.first);
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
 
         QLabel * d = new QLabel(ui->frameCzujki);
-        d->setObjectName(QString("receiverNumerLabel%1").arg(nrCz+1));
-        d->setText(badanie->getNumerReceiver(nrCz, true));
-        d->setFrameStyle(QFrame::Box);
-        d->setMargin(3);
+        configCellLAB(d, QString("receiverNumerLabel%1").arg(nrCz+1));
+        d->setText(czujka.second);
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
 
         QLabel * k = new QLabel(ui->frameCzujki);
-        k->setObjectName(QString("numePorzadkowyLabel%1").arg(nrCzujki));
-        k->setMargin(3);
-        k->setText(QString::number(nrCzujki));
-        k->setFrameStyle(QFrame::Box);
+        configCellLAB(k, QString("numePorzadkowyLabel%1").arg(nrCz+1), true, QSize(20, 20), QSize(30,50));
+        k->setText(QString::number(dane.nrCzujki));
         ui->gridLayoutNumerCzujek->addWidget(k, nrCz+1, 3, 1, 1);
+
+        QLabel * t = new QLabel(ui->frameCzujki);
+        configCellLAB(t, QString("tlumienieLabel%1").arg(nrCz+1), true, QSize(40, 20), QSize(80,50));
+        t->setText(dane.value_dB + " dB");
+        ui->gridLayoutNumerCzujek->addWidget(t, nrCz+1, 4, 1, 1);
     }
     QSpacerItem * spacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
     ui->gridLayoutNumerCzujek->addItem(spacer, badanie->getIloscCzujek()+1, 0, 1, 1);

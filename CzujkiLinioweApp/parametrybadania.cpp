@@ -54,7 +54,7 @@ ParametryBadania::ParametryBadania()
     testy[REPEATABILITY] = powtarzalnosc;
 
     DaneTestu zaleznosckierunkowa;
-    zaleznosckierunkowa.setId(REPEATABILITY);
+    zaleznosckierunkowa.setId(TOLERANCE_TO_BEAM_MISALIGNMENT);
     zaleznosckierunkowa.setName("Zależność kierunkowa");
     testy[TOLERANCE_TO_BEAM_MISALIGNMENT] = zaleznosckierunkowa;
 
@@ -171,6 +171,15 @@ QString ParametryBadania::getNumerReceiver(unsigned int index, bool sorted) cons
         return getNumerReceiver(sortedId[index]-1, false);
     else
         return numbersCzujki[index].second;
+}
+
+QString ParametryBadania::getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const
+{
+    if (!testy[REPRODUCIBILITY].getWykonany()) {
+        return "-";
+    } else {
+        return QString::number(testy[REPRODUCIBILITY].getDaneDlaCzujki(nadajnik, odbiornik).nrCzujki);
+    }
 }
 
 void ParametryBadania::wyczyscCzujki()

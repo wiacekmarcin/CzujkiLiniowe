@@ -23,6 +23,8 @@ public:
     void dodajCzujki(const QString &odbiornik, const QString &nadajnik);
     QString getNumerTransmitter(unsigned int index, bool sorted) const;
     QString getNumerReceiver(unsigned int index, bool sorted) const;
+    QString getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const;
+
     QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const
     { return qMakePair(getNumerTransmitter(index, sorted), getNumerReceiver(index, sorted)); }
 
