@@ -339,6 +339,7 @@ void DaneTestu::addWybranaCzujka(short nrCzujki, const QString &nadajnik, const 
     nowyPomiar.numerOdbiornika = odbiornik;
     nowyPomiar.value_dB = "0.0";
     nowyPomiar.error = "";
+    nowyPomiar.ok = false;
     danePomiarowe.append(nowyPomiar);
 }
 

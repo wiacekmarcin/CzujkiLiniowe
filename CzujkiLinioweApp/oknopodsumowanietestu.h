@@ -40,7 +40,7 @@ protected:
     void odtwarzalnoscAddRekord(QFrame * fr, QGridLayout * lay, const QString & suffix,
                                        short r, short nrProby, const QString & nadajnik, const QString & odbiornik,
                                                                          const QString &tlumienie_db, const QString &tlumienie_per,
-                                                                         bool ok, const QString &inneText, short posortowane);
+                                                                         bool ok, const QString &inneText);
     void odtwarzalnoscHeadTable(QFrame *frameTable, QGridLayout *layout, const QString &suffix, const QString &nadajnik, const QString &odbiornik);
     void powtarzalnoscHeadTable(QFrame *frameTable, QGridLayout *layout, const QString &suffix);
 

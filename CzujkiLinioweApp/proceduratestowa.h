@@ -25,7 +25,7 @@ class ProceduraTestowa
 public:
     ~ProceduraTestowa();
     ProceduraTestowa(QWidget * widget);
-    bool startBadanie(short id, const QString &nameTest, const ParametryBadania &b,
+    bool startBadanie(short id, const QString &nameTest, ParametryBadania &b,
                       const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();
@@ -38,7 +38,7 @@ public:
     DaneTestu &getDane();
 
 protected:
-    bool Odtwarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
+    bool Odtwarzalnosc(ParametryBadania &b, const Ustawienia & ust);
     bool Powtarzalnosc(const ParametryBadania &b, const Ustawienia & ust);
     bool Niewspolosiowosc(const ParametryBadania &b, const Ustawienia & ust);
     bool NiewspolosiowoscBadanie(const ParametryBadania &daneBadania, const Ustawienia &ust);

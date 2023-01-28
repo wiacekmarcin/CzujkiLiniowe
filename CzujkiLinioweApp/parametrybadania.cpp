@@ -9,6 +9,7 @@ ParametryBadania::ParametryBadania()
     setCzasStabilizacjiCzujki_s(900);
     setCzasPomZmianaTlumenia_s(15);
     setCzasStabilizacjiCzujki_s(60);
+    setCzasStabilizacjiPoResecie_s(15);
     setNapiecieZasilaniaCzujki_mV(24000);
     setPrzekroczeniePraduZasilania_mA("50");
     setZasilanieCzujekZasilaczZewnetrzny(true);
@@ -16,7 +17,9 @@ ParametryBadania::ParametryBadania()
     setMaksKatowaNieWspolPionowaNadajnika("0.0");
     setMaksKatowaNieWspolPionowaOdbiornika("0.0");
     setMaksKatowaNieWspolPoziomaNadajnika("0.0");
-    setMaksKatowaNieWspolPionowaOdbiornika("0.0");
+    setMaksKatowaNieWspolPoziomaOdbiornika("0.0");
+    setRozstawienieMinCzujki("1.0");
+    setRozstawienieMaxCzujki("10.0");
     setSystemOdbiornikNadajnik(true);
     setTestOdtwarzalnosci(false);
     setNazwaTransmitter("Nadajnik");
@@ -39,9 +42,21 @@ ParametryBadania::ParametryBadania()
     setProducentCzujki("-");
     setTypTransmitter("-");
     setTypReceiver("-");
-    setRozstawienieMinCzujki(0);
-    setRozstawienieMaxCzujki(0);
     setIloscCzujek(0);
+
+    setDrogaoptycznaCmaxCmin(0);
+    setMaksymalneNapieciaTolerancjaNapiecia(0);
+    setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(0);
+    setMinimalneNapieciaTolerancjaNapiecia(0);
+    setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(0);
+    setOdtwarzalnoscCmaxCrep(0);
+    setOdtwarzalnoscCrepCmin(0);
+    setOdtwarzalnoscCmin(0);
+    setTolerancjaNapieciaZasilaniaCmaxCmin(0);
+
+    numbersCzujki.clear();
+    sortedId.clear();
+    testy.clear();
 
     DaneTestu odtwarzalnosc;
     odtwarzalnosc.setId(REPRODUCIBILITY);
@@ -194,9 +209,20 @@ const QMap<int, DaneTestu> &ParametryBadania::getTesty() const
 
 void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
 {
-    if (id == REPRODUCIBILITY)
-        setTestOdtwarzalnosci(true);
     testy[id] = dane;
+    if (id == REPRODUCIBILITY) {
+        setTestOdtwarzalnosci(true);
+        numbersCzujki.clear();
+        const auto & daneCzujek = dane.getDaneBadanCzujek();
+        numbersCzujki = QVector<QPair<QString, QString>>(daneCzujek.size());
+        setIloscCzujek(daneCzujek.size());
+        for (short i = 0; i < daneCzujek.size(); ++i ) {
+            const auto & pomiar = daneCzujek.at(i);
+            numbersCzujki[pomiar.nrCzujki-1] = qMakePair(pomiar.numerNadajnika, pomiar.numerOdbiornika);
+        }
+        posortuj();
+    }
+
 }
 
 void ParametryBadania::posortuj()
@@ -206,8 +232,10 @@ void ParametryBadania::posortuj()
     if (!testy[REPRODUCIBILITY].getWykonany())
         return;
 
-    if (testy[REPRODUCIBILITY].getDaneBadanCzujek().size() < 2)
+    if (testy[REPRODUCIBILITY].getDaneBadanCzujek().size() < 2) {
+        sortedId.append(1);
         return;
+    }
 
     auto pomiary = testy[REPRODUCIBILITY].getDaneBadanCzujek();
     float max1 = 0, max2 = 0;
@@ -236,6 +264,7 @@ void ParametryBadania::posortuj()
             max2 = val;
         }
     }
+    sortedId.clear();
     for (int pos = 0; pos < pomiary.size(); ++pos) {
         if (pos == pmax1 || pos == pmax2)
             continue;

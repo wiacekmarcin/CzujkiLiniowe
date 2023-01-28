@@ -113,7 +113,7 @@ void ProceduraTestowa::czujkaOn(bool hardware)
         ster->setStopMotorAll();
 }
 
-bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const ParametryBadania & b,
+bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, ParametryBadania & b,
                                     const Ustawienia & ust, Zasilacz * zas_, Sterownik * ster_)
 {
     zas = zas_;
@@ -164,7 +164,7 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, const Pa
 
 
 
-bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const Ustawienia & ust)
+bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustawienia & ust)
 {
     short powtorzPomiar;
     for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
@@ -187,10 +187,12 @@ bool ProceduraTestowa::Odtwarzalnosc(const ParametryBadania & daneBadania, const
     }
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczOdtwarzalnosc(ust);
+
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
         zas->setOutput(false);
     {
         dane.setWykonany(true);
+        daneBadania.posortuj();
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     }

@@ -400,7 +400,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             int col = addR(tablePrzebieg, num, 0,
                            QString::number(num+1),
                            QString::number(dane.nrCzujki),
-                           QString::number(badanie.getSortedId(dane.nrCzujki-1)),
+                           QString::number(badanie.getSortedId(num)),
                            dane.numerNadajnika,
                            dane.numerOdbiornika,
                            dane.value_dB,

@@ -56,8 +56,6 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
 
     ui->lunitvoltinside->setText(QString("[V] (%1-%2)").arg(QString::number(minVolt),
                                                             QString::number(maxVolt)));
-
-
     minCzasStab = u.getMinCzasStabCzujki();
     maxCzasStab = u.getMaxCzasStabCzujki();
     ui->lunitczasstabilizacji->setText(QString("[s] (%1-%2)").arg(QString::number(minCzasStab),

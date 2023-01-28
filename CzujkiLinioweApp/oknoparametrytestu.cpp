@@ -49,6 +49,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     } else {
         const QString dataWyk = QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm");
         ui->dataRozpoczecia->setText(dataWyk);
+        ui->osobaWykonujaca->setText(badanie.getOsobaOdpowiedzialna());
 #ifdef DEFVAL
         ui->osobaWykonujaca->setText("Osoba wykonująca Test");
         ui->wilgotnosc->setText("99.3");
@@ -388,6 +389,9 @@ void OknoParametryTestu::check()
 //Todo sprawdzenie czujki
         if (test->sprawdzCzyBadanaCzujka(ui->typTransmitter->text(), ui->typReceiver->text())) {
             addError(QString::fromUtf8("Wybrana czujka była już badana"), true);
+            ui->pbDalej->setEnabled(false);
+        } else {
+            ui->pbDalej->setEnabled(true);
         }
     }
 

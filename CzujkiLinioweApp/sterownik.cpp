@@ -197,6 +197,9 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
 bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
 {
+    if (!connected())
+        return false;
+
     if (currentRequest.size() > 0)
     {
 

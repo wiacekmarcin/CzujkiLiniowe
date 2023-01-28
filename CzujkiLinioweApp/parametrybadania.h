@@ -38,7 +38,7 @@ public:
 
 private:
     QVector<QPair<QString, QString>> numbersCzujki;
-    QVector<short> sortedId;
+    QVector<int> sortedId;
     QMap<int, DaneTestu> testy;
 
 };

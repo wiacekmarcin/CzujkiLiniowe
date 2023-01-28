@@ -514,14 +514,27 @@ void MainWindow::actionZamknijBadanie_triggered()
 
 void MainWindow::actionTest_triggered()
 {
-    DaneTestu dt;
-    ParametryBadania pb;
-    dt.setId(0);
-    dt.addWybranaCzujka(1, "n1", "o1");
-    dt.addWybranaCzujka(2, "n2", "o2");
-    dt.setSuccessBadaniaCzujki(true, "6.2", "");
-    dt.setSuccessBadaniaCzujki(false, "-", "blad sprzetowy");
-    OknoPodsumowanieTestu * dlg = new OknoPodsumowanieTestu(dt, pb, u,  this);
-    dlg->exec();
+    DaneTestu p;
+    p.setId(REPRODUCIBILITY);
+    p.setName("Odtwarzalnosc");
+    p.addWybranaCzujka(1, "N1", "O1");
+    p.setSuccessBadaniaCzujki(true, "2.3", "");
+    p.addWybranaCzujka(2, "N2", "O2");
+    p.setSuccessBadaniaCzujki(true, "2.4", "");
+    p.addWybranaCzujka(3, "N3", "O3");
+    p.setSuccessBadaniaCzujki(true, "2.5", "");
+    p.addWybranaCzujka(4, "N4", "O4");
+    p.setSuccessBadaniaCzujki(true, "2.6", "");
+    p.addWybranaCzujka(5, "N5", "O5");
+    p.setSuccessBadaniaCzujki(true, "2.0", "");
+    p.addWybranaCzujka(6, "N6", "O6");
+    p.setSuccessBadaniaCzujki(true, "2.0", "");
+    p.addWybranaCzujka(7, "N7", "O7");
+    p.setSuccessBadaniaCzujki(true, "1.9", "");
+    p.setOk(true);
+    p.setWykonany(true);
+    b.setDaneTestu(REPRODUCIBILITY, p);
+    b.posortuj();
+    b.save(QString("falszywedane.dat"));
 }
 
