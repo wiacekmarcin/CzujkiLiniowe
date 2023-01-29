@@ -31,14 +31,15 @@ public:
     void wyczyscCzujki();
     const QMap<int, DaneTestu> &getTesty() const;
     void setDaneTestu(short id, const DaneTestu & dane);
-    void posortuj();
-    short getSortedId(short id) const;
 
     DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const;
+    short getNumerPozycji(short posortowane);
 
+    short getNumerSortedCzujki(short sortId) const;
+    QString getNumerSortedCzujki(const QString &nadajnik, const QString &odbiornik) const;
+    short getSortedId(short index) const;
 private:
     QVector<QPair<QString, QString>> numbersCzujki;
-    QVector<int> sortedId;
     QMap<int, DaneTestu> testy;
 
 };

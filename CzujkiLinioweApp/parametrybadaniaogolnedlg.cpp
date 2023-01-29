@@ -194,7 +194,7 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
     }
 
     badanie->setDlugoscFaliFiltrow(ui->dlugoscFali->currentText().toUInt());
-    badanie->setCzasStabilizacjiCzujki_s(ui->czasPomiedzyZmianamifiltra->text().toUInt());
+
 }
 
 bool ParametryBadaniaOgolneDlg::check()

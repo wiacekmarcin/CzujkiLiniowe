@@ -43,7 +43,7 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         {
             odtwarzalnoscAddRekord(ui->odtwarzalnoscframeTable, ui->odtwarzalnoscGridLayoutResults, "odtwarzalnosc",
                                   num+1, dane.nrCzujki, dane.numerNadajnika, dane.numerOdbiornika,
-                                    dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error /*, badanie.getSortedId(num)*/);
+                                    dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error, dane.nrSortCzujki);
             num++;
         }
         ui->odtwarzalnoscGridLayoutResults->setVerticalSpacing(0);
@@ -203,7 +203,7 @@ void OknoPodsumowanieTestu::odtwarzalnoscAddRekord(
         QFrame * fr, QGridLayout * lay, const QString & suffix,
         short r, short nrCzujki, const QString & nadajnik, const QString & odbiornik,
                                           const QString &tlumienie_db, const QString &tlumienie_per,
-                                          bool ok, const QString &inneText/*, short posortowane*/)
+                                          bool ok, const QString &inneText, short posortowane)
 {
 
     short col = 0;
@@ -223,7 +223,7 @@ void OknoPodsumowanieTestu::odtwarzalnoscAddRekord(
     else
         oneTableFrame(ok, fr, lay, inneText, row, col, QString("frame_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
-    //ADDLINETABLETD(QString::number(posortowane));
+    ADDLINETABLETD(posortowane == 0 ? QString("-") : QString::number(posortowane));
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
 
@@ -249,7 +249,7 @@ void OknoPodsumowanieTestu::odtwarzalnoscHeadTable(QFrame * fr, QGridLayout * la
     ADDLINETABLEHEADTD("<html><body><b>C<sub>[n]</sub></b> <i>[%]</i></body></html>", "lhead5", "etCndPer");
     ADDLINETABLEHEADTD("Wynik", "lhead6", "etResult");
     ADDLINETABLEHEADTD("Uwagi", "lhead7", "etUwagi");
-    ADDLINETABLEHEADTD("Uporządkowanie", "lhead8", "etNr");
+    ADDLINETABLEHEADTD("Nr wg Normy", "lhead8", "etNr");
     addLine(fr, lay, true, 1, col++, 1, 1, QString("%1 %2").arg(suffix,"lhead8"));
     addLine(fr, lay, false, 0, 0, 1, col, QString("%1 %2").arg(suffix, "lheadUp"));
     addLine(fr, lay, false, 2, 0, 1, col, QString("%1 %2").arg(suffix, "lheadDown"));

@@ -57,7 +57,7 @@ private slots:
     void flt_bladFiltrow(QChar filtr, bool zerowanie);
 
     void actionOtw_rz_okno_triggered();
-    void actionParametry_Badania_triggered();
+    void actionParametryBadania_triggered();
     void actionParametryKalibracyjne_triggered();
     void actionTestZasilacza_triggered();
     void pbDisconnect_clicked();
@@ -70,7 +70,6 @@ private slots:
     void actionOtworzBadanie_triggered();
     void actionUsunBadanie_triggered();
     void actionSterownik_triggered();
-    void actionParametryBadania_triggered();
     void actionZamknijBadanie_triggered();
 
     void actionTest_triggered();

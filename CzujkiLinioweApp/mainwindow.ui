@@ -93,14 +93,16 @@
    <addaction name="actionZapiszZadanie"/>
    <addaction name="actionZapiszJako"/>
    <addaction name="separator"/>
+   <addaction name="actionStartTestu"/>
    <addaction name="actionParametryBadania"/>
+   <addaction name="separator"/>
    <addaction name="actionZamknijBadanie"/>
    <addaction name="actionUsunBadanie"/>
    <addaction name="separator"/>
    <addaction name="actionZasilacz"/>
    <addaction name="actionSterownik"/>
-   <addaction name="actionStartTestu"/>
    <addaction name="actionTest"/>
+   <addaction name="separator"/>
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="icon">
@@ -110,15 +112,10 @@
     <string>Otwórz okno</string>
    </property>
   </action>
-  <action name="actionParametry_Badania">
-   <property name="text">
-    <string>Parametry Badania</string>
-   </property>
-  </action>
   <action name="actionNoweBadanie">
    <property name="icon">
-    <iconset theme="document-new">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>NewDocument.svg</normaloff>NewDocument.svg</iconset>
    </property>
    <property name="text">
     <string>Nowy</string>
@@ -133,7 +130,7 @@
   <action name="actionOtworzBadanie">
    <property name="icon">
     <iconset theme="document-open">
-     <normaloff>.</normaloff>.</iconset>
+     <normaloff>OpenFile.svg</normaloff>OpenFile.svg</iconset>
    </property>
    <property name="text">
     <string>Otwórz</string>
@@ -147,8 +144,8 @@
   </action>
   <action name="actionZapiszZadanie">
    <property name="icon">
-    <iconset theme="document-save">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>Save.svg</normaloff>Save.svg</iconset>
    </property>
    <property name="text">
     <string>Zapisz</string>
@@ -162,8 +159,8 @@
   </action>
   <action name="actionZapiszJako">
    <property name="icon">
-    <iconset theme="document-save-as">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>SaveAs.svg</normaloff>SaveAs.svg</iconset>
    </property>
    <property name="text">
     <string>Zapisz jako</string>
@@ -174,8 +171,8 @@
   </action>
   <action name="actionUsunBadanie">
    <property name="icon">
-    <iconset theme="edit-delete">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>Delete.svg</normaloff>Delete.svg</iconset>
    </property>
    <property name="text">
     <string>Usuń</string>
@@ -225,8 +222,8 @@
   </action>
   <action name="actionStartTestu">
    <property name="icon">
-    <iconset theme="media-playback-start">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>StartupApplication.svg</normaloff>StartupApplication.svg</iconset>
    </property>
    <property name="text">
     <string>Start Testu</string>
@@ -239,8 +236,8 @@
   </action>
   <action name="actionParametryBadania">
    <property name="icon">
-    <iconset theme="accessories-text-editor">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>ProcedureSettings.svg</normaloff>ProcedureSettings.svg</iconset>
    </property>
    <property name="text">
     <string>Parametry Badania</string>
@@ -248,8 +245,8 @@
   </action>
   <action name="actionZamknijBadanie">
    <property name="icon">
-    <iconset theme="window-close">
-     <normaloff>.</normaloff>.</iconset>
+    <iconset>
+     <normaloff>CloseDocument.svg</normaloff>CloseDocument.svg</iconset>
    </property>
    <property name="text">
     <string>Zamknij Badanie</string>

@@ -174,10 +174,10 @@ bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustaw
 
         bool pomiar1 = true;
         do {
-            if (!montazZerowanieZasilanie(0, 0, true, nrPom == 1, true, false, daneBadania))
+            if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
                 return false;
 
-            powtorzPomiar = pomiarCzujki(pomiar1, false, true, true, true, daneBadania.getCzasPomZmianaTlumenia_s(), daneBadania, ust);
+            powtorzPomiar = pomiarCzujki(pomiar1, true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
             pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;
@@ -192,7 +192,6 @@ bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustaw
         zas->setOutput(false);
     {
         dane.setWykonany(true);
-        daneBadania.posortuj();
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     }

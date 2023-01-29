@@ -72,6 +72,7 @@ DaneTestu::DaneTestu():
 QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 {
     out << dane.nrCzujki
+        << dane.nrSortCzujki
         << dane.numerNadajnika
         << dane.numerOdbiornika
         << dane.value_dB
@@ -85,6 +86,7 @@ QDataStream &operator<<(QDataStream &out, const DanePomiaru &dane)
 QDataStream &operator>>(QDataStream &in, DanePomiaru &dane)
 {
     in >> dane.nrCzujki
+       >> dane.nrSortCzujki
        >> dane.numerNadajnika
        >> dane.numerOdbiornika
        >> dane.value_dB
@@ -335,6 +337,7 @@ void DaneTestu::addWybranaCzujka(short nrCzujki, const QString &nadajnik, const 
 {
     DanePomiaru nowyPomiar;
     nowyPomiar.nrCzujki = nrCzujki;
+    nowyPomiar.nrSortCzujki = nrCzujki;
     nowyPomiar.numerNadajnika = nadajnik;
     nowyPomiar.numerOdbiornika = odbiornik;
     nowyPomiar.value_dB = "0.0";
@@ -511,6 +514,7 @@ void DaneTestu::addNextPomiar()
 {
     DanePomiaru nowyPomiar;
     nowyPomiar.nrCzujki = danePomiarowe.last().nrCzujki;
+    nowyPomiar.nrSortCzujki = danePomiarowe.last().nrSortCzujki;
     nowyPomiar.numerNadajnika = danePomiarowe.last().numerNadajnika;
     nowyPomiar.numerOdbiornika = danePomiarowe.last().numerOdbiornika;
     nowyPomiar.value_dB = "0.0";
@@ -608,10 +612,19 @@ void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
         bool ok;
         double C = dane.value_dB.toDouble(&ok);
 
+        if (!dane.ok) {
+            badanieOk = false;
+            dane.nrSortCzujki = 0;
+            continue;
+        }
+
         if (!ok) {
             badanieOk = false;
             setErrStr(QString::fromUtf8("Błędna wartość C"));
+            if (dane.error.isEmpty())
+                dane.error = QString::fromUtf8("Błędna wartość C");
             dane.ok = false;
+            dane.nrSortCzujki = 0;
             continue;
         } else {
             if (C > Cmax)
@@ -623,18 +636,31 @@ void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
             ++cntAvg;
         }
 
+        if (badanieOk && !dane.ok) {
+            setErrStr(dane.error);
+            badanieOk = false;
+            continue;
+        }
+
         if (!dane.ok) {
             badanieOk = false;
-            setErrStr(dane.error);
+            dane.nrSortCzujki = 0;
             continue;
         }
 
         if (C < ust.getMinimalnaWartoscCzujkiCn()) {
-            badanieOk = false;
-            setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            if (badanieOk) {
+                setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+                badanieOk = false;
+            }
+            dane.nrSortCzujki = 0;
             dane.ok = false;
             dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
         }
+    }
+    if (cntAvg == 0) {
+        setOk(false);
+        setErrStr(badanieOk ? "" : "Żadna czujka nie przeszła badanie");
     }
     if (cntAvg)
         Cavg = Cavg/cntAvg;
@@ -642,7 +668,7 @@ void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
     setOk(badanieOk);
     setErrStr(badanieOk ? "" : "Czujka(i) nie przeszły badania");
 
-    if (cntAvg && Cavg) {
+    if (cntAvg != 0 && Cavg != 0 && Cmin != 0) {
         setCrep(Cavg);
         setCmin(Cmin);
         setCmax(Cmax);
@@ -666,6 +692,8 @@ void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
     } else {
         setOk(badanieOk);
     }
+
+    posortuj();
 }
 
 void DaneTestu::obliczPowtarzalnosc(const Ustawienia & ust)
@@ -942,8 +970,23 @@ DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &
     p.numerNadajnika = "";
     p.numerOdbiornika = "";
     p.nrCzujki = 0;
+    p.nrSortCzujki = 0;
 
     return p;
+}
+
+short DaneTestu::getSortedPos(short sortedId)
+{
+    if (id > danePomiarowe.size())
+        return -1;
+
+    short pos = 0;
+    for(const auto & czujka : danePomiarowe) {
+        if (czujka.nrSortCzujki == sortedId)
+            return pos;
+        ++pos;
+    }
+    return -1;
 }
 
 void DaneTestu::setDanePomiarowe(const DanePomiaru &podtw)
@@ -971,4 +1014,56 @@ const QString &DaneTestu::getMaksymalneRozstawienie() const
 void DaneTestu::setMaksymalneRozstawienie(const QString &newMaksymalneRozstawienie)
 {
     maksymalneRozstawienie = newMaksymalneRozstawienie;
+}
+
+void DaneTestu::posortuj()
+{
+
+    if (getDanePomiarowe().size() < 2)
+        return;
+
+    float max1 = -1, max2 = -1;
+    short pmax1 = -1, pmax2 = -1;
+    short pos = -1;
+    auto & wszystkieDane = getDanePomiarowe();
+    for (DanePomiaru & dane : wszystkieDane) {
+        ++pos;
+        if (!dane.ok)
+            continue;
+        float val = dane.value_dB.toFloat();
+        if (val > max1) {
+            pmax1 = pos;
+            max1 = val;
+        }
+    }
+
+    pos = -1;
+    for (DanePomiaru & dane : wszystkieDane) {
+        ++pos;
+        if (!dane.ok)
+            continue;
+        float val = dane.value_dB.toFloat();
+        if (pos == pmax1) continue;
+        if (val > max2) {
+            pmax2 = pos;
+            max2 = val;
+        }
+    }
+
+    pos = -1;
+    short nrPom = 1;
+    for (DanePomiaru & dane : wszystkieDane) {
+        ++pos;
+        if (pos == pmax1 || pos == pmax2) {
+            continue;
+        }
+        if (!dane.ok)
+            continue;
+        dane.nrSortCzujki = nrPom++;
+    }
+    if (pmax2 != -1)
+        wszystkieDane[pmax2].nrSortCzujki = nrPom++;
+    if (pmax1 != -1)
+        wszystkieDane[pmax1].nrSortCzujki = nrPom++;
+
 }

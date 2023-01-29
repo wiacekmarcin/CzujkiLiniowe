@@ -27,7 +27,7 @@
 #include "symulator.h"
 
 #define CONN_PB(F) connect(ui->action##F, &QAction::triggered, this, &MainWindow::action##F##_triggered)
-#define CONN_PB_ALL CONN_PB(Parametry_Badania); \
+#define CONN_PB_ALL CONN_PB(ParametryBadania); \
                     CONN_PB(ParametryKalibracyjne); \
                     CONN_PB(TestZasilacza); \
                     CONN_PB(TestSterownikaDlg); \
@@ -40,7 +40,6 @@
                     CONN_PB(NoweBadanie); \
                     CONN_PB(UsunBadanie); \
                     CONN_PB(Sterownik); \
-                    CONN_PB(ParametryBadania); \
                     CONN_PB(ZamknijBadanie); \
                     CONN_PB(Test);
 
@@ -328,14 +327,6 @@ void MainWindow::flt_bladFiltrow(QChar filtr, bool zerowanie)
         dlgTestStan->flt_bladFiltrow(filtr, zerowanie);
 }
 
-void MainWindow::actionParametry_Badania_triggered()
-{
-    ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(true, u, &b, this);
-    dlg->exec();
-
-}
-
-
 void MainWindow::actionParametryKalibracyjne_triggered()
 {
     //qDebug() << "Parametry Kalibracyjne";
@@ -518,23 +509,23 @@ void MainWindow::actionTest_triggered()
     p.setId(REPRODUCIBILITY);
     p.setName("Odtwarzalnosc");
     p.addWybranaCzujka(1, "N1", "O1");
-    p.setSuccessBadaniaCzujki(true, "2.3", "");
-    p.addWybranaCzujka(2, "N2", "O2");
-    p.setSuccessBadaniaCzujki(true, "2.4", "");
-    p.addWybranaCzujka(3, "N3", "O3");
-    p.setSuccessBadaniaCzujki(true, "2.5", "");
-    p.addWybranaCzujka(4, "N4", "O4");
-    p.setSuccessBadaniaCzujki(true, "2.6", "");
+    p.setSuccessBadaniaCzujki(false, "-", "Czujka nie wyzwoliła się");
     p.addWybranaCzujka(5, "N5", "O5");
-    p.setSuccessBadaniaCzujki(true, "2.0", "");
+    p.setSuccessBadaniaCzujki(true, "2.4", "");
+    p.addWybranaCzujka(2, "N2", "O2");
+    p.setSuccessBadaniaCzujki(false, "-", "blad sprzetowy");
     p.addWybranaCzujka(6, "N6", "O6");
+    p.setSuccessBadaniaCzujki(true, "2.6", "");
+    p.addWybranaCzujka(3, "N3", "O3");
     p.setSuccessBadaniaCzujki(true, "2.0", "");
-    p.addWybranaCzujka(7, "N7", "O7");
-    p.setSuccessBadaniaCzujki(true, "1.9", "");
+    p.addWybranaCzujka(4, "N4", "O4");
+    p.setSuccessBadaniaCzujki(true, "2.0", "");
+    //p.addWybranaCzujka(7, "N7", "O7");
+    //p.setSuccessBadaniaCzujki(true, "1.9", "");
     p.setOk(true);
     p.setWykonany(true);
+    p.obliczOdtwarzalnosc(u);
     b.setDaneTestu(REPRODUCIBILITY, p);
-    b.posortuj();
     b.save(QString("falszywedane.dat"));
 }
 

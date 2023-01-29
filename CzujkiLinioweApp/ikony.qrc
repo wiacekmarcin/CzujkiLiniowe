@@ -1,2 +1,19 @@
-<!DOCTYPE RCC>
-<RCC version="1.0"/>
+<RCC>
+    <qresource prefix="/document">
+        <file>Open.svg</file>
+        <file>OpenFile.svg</file>
+        <file>Save.svg</file>
+        <file>SaveAs.svg</file>
+        <file>Delete.svg</file>
+        <file>CloseDocument.svg</file>
+        <file>NewDocument.svg</file>
+        <file>ProcedureSettings.svg</file>
+        <file>StartupApplication.svg</file>
+        <file>BIOS.svg</file>
+        <file>CodeMetrics.svg</file>
+        <file>EventMissing.svg</file>
+        <file>EventLogSuccessAudit.svg</file>
+        <file>EventLogFailureAudit.svg</file>
+        <file>EventWarning.svg</file>
+    </qresource>
+</RCC>

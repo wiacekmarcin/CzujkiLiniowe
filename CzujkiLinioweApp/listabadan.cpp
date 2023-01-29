@@ -109,8 +109,6 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     test.setDataZakonczenia(QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm"));
     test.setWykonany(true);
     badanie.setDaneTestu(id, test);
-    if (test.getId() == REPRODUCIBILITY)
-        badanie.posortuj();
     setUkonczoneBadanie(test.getId(), badanie);
     ui->stackedWidget->setCurrentWidget(testyWidget[test.getId()].page);
 
@@ -400,7 +398,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             int col = addR(tablePrzebieg, num, 0,
                            QString::number(num+1),
                            QString::number(dane.nrCzujki),
-                           QString::number(badanie.getSortedId(num)),
+                           (dane.nrSortCzujki == 0 ? QString("-") : QString::number(dane.nrSortCzujki)),
                            dane.numerNadajnika,
                            dane.numerOdbiornika,
                            dane.value_dB,

@@ -55,7 +55,7 @@ ParametryBadania::ParametryBadania()
     setTolerancjaNapieciaZasilaniaCmaxCmin(0);
 
     numbersCzujki.clear();
-    sortedId.clear();
+    
     testy.clear();
 
     DaneTestu odtwarzalnosc;
@@ -140,7 +140,6 @@ void ParametryBadania::load(const QString &fileName)
 
     QDataStream in(&file);
     numbersCzujki.clear();
-    sortedId.clear();
     testy.clear();
     in >> *this;
     file.close();
@@ -168,10 +167,15 @@ QString ParametryBadania::getNumerTransmitter(unsigned int index, bool sorted) c
 {
     if (!sorted && index >= numbersCzujki.size() )
         return QString();
-    if (sorted && index >= sortedId.size())
-        return QString();
-    if (sorted)
-        return getNumerTransmitter(sortedId[index]-1, false);
+
+    if ( sorted )
+    {
+        short sPos = getNumerSortedCzujki(index);
+        if (sPos == -1)
+            return QString();
+        else
+            return getNumerTransmitter(sPos, false);
+    }
     else
         return numbersCzujki[index].first;
 }
@@ -180,10 +184,14 @@ QString ParametryBadania::getNumerReceiver(unsigned int index, bool sorted) cons
 {
     if (!sorted && index >= numbersCzujki.size() )
         return QString();
-    if (sorted && index >= sortedId.size())
-        return QString();
-    if (sorted)
-        return getNumerReceiver(sortedId[index]-1, false);
+    if ( sorted )
+    {
+        short sPos = getNumerSortedCzujki(index);
+        if (sPos == -1)
+            return QString();
+        else
+            return getNumerReceiver(sPos, false);
+    }
     else
         return numbersCzujki[index].second;
 }
@@ -194,6 +202,24 @@ QString ParametryBadania::getNumerCzujki(const QString &nadajnik, const QString 
         return "-";
     } else {
         return QString::number(testy[REPRODUCIBILITY].getDaneDlaCzujki(nadajnik, odbiornik).nrCzujki);
+    }
+}
+
+QString ParametryBadania::getNumerSortedCzujki(const QString &nadajnik, const QString &odbiornik) const
+{
+    if (!testy[REPRODUCIBILITY].getWykonany()) {
+        return "-";
+    } else {
+        return QString::number(testy[REPRODUCIBILITY].getDaneDlaCzujki(nadajnik, odbiornik).nrSortCzujki);
+    }
+}
+
+short ParametryBadania::getNumerSortedCzujki(short sortId) const
+{
+    if (!testy[REPRODUCIBILITY].getWykonany()) {
+        return -1;
+    } else {
+        return testy[REPRODUCIBILITY].getSortedPos(sortId);
     }
 }
 
@@ -220,11 +246,9 @@ void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
             const auto & pomiar = daneCzujek.at(i);
             numbersCzujki[pomiar.nrCzujki-1] = qMakePair(pomiar.numerNadajnika, pomiar.numerOdbiornika);
         }
-        posortuj();
     }
-
 }
-
+/*
 void ParametryBadania::posortuj()
 {
     short wyk[7] = { -1, -1, -1, -1, -1, -1, -1};
@@ -233,7 +257,6 @@ void ParametryBadania::posortuj()
         return;
 
     if (testy[REPRODUCIBILITY].getDaneBadanCzujek().size() < 2) {
-        sortedId.append(1);
         return;
     }
 
@@ -248,7 +271,7 @@ void ParametryBadania::posortuj()
         float val = pomiary[pos].value_dB.toFloat(&ok);
         if (!ok) continue;
         wyk[pos] = pomiary[pos].nrCzujki;
-        if (val > max1) {
+        if (val >= max1) {
             pmax1 = pos;
             max1 = val;
         }
@@ -259,12 +282,12 @@ void ParametryBadania::posortuj()
         float val = pomiary[pos].value_dB.toFloat();
 
         if (pos == pmax1) continue;
-        if (val > max2) {
+        if (val >= max2) {
             pmax2 = pos;
             max2 = val;
         }
     }
-    sortedId.clear();
+    QVector<int> sorted;
     for (int pos = 0; pos < pomiary.size(); ++pos) {
         if (pos == pmax1 || pos == pmax2)
             continue;
@@ -272,21 +295,25 @@ void ParametryBadania::posortuj()
         if (wyk[pos] == -1)
             continue;
 
-        sortedId.append(wyk[pos]);
+        sorted.append(wyk[pos]);
     }
     if (pmax2 != -1)
-        sortedId.append(wyk[pmax2]);
+        sorted.append(wyk[pmax2]);
     if (pmax1 != -1)
-        sortedId.append(wyk[pmax1]);
+        sorted.append(wyk[pmax1]);
+
+    for (int pos = 0; pos < pomiary.size(); ++pos) {
+        pomiary[pos].nrSortCzujki = sorted[pos];
+    }
 }
+*/
 
 short ParametryBadania::getSortedId(short index) const
 {
-    if (index >= numbersCzujki.size() )
+    if (index > testy[REPRODUCIBILITY].getDanePomiarowe().size())
         return -1;
-    if (index >= sortedId.size())
-        return -1;
-    return sortedId[index];
+
+    return testy[REPRODUCIBILITY].getDanePomiarowe()[index].nrSortCzujki;
 }
 
 DanePomiaru ParametryBadania::getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const
@@ -304,11 +331,22 @@ DanePomiaru ParametryBadania::getDaneDlaCzujki(const QString &nadajnik, const QS
     }
 }
 
+short ParametryBadania::getNumerPozycji(short posortowane)
+{
+    if (!testy[REPRODUCIBILITY].getWykonany()) {
+        return -1;
+    } else {
+
+        return testy[REPRODUCIBILITY].getSortedPos(posortowane);
+    }
+}
+
+
+
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);
     out << dane.numbersCzujki;
-    out << dane.sortedId;
     out << dane.testy;
     return out;
 }
@@ -317,7 +355,6 @@ QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::load(in);
     in >> dane.numbersCzujki;
-    in >> dane.sortedId;
     in >> dane.testy;
     return in;
 }

@@ -47,6 +47,7 @@ public:
     QString numerNadajnika;
     QString numerOdbiornika;
     short nrCzujki;
+    short nrSortCzujki;
     QString value_dB;
     bool ok;
     QString error;
@@ -205,6 +206,10 @@ public:
     DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik);
     void setDanePomiarowe(const DanePomiaru & podtw);
 
+    short getSortedPos(short sortedId);
+
+protected:
+    void posortuj();
 private:
     short id;
     QString name;

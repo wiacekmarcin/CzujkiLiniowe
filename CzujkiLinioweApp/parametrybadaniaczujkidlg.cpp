@@ -124,9 +124,29 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
         cw1.first->setText("Nadajnik1");
         cw1.second->setText("Odbiornik1");
 
-        auto cw2 = m_numbers.at(1);
-        cw2.first->setText("Nadajnik2");
-        cw2.second->setText("Odbiornik2");
+        cw1 = m_numbers.at(1);
+        cw1.first->setText("Nadajnik2");
+        cw1.second->setText("Odbiornik2");
+
+        cw1 = m_numbers.at(2);
+        cw1.first->setText("Nadajnik3");
+        cw1.second->setText("Odbiornik3");
+
+        cw1 = m_numbers.at(3);
+        cw1.first->setText("Nadajnik4");
+        cw1.second->setText("Odbiornik4");
+
+        cw1 = m_numbers.at(4);
+        cw1.first->setText("Nadajnik5");
+        cw1.second->setText("Odbiornik5");
+
+        cw1 = m_numbers.at(5);
+        cw1.first->setText("Nadajnik6");
+        cw1.second->setText("Odbiornik6");
+
+        cw1 = m_numbers.at(6);
+        cw1.first->setText("Nadajnik7");
+        cw1.second->setText("Odbiornik7");
     }
 #endif
 
@@ -200,20 +220,6 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
             maxNoEmptyRows = nrCz;
         }
         m_numbers.push_back(qMakePair(p,d));
-
-        if (badanie->getTestOdtwarzalnosci()) {
-            QLineEdit * s = new QLineEdit(ui->frameCzujki);
-            s->setObjectName(QString("PoSortowanyNumer%1").arg(nrCz+1));
-            s->setPalette(palette);
-            s->setFrame(true);
-            s->setEchoMode(QLineEdit::Normal);
-            s->setAlignment(Qt::AlignCenter);
-            s->setReadOnly(true);
-            s->setText(QString::number(badanie->getSortedId(nrCz)));
-            s->setMinimumSize(QSize(20, 0));
-            s->setMaximumSize(QSize(30, 50));
-            ui->gridLayoutNumerCzujek->addWidget(s, nrCz+1, 3, 1, 1);
-        }
     }
     for (short n = 0; n <= maxNoEmptyRows; ++n )
         czujkaNrEdited(n);
@@ -379,6 +385,8 @@ bool ParametryBadaniaCzujkiDlg::check()
 
 void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 {
+    if (testOdtwarzalnosci)
+        return;
     badanie->setSystemOdbiornikNadajnik(ui->comboBox->currentIndex() == 0);
     badanie->setProducentCzujki(ui->producent->text());
     badanie->setTypTransmitter(ui->typTransmitter->text());
@@ -424,6 +432,7 @@ void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
 
 void ParametryBadaniaCzujkiDlg::czujkaNrEdited(short id)
 {
+    qDebug() << "id " << id;
     bool noempty = false;
     short numCzujek = 0;
     bool actRowEmpty = true;
@@ -446,8 +455,9 @@ void ParametryBadaniaCzujkiDlg::czujkaNrEdited(short id)
     ui->iloscczujek->setText(QString::number(numCzujek));
     showError("");
 
+    showInfo7Number(numCzujek != 7);
     if (!actRowEmpty) {
-        showInfo7Number(numCzujek != m_numbers.size());
+
         if (id == m_numbers.size()-1)
             return;
         auto wid = m_numbers.at(id+1);
@@ -456,13 +466,19 @@ void ParametryBadaniaCzujkiDlg::czujkaNrEdited(short id)
         wid.first->setReadOnly(false);
         wid.second->setReadOnly(false);
     } else {
-        if (id == m_numbers.size()-2)
-            return;
-        auto nex = m_numbers.at(id+1);
-        nex.first->setEnabled(false);
-        nex.second->setEnabled(false);
-        nex.first->setReadOnly(true);
-        nex.second->setReadOnly(true);
+        if (id == 6) {
+            //auto nex = m_numbers.at(id);
+            //nex.first->setEnabled(false);
+            //nex.second->setEnabled(false);
+            //nex.first->setReadOnly(true);
+            //nex.second->setReadOnly(true);
+        } else {
+            auto nex = m_numbers.at(id+1);
+            nex.first->setEnabled(false);
+            nex.second->setEnabled(false);
+            nex.first->setReadOnly(true);
+            nex.second->setReadOnly(true);
+        }
     }
 }
 
