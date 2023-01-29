@@ -92,7 +92,7 @@ void OknoBadaniaTlumienia::flt_setUkladFiltrowDone()
     ui->pozostal_czas->setText(QString::number(czasPostoju) + " s ");
 }
 
-void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool zerowanie)
+void OknoBadaniaTlumienia::flt_bladFiltrow(QChar filtr, bool /*zerowanie*/)
 {
     //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
     //            "Blad filtrow" << filtr << zerowanie;

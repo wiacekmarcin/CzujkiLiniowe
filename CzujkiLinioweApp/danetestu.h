@@ -70,6 +70,7 @@ QDataStream &operator>>(QDataStream &in, PomiarKata &dane);
 //QDataStream &operator<<(QDataStream &out, const QList<DanePomiaru> &dane);
 //QDataStream &operator>>(QDataStream &in, QList<DanePomiaru> &dane);
 
+class ParametryBadania;
 class DaneTestu
 {
 public:
@@ -185,7 +186,7 @@ public:
     void dodajPomiarKata(const PomiarKata &kat);
     void setDataZakonczenia();
     void obliczZaleznoscKatowa(const Ustawienia & ust);
-    void obliczOdtwarzalnosc(const Ustawienia & ust);
+    void obliczOdtwarzalnosc(ParametryBadania * badanie, const Ustawienia & ust);
     void obliczPowtarzalnosc(const Ustawienia & ust);
     void obliczDlugoscOptyczna(const Ustawienia & ust);
     void obliczSzybkieZmianyTlumienia(const Ustawienia & ust);
@@ -209,7 +210,7 @@ public:
     short getSortedPos(short sortedId);
 
 protected:
-    void posortuj();
+    void posortuj(ParametryBadania * badanie);
 private:
     short id;
     QString name;

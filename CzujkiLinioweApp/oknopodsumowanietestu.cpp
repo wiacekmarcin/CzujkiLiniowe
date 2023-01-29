@@ -4,7 +4,7 @@
 #include "ustawienia.h"
 
 
-OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & badanie,
+OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & /*badanie*/,
                                              const Ustawienia & ust_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoPodsumowanieTestu),

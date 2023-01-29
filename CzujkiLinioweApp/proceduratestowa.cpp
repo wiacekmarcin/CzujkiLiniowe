@@ -167,7 +167,7 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, Parametr
 bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustawienia & ust)
 {
     short powtorzPomiar;
-    for (short nrPom = 1; nrPom <= daneBadania.getIloscCzujek(); ++nrPom)
+    for (short nrPom = 1; nrPom <= daneBadania.getIloscWszystkichCzujek(); ++nrPom)
     {
         if (!parametryTest(nrPom, daneBadania, ust))
             return false;
@@ -186,12 +186,12 @@ bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustaw
             zas->setOutput(false);
     }
     zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
-    dane.obliczOdtwarzalnosc(ust);
+    dane.obliczOdtwarzalnosc(&daneBadania, ust);
 
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
         zas->setOutput(false);
+    dane.setWykonany(true);
     {
-        dane.setWykonany(true);
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     }
@@ -210,7 +210,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
         if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(firstTime, false, true, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(firstTime, false, true, true, true, dane.getCzasPowtarzalnosci(), daneBadania, ust);
         firstTime = false;
         if (powtorzPomiar == -1)
             return false;
@@ -513,7 +513,7 @@ bool ProceduraTestowa::zerowanieSterownika(bool ramiona, bool filtry, bool wozek
 }
 
 
-bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania &,
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);

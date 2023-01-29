@@ -21,12 +21,12 @@ public:
     void save(const QString &fileName);
 
     void dodajCzujki(const QString &odbiornik, const QString &nadajnik);
-    QString getNumerTransmitter(unsigned int index, bool sorted) const;
-    QString getNumerReceiver(unsigned int index, bool sorted) const;
+    QString getNumerTransmitter(unsigned int index) const;
+    QString getNumerReceiver(unsigned int index) const;
     QString getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const;
 
-    QPair<QString, QString> getNumeryCzujki(unsigned int index, bool sorted) const
-    { return qMakePair(getNumerTransmitter(index, sorted), getNumerReceiver(index, sorted)); }
+    QPair<QString, QString> getNumeryCzujki(unsigned int index) const
+    { return qMakePair(getNumerTransmitter(index), getNumerReceiver(index)); }
 
     void wyczyscCzujki();
     const QMap<int, DaneTestu> &getTesty() const;
@@ -38,8 +38,12 @@ public:
     short getNumerSortedCzujki(short sortId) const;
     QString getNumerSortedCzujki(const QString &nadajnik, const QString &odbiornik) const;
     short getSortedId(short index) const;
+
+    short getIloscCzujek() const { return dobreCzujki.size(); }
+    const QList<DanePomiaru> &getDaneBadanCzujek() const { return testy[REPRODUCIBILITY].getDaneBadanCzujek(); }
 private:
     QVector<QPair<QString, QString>> numbersCzujki;
+    QVector<QPair<QString, QString>> dobreCzujki;
     QMap<int, DaneTestu> testy;
 
 };

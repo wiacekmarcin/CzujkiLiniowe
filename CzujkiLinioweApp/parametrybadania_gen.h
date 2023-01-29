@@ -70,8 +70,8 @@ public:
 	void setMaksKatowaNieWspolPionowaOdbiornika(const QString & maksKatowaNieWspolPionowaOdbiornika);
 	QString getMaksKatowaNieWspolPoziomaOdbiornika() const;
 	void setMaksKatowaNieWspolPoziomaOdbiornika(const QString & maksKatowaNieWspolPoziomaOdbiornika);
-	unsigned short getIloscCzujek() const;
-	void setIloscCzujek(const unsigned short & iloscCzujek);
+	unsigned short getIloscWszystkichCzujek() const;
+	void setIloscWszystkichCzujek(const unsigned short & iloscWszystkichCzujek);
 	bool getTestOdtwarzalnosci() const;
 	void setTestOdtwarzalnosci(const bool & testOdtwarzalnosci);
 	QString getNazwaNumerTransmitter() const;
@@ -148,7 +148,7 @@ private:
 	QString maksKatowaNieWspolPoziomaNadajnika;
 	QString maksKatowaNieWspolPionowaOdbiornika;
 	QString maksKatowaNieWspolPoziomaOdbiornika;
-	unsigned short iloscCzujek;
+	unsigned short iloscWszystkichCzujek;
 	bool testOdtwarzalnosci;
 	QString nazwaNumerTransmitter;
 	QString nazwaNumerReceiver;

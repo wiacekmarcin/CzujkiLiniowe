@@ -195,7 +195,7 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
         n->setText(QString::number(nrCz+1));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
-        auto row = badanie->getNumeryCzujki(nrCz, false);
+        auto row = badanie->getNumeryCzujki(nrCz);
 
         QLineEdit * p = new QLineEdit(ui->frameCzujki);
         p->setObjectName(QString("transmitterNumer%1").arg(nrCz+1));
@@ -227,40 +227,58 @@ void ParametryBadaniaCzujkiDlg::createCzujkaTable(ParametryBadania *badanie)
 
 void ParametryBadaniaCzujkiDlg::createCzujkaTableReadOlny(ParametryBadania *badanie)
 {
-    ui->iloscczujek->setText(QString::number(badanie->getIloscCzujek()));
-    showInfo7Number(badanie->getIloscCzujek() != 7);
-    for (short nrCz = 0; nrCz < badanie->getIloscCzujek(); ++nrCz)
+    ui->iloscczujek->setText(QString::number(badanie->getIloscWszystkichCzujek()));
+    showInfo7Number(badanie->getIloscWszystkichCzujek() != 7);
+    auto wszystkieCzujki = badanie->getDaneBadanCzujek();
+    short last = badanie->getIloscWszystkichCzujek() - 1;
+    QVector<QStringList> records(badanie->getIloscWszystkichCzujek());
+    for (const auto & dane : wszystkieCzujki) {
+        if (dane.nrSortCzujki == 0) {
+            QStringList row;
+            row << QString("-") << dane.numerNadajnika << dane.numerOdbiornika << QString::number(dane.nrCzujki) << "-";
+            records[last--] = row;
+        } else {
+            QStringList row;
+            row << QString::number(dane.nrSortCzujki) << dane.numerNadajnika << dane.numerOdbiornika << QString::number(dane.nrCzujki)
+                << dane.value_dB + " dB";
+            records[dane.nrSortCzujki-1] = row;
+        }
+    }
+    short nrCz = 0;
+    for (const auto & row : records)
     {
-        auto czujka = badanie->getNumeryCzujki(nrCz, true);
-        auto dane = badanie->getDaneDlaCzujki(czujka.first, czujka.second);
-
+        qDebug() << row.size();
+        if (row.size() == 0)
+            continue;
         QLabel * n = new QLabel(ui->frameCzujki);
         configCellLAB(n, QString("PorzadkowyNumerLabel%1").arg(nrCz+1), true, QSize(20, 20), QSize(30,50));
-        n->setText(QString::number(nrCz+1));
+        n->setText(row.at(0));
         ui->gridLayoutNumerCzujek->addWidget(n, nrCz+1, 0, 1, 1);
 
         QLabel * p = new QLabel(ui->frameCzujki);
         configCellLAB(p, QString("transmitterNumerLabel%1").arg(nrCz+1));
-        p->setText(czujka.first);
+        p->setText(row.at(1));
         ui->gridLayoutNumerCzujek->addWidget(p, nrCz+1, 1, 1, 1);
 
         QLabel * d = new QLabel(ui->frameCzujki);
         configCellLAB(d, QString("receiverNumerLabel%1").arg(nrCz+1));
-        d->setText(czujka.second);
+        d->setText(row.at(2));
         ui->gridLayoutNumerCzujek->addWidget(d, nrCz+1, 2, 1, 1);
 
         QLabel * k = new QLabel(ui->frameCzujki);
         configCellLAB(k, QString("numePorzadkowyLabel%1").arg(nrCz+1), true, QSize(20, 20), QSize(30,50));
-        k->setText(QString::number(dane.nrCzujki));
+        k->setText(row.at(3));
         ui->gridLayoutNumerCzujek->addWidget(k, nrCz+1, 3, 1, 1);
 
         QLabel * t = new QLabel(ui->frameCzujki);
         configCellLAB(t, QString("tlumienieLabel%1").arg(nrCz+1), true, QSize(40, 20), QSize(80,50));
-        t->setText(dane.value_dB + " dB");
+        t->setText(row.at(4));
         ui->gridLayoutNumerCzujek->addWidget(t, nrCz+1, 4, 1, 1);
+
+        ++nrCz;
     }
     QSpacerItem * spacer = new QSpacerItem(20, 20, QSizePolicy::Minimum, QSizePolicy::Expanding);
-    ui->gridLayoutNumerCzujek->addItem(spacer, badanie->getIloscCzujek()+1, 0, 1, 1);
+    ui->gridLayoutNumerCzujek->addItem(spacer, badanie->getIloscWszystkichCzujek()+1, 0, 1, 1);
     ui->error->setVisible(false);
     ui->lError->setVisible(false);
 }
@@ -415,7 +433,7 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
         ++num;
         badanie->dodajCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
     }
-    badanie->setIloscCzujek(num);
+    badanie->setIloscWszystkichCzujek(num);
 }
 
 void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)

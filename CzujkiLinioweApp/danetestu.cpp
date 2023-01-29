@@ -1,7 +1,7 @@
 #include "danetestu.h"
 #include <QDate>
 #include <QTime>
-
+#include "parametrybadania.h"
 
 ListaTestow::ListaTestow()
 {
@@ -597,7 +597,7 @@ void DaneTestu::obliczZaleznoscKatowa(const Ustawienia &ust)
     }
 }
 
-void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
+void DaneTestu::obliczOdtwarzalnosc(ParametryBadania * badanie, const Ustawienia & ust)
 {
     bool badanieOk = true;
     int cntAvg = 0;
@@ -693,7 +693,7 @@ void DaneTestu::obliczOdtwarzalnosc(const Ustawienia & ust)
         setOk(badanieOk);
     }
 
-    posortuj();
+    posortuj(badanie);
 }
 
 void DaneTestu::obliczPowtarzalnosc(const Ustawienia & ust)
@@ -1016,7 +1016,7 @@ void DaneTestu::setMaksymalneRozstawienie(const QString &newMaksymalneRozstawien
     maksymalneRozstawienie = newMaksymalneRozstawienie;
 }
 
-void DaneTestu::posortuj()
+void DaneTestu::posortuj(ParametryBadania * badanie)
 {
 
     if (getDanePomiarowe().size() < 2)
@@ -1052,6 +1052,7 @@ void DaneTestu::posortuj()
 
     pos = -1;
     short nrPom = 1;
+    badanie->wyczyscCzujki();
     for (DanePomiaru & dane : wszystkieDane) {
         ++pos;
         if (pos == pmax1 || pos == pmax2) {
@@ -1060,10 +1061,17 @@ void DaneTestu::posortuj()
         if (!dane.ok)
             continue;
         dane.nrSortCzujki = nrPom++;
+        badanie->dodajCzujki(dane.numerNadajnika, dane.numerOdbiornika);
     }
-    if (pmax2 != -1)
+    if (pmax2 != -1) {
         wszystkieDane[pmax2].nrSortCzujki = nrPom++;
-    if (pmax1 != -1)
+        badanie->dodajCzujki(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika);
+    }
+    if (pmax1 != -1) {
         wszystkieDane[pmax1].nrSortCzujki = nrPom++;
+        badanie->dodajCzujki(wszystkieDane[pmax1].numerNadajnika, wszystkieDane[pmax1].numerOdbiornika);
+    }
+    //badanie->setIloscCzujek(nrPom-1);
+
 
 }

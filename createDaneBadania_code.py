@@ -176,7 +176,7 @@ u.addValue("QString", "maksKatowaNieWspolPionowaNadajnika");
 u.addValue("QString", "maksKatowaNieWspolPoziomaNadajnika");
 u.addValue("QString", "maksKatowaNieWspolPionowaOdbiornika");
 u.addValue("QString", "maksKatowaNieWspolPoziomaOdbiornika");
-u.addValue("unsigned short", "iloscCzujek");
+u.addValue("unsigned short", "iloscWszystkichCzujek");
 u.addValue("bool", "testOdtwarzalnosci");
 
 u.addValue("QString", "nazwaNumerTransmitter");

@@ -61,7 +61,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     short numCzujek = badanie.getIloscCzujek();
     for (int n = 0 ; n < numCzujek ; n++)
     {
-        auto v = badanie.getNumeryCzujki(n, test->getId() != REPRODUCIBILITY);
+        auto v = badanie.getNumeryCzujki(n);
         QStringList vVariant;
         vVariant << v.first << v.second;
         ui->cbCzujka->addItem(QString::number(n+1), QVariant::fromValue(vVariant));

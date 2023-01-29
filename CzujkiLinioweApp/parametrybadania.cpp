@@ -42,7 +42,7 @@ ParametryBadania::ParametryBadania()
     setProducentCzujki("-");
     setTypTransmitter("-");
     setTypReceiver("-");
-    setIloscCzujek(0);
+    setIloscWszystkichCzujek(0);
 
     setDrogaoptycznaCmaxCmin(0);
     setMaksymalneNapieciaTolerancjaNapiecia(0);
@@ -54,6 +54,7 @@ ParametryBadania::ParametryBadania()
     setOdtwarzalnoscCmin(0);
     setTolerancjaNapieciaZasilaniaCmaxCmin(0);
 
+    dobreCzujki.clear();
     numbersCzujki.clear();
     
     testy.clear();
@@ -158,42 +159,40 @@ void ParametryBadania::save(const QString &fileName)
     file.close();
 }
 
-void ParametryBadania::dodajCzujki(const QString &odbiornik, const QString &nadajnik)
+void ParametryBadania::dodajCzujki(const QString &nadajnik, const QString &odbiornik)
 {
-    numbersCzujki.push_back(qMakePair(odbiornik, nadajnik));
+    numbersCzujki.push_back(qMakePair(nadajnik, odbiornik));
+    dobreCzujki.push_back(qMakePair(nadajnik, odbiornik));
 }
 
-QString ParametryBadania::getNumerTransmitter(unsigned int index, bool sorted) const
+QString ParametryBadania::getNumerTransmitter(unsigned int index) const
 {
-    if (!sorted && index >= numbersCzujki.size() )
-        return QString();
-
-    if ( sorted )
-    {
-        short sPos = getNumerSortedCzujki(index);
-        if (sPos == -1)
+    if (getTestOdtwarzalnosci()) {
+        if (index >= dobreCzujki.size())
             return QString();
         else
-            return getNumerTransmitter(sPos, false);
+            return dobreCzujki[index].first;
+    } else {
+        if (index >= numbersCzujki.size() )
+            return QString();
+        else
+            return numbersCzujki[index].first;
     }
-    else
-        return numbersCzujki[index].first;
 }
 
-QString ParametryBadania::getNumerReceiver(unsigned int index, bool sorted) const
+QString ParametryBadania::getNumerReceiver(unsigned int index) const
 {
-    if (!sorted && index >= numbersCzujki.size() )
-        return QString();
-    if ( sorted )
-    {
-        short sPos = getNumerSortedCzujki(index);
-        if (sPos == -1)
+    if (getTestOdtwarzalnosci()) {
+        if (index >= dobreCzujki.size())
             return QString();
         else
-            return getNumerReceiver(sPos, false);
+            return dobreCzujki[index].first;
+    } else {
+        if (index >= numbersCzujki.size() )
+            return QString();
+        else
+            return numbersCzujki[index].first;
     }
-    else
-        return numbersCzujki[index].second;
 }
 
 QString ParametryBadania::getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const
@@ -240,73 +239,22 @@ void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
         setTestOdtwarzalnosci(true);
         numbersCzujki.clear();
         const auto & daneCzujek = dane.getDaneBadanCzujek();
-        numbersCzujki = QVector<QPair<QString, QString>>(daneCzujek.size());
-        setIloscCzujek(daneCzujek.size());
-        for (short i = 0; i < daneCzujek.size(); ++i ) {
-            const auto & pomiar = daneCzujek.at(i);
-            numbersCzujki[pomiar.nrCzujki-1] = qMakePair(pomiar.numerNadajnika, pomiar.numerOdbiornika);
+        numbersCzujki.clear();
+        setIloscWszystkichCzujek(daneCzujek.size());
+        dobreCzujki = QVector<QPair<QString, QString>>(numbersCzujki);
+        short cnt = 0;
+        for ( const auto & dane : daneCzujek) {
+            if (dane.nrSortCzujki != 0) {
+                dobreCzujki[dane.nrSortCzujki-1] = qMakePair(dane.numerNadajnika, dane.numerOdbiornika);
+                ++cnt;
+            }
+            numbersCzujki.append(qMakePair(dane.numerNadajnika, dane.numerOdbiornika));
+        }
+        for (short r = cnt; r < daneCzujek.size(); ++r) {
+            dobreCzujki.pop_back();
         }
     }
 }
-/*
-void ParametryBadania::posortuj()
-{
-    short wyk[7] = { -1, -1, -1, -1, -1, -1, -1};
-
-    if (!testy[REPRODUCIBILITY].getWykonany())
-        return;
-
-    if (testy[REPRODUCIBILITY].getDaneBadanCzujek().size() < 2) {
-        return;
-    }
-
-    auto pomiary = testy[REPRODUCIBILITY].getDaneBadanCzujek();
-    float max1 = 0, max2 = 0;
-    short pmax1 = -1, pmax2 = -1;
-    for (int pos = 0; pos < pomiary.size(); ++pos) {
-
-        if (pomiary[pos].value_dB.isEmpty())
-            continue;
-        bool ok;
-        float val = pomiary[pos].value_dB.toFloat(&ok);
-        if (!ok) continue;
-        wyk[pos] = pomiary[pos].nrCzujki;
-        if (val >= max1) {
-            pmax1 = pos;
-            max1 = val;
-        }
-    }
-    for (int pos = 0; pos < pomiary.size(); ++pos) {
-        if (wyk[pos] == -1)
-            continue;
-        float val = pomiary[pos].value_dB.toFloat();
-
-        if (pos == pmax1) continue;
-        if (val >= max2) {
-            pmax2 = pos;
-            max2 = val;
-        }
-    }
-    QVector<int> sorted;
-    for (int pos = 0; pos < pomiary.size(); ++pos) {
-        if (pos == pmax1 || pos == pmax2)
-            continue;
-
-        if (wyk[pos] == -1)
-            continue;
-
-        sorted.append(wyk[pos]);
-    }
-    if (pmax2 != -1)
-        sorted.append(wyk[pmax2]);
-    if (pmax1 != -1)
-        sorted.append(wyk[pmax1]);
-
-    for (int pos = 0; pos < pomiary.size(); ++pos) {
-        pomiary[pos].nrSortCzujki = sorted[pos];
-    }
-}
-*/
 
 short ParametryBadania::getSortedId(short index) const
 {
@@ -341,12 +289,11 @@ short ParametryBadania::getNumerPozycji(short posortowane)
     }
 }
 
-
-
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);
     out << dane.numbersCzujki;
+    out << dane.dobreCzujki;
     out << dane.testy;
     return out;
 }
@@ -355,6 +302,7 @@ QDataStream &operator>>(QDataStream &in, ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::load(in);
     in >> dane.numbersCzujki;
+    in >> dane.dobreCzujki;
     in >> dane.testy;
     return in;
 }

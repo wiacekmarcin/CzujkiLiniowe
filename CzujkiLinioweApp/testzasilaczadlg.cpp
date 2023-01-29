@@ -50,7 +50,7 @@ void TestZasilaczaDlg::errorZasilacz(QString s)
     //showStatusMessage(QString("Błąd : ") + s);
 }
 
-void TestZasilaczaDlg::debugZasilacz(QString d)
+void TestZasilaczaDlg::debugZasilacz(QString /*d*/)
 {
     //qDebug() << d;
 }

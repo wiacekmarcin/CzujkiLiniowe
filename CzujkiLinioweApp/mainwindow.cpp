@@ -505,6 +505,7 @@ void MainWindow::actionZamknijBadanie_triggered()
 
 void MainWindow::actionTest_triggered()
 {
+    /*
     DaneTestu p;
     p.setId(REPRODUCIBILITY);
     p.setName("Odtwarzalnosc");
@@ -524,8 +525,12 @@ void MainWindow::actionTest_triggered()
     //p.setSuccessBadaniaCzujki(true, "1.9", "");
     p.setOk(true);
     p.setWykonany(true);
-    p.obliczOdtwarzalnosc(u);
+    p.obliczOdtwarzalnosc(&b, u);
     b.setDaneTestu(REPRODUCIBILITY, p);
     b.save(QString("falszywedane.dat"));
+    */
+    auto test = b.getTesty()[REPRODUCIBILITY];
+    test.obliczOdtwarzalnosc(&b, u);
+    b.setDaneTestu(REPRODUCIBILITY, test);
 }
 
