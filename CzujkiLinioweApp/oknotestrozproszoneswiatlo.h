@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "danetestu.h"
+#include <QTime>
 namespace Ui {
 class OknoTestRozproszoneSwiatlo;
 }
@@ -18,11 +19,16 @@ public:
 
     bool getAlarm() const;
 
+    QString getInfo() const;
+
 protected:
     void pbCancel_clicked();
+    void pbNext_clicked();
 private:
     Ui::OknoTestRozproszoneSwiatlo *ui;
     bool alarm;
+    unsigned long secsFromEpocsStart;
+    QString info;
 };
 
 #endif // OKNOTESTROZPROSZONESWIATLO_H

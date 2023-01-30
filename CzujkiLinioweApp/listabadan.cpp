@@ -427,7 +427,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         }
 
         initCzujkaInfo(ui->powarzalnosctableCzujka,                        transmitter, receiver,
-                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
 
                        daneTestu.getNumerTransmitter(),
@@ -459,30 +459,28 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-    } else if (daneTestu.getId() == REPEATABILITY) {
-
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
 
 
         initCzujkaInfo(ui->szybkieZmianyTlumieniatableCzujka,
                        transmitter, receiver,
-                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
         QStringList head;
         QList<int> width;
-        head << "Wartość tłumnienia [dB]" << "Wartość tłumienia [%]" << "Wynik" << "Uwagi";
-        width << 50 << 50 << 50 << 200;
+        head << "Nr próby" << "Wartość tłumnienia [dB]" << "Wartość tłumienia [%]" << "Wynik" << "Uwagi";
+        width << 75 << 150 << 150 << 100 << 300;
         clearinitTable(tablePrzebieg, head, width);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            int col = addR(tablePrzebieg, num, 0,
-                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYT." : "NEGAT."),  dane.error);
+            int col = addR(tablePrzebieg, num, 0, QString::number(num+1),
+                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"),  dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
                     if (tablePrzebieg->item(num, e))
@@ -511,23 +509,23 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         initCzujkaInfo(ui->zaleznoscDlugisciDrogiOptycznejtableCzujka,
                        transmitter, receiver,
-                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
 
         QStringList head;
         QList<int> width;
-        head << "Rozstawienie [m]" << "C[n] dB" << "C[n] %" << "Wynik" << "Uwagi";
-        width << 100 << 50 << 50 << 100 << 200;
+        head << "Nr Próby" << "Rozstawienie [m]" << "C[n] dB" << "C[n] %" << "Wynik" << "Uwagi";
+        width << 75 << 100 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            int col = addR(tablePrzebieg, num, 0,
+            int col = addR(tablePrzebieg, num, 0, QString::number(num+1),
                            (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()),
-                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYT." : "NEGAT."), dane.error);
+                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"), dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
                     if (tablePrzebieg->item(num, e))
@@ -544,6 +542,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     } else if (daneTestu.getId() == STRAY_LIGHT) {
         QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
         QTableWidget * tablePrzebieg = ui->rozproszoneSwiatloTablePrzebieg;
+        QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
         tableParams->clear();
         addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
         addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
@@ -554,7 +553,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         }
         initCzujkaInfo(ui->rozproszoneSwiatlotableCzujka,
                        transmitter, receiver,
-                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
@@ -578,6 +577,21 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             }
             num++;
         }
+        QStringList headNar;
+        QList<int> widthNar;
+        head << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
+        width << 150 << 250 << 350;
+        clearinitTable(tableNarazenia, headNar, widthNar);
+        int col = addR(tableNarazenia, num, 0,
+                       (num == 0 ? "Przed narażeniem" : "Po narażeniu"),
+                       QString::fromUtf8("Swiatło rozproszone"), daneTestu.getInfoNarazenia());
+        if (!daneTestu.getWynikNarazenia()) {
+            for (short e=0; e<col; ++e) {
+                if (tablePrzebieg->item(num, e))
+                    tablePrzebieg->item(num, e)->setBackground(Qt::red);
+            }
+        }
+        num++;
 
         if (daneTestu.getOk()) {
             ui->rozproszoneSwiatloResult->setText("POZYTYWNY");
@@ -594,7 +608,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         initCzujkaInfo(ui->tolerancjaNapieciaZasilaniatableCzujka,
                        transmitter, receiver,
-                       badanie.getNumerCzujki(daneTestu.getNumerTransmitter(),
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
                        daneTestu.getNumerTransmitter(),
                        daneTestu.getNumerReceiver());
@@ -677,7 +691,38 @@ void ListaBadan::initCzujkaInfo(QTableWidget * table, const QString & transmitte
 
 
     addR(table, 0, 0, nrCzujki, transmitter, receiver);
+}
 
+void ListaBadan::initNarazenieInfo(QTableWidget * table, bool wynik, const QString & rodzaj,
+                                const QString & uwagi)
+{
+    table->clear();
+    if (table->columnCount() != 3)
+        table->setColumnCount(3);
+
+    QTableWidgetItem *itemh0 = new QTableWidgetItem(QString::fromUtf8("Wynik Narażenia"));
+    table->setHorizontalHeaderItem(0, itemh0);
+    table->setColumnWidth(0, 125);
+
+    QTableWidgetItem *itemh1 = new QTableWidgetItem("Rodzaj narażenia");
+    table->setHorizontalHeaderItem(1, itemh1);
+    table->setColumnWidth(1, 250);
+
+    QTableWidgetItem *itemh2 = new QTableWidgetItem("Uwagi");
+    table->setHorizontalHeaderItem(2, itemh2);
+    table->setColumnWidth(2, 325);
+
+    table->setMinimumWidth(700);
+    table->setMaximumWidth(710);
+
+
+    int col = addR(table, 0, 0, wynik ? "POZYTYWNY" : "NEGATYWNY", rodzaj, uwagi);
+    if (!wynik) {
+        for (short e=0; e<col; ++e) {
+            if (table->item(0, e))
+                table->item(0, e)->setBackground(Qt::red);
+        }
+    }
 }
 
 

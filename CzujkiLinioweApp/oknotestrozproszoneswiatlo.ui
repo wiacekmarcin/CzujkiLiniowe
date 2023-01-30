@@ -42,7 +42,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="currentDatetime">
+    <widget class="QLabel" name="time0">
      <property name="font">
       <font>
        <family>Arial</family>
@@ -75,7 +75,7 @@
          </font>
         </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i zostawiona na 1 godzinę.&lt;/p&gt;&lt;p&gt;5 minut przed badaniem włączyć świetlówki.&lt;/p&gt;&lt;p&gt;Czujka powinna zostać podanna następującym narażeniom:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wszystkie światła wyłaczone&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Światła żarowe: włączone przez 10 s i następnie wyłączone przez 10 s, powtórzone 20 razy&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;świetlówki: włączone przez 10 s, następnie wyłączone przez 10 s, powtórzone 20 razy&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wszystkie światła włączone przez 2 godz.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i zostawiona na 1 godzinę.&lt;/p&gt;&lt;p&gt;5 minut przed badaniem należy włączyć świetlówki.&lt;/p&gt;&lt;p&gt;Czujka powinna zostać podana następującym narażeniom:&lt;/p&gt;&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wszystkie światła wyłączone&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Światła żarowe: włączone przez 10 s i następnie wyłączone przez 10 s, powtórzone 20 razy&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;świetlówki: włączone przez 10 s, następnie wyłączone przez 10 s, powtórzone 20 razy&lt;/li&gt;&lt;li style=&quot; margin-top:0px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Wszystkie światła włączone przez 2 godz.&lt;/li&gt;&lt;/ul&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
        </widget>
       </item>
@@ -396,7 +396,7 @@
        </widget>
       </item>
       <item row="1" column="1" colspan="2">
-       <widget class="QTextEdit" name="textEdit">
+       <widget class="QTextEdit" name="errorInfo">
         <property name="maximumSize">
          <size>
           <width>16777215</width>

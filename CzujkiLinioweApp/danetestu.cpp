@@ -183,6 +183,9 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.maksymalneRozstawienie
         << dane.minimalneNapiecie
         << dane.maksymalneNapiecie
+        //<< dane.wynikNarazenia
+        //<< dane.infoNarazenia
+
            ;
     return out;
 }
@@ -225,6 +228,8 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.maksymalneRozstawienie
         >> dane.minimalneNapiecie
         >> dane.maksymalneNapiecie
+        //>> dane.wynikNarazenia
+        //>> dane.infoNarazenia
             ;
     return in;
 }
@@ -917,6 +922,87 @@ void DaneTestu::obliczZaleznoscNapieciaZasilania(const Ustawienia &ust)
 
 }
 
+void DaneTestu::obliczSwiatloRozproszone(const Ustawienia &ust)
+{
+    float Cmin = 100;
+    float Cmax = -100;
+
+    bool badanieOk = true;
+    for (DanePomiaru & dane : getDanePomiarowe())
+    {
+        if (!dane.ok) {
+            if (errStr.isEmpty())
+                setErrStr(dane.error);
+            setOk(false);
+            setCmin(0);
+            setCmax(0);
+            setCmaxCmin(0);
+            setWykonany(true);
+            return;
+        }
+        bool ok;
+        double C = dane.value_dB.toDouble(&ok);
+
+        if (!ok) {
+            if (errStr.isEmpty())
+                setErrStr(QString::fromUtf8("Błędna wartość C"));
+            dane.ok = false;
+            setOk(false);
+            setCmin(0);
+            setCmax(0);
+            setCmaxCmin(0);
+            setWykonany(true);
+            return;
+        }
+
+        if (!dane.ok) {
+            if (errStr.isEmpty())
+                setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
+            setOk(false);
+            setCmin(0);
+            setCmax(0);
+            setCmaxCmin(0);
+            setWykonany(true);
+            return;
+        }
+
+        if (C > Cmax)
+            Cmax = C;
+        if (C < Cmin)
+            Cmin = C;
+
+        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
+            badanieOk = false;
+            if (errStr.isEmpty())
+                setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
+            dane.ok = false;
+            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
+        }
+    }
+
+
+    setOk(badanieOk);
+
+
+    if (Cmin) {
+        setCmin(Cmin);
+        setCmax(Cmax);
+        setCmaxCmin(Cmax/Cmin);
+    } else {
+        setCmin(0);
+        setCmax(0);
+        setCmaxCmin(0);
+    }
+    setWykonany(true);
+
+    if (getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin()) {
+        setOk(false);
+        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getRozproszoneSwiatloCmaxCmin(), 3, 'f', 2));
+    } else {
+        setOk(badanieOk);
+    }
+}
+
 const QString &DaneTestu::getNazwaTransmitter_a() const
 {
     return nazwaTransmitter_a;
@@ -1074,4 +1160,24 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
     //badanie->setIloscCzujek(nrPom-1);
 
 
+}
+
+QString DaneTestu::getInfoNarazenia() const
+{
+    return infoNarazenia;
+}
+
+void DaneTestu::setInfoNarazenia(const QString &newInfoNarazenia)
+{
+    infoNarazenia = newInfoNarazenia;
+}
+
+bool DaneTestu::getWynikNarazenia() const
+{
+    return wynikNarazenia;
+}
+
+void DaneTestu::setWynikNarazenia(bool newWynikNarazenia)
+{
+    wynikNarazenia = newWynikNarazenia;
 }

@@ -420,7 +420,7 @@ void OknoParametryTestu::pbOK_clicked()
     test->setWilgotnosc(ui->wilgotnosc->text());
     test->setTemperatura(ui->temperatura->text());
     test->setUwagi(ui->uwagi->toPlainText());
-    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
+
 
     if(test->getId() == REPEATABILITY)
     {
@@ -432,6 +432,7 @@ void OknoParametryTestu::pbOK_clicked()
                test->setCzasPowtarzalnosci(secs);
             }
         }
+
     }
     else if (test->getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         test->setMinimalneRozstawienie(ui->rozstawienieMinimalne->text());
@@ -447,6 +448,7 @@ void OknoParametryTestu::pbOK_clicked()
     {
         test->setDanePomiarowe(badanie.getDaneDlaCzujki(ui->typTransmitter->text(), ui->typReceiver->text()));
     }
+    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
     
     done(QDialog::Accepted);
 }

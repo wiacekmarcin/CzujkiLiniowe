@@ -71,6 +71,7 @@ private:
     void addC(QTableWidget * table, const QString & Cname, const QString & val, int row);
     void clearinitTable( QTableWidget * table, const QStringList & head, const QList<int> & width);
     void initCzujkaInfo(QTableWidget *table, const QString &transmitterName, const QString &receiverName, const QString &nrCzujki, const QString &transmitter, const QString &receiver);
+    void initNarazenieInfo(QTableWidget *table, bool wynik, const QString &rodzaj, const QString &uwagi);
 
     void addR0(QTableWidget * table, int row);
     short addR1(QTableWidget * table, int row, int col, const QString & C1);

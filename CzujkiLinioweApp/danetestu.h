@@ -191,6 +191,7 @@ public:
     void obliczDlugoscOptyczna(const Ustawienia & ust);
     void obliczSzybkieZmianyTlumienia(const Ustawienia & ust);
     void obliczZaleznoscNapieciaZasilania(const Ustawienia & ust);
+    void obliczSwiatloRozproszone(const Ustawienia & ust);
 
     const QString &getNazwaTransmitter_a() const;
     void setNazwaTransmitter_a(const QString &newNazwaTransmitter_a);
@@ -208,6 +209,12 @@ public:
     void setDanePomiarowe(const DanePomiaru & podtw);
 
     short getSortedPos(short sortedId);
+
+    bool getWynikNarazenia() const;
+    void setWynikNarazenia(bool newWynikNarazenia);
+
+    QString getInfoNarazenia() const;
+    void setInfoNarazenia(const QString &newInfoNarazenia);
 
 protected:
     void posortuj(ParametryBadania * badanie);
@@ -250,6 +257,8 @@ private:
     QString minimalneNapiecie;
     QString maksymalneNapiecie;
 
+    bool wynikNarazenia;
+    QString infoNarazenia;
 };
 
 #endif // DANETESTU_H

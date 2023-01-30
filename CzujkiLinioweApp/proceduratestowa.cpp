@@ -271,7 +271,6 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
 
 }
 
-
 bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
     if (!parametryTest(1, daneBadania, ust))
@@ -390,11 +389,34 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
     bool ret = dlg15->exec() == QDialog::Accepted;
 
     if (!ret) {
-        qDebug() << "czujka zglosila alarm;";
+        delete dlg15;
+        dlg15 = nullptr;
         return false;
     }
-
-    pomiarCzujki(false, false, false, true, false, 0, daneBadania, ust);
+    dane.setWynikNarazenia(dlg15->getAlarm());
+    dane.setInfoNarazenia(dlg15->getInfo());
+    bool ok1 = !dlg15->getAlarm();
+    if (dlg15->getAlarm()) {
+        dane.setOk(false);
+        dane.setErrStr("Czujka nie przeszła testu narażenia");
+    }
+    delete dlg15;
+    dlg15 = nullptr;
+    bool ok2 = true;
+    if (pomiarCzujki(false, false, false, true, false, 0, daneBadania, ust) != 0) {
+        ok2 = false;
+    }
+    dane.setOk(ok1 & ok2);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
+    dane.obliczSwiatloRozproszone(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+    //do {
+    //    QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+    //    dlg->exec();
+    //} while(false);
     return true;
 }
 
