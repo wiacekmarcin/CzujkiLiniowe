@@ -434,19 +434,19 @@ motordefVals = {
         "odwrocObroty" : "false",
         "czasMiedzyImpZerow" : 50,
         "czasMiedzyImpNormal" : 500,
-        "maksIloscImp" : 1006,
+        "maksIloscImp" : 20000,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 0,
         "jednostka" : "mm",
     },
     7 : {
         "nazwa" : 'QString("Wozek Gora-Dol")',
-        "przelozenieImpJedn" : 0.000266667,
+        "przelozenieImpJedn" : 0.000234375,
         "minOdstepImp" : 29,
         "odwrocObroty" : "true",
-        "czasMiedzyImpZerow" : 250,
-        "czasMiedzyImpNormal" : 1000,
-        "maksIloscImp" : 1007,
+        "czasMiedzyImpZerow" : 125,
+        "czasMiedzyImpNormal" : 250,
+        "maksIloscImp" : 250000,
         "iloscImpBaza" : 0,
         "iloscImpSrodek" : 0,
         "jednostka" : "mm",
@@ -523,7 +523,7 @@ u.addDevice("zasilaczVendor", "Zasilacz/Vendor", 'QString("67b")')
 u.addDevice("zasilaczProduct", "Zasilacz/Product", 'QString("23a3")')
 u.addDevice("sterownikVendor", "Sterownik/Vendor", 'QString("403")')
 u.addDevice("sterownikProduct", "Sterownik/Product", 'QString("6001")')
-u.addDevice("sterownikSerial", "Sterownik/Serial", 'QString("A10KV4VU")')
+u.addDevice("sterownikSerial", "Sterownik/Serial", 'QString("A10KV4VUA")')
 u.addDevideSummary(checkQStringContent)
 
 u.addZakresy("minNapiecieCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MinimalneNapiecie", '2.0', checkDoubleContent)

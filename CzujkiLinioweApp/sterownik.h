@@ -190,6 +190,7 @@ protected:
 private:
     QString m_portName;
     bool m_connected;
+    bool openingPort;
     Ustawienia * ust;
     PortInterface interface;
 
@@ -302,6 +303,7 @@ private:
     int m_portNr;
     QMutex connMutex;
     bool m_connected;
+    bool open;
     SterownikWriter m_writer;
     SterownikReader m_reader;
     bool emitSignal;

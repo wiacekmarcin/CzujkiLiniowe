@@ -141,7 +141,7 @@ void UstawieniaGen::load()
 	serialDeviceZasilaczProduct = settings.value("Zasilacz/Product", QVariant::fromValue(QString("23a3"))).toString();
 	serialDeviceSterownikVendor = settings.value("Sterownik/Vendor", QVariant::fromValue(QString("403"))).toString();
 	serialDeviceSterownikProduct = settings.value("Sterownik/Product", QVariant::fromValue(QString("6001"))).toString();
-	serialDeviceSterownikSerial = settings.value("Sterownik/Serial", QVariant::fromValue(QString("A10KV4VU"))).toString();
+	serialDeviceSterownikSerial = settings.value("Sterownik/Serial", QVariant::fromValue(QString("A10KV4VUA"))).toString();
 	minNapiecieCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MinimalneNapiecie", QVariant::fromValue(2.0)).toString());
 	maxNapiecieCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MaksymalneNapiecie", QVariant::fromValue(30.0)).toString());
 	minCzasStabCzujki = toUInt(settings.value("ParamentryBadania-Czujka/MinimalnyCzasStabilizacji", QVariant::fromValue(10)).toString());

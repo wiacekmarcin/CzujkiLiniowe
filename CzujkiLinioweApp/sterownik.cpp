@@ -171,6 +171,7 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     : QObject(parent),
       m_portName(""),
       m_connected(false),
+      openingPort(false),
       ust(u),
       writer(this),
       filtry(this)
@@ -197,7 +198,7 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
 
 bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
 {
-    if (!connected())
+    if (!connected() && !openingPort)
         return false;
 
     if (currentRequest.size() > 0)
@@ -563,6 +564,7 @@ bool Sterownik::openDevice()
     receiveData.clear();
     QByteArray startBuf(20, '\0');
     DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
+    openingPort = true;
     if (writeAndRead(startBuf, 2500, 2500)) {
         while (receiveData.size()) {
             //if (receiveData.front() != (char)0x0f)
@@ -571,8 +573,10 @@ bool Sterownik::openDevice()
                     || receiveData.front() == (char)0xff)
             receiveData.remove(0, 1);
         }
+        openingPort = false;
         return true;
     }
+    openingPort = false;
     return false;
 }
 
