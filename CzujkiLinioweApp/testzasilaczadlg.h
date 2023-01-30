@@ -15,7 +15,8 @@ class TestZasilaczaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *parent = nullptr);
+    explicit TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, const QString & portName, const QString & serial,
+                              QWidget *parent = nullptr);
     ~TestZasilaczaDlg();
 
     typedef enum _serialZasWork

@@ -579,16 +579,16 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         }
         QStringList headNar;
         QList<int> widthNar;
-        head << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
-        width << 150 << 250 << 350;
+        headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
+        widthNar << 150 << 250 << 350;
         clearinitTable(tableNarazenia, headNar, widthNar);
         int col = addR(tableNarazenia, num, 0,
-                       (num == 0 ? "Przed narażeniem" : "Po narażeniu"),
+                       daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
                        QString::fromUtf8("Swiatło rozproszone"), daneTestu.getInfoNarazenia());
         if (!daneTestu.getWynikNarazenia()) {
             for (short e=0; e<col; ++e) {
-                if (tablePrzebieg->item(num, e))
-                    tablePrzebieg->item(num, e)->setBackground(Qt::red);
+                if (tableNarazenia->item(num, e))
+                    tableNarazenia->item(num, e)->setBackground(Qt::red);
             }
         }
         num++;

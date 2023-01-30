@@ -34,6 +34,13 @@ OknoTestRozproszoneSwiatlo::OknoTestRozproszoneSwiatlo(const DaneTestu & daneTes
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbNext_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     adjustSize();
+
+#ifdef TESTVAL
+    ui->pbCzujkaOn->setVisible(true);
+    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this](){ this->czujkaOn(); });
+#else
+    ui->pbCzujkaOn->setVisible(false);
+#endif
 }
 
 OknoTestRozproszoneSwiatlo::~OknoTestRozproszoneSwiatlo()

@@ -4,7 +4,7 @@
 #include <QMessageBox>
 #include <QDebug>
 
-TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *parent) :
+TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, const QString &portName, const QString &serial, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestZasilaczaDlg)
   , u(ust)
@@ -16,17 +16,22 @@ TestZasilaczaDlg::TestZasilaczaDlg(Ustawienia * ust, Zasilacz * zas, QWidget *pa
     connect(ui->pbZasClose, &QPushButton::clicked, this, &TestZasilaczaDlg::closeZasilacz);
 
 
-    ui->leCurrLim->setVisible(false);
-    ui->leCurrSet->setVisible(false);
-    ui->leVoltLim->setVisible(false);
-    ui->leVoltSet->setVisible(false);
-    ui->tbSave->setEnabled(false);
-    ui->tbCancel->setEnabled(false);
+    ui->leCurrLim->setVisible(zas->getConnected());
+    ui->leCurrSet->setVisible(zas->getConnected());
+    ui->leVoltLim->setVisible(zas->getConnected());
+    ui->leVoltSet->setVisible(zas->getConnected());
+    ui->tbSave->setEnabled(zas->getConnected());
+    ui->tbCancel->setEnabled(zas->getConnected());
 
-    ui->pbZasClose->setDisabled(true);
-    ui->frame->setDisabled(true);
+    ui->pbZasClose->setDisabled(!zas->getConnected());
+    ui->frame->setDisabled(!zas->getConnected());
 
-    ui->zasilaczKomendy->setDisabled(true);
+    ui->zasilaczKomendy->setDisabled(!zas->getConnected());
+    if (zas->getConnected()) {
+        configuredZasilacz(Zasilacz::ALL_OK);
+        serialNoZasilacz(serial);
+        deviceNameZasilacz(portName);
+    }
     adjustSize();
 }
 

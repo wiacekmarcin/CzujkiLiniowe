@@ -133,6 +133,9 @@ private:
     short cntTimeout;
 
     Ustawienia * u;
+
+
+
 };
 
 

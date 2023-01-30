@@ -140,6 +140,13 @@
        <number>20</number>
       </property>
       <item>
+       <widget class="QPushButton" name="pbCzujkaOn">
+        <property name="text">
+         <string>CzujkaOn</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <spacer name="horizontalSpacer">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -424,7 +431,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Godzina załączenia wszystkich świateł</string>
+      <string>Godzina załączenia świetlówek</string>
      </property>
     </widget>
    </item>

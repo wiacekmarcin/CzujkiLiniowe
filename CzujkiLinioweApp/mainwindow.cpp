@@ -206,7 +206,7 @@ void MainWindow::ster_kontrolerConfigured(int state)
 
 void MainWindow::ster_deviceName(QString name)
 {
-    //ui->namePort->setText(name);
+    sterownikPort = name;
     if (dlgTestSter)
         dlgTestSter->sd_deviceName(name);
     if (dlgTestStan)
@@ -273,12 +273,14 @@ void MainWindow::zas_configured(int state)
 
 void MainWindow::zas_serialNo(QString s)
 {
+    zasilaczSerialNo = s;
     if (dlgTestZas)
         dlgTestZas->serialNoZasilacz(s);
 }
 
 void MainWindow::zas_deviceName(QString name)
 {
+    zasilaczPort = name;
     if (dlgTestZas)
         dlgTestZas->deviceNameZasilacz(name);
     if (dlgTestStan)
@@ -345,7 +347,7 @@ void MainWindow::pbDisconnect_clicked()
 
 void MainWindow::actionTestZasilacza_triggered()
 {
-    dlgTestZas = new TestZasilaczaDlg(&u, zas, this);
+    dlgTestZas = new TestZasilaczaDlg(&u, zas, zasilaczPort, zasilaczSerialNo, this);
     dlgTestZas->exec();
     delete dlgTestZas;
     dlgTestZas = nullptr;
@@ -408,7 +410,7 @@ void MainWindow::actionStartTestu_triggered()
 
 void MainWindow::actionTestStanowiska_triggered()
 {
-    dlgTestStan = new TestStanowiskaDlg(zas, sd, &u, this);
+    dlgTestStan = new TestStanowiskaDlg(zas, sd, &u, zasilaczPort, sterownikPort, this);
     dlgTestStan->exec();
     delete dlgTestStan;
     dlgTestStan = nullptr;

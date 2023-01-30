@@ -177,7 +177,7 @@ bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustaw
             if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
                 return false;
 
-            powtorzPomiar = pomiarCzujki(pomiar1, true, false, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+            powtorzPomiar = pomiarCzujki(true, false, true, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
             pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;

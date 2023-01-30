@@ -17,7 +17,7 @@ class TestStanowiskaDlg : public QDialog
     Q_OBJECT
 
 public:
-    explicit TestStanowiskaDlg(Zasilacz * zas, Sterownik * ster, Ustawienia * ust, QWidget *parent = nullptr);
+    explicit TestStanowiskaDlg(Zasilacz * zas, Sterownik * ster, Ustawienia * ust, const QString &zasName, const QString &sterName, QWidget *parent = nullptr);
     ~TestStanowiskaDlg();
     void deviceNameZasilacz(const QString & serial);
     void valueZasilacz(int kind, int value);

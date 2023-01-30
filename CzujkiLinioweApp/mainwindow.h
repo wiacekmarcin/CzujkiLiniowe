@@ -97,6 +97,9 @@ private:
     QString fileDaneBadania;
     ListaTestow lt;
 
+    QString zasilaczPort;
+    QString sterownikPort;
+    QString zasilaczSerialNo;
 
 };
 #endif // MAINWINDOW_H

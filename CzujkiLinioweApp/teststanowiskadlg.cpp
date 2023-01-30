@@ -25,7 +25,8 @@
                     SETCONF(9)
 
 
-TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawienia * ust_, QWidget *parent) :
+TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawienia * ust_,
+                                     const QString & zasName, const QString & sterName, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::TestStanowiskaDlg)
     ,zas(zas_)
@@ -83,16 +84,27 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
     for (auto & t : ust->getTlumienia655() ) {
         ui->cbTlumienie->addItem(t.at(0));
     }
-    ui->pbFiltrUstaw->setEnabled(false);
-    ui->gb_Napedy->setEnabled(false);
-    ui->gb_Zasilanie->setEnabled(false);
-    ui->cb_pradMaks->setEnabled(false);
-    ui->cb_pradZadzialania->setEnabled(false);
-    ui->cb_przekaznikNI->setEnabled(false);
+    ui->pbFiltrUstaw->setEnabled(ster->getConnected());
+    ui->gb_Napedy->setEnabled(ster->getConnected());
+    ui->gb_Zasilanie->setEnabled(zas->getConnected());
+    ui->cb_pradMaks->setEnabled(zas->getConnected());
+    ui->cb_pradZadzialania->setEnabled(zas->getConnected());
+    ui->cb_przekaznikNI->setEnabled(ster->getConnected());
 
     for (short s=1; s<10; ++s) {
         ui->cbNaped->addItem(ust->getMotorNazwa(s), QVariant::fromValue(s));
     }
+
+    if (ster->getConnected()) {
+        sterownikName = sterName;
+        configuredSterownik(Sterownik::ALL_OK);
+    }
+
+    if (zas->getConnected()) {
+        zasilaczName = zasName;
+        configuredZasilacz(Zasilacz::ALL_OK);
+    }
+
     adjustSize();
 }
 
@@ -162,12 +174,14 @@ void TestStanowiskaDlg::ster_zdarzenieSilnik(int)
 
 void TestStanowiskaDlg::configuredSterownik(int state)
 {
+    qDebug() << __LINE__ << state;
     if (state == Sterownik::PARAMS_OK || state == Sterownik::ALL_OK ) {
-        ui->zasilaczConn->setText(QString("POŁĄCZONY [%1]").arg(sterownikName));
+        qDebug() << "set ";
+        ui->sterownikConn->setText(QString("POŁĄCZONY [%1]").arg(sterownikName));
         ui->gb_Napedy->setEnabled(true);
         ui->cb_przekaznikNI->setEnabled(true);
     } else {
-        ui->zasilaczConn->setText(QString("NIE POŁĄCZONY"));
+        ui->sterownikConn->setText(QString("NIE POŁĄCZONY"));
         ui->gb_Napedy->setEnabled(false);
         ui->cb_przekaznikNI->setEnabled(false);
     }

@@ -183,8 +183,8 @@ QDataStream &operator<<(QDataStream &out, const DaneTestu &dane)
         << dane.maksymalneRozstawienie
         << dane.minimalneNapiecie
         << dane.maksymalneNapiecie
-        //<< dane.wynikNarazenia
-        //<< dane.infoNarazenia
+        << dane.wynikNarazenia
+        << dane.infoNarazenia
 
            ;
     return out;
@@ -228,8 +228,8 @@ QDataStream &operator>>(QDataStream &in, DaneTestu &dane)
         >> dane.maksymalneRozstawienie
         >> dane.minimalneNapiecie
         >> dane.maksymalneNapiecie
-        //>> dane.wynikNarazenia
-        //>> dane.infoNarazenia
+        >> dane.wynikNarazenia
+        >> dane.infoNarazenia
             ;
     return in;
 }
