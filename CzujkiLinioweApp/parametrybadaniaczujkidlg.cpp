@@ -430,8 +430,9 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 
         if (m_numbers[i].first->text().isEmpty() && m_numbers[i].second->text().isEmpty())
             continue;
-        ++num;
-        badanie->dodajCzujki(m_numbers[i].first->text(), m_numbers[i].second->text());
+
+        if (badanie->dodajCzujki(m_numbers[i].first->text(), m_numbers[i].second->text()))
+            ++num;
     }
     badanie->setIloscWszystkichCzujek(num);
 }

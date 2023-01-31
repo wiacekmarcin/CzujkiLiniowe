@@ -20,7 +20,7 @@ public:
     void load(const QString &fileName);
     void save(const QString &fileName);
 
-    void dodajCzujki(const QString &odbiornik, const QString &nadajnik);
+    bool dodajCzujki(const QString &nadajnik, const QString &odbiornik);
     QString getNumerTransmitter(unsigned int index) const;
     QString getNumerReceiver(unsigned int index) const;
     QString getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const;

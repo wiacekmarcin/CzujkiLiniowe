@@ -159,10 +159,19 @@ void ParametryBadania::save(const QString &fileName)
     file.close();
 }
 
-void ParametryBadania::dodajCzujki(const QString &nadajnik, const QString &odbiornik)
+bool ParametryBadania::dodajCzujki(const QString &nadajnik, const QString &odbiornik)
 {
+    if (nadajnik.isEmpty() && odbiornik.isEmpty())
+        return false;
+    if (nadajnik == "" && odbiornik == "")
+        return false;
+    for (const auto & p : numbersCzujki) {
+        if (p.first == nadajnik && p.second == odbiornik)
+            return false;
+    }
     numbersCzujki.push_back(qMakePair(nadajnik, odbiornik));
     dobreCzujki.push_back(qMakePair(nadajnik, odbiornik));
+    return true;
 }
 
 QString ParametryBadania::getNumerTransmitter(unsigned int index) const
@@ -186,12 +195,12 @@ QString ParametryBadania::getNumerReceiver(unsigned int index) const
         if (index >= dobreCzujki.size())
             return QString();
         else
-            return dobreCzujki[index].first;
+            return dobreCzujki[index].second;
     } else {
         if (index >= numbersCzujki.size() )
             return QString();
         else
-            return numbersCzujki[index].first;
+            return numbersCzujki[index].second;
     }
 }
 
@@ -239,9 +248,8 @@ void ParametryBadania::setDaneTestu(short id, const DaneTestu &dane)
         setTestOdtwarzalnosci(true);
         numbersCzujki.clear();
         const auto & daneCzujek = dane.getDaneBadanCzujek();
-        numbersCzujki.clear();
         setIloscWszystkichCzujek(daneCzujek.size());
-        dobreCzujki = QVector<QPair<QString, QString>>(numbersCzujki);
+        dobreCzujki = QVector<QPair<QString, QString>>(daneCzujek.size());
         short cnt = 0;
         for ( const auto & dane : daneCzujek) {
             if (dane.nrSortCzujki != 0) {
