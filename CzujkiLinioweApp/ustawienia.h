@@ -18,11 +18,11 @@ public:
     static unsigned long wyliczImp(const double & ratioImpJedn, const double & speed);
     unsigned long wyliczPozycje(short silnik, unsigned long middle, unsigned long max,
                                 const double & ratioImpJedn, const double & x) const;
-    unsigned long wyliczPozycje(short nrSilnika, const double & x) const
+    inline unsigned long wyliczPozycje(short nrSilnika, const double & x) const
     { return wyliczPozycje(nrSilnika, getMotorIloscImpSrodek(nrSilnika), getMotorMaksIloscImp(nrSilnika),
                            getMotorPrzelozenieImpJedn(nrSilnika), x); }
 
-    unsigned long predkoscRoboczaImp(short nrSilnika) const
+    inline unsigned long predkoscRoboczaImp(short nrSilnika) const
     { return getMotorCzasMiedzyImpNormal(nrSilnika); }
 
 

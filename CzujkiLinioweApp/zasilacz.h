@@ -69,7 +69,7 @@ public:
     void closeDevice(bool waitForDone);
     QString getProduct();
     QString getVendor();
-    bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
+    inline bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
 protected:
 
     bool connected();

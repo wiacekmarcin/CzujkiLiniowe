@@ -139,7 +139,7 @@ public:
     QString getProduct();
     QString getVendor();
     QString getSerialNumber();
-    bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
+    inline bool getConnected() { bool conn = connected(); emit kontrolerConfigured(conn ? ALL_OK : CLOSE); return conn; }
     const QString &portName() const;
 
     friend class SterownikWriter;

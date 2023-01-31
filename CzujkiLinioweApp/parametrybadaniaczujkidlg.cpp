@@ -435,7 +435,6 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
         if (badanie->dodajCzujki(m_numbers[i].first->text(), m_numbers[i].second->text()))
             ++num;
     }
-    badanie->setIloscWszystkichCzujek(num);
 }
 
 void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)

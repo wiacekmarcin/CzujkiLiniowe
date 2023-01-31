@@ -12,7 +12,8 @@ class OknoMontaz : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoMontaz(short opticalLen, const DaneTestu &daneTestu,
+    explicit OknoMontaz(bool usuniecieZabezp, bool minRozstawienie, bool maxRozstawienie,
+                        bool rozproszone, bool systemNadajnikObiornik, const DaneTestu &daneTestu,
                          QWidget *parent = nullptr);
     ~OknoMontaz();
 

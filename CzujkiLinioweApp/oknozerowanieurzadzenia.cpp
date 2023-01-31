@@ -6,14 +6,15 @@
 #include <QMessageBox>
 #include <QRadioButton>
 
-OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool ramiona_, bool filtry_, bool wozek_,
+OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool nadajnik_, bool odbiornik_, bool filtry_, bool wozek_,
                                                  const QString & trans, const QString & receiv,
                                                  Sterownik *device_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZerowanieUrzadzenia),
     timer(this),
     errorMsg(false),
-    ramiona(ramiona_),
+    nadajnik(nadajnik_)
+    odbiornik(odbiornik_),
     filtry(filtry_),
     wozek(wozek_),
     device(device_)
@@ -50,7 +51,10 @@ void OknoZerowanieUrzadzenia::init()
     ui->frameError->setVisible(false);
     for (short id = 0; id < 10; ++id) {
         silnikZero[id] = id == 0;
-        if (!ramiona && (id == 1 || id == 2 || id == 8 || id == 9)) {
+        if (!nadajnik && (id == 1 || id == 2)) {
+            silnikZero[id] = true;
+            buttons[id]->setDisabled(true);
+        } else if (!odbiornik && (id == 8 || id == 9)) {
             silnikZero[id] = true;
             buttons[id]->setDisabled(true);
         } else if (!filtry && (id == 3 || id == 4 || id == 5)) {
@@ -84,7 +88,7 @@ void OknoZerowanieUrzadzenia::init()
     unsigned int timCzas = 1000;
     if (filtry)
         timCzas += 4000;
-    if (ramiona)
+    if (nadajnik || odbiornik)
         timCzas += 10000;
     if (wozek)
         timCzas += 20000;

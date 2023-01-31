@@ -124,7 +124,7 @@ public:
 
 
     int getSilnik() const;
-    bool isKontroler() { return silnik == 0;}
+    inline bool isKontroler() { return silnik == 0;}
 
     unsigned int getSteps() const;
 

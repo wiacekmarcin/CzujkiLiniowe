@@ -59,7 +59,6 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> maksKatowaNieWspolPoziomaNadajnika
 		 >> maksKatowaNieWspolPionowaOdbiornika
 		 >> maksKatowaNieWspolPoziomaOdbiornika
-		 >> iloscWszystkichCzujek
 		 >> testOdtwarzalnosci
 		 >> nazwaNumerTransmitter
 		 >> nazwaNumerReceiver
@@ -112,7 +111,6 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << maksKatowaNieWspolPoziomaNadajnika
 		 << maksKatowaNieWspolPionowaOdbiornika
 		 << maksKatowaNieWspolPoziomaOdbiornika
-		 << iloscWszystkichCzujek
 		 << testOdtwarzalnosci
 		 << nazwaNumerTransmitter
 		 << nazwaNumerReceiver
@@ -399,17 +397,6 @@ QString ParametryBadaniaGen::getMaksKatowaNieWspolPoziomaOdbiornika() const
 void ParametryBadaniaGen::setMaksKatowaNieWspolPoziomaOdbiornika(const QString & value)
 {
 	maksKatowaNieWspolPoziomaOdbiornika = value;
-	change = true;
-}
-
-unsigned short ParametryBadaniaGen::getIloscWszystkichCzujek() const
-{
-	return iloscWszystkichCzujek;
-}
-
-void ParametryBadaniaGen::setIloscWszystkichCzujek(const unsigned short & value)
-{
-	iloscWszystkichCzujek = value;
 	change = true;
 }
 

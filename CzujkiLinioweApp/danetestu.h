@@ -31,7 +31,9 @@ typedef enum _testId {
     DAMP_HEAT_STADY_STATE_ENDURANCE,
     VIBRATION,
     IMPACT,
-    SULPHUR_DIOXIDE_SO2_CORROSION
+    SULPHUR_DIOXIDE_SO2_CORROSION,
+
+    TEST_MEASUREAMENT //wartosc dla probnego pomiaru
 } TestIdType;
 
 struct ListaTestow {
@@ -117,7 +119,7 @@ public:
 
     void setSuccessBadaniaCzujki(bool ok, const QString & value, const QString &error);
     const QList<DanePomiaru> &getDaneBadanCzujek() const;
-    QList<DanePomiaru> &getDanePomiarowe() { return danePomiarowe; }
+    inline QList<DanePomiaru> &getDanePomiarowe() { return danePomiarowe; }
 
     QString getNumerCzujki() const;
 

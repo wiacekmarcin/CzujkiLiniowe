@@ -14,11 +14,11 @@ public:
   void     restart();     // reset crc with same parameters.
 
   // set parameters
-  void     setPolynome(uint8_t polynome)  { _polynome = polynome; };
-  void     setStartXOR(uint8_t start)     { _startMask = start; };
-  void     setEndXOR(uint8_t end)         { _endMask = end; };
-  void     setReverseIn(bool reverseIn)   { _reverseIn = reverseIn; };
-  void     setReverseOut(bool reverseOut) { _reverseOut = reverseOut; };
+  inline void     setPolynome(uint8_t polynome)  { _polynome = polynome; };
+  inline void     setStartXOR(uint8_t start)     { _startMask = start; };
+  inline void     setEndXOR(uint8_t end)         { _endMask = end; };
+  inline void     setReverseIn(bool reverseIn)   { _reverseIn = reverseIn; };
+  inline void     setReverseOut(bool reverseOut) { _reverseOut = reverseOut; };
 
   void     add(uint8_t value);
   void     add(uint8_t * array, uint32_t length);

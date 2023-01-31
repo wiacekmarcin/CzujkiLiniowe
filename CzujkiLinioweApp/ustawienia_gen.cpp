@@ -2,9 +2,10 @@
 #include "ustawienia_gen.h"
 
 #include <QApplication>
-
+#include <QFileInfo>
+#include <QDir>
 UstawieniaGen::UstawieniaGen() :
-    settings(QApplication::applicationFilePath() + ".ini", QSettings::IniFormat)
+    settings(QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath(), QSettings::IniFormat)
 {
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);

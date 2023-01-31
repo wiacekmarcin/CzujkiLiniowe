@@ -42,7 +42,6 @@ ParametryBadania::ParametryBadania()
     setProducentCzujki("-");
     setTypTransmitter("-");
     setTypReceiver("-");
-    setIloscWszystkichCzujek(0);
 
     setDrogaoptycznaCmaxCmin(0);
     setMaksymalneNapieciaTolerancjaNapiecia(0);

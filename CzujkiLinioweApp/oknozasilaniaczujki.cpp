@@ -3,7 +3,7 @@
 #include "zasilacz.h"
 #include <QMessageBox>
 
-OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulosc, const DaneTestu &daneTestu,
+OknoZasilaniaCzujki::OknoZasilaniaCzujki(bool minVoltage, bool maxVoltage, bool minCzulosc, const DaneTestu &daneTestu,
                                          const ParametryBadania &daneBadania, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoZasilaniaCzujki)
@@ -15,30 +15,32 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulos
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
 
     ui->testName->setText(daneTestu.getName());
-    if (maksCzulosc) {
-        ui->info->setText(ui->info->text().replace("[CZULOSC]", "maksymalną czułość"));
-        ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najwyższą czułość"));
-    } else {
+    if (minCzulosc) {
         ui->info->setText(ui->info->text().replace("[CZULOSC]", "minimalną czułość"));
         ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najniższą czułość"));
+    } else {
+        ui->info->setText(ui->info->text().replace("[CZULOSC]", "maksymalną czułość"));
+        ui->info2->setText(ui->info2->text().replace("[CZULOSC]", "najwyższą czułość"));
     }
 
-    ui->enomVoltege->setVisible(normalneNapiecie != 0);
-    ui->nominalVolt->setVisible(normalneNapiecie != 0);
+    ui->enomVoltege->setVisible(minVoltage || maxVoltage);
+    ui->nominalVolt->setVisible(minVoltage || maxVoltage);
 
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
         ui->infoZasilanie->setText("Zasilanie czujki zostało włączone");
         ui->rodzajZasilania->setText("Zasilacz");
 
-        if (normalneNapiecie == 0) {
+        if (!minVoltage && !maxVoltage) {
             ui->napiecieUst->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
         } else {
             ui->nominalVolt->setText(QString::number(daneBadania.getNapiecieZasilaniaCzujki_mV()/1000.0, 'f', 3)+QString(" V"));
         }
 
-        if (normalneNapiecie == 1) {
+        if (minVoltage) {
             ui->napiecieUst->setText(daneTestu.getMinimalneNapiecie() + " V");
-        } if (normalneNapiecie == 2) {
+        } 
+
+        if (maxVoltage) {
             ui->napiecieUst->setText(daneTestu.getMaksymalneNapiecie() + " V");
         }
 
@@ -54,7 +56,7 @@ OknoZasilaniaCzujki::OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulos
         ui->pradMierz->setEnabled(true);
         ui->frame_errorzasilanie->setVisible(false);
     } else if (daneBadania.getZasilanieCzujekCentrala()) {
-        if (normalneNapiecie == 0) {
+        if (!minVoltage && !maxVoltage) {
             ui->infoZasilanie->setText("Proszę załączyć zasilanie czujki z centrali sygnalizacji pożarowej");
             ui->rodzajZasilania->setText("Centrala sygnalizacji pożarowej");
             ui->typCentrali->setText(daneBadania. getZasilanieCzujekTypCentrali());

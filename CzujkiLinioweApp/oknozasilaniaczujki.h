@@ -13,7 +13,7 @@ class OknoZasilaniaCzujki : public QDialog
     Q_OBJECT
 
 public:
-    explicit OknoZasilaniaCzujki(short normalneNapiecie, bool maksCzulosc, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
+    explicit OknoZasilaniaCzujki(bool minVoltage, bool maxVoltage, bool minCzulosc, const DaneTestu &daneTestu, const ParametryBadania &daneBadania,
                                   QWidget *parent = 0);
     ~OknoZasilaniaCzujki();
     void setCurrent_mA(int mA);

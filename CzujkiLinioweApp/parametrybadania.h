@@ -25,7 +25,7 @@ public:
     QString getNumerReceiver(unsigned int index) const;
     QString getNumerCzujki(const QString &nadajnik, const QString &odbiornik) const;
 
-    QPair<QString, QString> getNumeryCzujki(unsigned int index) const
+    inline  QPair<QString, QString> getNumeryCzujki(unsigned int index) const
     { return qMakePair(getNumerTransmitter(index), getNumerReceiver(index)); }
 
     void wyczyscCzujki();
@@ -40,9 +40,12 @@ public:
     short getSortedId(short index) const;
 
     short getIloscCzujek() const { return posortowaneCzujki.size(); }
-    const QList<DanePomiaru> &getDaneBadanCzujek() const { return testy[REPRODUCIBILITY].getDaneBadanCzujek(); }
+    inline const QList<DanePomiaru> &getDaneBadanCzujek() const { return testy[REPRODUCIBILITY].getDaneBadanCzujek(); }
 
     void setPosortowaneCzujki(const QVector<QPair<QString, QString>> & posortowaneCzujki);
+
+    inline unsigned short getIloscWszystkichCzujek() const { return wszystkieCzujki.size(); };
+	
 private:
     QVector<QPair<QString, QString>> wszystkieCzujki;
     QVector<QPair<QString, QString>> posortowaneCzujki;

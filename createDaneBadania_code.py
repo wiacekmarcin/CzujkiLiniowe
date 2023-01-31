@@ -97,7 +97,7 @@ void %(className)s::save(QDataStream &out) const
         return val[0].upper() + val[1:]
     
     def createHeader(self):
-        hfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.h_filename, "w")
+        hfile = open('CzujkiLinioweApp/'+self.h_filename, "w")
         hfile.write(self.h_HEAD_1)
         hfile.write("\n".join(["\t"+f for f in self.h_public_fun]))
         hfile.write("\nprotected:\n")
@@ -110,7 +110,7 @@ void %(className)s::save(QDataStream &out) const
         hfile.close()
         
     def createSource(self):
-        cfile = open('/home/marcin/git.devel.marcin/czujkiLiniowe/CzujkiLinioweApp/'+self.c_filename, "w")
+        cfile = open('CzujkiLinioweApp/'+self.c_filename, "w")
         cfile.write(self.c_include)
         cfile.write(self.static_c % { 'className' : self.className,
             'in'  : '\n\t\t'.join([' >> %s' % f for f in self.serin]),
@@ -176,7 +176,6 @@ u.addValue("QString", "maksKatowaNieWspolPionowaNadajnika");
 u.addValue("QString", "maksKatowaNieWspolPoziomaNadajnika");
 u.addValue("QString", "maksKatowaNieWspolPionowaOdbiornika");
 u.addValue("QString", "maksKatowaNieWspolPoziomaOdbiornika");
-u.addValue("unsigned short", "iloscWszystkichCzujek");
 u.addValue("bool", "testOdtwarzalnosci");
 
 u.addValue("QString", "nazwaNumerTransmitter");

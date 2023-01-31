@@ -6,19 +6,19 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>630</height>
+    <width>600</width>
+    <height>693</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
+    <width>600</width>
     <height>630</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1920</width>
+    <width>600</width>
     <height>1200</height>
    </size>
   </property>
@@ -75,6 +75,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -88,6 +89,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -101,6 +103,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -117,6 +120,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -179,6 +183,7 @@
         <property name="font">
          <font>
           <pointsize>17</pointsize>
+          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -265,6 +270,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -304,6 +310,7 @@
      <property name="font">
       <font>
        <pointsize>14</pointsize>
+       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -365,7 +372,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Trwa resetowanie czujki proszę czekać...</string>
+      <string>Trwa resetowanie czujki (wyłączenie zasilania) proszę czekać... </string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

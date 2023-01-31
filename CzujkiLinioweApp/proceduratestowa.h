@@ -48,16 +48,20 @@ protected:
     bool ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
+    bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
 
+    bool montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
+
+
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
-    bool zerowanieSterownika(bool ramiona, bool filtry, bool wozek, const QString &trans, const QString &receiv);
+    bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
     bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    bool zasilenieCzujki(short napiecie, bool maksCzulosc, const ParametryBadania &daneBadania);
-    bool montazZerowanieZasilanie(short napiecie, short rozstawienie, bool maksCzulosc, bool filtry, bool ramiona, bool wozek, const ParametryBadania &daneBadania);
+    bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
+    
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    short pomiarCzujki(bool stabilizacja, bool oczekiwanie, bool repeatPomiar, bool nowait, bool powt, unsigned long timeWait, const ParametryBadania &daneBadania, const Ustawienia &);
+    short pomiarCzujki(uint32_t flags, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
     short pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle, const ParametryBadania &daneBadania, const Ustawienia &ust);
     short pomiarKata(short nrSilnika, const QString & ptitle, const double & kat, const ParametryBadania &daneBadania, const Ustawienia &ust);

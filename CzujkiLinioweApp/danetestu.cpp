@@ -1140,7 +1140,7 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
 
     pos = -1;
     short nrPom = 1;
-    QVector<QPair<QString, QString>> listaPosortowana();
+    QVector<QPair<QString, QString>> listaPosortowana;
 
     for (DanePomiaru & dane : wszystkieDane) {
         ++pos;
@@ -1150,15 +1150,15 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
         if (!dane.ok)
             continue;
         dane.nrSortCzujki = nrPom++;
-        listaPosortowana.append(qMakePair(dane.numerNadajnika, dane.numerOdbiornika));
+        listaPosortowana.push_back(qMakePair(dane.numerNadajnika, dane.numerOdbiornika));
     }
     if (pmax2 != -1) {
         wszystkieDane[pmax2].nrSortCzujki = nrPom++;
-        listaPosortowana.append(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
+        listaPosortowana.push_back(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
     }
     if (pmax1 != -1) {
         wszystkieDane[pmax1].nrSortCzujki = nrPom++;
-        listaPosortowana.append(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
+        listaPosortowana.push_back(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
 
     }
     badanie->setPosortowaneCzujki(listaPosortowana);
