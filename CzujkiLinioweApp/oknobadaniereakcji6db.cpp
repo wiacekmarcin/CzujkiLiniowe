@@ -6,6 +6,7 @@
 #include <QDialogButtonBox>
 #include "sterownik.h"
 #include <QMutexLocker>
+#include <QDebug>
 
 OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2,
                            unsigned int dlugoscFali, const double & tlumnienie,

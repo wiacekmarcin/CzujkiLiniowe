@@ -1,6 +1,8 @@
 #include "danetestu.h"
 #include <QDate>
 #include <QTime>
+#include <QDebug>
+
 #include "parametrybadania.h"
 
 ListaTestow::ListaTestow()
@@ -1043,7 +1045,7 @@ void DaneTestu::setMaksymalneNapiecie(const QString &newMaksymalneNapiecie)
     maksymalneNapiecie = newMaksymalneNapiecie;
 }
 
-DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik)
+DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const
 {
     for(const auto & czujka : danePomiarowe) {
         if (czujka.numerNadajnika == nadajnik && czujka.numerOdbiornika == odbiornik)
@@ -1052,7 +1054,7 @@ DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &
     DanePomiaru p;
     p.error = "Nie znaleziono";
     p.ok = false;
-    p.value_dB = 0;
+    p.value_dB = "0";
     p.numerNadajnika = "";
     p.numerOdbiornika = "";
     p.nrCzujki = 0;
@@ -1061,7 +1063,7 @@ DanePomiaru DaneTestu::getDaneDlaCzujki(const QString &nadajnik, const QString &
     return p;
 }
 
-short DaneTestu::getSortedPos(short sortedId)
+short DaneTestu::getSortedPos(short sortedId) const
 {
     if (id > danePomiarowe.size())
         return -1;
@@ -1138,7 +1140,8 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
 
     pos = -1;
     short nrPom = 1;
-    badanie->wyczyscCzujki();
+    QVector<QPair<QString, QString>> listaPosortowana();
+
     for (DanePomiaru & dane : wszystkieDane) {
         ++pos;
         if (pos == pmax1 || pos == pmax2) {
@@ -1147,17 +1150,18 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
         if (!dane.ok)
             continue;
         dane.nrSortCzujki = nrPom++;
-        badanie->dodajCzujki(dane.numerNadajnika, dane.numerOdbiornika);
+        listaPosortowana.append(qMakePair(dane.numerNadajnika, dane.numerOdbiornika));
     }
     if (pmax2 != -1) {
         wszystkieDane[pmax2].nrSortCzujki = nrPom++;
-        badanie->dodajCzujki(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika);
+        listaPosortowana.append(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
     }
     if (pmax1 != -1) {
         wszystkieDane[pmax1].nrSortCzujki = nrPom++;
-        badanie->dodajCzujki(wszystkieDane[pmax1].numerNadajnika, wszystkieDane[pmax1].numerOdbiornika);
+        listaPosortowana.append(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
+
     }
-    //badanie->setIloscCzujek(nrPom-1);
+    badanie->setPosortowaneCzujki(listaPosortowana);
 
 
 }

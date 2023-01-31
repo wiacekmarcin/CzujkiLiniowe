@@ -1,6 +1,8 @@
 #include "symulator.h"
 #include "ui_symulator.h"
 
+#include <QDebug>
+
 bool home;
 bool move;
 bool err;

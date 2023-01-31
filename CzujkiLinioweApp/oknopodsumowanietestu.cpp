@@ -1,6 +1,9 @@
 #include "oknopodsumowanietestu.h"
 #include "ui_oknopodsumowanietestu.h"
 #include <QDateTime>
+#include <QDebug>
+#include <math.h>
+
 #include "ustawienia.h"
 
 
@@ -523,7 +526,7 @@ void OknoPodsumowanieTestu::addLine(QFrame * frameTable, QGridLayout * layout,
 
 double OknoPodsumowanieTestu::d2p(const double &val)
 {
-    double l = pow(10, val/10);
+    double l = std::pow(10, val/10);
     if (l == 0)
         return 0;
     return 100.0/l;

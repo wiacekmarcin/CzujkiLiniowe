@@ -1,6 +1,8 @@
 #include "listabadan.h"
 #include "ui_listabadan.h"
 #include "zasilacz.h"
+#include <math.h>
+
 #include <QDate>
 #include <QTime>
 #include <QDateTime>
@@ -313,7 +315,7 @@ void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 
 double ListaBadan::d2p(const double &val)
 {
-    double l = pow(10, val/10);
+    double l = std::pow(10, val/10);
     if (l == 0)
         return 0;
     return 100.0/l;

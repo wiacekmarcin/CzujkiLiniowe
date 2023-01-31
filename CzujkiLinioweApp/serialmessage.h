@@ -1,10 +1,8 @@
 #ifndef SERIALMESSAGE_H
 #define SERIALMESSAGE_H
 
-#include <QObject>
-#include <QSerialPortInfo>
-#include <QSerialPort>
-#include <QTimer>
+#include <QString>
+
 
 
 

@@ -79,7 +79,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     test->setNazwaReceiver_a(badanie.getNazwaReceiver_a());
 
 
-    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, &OknoParametryTestu::changeCzujka);
+    connect(ui->cbCzujka, qOverload<int>(&QComboBox::currentIndexChanged), this, &OknoParametryTestu::changeCzujka);
     NiewspolosiowoscOsUrzadzenie od;
     switch(test->getId())
     {
@@ -277,7 +277,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     connect(ui->wilgotnosc, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->cisnienie, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->temperatura, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
-    connect(ui->cbCzujka, &QComboBox::currentIndexChanged, this, [this](int) { this->check(); });
+    connect(ui->cbCzujka, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int) { this->check(); });
     connect(ui->powtarzalnosc_czas, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->minVolt, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });
     connect(ui->maxVolt, &QLineEdit::textEdited, this, [this](const QString &) { this->check(); });

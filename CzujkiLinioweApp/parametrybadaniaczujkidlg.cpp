@@ -2,6 +2,7 @@
 #include "ui_parametrybadaniaczujkidlg.h"
 
 #include <QBrush>
+#include <QDebug>
 
 //#define DEFVAL
 
@@ -39,7 +40,7 @@ ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
 
     switchOdbiornikReflektor(ui->comboBox->currentIndex() == 0);
 
-    connect(ui->comboBox, &QComboBox::currentIndexChanged, this, [this](int id) { this->changeTypUkladu(id); this->check(); });
+    connect(ui->comboBox, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int id) { this->changeTypUkladu(id); this->check(); });
     connect(ui->producent, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->typTransmitter, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->typReceiver, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });

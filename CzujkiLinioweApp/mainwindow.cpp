@@ -120,7 +120,9 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
     //ui->actionSterownik->setIcon(icon6);
 
     ui->centralwidget->setVisible(false);
+#if QT_VERSION >= 0x060000    
     setMinimumSize(screen()->availableSize());
+#endif    
     move(0,0);
     adjustSize();
 

@@ -4,7 +4,9 @@
 #include <QTime>
 #include <QThread>
 
+#ifndef NOSERIAL
 #include <QSerialPortInfo>
+#endif
 
 //#include "rs232.h"
 
@@ -24,8 +26,9 @@ SerialWorkerZas::SerialWorkerZas(Zasilacz *device):
     QThread(nullptr),
     actTask(SerialZasilacz::TaskExt(SerialZasilacz::IDLE, QByteArray(), false)),
     sd(device)
-
+#ifndef NOSERIAL
     ,m_serialPort(nullptr)
+#endif    
 {
 
     runWorker = true;
@@ -169,7 +172,7 @@ void SerialWorkerZas::run()
 
 bool SerialWorkerZas::openDevice(const QString & portName)
 {
- 
+#ifndef NOSERIAL 
     m_serialPort = new QSerialPort();
     m_serialPort->setPort(QSerialPortInfo(portName));
 
@@ -188,7 +191,9 @@ bool SerialWorkerZas::openDevice(const QString & portName)
     m_serialPort->setFlowControl(QSerialPort::NoFlowControl);
     m_serialPort->setParity(QSerialPort::NoParity);
     m_serialPort->setStopBits(QSerialPort::OneStop);
-
+#else
+    (void)portName;
+#endif    
     return true;
 
 }
@@ -197,8 +202,9 @@ QList<QStringList> SerialWorkerZas::getComPorts()
     QString description;
     QString manufacturer;
     QString serialNumber;
-    QList<QStringList> ports;
 
+    QList<QStringList> ports;
+#ifndef NOSERIAL
     const auto infos = QSerialPortInfo::availablePorts();
     for (const QSerialPortInfo &info : infos) {
         QStringList list;
@@ -215,7 +221,7 @@ QList<QStringList> SerialWorkerZas::getComPorts()
 
         ports.append(list);
     }
-
+#endif
     return ports;
 }
 
@@ -280,7 +286,7 @@ bool SerialWorkerZas::checkIdentJob()
 QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentWaitWriteTimeout,
                                   int currentReadWaitTimeout, bool read, bool emitError)
 {
-
+#ifndef NOSERIAL
     if (currentRequest.size() > 0) {
         DEBUGSER("Sending bytes....");
         
@@ -312,17 +318,30 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
             emit error(QString("Nie udało się odczytać z RS zasilacza"));
         return QByteArray();
     }
+#else
+    (void)currentRequest;
+    (void)currentWaitWriteTimeout;
+    (void)currentReadWaitTimeout;
+    (void)read;
+    (void)emitError;
+    return QByteArray();
+#endif    
 }
 
 void SerialWorkerZas::closeDeviceJob()
 {
     DEBUGSER("CLOSING DEVICE");
     //setStop();
-    m_serialPort->close();
     sd->setConnected(false);
+#ifndef NOSERIAL    
+    m_serialPort->close();
+#endif    
     emit kontrolerConfigured(Zasilacz::CLOSE);
+#ifndef NOSERIAL    
     delete m_serialPort;
     m_serialPort = nullptr;
+#endif    
+    
     DEBUGSER("CLOSE DEVICE");
 }
 

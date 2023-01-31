@@ -1,12 +1,15 @@
 #include "sterownik.h"
 #include <QTime>
 #include <QThread>
+#ifndef NOSERIAL
 #include <QSerialPortInfo>
+#endif
 #include <QDebug>
 #include <QMutexLocker>
 #include <QElapsedTimer>
 #include <QEventLoop>
 
+#include <math.h>
 #include "serialmessage.h"
 
 #ifdef NEWINTERFACE
@@ -51,9 +54,9 @@ bool SterownikFiltrow::isRuch()
 void SterownikFiltrow::setUstawienia(Sterownik *sd_, const Ustawienia &u)
 {
     sd = sd_;
-    impPosFA = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
-    impPosFB = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFB));
-    impPosFC = round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFC));
+    impPosFA = std::round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFA));
+    impPosFB = std::round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFB));
+    impPosFC = std::round(stPerPosImp * u.getMotorMaksIloscImp(nrSilnikFC));
 
     speedFA = u.getMotorCzasMiedzyImpNormal(nrSilnikFA);
     speedFB = u.getMotorCzasMiedzyImpNormal(nrSilnikFB);
@@ -187,8 +190,10 @@ Sterownik::Sterownik(Ustawienia *u, QObject *parent)
     writeThread->start();
 
     filtry.setUstawienia(this, *u);
+#ifndef NOSERIAL    
     connect(&serialPort, &QSerialPort::readyRead, this, &Sterownik::handleReadyRead);
     connect(&serialPort, &QSerialPort::errorOccurred, this, &Sterownik::handleError);
+#endif    
     connect(&m_timer, &QTimer::timeout, this, &Sterownik::handleTimeout);
     connect(&filtry, &SterownikFiltrow::bladFiltrow, this, &Sterownik::bladFiltrow);
     connect(&filtry, &SterownikFiltrow::ukladFiltrowDone, this, &Sterownik::setUkladFiltrowDone);
@@ -201,6 +206,7 @@ bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
     if (!connected() && !openingPort)
         return false;
 
+#ifndef NOSERIAL
     if (currentRequest.size() > 0)
     {
 
@@ -211,6 +217,10 @@ bool Sterownik::write(const QByteArray &currentRequest, int waitWrite)
         //qDebug() << ret;
         return ret && sendsize == currentRequest.size();
     }
+#else
+    (void)currentRequest;
+    (void)waitWrite;
+#endif    
     return true;
 }
 
@@ -343,14 +353,14 @@ void Sterownik::closeDeviceJob()
     writer.setStop();
     writer.wait();
     //portThread.quit();
+#ifndef NOSERIAL    
     if (serialPort.isOpen()) {
         serialPort.flush();
         serialPort.clear();
         serialPort.clearError();
         serialPort.close();
-
     }
-
+#endif
     setConnected(false);
     emit kontrolerConfigured(CLOSE);
     emit deviceName("");
@@ -537,7 +547,7 @@ bool Sterownik::configureDevice()
 
 bool Sterownik::openDevice()
 {
-
+#ifndef NOSERIAL
     serialPort.setPort(QSerialPortInfo(m_portName));
     emit deviceName(serialPort.portName());
 
@@ -576,6 +586,7 @@ bool Sterownik::openDevice()
         openingPort = false;
         return true;
     }
+#endif
     openingPort = false;
     return false;
 }
@@ -664,7 +675,7 @@ const QString &Sterownik::portName() const
 
 void Sterownik::handleReadyRead()
 {
-
+#ifndef NOSERIAL
     QByteArray input = serialPort.readAll();
     DEBUGSER(QString("Recv %1 [%2]").arg(input.size()).arg(input.toHex().toStdString().data()));
     //qDebug() << "Recv " << input.size() << "[" << input.toHex().toStdString().data() << "]";
@@ -678,6 +689,7 @@ void Sterownik::handleReadyRead()
 
     if (!m_timer.isActive())
         m_timer.start(5000);
+#endif        
 }
 
 void Sterownik::handleTimeout()
@@ -685,7 +697,7 @@ void Sterownik::handleTimeout()
     //qDebug() << "no recv data timeout";
 }
 
-
+#ifndef NOSERIAL
 void Sterownik::handleError(QSerialPort::SerialPortError err)
 {
  
@@ -694,6 +706,7 @@ void Sterownik::handleError(QSerialPort::SerialPortError err)
     DEBUGSER(QString("Error %1").arg(err));
     emit error(serialPort.errorString());
 }
+#endif
 
 void Sterownik::closeDevice(bool waitForDone)
 {
@@ -727,7 +740,7 @@ void Sterownik::connectToSerialJob()
         bool findDevice = false;
 
         DEBUGSER(QString("Szukam urządzenia"));
-
+#ifndef NOSERIAL
         const auto serialPortInfos = QSerialPortInfo::availablePorts();
 
         for (const QSerialPortInfo &serialPortInfo : serialPortInfos) {
@@ -753,6 +766,7 @@ void Sterownik::connectToSerialJob()
                 }
             }
         }
+#endif        
         if (!findDevice) {
             emit kontrolerConfigured(NO_FOUND);
             return;

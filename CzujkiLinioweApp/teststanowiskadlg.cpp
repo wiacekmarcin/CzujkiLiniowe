@@ -8,6 +8,7 @@
 
 #include <QMessageBox>
 #include <QLineEdit>
+#include <QDebug>
 
 #define SETCONF(N) ui->step##N->setText("0"); \
                    ui->speed##N->setText(QString::number(ust->wyliczPredkosc(ust->getMotorPrzelozenieImpJedn##N(),\
@@ -46,7 +47,7 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
     connect(ui->cbTlumienie, &QComboBox::currentTextChanged, this, &TestStanowiskaDlg::changeTlumienie);
     connect(ui->pbZeruj, &QPushButton::clicked, this, &TestStanowiskaDlg::zerowanieFiltrow);
     connect(&czasUstF, &QTimer::timeout, this, &TestStanowiskaDlg::ukladFiltrowTimeout);
-    connect(ui->cbNaped, &QComboBox::currentIndexChanged, this, [this](int index) {
+    connect(ui->cbNaped, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) {
         if (index + 1 == 6 || index + 1 == 7) {
             this->ui->unitMove->setText("<html><body>[mm]</body></html>");
             this->ui->unitSpeed->setText("<html><body>[mm/min]</body></html>");
@@ -55,7 +56,7 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
             this->ui->unitSpeed->setText("<html><body>[&deg;/min]</body></html>");
         }
     });
-    connect(ui->cbRozkaz, &QComboBox::currentIndexChanged, this, [this](int index) {
+    connect(ui->cbRozkaz, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) {
         this->ui->speed->setEnabled(index == 1);
         this->ui->przemieszczenie->setEnabled(index == 1);
         this->ui->etSpeed->setEnabled(index == 1);

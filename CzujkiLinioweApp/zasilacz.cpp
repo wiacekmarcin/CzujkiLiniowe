@@ -1,8 +1,9 @@
 ﻿#include "zasilacz.h"
 #include <QTime>
 #include <QThread>
-
+#ifndef NOSERIAL
 #include <QSerialPortInfo>
+#endif
 
 //#include "rs232.h"
 

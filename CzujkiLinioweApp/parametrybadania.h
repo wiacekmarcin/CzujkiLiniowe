@@ -39,11 +39,13 @@ public:
     QString getNumerSortedCzujki(const QString &nadajnik, const QString &odbiornik) const;
     short getSortedId(short index) const;
 
-    short getIloscCzujek() const { return dobreCzujki.size(); }
+    short getIloscCzujek() const { return posortowaneCzujki.size(); }
     const QList<DanePomiaru> &getDaneBadanCzujek() const { return testy[REPRODUCIBILITY].getDaneBadanCzujek(); }
+
+    void setPosortowaneCzujki(const QVector<QPair<QString, QString>> & posortowaneCzujki);
 private:
-    QVector<QPair<QString, QString>> numbersCzujki;
-    QVector<QPair<QString, QString>> dobreCzujki;
+    QVector<QPair<QString, QString>> wszystkieCzujki;
+    QVector<QPair<QString, QString>> posortowaneCzujki;
     QMap<int, DaneTestu> testy;
 
 };

@@ -4,6 +4,7 @@
 #include "ustawienia.h"
 #include <QObject>
 #include <QSet>
+#include <QVector>
 
 struct NiewspolosiowoscOs {
     QString poziomo;
@@ -205,10 +206,10 @@ public:
     const QString &getMaksymalneNapiecie() const;
     void setMaksymalneNapiecie(const QString &newMaksymalneNapiecie);
 
-    DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik);
+    DanePomiaru getDaneDlaCzujki(const QString &nadajnik, const QString &odbiornik) const;
     void setDanePomiarowe(const DanePomiaru & podtw);
 
-    short getSortedPos(short sortedId);
+    short getSortedPos(short sortedId) const;
 
     bool getWynikNarazenia() const;
     void setWynikNarazenia(bool newWynikNarazenia);

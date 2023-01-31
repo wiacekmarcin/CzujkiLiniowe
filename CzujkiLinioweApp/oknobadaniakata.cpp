@@ -7,6 +7,8 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 
+#include <QDebug>
+
 OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
                                  const QString & podtitle,
                                  const QString & kat,

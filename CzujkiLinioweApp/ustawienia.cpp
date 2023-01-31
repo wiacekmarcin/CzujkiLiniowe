@@ -2,6 +2,8 @@
 
 #include <QApplication>
 #include <algorithm>
+#include <math.h>
+
 
 char Ustawienia::appnazwa[]="CzujkiLiniowe";
 char Ustawienia::firmnazwa[]="Kolodziejczyk";
@@ -46,7 +48,7 @@ unsigned long Ustawienia::wyliczImp(const double &ratioImpJedn, const double &sp
     double impCnt = speed / ratioImpJedn;
 
     //znajdzmy okres impulsu
-    return  round(60 * 1000000 / impCnt);
+    return  std::round(60 * 1000000 / impCnt);
 }
 
 unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle,
@@ -57,16 +59,16 @@ unsigned long Ustawienia::wyliczPozycje(short silnik, unsigned long middle,
         return 0;
 
     if (silnik == 1 || silnik == 2 || silnik == 8 || silnik == 9) {
-        long val = middle + round(x/ratioImpJedn);
+        long val = middle + std::round(x/ratioImpJedn);
         if (val < 0)
             return 0;
         if ((unsigned long)val > max)
             return max;
         return val;
     } else if (silnik == 3 || silnik == 4 || silnik == 5 ) {
-        return (unsigned long)round(x/ratioImpJedn) % max;
+        return (unsigned long)std::round(x/ratioImpJedn) % max;
     } else if (silnik == 6 || silnik == 7) {
-        long val = middle + round(x/ratioImpJedn);
+        long val = middle + std::round(x/ratioImpJedn);
         if (val < 0)
             return 0;
         if ((unsigned long)val > max)

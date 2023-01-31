@@ -45,7 +45,7 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
     connect(ui->pbCancel, &QPushButton::pressed, this, [this]() { this->done(QDialog::Rejected); });
     connect(ui->pbNext, &QPushButton::pressed, this, [this]() { this->done(QDialog::Accepted); });
     adjustSize();
-
+#if QT_VERSION >= 0x060000
     setGeometry(
         QStyle::alignedRect(
             Qt::LeftToRight,
@@ -54,6 +54,7 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
             screen()->availableGeometry()
         )
     );
+#endif    
 }
 
 WyborTestu::~WyborTestu()

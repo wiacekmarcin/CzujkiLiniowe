@@ -10,7 +10,9 @@
 #include <QVector>
 #include <QEventLoop>
 
+#ifndef NOSERIAL
 #include <QSerialPort>
+#endif
 
 #include "ustawienia.h"
 #include "sterownik_worker.h"
@@ -145,9 +147,9 @@ public:
 private slots:
     void handleReadyRead();
     void handleTimeout();
- 
+ #ifndef NOSERIAL
     void handleError(QSerialPort::SerialPortError error);
-
+#endif
 
 protected:
     bool connected();
@@ -193,9 +195,9 @@ private:
     bool openingPort;
     Ustawienia * ust;
     PortInterface interface;
-
+#ifndef NOSERIAL
     QSerialPort serialPort;
-
+#endif
     QThread * writeThread;
     QMutex connMutex;
     SterownikWriter writer;

@@ -21,6 +21,7 @@
 #include "zasilacz.h"
 #include <QMessageBox>
 #include <QSharedPointer>
+#include <QDebug>
 
 ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
@@ -172,13 +173,11 @@ bool ProceduraTestowa::Odtwarzalnosc(ParametryBadania & daneBadania, const Ustaw
         if (!parametryTest(nrPom, daneBadania, ust))
             return false;
 
-        bool pomiar1 = true;
         do {
             if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
                 return false;
 
             powtorzPomiar = pomiarCzujki(true, false, true, true, true, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
-            pomiar1 = false;
             if (powtorzPomiar == -1)
                 return false;
         } while(powtorzPomiar);
