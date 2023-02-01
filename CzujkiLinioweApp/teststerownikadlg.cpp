@@ -121,7 +121,7 @@ TestSterownikaDlg::TestSterownikaDlg(Ustawienia *ust, Sterownik *sdv, QWidget *p
     connect(ui->pbReset, &QPushButton::clicked, this, &TestSterownikaDlg::pbResett_clicked);
     connect(ui->pbStop, &QPushButton::clicked, this, &TestSterownikaDlg::pbStop_clicked);
     connect(ui->pbWylicz, &QPushButton::clicked, this, &TestSterownikaDlg::pbWyliczImpulsy_clicked);
-
+    connect(ui->pbOk, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
 
     ADDICONS_ALL
 

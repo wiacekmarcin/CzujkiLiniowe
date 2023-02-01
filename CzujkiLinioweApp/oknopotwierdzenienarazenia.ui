@@ -13,7 +13,7 @@
   <property name="minimumSize">
    <size>
     <width>880</width>
-    <height>600</height>
+    <height>800</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -378,7 +378,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka zgłosiła błąd w trakcie 30 sekund od momentu umieszczenia tłumnika 6dB w torze optycznym</string>
+         <string>Czy czujka zgłosiła alarm w trakcie 30 sekund od momentu umieszczenia tłumnika 6dB w torze optycznym</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

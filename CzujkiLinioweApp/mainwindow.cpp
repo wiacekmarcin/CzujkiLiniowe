@@ -40,7 +40,6 @@
                     CONN_PB(Otw_rz_okno); \
                     CONN_PB(NoweBadanie); \
                     CONN_PB(UsunBadanie); \
-                    CONN_PB(Sterownik); \
                     CONN_PB(ZamknijBadanie); \
                     CONN_PB(Test); \
                     CONN_PB(SprawdzCzujke);
@@ -75,6 +74,9 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
     ui->actionZapiszJako->setEnabled(false);
     ui->actionZapiszZadanie->setEnabled(false);
     ui->actionUsunBadanie->setEnabled(false);
+
+    ui->actionZasilacz->setEnabled(false);
+    ui->actionSterownik->setEnabled(false);
 
     connect(sd, &Sterownik::error, this, &MainWindow::ster_error);
     connect(sd, &Sterownik::debug, this, &MainWindow::ster_debug);
@@ -172,35 +174,11 @@ void MainWindow::ster_setParamsDone(bool success)
 
 void MainWindow::ster_kontrolerConfigured(int state)
 {
-
-    switch(state) {
-    case Sterownik::NO_FOUND:
-
-        break;
-    case Sterownik::FOUND:
-
-        break;
-    case Sterownik::NO_OPEN:
-    case Sterownik::NO_READ:
-    case Sterownik::IDENT_FAILD:
-        break;
-
-    case Sterownik::OPEN:
-
-        break;
-    case Sterownik::IDENT_OK:
-
-        break;
-    case Sterownik::PARAMS_FAILD:
-        break;
-    case Sterownik::PARAMS_OK:
-        break;
-    case Sterownik::ALL_OK:
-        break;
-    case Sterownik::CLOSE:
-        break;
-    default:
-        break;
+    if (state == Sterownik::PARAMS_OK || state == Sterownik::ALL_OK)
+    {
+        ui->actionSterownik->setEnabled(true);
+    } else {
+        ui->actionSterownik->setEnabled(false);
     }
 
     if (dlgTestSter)
@@ -270,6 +248,10 @@ void MainWindow::zas_debug(QString d)
 
 void MainWindow::zas_configured(int state)
 {
+    if (state == Zasilacz::IDENT_OK || state == Zasilacz::ALL_OK) {
+        ui->actionZasilacz->setEnabled(true);
+    } else
+        ui->actionZasilacz->setEnabled(false);
     if (dlgTestZas)
         dlgTestZas->configuredZasilacz(state);
     if (dlgTestStan)
@@ -484,14 +466,6 @@ void MainWindow::actionOtworzBadanie_triggered()
 void MainWindow::actionUsunBadanie_triggered()
 {
 
-}
-
-void MainWindow::actionSterownik_triggered()
-{
-    if (QMessageBox::question(this, "Zamykanie badania", "Zamykasz badanie, czy chcesz zapisać") == QMessageBox::Yes) {
-        actionZapiszJako_triggered();
-    }
-    b = ParametryBadania();
 }
 
 void MainWindow::actionParametryBadania_triggered()

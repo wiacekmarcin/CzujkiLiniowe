@@ -2,7 +2,7 @@
 #include <QDate>
 #include <QTime>
 #include <QDebug>
-
+#include "math.h"
 #include "parametrybadania.h"
 
 ListaTestow::ListaTestow()
@@ -594,16 +594,22 @@ void DaneTestu::dodajPomiarKata(const PomiarKata & kat)
 
 void DaneTestu::obliczZaleznoscKatowa(const Ustawienia &ust)
 {
+    bool ok = true;
+    QStringList errors;
     for (auto & wynik : pomiaryKatow) {
         if (wynik.ok) {
-            double val = wynik.katZmierzony - wynik.katProducenta;
+            double val = abs(wynik.katZmierzony - wynik.katProducenta);
             double delta = ust.getNiewspolosiowoscMinimalnyKatProducentMierzony();
-            if (val < delta || val < -delta) {
-                wynik.ok = false;
-                wynik.errorStr = QString::fromUtf8("Różnica<%1").arg(delta,2,'f',1);
+            if (val < delta) {
+                ok = false;
+                errors << QString::fromUtf8("Różnica<%1").arg(delta,2,'f',1);
             }
         }
     }
+    setOk(ok);
+    if (errors.size() > 0)
+        setErrStr(errors.size() > 1 ? QString::fromUtf8("Wystąpiło wiele błędów") : errors.at(0));
+    setWykonany(true);
 }
 
 void DaneTestu::obliczOdtwarzalnosc(ParametryBadania * badanie, const Ustawienia & ust)
@@ -984,8 +990,12 @@ void DaneTestu::obliczSwiatloRozproszone(const Ustawienia &ust)
         }
     }
 
-
-    setOk(badanieOk);
+    if (getWynikNarazenia()) {
+        setOk(false);
+        setErrStr(QString::fromUtf8("Czujka nie przeszła badania światła rozproszonego"));
+    } else {
+        setOk(badanieOk);
+    }
 
 
     if (Cmin) {

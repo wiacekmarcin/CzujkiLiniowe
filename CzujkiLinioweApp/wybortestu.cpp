@@ -31,11 +31,11 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
         checkbox->setObjectName(QString("checkbox%1").arg(t));
         checkbox->setText("Wykonany");
         checkbox->setEnabled(t == REPRODUCIBILITY ? !powtarzalnosc : powtarzalnosc);
-        if (test.getWykonany()) {
-            checkbox->setChecked(true);
-            radioButton->setCheckable(false);
-        }
-        checkbox->setCheckable(false);
+        //if (test.getWykonany()) {
+        //    checkbox->setChecked(true);
+        //    radioButton->setCheckable(false);
+        //}
+        //checkbox->setCheckable(false);
         ui->gridLayout->addWidget(checkbox, num, 1, 1, 1);
         num += 1;
     }

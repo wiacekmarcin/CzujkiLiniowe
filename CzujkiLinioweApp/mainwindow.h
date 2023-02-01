@@ -69,7 +69,6 @@ private slots:
     void actionZapiszJako_triggered();
     void actionOtworzBadanie_triggered();
     void actionUsunBadanie_triggered();
-    void actionSterownik_triggered();
     void actionZamknijBadanie_triggered();
     void actionSprawdzCzujke_triggered();
 

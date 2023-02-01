@@ -75,7 +75,7 @@
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
         <property name="currentIndex">
-         <number>5</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -2404,7 +2404,7 @@
                 <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
-                <number>130</number>
+                <number>30</number>
                </attribute>
                <attribute name="verticalHeaderVisible">
                 <bool>false</bool>
@@ -2724,7 +2724,7 @@
                 <bool>false</bool>
                </property>
                <property name="editTriggers">
-                <set>QAbstractItemView::DoubleClicked</set>
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
                <property name="tabKeyNavigation">
                 <bool>false</bool>
@@ -2751,6 +2751,9 @@
                 <bool>true</bool>
                </attribute>
                <attribute name="horizontalHeaderMinimumSectionSize">
+                <number>130</number>
+               </attribute>
+               <attribute name="horizontalHeaderDefaultSectionSize">
                 <number>130</number>
                </attribute>
                <attribute name="verticalHeaderVisible">

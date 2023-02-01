@@ -150,6 +150,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         if (daneTestu.getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin())
             ui->rozporoszoneswiatloCmaxCmin->setStyleSheet("background-color:red");
 
+        ui->rozproszoneSwiatloNarazenieCzujki->setText(daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY");
+        ui->rozproszoneSwiatloNarazenie->setVisible(!daneTestu.getWynikNarazenia());
+        ui->rozproszoneSwiatloNarazenie->setText(daneTestu.getInfoNarazenia());
+
         short num = 0;
         rozproszoneswiatloHeadTable(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout,"rozproszoneswiatlo");
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -161,6 +165,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->rozporoszoneswiatloPrzebiegGridLayout->setVerticalSpacing(0);
         ui->rozporoszoneswiatloPrzebiegGridLayout->setHorizontalSpacing(0);
         ui->rozporoszoneswiatloPrzebiegGridLayout->setSpacing(0);
+
+
     } else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
 
         ui->stackedWidget->setCurrentWidget(ui->tolerancjanapieciazasilania);

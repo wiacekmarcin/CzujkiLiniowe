@@ -33,7 +33,7 @@
 #define MAX_ROZSTAW         0x1 << 8
 #define MIN_CZULOSC         0x1 << 9
 #define RESET_CZUJKI        0x1 << 10
-#define STAB_CZUJKI         0x1 << 11
+#define NO_STAB_CZUJKI      0x1 << 11
 #define USUN_ZABEZP         0x1 << 12
 #define SW_ROZPR            0x1 << 13
 #define POWT_POMIAR         0x1 << 14
@@ -277,7 +277,7 @@ bool ProceduraTestowa::Powtarzalnosc(const ParametryBadania & daneBadania, const
             dlg6 = new OknoStabilizacjaCzujki(false, false, false,
                      (nr == 4 ? ust.getCzasOczekiwaniaPowtarzalnosc4Test() : dane.getCzasPowtarzalnosci()),
                                               dane.getName(),
-                                              QString::fromUtf8("Oczekiwanie na %1 pomiar odtwarzalności").arg(nr), parent);
+                                              QString::fromUtf8("Oczekiwanie na %1 pomiar powtarzalności").arg(nr), parent);
             alarmCzujki = dlg6->exec() != QDialog::Accepted;
             delete dlg6;
             dlg6 = nullptr;
@@ -319,7 +319,7 @@ bool ProceduraTestowa::Niewspolosiowosc(const ParametryBadania &daneBadania, con
     if (!parametryTest(1, daneBadania, ust))
         return false;
 
-    if (!montazZerowanieZasilanie(ZER_FILTRY | ZER_NADAJNIK | ZER_ODBIORNIK | USUN_ZABEZP, daneBadania))
+    if (!montazZerowanieZasilanie(NO_STAB_CZUJKI | ZER_FILTRY | ZER_NADAJNIK | ZER_ODBIORNIK | USUN_ZABEZP, daneBadania))
         return false;
 
     if (!NiewspolosiowoscBadanie(daneBadania, ust))
@@ -656,6 +656,7 @@ bool ProceduraTestowa::zasilenieCzujki(uint32_t flags, unsigned long timeWait,
     bool minVoltage = flags & MIN_NAPIECIE;
     bool maxVoltage = flags & MAX_NAPIECIE;
     bool minCzulosc = flags & MIN_CZULOSC;
+    bool noStab = flags & NO_STAB_CZUJKI;
     
     //ustawienia zasilania czujki z zasilacza
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny()) {
@@ -682,7 +683,7 @@ bool ProceduraTestowa::zasilenieCzujki(uint32_t flags, unsigned long timeWait,
             return false;
         }
     } while(false);
-    if (timeWait == 0)
+    if (timeWait == 0 || noStab)
         return true;
                 //(bool powerON, bool resetPower, bool ignoreAlarms,
     dlg6 = new OknoStabilizacjaCzujki(true, false, true, timeWait, dane.getName(), "", parent);
@@ -802,7 +803,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
 
     NiewspolosiowoscOsUrzadzenie k = dane.getKatyProducenta();
     QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
-    short ret = pomiarKata(2, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
+    short ret = pomiarKata(9, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
@@ -813,7 +814,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
-    ret = pomiarKata(2, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(9, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
@@ -824,7 +825,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
-    ret = pomiarKata(1, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(8, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
 
@@ -836,7 +837,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
-    ret = pomiarKata(1, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(8, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
 
@@ -854,7 +855,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
-    ret = pomiarKata(9, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(2, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
@@ -865,7 +866,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
-    ret = pomiarKata(9, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(2, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
     if (ret == 1) {
@@ -876,7 +877,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
-    ret = pomiarKata(8, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(1, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
 
@@ -888,7 +889,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
     }
 
     ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
-    ret = pomiarKata(8, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
+    ret = pomiarKata(1, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
 

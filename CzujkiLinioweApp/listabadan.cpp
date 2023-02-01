@@ -473,6 +473,48 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
+    } else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
+        QTableWidget * tablePrzebieg = ui->zaleznoscKierunkowaTablePrzebieg;
+
+
+        initCzujkaInfo(ui->zaleznoscKierunkowatableCzujka,
+                       transmitter, receiver,
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
+                       daneTestu.getNumerTransmitter(),
+                       daneTestu.getNumerReceiver());
+
+
+       QString err;
+       qDebug() << __FILE__ << __LINE__ << daneTestu.getPomiaryKatow().size();
+       QStringList head;
+       QList<int> width;
+       head << "Nazwa Badania" << "Kąt prod." << "Kąt zmierz." << "Wynik" << "Błąd" << "Uwaga";
+       width << 200 << 100 << 100 << 100 << 300 << 500;
+       clearinitTable(tablePrzebieg, head, width);
+
+       int num=0;
+       for (const auto & wynik : daneTestu.getPomiaryKatow()) {
+           int col = addR(tablePrzebieg, num, 0, wynik.nazwaBadania,
+                          QString::number(wynik.katProducenta, 'f', 2),
+                          QString::number(wynik.katZmierzony, 'f', 2),
+                          (wynik.ok ? "POZYTYWNY" : "NEGATYWNY"),
+                          wynik.errorStr,
+                          wynik.errorDetail);
+           if (!wynik.ok) {
+               for (short e=0; e<col; ++e) {
+                   if (tablePrzebieg->item(num, e))
+                       tablePrzebieg->item(num, e)->setBackground(Qt::red);
+               }
+           }
+           num++;
+       }
+
+       if (daneTestu.getOk()) {
+           ui->zaleznoscKierunkowaResult->setText("POZYTYWNY");
+       } else {
+           ui->zaleznoscKierunkowaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+       }
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
 
@@ -576,7 +618,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QStringList head;
         QList<int> width;
         head << "Stan czujki" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
-        width << 150 << 50 << 50 << 100 << 200;
+        width << 150 << 75 << 75 << 120 << 300;
         clearinitTable(tablePrzebieg, head, width);
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
@@ -596,22 +638,26 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
         widthNar << 150 << 250 << 350;
         clearinitTable(tableNarazenia, headNar, widthNar);
-        int col = addR(tableNarazenia, num, 0,
+        tableNarazenia->setRowCount(2);
+        num = 0;
+        int col = addR(tableNarazenia, 0, 0,
                        daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
                        QString::fromUtf8("Swiatło rozproszone"), daneTestu.getInfoNarazenia());
+
         if (!daneTestu.getWynikNarazenia()) {
             for (short e=0; e<col; ++e) {
                 if (tableNarazenia->item(num, e))
                     tableNarazenia->item(num, e)->setBackground(Qt::red);
             }
         }
-        num++;
 
         if (daneTestu.getOk()) {
             ui->rozproszoneSwiatloResult->setText("POZYTYWNY");
         } else {
             ui->rozproszoneSwiatloResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
+
+
     } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
         QTableWidget * tablePrzebieg = ui->tolerancjaNapieciaZasilaniaTablePrzebieg;
@@ -637,6 +683,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Napięcie zasilania" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
         width << 150 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
+        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             int col = addR(tablePrzebieg, num, 0,

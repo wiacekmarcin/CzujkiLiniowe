@@ -5,7 +5,7 @@
 #include <QDir>
 
 UstawieniaGen::UstawieniaGen() :
-    QDir(QApplication::applicationDirPath()).absoluteFilePath(QApplication::applicationName() + ".ini"), QSettings::IniFormat)
+    settings(QDir(QApplication::applicationDirPath()).absoluteFilePath(QApplication::applicationName() + ".ini"), QSettings::IniFormat)
 {
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
