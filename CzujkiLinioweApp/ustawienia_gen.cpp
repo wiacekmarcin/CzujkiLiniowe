@@ -2,15 +2,11 @@
 #include "ustawienia_gen.h"
 
 #include <QApplication>
-#include <QFileInfo>
 #include <QDir>
-#include <QDebug>
+
 UstawieniaGen::UstawieniaGen() :
-    settings(QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath(), QSettings::IniFormat)
+    QDir(QApplication::applicationDirPath()).absoluteFilePath(QApplication::applicationName() + ".ini"), QSettings::IniFormat)
 {
-    qDebug() << QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath().toStdString().c_str();
-    qDebug() << QApplication::applicationDirPath().toStdString().c_str();
-    qDebug() << QApplication::applicationFilePath().toStdString().c_str();
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     
@@ -40,7 +36,7 @@ void UstawieniaGen::load()
 	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(0.011613)).toString());
 	motorPrzelozenieImpJedn6 = toDouble(settings.value("Silnik-6/PrzelozenieImpJedn", QVariant::fromValue(0.013)).toString());
-	motorPrzelozenieImpJedn7 = toDouble(settings.value("Silnik-7/PrzelozenieImpJedn", QVariant::fromValue(0.000266667)).toString());
+	motorPrzelozenieImpJedn7 = toDouble(settings.value("Silnik-7/PrzelozenieImpJedn", QVariant::fromValue(0.000234375)).toString());
 	motorPrzelozenieImpJedn8 = toDouble(settings.value("Silnik-8/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
 	motorPrzelozenieImpJedn9 = toDouble(settings.value("Silnik-9/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
 	motorMinOdstepImp1 = toUInt(settings.value("Silnik-1/MinOdstepImp", QVariant::fromValue(29)).toString());
@@ -67,7 +63,7 @@ void UstawieniaGen::load()
 	motorCzasMiedzyImpZerow4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpZerow", QVariant::fromValue(200)).toString());
 	motorCzasMiedzyImpZerow5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpZerow", QVariant::fromValue(200)).toString());
 	motorCzasMiedzyImpZerow6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpZerow", QVariant::fromValue(50)).toString());
-	motorCzasMiedzyImpZerow7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(250)).toString());
+	motorCzasMiedzyImpZerow7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpZerow", QVariant::fromValue(125)).toString());
 	motorCzasMiedzyImpZerow8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
 	motorCzasMiedzyImpZerow9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpZerow", QVariant::fromValue(1000)).toString());
 	motorCzasMiedzyImpNormal1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
@@ -76,7 +72,7 @@ void UstawieniaGen::load()
 	motorCzasMiedzyImpNormal4 = toUInt(settings.value("Silnik-4/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpNormal5 = toUInt(settings.value("Silnik-5/CzasMiedzyImpNormal", QVariant::fromValue(50)).toString());
 	motorCzasMiedzyImpNormal6 = toUInt(settings.value("Silnik-6/CzasMiedzyImpNormal", QVariant::fromValue(500)).toString());
-	motorCzasMiedzyImpNormal7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(1000)).toString());
+	motorCzasMiedzyImpNormal7 = toUInt(settings.value("Silnik-7/CzasMiedzyImpNormal", QVariant::fromValue(250)).toString());
 	motorCzasMiedzyImpNormal8 = toUInt(settings.value("Silnik-8/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
 	motorCzasMiedzyImpNormal9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
 	motorMaksIloscImp1 = toUInt(settings.value("Silnik-1/MaksIloscImp", QVariant::fromValue(1000)).toString());
@@ -84,8 +80,8 @@ void UstawieniaGen::load()
 	motorMaksIloscImp3 = toUInt(settings.value("Silnik-3/MaksIloscImp", QVariant::fromValue(31003)).toString());
 	motorMaksIloscImp4 = toUInt(settings.value("Silnik-4/MaksIloscImp", QVariant::fromValue(31004)).toString());
 	motorMaksIloscImp5 = toUInt(settings.value("Silnik-5/MaksIloscImp", QVariant::fromValue(31005)).toString());
-	motorMaksIloscImp6 = toUInt(settings.value("Silnik-6/MaksIloscImp", QVariant::fromValue(1006)).toString());
-	motorMaksIloscImp7 = toUInt(settings.value("Silnik-7/MaksIloscImp", QVariant::fromValue(1007)).toString());
+	motorMaksIloscImp6 = toUInt(settings.value("Silnik-6/MaksIloscImp", QVariant::fromValue(20000)).toString());
+	motorMaksIloscImp7 = toUInt(settings.value("Silnik-7/MaksIloscImp", QVariant::fromValue(250000)).toString());
 	motorMaksIloscImp8 = toUInt(settings.value("Silnik-8/MaksIloscImp", QVariant::fromValue(1008)).toString());
 	motorMaksIloscImp9 = toUInt(settings.value("Silnik-9/MaksIloscImp", QVariant::fromValue(1009)).toString());
 	motorIloscImpBaza1 = toUInt(settings.value("Silnik-1/IloscImpBaza", QVariant::fromValue(0)).toString());
@@ -187,6 +183,14 @@ void UstawieniaGen::load()
 	maksymalnaWilgotnosc = toDouble(settings.value("ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", QVariant::fromValue(75)).toString());
 	minimalnaCisnienie = toDouble(settings.value("ParamentryBadania-ParametryTestu/minimalneCisnienie", QVariant::fromValue(860)).toString());
 	maksymalnaCisnienie = toDouble(settings.value("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(1060)).toString());
+	odpornoscSucheGoraceCmaxCmin = toDouble(settings.value("ParamentryBadania-OdpornoscNaSucheGorace/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	odpornoscZimnoCmaxCmin = toDouble(settings.value("ParamentryBadania-OdpornoscNaZimno/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	odpornoscWilgotneGoraceCmaxCmin = toDouble(settings.value("ParamentryBadania-OdpornoscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	wytrzymaloscWilgotneGoraceCmaxCmin = toDouble(settings.value("ParamentryBadania-WytrzymaloscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	wytrzymaloscWibracjeCmaxCmin = toDouble(settings.value("ParamentryBadania-WytrzymaloscNaWibracje/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	odpornoscUderzoniowaCmaxCmin = toDouble(settings.value("ParamentryBadania-OdpornoscUderzeniowa/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	wytrzymaloscKorozyjnaSO2CmaxCmin = toDouble(settings.value("ParamentryBadania-WytrzymaloscKorozyjnaSO2/CmaxCmin", QVariant::fromValue(1.6)).toString());
+	odpornoscElektroMagnetycznaCmaxCmin = toDouble(settings.value("ParamentryBadania-OdpornoscElektroMagnetyczna/CmaxCmin", QVariant::fromValue(1.6)).toString());
 }
 
 void UstawieniaGen::save()
@@ -353,6 +357,14 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", QVariant::fromValue(maksymalnaWilgotnosc));
 	settings.setValue("ParamentryBadania-ParametryTestu/minimalneCisnienie", QVariant::fromValue(minimalnaCisnienie));
 	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(maksymalnaCisnienie));
+	settings.setValue("ParamentryBadania-OdpornoscNaSucheGorace/CmaxCmin", QVariant::fromValue(odpornoscSucheGoraceCmaxCmin));
+	settings.setValue("ParamentryBadania-OdpornoscNaZimno/CmaxCmin", QVariant::fromValue(odpornoscZimnoCmaxCmin));
+	settings.setValue("ParamentryBadania-OdpornoscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(odpornoscWilgotneGoraceCmaxCmin));
+	settings.setValue("ParamentryBadania-WytrzymaloscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(wytrzymaloscWilgotneGoraceCmaxCmin));
+	settings.setValue("ParamentryBadania-WytrzymaloscNaWibracje/CmaxCmin", QVariant::fromValue(wytrzymaloscWibracjeCmaxCmin));
+	settings.setValue("ParamentryBadania-OdpornoscUderzeniowa/CmaxCmin", QVariant::fromValue(odpornoscUderzoniowaCmaxCmin));
+	settings.setValue("ParamentryBadania-WytrzymaloscKorozyjnaSO2/CmaxCmin", QVariant::fromValue(wytrzymaloscKorozyjnaSO2CmaxCmin));
+	settings.setValue("ParamentryBadania-OdpornoscElektroMagnetyczna/CmaxCmin", QVariant::fromValue(odpornoscElektroMagnetycznaCmaxCmin));
 }
 
 QString UstawieniaGen::getMotorNazwa1() const
@@ -2657,4 +2669,92 @@ void UstawieniaGen::setMaksymalnaCisnienie(const double & value)
 {
 	maksymalnaCisnienie = value;
 	settings.setValue("ParamentryBadania-ParametryTestu/maksymalnaCisnienie", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getOdpornoscSucheGoraceCmaxCmin() const
+{
+	return odpornoscSucheGoraceCmaxCmin;
+}
+
+void UstawieniaGen::setOdpornoscSucheGoraceCmaxCmin(const double & value)
+{
+	odpornoscSucheGoraceCmaxCmin = value;
+	settings.setValue("ParamentryBadania-OdpornoscNaSucheGorace/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getOdpornoscZimnoCmaxCmin() const
+{
+	return odpornoscZimnoCmaxCmin;
+}
+
+void UstawieniaGen::setOdpornoscZimnoCmaxCmin(const double & value)
+{
+	odpornoscZimnoCmaxCmin = value;
+	settings.setValue("ParamentryBadania-OdpornoscNaZimno/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getOdpornoscWilgotneGoraceCmaxCmin() const
+{
+	return odpornoscWilgotneGoraceCmaxCmin;
+}
+
+void UstawieniaGen::setOdpornoscWilgotneGoraceCmaxCmin(const double & value)
+{
+	odpornoscWilgotneGoraceCmaxCmin = value;
+	settings.setValue("ParamentryBadania-OdpornoscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getWytrzymaloscWilgotneGoraceCmaxCmin() const
+{
+	return wytrzymaloscWilgotneGoraceCmaxCmin;
+}
+
+void UstawieniaGen::setWytrzymaloscWilgotneGoraceCmaxCmin(const double & value)
+{
+	wytrzymaloscWilgotneGoraceCmaxCmin = value;
+	settings.setValue("ParamentryBadania-WytrzymaloscNaWilgotneGorace/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getWytrzymaloscWibracjeCmaxCmin() const
+{
+	return wytrzymaloscWibracjeCmaxCmin;
+}
+
+void UstawieniaGen::setWytrzymaloscWibracjeCmaxCmin(const double & value)
+{
+	wytrzymaloscWibracjeCmaxCmin = value;
+	settings.setValue("ParamentryBadania-WytrzymaloscNaWibracje/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getOdpornoscUderzoniowaCmaxCmin() const
+{
+	return odpornoscUderzoniowaCmaxCmin;
+}
+
+void UstawieniaGen::setOdpornoscUderzoniowaCmaxCmin(const double & value)
+{
+	odpornoscUderzoniowaCmaxCmin = value;
+	settings.setValue("ParamentryBadania-OdpornoscUderzeniowa/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getWytrzymaloscKorozyjnaSO2CmaxCmin() const
+{
+	return wytrzymaloscKorozyjnaSO2CmaxCmin;
+}
+
+void UstawieniaGen::setWytrzymaloscKorozyjnaSO2CmaxCmin(const double & value)
+{
+	wytrzymaloscKorozyjnaSO2CmaxCmin = value;
+	settings.setValue("ParamentryBadania-WytrzymaloscKorozyjnaSO2/CmaxCmin", QVariant::fromValue(value));
+}
+
+double UstawieniaGen::getOdpornoscElektroMagnetycznaCmaxCmin() const
+{
+	return odpornoscElektroMagnetycznaCmaxCmin;
+}
+
+void UstawieniaGen::setOdpornoscElektroMagnetycznaCmaxCmin(const double & value)
+{
+	odpornoscElektroMagnetycznaCmaxCmin = value;
+	settings.setValue("ParamentryBadania-OdpornoscElektroMagnetyczna/CmaxCmin", QVariant::fromValue(value));
 }

@@ -25,7 +25,7 @@ int main(int argc, char *argv[])
     //if ()
 
     Ustawienia u;
-    //u.save();
+    u.save();
 #if QT_VERSION >= 0x060000
     QFont font(QStringList() << "Ariel" << "Times New Roman");
     a.setFont(font);

@@ -53,9 +53,10 @@ public:
 #include "%(filename_h)s"
 
 #include <QApplication>
+#include <QDir>
 
 %(className)s::%(className)s() :
-    settings(QApplication::applicationFilePath() + ".ini", QSettings::IniFormat)
+    QDir(QApplication::applicationDirPath()).absoluteFilePath(QApplication::applicationName() + ".ini"), QSettings::IniFormat)
 {
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
@@ -577,6 +578,15 @@ u.addZakresy("minimalnaWilgotnosc", "double", "toDouble", "ParamentryBadania-Par
 u.addZakresy("maksymalnaWilgotnosc", "double", "toDouble", "ParamentryBadania-ParametryTestu/maksymalnaWilgotnosc", '75', checkDoubleContent)
 u.addZakresy("minimalnaCisnienie", "double", "toDouble", "ParamentryBadania-ParametryTestu/minimalneCisnienie", '860', checkDoubleContent)
 u.addZakresy("maksymalnaCisnienie", "double", "toDouble", "ParamentryBadania-ParametryTestu/maksymalnaCisnienie", '1060', checkDoubleContent)
+
+u.addZakresy("odpornoscSucheGoraceCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscNaSucheGorace/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("odpornoscZimnoCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscNaZimno/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("odpornoscWilgotneGoraceCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscNaWilgotneGorace/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("wytrzymaloscWilgotneGoraceCmaxCmin", "double", "toDouble", "ParamentryBadania-WytrzymaloscNaWilgotneGorace/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("wytrzymaloscWibracjeCmaxCmin", "double", "toDouble", "ParamentryBadania-WytrzymaloscNaWibracje/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("odpornoscUderzoniowaCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscUderzeniowa/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("wytrzymaloscKorozyjnaSO2CmaxCmin", "double", "toDouble", "ParamentryBadania-WytrzymaloscKorozyjnaSO2/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("odpornoscElektroMagnetycznaCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscElektroMagnetyczna/CmaxCmin", '1.6', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

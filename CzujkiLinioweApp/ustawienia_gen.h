@@ -494,6 +494,22 @@ public:
 	void setMinimalnaCisnienie(const double & minimalnaCisnienie);
 	double getMaksymalnaCisnienie() const;
 	void setMaksymalnaCisnienie(const double & maksymalnaCisnienie);
+	double getOdpornoscSucheGoraceCmaxCmin() const;
+	void setOdpornoscSucheGoraceCmaxCmin(const double & odpornoscSucheGoraceCmaxCmin);
+	double getOdpornoscZimnoCmaxCmin() const;
+	void setOdpornoscZimnoCmaxCmin(const double & odpornoscZimnoCmaxCmin);
+	double getOdpornoscWilgotneGoraceCmaxCmin() const;
+	void setOdpornoscWilgotneGoraceCmaxCmin(const double & odpornoscWilgotneGoraceCmaxCmin);
+	double getWytrzymaloscWilgotneGoraceCmaxCmin() const;
+	void setWytrzymaloscWilgotneGoraceCmaxCmin(const double & wytrzymaloscWilgotneGoraceCmaxCmin);
+	double getWytrzymaloscWibracjeCmaxCmin() const;
+	void setWytrzymaloscWibracjeCmaxCmin(const double & wytrzymaloscWibracjeCmaxCmin);
+	double getOdpornoscUderzoniowaCmaxCmin() const;
+	void setOdpornoscUderzoniowaCmaxCmin(const double & odpornoscUderzoniowaCmaxCmin);
+	double getWytrzymaloscKorozyjnaSO2CmaxCmin() const;
+	void setWytrzymaloscKorozyjnaSO2CmaxCmin(const double & wytrzymaloscKorozyjnaSO2CmaxCmin);
+	double getOdpornoscElektroMagnetycznaCmaxCmin() const;
+	void setOdpornoscElektroMagnetycznaCmaxCmin(const double & odpornoscElektroMagnetycznaCmaxCmin);
 protected:
 	bool checkMotorNazwa(const QString & val);
 	bool checkMotorPrzelozenieImpJedn(const QString & val);
@@ -672,5 +688,13 @@ private:
 	double maksymalnaWilgotnosc;
 	double minimalnaCisnienie;
 	double maksymalnaCisnienie;
+	double odpornoscSucheGoraceCmaxCmin;
+	double odpornoscZimnoCmaxCmin;
+	double odpornoscWilgotneGoraceCmaxCmin;
+	double wytrzymaloscWilgotneGoraceCmaxCmin;
+	double wytrzymaloscWibracjeCmaxCmin;
+	double odpornoscUderzoniowaCmaxCmin;
+	double wytrzymaloscKorozyjnaSO2CmaxCmin;
+	double odpornoscElektroMagnetycznaCmaxCmin;
 };
 #endif
