@@ -34,7 +34,7 @@ class ListaBadan : public QWidget
 public:
     explicit ListaBadan(QWidget *parent = nullptr);
     ~ListaBadan();
-    void startBadanie(short id, ParametryBadania &badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
+    bool startBadanie(short id, ParametryBadania &badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
     void clearBadanie();
 
     void flt_zerowanieFiltrowDone();
@@ -105,6 +105,7 @@ private:
     unsigned intCurrAlarm;
     QMap<int, testWidget> testyWidget;
     QDateTime prevCzujkaOn;
+
 
 };
 

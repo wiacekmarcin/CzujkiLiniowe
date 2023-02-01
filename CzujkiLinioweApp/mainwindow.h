@@ -10,6 +10,7 @@
 #include "zasilacz.h"
 #include "symulator.h"
 #include <QThread>
+#include <QCloseEvent>
 
 class TestZasilaczaDlg;
 class TestSterownikaDlg;
@@ -73,6 +74,8 @@ private slots:
     void actionSprawdzCzujke_triggered();
 
     void actionTest_triggered();
+
+    void closeEvent(QCloseEvent *event);
 protected:
     void saveFile();
 

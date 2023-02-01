@@ -391,7 +391,13 @@ void MainWindow::actionStartTestu_triggered()
     }
     short idTest = dlg1->getWyborTestu();
     delete dlg1;
-    ui->centralwidget->startBadanie(idTest, b, u, zas, sd);
+    if (ui->centralwidget->startBadanie(idTest, b, u, zas, sd)) {
+        setWindowTitle("");
+        if (!fileDaneBadania.isEmpty())
+            setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fileDaneBadania.baseName()));
+        setWindowModified(true);
+    }
+
 
 }
 
@@ -541,5 +547,30 @@ void MainWindow::actionTest_triggered()
     auto test = b.getTesty()[REPRODUCIBILITY];
     test.obliczOdtwarzalnosc(&b, u);
     b.setDaneTestu(REPRODUCIBILITY, test);
+}
+
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    auto btn = QMessageBox::question(this, QString::fromUtf8("CzujkiLiniowe"),
+                                     QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                                     QMessageBox::Save | QMessageBox::Close | QMessageBox::Cancel,
+                                     QMessageBox::Cancel);
+    if (btn == QMessageBox::Cancel) {
+        event->ignore();
+        return;
+    }
+
+    if (btn == QMessageBox::Close) {
+        event->accept();
+        return;
+    }
+
+    if (fileDaneBadania.isEmpty()) {
+        actionZapiszJako_triggered();
+        return;
+    }
+    saveFile();
+    event->accept();
+
 }
 

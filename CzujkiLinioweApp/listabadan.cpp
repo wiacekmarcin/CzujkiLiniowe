@@ -81,13 +81,13 @@ ListaBadan::~ListaBadan()
     delete ui;
 }
 
-void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawienia & ust,
+bool ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawienia & ust,
                               Zasilacz *zas, Sterownik * ster)
 {
 
     QString nameTest = "Nieznane Badanie";
     if (id == -1)
-        return;
+        return false;
     if (id < lt.nazwyTestow.size())
         nameTest = lt.nazwyTestow.at(id);
     wyzwalaniePradem = badanie.getWyzwalanieAlarmuPradem();
@@ -105,7 +105,7 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
             testyWidget[id].button->setVisible(true);
         }
         badanieWTrakcie = false;
-        return;
+        return false;
     }
 
     DaneTestu test = procedura.getDane();
@@ -115,7 +115,7 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     setUkonczoneBadanie(test.getId(), badanie);
     ui->stackedWidget->setCurrentWidget(testyWidget[test.getId()].page);
 
-
+    return true;
 }
 
 void ListaBadan::clearBadanie()
