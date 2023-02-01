@@ -14,6 +14,7 @@ OknoMontaz::OknoMontaz(bool usuniecieZabezp, bool minRozstawienie, bool maxRozst
     ui(new Ui::OknoMontaz)
 {
     ui->setupUi(this);
+    (void)systemNadajnikObiornik;
 
     ui->numerNadajnika->setText(daneTestu.getNumerTransmitter());
     ui->numerReceiver->setText(daneTestu.getNumerReceiver());
@@ -37,13 +38,13 @@ OknoMontaz::OknoMontaz(bool usuniecieZabezp, bool minRozstawienie, bool maxRozst
         ui->frame_dlugoscDrogiOptycznej->setVisible(false);
 
     ui->frameBlokada->setVisible(usuniecieZabezp);
-    QString nad = daneTestu.getNazwaTransmitter_a();
-    QString odb = daneTestu.getNazwaReceiver_a();
-    if (systemNadajnikObiornik) {
-        ui->infoBlokada->setText(QString::fromUtf8("Pamiętaj o zdjęciu blokad z ramion %1 i %2.").arg(nad, odb));
-    } else
-        ui->infoBlokada->setText(QString::fromUtf8("Pamiętaj o zdjęciu blokad z ramion %1.").arg(nad));
 
+    //if (systemNadajnikObiornik) {
+        ui->infoBlokada->setText(QString::fromUtf8("Pamiętaj o zdjęciu blokad z ramion %1 i %2.").arg(nad, odb));
+    //} else
+    //    ui->infoBlokada->setText(QString::fromUtf8("Pamiętaj o zdjęciu blokad z ramion %1.").arg(nad));
+
+    ui->swiatloRozproszone->setVisible(rozproszone);
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });

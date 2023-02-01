@@ -71,6 +71,7 @@ private slots:
     void actionUsunBadanie_triggered();
     void actionSterownik_triggered();
     void actionZamknijBadanie_triggered();
+    void actionSprawdzCzujke_triggered();
 
     void actionTest_triggered();
 protected:

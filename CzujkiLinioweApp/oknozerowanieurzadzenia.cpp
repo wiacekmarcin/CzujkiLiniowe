@@ -13,7 +13,7 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool nadajnik_, bool odbiornik_
     ui(new Ui::OknoZerowanieUrzadzenia),
     timer(this),
     errorMsg(false),
-    nadajnik(nadajnik_)
+    nadajnik(nadajnik_),
     odbiornik(odbiornik_),
     filtry(filtry_),
     wozek(wozek_),
@@ -73,8 +73,8 @@ void OknoZerowanieUrzadzenia::init()
     //}
 
     ui->frame_filtry->setDisabled(!filtry);
-    ui->frame_transmitter->setDisabled(!ramiona);
-    ui->frame_receiver->setDisabled(!ramiona);
+    ui->frame_transmitter->setDisabled(!nadajnik);
+    ui->frame_receiver->setDisabled(!odbiornik);
     ui->frame_wozek->setDisabled(!wozek);
     adjustSize();
     //QString debug = QString("<ul>Zerowanie urzadzenia");
@@ -83,7 +83,7 @@ void OknoZerowanieUrzadzenia::init()
     //if (wozek) debug+= QString("<li>wozek</li>");
     //debug+= "</ul>";
     //emit debug(DEBUG_TEST, debug);
-    device->setZerowanieUrzadzen(ramiona, filtry, wozek);
+    device->setZerowanieUrzadzen(nadajnik, odbiornik, filtry, wozek);
     ui->error->setVisible(false);
     unsigned int timCzas = 1000;
     if (filtry)

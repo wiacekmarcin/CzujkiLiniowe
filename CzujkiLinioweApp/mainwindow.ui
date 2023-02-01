@@ -69,6 +69,7 @@
      <string>Pomiar</string>
     </property>
     <addaction name="actionStartTestu"/>
+    <addaction name="actionSprawdzCzujke"/>
    </widget>
    <addaction name="menuDebug"/>
    <addaction name="menuPomiar"/>
@@ -106,7 +107,8 @@
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="icon">
-    <iconset theme="document-open"/>
+    <iconset theme="document-open">
+     <normaloff>.</normaloff>.</iconset>
    </property>
    <property name="text">
     <string>Otwórz okno</string>
@@ -262,6 +264,11 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+T</string>
+   </property>
+  </action>
+  <action name="actionSprawdzCzujke">
+   <property name="text">
+    <string>Test zamontowanej czujki</string>
    </property>
   </action>
  </widget>

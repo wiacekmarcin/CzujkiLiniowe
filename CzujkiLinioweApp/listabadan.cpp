@@ -100,10 +100,11 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     badanieWTrakcie = true;
     if (!procedura.startBadanie(id, nameTest, badanie, ust, zas, ster))
     {
+        if (id != TEST_MEASUREAMENT) {
+            testyWidget[id].wyniki->setVisible(false);
+            testyWidget[id].button->setVisible(true);
+        }
         badanieWTrakcie = false;
-        testyWidget[id].wyniki->setVisible(false);
-        testyWidget[id].button->setVisible(true);
-
         return;
     }
 
@@ -114,6 +115,17 @@ void ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
     setUkonczoneBadanie(test.getId(), badanie);
     ui->stackedWidget->setCurrentWidget(testyWidget[test.getId()].page);
 
+
+}
+
+void ListaBadan::clearBadanie()
+{
+    ui->tableWidget->clear();
+    for (auto & it : testyWidget) {
+        it.button->setVisible(true);
+        it.wyniki->setVisible(false);
+    }
+    badanieWTrakcie = true;
 
 }
 

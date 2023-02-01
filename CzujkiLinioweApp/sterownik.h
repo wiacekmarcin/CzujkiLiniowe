@@ -128,7 +128,7 @@ public:
     void setParams(short nrSilnika, bool reverse=false, unsigned int maxImpulse=0,
                    unsigned int baseImpulse=0, unsigned int middleImpulse=0);
     void setPositionSilnik(int silnik, bool home, uint32_t steps, uint32_t impTime);
-    void setZerowanieUrzadzen(bool ramiona, bool filtry, bool wozek);
+    void setZerowanieUrzadzen(bool nadajnik, bool odbiornik, bool filtry, bool wozek);
     void setReset();
     void setStopMotor(short nrSilnik);
     void setStopMotorAll();

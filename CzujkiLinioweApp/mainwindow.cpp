@@ -20,8 +20,9 @@
 #include <QStyle>
 #include <QScreen>
 #include <QFont>
+#include <QMessageBox>
 
-#include "oknopodsumowanietestu.h"
+
 #include "danetestu.h"
 #include "parametrybadania.h"
 #include "symulator.h"
@@ -41,7 +42,8 @@
                     CONN_PB(UsunBadanie); \
                     CONN_PB(Sterownik); \
                     CONN_PB(ZamknijBadanie); \
-                    CONN_PB(Test);
+                    CONN_PB(Test); \
+                    CONN_PB(SprawdzCzujke);
 
 
 
@@ -68,6 +70,7 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
 
     ui->actionStartTestu->setEnabled(false);
     ui->actionParametryBadania->setEnabled(false);
+    ui->actionSprawdzCzujke->setEnabled(false);
     ui->actionUsunBadanie->setEnabled(false);
     ui->actionZapiszJako->setEnabled(false);
     ui->actionZapiszZadanie->setEnabled(false);
@@ -387,6 +390,7 @@ void MainWindow::actionNoweBadanie_triggered()
     ui->centralwidget->setBadanie(b);
     ui->actionStartTestu->setEnabled(true);
     ui->actionParametryBadania->setEnabled(true);
+    ui->actionSprawdzCzujke->setEnabled(true);
     ui->actionUsunBadanie->setEnabled(true);
     ui->actionZapiszJako->setEnabled(true);
     ui->actionZapiszZadanie->setEnabled(true);
@@ -467,12 +471,14 @@ void MainWindow::actionOtworzBadanie_triggered()
     b.load(fileDaneBadania);
     ui->centralwidget->setBadanie(b);
     ui->actionStartTestu->setEnabled(true);
+    ui->actionSprawdzCzujke->setEnabled(true);
     ui->actionParametryBadania->setEnabled(true);
     ui->actionUsunBadanie->setEnabled(true);
     ui->actionZapiszJako->setEnabled(true);
     ui->actionZapiszZadanie->setEnabled(true);
     ui->actionUsunBadanie->setEnabled(true);
     ui->centralwidget->setVisible(true);
+
 }
 
 void MainWindow::actionUsunBadanie_triggered()
@@ -504,6 +510,28 @@ void MainWindow::actionParametryBadania_triggered()
 
 void MainWindow::actionZamknijBadanie_triggered()
 {
+    if (QMessageBox::question(this, "Zamykanie badania", "Zamykasz badanie, czy chcesz zapisać") == QMessageBox::Yes) {
+        actionZapiszJako_triggered();
+    }
+    b = ParametryBadania();
+
+    ui->actionStartTestu->setEnabled(false);
+    ui->actionParametryBadania->setEnabled(false);
+    ui->actionSprawdzCzujke->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->actionZapiszJako->setEnabled(false);
+    ui->actionZapiszZadanie->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->centralwidget->clearBadanie();
+    ui->centralwidget->setVisible(false);
+    setWindowTitle("Czujniki Liniowe");
+    setWindowModified(false);
+}
+
+
+void MainWindow::actionSprawdzCzujke_triggered()
+{
+    this->ui->centralwidget->startBadanie(TEST_MEASUREAMENT, b, u, zas, sd);
 
 }
 

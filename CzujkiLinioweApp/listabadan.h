@@ -35,6 +35,7 @@ public:
     explicit ListaBadan(QWidget *parent = nullptr);
     ~ListaBadan();
     void startBadanie(short id, ParametryBadania &badanie, const Ustawienia &ust, Zasilacz *zas, Sterownik *ster);
+    void clearBadanie();
 
     void flt_zerowanieFiltrowDone();
     void flt_setUkladFiltrowDone();

@@ -320,10 +320,13 @@ void Sterownik::setPositionSilnik(int silnik, bool home, unsigned int steps, uns
                        SerialMessage::setPosition(silnik,  steps, impTime));
 }
 
-void Sterownik::setZerowanieUrzadzen(bool ramiona, bool filtry, bool wozek)
+void Sterownik::setZerowanieUrzadzen(bool nadajnik, bool odbiornik, bool filtry, bool wozek)
 {
     for (short id = 1; id <= 9; ++id) {
-        if (ramiona && (id == 1 || id == 2 || id == 8 || id == 9))
+        if (nadajnik && (id == 1 || id == 2))
+            setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
+
+        if (odbiornik && (id == 8 || id == 9))
             setPositionSilnik(id, true, 0, ust->getMotorCzasMiedzyImpZerow(id));
 
         if (wozek && (id == 6 ||  id == 7))

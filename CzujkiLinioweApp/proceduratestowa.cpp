@@ -38,6 +38,7 @@
 #define SW_ROZPR            0x1 << 13
 #define POWT_POMIAR         0x1 << 14
 #define NIE_POK_WYNIK_POM   0x1 << 15
+#define TEST_POMIAR         0x1 << 16
 
 ProceduraTestowa::ProceduraTestowa(QWidget * widget):
     parent(widget),
@@ -197,7 +198,7 @@ bool ProceduraTestowa::ProbnyPomiar(ParametryBadania & daneBadania, const Ustawi
         if (!zasilenieCzujki(0, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(POWT_POMIAR | TEST_POMIAR, daneBadania, ust);
         if (powtorzPomiar == -1)
             return false;
     } while(powtorzPomiar);
@@ -454,7 +455,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
     if (!parametryTest(1, daneBadania, ust))
         return false;
 
-    if (!montazZerowanieZasilanie(0, 0, true, true, true, false, daneBadania))
+    if (!montazZerowanieZasilanie(ZER_FILTRY | SW_ROZPR, daneBadania))
         return false;
 
     OknoTestRozproszoneSwiatlo * dlg15 = new OknoTestRozproszoneSwiatlo(dane, parent);
@@ -475,20 +476,23 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
     delete dlg15;
     dlg15 = nullptr;
     bool ok2 = true;
-    if (pomiarCzujki(false, false, false, true, false, 0, daneBadania, ust) != 0) {
-        ok2 = false;
-    }
+    ok2 = pomiarCzujki(0, daneBadania, ust) == QDialog::Accepted;
+
+    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
+
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+
+
     dane.setOk(ok1 & ok2);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczSwiatloRozproszone(ust);
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
-        zas->setOutput(false);
-    //do {
-    //    QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
-    //    dlg->exec();
-    //} while(false);
+    do {
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+        dlg->exec();
+    } while(false);
     return true;
 }
 
@@ -497,35 +501,50 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
     if (!parametryTest(1, daneBadania, ust))
         return false;
 
-    short powtorzPomiar = 0;
+    short powtorzPomiar;
     bool ok1, ok2;
     do {
-        if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
+        if (!montazZerowanieZasilanie(ZER_FILTRY | MIN_NAPIECIE, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+
         if (powtorzPomiar == -1)
             return false;
         ok1 = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
+
     dane.addNextPomiar();
+
+    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
+
+    resetCzujki(dane.getName(), QString::fromUtf8("Resetowanie czujki dla testu szubkie zmiany tłumienia"),
+                    ust.getCzasWylaczeniaCzujkiDlaResetu(),
+                     daneBadania.getCzasStabilizacjiPoResecie_s(), daneBadania );
+
     do {
-        if (!montazZerowanieZasilanie(2, 0, true, true, true, false, daneBadania))
+        if (!montazZerowanieZasilanie(ZER_FILTRY | MAX_NAPIECIE, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+
         if (powtorzPomiar == -1)
             return false;
         ok2 = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
 
+    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
+
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+
     dane.setOk(ok1 & ok2);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
     dane.obliczZaleznoscNapieciaZasilania(ust);
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
-        zas->setOutput(false);
+
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -541,7 +560,7 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
     bool ret = potwierdzenieNarazenia(dane, daneBadania, ust);
     if (!ret)
         return false;
-
+/*
     bool ok;
     short powtorzPomiar;
     do {
@@ -564,6 +583,8 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     } while(false);
+    return true;
+    */
     return true;
 }
 
@@ -598,7 +619,6 @@ bool ProceduraTestowa::oczekiwanieNaUrzadzenie(const ParametryBadania & daneBada
 
 bool ProceduraTestowa::zerowanieSterownika(uint32_t flags, const QString & trans, const QString & receiv )
 {
-    //(bool ramiona, bool filtry, bool wozek 
     dlg0 = new OknoZerowanieUrzadzenia(flags & ZER_NADAJNIK, flags & ZER_ODBIORNIK, flags & ZER_FILTRY, flags & ZER_WOZEK, trans, receiv, ster, parent);
 
     int ret = dlg0->exec() == QDialog::Accepted;
@@ -675,6 +695,7 @@ short ProceduraTestowa::pomiarCzujki(uint32_t flags,
 {
     bool repeatPomiar = flags & POWT_POMIAR;
     bool nowait = flags & NIE_POK_WYNIK_POM;
+    bool testPom = flags & TEST_POMIAR;
 
 
     dlg7 = new OknoBadaniaTlumienia(daneBadania.getCzasPomZmianaTlumenia_s(), dane.getDlugoscFali(),
@@ -685,7 +706,7 @@ short ProceduraTestowa::pomiarCzujki(uint32_t flags,
     delete dlg7;
     dlg7 = nullptr;
 
-    if (nowait) {
+    if (!testPom && nowait) {
         dane.setSuccessBadaniaCzujki(pomOk, tlumienie, error);
         return 0;
     }
@@ -699,7 +720,8 @@ short ProceduraTestowa::pomiarCzujki(uint32_t flags,
         if (dlg8->getPowtorzPomiar()) {
             return 1;
         } else {
-            dane.setSuccessBadaniaCzujki(pomOk, tlumienie, error);
+            if (! testPom)
+                dane.setSuccessBadaniaCzujki(pomOk, tlumienie, error);
         }
     }
     return 0;
@@ -888,7 +910,7 @@ short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, cons
         return -1;
 
     //zerowanie
-    if(!zerowanieSterownika(true, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
+    if(!zerowanieSterownika(ZER_FILTRY | ZER_NADAJNIK | ZER_ODBIORNIK, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver())) {
         pomiar.errorStr = QString::fromUtf8("Błąd stanowiska");
         pomiar.errorDetail = QString::fromUtf8("Błąd zerowania czujki po wykoaniu pomiarów dla kąta niewspółosowiości.");
         pomiar.ok = false;
@@ -915,7 +937,7 @@ short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, cons
 short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle,
                                    const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    dlg6 = new OknoStabilizacjaCzujki(true, false, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), ptitle, parent);
+    dlg6 = new OknoStabilizacjaCzujki(true, false, true, daneBadania.getCzasStabilizacjiCzujki_s(), dane.getName(), ptitle, parent);
     bool stabOk = dlg6->exec() == QDialog::Accepted;
     delete dlg6;
     dlg6 = nullptr;
