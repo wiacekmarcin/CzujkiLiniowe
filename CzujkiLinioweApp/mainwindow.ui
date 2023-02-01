@@ -49,7 +49,6 @@
     <addaction name="actionZamknijBadanie"/>
     <addaction name="actionUsunBadanie"/>
     <addaction name="separator"/>
-    <addaction name="actionOtw_rz_okno"/>
    </widget>
    <widget class="QMenu" name="menuOpcje">
     <property name="title">

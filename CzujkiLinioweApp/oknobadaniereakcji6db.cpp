@@ -100,8 +100,8 @@ OknoBadanieReakcji6dB::~OknoBadanieReakcji6dB()
 
 void OknoBadanieReakcji6dB::flt_zerowanieFiltrowDone()
 {
-    //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
-    //         << "Rozpoczynam zmiane filtra";
+    qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz")
+             << "Rozpoczynam zmiane filtra";
     sterResponse = true;
     tmSterownika.stop();
 
@@ -118,6 +118,7 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
     qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
                 "Filtr zmieniony";
     if (waitForZeroFiltr) {
+        qDebug() << "Wychodze z " << endReject;
         if (endReject)
             done(QDialog::Rejected);
         else
@@ -134,8 +135,8 @@ void OknoBadanieReakcji6dB::flt_setUkladFiltrowDone()
 void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
 {
     (void)zerowanie;
-    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-    //            "Blad filtrow" << filtr << zerowanie;
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+                "Blad filtrow" << filtr << zerowanie;
     sterResponse = true;
     wynikBadania = false;
     tmSterownika.stop();
@@ -146,8 +147,8 @@ void OknoBadanieReakcji6dB::flt_bladFiltrow(QChar filtr, bool zerowanie)
 
 void OknoBadanieReakcji6dB::czujkaOn()
 {
-    //qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
-    //         "czujka on";
+    qDebug() << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << __FILE__ << __LINE__ <<
+             "czujka on";
     if (czujkaWyzwolona)
         return;
     czujkaWyzwolona = true;
@@ -189,6 +190,7 @@ void OknoBadanieReakcji6dB::progressBarUpdate()
     } else if (waitForZeroFiltr) {
         return;
     } else {
+        qDebug() << "Uplynal czas do wyzwolenia czujki";
         error = QString::fromUtf8("Czujka nie zareagowała po upływie %1 sekund").arg(timeOknoClose);
         wynikBadania = false;
         tmSterownika.stop();

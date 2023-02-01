@@ -941,7 +941,7 @@ short ProceduraTestowa::pomiarKata(short nrSilnika, const QString & ptitle, cons
         return 1;
     }
 
-    pomiar.ok = true;
+    //pomiar.ok = true;
     dane.dodajPomiarKata(pomiar);
     return ret;
 }
@@ -972,8 +972,10 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
         dlg10 = nullptr;
         return 1;
     }
+    pomiar.katZmierzony = dlg10->getDegrees();
     delete dlg10;
     dlg10 = nullptr;
+
 
     //qDebug() << __FILE__ << __LINE__ << "OK czekam 2 minuty";
     dlg11 = new OknoCzekaniaBadanieKatowe(ust.getCzasStabilizacjiDlaKataNieWspolosiowosci(), dane.getName(), ptitle, parent);

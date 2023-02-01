@@ -604,6 +604,8 @@ void DaneTestu::obliczZaleznoscKatowa(const Ustawienia &ust)
                 ok = false;
                 errors << QString::fromUtf8("Różnica<%1").arg(delta,2,'f',1);
             }
+        } else {
+            ok = false;
         }
     }
     setOk(ok);

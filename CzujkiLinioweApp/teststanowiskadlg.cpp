@@ -309,11 +309,11 @@ void TestStanowiskaDlg::changeTlumienie(const QString &text)
             if (dl655) {
                 tlA = ust->getFiltr_db_655_A(t.at(1).toShort());
                 tlB = ust->getFiltr_db_655_B(t.at(2).toShort());
-                tlC = ust->getFiltr_db_655_B(t.at(3).toShort());
+                tlC = ust->getFiltr_db_655_C(t.at(3).toShort());
             } else if (dl880) {
                 tlA = ust->getFiltr_db_880_A(t.at(1).toShort());
                 tlB = ust->getFiltr_db_880_B(t.at(2).toShort());
-                tlC = ust->getFiltr_db_880_B(t.at(3).toShort());
+                tlC = ust->getFiltr_db_880_C(t.at(3).toShort());
             }
             ui->tlA->setText(QString::number(tlA) + QString( "dB"));
             ui->tlB->setText(QString::number(tlB) + QString( "dB"));
