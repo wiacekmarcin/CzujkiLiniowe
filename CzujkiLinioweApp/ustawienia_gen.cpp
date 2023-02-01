@@ -4,9 +4,13 @@
 #include <QApplication>
 #include <QFileInfo>
 #include <QDir>
+#include <QDebug>
 UstawieniaGen::UstawieniaGen() :
     settings(QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath(), QSettings::IniFormat)
 {
+    qDebug() << QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath().toStdString().c_str();
+    qDebug() << QApplication::applicationDirPath().toStdString().c_str();
+    qDebug() << QApplication::applicationFilePath().toStdString().c_str();
     //m_sSettingsFile = QApplication::applicationDirPath() + "/demosettings.ini";
     //QSettings settings(m_sSettingsFile, QSettings::NativeFormat);
     

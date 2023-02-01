@@ -57,7 +57,7 @@ private:
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
-    bool potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
     bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);

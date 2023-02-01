@@ -171,6 +171,7 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, Parametr
     case IMPACT:
     case SULPHUR_DIOXIDE_SO2_CORROSION:
         return KlimatyczneMechaniczneNarazenia(b, ust);
+        return false;
 
     case TEST_MEASUREAMENT:
         return ProbnyPomiar(b, ust);
@@ -560,31 +561,39 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
     bool ret = potwierdzenieNarazenia(dane, daneBadania, ust);
     if (!ret)
         return false;
-/*
-    bool ok;
+
     short powtorzPomiar;
+    bool ok1;
     do {
-        if (!montazZerowanieZasilanie(1, 0, true, true, true, false, daneBadania))
+        if (!montazZerowanieZasilanie(ZER_FILTRY, daneBadania))
             return false;
 
-        powtorzPomiar = pomiarCzujki(true, false, true, true, false, daneBadania.getCzasStabilizacjiCzujki_s(), daneBadania, ust);
+        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+
         if (powtorzPomiar == -1)
             return false;
-        ok = powtorzPomiar == 0;
+        ok1 = powtorzPomiar == 0;
     } while (powtorzPomiar != 0);
-    dane.setOk(ok);
-    dane.setDataZakonczenia();
-    dane.setWykonany(true);
-    zerowanieSterownika(false, true, false, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver());
-    dane.obliczZaleznoscNapieciaZasilania(ust);
+
+    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
+
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
         zas->setOutput(false);
+
+    dane.setOk(dane.getWynikNarazenia() && ok1);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+
+    dane.obliczSucheGorace(ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
     } while(false);
-    return true;
-    */
+
     return true;
 }
 
@@ -628,11 +637,13 @@ bool ProceduraTestowa::zerowanieSterownika(uint32_t flags, const QString & trans
 }
 
 
-bool ProceduraTestowa::potwierdzenieNarazenia(const DaneTestu &daneTestu, const ParametryBadania &,
+bool ProceduraTestowa::potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania &,
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
-    int ret = dlg3->exec() == QDialog::Accepted;
+    bool ret = dlg3->exec() == QDialog::Accepted;
+    daneTestu.setWynikNarazenia(dlg3->getWynik());
+    daneTestu.setInfoNarazenia(dlg3->getKomenatarz());
     delete dlg3;
     return ret;
 }

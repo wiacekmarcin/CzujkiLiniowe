@@ -488,7 +488,10 @@ void MainWindow::actionUsunBadanie_triggered()
 
 void MainWindow::actionSterownik_triggered()
 {
-
+    if (QMessageBox::question(this, "Zamykanie badania", "Zamykasz badanie, czy chcesz zapisać") == QMessageBox::Yes) {
+        actionZapiszJako_triggered();
+    }
+    b = ParametryBadania();
 }
 
 void MainWindow::actionParametryBadania_triggered()

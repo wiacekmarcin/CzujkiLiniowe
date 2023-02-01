@@ -8,14 +8,15 @@
 char Ustawienia::appnazwa[]="CzujkiLiniowe";
 char Ustawienia::firmnazwa[]="Kolodziejczyk";
 
+//settings(QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath(), QSettings::IniFormat)
 Ustawienia::Ustawienia() :
     UstawieniaGen()
 {
     load();
     loadListUstawienFiltra();
-    save();
-    saveListUstawienFiltra();
-    sync();
+    //save();
+    //saveListUstawienFiltra();
+    //sync();
 }
 
 Ustawienia::~Ustawienia()

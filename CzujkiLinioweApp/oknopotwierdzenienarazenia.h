@@ -15,10 +15,14 @@ public:
     explicit OknoPotwierdzenieNarazenia(const DaneTestu &daneTestu, QWidget *parent = nullptr);
     ~OknoPotwierdzenieNarazenia();
 
+    void changeComboBox(short nrCombo, int index);
+    bool getWynik() const;
+    QString getKomenatarz() const;
 protected:
     void pbCancel_clicked();
 private:
     Ui::OknoPotwierdzenieNarazenia *ui;
+    unsigned idTest;
 };
 
 #endif // OKNOPOTWIERDZENIENARAZENIA_H
