@@ -5,7 +5,6 @@
 #include <QTranslator>
 #include <QObject>
 #include <QFont>
-#include "symulator.h"
 
 
 int main(int argc, char *argv[])

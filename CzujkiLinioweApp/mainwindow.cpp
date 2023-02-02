@@ -25,7 +25,28 @@
 
 #include "danetestu.h"
 #include "parametrybadania.h"
-#include "symulator.h"
+
+static int question(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
+                        QMessageBox::Yes | QMessageBox::No, parent);
+
+    messageBox.setButtonText(QMessageBox::Yes, QString::fromUtf8("Tak"));
+    messageBox.setButtonText(QMessageBox::No, QString::fromUtf8("Nie"));
+    return messageBox.exec();
+}
+
+static int questionSave(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Save | QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Save, QString::fromUtf8("Zapisz"));
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
+
 
 #define CONN_PB(F) connect(ui->action##F, &QAction::triggered, this, &MainWindow::action##F##_triggered)
 #define CONN_PB_ALL CONN_PB(ParametryBadania); \
@@ -46,7 +67,7 @@
 
 
 
-MainWindow::MainWindow(Symulator * s, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , sd(nullptr)
@@ -100,11 +121,6 @@ MainWindow::MainWindow(Symulator * s, QWidget *parent)
     connect(sd, &Sterownik::setUkladFiltrowDone, this, &MainWindow::flt_setUkladFiltrowDone);
     connect(sd, &Sterownik::bladFiltrow, this, &MainWindow::flt_bladFiltrow);
 
-    if (s != nullptr) {
-        connect(s, &Symulator::ster_czujkaOn, this, &MainWindow::ster_czujkaOn);
-        connect(s, &Symulator::ster_setPositionDone, this, &MainWindow::ster_setPositionDone);
-        connect(s, &Symulator::ster_progressImp, this, &MainWindow::ster_progressImp);
-    }
 
     CONN_PB_ALL
 
@@ -493,7 +509,11 @@ void MainWindow::actionParametryBadania_triggered()
 
 void MainWindow::actionZamknijBadanie_triggered()
 {
-    if (QMessageBox::question(this, "Zamykanie badania", "Zamykasz badanie, czy chcesz zapisać") == QMessageBox::Yes) {
+
+
+
+    if (question(QString::fromUtf8("Czujki Liniowe - zamykanie badania"),
+                 QString::fromUtf8("Zamykasz badanie, czy na pewno chcesz zapisać?"), this) == QMessageBox::Yes) {
         actionZapiszJako_triggered();
     }
     b = ParametryBadania();
@@ -551,10 +571,10 @@ void MainWindow::actionTest_triggered()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    auto btn = QMessageBox::question(this, QString::fromUtf8("CzujkiLiniowe"),
-                                     QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
-                                     QMessageBox::Save | QMessageBox::Close | QMessageBox::Cancel,
-                                     QMessageBox::Cancel);
+    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"), 
+                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                            this);
+
     if (btn == QMessageBox::Cancel) {
         event->ignore();
         return;

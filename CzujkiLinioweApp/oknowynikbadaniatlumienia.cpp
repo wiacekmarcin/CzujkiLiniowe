@@ -40,10 +40,20 @@ bool OknoWynikBadaniaTlumienia::getPowtorzPomiar() const
     return powtorzPomiar;
 }
 
+static int question(QWidget * parent, const QString & title, const QString & pytanie) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
+                        QMessageBox::Yes | QMessageBox::No, parent);
+
+    messageBox.setButtonText(QMessageBox::Yes, QString::fromUtf8("Tak"));
+    messageBox.setButtonText(QMessageBox::No, QString::fromUtf8("Nie"));
+    return messageBox.exec();
+}
+
+
 void OknoWynikBadaniaTlumienia::pbCancel_clicked()
 {
-    int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
-                                    "Czy napewno chcesz przerwać badanie");
+    int ret = question(this, QString::fromUtf8("Badanie : %1").arg(ui->testName->text()),
+                                    QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }

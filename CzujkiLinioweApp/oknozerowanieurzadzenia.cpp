@@ -137,10 +137,19 @@ void OknoZerowanieUrzadzenia::timeout()
     ui->frameError->setVisible(true);
 }
 
+static int question(QWidget * parent, const QString & title, const QString & pytanie) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
+                        QMessageBox::Yes | QMessageBox::No, parent);
+
+    messageBox.setButtonText(QMessageBox::Yes, QString::fromUtf8("Tak"));
+    messageBox.setButtonText(QMessageBox::No, QString::fromUtf8("Nie"));
+    return messageBox.exec();
+}
+
 void OknoZerowanieUrzadzenia::pbCancel_clicked()
 {
-    int ret = QMessageBox::question(this, QString("Oczekiwanie zerowanie stanowiska"),
-                                    "Czy napewno chcesz przerwać badanie");
+    int ret = question(this, QString::fromUtf8("Oczekiwanie zerowanie stanowiska"),
+                                    QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }

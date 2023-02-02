@@ -61,10 +61,20 @@ void OknoTestRozproszoneSwiatlo::czujkaOn()
         ui->errorInfo->setText(QString::fromUtf8("Czujka wyzwoliła się podczas oczekiwania po narażeniu"));
 }
 
+static int question(QWidget * parent, const QString & title, const QString & pytanie) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
+                        QMessageBox::Yes | QMessageBox::No, parent);
+
+    messageBox.setButtonText(QMessageBox::Yes, QString::fromUtf8("Tak"));
+    messageBox.setButtonText(QMessageBox::No, QString::fromUtf8("Nie"));
+    return messageBox.exec();
+}
+
+
 void OknoTestRozproszoneSwiatlo::pbCancel_clicked()
 {
-    int ret = QMessageBox::question(this, QString("Badanie : %1").arg(ui->testName->text()),
-                                    "Czy napewno chcesz przerwać badanie");
+    int ret = question(this, QString::fromUtf8("Badanie : %1").arg(ui->testName->text()),
+                                    QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }
@@ -77,25 +87,33 @@ void OknoTestRozproszoneSwiatlo::pbNext_clicked()
 
         QTime t(0,0,0);
         t = t.addSecs(maxCzas - delta);
-        QString test =QString("Test według normy powinien trwać jeszcze około ");
+        QString test = QString::fromUtf8("Test według normy powinien trwać jeszcze około ");
 
         if (t.hour() > 0) {
             short h = t.hour();
-            test += QString ("%1 godzin%2 i ").arg(h).arg(h == 1 ? "ę" : "y");
+            test += QString::fromUtf8("%1 godzin%2 i ").arg(h).arg(h == 1 ? "ę" : "y");
             t = t.addSecs(-h*3600);
         }
         short m = t.minute();
         if (m == 0 && t.hour() == 0)
-            test = QString("Test według normy powinien trwać jeszcze około 1 minuty.");
+            test = QString::fromUtf8("Test według normy powinien trwać jeszcze około 1 minuty.");
         else if (m == 1)
-            test += "1 minutę";
+            test += QString::fromUtf8("1 minutę");
         else if (m < 5)
-            test += QString("%1 minuty.").arg(m);
+            test += QString::fromUtf8("%1 minuty.").arg(m);
         else
-            test += QString("%1 minut.").arg(m);
-        test +=  QString(" Czy chcesz kontynuować ?");
-        if (QMessageBox::information(this, "Rozproszone światło - zakończenie testu", test, QMessageBox::Yes,  QMessageBox::No)
-                == QMessageBox::No)
+            test += QString::fromUtf8("%1 minut.").arg(m);
+        test +=  QString::fromUtf8(" Czy chcesz kontynuować ?");
+
+        QMessageBox messageBox(QMessageBox::Information,
+                                QString::fromUtf8("Rozproszone światło - zakończenie testu"),
+                                test, 
+                                QMessageBox::Yes | QMessageBox::No, this);
+
+        messageBox.setButtonText(QMessageBox::Yes, QString::fromUtf8("Tak"));
+        messageBox.setButtonText(QMessageBox::No, QString::fromUtf8("Nie"));
+
+        if (messageBox.exec() == QMessageBox::No)
             return;
     }
     info = ui->errorInfo->toPlainText();
