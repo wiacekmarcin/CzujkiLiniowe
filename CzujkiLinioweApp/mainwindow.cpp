@@ -394,7 +394,7 @@ void MainWindow::actionStartTestu_triggered()
     if (ui->centralwidget->startBadanie(idTest, b, u, zas, sd)) {
         setWindowTitle("");
         if (!fileDaneBadania.isEmpty())
-            setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fileDaneBadania.baseName()));
+            setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fileDaneBadania));
         setWindowModified(true);
     }
 

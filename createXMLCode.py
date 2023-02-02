@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
+xmlcode = u"""        <widget class="QWidget" name="p%(Uname)s">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout%(nameAll)s">
+         <layout class="QVBoxLayout" name="verticalLayoutp%(Uname)s">
           <property name="spacing">
            <number>0</number>
           </property>
@@ -20,7 +20,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
            <number>0</number>
           </property>
           <item>
-           <widget class="QWidget" name="%(nameWidget)s" native="true">
+           <widget class="QWidget" name="%(sname)sWidget" native="true">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
               <horstretch>0</horstretch>
@@ -39,12 +39,12 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               <height>60</height>
              </size>
             </property>
-            <layout class="QFormLayout" name="formLayout%(nameWidget)s">
+            <layout class="QFormLayout" name="formLayout%(sname)sWidget">
              <property name="labelAlignment">
               <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
              </property>
              <item row="0" column="0">
-              <widget class="QLabel" name="%(nazwaTestuE)s">
+              <widget class="QLabel" name="e%(Uname)snazwaTestu">
                <property name="font">
                 <font>
                  <bold>true</bold>
@@ -56,7 +56,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLabel" name="%(nazwaTestu)s">
+              <widget class="QLabel" name="%(sname)snazwaTestu">
                <property name="maximumSize">
                 <size>
                  <width>16777215</width>
@@ -67,12 +67,12 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                 <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
-                <string>%(nazwa)s</string>
+                <string>Kompatybilność elektromagnetyczna EMC - wyładowania elektrostatyczne (Electromagnetic compatibility EMC - electrostatic discharge)</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QPushButton" name="%(pbNazwa)s">
+              <widget class="QPushButton" name="pb%(Uname)s">
                <property name="text">
                 <string>Test nie został jeszcze wykonany, kliknij aby go wykonać</string>
                </property>
@@ -82,10 +82,10 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
            </widget>
           </item>
           <item>
-           <widget class="QWidget" name="%(nazwaWyniki)s" native="true">
-            <layout class="QFormLayout" name="formLayout%(nazwaWyniki)s">
+           <widget class="QWidget" name="%(sname)sWyniki" native="true">
+            <layout class="QFormLayout" name="formLayout%(sname)sWyniki">
              <item row="0" column="0">
-              <widget class="QLabel" name="%(nazwaResultE)s">
+              <widget class="QLabel" name="et%(Uname)sResult">
                <property name="font">
                 <font>
                  <bold>true</bold>
@@ -97,7 +97,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               </widget>
              </item>
              <item row="0" column="1">
-              <widget class="QLabel" name="%(nazwaResult)s">
+              <widget class="QLabel" name="%(sname)sResult">
                <property name="frameShape">
                 <enum>QFrame::WinPanel</enum>
                </property>
@@ -116,7 +116,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               </widget>
              </item>
              <item row="1" column="0">
-              <widget class="QLabel" name="%(nazwaParametryE)s">
+              <widget class="QLabel" name="et%(sname)sParametry">
                <property name="font">
                 <font>
                  <bold>true</bold>
@@ -128,7 +128,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
               </widget>
              </item>
              <item row="1" column="1">
-              <widget class="QTableWidget" name="%(nazwaTableParams)s">
+              <widget class="QTableWidget" name="%(sname)sTableParams">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
                  <horstretch>0</horstretch>
@@ -164,6 +164,9 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </property>
                <property name="dragDropOverwriteMode">
                 <bool>false</bool>
+               </property>
+               <property name="alternatingRowColors">
+                <bool>true</bool>
                </property>
                <attribute name="horizontalHeaderVisible">
                 <bool>false</bool>
@@ -225,23 +228,76 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </item>
               </widget>
              </item>
+             <item row="5" column="1">
+              <widget class="QLabel" name="%(sname)sWynikNarazenia">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <spacer name="verticalSpacer%(Uname)s">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="%(nazwaPrzebiegE)s">
+              <widget class="QLabel" name="et%(Uname)sCzujka">
                <property name="font">
                 <font>
                  <bold>true</bold>
                 </font>
                </property>
                <property name="text">
-                <string>Przebieg</string>
+                <string>Czujka</string>
                </property>
               </widget>
              </item>
-            <item row="3" column="0">
-              <widget class="QLabel" name="%(nazwaEtNarazeniaWynik)s">
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="%(sname)stableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="et%(Uname)sWynikNarazenia">
                <property name="font">
                 <font>
-                 <weight>75</weight>
                  <bold>true</bold>
                 </font>
                </property>
@@ -250,15 +306,47 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="%(nazwaNarazeniaWynik)s">
-               <property name="text">
-                <string/>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="et%(sname)sNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
                </property>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>71</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Wynik narażenia</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Rodzaj narażenia</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Uwagi</string>
+                </property>
+               </column>
               </widget>
              </item>
              <item row="4" column="1">
-              <widget class="QTableWidget" name="%(nazwaPrzebiegTable)s">
+              <widget class="QTableWidget" name="%(sname)sTablePrzebieg">
                <property name="minimumSize">
                 <size>
                  <width>395</width>
@@ -267,8 +355,8 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>395</width>
-                 <height>160</height>
+                 <width>430</width>
+                 <height>150</height>
                 </size>
                </property>
                <property name="frameShape">
@@ -281,7 +369,7 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                 <bool>false</bool>
                </property>
                <property name="editTriggers">
-                <set>QAbstractItemView::DoubleClicked</set>
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
                <property name="tabKeyNavigation">
                 <bool>false</bool>
@@ -344,60 +432,16 @@ xmlcode = u"""<widget class="QWidget" name="%(nameAll)s">
                </column>
               </widget>
              </item>
-             <item row="5" column="1">
-              <spacer name="verticalSpacer%(nazwa)s">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="%(nazwaCzujkaE)s">
+             <item row="4" column="0">
+              <widget class="QLabel" name="et%(Uname)sPrzebieg">
                <property name="font">
                 <font>
                  <bold>true</bold>
                 </font>
                </property>
                <property name="text">
-                <string>Czujka</string>
+                <string>Przebieg</string>
                </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="%(nazwaCzujkaTable)s">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
               </widget>
              </item>
             </layout>
@@ -410,24 +454,20 @@ func = lambda s: s[:1].lower() + s[1:] if s else ''
 
 def printonePage(nazwa):
     d = {}
-    d['nazwa'] = nazwa
-    d['nameAll'] = 'p%s' % nazwa        
-    d['nameWidget'] = '%sWidget' % func(nazwa) 
-    d['nazwaTestuE'] = 'e%snazwaTestu' % nazwa
-    d['nazwaTestu'] = '%snazwaTestu' % func(nazwa)
-    d['pbNazwa'] = 'pb%s' % nazwa
-    d['nazwaWyniki'] = '%sWyniki' % func(nazwa)
-    d['nazwaResultE'] = 'et%sResult' % nazwa
-    d['nazwaResult'] = '%sResult' % func(nazwa)
-    d['nazwaParametryE'] = 'et%sParametry'  % func(nazwa)
-    d['nazwaTableParams'] = '%sTableParams'  % func(nazwa)
-    d['nazwaPrzebiegE'] = 'et%sPrzebieg' % nazwa
-    d['nazwaPrzebiegTable'] = '%sTablePrzebieg'  % func(nazwa)
-    d['nazwaCzujkaE'] = 'et%sCzujka' % nazwa
-    d['nazwaCzujkaTable'] = '%stableCzujka'  % func(nazwa)
-    d['nazwaEtNarazeniaWynik'] = 'et%sWynikNarazenia' % nazwa
-    d['nazwaNarazeniaWynik'] = '%sWynikNarazenia' % func(nazwa)
+    d['Uname'] = nazwa
+    d['sname'] = func(nazwa)
     print(xmlcode % d)
 
-nazwa = 'EMC_powolneSkokiNapieciaDuzejEnergii'
-printonePage(nazwa)
+nazwy = ['EMC_wyladowaniaelektrostatyczne', 'EMC_promieniowaniepolaelektromagnetycznego']
+
+['EMC_zakloceniaindukowaneprzezpoleelektromagnetyzne', 'EMC_szybkiekrotkieblyski',
+'EMC_powolneSkokiNapieciaDuzejEnergii']
+#for n in nazwy:
+#  printonePage(n)
+
+printonePage('EMC_szybkiekrotkieblyski')
+printonePage('EMC_powolneSkokiNapieciaDuzejEnergii')
+
+
+
+
