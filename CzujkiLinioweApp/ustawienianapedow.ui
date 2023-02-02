@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -80,7 +86,8 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -169,7 +176,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -320,7 +328,8 @@
     <widget class="QLabel" name="head1">
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -369,7 +378,8 @@
     <widget class="QLabel" name="head3">
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -388,7 +398,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -407,7 +418,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -426,7 +438,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -445,7 +458,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -471,7 +485,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -509,7 +524,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -661,7 +677,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>
@@ -725,7 +742,8 @@
      </property>
      <property name="font">
       <font>
-       <weight>75</weight>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
      </property>

@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Parametry Testu - oczekiwanie na stabilizację czujki</string>
   </property>
@@ -63,8 +69,8 @@
         </property>
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>16</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -80,6 +86,7 @@
     <widget class="QLabel" name="eTestName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -95,8 +102,8 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -129,6 +136,7 @@
     <widget class="QLabel" name="lczas">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -144,8 +152,8 @@
     <widget class="QLabel" name="czas">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>48</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>

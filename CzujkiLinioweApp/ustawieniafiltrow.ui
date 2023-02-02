@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -43,7 +49,8 @@
        <widget class="QLabel" name="row_880_4">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -56,7 +63,8 @@
        <widget class="QLabel" name="row_880_1">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -97,7 +105,8 @@
        <widget class="QLabel" name="head_880C">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -110,7 +119,8 @@
        <widget class="QLabel" name="row_880_2">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -123,7 +133,8 @@
        <widget class="QLabel" name="row_880_5">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -136,7 +147,8 @@
        <widget class="QLabel" name="row_880_3">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -170,7 +182,8 @@
        <widget class="QLabel" name="row_880_0">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -225,7 +238,8 @@
        <widget class="QLabel" name="head_880A">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -266,7 +280,8 @@
        <widget class="QLabel" name="head_880B">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -301,7 +316,8 @@
        <widget class="QLabel" name="row_655_3">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -314,7 +330,8 @@
        <widget class="QLabel" name="row_655_0">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -330,7 +347,8 @@
        <widget class="QLabel" name="head_655B">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -352,7 +370,8 @@
        <widget class="QLabel" name="head_655C">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -368,7 +387,8 @@
        <widget class="QLabel" name="row_655_2">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -387,7 +407,8 @@
        <widget class="QLabel" name="head_655A">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -414,7 +435,8 @@
        <widget class="QLabel" name="row_655_5">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -427,7 +449,8 @@
        <widget class="QLabel" name="row_655_1">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -440,7 +463,8 @@
        <widget class="QLabel" name="row_655_4">
         <property name="font">
          <font>
-          <weight>75</weight>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -971,8 +995,8 @@
              <widget class="QLabel" name="wyliczone_tlumienie">
               <property name="font">
                <font>
+                <family>Arial</family>
                 <pointsize>14</pointsize>
-                <weight>75</weight>
                 <bold>true</bold>
                </font>
               </property>

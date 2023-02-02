@@ -16,6 +16,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Parametry Testu - Podsumowanie testu</string>
   </property>
@@ -24,6 +30,7 @@
     <widget class="QLabel" name="eBadanie">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -39,6 +46,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -54,6 +62,7 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -109,6 +118,7 @@
        <widget class="QLabel" name="result">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -133,6 +143,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>16</pointsize>
           <bold>true</bold>
          </font>
@@ -165,6 +176,7 @@
            <widget class="QLabel" name="odtwarzalnoscCmax">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -177,6 +189,7 @@
            <widget class="QLabel" name="odtwarzalnoscCmax2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -201,6 +214,7 @@
            <widget class="QLabel" name="odtwarzalnoscCmin">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -213,6 +227,7 @@
            <widget class="QLabel" name="odtwarzalnoscCmin2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -228,6 +243,7 @@
         <widget class="QLabel" name="eOdtwarzalnosccmax">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -240,6 +256,7 @@
         <widget class="QLabel" name="eOdtwarzalnosctcmaxcrep">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -261,6 +278,7 @@
            <widget class="QLabel" name="odtwarzalnoscCrep">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -273,6 +291,7 @@
            <widget class="QLabel" name="odtwarzalnoscCrep2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -288,6 +307,7 @@
         <widget class="QLabel" name="eOdtwarzalnoscCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -330,6 +350,7 @@
         <widget class="QLabel" name="odtwarzalnoscCmaxCrep">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -348,6 +369,7 @@
         <widget class="QLabel" name="eOdtwarzalnosccrep">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -360,6 +382,7 @@
         <widget class="QLabel" name="eOdtwarzalnoscCrepCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -372,6 +395,7 @@
         <widget class="QLabel" name="odtwarzalnoscCrepCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -403,6 +427,7 @@
            <widget class="QLabel" name="powtarzalnoscCmax">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -415,6 +440,7 @@
            <widget class="QLabel" name="powtarzalnoscCmax2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -439,6 +465,7 @@
            <widget class="QLabel" name="powtarzalnoscCmin">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -451,6 +478,7 @@
            <widget class="QLabel" name="powtarzalnoscCmin2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -466,6 +494,7 @@
         <widget class="QLabel" name="ePowtarzalnoscCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -478,6 +507,7 @@
         <widget class="QLabel" name="ePowtarzalnoscscCmax">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -490,6 +520,7 @@
         <widget class="QLabel" name="ePowtarzalnoscCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -505,6 +536,7 @@
         <widget class="QLabel" name="powtarzalnoscCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -553,6 +585,7 @@
         <widget class="QLabel" name="zaleznosckatowa_2katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -577,6 +610,7 @@
         <widget class="QLabel" name="zaleznosckatowa_3katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -601,6 +635,7 @@
         <widget class="QLabel" name="zaleznosckatowaujemnykatosipionowej">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -625,6 +660,7 @@
         <widget class="QLabel" name="zaleznosckatowa_7_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -649,6 +685,7 @@
         <widget class="QLabel" name="zaleznosckatowa_4katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -673,6 +710,7 @@
         <widget class="QLabel" name="zaleznosckatowanadajnikkatzmierzony">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -697,6 +735,7 @@
         <widget class="QLabel" name="zaleznosckatowa_2_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -721,6 +760,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_1">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -742,6 +782,7 @@
         <widget class="QLabel" name="zaleznosckatowaetnadajnik">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -766,6 +807,7 @@
         <widget class="QLabel" name="zaleznosckatowa_8_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -790,6 +832,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_naglowek">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -811,6 +854,7 @@
         <widget class="QLabel" name="zaleznosckatowa_7katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -835,6 +879,7 @@
         <widget class="QLabel" name="zaleznosckatowadodatnikatosipionowej">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -859,6 +904,7 @@
         <widget class="QLabel" name="zaleznosckatowa_8katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -883,6 +929,7 @@
         <widget class="QLabel" name="zaleznosckatowa_5_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -907,6 +954,7 @@
         <widget class="QLabel" name="zaleznosckatowaujemnykatosipoziomej">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -931,6 +979,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_4">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -952,6 +1001,7 @@
         <widget class="QLabel" name="zaleznosckatowa_4_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -976,6 +1026,7 @@
         <widget class="QLabel" name="zaleznosckatowanadajnikkatproducenta">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1000,6 +1051,7 @@
         <widget class="QLabel" name="zaleznosckatowaodbiornikkatproducenta">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1024,6 +1076,7 @@
         <widget class="QLabel" name="zaleznosckatowa_1_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1048,6 +1101,7 @@
         <widget class="QLabel" name="zaleznosckatowa_6_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1072,6 +1126,7 @@
         <widget class="QLabel" name="zaleznosckatowa_6katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1096,6 +1151,7 @@
         <widget class="QLabel" name="zalesnockatowaodbiornikkatzmierzony">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1120,6 +1176,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1144,6 +1201,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_3">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1165,6 +1223,7 @@
         <widget class="QLabel" name="zaleznosckatowa_5katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1189,6 +1248,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_2">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1210,6 +1270,7 @@
         <widget class="QLabel" name="zaleznosckatowadodatnikkatosipoziomej">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1234,6 +1295,7 @@
         <widget class="QLabel" name="zaleznosckatowa_1katproducent">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1258,6 +1320,7 @@
         <widget class="QLabel" name="zaleznosckatowa_3_kat">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1282,6 +1345,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_naglowek2">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1303,6 +1367,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_5">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1324,6 +1389,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_6">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1345,6 +1411,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_7">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1366,6 +1433,7 @@
         <widget class="QLabel" name="zaleznosckatowa_wyniki_8">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1387,6 +1455,7 @@
         <widget class="QLabel" name="zaleznosckatowaetodbiornik">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1420,6 +1489,7 @@
            <widget class="QLabel" name="zaleznosckatowa_erret">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>12</pointsize>
              </font>
             </property>
@@ -1432,6 +1502,7 @@
            <widget class="QLabel" name="zaleznosckatowa_errinfo">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>12</pointsize>
              </font>
             </property>
@@ -1482,6 +1553,7 @@
            <widget class="QLabel" name="dlugoscdrogioptycznejCmax">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1494,6 +1566,7 @@
            <widget class="QLabel" name="dlugoscdrogioptycznejCmax2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1518,6 +1591,7 @@
            <widget class="QLabel" name="dlugoscdrogioptycznejCmin">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1530,6 +1604,7 @@
            <widget class="QLabel" name="dlugoscdrogioptycznejCmin2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1545,6 +1620,7 @@
         <widget class="QLabel" name="eDlugoscDrogiOptycznejCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1557,6 +1633,7 @@
         <widget class="QLabel" name="eDlugoscDrogiOptycznejCmax">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1569,6 +1646,7 @@
         <widget class="QLabel" name="eDlugoscDrogiOptycznejCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1584,6 +1662,7 @@
         <widget class="QLabel" name="dlugoscdrogioptycznejCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1617,6 +1696,7 @@
         <widget class="QLabel" name="rozproszoneSwiatloNarazenieCzujki">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1629,6 +1709,7 @@
         <widget class="QLabel" name="eRozproszoneSwiatloCmax">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1650,6 +1731,7 @@
            <widget class="QLabel" name="rozporoszoneswiatloCmin">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1662,6 +1744,7 @@
            <widget class="QLabel" name="rozporoszoneswiatloCmin2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1686,6 +1769,7 @@
            <widget class="QLabel" name="rozporoszoneswiatloCmax">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1698,6 +1782,7 @@
            <widget class="QLabel" name="rozporoszoneswiatloCmax2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1724,6 +1809,7 @@
         <widget class="QLabel" name="rozporoszoneswiatloCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1742,6 +1828,7 @@
         <widget class="QLabel" name="etRozproszoneSwiatloWynikNarazenia">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1754,6 +1841,7 @@
         <widget class="QLabel" name="eRozproszoneSwiatloCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1779,6 +1867,7 @@
         <widget class="QLabel" name="eRozproszoneSwiatloCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1794,6 +1883,7 @@
         <widget class="QLabel" name="rozproszoneSwiatloNarazenie">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>12</pointsize>
           </font>
          </property>
@@ -1819,6 +1909,7 @@
            <widget class="QLabel" name="tolerancjanapieciazasilaniaCmax">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1831,6 +1922,7 @@
            <widget class="QLabel" name="tolerancjanapieciazasilaniaCmax2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1855,6 +1947,7 @@
            <widget class="QLabel" name="tolerancjanapieciazasilaniaCmin">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1867,6 +1960,7 @@
            <widget class="QLabel" name="tolerancjanapieciazasilaniaCmin2">
             <property name="font">
              <font>
+              <family>Arial</family>
               <pointsize>14</pointsize>
              </font>
             </property>
@@ -1882,6 +1976,7 @@
         <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1894,6 +1989,7 @@
         <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmax">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1906,6 +2002,7 @@
         <widget class="QLabel" name="eTolerancjaNapieciaZasilaniaCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>
@@ -1921,6 +2018,7 @@
         <widget class="QLabel" name="tolerancjanapieciazasilaniaCmaxCmin">
          <property name="font">
           <font>
+           <family>Arial</family>
            <pointsize>14</pointsize>
           </font>
          </property>

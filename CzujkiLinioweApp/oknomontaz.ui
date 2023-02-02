@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Parametry Testu - montaż czujki</string>
   </property>
@@ -43,8 +49,8 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -101,6 +107,7 @@
     <widget class="QLabel" name="swiatloRozproszone">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -122,6 +129,7 @@
        <widget class="QLabel" name="inf0_next">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -140,6 +148,7 @@
     <widget class="QLabel" name="eReceiver">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -155,6 +164,7 @@
     <widget class="QLabel" name="eTransmitter">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -179,6 +189,7 @@
        <widget class="QLabel" name="eminimalnerozstawienie">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -191,6 +202,7 @@
        <widget class="QLabel" name="minimalnerozstawienie">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -203,6 +215,7 @@
        <widget class="QLabel" name="emaksymalnerozstawienie">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -215,6 +228,7 @@
        <widget class="QLabel" name="maksymalnerozstawienie">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -230,8 +244,8 @@
     <widget class="QLabel" name="numerNadajnika">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -244,6 +258,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>15</pointsize>
       </font>
      </property>
@@ -262,8 +277,8 @@
     <widget class="QLabel" name="numerReceiver">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -276,6 +291,7 @@
     <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -291,6 +307,7 @@
     <widget class="QLabel" name="info">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -365,8 +382,8 @@
         </property>
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>17</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -404,6 +421,7 @@
        <widget class="QLabel" name="infoBlokada">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>

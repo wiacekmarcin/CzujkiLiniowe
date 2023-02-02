@@ -28,7 +28,6 @@ SOURCES += \
     parametrybadaniaczujkidlg.cpp \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
-    powtarzalnoscwyniki.cpp \
     proceduratestowa.cpp \
     sterownik_worker.cpp \
     oknozerowanieurzadzenia.cpp \
@@ -39,7 +38,6 @@ SOURCES += \
     oknobadaniatlumienia.cpp \
     oknowynikbadaniatlumienia.cpp \
     oknopodsumowanietestu.cpp \
-    symulator.cpp \
     teststanowiskadlg.cpp \
     wybortestu.cpp \
     zasilacz.cpp \
@@ -77,7 +75,6 @@ HEADERS += \
     parametrybadaniaczujkidlg.h \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
-    powtarzalnoscwyniki.h \
     proceduratestowa.h \
     sterownik_worker.h \
     oknozerowanieurzadzenia.h \
@@ -88,7 +85,6 @@ HEADERS += \
     oknobadaniatlumienia.h \
     oknowynikbadaniatlumienia.h \
     oknopodsumowanietestu.h \
-    symulator.h \
     teststanowiskadlg.h \
     wybortestu.h \
     zasilacz.h \
@@ -125,7 +121,6 @@ FORMS += \
     parametrybadaniadlg.ui \
     parametrybadaniaogolnedlg.ui \
     parametrykalibracyjnedlg.ui \
-    powtarzalnoscwyniki.ui \
     sterownikustawieniawidget.ui \
     oknozerowanieurzadzenia.ui \
     oknoparametrytestu.ui \
@@ -135,7 +130,6 @@ FORMS += \
     oknobadaniatlumienia.ui \
     oknowynikbadaniatlumienia.ui \
     oknopodsumowanietestu.ui \
-    symulator.ui \
     teststanowiskadlg.ui \
     testzasilaczadlg.ui \
     teststerownikadlg.ui \

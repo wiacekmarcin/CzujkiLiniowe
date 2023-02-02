@@ -43,6 +43,12 @@
           <height>200</height>
          </size>
         </property>
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="editTriggers">
          <set>QAbstractItemView::NoEditTriggers</set>
         </property>
@@ -62,6 +68,12 @@
    </item>
    <item>
     <widget class="QFrame" name="frame_badanie">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
+      </font>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -74,8 +86,14 @@
       </property>
       <item>
        <widget class="QStackedWidget" name="stackedWidget">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>10</pointsize>
+         </font>
+        </property>
         <property name="currentIndex">
-         <number>15</number>
+         <number>8</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -105,7 +123,7 @@
             <property name="minimumSize">
              <size>
               <width>0</width>
-              <height>70</height>
+              <height>80</height>
              </size>
             </property>
             <property name="maximumSize">
@@ -113,6 +131,12 @@
               <width>16777215</width>
               <height>70</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayout_3">
              <property name="labelAlignment">
@@ -122,6 +146,8 @@
               <widget class="QLabel" name="eOdtwarzalonoscnazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -157,6 +183,8 @@
               <widget class="QLabel" name="etOdtwarzalnoscResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -188,6 +216,8 @@
               <widget class="QLabel" name="etOdtwarzalnoscParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -331,6 +361,8 @@
               <widget class="QLabel" name="etOdtwarzalnoscPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -524,8 +556,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
              <property name="labelAlignment">
@@ -535,6 +573,8 @@
               <widget class="QLabel" name="ePowtarzalnoscnazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -576,6 +616,8 @@
               <widget class="QLabel" name="etpowtarzalnoscResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -607,6 +649,8 @@
               <widget class="QLabel" name="etPowtarzalnoscParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -720,6 +764,8 @@
               <widget class="QLabel" name="etPowtarzalnoscPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -852,6 +898,8 @@
               <widget class="QLabel" name="ePowtarzalnoscCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -956,8 +1004,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutzaleznoscKierunkowaWidget">
              <property name="labelAlignment">
@@ -967,6 +1021,8 @@
               <widget class="QLabel" name="eZaleznoscKierunkowanazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1008,6 +1064,8 @@
               <widget class="QLabel" name="etZaleznoscKierunkowaResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1039,6 +1097,8 @@
               <widget class="QLabel" name="etzaleznoscKierunkowaParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1155,6 +1215,8 @@
               <widget class="QLabel" name="etZaleznoscKierunkowaPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1267,6 +1329,8 @@
               <widget class="QLabel" name="etZaleznoscKierunkowaCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1315,6 +1379,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pSzybkieZmianyTlumienia">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>10</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -1351,8 +1421,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutszybkieZmianyTlumieniaWidget">
              <property name="labelAlignment">
@@ -1362,6 +1438,8 @@
               <widget class="QLabel" name="eSzybkieZmianyTlumienianazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1403,6 +1481,8 @@
               <widget class="QLabel" name="etSzybkieZmianyTlumieniaResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1434,6 +1514,8 @@
               <widget class="QLabel" name="etSzybkieZmianyTlumieniaCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1483,6 +1565,8 @@
               <widget class="QLabel" name="etSzybkieZmianyTlumieniaPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1507,6 +1591,7 @@
                </property>
                <property name="font">
                 <font>
+                 <family>Arial</family>
                  <pointsize>10</pointsize>
                 </font>
                </property>
@@ -1643,8 +1728,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutzaleznoscDlugisciDrogiOptycznejWidget">
              <property name="labelAlignment">
@@ -1654,6 +1745,8 @@
               <widget class="QLabel" name="eZaleznoscDlugisciDrogiOptycznejnazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1695,6 +1788,8 @@
               <widget class="QLabel" name="etZaleznoscDlugisciDrogiOptycznejResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1726,6 +1821,8 @@
               <widget class="QLabel" name="etzaleznoscDlugisciDrogiOptycznejParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1839,6 +1936,8 @@
               <widget class="QLabel" name="etZaleznoscDlugisciDrogiOptycznejPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -1956,6 +2055,8 @@
               <widget class="QLabel" name="etZaleznoscDlugisciDrogiOptycznejCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2043,8 +2144,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutrozproszoneSwiatloWidget">
              <property name="labelAlignment">
@@ -2054,6 +2161,8 @@
               <widget class="QLabel" name="eRozproszoneSwiatlonazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2095,6 +2204,8 @@
               <widget class="QLabel" name="etRozproszoneSwiatloResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2126,6 +2237,8 @@
               <widget class="QLabel" name="etrozproszoneSwiatloParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2252,6 +2365,8 @@
               <widget class="QLabel" name="etRozproszoneSwiatloCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2345,6 +2460,8 @@
               <widget class="QLabel" name="etRrozproszoneSwiatloWYnikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2449,6 +2566,8 @@
               <widget class="QLabel" name="etRozproszoneSwiatloPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2499,8 +2618,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouttolerancjaNapieciaZasilaniaWidget">
              <property name="labelAlignment">
@@ -2510,6 +2635,8 @@
               <widget class="QLabel" name="eTolerancjaNapieciaZasilanianazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2551,6 +2678,8 @@
               <widget class="QLabel" name="etTolerancjaNapieciaZasilaniaResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2582,6 +2711,8 @@
               <widget class="QLabel" name="ettolerancjaNapieciaZasilaniaParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2692,6 +2823,8 @@
               <widget class="QLabel" name="etTolerancjaNapieciaZasilaniaPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2807,6 +2940,8 @@
               <widget class="QLabel" name="etTolerancjaNapieciaZasilaniaCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2888,8 +3023,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutsucheCieploWidget">
              <property name="labelAlignment">
@@ -2899,6 +3040,8 @@
               <widget class="QLabel" name="eSucheCieplonazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2940,6 +3083,8 @@
               <widget class="QLabel" name="etSucheCieploResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -2971,6 +3116,8 @@
               <widget class="QLabel" name="etsucheCieploParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3081,6 +3228,8 @@
               <widget class="QLabel" name="etSucheCieploPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3106,6 +3255,8 @@
               <widget class="QLabel" name="etSucheCieploCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3236,6 +3387,8 @@
               <widget class="QLabel" name="etSucheCieploWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3293,8 +3446,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutzimnoWidget">
              <property name="labelAlignment">
@@ -3304,6 +3463,8 @@
               <widget class="QLabel" name="eZimnonazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3345,6 +3506,8 @@
               <widget class="QLabel" name="etZimnoResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3376,6 +3539,8 @@
               <widget class="QLabel" name="etzimnoParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3486,6 +3651,8 @@
               <widget class="QLabel" name="etZimnoPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3511,6 +3678,8 @@
               <widget class="QLabel" name="etZimnoCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3641,6 +3810,8 @@
               <widget class="QLabel" name="etZimnoWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3698,8 +3869,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutwilgotneCieploUstaloneWidget">
              <property name="labelAlignment">
@@ -3709,6 +3886,8 @@
               <widget class="QLabel" name="eWilgotneCieploUstalonenazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3750,6 +3929,8 @@
               <widget class="QLabel" name="etWilgotneCieploUstaloneResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3781,6 +3962,8 @@
               <widget class="QLabel" name="etwilgotneCieploUstaloneParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3891,6 +4074,8 @@
               <widget class="QLabel" name="etWilgotneCieploUstalonePrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -3916,6 +4101,8 @@
               <widget class="QLabel" name="etWilgotneCieploUstaloneCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4046,6 +4233,8 @@
               <widget class="QLabel" name="etWilgotneCieploUstaloneWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4103,8 +4292,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutwilgotneCieploStanStacjonarnyWidget">
              <property name="labelAlignment">
@@ -4114,6 +4309,8 @@
               <widget class="QLabel" name="eWilgotneCieploStanStacjonarnynazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4155,6 +4352,8 @@
               <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4186,6 +4385,8 @@
               <widget class="QLabel" name="etwilgotneCieploStanStacjonarnyParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4296,6 +4497,8 @@
               <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4321,6 +4524,8 @@
               <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4451,6 +4656,8 @@
               <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4508,8 +4715,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutwibracjaWidget">
              <property name="labelAlignment">
@@ -4519,6 +4732,8 @@
               <widget class="QLabel" name="eWibracjanazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4560,6 +4775,8 @@
               <widget class="QLabel" name="etWibracjaResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4591,6 +4808,8 @@
               <widget class="QLabel" name="etwibracjaParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4714,6 +4933,8 @@
               <widget class="QLabel" name="etWibracjaCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4813,6 +5034,8 @@
               <widget class="QLabel" name="etWibracjaPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4856,6 +5079,8 @@
               <widget class="QLabel" name="etWibracjaWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4913,8 +5138,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutuderzeniaWidget">
              <property name="labelAlignment">
@@ -4924,6 +5155,8 @@
               <widget class="QLabel" name="eUderzenianazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4965,6 +5198,8 @@
               <widget class="QLabel" name="etUderzeniaResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -4996,6 +5231,8 @@
               <widget class="QLabel" name="etuderzeniaParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5106,6 +5343,8 @@
               <widget class="QLabel" name="etUderzeniaPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5131,6 +5370,8 @@
               <widget class="QLabel" name="etUderzeniaCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5261,6 +5502,8 @@
               <widget class="QLabel" name="etUderzeniaWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5318,8 +5561,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouteMC_wyladowanieElektroStatyczneWidget">
              <property name="labelAlignment">
@@ -5329,6 +5578,8 @@
               <widget class="QLabel" name="eEMC_wyladowanieElektroStatycznenazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5370,6 +5621,8 @@
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5401,6 +5654,8 @@
               <widget class="QLabel" name="eteMC_wyladowanieElektroStatyczneParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5534,6 +5789,8 @@
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5580,6 +5837,8 @@
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5718,6 +5977,8 @@
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatycznePrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5768,8 +6029,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouteMC_promieniowaniepolaelektromagnetycznegoWidget">
              <property name="labelAlignment">
@@ -5779,6 +6046,8 @@
               <widget class="QLabel" name="eEMC_promieniowaniepolaelektromagnetycznegonazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5820,6 +6089,8 @@
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5851,6 +6122,8 @@
               <widget class="QLabel" name="eteMC_promieniowaniepolaelektromagnetycznegoParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -5984,6 +6257,8 @@
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6030,6 +6305,8 @@
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6168,6 +6445,8 @@
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6218,8 +6497,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouteMC_zakloceniaindukowaneprzezpoleelektromagnetyzneWidget">
              <property name="labelAlignment">
@@ -6229,6 +6514,8 @@
               <widget class="QLabel" name="eEMC_zakloceniaindukowaneprzezpoleelektromagnetyznenazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6270,6 +6557,8 @@
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6301,6 +6590,8 @@
               <widget class="QLabel" name="eteMC_zakloceniaindukowaneprzezpoleelektromagnetyzneParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6434,6 +6725,8 @@
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6480,6 +6773,8 @@
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6618,6 +6913,8 @@
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyznePrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6668,8 +6965,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouteMC_szybkiekrotkieblyskiWidget">
              <property name="labelAlignment">
@@ -6679,6 +6982,8 @@
               <widget class="QLabel" name="eEMC_szybkiekrotkieblyskinazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6720,6 +7025,8 @@
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6751,6 +7058,8 @@
               <widget class="QLabel" name="eteMC_szybkiekrotkieblyskiParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6884,6 +7193,8 @@
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -6930,6 +7241,8 @@
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7068,6 +7381,8 @@
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7118,8 +7433,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayouteMC_powolneSkokiNapieciaDuzejEnergiiWidget">
              <property name="labelAlignment">
@@ -7129,6 +7450,8 @@
               <widget class="QLabel" name="eEMC_powolneSkokiNapieciaDuzejEnergiinazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7145,6 +7468,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -7155,10 +7484,29 @@
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pbEMC_powolneSkokiNapieciaDuzejEnergii">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Test nie został jeszcze wykonany, kliknij aby go wykonać</string>
                </property>
               </widget>
+             </item>
+             <item row="2" column="1">
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -7170,6 +7518,8 @@
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiResult">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7201,6 +7551,8 @@
               <widget class="QLabel" name="eteMC_powolneSkokiNapieciaDuzejEnergiiParametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7334,6 +7686,8 @@
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiCzujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7380,6 +7734,8 @@
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiWynikNarazenia">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7518,6 +7874,8 @@
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiPrzebieg">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7568,8 +7926,14 @@
             <property name="maximumSize">
              <size>
               <width>16777215</width>
-              <height>60</height>
+              <height>80</height>
              </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>12</pointsize>
+             </font>
             </property>
             <layout class="QFormLayout" name="formLayoutkorozjaS02Widget">
              <property name="labelAlignment">
@@ -7579,6 +7943,8 @@
               <widget class="QLabel" name="eKorozjaS02nazwaTestu">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7595,31 +7961,64 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
                <property name="text">
-                <string>KorozjaS02</string>
+                <string>Korozja przy użyciu dwutlenku siarki SO2 - wytrzymałość (Sulphur dioxide SO2 corrosion - endurance)</string>
                </property>
               </widget>
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pbKorozjaS02">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Test nie został jeszcze wykonany, kliknij aby go wykonać</string>
                </property>
               </widget>
+             </item>
+             <item row="2" column="1">
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
              </item>
             </layout>
            </widget>
           </item>
           <item>
            <widget class="QWidget" name="korozjaS02Wyniki" native="true">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>10</pointsize>
+             </font>
+            </property>
             <layout class="QFormLayout" name="formLayoutkorozjaS02Wyniki">
              <item row="0" column="0">
               <widget class="QLabel" name="etKorozjaS02Result">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7651,6 +8050,8 @@
               <widget class="QLabel" name="etkorozjaS02Parametry">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7757,35 +8158,12 @@
                </item>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="etKorozjaS02Przebieg">
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Przebieg</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="1">
-              <spacer name="verticalSpacerKorozjaS02">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
              <item row="2" column="0">
               <widget class="QLabel" name="etKorozjaS02Czujka">
                <property name="font">
                 <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
                  <bold>true</bold>
                 </font>
                </property>
@@ -7823,6 +8201,41 @@
                  <string>Odbiornik</string>
                 </property>
                </column>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="etKorozjaS02WynikNarazenia">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Narażenie</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QLabel" name="korozjaS02WynikNarazenia">
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="etKorozjaS02Przebieg">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Przebieg</string>
+               </property>
               </widget>
              </item>
              <item row="4" column="1">
@@ -7912,24 +8325,18 @@
                </column>
               </widget>
              </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="etKorozjaS02WynikNarazenia">
-               <property name="font">
-                <font>
-                 <bold>true</bold>
-                </font>
+             <item row="6" column="1">
+              <spacer name="verticalSpacerKorozjaS02">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <property name="text">
-                <string>Narażenie</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
                </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QLabel" name="korozjaS02WynikNarazenia">
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
+              </spacer>
              </item>
             </layout>
            </widget>
@@ -7937,6 +8344,19 @@
          </layout>
         </widget>
        </widget>
+      </item>
+      <item>
+       <spacer name="verticalSpacer_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
       </item>
      </layout>
     </widget>

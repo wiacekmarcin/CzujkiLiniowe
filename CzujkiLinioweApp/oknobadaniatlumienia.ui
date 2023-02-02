@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Test - badanie wartości tłumienia</string>
   </property>
@@ -30,6 +36,7 @@
     <widget class="QLabel" name="czas">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -51,8 +58,8 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>16</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -68,6 +75,7 @@
     <widget class="QLabel" name="eCzas">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -104,6 +112,7 @@
        <widget class="QLabel" name="pozostal_czas">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>13</pointsize>
          </font>
         </property>
@@ -138,8 +147,8 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -152,6 +161,7 @@
     <widget class="QLabel" name="efala">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -173,6 +183,7 @@
        <widget class="QLabel" name="eta">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -188,8 +199,8 @@
        <widget class="QLabel" name="a">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -202,6 +213,7 @@
        <widget class="QLabel" name="etb">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -217,8 +229,8 @@
        <widget class="QLabel" name="b">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -231,6 +243,7 @@
        <widget class="QLabel" name="etc">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -246,8 +259,8 @@
        <widget class="QLabel" name="c">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
-          <weight>75</weight>
           <bold>true</bold>
          </font>
         </property>
@@ -263,6 +276,7 @@
     <widget class="QLabel" name="eBadanie">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -278,6 +292,7 @@
     <widget class="QLabel" name="etlumienie">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -297,8 +312,8 @@
     <widget class="QLabel" name="tlumienie">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>33</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -314,8 +329,8 @@
     <widget class="QLabel" name="dlugoscFali">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
-       <weight>75</weight>
        <bold>true</bold>
       </font>
      </property>
@@ -328,6 +343,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -350,6 +366,7 @@
     <widget class="QLabel" name="realdb">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>12</pointsize>
       </font>
      </property>

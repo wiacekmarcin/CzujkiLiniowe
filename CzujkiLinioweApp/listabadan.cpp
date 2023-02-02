@@ -54,6 +54,26 @@ ListaBadan::ListaBadan(QWidget *parent) :
     testyWidget[IMPACT] = testWidget{ui->pUderzenia, ui->uderzeniaWyniki,
                                                 ui->pbUderzenia};
 
+    testyWidget[ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE] = testWidget{ui->pEMC_wyladowanieElektroStatyczne,
+            ui->eMC_wyladowanieElektroStatyczneWyniki,
+            ui->pbEMC_wyladowanieElektroStatyczne};
+
+    testyWidget[ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS] = testWidget{ui->pEMC_promieniowaniepolaelektromagnetycznego,
+            ui->eMC_promieniowaniepolaelektromagnetycznegoWyniki,
+            ui->pbEMC_promieniowaniepolaelektromagnetycznego};
+
+    testyWidget[ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED] = testWidget{ui->pEMC_zakloceniaindukowaneprzezpoleelektromagnetyzne,
+            ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneWyniki,
+            ui->pbEMC_zakloceniaindukowaneprzezpoleelektromagnetyzne};
+
+    testyWidget[ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS] = testWidget{ui->pEMC_szybkiekrotkieblyski,
+            ui->eMC_szybkiekrotkieblyskiWyniki,
+            ui->pbEMC_szybkiekrotkieblyski};
+
+    testyWidget[ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES] = testWidget{ui->pEMC_powolneSkokiNapieciaDuzejEnergii,
+            ui->eMC_powolneSkokiNapieciaDuzejEnergiiWyniki,
+            ui->pbEMC_powolneSkokiNapieciaDuzejEnergii};
+
     testyWidget[SULPHUR_DIOXIDE_SO2_CORROSION] = testWidget{ui->pKorozjaS02, ui->korozjaS02Wyniki,
                                                     ui->pbKorozjaS02};
     

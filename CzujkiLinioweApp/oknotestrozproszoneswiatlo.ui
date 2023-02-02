@@ -22,6 +22,12 @@
     <height>1200</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <family>Arial</family>
+    <pointsize>10</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Test - narażenie czujki na światło rozproszone światło</string>
   </property>
@@ -71,6 +77,7 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -261,6 +268,7 @@
        <widget class="QLabel" name="infonext">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -309,6 +317,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>17</pointsize>
           <bold>true</bold>
          </font>
@@ -325,6 +334,7 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -347,7 +357,9 @@
        <widget class="QComboBox" name="cbAlarmYesNo">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
+          <bold>true</bold>
          </font>
         </property>
         <item>
@@ -379,6 +391,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -391,6 +404,7 @@
        <widget class="QLabel" name="label_3">
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -412,6 +426,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Arial</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -439,6 +454,7 @@
     <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
+       <family>Arial</family>
        <pointsize>14</pointsize>
       </font>
      </property>

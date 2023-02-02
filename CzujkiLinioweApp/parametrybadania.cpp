@@ -123,7 +123,32 @@ ParametryBadania::ParametryBadania()
     uderzenie.setId(IMPACT);
     uderzenie.setName("Odporność na uderzenie");
     testy[IMPACT] = uderzenie;        
-    
+
+    DaneTestu emc1;
+    emc1.setId(ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE);
+    emc1.setName("Odporność na wyładowania elektrostatyczne");
+    testy[ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE] = emc1;
+
+    DaneTestu emc2;
+    emc2.setId(ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS);
+    emc2.setName("Odporność na wypromieniowanie pola elektromagnetycznego");
+    testy[ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS] = emc2;
+
+    DaneTestu emc3;
+    emc3.setId(ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED);
+    emc3.setName("Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne");
+    testy[ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED] = emc3;
+
+    DaneTestu emc4;
+    emc4.setId(ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS);
+    emc4.setName("Odporność na szybkie impulsy przejściowe");
+    testy[ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS] = emc4;
+
+    DaneTestu emc5;
+    emc5.setId(ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES);
+    emc5.setName("Odporność na powolne udary napęciowe wysokiej energii");
+    testy[ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES] = emc5;
+
     DaneTestu korozjaS02;
     korozjaS02.setId(SULPHUR_DIOXIDE_SO2_CORROSION);
     korozjaS02.setName("Wytrzymałość na korozję powodowaną przez dwutlenek siarki");
