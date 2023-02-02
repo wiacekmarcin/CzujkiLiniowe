@@ -156,12 +156,12 @@ void TestStanowiskaDlg::valueZasilacz(int kind, int value)
 void TestStanowiskaDlg::configuredZasilacz(int state)
 {
     if (state == Zasilacz::IDENT_OK || state == Zasilacz::ALL_OK) {
-        ui->zasilaczConn->setText(QString("POŁĄCZONY [%1]").arg(zasilaczName));
+        ui->zasilaczConn->setText(QString::fromUtf8("POŁĄCZONY [%1]").arg(zasilaczName));
         ui->gb_Zasilanie->setEnabled(true);
         ui->cb_pradMaks->setEnabled(true);
         ui->cb_pradZadzialania->setEnabled(true);
     } else {
-        ui->zasilaczConn->setText(QString("NIE POŁĄCZONY"));
+        ui->zasilaczConn->setText(QString::fromUtf8("NIE POŁĄCZONY"));
         ui->gb_Zasilanie->setEnabled(false);
         ui->cb_pradMaks->setEnabled(false);
         ui->cb_pradZadzialania->setEnabled(false);
@@ -178,11 +178,11 @@ void TestStanowiskaDlg::configuredSterownik(int state)
     qDebug() << __LINE__ << state;
     if (state == Sterownik::PARAMS_OK || state == Sterownik::ALL_OK ) {
         qDebug() << "set ";
-        ui->sterownikConn->setText(QString("POŁĄCZONY [%1]").arg(sterownikName));
+        ui->sterownikConn->setText(QString::fromUtf8("POŁĄCZONY [%1]").arg(sterownikName));
         ui->gb_Napedy->setEnabled(true);
         ui->cb_przekaznikNI->setEnabled(true);
     } else {
-        ui->sterownikConn->setText(QString("NIE POŁĄCZONY"));
+        ui->sterownikConn->setText(QString::fromUtf8("NIE POŁĄCZONY"));
         ui->gb_Napedy->setEnabled(false);
         ui->cb_przekaznikNI->setEnabled(false);
     }
@@ -212,8 +212,8 @@ void TestStanowiskaDlg::flt_setUkladFiltrowDone()
 void TestStanowiskaDlg::flt_bladFiltrow(QChar silnik, bool zerowanie)
 {
     QMessageBox::critical(this, zerowanie ? "Zerowanie układu filtrów" : "Ustawianie układu filtrów",
-                          zerowanie ? QString("Wystąpił błąd podczas zerowania układu. Niepoprawnie zachował się filtr %1").arg(silnik) :
-                                      QString("Wystąpił błąd podczas ustawiania układu filtrów dla zadanego tłumienia. Niepoprawnie zachował się filtr %1").arg(silnik));
+                          zerowanie ? QString::fromUtf8("Wystąpił błąd podczas zerowania układu. Niepoprawnie zachował się filtr %1").arg(silnik) :
+                                      QString::fromUtf8("Wystąpił błąd podczas ustawiania układu filtrów dla zadanego tłumienia. Niepoprawnie zachował się filtr %1").arg(silnik));
     if (!zerowanie) {
         ui->pbFiltrUstaw->setEnabled(true);
         if (czasUstF.isActive())
@@ -226,8 +226,8 @@ void TestStanowiskaDlg::flt_bladFiltrow(QChar silnik, bool zerowanie)
 void TestStanowiskaDlg::ster_czujkaOn()
 {
     if (ui->cb_przekaznikNI->isChecked())
-        QMessageBox::information(this, QString("Czujki liniowe - test stanowiska"),
-                                 QString("Nastąpiło wyzwolenie czujki przekaźnikiem"));
+        QMessageBox::information(this, QString::fromUtf8("Czujki liniowe - test stanowiska"),
+                                 QString::fromUtf8("Nastąpiło wyzwolenie czujki przekaźnikiem"));
 }
 
 void TestStanowiskaDlg::ster_setValue(short nrSilnika, const double &val)

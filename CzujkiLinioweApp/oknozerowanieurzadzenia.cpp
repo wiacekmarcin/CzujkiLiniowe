@@ -77,10 +77,10 @@ void OknoZerowanieUrzadzenia::init()
     ui->frame_receiver->setDisabled(!odbiornik);
     ui->frame_wozek->setDisabled(!wozek);
     adjustSize();
-    //QString debug = QString("<ul>Zerowanie urzadzenia");
-    //if (filtry) debug+= QString("<li>filtry</li>");
-    //if (ramiona) debug+= QString("<li>Nadajnik</li><li>Odbiornik</li>");
-    //if (wozek) debug+= QString("<li>wozek</li>");
+    //QString debug = QString::fromUtf8("<ul>Zerowanie urzadzenia");
+    //if (filtry) debug+= QString::fromUtf8("<li>filtry</li>");
+    //if (ramiona) debug+= QString::fromUtf8("<li>Nadajnik</li><li>Odbiornik</li>");
+    //if (wozek) debug+= QString::fromUtf8("<li>wozek</li>");
     //debug+= "</ul>";
     //emit debug(DEBUG_TEST, debug);
     device->setZerowanieUrzadzen(nadajnik, odbiornik, filtry, wozek);

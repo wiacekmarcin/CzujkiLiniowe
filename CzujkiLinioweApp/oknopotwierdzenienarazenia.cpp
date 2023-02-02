@@ -52,7 +52,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->cbUszkodzenie->setVisible(false);
     ui->etUszkodzenie->setVisible(false);
     if (daneTestu.getId() == DRY_HEAT) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                        "zostawiona na <b>16 godzin w temperaturze w 55 ± 2 °C</b> .</p>"
                                        "<p>Pod koniec czasu narażenia należy umieśić tłumnik 6 dB w torze optycznym.</p>"
@@ -63,7 +63,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
     } else if (daneTestu.getId() == COLD) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                        "zostawiona na <b>16 godzin w temperaturze w -10 ± 3 °C</b> .</p>"
                                        "<p>Należy pilnować aby na czujce nie pojawił się lód lub szron</p>"
@@ -75,7 +75,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                    "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                    "zostawiona na <b>4 doby w temperaturze w 40 ± 2 °C i wilgotności względnej 93 ± 3 %</b> .</p>"
                                    "<p>Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami "
@@ -83,7 +83,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , tylko powinna zostać umieszoczna w pomieszczeniu "
                                " <b>21 dni w temperaturze w 40 ± 2 °C i wilgotności względnej 93 ± 3 %</b> .</p>"
                                "<p>Czujka powinna zostać przeniesiona do pomieszczenia z warunkami "
@@ -91,7 +91,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->wynik_narazenia->setVisible(false);
         ui->etWynik->setVisible(false);
     } else if (daneTestu.getId() == VIBRATION) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , ale powinna zostać zamontowana zgodnie z normą do sztywnego uchwytu.</p>"
                                "<p>Drgania należy przykładać kolejno w każdej z trzech wzajemnie prostopadłych osi. Element należy "
                                "zamontować tak, aby jedna z trzech osi była prostopadła do jego normalnej osi montażowej.</p>"
@@ -103,7 +103,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->cbUszkodzenie->setVisible(true);
         ui->etUszkodzenie->setVisible(true);
     } else if (daneTestu.getId() == IMPACT) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość.</p>"
                                "<p>Stosuje się następujące warunki: energia uderzenia: <b>(0,5 ± 0,04) J</b>,"
                                "liczba uderzeń na punkt : <b>3</b></p>"
@@ -121,7 +121,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
     } else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
-        ui->narazenie->setText(QString("<html><head/><body style=\"font-size:14pt;\"><p>"
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujkę należy zamontować zgodnie z normą, jednak nie należy podłączać zasilania, "
                                        ", ale czujka musi mieć niecynowane przewody miedziane o odpowiedniej średnicy, "
                                        "podłączone do wystarczającej liczby zacisków, aby umożliwić dokonanie "

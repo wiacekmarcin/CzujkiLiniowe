@@ -23,8 +23,8 @@ OknoMontaz::OknoMontaz(bool usuniecieZabezp, bool minRozstawienie, bool maxRozst
     QString nad = daneTestu.getNazwaTransmitter_a();
     QString odb = daneTestu.getNazwaReceiver_a();
 
-    ui->eTransmitter->setText(QString("%1:").arg(nad));
-    ui->eReceiver->setText(QString("%1:").arg(odb));
+    ui->eTransmitter->setText(QString::fromUtf8("%1:").arg(nad));
+    ui->eReceiver->setText(QString::fromUtf8("%1:").arg(odb));
 
     if (minRozstawienie || maxRozstawienienie) {
         ui->frame_dlugoscDrogiOptycznej->setVisible(true);

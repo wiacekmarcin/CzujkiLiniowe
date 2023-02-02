@@ -80,7 +80,7 @@ void OknoBadaniaMaksymalnegoKata::czujkaOn()
     //qDebug() << __FILE__ << __LINE__ << QDateTime::currentDateTime().toString("dd-MM-yyyy HH:mm:ss:zzz") << "czujka on";
     tmSterownika.stop();
     wynikBadania = true;
-    //error = QString("Czujka zadziała dla kąta : %1").arg(prevVal);
+    //error = QString::fromUtf8("Czujka zadziała dla kąta : %1").arg(prevVal);
     ster->setStopMotor(nrSilnika);
     done(QDialog::Accepted);
 }
@@ -112,14 +112,14 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
 
     if (r.err) {
         wynikBadania = false;
-        error = QString("Błąd ustawienia silnika nr %1").arg(silnik);
+        error = QString::fromUtf8("Błąd ustawienia silnika nr %1").arg(silnik);
         tmSterownika.stop();
         done(QDialog::Rejected);
     }
     /*
     if (r.inter) {
         if (abs(destPos - prevVal) > 0.3) {
-            error = QString("Ruch został przerwany dla silnika nr %1").arg(silnik);
+            error = QString::fromUtf8("Ruch został przerwany dla silnika nr %1").arg(silnik);
             wynikBadania = false;
             tmSterownika.stop();
             done(QDialog::Rejected);
@@ -131,7 +131,7 @@ void OknoBadaniaMaksymalnegoKata::ster_setPositionDone(short silnik, RuchSilnika
     }
     if (!r.move) {
         if (abs(destPos - prevVal) > 0.3) {
-            error = QString("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
+            error = QString::fromUtf8("Osiągnięta pozycja kątowa (%1) jest zbyt daleka od zadanej (%2)").arg(destPos, 3, 'f', 2).arg(prevVal, 3, 'f', 2);
             wynikBadania = false;
             tmSterownika.stop();
             done(QDialog::Rejected);

@@ -11,7 +11,7 @@
 #include <QMutexLocker>
 #include <QElapsedTimer>
 
-#define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+#define DEBUGSER(X) debugFun(QString::fromUtf8("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
 bool Zasilacz::connected()
 {
@@ -27,7 +27,7 @@ void Zasilacz::setConnected(bool connected)
 
 void Zasilacz::closeDevice(bool waitForDone)
 {
-    //DEBUGSER(QString("close device %1").arg(waitForDone));
+    //DEBUGSER(QString::fromUtf8("close device %1").arg(waitForDone));
     if (waitForDone) {
         m_worker.command(SerialZasilacz::DISCONNECT, QByteArray(), false);
     } else {
@@ -262,21 +262,21 @@ void Zasilacz::getOutput()
 
 void Zasilacz::getValueJob(const SerialZasilacz::TaskExt &actTask, KindValueType kind, const QString & debug, const QString & function)
 {
-    DEBUGSER(QString("Sprawdzam %1 [%2] [%3]").arg(debug).arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
+    DEBUGSER(QString::fromUtf8("Sprawdzam %1 [%2] [%3]").arg(debug).arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 1000, actTask.waitForRead);
     if (s.isEmpty()) {
-        emit error(QString("Pusta odpowiedź na %1").arg(function));
+        emit error(QString::fromUtf8("Pusta odpowiedź na %1").arg(function));
         return;
     }
-    auto parts = QString(s).split(".");
+    auto parts = QString::fromUtf8(s).split(".");
     if (parts.size() != 2) {
-        emit error(QString("Nie prawidłowa odpowiedź [%1] na %2").arg(QString(s)).arg(function));
+        emit error(QString::fromUtf8("Nie prawidłowa odpowiedź [%1] na %2").arg(QString::fromUtf8(s)).arg(function));
         return;
     }
     bool ok1, ok2;
     int val = parts[0].toInt(&ok1)*1000 + parts[1].toInt(&ok2);
     if (!ok1 || !ok2) {
-        emit error(QString("Nie prawidłowa odpowiedź [%1] na %2").arg(QString(s)).arg(function));
+        emit error(QString::fromUtf8("Nie prawidłowa odpowiedź [%1] na %2").arg(QString::fromUtf8(s)).arg(function));
         return;
     }
     emit value(kind, val);
@@ -314,23 +314,23 @@ void Zasilacz::getCurrentMeasJob(const SerialZasilacz::TaskExt &actTask)
 
 void Zasilacz::setParamJob(const SerialZasilacz::TaskExt &actTask)
 {
-    DEBUGSER(QString("Zapisuje parametr [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
+    DEBUGSER(QString::fromUtf8("Zapisuje parametr [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 10, actTask.waitForRead);
 }
 
 void Zasilacz::getOutputJob(const SerialZasilacz::TaskExt &actTask)
 {
-    DEBUGSER(QString("Sprawdzam ustawione wyjście [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
+    DEBUGSER(QString::fromUtf8("Sprawdzam ustawione wyjście [%1] [%2]").arg(SerialWorkerZas::mapTask[actTask.task]).arg(actTask.msg.data()));
     auto s = m_worker.write(actTask.msg, 100, 1000, actTask.waitForRead);
     if (s.isEmpty()) {
-        emit error(QString("Pusta odpowiedź na %1").arg(__PRETTY_FUNCTION__));
+        emit error(QString::fromUtf8("Pusta odpowiedź na %1").arg(__PRETTY_FUNCTION__));
         return;
     }
 
     bool ok;
-    int val = QString(s).toInt(&ok);
+    int val = QString::fromUtf8(s).toInt(&ok);
     if (!ok || val != 0 || val != 1) {
-        emit error(QString("Nie prawidłowa odpowiedź [%1] na %2").arg(QString(s)).arg(__PRETTY_FUNCTION__));
+        emit error(QString::fromUtf8("Nie prawidłowa odpowiedź [%1] na %2").arg(QString::fromUtf8(s)).arg(__PRETTY_FUNCTION__));
         return;
     }
     emit value(OUTPUT, val);

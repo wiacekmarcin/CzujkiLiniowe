@@ -42,7 +42,6 @@ SOURCES += \
     wybortestu.cpp \
     zasilacz.cpp \
     crc8.cpp \
-    debugdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     parametrykalibracyjnedlg.cpp \
@@ -89,7 +88,6 @@ HEADERS += \
     wybortestu.h \
     zasilacz.h \
     crc8.h \
-    debugdialog.h \
     mainwindow.h \
     parametrykalibracyjnedlg.h \
     sterownik.h \
@@ -105,7 +103,6 @@ HEADERS += \
     zasilacz_worker.h
 
 FORMS += \
-    debugdialog.ui \
     listabadan.ui \
     mainwindow.ui \
     oczekiwanienaurzadzenia.ui \

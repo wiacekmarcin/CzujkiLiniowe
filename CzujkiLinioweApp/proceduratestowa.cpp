@@ -176,7 +176,7 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, Parametr
     case TEST_MEASUREAMENT:
         return ProbnyPomiar(b, ust);
     default:
-        QMessageBox::warning(parent, QString("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
+        QMessageBox::warning(parent, QString::fromUtf8("Badanie"), QString("Dane badanie nie zostało zaimplementowane"));
         break;
     }
 
@@ -802,7 +802,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
 {
 
     NiewspolosiowoscOsUrzadzenie k = dane.getKatyProducenta();
-    QString ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
+    QString ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi poziomej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
     short ret = pomiarKata(9, ptitle, k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -813,7 +813,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi poziomej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(9, ptitle, -k.nadajnik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -824,7 +824,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi pionowej (dodatni kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(8, ptitle, k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -836,7 +836,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi pionowej (ujemny kąt)").arg(dane.getNazwaTransmitter_a());
     ret = pomiarKata(8, ptitle, -k.nadajnik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -854,7 +854,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(2, ptitle, k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -865,7 +865,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi poziomej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(2, ptitle, -k.odbiornik.poziomo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -876,7 +876,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty dodatnie)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(1, ptitle, k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;
@@ -888,7 +888,7 @@ bool ProceduraTestowa::NiewspolosiowoscBadanie(const ParametryBadania &daneBadan
         return true;
     }
 
-    ptitle = QString("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
+    ptitle = QString::fromUtf8("Badanie niewspółosiowości dla %1 dla osi pionowej (kąty ujemne)").arg(dane.getNazwaReceiver_a());
     ret = pomiarKata(1, ptitle, -k.odbiornik.pionowo.toDouble(), daneBadania, ust);
     if (ret == -1)
         return false;

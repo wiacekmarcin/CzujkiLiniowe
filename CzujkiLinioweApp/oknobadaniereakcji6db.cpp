@@ -166,7 +166,7 @@ void OknoBadanieReakcji6dB::czujkaOn()
                  "Prawidlowe dzialanie";
         usunTlumnik();
     } else {
-        error = QString("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
+        error = QString::fromUtf8("Czujka zadziała między %1 a %2 sekundą").arg(timeCzujkaOn).arg(timeOknoClose);
         wynikBadania = false;
         tmSterownika.stop();
         tmZmProgressBar.stop();

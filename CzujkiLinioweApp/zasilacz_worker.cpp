@@ -14,7 +14,7 @@
 #include <QMutexLocker>
 #include <QElapsedTimer>
 
-#define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+#define DEBUGSER(X) debugFun(QString::fromUtf8("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
 const char* const SerialWorkerZas::mapTask[] = { "IDLE", "CONNECT", "GET_VOLTAGE","GET_CURRENT","SET_VOLTAGE",
                                               "SET_CURRENT", "SET_VOLTAGE_LIMIT", "SET_CURRENT_LIMIT" ,
@@ -179,7 +179,7 @@ bool SerialWorkerZas::openDevice(const QString & portName)
     emit deviceName(m_serialPort->portName());
 
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
-        emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error: %2")).arg(portName).
+        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error: %2")).arg(portName).
                    arg(m_serialPort->errorString()));
         emit kontrolerConfigured(Zasilacz::NO_OPEN);
         return false;
@@ -272,7 +272,7 @@ bool SerialWorkerZas::connectToSerialJob()
 bool SerialWorkerZas::checkIdentJob()
 {
     QByteArray msg("*IDN?\n", 6);
-    DEBUGSER(QString("Sprawdzam identyfikacje [%1]").arg(msg.data()));
+    DEBUGSER(QString::fromUtf8("Sprawdzam identyfikacje [%1]").arg(msg.data()));
     auto s = write(msg, 100, 1000, true);
     if (s.isEmpty()) {
         emit kontrolerConfigured(Zasilacz::IDENT_FAILD);
@@ -304,7 +304,7 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
         return QByteArray();
 
     QByteArray responseData;
-    DEBUGSER(QString("Wait for read"));
+    DEBUGSER(QString::fromUtf8("Wait for read"));
     if (m_serialPort->waitForReadyRead(currentReadWaitTimeout)) {
         responseData = m_serialPort->readAll();
         while (m_serialPort->waitForReadyRead(10))
@@ -313,9 +313,9 @@ QByteArray SerialWorkerZas::write(const QByteArray &currentRequest, int currentW
         DEBUGSER(QString("Read %1 [%2]").arg(responseData.size()).arg(responseData.constData()));
         return responseData;
     } else {
-        DEBUGSER(QString("Timeout Read %1").arg(currentReadWaitTimeout));
+        DEBUGSER(QString::fromUtf8("Timeout Read %1").arg(currentReadWaitTimeout));
         if (emitError)
-            emit error(QString("Nie udało się odczytać z RS zasilacza"));
+            emit error(QString::fromUtf8("Nie udało się odczytać z RS zasilacza"));
         return QByteArray();
     }
 #else

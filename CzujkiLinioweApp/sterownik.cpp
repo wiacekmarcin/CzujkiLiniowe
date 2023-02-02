@@ -14,7 +14,7 @@
 
 #ifdef NEWINTERFACE
 
-#define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+#define DEBUGSER(X) debugFun(QString::fromUtf8("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 
 SterownikFiltrow::SterownikFiltrow(QObject *parent)
     : QObject{parent}
@@ -456,14 +456,14 @@ void Sterownik::configureMotorsJob()
             ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
-            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit error(QString::fromUtf8("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
             emit kontrolerConfigured(PARAMS_FAILD);
         }
         QThread::currentThread()->msleep(100);
     }
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
     if (!write(msgBA, 500)) {
-        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit error(QString::fromUtf8("Nie mozna zapisac konfiguracji dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
     }
 }
@@ -479,7 +479,7 @@ bool Sterownik::configureDevice()
     msg.parseCommand(receiveData);
 
     if (msg.getParseReply() != SerialMessage::WELCOME_REPLY) {
-        emit error(QString("Invalid Welcome Msg"));
+        emit error(QString::fromUtf8("Invalid Welcome Msg"));
         emit kontrolerConfigured(IDENT_FAILD);
         return false;
     }
@@ -493,7 +493,7 @@ bool Sterownik::configureDevice()
             ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
-            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit error(QString::fromUtf8("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
@@ -503,7 +503,7 @@ bool Sterownik::configureDevice()
     auto r2 = writeAndRead(msgBA, 500, 2000);
     if (!r2)
     {
-        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit error(QString::fromUtf8("Nie mozna zapisac konfiguracji dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
@@ -513,22 +513,22 @@ bool Sterownik::configureDevice()
     msgConf.parseCommand(receiveData);
 
     if (msgConf.getParseReply() != SerialMessage::CONF_MEGA_REPLY || !msgConf.isKontroler()) {
-        emit error(QString("Bledna odpowiedz dla kontrolera"));
+        emit error(QString::fromUtf8("Bledna odpowiedz dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
     for (short s = 1; s < 10; ++s) {
         if (msgConf.getActive(s) && msgConf.getConnected(s) && msgConf.getPinsOk(s)) {
-            DEBUGSER(QString("Silnik %1 aktywny").arg(s));
+            DEBUGSER(QString::fromUtf8("Silnik %1 aktywny").arg(s));
             emit zdarzenieSilnik(s, M_ACTIVE);
         } else if (msgConf.getActive(s) && msgConf.getConnected(s) && !msgConf.getPinsOk(s)) {
-            DEBUGSER(QString("Silnik %1 brak połęcznia z pinami").arg(s));
+            DEBUGSER(QString::fromUtf8("Silnik %1 brak połęcznia z pinami").arg(s));
             emit zdarzenieSilnik(s, M_NOPINS);
         } else if (msgConf.getActive(s) && !msgConf.getConnected(s)) {
-            DEBUGSER(QString("Silnik %1 brak komunikacji i2c").arg(s));
+            DEBUGSER(QString::fromUtf8("Silnik %1 brak komunikacji i2c").arg(s));
             emit zdarzenieSilnik(s, M_NOCOMM);
         } else {
-            DEBUGSER(QString("Silnik %1 brak modulu").arg(s));
+            DEBUGSER(QString::fromUtf8("Silnik %1 brak modulu").arg(s));
             emit zdarzenieSilnik(s, M_NOACTIVE);
         }
     }
@@ -536,11 +536,11 @@ bool Sterownik::configureDevice()
         SerialMessage msg;
         msg.parseCommand(receiveData);
         if (msg.getParseReply() != SerialMessage::CONF_REPLY) {
-            emit error(QString("Bledna odpowiedz dla kontrolera"));
+            emit error(QString::fromUtf8("Bledna odpowiedz dla kontrolera"));
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
-        DEBUGSER(QString("Silnik %1 konfiguracja ok").arg(msg.getSilnik()));
+        DEBUGSER(QString::fromUtf8("Silnik %1 konfiguracja ok").arg(msg.getSilnik()));
         emit zdarzenieSilnik(msg.getSilnik(), M_CONFOK);
     }
 
@@ -555,7 +555,7 @@ bool Sterownik::openDevice()
     emit deviceName(serialPort.portName());
 
     if (!serialPort.open(QIODevice::ReadWrite)) {
-        emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(serialPort.portName()).
+        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(serialPort.portName()).
                    arg(serialPort.errorString()));
         emit kontrolerConfigured(NO_OPEN);
         return false;
@@ -615,7 +615,7 @@ void Sterownik::parseMessage(QByteArray &reply)
             if (msg.getParseReply() == SerialMessage::INPROGRESS_REPLY)
                 return;
             DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
-            QString errmsg = QString("Nie poprawna wiadomość: [%1]").arg(msg.getError());
+            QString errmsg = QString::fromUtf8("Nie poprawna wiadomość: [%1]").arg(msg.getError());
             errmsg + errMap[msg.getParseReply()];
             emit error(errmsg);
             continue;
@@ -742,7 +742,7 @@ void Sterownik::connectToSerialJob()
         QString systemLocation = "";
         bool findDevice = false;
 
-        DEBUGSER(QString("Szukam urządzenia"));
+        DEBUGSER(QString::fromUtf8("Szukam urządzenia"));
 #ifndef NOSERIAL
         const auto serialPortInfos = QSerialPortInfo::availablePorts();
 
@@ -752,18 +752,18 @@ void Sterownik::connectToSerialJob()
             serialNumber = serialPortInfo.serialNumber();
             vendorId = serialPortInfo.hasVendorIdentifier() ? QString::number(serialPortInfo.vendorIdentifier(), 16) : "";
             productId = serialPortInfo.hasProductIdentifier() ? QString::number(serialPortInfo.productIdentifier(), 16) : "";
-            DEBUGSER(QString("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
+            DEBUGSER(QString::fromUtf8("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
                      description, manufacturer, serialNumber, vendorId, productId));
 
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
                 if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber())
                     /*|| (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")*/) {
-                    DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
+                    DEBUGSER(QString::fromUtf8("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     m_portName = serialPortInfo.portName();
                     emit deviceName(m_portName);
                     emit kontrolerConfigured(FOUND);
                     systemLocation = serialPortInfo.systemLocation();
-                    DEBUGSER(QString("Znaleziono urządzenie"));
+                    DEBUGSER(QString::fromUtf8("Znaleziono urządzenie"));
                     findDevice = true;
                     //break;
                 }
@@ -919,14 +919,14 @@ void Sterownik::configureMotorsJob()
             ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
-            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit error(QString::fromUtf8("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
             emit kontrolerConfigured(PARAMS_FAILD);
         }
         QThread::currentThread()->msleep(100);
     }
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
     if (!write(msgBA, 500)) {
-        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit error(QString::fromUtf8("Nie mozna zapisac konfiguracji dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
     }
 }
@@ -943,7 +943,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         msg.parseCommand(reply);
 
         if (msg.getParseReply() != SerialMessage::WELCOME_REPLY) {
-            emit error(QString("Invalid Welcome Msg"));
+            emit error(QString::fromUtf8("Invalid Welcome Msg"));
             emit kontrolerConfigured(IDENT_FAILD);
             return false;
         }
@@ -958,7 +958,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
             ust->getMotorIloscImpSrodek(i));
 
         if (!write(msgBA, 500)) {
-            emit error(QString("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
+            emit error(QString::fromUtf8("Nie udalo sie zapisac konfiguracji dla %1").arg(i));
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
@@ -968,7 +968,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
 
     QByteArray msgBA = SerialMessage::configKontrolerMsg();
     if (!write(msgBA, 500)) {
-        emit error(QString("Nie mozna zapisac konfiguracji dla kontrolera"));
+        emit error(QString::fromUtf8("Nie mozna zapisac konfiguracji dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
@@ -980,7 +980,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
     msg.parseCommand(reply);
 
     if (msg.getParseReply() != SerialMessage::CONF_MEGA_REPLY || !msg.isKontroler()) {
-        emit error(QString("Bledna odpowiedz dla kontrolera"));
+        emit error(QString::fromUtf8("Bledna odpowiedz dla kontrolera"));
         emit kontrolerConfigured(PARAMS_FAILD);
         return false;
     }
@@ -998,7 +998,7 @@ bool Sterownik::configureDevice(bool wlcmmsg)
         SerialMessage msg;
         msg.parseCommand(reply);
         if (msg.getParseReply() != SerialMessage::CONF_REPLY) {
-            emit error(QString("Bledna odpowiedz dla kontrolera"));
+            emit error(QString::fromUtf8("Bledna odpowiedz dla kontrolera"));
             emit kontrolerConfigured(PARAMS_FAILD);
             return false;
         }
@@ -1059,7 +1059,7 @@ bool Sterownik::openDevice()
     emit deviceName(m_serialPort->portName());
 
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
-        emit error(QString(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
+        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
                    arg(m_serialPort->errorString()));
         emit kontrolerConfigured(NO_OPEN);
         return false;
@@ -1082,16 +1082,16 @@ bool Sterownik::openDevice()
 
 
     QByteArray startBuf(20, '\0');
-    //DEBUGSER(QString("[%1]").arg(startBuf.toHex(' ').data()));
+    //DEBUGSER(QString::fromUtf8("[%1]").arg(startBuf.toHex(' ').data()));
     write(startBuf, 2500);
     QThread::currentThread()->sleep(1);
     read(1000);
     return true;
 #else
-    DEBUGSER(QString("Otwieram urządzenia %1").arg(portName));
+    DEBUGSER(QString::fromUtf8("Otwieram urządzenia %1").arg(portName));
     char mode[]={'8','O','1',0};
     if (RS232_OpenComport(m_portNr, 115200, mode, 0)) {
-        DEBUGSER(QString("Error open Port"));
+        DEBUGSER(QString::fromUtf8("Error open Port"));
         emit kontrolerConfigured(NO_OPEN);
         return false;
     }
@@ -1147,11 +1147,11 @@ bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTime
 
         int sendBytes = m_serialPort->write(currentRequest);
         if (!m_serialPort->waitForBytesWritten(currentWaitWriteTimeout)) {
-            DEBUGSER(QString("Timeout Write %1").arg(currentWaitWriteTimeout));
-            emit error(QString("Timeout Write"));
+            DEBUGSER(QString::fromUtf8("Timeout Write %1").arg(currentWaitWriteTimeout));
+            emit error(QString::fromUtf8("Timeout Write"));
             return false;
         }
-        DEBUGSER(QString("Write %1 bytes [%2]").arg(sendBytes).arg(currentRequest.toHex(' ').constData()));
+        DEBUGSER(QString::fromUtf8("Write %1 bytes [%2]").arg(sendBytes).arg(currentRequest.toHex(' ').constData()));
     }
     return true;
 #else
@@ -1159,15 +1159,15 @@ bool Sterownik::write(const QByteArray &currentRequest, int currentWaitWriteTime
     if (currentRequest.size() > 0)
     {
 
-        DEBUGSER(QString("write [%1]").arg(currentRequest.toHex().constData()));
+        DEBUGSER(QString::fromUtf8("write [%1]").arg(currentRequest.toHex().constData()));
         QElapsedTimer timer;
         timer.start();
         int sendBytes = RS232_SendBuf(m_portNr, (unsigned char*)currentRequest.constData(), currentRequest.size());
         if (sendBytes == 0) {
-            DEBUGSER(QString("Write timeout %1").arg(sendBytes).arg(timer.elapsed()));
+            DEBUGSER(QString::fromUtf8("Write timeout %1").arg(sendBytes).arg(timer.elapsed()));
             return false;
         }
-        DEBUGSER(QString("write %1 bytes [%2 ms]").arg(sendBytes).arg(timer.elapsed()));
+        DEBUGSER(QString::fromUtf8("write %1 bytes [%2 ms]").arg(sendBytes).arg(timer.elapsed()));
         QThread::currentThread()->msleep(currentWaitWriteTimeout);
     }
     return true;
@@ -1283,7 +1283,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
     do {
         SerialMessage msg;
         if (!msg.parseCommand(reply)) {
-            DEBUGSER(QString("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
+            DEBUGSER(QString::fromUtf8("Parse Msg faild %1").arg(errMap[msg.getParseReply()]));
             QString errmsg("Nie poprawna wiadomość:");
             errmsg + errMap[msg.getParseReply()];
             emit error(errmsg);
@@ -1292,7 +1292,7 @@ QVector<SerialMessage> Sterownik::parseMessage(QByteArray &reply)
             continue;
         }
 
-        DEBUGSER(QString("Parse Msg success %1").arg(errMap[msg.getParseReply()]));
+        DEBUGSER(QString::fromUtf8("Parse Msg success %1").arg(errMap[msg.getParseReply()]));
 
         switch(msg.getParseReply())
         {
@@ -1336,7 +1336,7 @@ const QString &Sterownik::portName() const
 
 void Sterownik::closeDevice(bool waitForDone)
 {
-    DEBUGSER(QString("close device %1").arg(waitForDone));
+    DEBUGSER(QString::fromUtf8("close device %1").arg(waitForDone));
     if (waitForDone) {
         m_writer.command(SterownikWriter::DISCONNECT, QByteArray());
         m_reader.setStop();
@@ -1367,7 +1367,7 @@ void Sterownik::connectToSerialJob()
         QString systemLocation = "";
         bool findDevice = false;
 
-        DEBUGSER(QString("Szukam urządzenia"));
+        DEBUGSER(QString::fromUtf8("Szukam urządzenia"));
 
         const auto serialPortInfos = QSerialPortInfo::availablePorts();
 
@@ -1377,18 +1377,18 @@ void Sterownik::connectToSerialJob()
             serialNumber = serialPortInfo.serialNumber();
             vendorId = serialPortInfo.hasVendorIdentifier() ? QString::number(serialPortInfo.vendorIdentifier(), 16) : "";
             productId = serialPortInfo.hasProductIdentifier() ? QString::number(serialPortInfo.productIdentifier(), 16) : "";
-            DEBUGSER(QString("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
+            DEBUGSER(QString::fromUtf8("Znaleziono : [%1] DESC=%2 MANU=%3 SER=%4 VID=%5 PROD=%6").arg(serialPortInfo.portName(),
                      description, manufacturer, serialNumber, vendorId, productId));
 
             if (serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()) {
                 if ((vendorId == getVendor() && productId == getProduct() && serialNumber == getSerialNumber())
                     /*|| (vendorId == "2341" && productId == "42" && serialNumber == "851363038373518041D1")*/) {
-                    DEBUGSER(QString("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
+                    DEBUGSER(QString::fromUtf8("Znaleziono kandydata %1").arg(serialPortInfo.portName()));
                     portName = serialPortInfo.portName();
                     emit deviceName(portName);
                     emit kontrolerConfigured(FOUND);
                     systemLocation = serialPortInfo.systemLocation();
-                    DEBUGSER(QString("Znaleziono urządzenie"));
+                    DEBUGSER(QString::fromUtf8("Znaleziono urządzenie"));
                     findDevice = true;
                     //break;
                 }

@@ -417,7 +417,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->odtwarzalnoscResult->setText("POZYTYWNY");
         } else {
-            ui->odtwarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->odtwarzalnoscResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
 
         QStringList head;
@@ -491,7 +491,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->powtarzalnoscResult->setText("POZYTYWNY");
         } else {
-            ui->powtarzalnoscResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->powtarzalnoscResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     } else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
         QTableWidget * tablePrzebieg = ui->zaleznoscKierunkowaTablePrzebieg;
@@ -533,7 +533,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
        if (daneTestu.getOk()) {
            ui->zaleznoscKierunkowaResult->setText("POZYTYWNY");
        } else {
-           ui->zaleznoscKierunkowaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+           ui->zaleznoscKierunkowaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
        }
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
@@ -569,7 +569,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->szybkieZmianyTlumieniaResult->setText("POZYTYWNY");
         } else {
-            ui->szybkieZmianyTlumieniaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->szybkieZmianyTlumieniaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         QTableWidget * tableParams = ui->zaleznoscDlugisciDrogiOptycznejTableParams;
@@ -613,7 +613,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->zaleznoscDlugisciDrogiOptycznejResult->setText("POZYTYWNY");
         } else {
-            ui->zaleznoscDlugisciDrogiOptycznejResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->zaleznoscDlugisciDrogiOptycznejResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     } else if (daneTestu.getId() == STRAY_LIGHT) {
         QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
@@ -674,7 +674,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->rozproszoneSwiatloResult->setText("POZYTYWNY");
         } else {
-            ui->rozproszoneSwiatloResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->rozproszoneSwiatloResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
 
 
@@ -721,7 +721,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         if (daneTestu.getOk()) {
             ui->tolerancjaNapieciaZasilaniaResult->setText("POZYTYWNY");
         } else {
-            ui->tolerancjaNapieciaZasilaniaResult->setText(QString("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+            ui->tolerancjaNapieciaZasilaniaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     }
 

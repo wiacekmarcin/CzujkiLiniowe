@@ -52,7 +52,7 @@ void TestZasilaczaDlg::on_pbCmdSend_clicked()
 void TestZasilaczaDlg::errorZasilacz(QString s)
 {
     QMessageBox::critical(this, "Zasilacz", s);
-    //showStatusMessage(QString("Błąd : ") + s);
+    //showStatusMessage(QString::fromUtf8("Błąd : ") + s);
 }
 
 void TestZasilaczaDlg::debugZasilacz(QString /*d*/)

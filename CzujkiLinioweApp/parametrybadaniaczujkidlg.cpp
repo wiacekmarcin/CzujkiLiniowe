@@ -295,93 +295,97 @@ bool ParametryBadaniaCzujkiDlg::check()
     }
 
     if (ui->typTransmitter->text().isEmpty()) {
-        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypTransmitter[ui->comboBox->currentIndex()]));
+        errorLabel->setText(QString::fromUtf8("Pole '%1' nie może być puste").arg(etTypTransmitter[ui->comboBox->currentIndex()]));
         return false;
     }
 
     if (ui->typReceiver->text().isEmpty()) {
-        errorLabel->setText(QString("Pole '%1' nie może być puste").arg(etTypReceiver[ui->comboBox->currentIndex()]));
+        errorLabel->setText(QString::fromUtf8("Pole '%1' nie może być puste").arg(etTypReceiver[ui->comboBox->currentIndex()]));
         return false;
     }
 
     if (ui->rozstawienieMinimalne->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Rozstawienie minimalne' nie może być puste"));
+        errorLabel->setText(QString::fromUtf8("Pole 'Rozstawienie minimalne' nie może być puste"));
         return false;
     } else {
         bool ok;
         ui->rozstawienieMinimalne->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Rozstawienie minimalne' nie zawiera poprawnej wartości"));
+            errorLabel->setText(QString::fromUtf8("Pole 'Rozstawienie minimalne' nie zawiera poprawnej wartości"));
             return false;
         }
     }
 
     if (ui->rozstawienieMaksymalne->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Rozstawienie maksymalne' nie może być puste"));
+        errorLabel->setText(QString::fromUtf8("Pole 'Rozstawienie maksymalne' nie może być puste"));
         return false;
     } else {
         bool ok;
         ui->rozstawienieMaksymalne->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Rozstawienie maksymalne' nie zawiera poprawnej wartości"));
+            errorLabel->setText(QString::fromUtf8("Pole 'Rozstawienie maksymalne' nie zawiera poprawnej wartości"));
             return false;
         }
     }
 
     if (ui->transmitter_ospionowa->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
+        errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
                             arg(etTransmitter_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->transmitter_ospionowa->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
+            errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
                                 arg(etTransmitter_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->transmitter_ospozioma->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
+        errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
                             arg(etTransmitter_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->transmitter_ospozioma->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
+            errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
                                 arg(etTransmitter_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->receiver_ospionowa->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
+        errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' nie może być puste").
                             arg(etReceiver_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->receiver_ospionowa->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
+            errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi pionowej dla '%1' musi być liczbą").
                                 arg(etReceiver_a[ui->comboBox->currentIndex()]));
             return false;
         }
     }
 
     if (ui->receiver_ospozioma->text().isEmpty()) {
-        errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
+        errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' nie może być puste").
                             arg(etReceiver_a[ui->comboBox->currentIndex()]));
         return false;
     } else {
         bool ok;
         ui->receiver_ospozioma->text().toDouble(&ok);
         if (!ok) {
-            errorLabel->setText(QString("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
+            errorLabel->setText(QString::fromUtf8("Pole 'Maksymalna kątowa niewspółosiowość' dla osi poziomej dla '%1' musi być liczbą").
                                 arg(etReceiver_a[ui->comboBox->currentIndex()]));
             return false;
         }
+    }
+    if (m_numbers.size() == 0) {
+        errorLabel->setText(QString::fromUtf8("Musi być wpisana conajmniej 1 czujka"));
+        return false;
     }
     if (!testOdtwarzalnosci) {
         bool noempty = false;
@@ -392,7 +396,7 @@ bool ParametryBadaniaCzujkiDlg::check()
                 noempty = true;
             else {
                 if (noempty) {
-                    errorLabel->setText(QString("Nie prawidłowe dane dla czujek w wierszu %1 w tabeli numery fabryczne").
+                    errorLabel->setText(QString::fromUtf8("Nie prawidłowe dane dla czujek w wierszu %1 w tabeli numery fabryczne").
                                         arg(id));
                     return false;
                 }
@@ -440,12 +444,12 @@ void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 void ParametryBadaniaCzujkiDlg::switchOdbiornikReflektor(bool odbiornik)
 {
     short ind = odbiornik ? 0 : 1;
-    ui->ltypTransmitter->setText(QString(etTypTransmitter[ind]));
-    ui->ltypReceiver->setText(QString(etTypReceiver[ind]));
-    ui->lTransmitter->setText(QString(etTransmitter_a[ind]));
-    ui->lReceiver->setText(QString(etReceiver_a[ind]));
-    ui->hnumerTransmitter->setText(QString(etNumerTransmitter[ind]));
-    ui->hnumerReceiver->setText(QString(etNumerReceiver[ind]));
+    ui->ltypTransmitter->setText(QString::fromUtf8(etTypTransmitter[ind]));
+    ui->ltypReceiver->setText(QString::fromUtf8(etTypReceiver[ind]));
+    ui->lTransmitter->setText(QString::fromUtf8(etTransmitter_a[ind]));
+    ui->lReceiver->setText(QString::fromUtf8(etReceiver_a[ind]));
+    ui->hnumerTransmitter->setText(QString::fromUtf8(etNumerTransmitter[ind]));
+    ui->hnumerReceiver->setText(QString::fromUtf8(etNumerReceiver[ind]));
 
 }
 

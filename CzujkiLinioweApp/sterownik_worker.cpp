@@ -9,7 +9,7 @@
 #include <QMutexLocker>
 #include <QElapsedTimer>
 
-#define DEBUGSER(X) debugFun(QString("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
+#define DEBUGSER(X) debugFun(QString::fromUtf8("%1:%2 %3").arg(__FILE__).arg(__LINE__).arg(X))
 #ifndef NEWINTERFACE
 
 SterownikReader::SterownikReader(Sterownik* device):

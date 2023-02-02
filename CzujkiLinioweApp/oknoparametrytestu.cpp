@@ -84,7 +84,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     switch(test->getId())
     {
         case REPRODUCIBILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Zamontuj kolejną (%1) czujkę z serii").arg(nrPomiar));
             if (ui->cbCzujka->count() >= nrPomiar) {
                 ui->cbCzujka->setCurrentIndex(nrPomiar-1);
                 changeCzujka(nrPomiar-1);
@@ -96,7 +96,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             nrCzujkiDoWybrania = nrPomiar;
             break;
         case REPEATABILITY:
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 2 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 2) {
                 ui->cbCzujka->setCurrentIndex(1);
                 changeCzujka(1);
@@ -115,7 +115,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         break;
         case TOLERANCE_TO_BEAM_MISALIGNMENT:
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
             ui->frameSpec->setVisible(true);
@@ -139,7 +139,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case RAPID_CHANGES_IN_ATTENUATION:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
             nrCzujkiDoWybrania = 1;
@@ -150,7 +150,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_niewspolosiowosc->setVisible(false);
             ui->frame_dlugoscDrogiOptycznej->setVisible(true);
             ui->frame_Napiecie->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 1 zgodnie z normą"));
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
             ui->rozstawienieMinimalne->setText(badanie.getRozstawienieMinCzujki());
@@ -159,7 +159,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case STRAY_LIGHT:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 6 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 6 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 6) {
                 ui->cbCzujka->setCurrentIndex(5);
                 changeCzujka(5);
@@ -175,7 +175,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             ui->frame_niewspolosiowosc->setVisible(false);
             ui->frame_dlugoscDrogiOptycznej->setVisible(false);
             ui->frame_Napiecie->setVisible(true);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 1 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 1 zgodnie z normą"));
 
             ui->cbCzujka->setCurrentIndex(0);
             changeCzujka(0);
@@ -183,7 +183,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case DRY_HEAT:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 3 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 3 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 3) {
                 ui->cbCzujka->setCurrentIndex(2);
                 changeCzujka(2);
@@ -195,7 +195,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case COLD:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 3 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 3 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 3) {
                 ui->cbCzujka->setCurrentIndex(2);
                 changeCzujka(2);
@@ -207,7 +207,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break;
         case DAMP_HEAT_STADY_STATE_OPERATIONAL:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 2 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 2) {
                 ui->cbCzujka->setCurrentIndex(1);
                 changeCzujka(1);
@@ -219,7 +219,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break; 
         case DAMP_HEAT_STADY_STATE_ENDURANCE:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 2 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 2 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 2) {
                 ui->cbCzujka->setCurrentIndex(1);
                 changeCzujka(1);
@@ -231,7 +231,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             break; 
         case VIBRATION:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 7 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 7) {
                 ui->cbCzujka->setCurrentIndex(6);
                 changeCzujka(6);
@@ -244,7 +244,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
 
         case IMPACT:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 7 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 7) {
                 ui->cbCzujka->setCurrentIndex(6);
                 changeCzujka(6);
@@ -257,7 +257,7 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
 
         case SULPHUR_DIOXIDE_SO2_CORROSION:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString("Wybierz czujkę nr 7 zgodnie z normą"));
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 7 zgodnie z normą"));
             if (ui->cbCzujka->count() >= 7) {
                 ui->cbCzujka->setCurrentIndex(6);
                 changeCzujka(6);
@@ -487,9 +487,9 @@ void OknoParametryTestu::addError(const QString &err, bool prio)
     if (prio)
         error = true;
     if (prio)
-        errorsMsg.push_front(QString("<li><span style=\"color:red; font-weight:bold;\">%1<span></li>").arg(err));
+        errorsMsg.push_front(QString::fromUtf8("<li><span style=\"color:red; font-weight:bold;\">%1<span></li>").arg(err));
     else
-        errorsMsg.push_back(QString("<li><span style=\"color:maroon; font-weight:bold;\">%1<span></li>").arg(err));
+        errorsMsg.push_back(QString::fromUtf8("<li><span style=\"color:maroon; font-weight:bold;\">%1<span></li>").arg(err));
 
 }
 
