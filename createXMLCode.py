@@ -429,5 +429,5 @@ def printonePage(nazwa):
     d['nazwaNarazeniaWynik'] = '%sWynikNarazenia' % func(nazwa)
     print(xmlcode % d)
 
-nazwa = 'KorozjaS02'
+nazwa = 'EMC_powolneSkokiNapieciaDuzejEnergii'
 printonePage(nazwa)
