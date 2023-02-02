@@ -19,6 +19,8 @@ SOURCES += \
     oknobadaniamaksymalnegokata.cpp \
     oknobadaniereakcji6db.cpp \
     oknoczekaniabadaniekatowe.cpp \
+    oknopotwierdzenieemcnarazenie.cpp \
+    oknopotwierdzenienarazenia.cpp \
     oknoresetuzasilaniaczujki.cpp \
     oknotestrozproszoneswiatlo.cpp \
     parametrybadania.cpp \
@@ -32,7 +34,6 @@ SOURCES += \
     oknozerowanieurzadzenia.cpp \
     oknoparametrytestu.cpp \
     oknosprawdzeniedanych.cpp \
-    oknopotwierdzenienarazenia.cpp \
     oknomontaz.cpp \
     oknostabilizacjaczujki.cpp \
     oknobadaniatlumienia.cpp \
@@ -67,6 +68,8 @@ HEADERS += \
     oknobadaniamaksymalnegokata.h \
     oknobadaniereakcji6db.h \
     oknoczekaniabadaniekatowe.h \
+    oknopotwierdzenieemcnarazenie.h \
+    oknopotwierdzenienarazenia.h \
     oknoresetuzasilaniaczujki.h \
     oknotestrozproszoneswiatlo.h \
     parametrybadania.h \
@@ -80,7 +83,6 @@ HEADERS += \
     oknozerowanieurzadzenia.h \
     oknoparametrytestu.h \
     oknosprawdzeniedanych.h \
-    oknopotwierdzenienarazenia.h \
     oknomontaz.h \
     oknostabilizacjaczujki.h \
     oknobadaniatlumienia.h \
@@ -115,6 +117,8 @@ FORMS += \
     oknobadaniamaksymalnegokata.ui \
     oknobadaniereakcji6db.ui \
     oknoczekaniabadaniekatowe.ui \
+    oknopotwierdzenieemcnarazenie.ui \
+    oknopotwierdzenienarazenia.ui \
     oknoresetuzasilaniaczujki.ui \
     oknotestrozproszoneswiatlo.ui \
     parametrybadaniaczujkidlg.ui \
@@ -126,7 +130,6 @@ FORMS += \
     oknozerowanieurzadzenia.ui \
     oknoparametrytestu.ui \
     oknosprawdzeniedanych.ui \
-    oknopotwierdzenienarazenia.ui \
     oknomontaz.ui \
     oknostabilizacjaczujki.ui \
     oknobadaniatlumienia.ui \

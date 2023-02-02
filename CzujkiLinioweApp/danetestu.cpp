@@ -13,6 +13,13 @@ ListaTestow::ListaTestow()
     << "Odporność na zimno" << "Odporność na wilgotne gorąco, stan ustalony"
     << "Wytrzymałość na wilgotne gorąco, stan ustalony" << "Wytrzymałość na wibracje"
     << "Odporność na uderzenie"
+    
+    << "Odporność na wyładowania elektrostatyczne"
+    << "Odporność na wypromieniowanie pola elektromagnetycznego"
+    << "Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne"
+    << "Odporność na szybkie impulsy przejściowe"
+    << "Odporność na powolne udary napęciowe wysokiej energii"
+
     << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki"
 
     << "Testowe sprawdzenie czujki";
@@ -20,11 +27,7 @@ ListaTestow::ListaTestow()
     /*
     << "Czułość na pożar" <<   
     
-    << "Odporność na wyładowania elektrostatyczne"
-    << "Odporność na wypromieniowanie pola elektromagnetycznego"
-    << "Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne"
-    << "Odporność na szybkie impulsy przejściowe"
-    << "Odporność na powolne udary napęciowe wysokiej energii"
+    
     */
     
     
