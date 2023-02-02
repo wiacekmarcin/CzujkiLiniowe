@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "danetestu.h"
 #include "parametrybadania.h"
-#include "debugdialog.h"
 #include "ustawienia.h"
 #include "sterownik.h"
 #include "zasilacz.h"
@@ -57,7 +56,6 @@ private slots:
     void flt_setUkladFiltrowDone();
     void flt_bladFiltrow(QChar filtr, bool zerowanie);
 
-    void actionOtw_rz_okno_triggered();
     void actionParametryBadania_triggered();
     void actionParametryKalibracyjne_triggered();
     void actionTestZasilacza_triggered();
@@ -88,7 +86,6 @@ private:
 
     QThread sdThreadW;
     QThread sdThreadR;
-    DebugDialog * dbgDlg;
     bool showDebug;
 
     TestZasilaczaDlg * dlgTestZas;

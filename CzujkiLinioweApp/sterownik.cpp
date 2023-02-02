@@ -555,7 +555,7 @@ bool Sterownik::openDevice()
     emit deviceName(serialPort.portName());
 
     if (!serialPort.open(QIODevice::ReadWrite)) {
-        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(serialPort.portName()).
+        emit error(QString::fromUtf8("Nie mozna otworzyc urzadzenia %1, error  %2").arg(serialPort.portName()).
                    arg(serialPort.errorString()));
         emit kontrolerConfigured(NO_OPEN);
         return false;
@@ -1059,7 +1059,7 @@ bool Sterownik::openDevice()
     emit deviceName(m_serialPort->portName());
 
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
-        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error  %2")).arg(m_portName).
+        emit error(QString::fromUtf8("Nie mozna otworzyc urzadzenia %1, error  %2").arg(m_portName).
                    arg(m_serialPort->errorString()));
         emit kontrolerConfigured(NO_OPEN);
         return false;

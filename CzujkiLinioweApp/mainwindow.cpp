@@ -58,7 +58,6 @@ static int questionSave(const QString & title, const QString & pytanie, QWidget 
                     CONN_PB(ZapiszZadanie); \
                     CONN_PB(ZapiszJako); \
                     CONN_PB(OtworzBadanie); \
-                    CONN_PB(Otw_rz_okno); \
                     CONN_PB(NoweBadanie); \
                     CONN_PB(UsunBadanie); \
                     CONN_PB(ZamknijBadanie); \
@@ -84,8 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
     //sd->setThread(&sdThreadW, &sdThreadR);
     zas = new Zasilacz(&u, this);
     zas->setThread(&zasThr);
-    dbgDlg = new DebugDialog(this);
-    dbgDlg->hide();
+
     showDebug = false;
 
     ui->actionStartTestu->setEnabled(false);
@@ -159,16 +157,6 @@ MainWindow::~MainWindow()
         delete zas;
     delete ui;
 }
-
-void MainWindow::actionOtw_rz_okno_triggered()
-{
-    showDebug = !showDebug;
-    if (showDebug)
-        dbgDlg->show();
-    else
-        dbgDlg->hide();
-}
-
 
 void MainWindow::ster_error(QString s)
 {

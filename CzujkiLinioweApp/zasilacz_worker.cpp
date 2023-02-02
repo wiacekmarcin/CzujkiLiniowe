@@ -179,7 +179,7 @@ bool SerialWorkerZas::openDevice(const QString & portName)
     emit deviceName(m_serialPort->portName());
 
     if (!m_serialPort->open(QIODevice::ReadWrite)) {
-        emit error(QString::fromUtf8(QObject::tr("Nie mozna otworzyc urzadzenia %1, error: %2")).arg(portName).
+        emit error(QString::fromUtf8("Nie mozna otworzyc urzadzenia %1, error: %2").arg(portName).
                    arg(m_serialPort->errorString()));
         emit kontrolerConfigured(Zasilacz::NO_OPEN);
         return false;
