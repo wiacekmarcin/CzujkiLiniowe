@@ -42,6 +42,9 @@ private:
     float minTemp, maxTemp, minCisn, maxCisn, minHumi, maxHumi;
     unsigned int miniCzasPowt, maxiCzasPowt;
     float minVolt, maxVolt;
+
+    short nrCzujkiDoWybrania2;
+    bool dwieCzujkiDoWybrania;
 };
 
 #endif // OKNOPARAMETRYTESTU_H

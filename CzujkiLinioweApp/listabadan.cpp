@@ -7,6 +7,9 @@
 #include <QTime>
 #include <QDateTime>
 #include <QScreen>
+#include <QLabel>
+#include <QTableWidget>
+#include <QTableWidgetItem>
 
 ListaBadan::ListaBadan(QWidget *parent) :
     QWidget(parent),
@@ -616,6 +619,15 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             ui->zaleznoscDlugisciDrogiOptycznejResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     } else if (daneTestu.getId() == STRAY_LIGHT) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getRozproszoneSwiatloCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->rozproszoneSwiatloTableParams,
+                       ui->rozproszoneSwiatloTablePrzebieg,
+                       ui->rozproszoneSwiatloTableNarazenie,
+                       ui->rozproszoneSwiatlotableCzujka,
+                       ui->rozproszoneSwiatloResult);
+/*
         QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
         QTableWidget * tablePrzebieg = ui->rozproszoneSwiatloTablePrzebieg;
         QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
@@ -676,8 +688,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->rozproszoneSwiatloResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-
-
+    */
     } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
         QTableWidget * tablePrzebieg = ui->tolerancjaNapieciaZasilaniaTablePrzebieg;
@@ -724,8 +735,215 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             ui->tolerancjaNapieciaZasilaniaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
     }
+    else if (daneTestu.getId() == DRY_HEAT) {
+            narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                           badanie.getSucheCieploCmaxCmin(),
+                           daneTestu.getOpisNarazenia(),
+                           ui->sucheCieploTableParams,
+                           ui->sucheCieploTablePrzebieg,
+                           ui->sucheCieploNarazenie,
+                           ui->sucheCieplotableCzujka,
+                           ui->sucheCieploResult);
+    }
 
+    else if (daneTestu.getId() == COLD) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZimnoCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->zimnoTableParams,
+                       ui->zimnoTablePrzebieg,
+                       ui->zimnoNarazenie,
+                       ui->zimnotableCzujka,
+                       ui->zimnoResult);
+    }
+
+    else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getWilgotneCieploOdpornoscCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->wilgotneCieploUstaloneTableParams,
+                       ui->wilgotneCieploUstaloneTablePrzebieg,
+                       ui->wilgotneCieploUstaloneNarazenie,
+                       ui->wilgotneCieploUstalonetableCzujka,
+                       ui->wilgotneCieploUstaloneResult);
+    }
+
+    else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getWilgotneCieploWytrzymaloscCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->wilgotneCieploStanStacjonarnyTableParams,
+                       ui->wilgotneCieploStanStacjonarnyTablePrzebieg,
+                       ui->wilgotneCieploStanStacjonarnyNarazenie,
+                       ui->wilgotneCieploStanStacjonarnytableCzujka,
+                       ui->wilgotneCieploStanStacjonarnyResult);
+    }
+
+    else if (daneTestu.getId() == VIBRATION) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getWibracjeCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->wibracjaTableParams,
+                       ui->wibracjaTablePrzebieg,
+                       ui->wibracjaNarazenie,
+                       ui->wibracjatableCzujka,
+                       ui->wibracjaResult);
+    }
+
+    else if (daneTestu.getId() == IMPACT) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getUderzenieCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->uderzeniaTableParams,
+                       ui->uderzeniaTablePrzebieg,
+                       ui->uderzenieNarazenie,
+                       ui->uderzeniatableCzujka,
+                       ui->uderzeniaResult);
+    }
+
+    else if (daneTestu.getId() == ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZakloceniaEMCCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->eMC_wyladowanieElektroStatyczneTableParams,
+                       ui->eMC_wyladowanieElektroStatyczneTablePrzebieg,
+                       ui->eMC_wyladowanieElektroStatyczneNarazenie,
+                       ui->eMC_wyladowanieElektroStatycznetableCzujka,
+                       ui->eMC_wyladowanieElektroStatyczneResult);
+    }
+
+    else if (daneTestu.getId() == ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZakloceniaEMCCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->eMC_promieniowaniepolaelektromagnetycznegoTableParams,
+                       ui->eMC_promieniowaniepolaelektromagnetycznegoTablePrzebieg,
+                       ui->eMC_promieniowaniepolaelektromagnetycznegoNarazenie,
+                       ui->eMC_promieniowaniepolaelektromagnetycznegotableCzujka,
+                       ui->eMC_promieniowaniepolaelektromagnetycznegoResult);
+    }
+
+    else if (daneTestu.getId() == ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZakloceniaEMCCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneTableParams,
+                       ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneTablePrzebieg,
+                       ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneNarazenie,
+                       ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyznetableCzujka,
+                       ui->eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneResult);
+    }
+
+    else if (daneTestu.getId() == ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZakloceniaEMCCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->eMC_szybkiekrotkieblyskiTableParams,
+                       ui->eMC_szybkiekrotkieblyskiTablePrzebieg,
+                       ui->eMC_szybkiekrotkieblyskiNarazenie,
+                       ui->eMC_szybkiekrotkieblyskitableCzujka,
+                       ui->eMC_szybkiekrotkieblyskiResult);
+    }
+
+    else if (daneTestu.getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getZakloceniaEMCCmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->eMC_powolneSkokiNapieciaDuzejEnergiiTableParams,
+                       ui->eMC_powolneSkokiNapieciaDuzejEnergiiTablePrzebieg,
+                       ui->eMC_powolneSkokiNapieciaDuzejEnergiiNarazenie,
+                       ui->eMC_powolneSkokiNapieciaDuzejEnergiitableCzujka,
+                       ui->eMC_powolneSkokiNapieciaDuzejEnergiiResult);
+    }
+
+    else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
+        narazeniaWynik(daneTestu, badanie, transmitter, receiver,
+                       badanie.getKorozjaSO2CmaxCmin(),
+                       daneTestu.getOpisNarazenia(),
+                       ui->korozjaS02TableParams,
+                       ui->korozjaS02TablePrzebieg,
+                       ui->korozjaS02Narazenie,
+                       ui->korozjaS02tableCzujka,
+                       ui->korozjaS02Result);
+    }
 }
+
+void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
+                                const ParametryBadania & badanie,
+                                const QString & transmitter,
+                                const QString & receiver,
+                                float cmaxcmin,
+                                const QString & opisNarazenia,
+                                QTableWidget * tableParams,
+                                QTableWidget * tablePrzebieg,
+                                QTableWidget * tableNarazenia,
+                                QTableWidget * tableCzujka,
+                                QLabel * wynik
+                                )
+{
+    //QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
+    //QTableWidget * tablePrzebieg = ui->rozproszoneSwiatloTablePrzebieg;
+    //QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
+    //cmaxcmin = badanie.getRozproszoneSwiatloCmaxCmin()
+    tableParams->clear();
+    addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
+    addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
+    addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
+
+    if (daneTestu.getCmaxCmin() > cmaxcmin) {
+        tableParams->item(2, 0)->setBackground(Qt::red);
+    }
+    initCzujkaInfo(tableCzujka,
+                   transmitter, receiver,
+                   badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
+                                           daneTestu.getNumerReceiver()),
+                   daneTestu.getNumerTransmitter(),
+                   daneTestu.getNumerReceiver());
+
+    short num = 0;
+    QStringList head;
+    QList<int> width;
+    head << "Stan czujki" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
+    width << 150 << 75 << 75 << 120 << 300;
+    clearinitTable(tablePrzebieg, head, width);
+    for (const auto & dane : daneTestu.getDaneBadanCzujek())
+    {
+        int col = addR(tablePrzebieg, num, 0,
+                       (num == 0 ? "Przed narażeniem" : "Po narażeniu"),
+                       dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"), dane.error);
+        if (!dane.ok) {
+            for (short e=0; e<col; ++e) {
+                if (tablePrzebieg->item(num, e))
+                    tablePrzebieg->item(num, e)->setBackground(Qt::red);
+            }
+        }
+        num++;
+    }
+    QStringList headNar;
+    QList<int> widthNar;
+    headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
+    widthNar << 150 << 250 << 350;
+    clearinitTable(tableNarazenia, headNar, widthNar);
+    tableNarazenia->setRowCount(2);
+    num = 0;
+    int col = addR(tableNarazenia, 0, 0,
+                   daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
+                   opisNarazenia, daneTestu.getInfoNarazenia());
+
+    if (!daneTestu.getWynikNarazenia()) {
+        for (short e=0; e<col; ++e) {
+            if (tableNarazenia->item(num, e))
+                tableNarazenia->item(num, e)->setBackground(Qt::red);
+        }
+    }
+
+    if (daneTestu.getOk()) {
+        wynik->setText("POZYTYWNY");
+    } else {
+        wynik->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+    }
+}
+
 
 void ListaBadan::clearinitTable( QTableWidget * table, const QStringList & head, const QList<int> & width)
 {

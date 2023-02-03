@@ -82,7 +82,15 @@ void ParametryBadaniaGen::load(QDataStream &in)
 		 >> minimalneNapieciaTolerancjaNapiecia
 		 >> maksymalneNapieciaTolerancjaNapiecia
 		 >> minimalnyCzasOczekiwaniaPowtarzalnosc1Test
-		 >> maksymalnyCzasOczekiwaniaPowtarzalnosc1Test ;
+		 >> maksymalnyCzasOczekiwaniaPowtarzalnosc1Test
+		 >> sucheCieploCmaxCmin
+		 >> zimnoCmaxCmin
+		 >> wilgotneCieploOdpornoscCmaxCmin
+		 >> wilgotneCieploWytrzymaloscCmaxCmin
+		 >> wibracjeCmaxCmin
+		 >> uderzenieCmaxCmin
+		 >> zakloceniaEMCCmaxCmin
+		 >> korozjaSO2CmaxCmin ;
 }
 
 void ParametryBadaniaGen::save(QDataStream &out) const
@@ -134,7 +142,15 @@ void ParametryBadaniaGen::save(QDataStream &out) const
 		 << minimalneNapieciaTolerancjaNapiecia
 		 << maksymalneNapieciaTolerancjaNapiecia
 		 << minimalnyCzasOczekiwaniaPowtarzalnosc1Test
-		 << maksymalnyCzasOczekiwaniaPowtarzalnosc1Test ;
+		 << maksymalnyCzasOczekiwaniaPowtarzalnosc1Test
+		 << sucheCieploCmaxCmin
+		 << zimnoCmaxCmin
+		 << wilgotneCieploOdpornoscCmaxCmin
+		 << wilgotneCieploWytrzymaloscCmaxCmin
+		 << wibracjeCmaxCmin
+		 << uderzenieCmaxCmin
+		 << zakloceniaEMCCmaxCmin
+		 << korozjaSO2CmaxCmin ;
 }
 QString ParametryBadaniaGen::getNumerZlecenia() const
 {
@@ -661,5 +677,93 @@ unsigned int ParametryBadaniaGen::getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test
 void ParametryBadaniaGen::setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & value)
 {
 	maksymalnyCzasOczekiwaniaPowtarzalnosc1Test = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getSucheCieploCmaxCmin() const
+{
+	return sucheCieploCmaxCmin;
+}
+
+void ParametryBadaniaGen::setSucheCieploCmaxCmin(const float & value)
+{
+	sucheCieploCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getZimnoCmaxCmin() const
+{
+	return zimnoCmaxCmin;
+}
+
+void ParametryBadaniaGen::setZimnoCmaxCmin(const float & value)
+{
+	zimnoCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getWilgotneCieploOdpornoscCmaxCmin() const
+{
+	return wilgotneCieploOdpornoscCmaxCmin;
+}
+
+void ParametryBadaniaGen::setWilgotneCieploOdpornoscCmaxCmin(const float & value)
+{
+	wilgotneCieploOdpornoscCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getWilgotneCieploWytrzymaloscCmaxCmin() const
+{
+	return wilgotneCieploWytrzymaloscCmaxCmin;
+}
+
+void ParametryBadaniaGen::setWilgotneCieploWytrzymaloscCmaxCmin(const float & value)
+{
+	wilgotneCieploWytrzymaloscCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getWibracjeCmaxCmin() const
+{
+	return wibracjeCmaxCmin;
+}
+
+void ParametryBadaniaGen::setWibracjeCmaxCmin(const float & value)
+{
+	wibracjeCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getUderzenieCmaxCmin() const
+{
+	return uderzenieCmaxCmin;
+}
+
+void ParametryBadaniaGen::setUderzenieCmaxCmin(const float & value)
+{
+	uderzenieCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getZakloceniaEMCCmaxCmin() const
+{
+	return zakloceniaEMCCmaxCmin;
+}
+
+void ParametryBadaniaGen::setZakloceniaEMCCmaxCmin(const float & value)
+{
+	zakloceniaEMCCmaxCmin = value;
+	change = true;
+}
+
+float ParametryBadaniaGen::getKorozjaSO2CmaxCmin() const
+{
+	return korozjaSO2CmaxCmin;
+}
+
+void ParametryBadaniaGen::setKorozjaSO2CmaxCmin(const float & value)
+{
+	korozjaSO2CmaxCmin = value;
 	change = true;
 }

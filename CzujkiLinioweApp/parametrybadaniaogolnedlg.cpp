@@ -30,6 +30,7 @@ ParametryBadaniaOgolneDlg::~ParametryBadaniaOgolneDlg()
 
 void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBadania *badanie, QLabel * err)
 {
+    (void)edit;
     bool o = badanie->getTestOdtwarzalnosci();
 
     ui->numerZlecenia->setReadOnly(o);

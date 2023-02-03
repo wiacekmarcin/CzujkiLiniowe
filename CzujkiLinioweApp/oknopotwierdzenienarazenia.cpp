@@ -43,7 +43,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->cbAlarmYesNo, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(0,index); });
     connect(ui->cbTlumnik, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(1,index); });
-    connect(ui->cbUszkodzenie, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(3,index); });
+    connect(ui->cbUszkodzenie, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(2,index); });
 
     ui->cbTlumnik->setVisible(false);
     ui->etTlumnik->setVisible(false);

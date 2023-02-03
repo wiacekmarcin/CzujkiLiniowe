@@ -93,7 +93,7 @@
          </font>
         </property>
         <property name="currentIndex">
-         <number>8</number>
+         <number>18</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -2424,13 +2424,13 @@
                <property name="minimumSize">
                 <size>
                  <width>500</width>
-                 <height>150</height>
+                 <height>70</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
                  <width>500</width>
-                 <height>150</height>
+                 <height>70</height>
                 </size>
                </property>
                <property name="editTriggers">
@@ -3398,9 +3398,21 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLabel" name="sucheCieploWynikNarazenia">
-               <property name="text">
-                <string/>
+              <widget class="QTableWidget" name="sucheCieploNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -3821,9 +3833,21 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLabel" name="zimnoWynikNarazenia">
-               <property name="text">
-                <string/>
+              <widget class="QTableWidget" name="zimnoNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>50</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -4244,9 +4268,21 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLabel" name="wilgotneCieploUstaloneWynikNarazenia">
-               <property name="text">
-                <string/>
+              <widget class="QTableWidget" name="wilgotneCieploUstaloneNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -4493,34 +4529,7 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyPrzebieg">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Przebieg</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="1">
-              <spacer name="verticalSpacerWilgotneCieploStanStacjonarny">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="3" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyCzujka">
                <property name="font">
                 <font>
@@ -4534,7 +4543,7 @@
                </property>
               </widget>
              </item>
-             <item row="3" column="1">
+             <item row="2" column="1">
               <widget class="QTableWidget" name="wilgotneCieploStanStacjonarnytableCzujka">
                <property name="minimumSize">
                 <size>
@@ -4565,7 +4574,48 @@
                </column>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="3" column="0">
+              <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyWynikNarazenia">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Narażenie</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <spacer name="verticalSpacerWilgotneCieploStanStacjonarny">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyPrzebieg">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Przebieg</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
               <widget class="QTableWidget" name="wilgotneCieploStanStacjonarnyTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -4652,24 +4702,22 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
-              <widget class="QLabel" name="etWilgotneCieploStanStacjonarnyWynikNarazenia">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="wilgotneCieploStanStacjonarnyNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
                </property>
-               <property name="text">
-                <string>Narażenie</string>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
                </property>
-              </widget>
-             </item>
-             <item row="4" column="1">
-              <widget class="QLabel" name="wilgotneCieploStanStacjonarnyWynikNarazenia">
-               <property name="text">
-                <string/>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -4916,20 +4964,7 @@
                </item>
               </widget>
              </item>
-             <item row="7" column="1">
-              <spacer name="verticalSpacerWibracja">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="3" column="0">
+             <item row="2" column="0">
               <widget class="QLabel" name="etWibracjaCzujka">
                <property name="font">
                 <font>
@@ -4943,7 +4978,66 @@
                </property>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="wibracjatableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="etWibracjaWynikNarazenia">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Narażenie</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="etWibracjaPrzebieg">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Przebieg</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
               <widget class="QTableWidget" name="wibracjaTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -5030,69 +5124,35 @@
                </column>
               </widget>
              </item>
-             <item row="5" column="0">
-              <widget class="QLabel" name="etWibracjaPrzebieg">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
+             <item row="6" column="1">
+              <spacer name="verticalSpacerWibracja">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <property name="text">
-                <string>Przebieg</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
                </property>
-              </widget>
+              </spacer>
              </item>
              <item row="3" column="1">
-              <widget class="QTableWidget" name="wibracjatableCzujka">
+              <widget class="QTableWidget" name="wibracjaNarazenie">
                <property name="minimumSize">
                 <size>
-                 <width>309</width>
+                 <width>500</width>
                  <height>70</height>
                 </size>
                </property>
                <property name="maximumSize">
                 <size>
-                 <width>330</width>
+                 <width>500</width>
                  <height>70</height>
                 </size>
                </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="etWibracjaWynikNarazenia">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Narażenie</string>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QLabel" name="wibracjaWynikNarazenia">
-               <property name="text">
-                <string/>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -5513,9 +5573,21 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLabel" name="uderzeniaWynikNarazenia">
-               <property name="text">
-                <string/>
+              <widget class="QTableWidget" name="uderzenieNarazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
@@ -5765,14 +5837,14 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="7" column="1">
               <widget class="QLabel" name="eMC_wyladowanieElektroStatyczneWynikNarazenia">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="9" column="1">
               <spacer name="verticalSpacerEMC_wyladowanieElektroStatyczne">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -5785,55 +5857,7 @@
                </property>
               </spacer>
              </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneCzujka">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Czujka</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QTableWidget" name="eMC_wyladowanieElektroStatycznetableCzujka">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
+             <item row="4" column="0">
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneWynikNarazenia">
                <property name="font">
                 <font>
@@ -5847,8 +5871,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="eteMC_wyladowanieElektroStatyczneNarazenie">
+             <item row="4" column="1">
+              <widget class="QTableWidget" name="eMC_wyladowanieElektroStatyczneNarazenie">
                <property name="minimumSize">
                 <size>
                  <width>500</width>
@@ -5886,7 +5910,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="6" column="1">
               <widget class="QTableWidget" name="eMC_wyladowanieElektroStatyczneTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -5973,7 +5997,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="6" column="0">
               <widget class="QLabel" name="etEMC_wyladowanieElektroStatycznePrzebieg">
                <property name="font">
                 <font>
@@ -5985,6 +6009,54 @@
                <property name="text">
                 <string>Przebieg</string>
                </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="etEMC_wyladowanieElektroStatyczneCzujka">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Czujka</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="eMC_wyladowanieElektroStatycznetableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -6233,14 +6305,14 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="6" column="1">
               <widget class="QLabel" name="eMC_promieniowaniepolaelektromagnetycznegoWynikNarazenia">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="8" column="1">
               <spacer name="verticalSpacerEMC_promieniowaniepolaelektromagnetycznego">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -6254,54 +6326,6 @@
               </spacer>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoCzujka">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Czujka</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QTableWidget" name="eMC_promieniowaniepolaelektromagnetycznegotableCzujka">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoWynikNarazenia">
                <property name="font">
                 <font>
@@ -6315,8 +6339,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="eteMC_promieniowaniepolaelektromagnetycznegoNarazenie">
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="eMC_promieniowaniepolaelektromagnetycznegoNarazenie">
                <property name="minimumSize">
                 <size>
                  <width>500</width>
@@ -6354,7 +6378,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <widget class="QTableWidget" name="eMC_promieniowaniepolaelektromagnetycznegoTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -6441,7 +6465,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoPrzebieg">
                <property name="font">
                 <font>
@@ -6453,6 +6477,54 @@
                <property name="text">
                 <string>Przebieg</string>
                </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="etEMC_promieniowaniepolaelektromagnetycznegoCzujka">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Czujka</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="eMC_promieniowaniepolaelektromagnetycznegotableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -6701,14 +6773,14 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="6" column="1">
               <widget class="QLabel" name="eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneWynikNarazenia">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="8" column="1">
               <spacer name="verticalSpacerEMC_zakloceniaindukowaneprzezpoleelektromagnetyzne">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -6722,54 +6794,6 @@
               </spacer>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneCzujka">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Czujka</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QTableWidget" name="eMC_zakloceniaindukowaneprzezpoleelektromagnetyznetableCzujka">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneWynikNarazenia">
                <property name="font">
                 <font>
@@ -6783,8 +6807,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="eteMC_zakloceniaindukowaneprzezpoleelektromagnetyzneNarazenie">
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneNarazenie">
                <property name="minimumSize">
                 <size>
                  <width>500</width>
@@ -6822,7 +6846,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <widget class="QTableWidget" name="eMC_zakloceniaindukowaneprzezpoleelektromagnetyzneTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -6909,7 +6933,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyznePrzebieg">
                <property name="font">
                 <font>
@@ -6921,6 +6945,54 @@
                <property name="text">
                 <string>Przebieg</string>
                </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="etEMC_zakloceniaindukowaneprzezpoleelektromagnetyzneCzujka">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Czujka</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="eMC_zakloceniaindukowaneprzezpoleelektromagnetyznetableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -7169,14 +7241,14 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="6" column="1">
               <widget class="QLabel" name="eMC_szybkiekrotkieblyskiWynikNarazenia">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="8" column="1">
               <spacer name="verticalSpacerEMC_szybkiekrotkieblyski">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -7190,54 +7262,6 @@
               </spacer>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiCzujka">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Czujka</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QTableWidget" name="eMC_szybkiekrotkieblyskitableCzujka">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiWynikNarazenia">
                <property name="font">
                 <font>
@@ -7251,8 +7275,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="eteMC_szybkiekrotkieblyskiNarazenie">
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="eMC_szybkiekrotkieblyskiNarazenie">
                <property name="minimumSize">
                 <size>
                  <width>500</width>
@@ -7290,7 +7314,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <widget class="QTableWidget" name="eMC_szybkiekrotkieblyskiTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -7377,7 +7401,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiPrzebieg">
                <property name="font">
                 <font>
@@ -7389,6 +7413,54 @@
                <property name="text">
                 <string>Przebieg</string>
                </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="etEMC_szybkiekrotkieblyskiCzujka">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Czujka</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="eMC_szybkiekrotkieblyskitableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -7662,14 +7734,14 @@
                </item>
               </widget>
              </item>
-             <item row="5" column="1">
+             <item row="6" column="1">
               <widget class="QLabel" name="eMC_powolneSkokiNapieciaDuzejEnergiiWynikNarazenia">
                <property name="text">
                 <string/>
                </property>
               </widget>
              </item>
-             <item row="7" column="1">
+             <item row="8" column="1">
               <spacer name="verticalSpacerEMC_powolneSkokiNapieciaDuzejEnergii">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -7683,54 +7755,6 @@
               </spacer>
              </item>
              <item row="3" column="0">
-              <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiCzujka">
-               <property name="font">
-                <font>
-                 <family>Arial</family>
-                 <pointsize>10</pointsize>
-                 <bold>true</bold>
-                </font>
-               </property>
-               <property name="text">
-                <string>Czujka</string>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QTableWidget" name="eMC_powolneSkokiNapieciaDuzejEnergiitableCzujka">
-               <property name="minimumSize">
-                <size>
-                 <width>309</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>330</width>
-                 <height>70</height>
-                </size>
-               </property>
-               <property name="editTriggers">
-                <set>QAbstractItemView::NoEditTriggers</set>
-               </property>
-               <row>
-                <property name="text">
-                 <string>1</string>
-                </property>
-               </row>
-               <column>
-                <property name="text">
-                 <string>Nadajnik</string>
-                </property>
-               </column>
-               <column>
-                <property name="text">
-                 <string>Odbiornik</string>
-                </property>
-               </column>
-              </widget>
-             </item>
-             <item row="2" column="0">
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiWynikNarazenia">
                <property name="font">
                 <font>
@@ -7744,8 +7768,8 @@
                </property>
               </widget>
              </item>
-             <item row="2" column="1">
-              <widget class="QTableWidget" name="eteMC_powolneSkokiNapieciaDuzejEnergiiNarazenie">
+             <item row="3" column="1">
+              <widget class="QTableWidget" name="eMC_powolneSkokiNapieciaDuzejEnergiiNarazenie">
                <property name="minimumSize">
                 <size>
                  <width>500</width>
@@ -7783,7 +7807,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <widget class="QTableWidget" name="eMC_powolneSkokiNapieciaDuzejEnergiiTablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -7870,7 +7894,7 @@
                </column>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiPrzebieg">
                <property name="font">
                 <font>
@@ -7882,6 +7906,54 @@
                <property name="text">
                 <string>Przebieg</string>
                </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="etEMC_powolneSkokiNapieciaDuzejEnergiiCzujka">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>10</pointsize>
+                 <bold>true</bold>
+                </font>
+               </property>
+               <property name="text">
+                <string>Czujka</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QTableWidget" name="eMC_powolneSkokiNapieciaDuzejEnergiitableCzujka">
+               <property name="minimumSize">
+                <size>
+                 <width>309</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>330</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
+               </property>
+               <row>
+                <property name="text">
+                 <string>1</string>
+                </property>
+               </row>
+               <column>
+                <property name="text">
+                 <string>Nadajnik</string>
+                </property>
+               </column>
+               <column>
+                <property name="text">
+                 <string>Odbiornik</string>
+                </property>
+               </column>
               </widget>
              </item>
             </layout>
@@ -8218,13 +8290,25 @@
               </widget>
              </item>
              <item row="3" column="1">
-              <widget class="QLabel" name="korozjaS02WynikNarazenia">
-               <property name="text">
-                <string/>
+              <widget class="QTableWidget" name="korozjaS02Narazenie">
+               <property name="minimumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>500</width>
+                 <height>70</height>
+                </size>
+               </property>
+               <property name="editTriggers">
+                <set>QAbstractItemView::NoEditTriggers</set>
                </property>
               </widget>
              </item>
-             <item row="4" column="0">
+             <item row="5" column="0">
               <widget class="QLabel" name="etKorozjaS02Przebieg">
                <property name="font">
                 <font>
@@ -8238,7 +8322,7 @@
                </property>
               </widget>
              </item>
-             <item row="4" column="1">
+             <item row="5" column="1">
               <widget class="QTableWidget" name="korozjaS02TablePrzebieg">
                <property name="minimumSize">
                 <size>
@@ -8325,7 +8409,7 @@
                </column>
               </widget>
              </item>
-             <item row="6" column="1">
+             <item row="7" column="1">
               <spacer name="verticalSpacerKorozjaS02">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>

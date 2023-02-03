@@ -120,6 +120,7 @@
          <font>
           <family>Arial</family>
           <pointsize>14</pointsize>
+          <bold>true</bold>
          </font>
         </property>
         <property name="text">
@@ -1690,123 +1691,24 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="rozporoszoneswiatlo">
-      <layout class="QGridLayout" name="gridLayoutrozporoszoneswiatlo">
-       <item row="3" column="1">
-        <widget class="QLabel" name="rozproszoneSwiatloNarazenieCzujki">
+     <widget class="QWidget" name="testNarazenia">
+      <layout class="QGridLayout" name="gridLayouttestNarazenia">
+       <item row="4" column="1">
+        <widget class="QLabel" name="testNarazeniaWynik">
          <property name="font">
           <font>
            <family>Arial</family>
            <pointsize>14</pointsize>
+           <bold>true</bold>
           </font>
          </property>
          <property name="text">
-          <string>POZYTYWNY/NEGATYWNY</string>
+          <string/>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="eRozproszoneSwiatloCmax">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Cmax</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QFrame" name="rozporoszoneswiatlofrcmin">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayoutrozporoszoneswiatlocmin">
-          <item>
-           <widget class="QLabel" name="rozporoszoneswiatloCmin">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>0 dB</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="rozporoszoneswiatloCmin2">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>0%</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QFrame" name="rozporoszoneswiatlofrcmax">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayoutrozporoszoneswiatlocmax">
-          <item>
-           <widget class="QLabel" name="rozporoszoneswiatloCmax">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>0 dB</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="rozporoszoneswiatloCmax2">
-            <property name="font">
-             <font>
-              <family>Arial</family>
-              <pointsize>14</pointsize>
-             </font>
-            </property>
-            <property name="text">
-             <string>0%</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
-        <widget class="QFrame" name="frRozproszoneSwiatloPrzebieg">
-         <property name="frameShape">
-          <enum>QFrame::StyledPanel</enum>
-         </property>
-         <property name="frameShadow">
-          <enum>QFrame::Raised</enum>
-         </property>
-         <layout class="QGridLayout" name="rozporoszoneswiatloPrzebiegGridLayout"/>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="rozporoszoneswiatloCmaxCmin">
+        <widget class="QLabel" name="testNarazeniaCmaxCmin">
          <property name="font">
           <font>
            <family>Arial</family>
@@ -1824,47 +1726,46 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="etRozproszoneSwiatloWynikNarazenia">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>14</pointsize>
-          </font>
+       <item row="1" column="1">
+        <widget class="QFrame" name="testNarazeniafrcmax">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
          </property>
-         <property name="text">
-          <string>Wynik narażenia światłem czujki</string>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
          </property>
+         <layout class="QHBoxLayout" name="horizontalLayouttestNarazeniacmax">
+          <item>
+           <widget class="QLabel" name="testNarazeniaCmax">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="testNarazeniaCmax2">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="eRozproszoneSwiatloCmaxCmin">
-         <property name="font">
-          <font>
-           <family>Arial</family>
-           <pointsize>14</pointsize>
-          </font>
-         </property>
-         <property name="text">
-          <string>Cmax/Cmin</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="eRozproszoneSwiatloCmin">
+        <widget class="QLabel" name="eTestNarazeniaCmin">
          <property name="font">
           <font>
            <family>Arial</family>
@@ -1879,16 +1780,164 @@
          </property>
         </widget>
        </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="rozproszoneSwiatloNarazenie">
+       <item row="7" column="0" colspan="2">
+        <widget class="QFrame" name="frTestNarazeniaPrzebieg">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="testNarazeniaPrzebiegGridLayout"/>
+        </widget>
+       </item>
+       <item row="6" column="1">
+        <widget class="QLabel" name="testNarazeniaUwagi">
          <property name="font">
           <font>
            <family>Arial</family>
-           <pointsize>12</pointsize>
+           <pointsize>14</pointsize>
           </font>
          </property>
          <property name="text">
           <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QLabel" name="wynikNarazenieCzujki">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>POZYTYWNY/NEGATYWNY</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="eTestNarazeniaUwagi">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Uwagi</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="etTestNarazeniaWynikNarazenia">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Wynik narażenia światłem czujki</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="eTestNarazeniaCmaxCmin">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax/Cmin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="testNarazeniafrcmin">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayouttestNarazeniacmin">
+          <item>
+           <widget class="QLabel" name="testNarazeniaCmin">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="testNarazeniaCmin2">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="eTestNarazeniaCmax">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="eTestNarazeniaOpis">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Opis narażenia</string>
          </property>
         </widget>
        </item>

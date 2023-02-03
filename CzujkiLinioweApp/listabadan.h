@@ -16,6 +16,7 @@ class Zasilacz;
 class Sterownik;
 class QWidget;
 class QTableWidget;
+class QLabel;
 
 namespace Ui {
 class ListaBadan;
@@ -67,6 +68,10 @@ protected:
     double d2p(const double & val);
     QString d2p(const QString & val);
 
+    void narazeniaWynik(const DaneTestu &daneTestu, const ParametryBadania &badanie,
+                        const QString &transmitter, const QString &receiver, float cmaxcmin,
+                        const QString &opisNarazenia, QTableWidget *tableParams, QTableWidget *tablePrzebieg,
+                        QTableWidget *tableNarazenia, QTableWidget *tableCzujka, QLabel *wynik);
 private:
     void addC(QTableWidget * table, const QString & Cname, const QString & val1, const QString & val2, int row);
     void addC(QTableWidget * table, const QString & Cname, const QString & val, int row);
@@ -105,8 +110,6 @@ private:
     unsigned intCurrAlarm;
     QMap<int, testWidget> testyWidget;
     QDateTime prevCzujkaOn;
-
-
 };
 
 #endif // LISTABADAN_H

@@ -33,6 +33,7 @@ OknoTestRozproszoneSwiatlo::OknoTestRozproszoneSwiatlo(const DaneTestu & daneTes
 
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->pbNext_clicked(); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
+    connect(ui->cbAlarmYesNo, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->alarm = index == 1; });
     adjustSize();
 
 #ifdef TESTVAL
@@ -122,6 +123,9 @@ void OknoTestRozproszoneSwiatlo::pbNext_clicked()
 
 QString OknoTestRozproszoneSwiatlo::getInfo() const
 {
+    if (info.isEmpty() && alarm) {
+        return QString::fromUtf8("Czujka zgłosiła alarm podczas narażania");
+    }
     return info;
 }
 

@@ -591,7 +591,6 @@ void DaneTestu::setPomiaryKatow(const QVector<PomiarKata> &newPomiaryKatow)
 
 void DaneTestu::dodajPomiarKata(const PomiarKata & kat)
 {
-    qDebug() << __FILE__ << __LINE__ << kat.katProducenta << kat.ok << kat.katZmierzony;
     pomiaryKatow.append(kat);
 }
 
@@ -775,11 +774,9 @@ void DaneTestu::obliczPowtarzalnosc(const Ustawienia & ust)
     }
     setWykonany(true);
 
-    if (getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin()) {
+    if (badanieOk && getCmaxCmin() > ust.getPowtarzalnoscCmaxCmin()) {
         setOk(false);
         setErrStr(QString("Cmax/Cmin>%1").arg(ust.getPowtarzalnoscCmaxCmin(), 3, 'f', 2));
-    } else {
-        setOk(badanieOk);
     }
 }
 
@@ -844,13 +841,10 @@ void DaneTestu::obliczDlugoscOptyczna(const Ustawienia &ust)
     }
     setWykonany(true);
 
-    if (getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin()) {
+    if (badanieOk && getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin()) {
         setOk(false);
         setErrStr(QString("Cmax/Cmin>%1").arg(ust.getDlugoscDrogiOptycznejCmaxCmin(), 3, 'f', 2));
-    } else {
-        setOk(badanieOk);
     }
-
 }
 
 void DaneTestu::obliczSzybkieZmianyTlumienia(const Ustawienia &)
@@ -927,22 +921,37 @@ void DaneTestu::obliczZaleznoscNapieciaZasilania(const Ustawienia &ust)
         setCmaxCmin(0);
     }
     setWykonany(true);
-
-    if (getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin()) {
+    if (badanieOk && getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin()) {
         setOk(false);
         setErrStr(QString("Cmax/Cmin>%1").arg(ust.getTolerancjaNapieciaZasilaniaCmaxCmin(), 3, 'f', 2));
-    } else {
-        setOk(badanieOk);
     }
-
 }
 
-void DaneTestu::obliczSwiatloRozproszone(const Ustawienia &ust)
+void DaneTestu::obliczTestNarazenia(short testId, const Ustawienia &ust)
 {
     float Cmin = 100;
     float Cmax = -100;
 
     bool badanieOk = true;
+    float cmaxcmin = 1.6;
+    switch (testId) {
+        case STRAY_LIGHT: cmaxcmin = ust.getRozproszoneSwiatloCmaxCmin(); break;
+        case DRY_HEAT : cmaxcmin = ust.getOdpornoscSucheGoraceCmaxCmin(); break;
+        case COLD : cmaxcmin = ust.getOdpornoscZimnoCmaxCmin(); break;
+        case DAMP_HEAT_STADY_STATE_OPERATIONAL : cmaxcmin = ust.getOdpornoscWilgotneGoraceCmaxCmin(); break;
+        case DAMP_HEAT_STADY_STATE_ENDURANCE : cmaxcmin = ust.getWytrzymaloscWilgotneGoraceCmaxCmin(); break;
+        case VIBRATION : cmaxcmin = ust.getWytrzymaloscWibracjeCmaxCmin(); break;
+        case IMPACT : cmaxcmin = ust.getOdpornoscUderzoniowaCmaxCmin(); break;
+        case ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS:
+        case ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED:
+        case ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS:
+        case ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES:
+        case ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE :
+            cmaxcmin = ust.getOdpornoscElektroMagnetycznaCmaxCmin(); break;
+        case SULPHUR_DIOXIDE_SO2_CORROSION: cmaxcmin = ust.getWytrzymaloscKorozyjnaSO2CmaxCmin(); break;
+    default: break;
+    }
+
     for (DanePomiaru & dane : getDanePomiarowe())
     {
         if (!dane.ok) {
@@ -997,11 +1006,9 @@ void DaneTestu::obliczSwiatloRozproszone(const Ustawienia &ust)
 
     if (getWynikNarazenia()) {
         setOk(false);
-        setErrStr(QString::fromUtf8("Czujka nie przeszła badania światła rozproszonego"));
-    } else {
-        setOk(badanieOk);
+        badanieOk = false;
+        setErrStr(QString::fromUtf8("Czujka nie przeszła testu narażenia"));
     }
-
 
     if (Cmin) {
         setCmin(Cmin);
@@ -1014,95 +1021,113 @@ void DaneTestu::obliczSwiatloRozproszone(const Ustawienia &ust)
     }
     setWykonany(true);
 
-    if (getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin()) {
+    if (getCmaxCmin() > cmaxcmin) {
         setOk(false);
-        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getRozproszoneSwiatloCmaxCmin(), 3, 'f', 2));
+        setErrStr(QString("Cmax/Cmin>%1").arg(cmaxcmin, 3, 'f', 2));
     } else {
         setOk(badanieOk);
     }
 }
 
-void DaneTestu::obliczSucheGorace(const Ustawienia &ust)
+QString DaneTestu::getOpisNarazenia() const {
+    QString narazenieOpis;
+    switch(getId()) {
+    case STRAY_LIGHT:
+        narazenieOpis = QString::fromUtf8("Narażenia na światło rozproszone");
+        break;
+
+    case DRY_HEAT :
+        narazenieOpis = QString::fromUtf8("Narażenie na gorące i suche powietrze");
+        break;
+
+    case COLD :
+        narazenieOpis = QString::fromUtf8("Narażenie na zimne powietrze");
+        break;
+
+    case DAMP_HEAT_STADY_STATE_OPERATIONAL :
+        narazenieOpis = QString::fromUtf8("Narażenie na długotrwałe ciepłe i wilgotne powietrze");
+        break;
+
+    case DAMP_HEAT_STADY_STATE_ENDURANCE :
+        narazenieOpis = QString::fromUtf8("Narażenie na krótkotrwałe gorące i wilgotne powietrze");
+        break;
+
+    case VIBRATION :
+        narazenieOpis = QString::fromUtf8("Narażenie na wibracje");
+        break;
+
+    case IMPACT :
+        narazenieOpis = QString::fromUtf8("Narażenie na uderzenie");
+        break;
+
+    case ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS:
+        narazenieOpis = QString::fromUtf8("Narażenie na promieniowanie pola elektromagnetycznego");
+        break;
+
+    case ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED:
+        narazenieOpis = QString::fromUtf8("Narażenie na zakłócenia wywołane indukcją pola elektromagnetycznego");
+        break;
+
+    case ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS:
+        narazenieOpis = QString::fromUtf8("Narażenie na szybkie zmiany dużych poziomów pola elektromagnetycznego");
+        break;
+
+    case ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES:
+        narazenieOpis = QString::fromUtf8("Narażenie na powolne skoki o dużej energii napięcia");
+        break;
+
+    case ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE :
+        narazenieOpis = QString::fromUtf8("Narażenie na wyładowania elektrostatyczne");
+        break;
+
+    case SULPHUR_DIOXIDE_SO2_CORROSION:
+        narazenieOpis = QString::fromUtf8("Narażenie na dwutlenek siarki (S02) korozja");
+        break;
+
+    default:
+        narazenieOpis = "Inne narażenie";
+    break;
+    }
+    return narazenieOpis;
+}
+
+float DaneTestu::getCmaxCminNarazenia(const Ustawienia & ust) const
 {
-    float Cmin = 100;
-    float Cmax = -100;
+    switch(getId()) {
+    case STRAY_LIGHT:
+        return ust.getRozproszoneSwiatloCmaxCmin();
 
-    bool badanieOk = true;
-    for (DanePomiaru & dane : getDanePomiarowe())
-    {
-        if (!dane.ok) {
-            if (errStr.isEmpty())
-                setErrStr(dane.error);
-            setOk(false);
-            setCmin(0);
-            setCmax(0);
-            setCmaxCmin(0);
-            setWykonany(true);
-            return;
-        }
-        bool ok;
-        double C = dane.value_dB.toDouble(&ok);
+    case DRY_HEAT :
+        return ust.getOdpornoscSucheGoraceCmaxCmin();
 
-        if (!ok) {
-            if (errStr.isEmpty())
-                setErrStr(QString::fromUtf8("Błędna wartość C"));
-            dane.ok = false;
-            setOk(false);
-            setCmin(0);
-            setCmax(0);
-            setCmaxCmin(0);
-            setWykonany(true);
-            return;
-        }
+    case COLD :
+        return ust.getOdpornoscZimnoCmaxCmin();
 
-        if (!dane.ok) {
-            if (errStr.isEmpty())
-                setErrStr(QString::fromUtf8("Czujka nie zadziałała"));
-            setOk(false);
-            setCmin(0);
-            setCmax(0);
-            setCmaxCmin(0);
-            setWykonany(true);
-            return;
-        }
+    case DAMP_HEAT_STADY_STATE_OPERATIONAL :
+        return  ust.getOdpornoscWilgotneGoraceCmaxCmin();
 
-        if (C > Cmax)
-            Cmax = C;
-        if (C < Cmin)
-            Cmin = C;
+    case DAMP_HEAT_STADY_STATE_ENDURANCE :
+        return ust.getWytrzymaloscWilgotneGoraceCmaxCmin();
 
-        if (C < ust.getMinimalnaWartoscCzujkiCn()) {
-            badanieOk = false;
-            if (errStr.isEmpty())
-                setErrStr(QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1));
-            dane.ok = false;
-            dane.error = QString::fromUtf8("Cn<%1").arg(ust.getMinimalnaWartoscCzujkiCn(), 2, 'f', 1);
-        }
-    }
+    case VIBRATION :
+        return ust.getWytrzymaloscWibracjeCmaxCmin();
 
+    case IMPACT :
+        return ust.getOdpornoscUderzoniowaCmaxCmin();
 
-    setOk(badanieOk);
+    case ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS:
+    case ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED:
+    case ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS:
+    case ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES:
+    case ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE :
+        return ust.getOdpornoscElektroMagnetycznaCmaxCmin();
 
-
-    if (Cmin) {
-        setCmin(Cmin);
-        setCmax(Cmax);
-        setCmaxCmin(Cmax/Cmin);
-    } else {
-        setCmin(0);
-        setCmax(0);
-        setCmaxCmin(0);
-    }
-    setWykonany(true);
-
-    if (getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin()) {
-        setOk(false);
-        setErrStr(QString("Cmax/Cmin>%1").arg(ust.getRozproszoneSwiatloCmaxCmin(), 3, 'f', 2));
-    } else {
-        setOk(badanieOk);
+    case SULPHUR_DIOXIDE_SO2_CORROSION:
+        return ust.getWytrzymaloscKorozyjnaSO2CmaxCmin();
+    default:
+        return 1.6;
     }
 }
-
 
 const QString &DaneTestu::getNazwaTransmitter_a() const
 {

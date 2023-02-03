@@ -17,12 +17,21 @@ ParametryBadaniaDlg::ParametryBadaniaDlg(bool editData, const Ustawienia & u, Pa
     d->setOdtwarzalnoscCmin(u.getMinimalnaWartoscCzujkiCn());
     d->setPowtarzalnoscCmaxCmin(u.getPowtarzalnoscCmaxCmin());
     d->setDrogaoptycznaCmaxCmin(u.getDlugoscDrogiOptycznejCmaxCmin());
+    d->setRozproszoneSwiatloCmaxCmin(u.getRozproszoneSwiatloCmaxCmin());
+    d->setTolerancjaNapieciaZasilaniaCmaxCmin(u.getTolerancjaNapieciaZasilaniaCmaxCmin());
+    d->setSucheCieploCmaxCmin(u.getOdpornoscSucheGoraceCmaxCmin());
+    d->setZimnoCmaxCmin(u.getOdpornoscZimnoCmaxCmin());
+    d->setWilgotneCieploOdpornoscCmaxCmin(u.getOdpornoscWilgotneGoraceCmaxCmin());
+    d->setWilgotneCieploWytrzymaloscCmaxCmin(u.getWytrzymaloscWilgotneGoraceCmaxCmin());
+    d->setWibracjeCmaxCmin(u.getWytrzymaloscWibracjeCmaxCmin());
+    d->setUderzenieCmaxCmin(u.getOdpornoscUderzoniowaCmaxCmin());
+    d->setKorozjaSO2CmaxCmin(u.getWytrzymaloscKorozyjnaSO2CmaxCmin());
+    d->setZakloceniaEMCCmaxCmin(u.getOdpornoscElektroMagnetycznaCmaxCmin());
+    
     d->setSzybkieZmianyWartoscTlumnikaA(u.getSzybkieZmianyWartoscTlumnikaA());
     d->setSzybkieZmianyWartoscTlumnikaB(u.getSzybkieZmianyWartoscTlumnikaB());
     d->setWartoscTlumienieDlaKataNieWspolosiowosci(u.getWartoscTlumienieDlaKataNieWspolosiowosci());
     d->setNiewspolosiowoscMinimalnyKatProducentMierzony(u.getNiewspolosiowoscMinimalnyKatProducentMierzony());
-    d->setRozproszoneSwiatloCmaxCmin(u.getRozproszoneSwiatloCmaxCmin());
-    d->setTolerancjaNapieciaZasilaniaCmaxCmin(u.getTolerancjaNapieciaZasilaniaCmaxCmin());
     d->setMinimalneNapieciaTolerancjaNapiecia(u.getMinimalneNapieciaTolerancjaNapiecia());
     d->setMaksymalneNapieciaTolerancjaNapiecia(u.getMaksymalneNapieciaTolerancjaNapiecia());
     d->setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(u.getMinimalnyCzasOczekiwaniaPowtarzalnosc1Test());

@@ -467,7 +467,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
         dlg15 = nullptr;
         return false;
     }
-    dane.setWynikNarazenia(dlg15->getAlarm());
+    dane.setWynikNarazenia(!dlg15->getAlarm());
     dane.setInfoNarazenia(dlg15->getInfo());
     bool ok1 = !dlg15->getAlarm();
     if (dlg15->getAlarm()) {
@@ -489,7 +489,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
     dane.setOk(ok1 & ok2);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-    dane.obliczSwiatloRozproszone(ust);
+    dane.obliczTestNarazenia(dane.getId(), ust);
     do {
         QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
         dlg->exec();
@@ -585,7 +585,7 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
     dane.setDataZakonczenia();
     dane.setWykonany(true);
 
-    dane.obliczSucheGorace(ust);
+    dane.obliczTestNarazenia(dane.getId(), ust);
     if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
         zas->setOutput(false);
 

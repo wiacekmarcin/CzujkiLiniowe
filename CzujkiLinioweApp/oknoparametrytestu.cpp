@@ -31,6 +31,9 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     minVolt = ust.getMinimalneNapieciaTolerancjaNapiecia();
     maxVolt = ust.getMaksymalneNapieciaTolerancjaNapiecia();
 
+    nrCzujkiDoWybrania2 = 0;
+    dwieCzujkiDoWybrania = false;
+
     if (nrPomiar > 1) {
         SETREADONLY(ui->osobaWykonujaca);
         SETREADONLY(ui->wilgotnosc);
@@ -244,10 +247,10 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
 
         case IMPACT:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 7 zgodnie z normą"));
-            if (ui->cbCzujka->count() >= 7) {
-                ui->cbCzujka->setCurrentIndex(6);
-                changeCzujka(6);
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 1 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 1) {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
             } else {
                 ui->cbCzujka->setCurrentIndex(0);
                 changeCzujka(0);
@@ -255,17 +258,37 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             nrCzujkiDoWybrania = 7;
             break;
 
-        case SULPHUR_DIOXIDE_SO2_CORROSION:
+        case ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE:
+        case ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS:
+        case ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED:
+        case ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS:
+        case ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES:
             ui->frameSpec->setVisible(false);
-            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 7 zgodnie z normą"));
-            if (ui->cbCzujka->count() >= 7) {
-                ui->cbCzujka->setCurrentIndex(6);
-                changeCzujka(6);
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 4 lub 6 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 4) {
+                ui->cbCzujka->setCurrentIndex(3);
+                changeCzujka(3);
             } else {
                 ui->cbCzujka->setCurrentIndex(0);
                 changeCzujka(0);
             }
-            nrCzujkiDoWybrania = 7;
+            nrCzujkiDoWybrania = 4;
+            nrCzujkiDoWybrania2 = 6;
+            dwieCzujkiDoWybrania = true;
+            break;
+
+
+        case SULPHUR_DIOXIDE_SO2_CORROSION:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 5 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 5) {
+                ui->cbCzujka->setCurrentIndex(4);
+                changeCzujka(4);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 5;
             break;    
         default:
         break;
@@ -395,10 +418,21 @@ void OknoParametryTestu::check()
         }
     }
 
-    if (ui->cbCzujka->currentIndex() != nrCzujkiDoWybrania-1) {
-        addError(QString::fromUtf8("Zgodnie z normą powinną się wybrać czujkę numer %1").arg(nrCzujkiDoWybrania),
-                 test->getId() != REPRODUCIBILITY);
+    if (dwieCzujkiDoWybrania) {
+        if (ui->cbCzujka->currentIndex() != nrCzujkiDoWybrania-1 &&
+                ui->cbCzujka->currentIndex() != nrCzujkiDoWybrania2-1) {
+            addError(QString::fromUtf8("Zgodnie z normą powinną się wybrać czujkę numer %1 lub %2").
+                     arg(nrCzujkiDoWybrania).
+                     arg(nrCzujkiDoWybrania2),
+                     test->getId() != REPRODUCIBILITY);
+        }
+    } else {
+        if (ui->cbCzujka->currentIndex() != nrCzujkiDoWybrania-1) {
+            addError(QString::fromUtf8("Zgodnie z normą powinną się wybrać czujkę numer %1").arg(nrCzujkiDoWybrania),
+                     test->getId() != REPRODUCIBILITY);
+        }
     }
+
     if (errorsMsg.size() == 0) {
         ui->errorLab->setText("Dane sa prawidłowe");
         ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
@@ -442,9 +476,20 @@ void OknoParametryTestu::pbOK_clicked()
         test->setMinimalneNapiecie(ui->minVolt->text());
         test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
-    else if (test->getId() == STRAY_LIGHT || test->getId() == DRY_HEAT || test->getId() == COLD || test->getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||
-                test->getId() == DAMP_HEAT_STADY_STATE_ENDURANCE || test->getId() == VIBRATION || test->getId() == IMPACT || 
-                test->getId() == SULPHUR_DIOXIDE_SO2_CORROSION) 
+    else if (test->getId() == STRAY_LIGHT ||
+             test->getId() == DRY_HEAT ||
+             test->getId() == COLD ||
+             test->getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||
+             test->getId() == DAMP_HEAT_STADY_STATE_ENDURANCE ||
+             test->getId() == VIBRATION ||
+             test->getId() == IMPACT ||
+             test->getId() == SULPHUR_DIOXIDE_SO2_CORROSION ||
+             test->getId() == ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE ||
+             test->getId() == ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS ||
+             test->getId() == ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED ||
+             test->getId() == ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS ||
+             test->getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES
+             )
     {
         test->setDanePomiarowe(badanie.getDaneDlaCzujki(ui->typTransmitter->text(), ui->typReceiver->text()));
     }

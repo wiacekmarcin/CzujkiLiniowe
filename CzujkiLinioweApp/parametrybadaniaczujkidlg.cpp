@@ -33,6 +33,7 @@ const char* ParametryBadaniaCzujkiDlg::etReceiver[2] = {
 ParametryBadaniaCzujkiDlg::ParametryBadaniaCzujkiDlg(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::ParametryBadaniaCzujkiDlg)
+    ,errorLabel(nullptr)
     ,testOdtwarzalnosci(false)
 {
     ui->setupUi(this);
@@ -61,6 +62,7 @@ ParametryBadaniaCzujkiDlg::~ParametryBadaniaCzujkiDlg()
 void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBadania *badanie, QLabel *err)
 {
     (void)u;
+    (void) edit;
     errorLabel = err;
 
 
@@ -151,7 +153,7 @@ void ParametryBadaniaCzujkiDlg::init(bool edit, const Ustawienia &u, ParametryBa
     }
 #endif
 
-
+    check();
 }
 
 void ParametryBadaniaCzujkiDlg::configCellLE(QLineEdit * l, const QString & objectName)
@@ -383,10 +385,17 @@ bool ParametryBadaniaCzujkiDlg::check()
             return false;
         }
     }
-    if (m_numbers.size() == 0) {
+    short noEmptyCnt = 0;
+    for (short i = m_numbers.size(); i > 0; --i) {
+        auto v = m_numbers.at(i-1);
+        bool empty = v.first->text().isEmpty() && v.second->text().isEmpty();
+        noEmptyCnt += empty ? 0 : 1;
+    }
+    if (noEmptyCnt == 0) {
         errorLabel->setText(QString::fromUtf8("Musi być wpisana conajmniej 1 czujka"));
         return false;
     }
+
     if (!testOdtwarzalnosci) {
         bool noempty = false;
         for (short id = m_numbers.size(); id > 0; --id) {

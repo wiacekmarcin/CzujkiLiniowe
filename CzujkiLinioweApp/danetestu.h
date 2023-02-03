@@ -199,8 +199,7 @@ public:
     void obliczDlugoscOptyczna(const Ustawienia & ust);
     void obliczSzybkieZmianyTlumienia(const Ustawienia & ust);
     void obliczZaleznoscNapieciaZasilania(const Ustawienia & ust);
-    void obliczSwiatloRozproszone(const Ustawienia & ust);
-    void obliczSucheGorace(const Ustawienia &ust);
+    void obliczTestNarazenia(short testId, const Ustawienia & ust);
 
     const QString &getNazwaTransmitter_a() const;
     void setNazwaTransmitter_a(const QString &newNazwaTransmitter_a);
@@ -225,6 +224,8 @@ public:
     QString getInfoNarazenia() const;
     void setInfoNarazenia(const QString &newInfoNarazenia);
 
+    QString getOpisNarazenia() const;
+    float getCmaxCminNarazenia(const Ustawienia &ust) const;
 protected:
     void posortuj(ParametryBadania * badanie);
 private:

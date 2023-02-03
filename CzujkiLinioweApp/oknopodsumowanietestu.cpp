@@ -141,32 +141,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->dlugoscDrogiOptycznejGridLayout->setVerticalSpacing(0);
         ui->dlugoscDrogiOptycznejGridLayout->setHorizontalSpacing(0);
         ui->dlugoscDrogiOptycznejGridLayout->setSpacing(0);
-    } else if (daneTestu.getId() == STRAY_LIGHT) {
-        ui->stackedWidget->setCurrentWidget(ui->rozporoszoneswiatlo);
-        ui->rozporoszoneswiatloCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1));
-        ui->rozporoszoneswiatloCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1));
-        ui->rozporoszoneswiatloCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
-
-        if (daneTestu.getCmaxCmin() > ust.getRozproszoneSwiatloCmaxCmin())
-            ui->rozporoszoneswiatloCmaxCmin->setStyleSheet("background-color:red");
-
-        ui->rozproszoneSwiatloNarazenieCzujki->setText(daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY");
-        ui->rozproszoneSwiatloNarazenie->setVisible(!daneTestu.getWynikNarazenia());
-        ui->rozproszoneSwiatloNarazenie->setText(daneTestu.getInfoNarazenia());
-
-        short num = 0;
-        rozproszoneswiatloHeadTable(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout,"rozproszoneswiatlo");
-        for (const auto & dane : daneTestu.getDaneBadanCzujek())
-        {
-            rozproszoneswiatloAddRekord(ui->frRozproszoneSwiatloPrzebieg, ui->rozporoszoneswiatloPrzebiegGridLayout, "rozproszoneswiatlo",
-                                        num, dane.value_dB, d2p(dane.value_dB),   dane.ok, dane.error);
-            num++;
-        }
-        ui->rozporoszoneswiatloPrzebiegGridLayout->setVerticalSpacing(0);
-        ui->rozporoszoneswiatloPrzebiegGridLayout->setHorizontalSpacing(0);
-        ui->rozporoszoneswiatloPrzebiegGridLayout->setSpacing(0);
-
-
     } else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
 
         ui->stackedWidget->setCurrentWidget(ui->tolerancjanapieciazasilania);
@@ -193,6 +167,49 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setVerticalSpacing(0);
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setHorizontalSpacing(0);
         ui->tolerancjanapieciazasilaniaPrzebiegGridLayout->setSpacing(0);
+    } else if (daneTestu.getId() == STRAY_LIGHT ||
+            daneTestu.getId() == DRY_HEAT ||
+            daneTestu.getId() == COLD ||
+            daneTestu.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||
+            daneTestu.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE ||
+            daneTestu.getId() == VIBRATION ||
+            daneTestu.getId() == IMPACT ||
+            daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION ||
+            daneTestu.getId() == ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE ||
+            daneTestu.getId() == ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS ||
+            daneTestu.getId() == ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED ||
+            daneTestu.getId() == ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS ||
+            daneTestu.getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES )
+    {
+        ui->stackedWidget->setCurrentWidget(ui->testNarazenia);
+        ui->testNarazeniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1));
+        ui->testNarazeniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1));
+        ui->testNarazeniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
+        float cmincmax = 1.6;
+
+
+        ui->testNarazeniaWynik->setText(daneTestu.getWynikNarazenia() ? QString::fromUtf8("POZYTYWNY") :
+                                                                        QString::fromUtf8("NEGATYWNY"));
+        ui->testNarazeniaUwagi->setText(daneTestu.getInfoNarazenia());
+        QString narazenieOpis = daneTestu.getOpisNarazenia();
+        cmincmax = daneTestu.getCmaxCminNarazenia(ust);
+        ui->eTestNarazeniaOpis->setText(narazenieOpis);
+        if (daneTestu.getCmaxCmin() > cmincmax)
+            ui->testNarazeniaCmaxCmin->setStyleSheet("background-color:red");
+
+        short num = 0;
+        rozproszoneswiatloHeadTable(ui->frTestNarazeniaPrzebieg, ui->testNarazeniaPrzebiegGridLayout,"testnarazenia");
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            rozproszoneswiatloAddRekord(ui->frTestNarazeniaPrzebieg, ui->testNarazeniaPrzebiegGridLayout, "testnarazenia",
+                                        num, dane.value_dB, d2p(dane.value_dB),   dane.ok, dane.error);
+            num++;
+        }
+        ui->testNarazeniaPrzebiegGridLayout->setVerticalSpacing(0);
+        ui->testNarazeniaPrzebiegGridLayout->setHorizontalSpacing(0);
+        ui->testNarazeniaPrzebiegGridLayout->setSpacing(0);
+
+
     }
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     adjustSize();

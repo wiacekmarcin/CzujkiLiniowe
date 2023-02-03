@@ -118,6 +118,22 @@ public:
 	void setMinimalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & minimalnyCzasOczekiwaniaPowtarzalnosc1Test);
 	unsigned int getMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test() const;
 	void setMaksymalnyCzasOczekiwaniaPowtarzalnosc1Test(const unsigned int & maksymalnyCzasOczekiwaniaPowtarzalnosc1Test);
+	float getSucheCieploCmaxCmin() const;
+	void setSucheCieploCmaxCmin(const float & sucheCieploCmaxCmin);
+	float getZimnoCmaxCmin() const;
+	void setZimnoCmaxCmin(const float & zimnoCmaxCmin);
+	float getWilgotneCieploOdpornoscCmaxCmin() const;
+	void setWilgotneCieploOdpornoscCmaxCmin(const float & wilgotneCieploOdpornoscCmaxCmin);
+	float getWilgotneCieploWytrzymaloscCmaxCmin() const;
+	void setWilgotneCieploWytrzymaloscCmaxCmin(const float & wilgotneCieploWytrzymaloscCmaxCmin);
+	float getWibracjeCmaxCmin() const;
+	void setWibracjeCmaxCmin(const float & wibracjeCmaxCmin);
+	float getUderzenieCmaxCmin() const;
+	void setUderzenieCmaxCmin(const float & uderzenieCmaxCmin);
+	float getZakloceniaEMCCmaxCmin() const;
+	void setZakloceniaEMCCmaxCmin(const float & zakloceniaEMCCmaxCmin);
+	float getKorozjaSO2CmaxCmin() const;
+	void setKorozjaSO2CmaxCmin(const float & korozjaSO2CmaxCmin);
 protected:
 
 private:
@@ -170,5 +186,13 @@ private:
 	float maksymalneNapieciaTolerancjaNapiecia;
 	unsigned int minimalnyCzasOczekiwaniaPowtarzalnosc1Test;
 	unsigned int maksymalnyCzasOczekiwaniaPowtarzalnosc1Test;
+	float sucheCieploCmaxCmin;
+	float zimnoCmaxCmin;
+	float wilgotneCieploOdpornoscCmaxCmin;
+	float wilgotneCieploWytrzymaloscCmaxCmin;
+	float wibracjeCmaxCmin;
+	float uderzenieCmaxCmin;
+	float zakloceniaEMCCmaxCmin;
+	float korozjaSO2CmaxCmin;
 };
 #endif
