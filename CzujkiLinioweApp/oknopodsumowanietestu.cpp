@@ -107,10 +107,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         ui->stackedWidget->setCurrentWidget(ui->szybkiezmianytlumienia);
 
-        ui->szybkiezmianytlumieniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
-        ui->szybkiezmianytlumieniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1) + " dB");
-        ui->szybkiezmianytlumieniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
-        ui->szybkiezmianytlumieniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
+        ui->szybkiezmianytlumieniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->szybkiezmianytlumieniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->szybkiezmianytlumieniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
+        ui->szybkiezmianytlumieniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
         ui->szybkiezmianytlumieniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getSzybkieZmianyTlumieniaCmaxCmin())
@@ -131,10 +131,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         ui->szybkiezmianytlumieniaGridLayout->setSpacing(0);
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         ui->stackedWidget->setCurrentWidget(ui->dlugoscdrogioptycznej);
-        ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
-        ui->dlugoscdrogioptycznejCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
-        ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1)+ " dB");
-        ui->dlugoscdrogioptycznejCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
+        ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->dlugoscdrogioptycznejCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
+        ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2)+ " dB");
+        ui->dlugoscdrogioptycznejCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
         ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin())
@@ -156,10 +156,10 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     } else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
 
         ui->stackedWidget->setCurrentWidget(ui->tolerancjanapieciazasilania);
-        ui->tolerancjanapieciazasilaniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
-        ui->tolerancjanapieciazasilaniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1) + " dB");
-        ui->tolerancjanapieciazasilaniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
-        ui->tolerancjanapieciazasilaniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
+        ui->tolerancjanapieciazasilaniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->tolerancjanapieciazasilaniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->tolerancjanapieciazasilaniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
+        ui->tolerancjanapieciazasilaniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
         ui->tolerancjanapieciazasilaniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getTolerancjaNapieciaZasilaniaCmaxCmin())
@@ -194,18 +194,24 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
             daneTestu.getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES )
     {
         ui->stackedWidget->setCurrentWidget(ui->testNarazenia);
-        ui->testNarazeniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1));
-        ui->testNarazeniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1));
+        ui->testNarazeniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        ui->testNarazeniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        ui->testNarazeniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
+        ui->testNarazeniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
         ui->testNarazeniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
         float cmincmax = 1.6;
 
 
-        ui->testNarazeniaWynik->setText(daneTestu.getWynikNarazenia() ? QString::fromUtf8("POZYTYWNY") :
+        ui->wynikNarazenieCzujki->setText(daneTestu.getWynikNarazenia() ? QString::fromUtf8("POZYTYWNY") :
                                                                         QString::fromUtf8("NEGATYWNY"));
         ui->testNarazeniaUwagi->setText(daneTestu.getInfoNarazenia());
         QString narazenieOpis = daneTestu.getOpisNarazenia();
+        ui->testNarazeniaOpis->setText(narazenieOpis);
+
         cmincmax = daneTestu.getCmaxCminNarazenia(ust);
-        ui->eTestNarazeniaOpis->setText(narazenieOpis);
+
+
+
         if (daneTestu.getCmaxCmin() > cmincmax)
             ui->testNarazeniaCmaxCmin->setStyleSheet("background-color:red");
 

@@ -160,7 +160,7 @@
    <item row="6" column="0" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>3</number>
+      <number>5</number>
      </property>
      <widget class="QWidget" name="odtwarzalnosc">
       <layout class="QGridLayout" name="gridLayout_odtwarzalnosc">
@@ -1831,7 +1831,7 @@
      <widget class="QWidget" name="testNarazenia">
       <layout class="QGridLayout" name="gridLayouttestNarazenia">
        <item row="4" column="1">
-        <widget class="QLabel" name="testNarazeniaWynik">
+        <widget class="QLabel" name="testNarazeniaOpis">
          <property name="font">
           <font>
            <family>Arial</family>
@@ -1977,7 +1977,7 @@
           </font>
          </property>
          <property name="text">
-          <string>Wynik narażenia światłem czujki</string>
+          <string>Wynik narażenia </string>
          </property>
         </widget>
        </item>
@@ -2066,7 +2066,7 @@
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="eTestNarazeniaOpis">
+        <widget class="QLabel" name="etTestNarazeniaOpis">
          <property name="font">
           <font>
            <family>Arial</family>

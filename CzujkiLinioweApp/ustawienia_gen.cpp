@@ -32,9 +32,9 @@ void UstawieniaGen::load()
 	motorNazwa9 = toQString(settings.value("Silnik-9/Nazwa", QVariant::fromValue(QString("Odbiornik Gora-Dol"))).toString());
 	motorPrzelozenieImpJedn1 = toDouble(settings.value("Silnik-1/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
 	motorPrzelozenieImpJedn2 = toDouble(settings.value("Silnik-2/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
-	motorPrzelozenieImpJedn3 = toDouble(settings.value("Silnik-3/PrzelozenieImpJedn", QVariant::fromValue(0.023226)).toString());
-	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(0.023226)).toString());
-	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(0.023226)).toString());
+	motorPrzelozenieImpJedn3 = toDouble(settings.value("Silnik-3/PrzelozenieImpJedn", QVariant::fromValue(0.02365)).toString());
+	motorPrzelozenieImpJedn4 = toDouble(settings.value("Silnik-4/PrzelozenieImpJedn", QVariant::fromValue(0.02365)).toString());
+	motorPrzelozenieImpJedn5 = toDouble(settings.value("Silnik-5/PrzelozenieImpJedn", QVariant::fromValue(0.02365)).toString());
 	motorPrzelozenieImpJedn6 = toDouble(settings.value("Silnik-6/PrzelozenieImpJedn", QVariant::fromValue(0.013)).toString());
 	motorPrzelozenieImpJedn7 = toDouble(settings.value("Silnik-7/PrzelozenieImpJedn", QVariant::fromValue(0.000234375)).toString());
 	motorPrzelozenieImpJedn8 = toDouble(settings.value("Silnik-8/PrzelozenieImpJedn", QVariant::fromValue(0.028)).toString());
@@ -77,9 +77,9 @@ void UstawieniaGen::load()
 	motorCzasMiedzyImpNormal9 = toUInt(settings.value("Silnik-9/CzasMiedzyImpNormal", QVariant::fromValue(5600000)).toString());
 	motorMaksIloscImp1 = toUInt(settings.value("Silnik-1/MaksIloscImp", QVariant::fromValue(1300)).toString());
 	motorMaksIloscImp2 = toUInt(settings.value("Silnik-2/MaksIloscImp", QVariant::fromValue(1300)).toString());
-	motorMaksIloscImp3 = toUInt(settings.value("Silnik-3/MaksIloscImp", QVariant::fromValue(15501)).toString());
-	motorMaksIloscImp4 = toUInt(settings.value("Silnik-4/MaksIloscImp", QVariant::fromValue(15502)).toString());
-	motorMaksIloscImp5 = toUInt(settings.value("Silnik-5/MaksIloscImp", QVariant::fromValue(15502)).toString());
+	motorMaksIloscImp3 = toUInt(settings.value("Silnik-3/MaksIloscImp", QVariant::fromValue(15200)).toString());
+	motorMaksIloscImp4 = toUInt(settings.value("Silnik-4/MaksIloscImp", QVariant::fromValue(15200)).toString());
+	motorMaksIloscImp5 = toUInt(settings.value("Silnik-5/MaksIloscImp", QVariant::fromValue(15200)).toString());
 	motorMaksIloscImp6 = toUInt(settings.value("Silnik-6/MaksIloscImp", QVariant::fromValue(20000)).toString());
 	motorMaksIloscImp7 = toUInt(settings.value("Silnik-7/MaksIloscImp", QVariant::fromValue(250000)).toString());
 	motorMaksIloscImp8 = toUInt(settings.value("Silnik-8/MaksIloscImp", QVariant::fromValue(1300)).toString());
@@ -367,7 +367,7 @@ void UstawieniaGen::save()
 	settings.setValue("ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", QVariant::fromValue(rozproszoneSwiatloCmaxCmin));
 	settings.setValue("ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", QVariant::fromValue(tolerancjaNapieciaZasilaniaCmaxCmin));
 	settings.setValue("ParamentryBadania-SzybkieZmianyTlumienia/CmaxCmin", QVariant::fromValue(szybkieZmianyTlumieniaCmaxCmin));
-}
+	sync();}
 
 QString UstawieniaGen::getMotorNazwa1() const
 {

@@ -1004,7 +1004,7 @@ void DaneTestu::obliczTestNarazenia(short testId, const Ustawienia &ust)
         }
     }
 
-    if (getWynikNarazenia()) {
+    if (!getWynikNarazenia()) {
         setOk(false);
         badanieOk = false;
         setErrStr(QString::fromUtf8("Czujka nie przeszła testu narażenia"));

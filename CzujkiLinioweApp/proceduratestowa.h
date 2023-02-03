@@ -47,8 +47,10 @@ protected:
     bool RozproszoneSwiatlo(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool EMCNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
     bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
+
 private:
     bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
 
@@ -58,6 +60,7 @@ private:
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
     bool potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
     bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);

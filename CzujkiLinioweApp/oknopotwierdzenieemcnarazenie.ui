@@ -320,12 +320,12 @@
           </property>
           <item>
            <property name="text">
-            <string>Tak</string>
+            <string>Nie</string>
            </property>
           </item>
           <item>
            <property name="text">
-            <string>Nie</string>
+            <string>Tak</string>
            </property>
           </item>
          </widget>

@@ -29,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Parametry konfiguracyjne</string>
+   <string>Parametry kalibracujne</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

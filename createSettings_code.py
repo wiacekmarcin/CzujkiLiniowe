@@ -95,7 +95,7 @@ public:
         cfile.write("\n".join(["\t"+f for f in self.c_load]))
         cfile.write("\n}\n\nvoid %s::save()\n{\n" % self.className)
         cfile.write("\n".join(["\t"+f for f in self.c_save]))
-        cfile.write("\n}\n\n")
+        cfile.write("\n\tsync();}\n\n")
         #cfile.write("bool %s::check()\n{\n" % self.className)
         #cfile.write("\n".join(["\tif (!%s) return false;" % f for f in self.c_check]))
         #cfile.write("\n\treturn true;\n}\n\n")
@@ -394,36 +394,36 @@ motordefVals = {
     },
     3 : {
         "nazwa" : 'QString("Filtr A")',
-        "przelozenieImpJedn" : 0.023226,
+        "przelozenieImpJedn" : 0.02365,
         "minOdstepImp" : 29,
         "odwrocObroty" : "true",
         "czasMiedzyImpZerow" : 400,
         "czasMiedzyImpNormal" : 100,
-        "maksIloscImp" : 15501,
+        "maksIloscImp" : 15200,
         "iloscImpBaza" : 130,
         "iloscImpSrodek" : 0,
         "jednostka" : "*",
     },
     4 : {
         "nazwa" : 'QString("Filtr B")',
-        "przelozenieImpJedn" : 0.023226,
+        "przelozenieImpJedn" : 0.02365,
         "minOdstepImp" : 29,
         "odwrocObroty" : "true",
         "czasMiedzyImpZerow" : 400,
         "czasMiedzyImpNormal" : 100,
-        "maksIloscImp" : 15502,
+        "maksIloscImp" : 15200,
         "iloscImpBaza" : 130,
         "iloscImpSrodek" : 0,
         "jednostka" : "*",
     },
     5 : {
         "nazwa" : 'QString("Filtr C")',
-        "przelozenieImpJedn" : 0.023226,
+        "przelozenieImpJedn" : 0.02365,
         "minOdstepImp" : 29,
         "odwrocObroty" : "false",
         "czasMiedzyImpZerow" : 400,
         "czasMiedzyImpNormal" : 100,
-        "maksIloscImp" : 15502,
+        "maksIloscImp" : 15200,
         "iloscImpBaza" : 130,
         "iloscImpSrodek" : 0,
         "jednostka" : "*",

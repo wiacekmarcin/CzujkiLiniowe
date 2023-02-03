@@ -336,7 +336,7 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
     for (const auto & tid : testyWidget.keys())
     {
         const auto & wid = testyWidget[tid];
-        //wid.button->setEnabled(tid == REPRODUCIBILITY || badanie.getTestOdtwarzalnosci());
+        wid.button->setEnabled(tid == REPRODUCIBILITY || badanie.getTestOdtwarzalnosci());
         wid.button->setVisible(true);
         wid.wyniki->setVisible(false);
     }
@@ -344,6 +344,7 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
     initialTestyTable(badanie);
     const auto & keys = badanie.getTesty().keys();
     for (const auto & k : keys) {
+        setDaneTest(badanie.getTesty()[k], badanie);
         setUkonczoneBadanie(k, badanie);
     }
     ui->stackedWidget->setCurrentWidget(testyWidget[REPRODUCIBILITY].page);
@@ -422,6 +423,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
         QTableWidget * tablePrzebieg = ui->odtwarzalnoscTablePrzebieg;
         tableParams->clear();
+        tableParams->setRowCount(5);
 
         addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
         addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
@@ -851,6 +853,7 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     //QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
     //cmaxcmin = badanie.getRozproszoneSwiatloCmaxCmin()
     tableParams->clear();
+
     addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
     addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
     addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);

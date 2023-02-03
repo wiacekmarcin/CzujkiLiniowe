@@ -17,6 +17,7 @@
 #include "oknobadaniamaksymalnegokata.h"
 #include "oknoresetuzasilaniaczujki.h"
 #include "oknotestrozproszoneswiatlo.h"
+#include "oknopotwierdzenieemcnarazenie.h"
 
 #include "zasilacz.h"
 #include <QMessageBox>
@@ -171,7 +172,14 @@ bool ProceduraTestowa::startBadanie(short id, const QString & nameTest, Parametr
     case IMPACT:
     case SULPHUR_DIOXIDE_SO2_CORROSION:
         return KlimatyczneMechaniczneNarazenia(b, ust);
-        return false;
+
+    case ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE:
+    case ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS:
+    case ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED:
+    case ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS:
+    case ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES:
+        return EMCNarazenia(b, ust);
+
 
     case TEST_MEASUREAMENT:
         return ProbnyPomiar(b, ust);
@@ -597,8 +605,49 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
     return true;
 }
 
+bool ProceduraTestowa::EMCNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust)
+{
+    if (!parametryTest(1, daneBadania, ust))
+        return false;
 
+    bool ret = potwierdzenieNarazeniaEMC(dane, daneBadania, ust);
+    if (!ret)
+        return false;
 
+    short powtorzPomiar;
+    bool ok1;
+    do {
+        if (!montazZerowanieZasilanie(ZER_FILTRY, daneBadania))
+            return false;
+
+        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+
+        if (powtorzPomiar == -1)
+            return false;
+        ok1 = powtorzPomiar == 0;
+    } while (powtorzPomiar != 0);
+
+    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
+        return false;
+
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+
+    dane.setOk(dane.getWynikNarazenia() && ok1);
+    dane.setDataZakonczenia();
+    dane.setWykonany(true);
+
+    dane.obliczTestNarazenia(dane.getId(), ust);
+    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+        zas->setOutput(false);
+
+    do {
+        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+        dlg->exec();
+    } while(false);
+
+    return true;
+}
 
 bool ProceduraTestowa::parametryTest(short numerProby, const ParametryBadania &daneBadania, const Ustawienia & ust)
 {
@@ -641,6 +690,17 @@ bool ProceduraTestowa::potwierdzenieNarazenia(DaneTestu &daneTestu, const Parame
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
+    bool ret = dlg3->exec() == QDialog::Accepted;
+    daneTestu.setWynikNarazenia(dlg3->getWynik());
+    daneTestu.setInfoNarazenia(dlg3->getKomenatarz());
+    delete dlg3;
+    return ret;
+}
+
+bool ProceduraTestowa::potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &,
+                                              const Ustawienia &)
+{
+    OknoPotwierdzenieEMCNarazenie *dlg3 = new OknoPotwierdzenieEMCNarazenie(daneTestu, parent);
     bool ret = dlg3->exec() == QDialog::Accepted;
     daneTestu.setWynikNarazenia(dlg3->getWynik());
     daneTestu.setInfoNarazenia(dlg3->getKomenatarz());

@@ -281,7 +281,7 @@ void TestSterownikaDlg::sd_kontrolerConfigured(int state)
 
 void TestSterownikaDlg::sd_setParamsDone(bool success)
 {
-    addDebug(QString::fromUtf8("%1 się ustawić parametry konfigurcjia").arg(success ? "Udało" : "Nie udało" ));
+    addDebug(QString::fromUtf8("%1 się ustawić parametry konfiguracji").arg(success ? "Udało" : "Nie udało" ));
     ui->iconKonf->setStyleSheet("background-color:green");
 }
 
