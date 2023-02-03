@@ -138,6 +138,8 @@ bool ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
 
     test.setDataZakonczenia(QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm"));
     test.setWykonany(true);
+    setDaneTest(test, badanie);
+
     badanie.setDaneTestu(id, test);
     setUkonczoneBadanie(test.getId(), badanie);
     ui->stackedWidget->setCurrentWidget(testyWidget[test.getId()].page);
@@ -422,6 +424,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     if (daneTestu.getId() == REPRODUCIBILITY) {
         QTableWidget * tableParams = ui->odtwarzalnoscTableParams;
         QTableWidget * tablePrzebieg = ui->odtwarzalnoscTablePrzebieg;
+        //QTableWidget * tableCzujka = ui->odtwarzalnoscTablePrzebieg;
         tableParams->clear();
         tableParams->setRowCount(5);
 
@@ -478,7 +481,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     } else if (daneTestu.getId() == REPEATABILITY) {
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
         QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
+        QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
         tableParams->clear();
+        tableParams->setRowCount(3);
         addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
         addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
         addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
@@ -487,7 +492,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             tableParams->item(2, 0)->setBackground(Qt::red);
         }
 
-        initCzujkaInfo(ui->powarzalnosctableCzujka,                        transmitter, receiver,
+        initCzujkaInfo(tableCzujka,
+                       transmitter, receiver,
                        badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
 
@@ -499,7 +505,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr Próby" << "C[n] dB" << "C[n] %" << "Uwagi";
         width << 75 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
-        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+        //tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+        tablePrzebieg->setRowCount(4);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -580,7 +587,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr próby" << "Wartość tłumnienia [dB]" << "Wartość tłumienia [%]" << "Wynik" << "Uwagi";
         width << 75 << 150 << 150 << 100 << 300;
         clearinitTable(tablePrzebieg, head, width);
-        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+        //tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+        tablePrzebieg->setRowCount(2);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -604,7 +612,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         QTableWidget * tableParams = ui->zaleznoscDlugisciDrogiOptycznejTableParams;
         QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg;
+        QTableWidget * tableCzujka = ui->zaleznoscDlugisciDrogiOptycznejtableCzujka;
         tableParams->clear();
+        tableParams->setRowCount(3);
         addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
         addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
         addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
@@ -613,7 +623,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             tableParams->item(2, 0)->setBackground(Qt::red);
         }
 
-        initCzujkaInfo(ui->zaleznoscDlugisciDrogiOptycznejtableCzujka,
+        initCzujkaInfo(tableCzujka,
                        transmitter, receiver,
                        badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
@@ -625,7 +635,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr Próby" << "Rozstawienie [m]" << "C[n] dB" << "C[n] %" << "Wynik" << "Uwagi";
         width << 75 << 100 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
+
         tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+        tablePrzebieg->setRowCount(2);
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -659,12 +671,14 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
         QTableWidget * tablePrzebieg = ui->tolerancjaNapieciaZasilaniaTablePrzebieg;
+        QTableWidget * tableCzujka = ui->tolerancjaNapieciaZasilaniatableCzujka;
         tableParams->clear();
+        tableParams->setRowCount(3);
         addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
         addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
         addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
 
-        initCzujkaInfo(ui->tolerancjaNapieciaZasilaniatableCzujka,
+        initCzujkaInfo(tableCzujka,
                        transmitter, receiver,
                        badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
                                                daneTestu.getNumerReceiver()),
@@ -853,7 +867,7 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     //QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
     //cmaxcmin = badanie.getRozproszoneSwiatloCmaxCmin()
     tableParams->clear();
-
+    tableParams->setRowCount(3);
     addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
     addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
     addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
@@ -894,7 +908,7 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
     widthNar << 150 << 250 << 350;
     clearinitTable(tableNarazenia, headNar, widthNar);
-    tableNarazenia->setRowCount(2);
+    tableNarazenia->setRowCount(1);
     num = 0;
     int col = addR(tableNarazenia, 0, 0,
                    daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
@@ -942,6 +956,9 @@ void ListaBadan::initCzujkaInfo(QTableWidget * table, const QString & transmitte
     table->clear();
     if (table->columnCount() != 3)
         table->setColumnCount(3);
+
+    if (table->rowCount() != 1)
+        table->setRowCount(1);
 
     QTableWidgetItem *itemh0 = new QTableWidgetItem(QString::fromUtf8("Nr czujki"));
     table->setHorizontalHeaderItem(0, itemh0);

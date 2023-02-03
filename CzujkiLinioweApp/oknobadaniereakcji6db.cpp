@@ -73,6 +73,8 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     ui->pbOkna->setMaximum(timeOknoClose);
     ui->czasCzujki->setText(QString::number(time1) + " s");
     ui->czasOkna->setText(QString::number(time2) + " s");
+    ui->pozostal_czasCzujki->setText(QString::number(time1) + " s");
+    ui->pozostaly_czasokna->setText(QString::number(time2) + " s");
 
     tmZmProgressBar.setInterval(1000);
 
@@ -81,6 +83,9 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     sterResponse = false;
     ster->setFiltrReset();
     tmSterownika.singleShot(5000, this, &OknoBadanieReakcji6dB::timeoutSterownika);
+
+
+
 
 #ifndef TESTVAL
     ui->pbTest->setVisible(false);
