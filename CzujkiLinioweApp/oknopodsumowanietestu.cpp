@@ -106,23 +106,35 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
         }
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         ui->stackedWidget->setCurrentWidget(ui->szybkiezmianytlumienia);
+
+        ui->szybkiezmianytlumieniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
+        ui->szybkiezmianytlumieniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1) + " dB");
+        ui->szybkiezmianytlumieniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
+        ui->szybkiezmianytlumieniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
+        ui->szybkiezmianytlumieniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
+
+        if (daneTestu.getCmaxCmin() > ust.getSzybkieZmianyTlumieniaCmaxCmin())
+            ui->szybkiezmianytlumieniaCmaxCmin->setStyleSheet("background-color:red");
+
+
         short num = 0;
-        szybkieZmianyTlumieniaHeadTable(ui->frSzybkieZmianyPrzebieg, ui->szybkiezmianytlumieniagridlayout,"szybkiezmiany");
+        szybkieZmianyTlumieniaHeadTable(ui->frszybkiezmianytlumienia, ui->szybkiezmianytlumieniaGridLayout,
+                                        "szybkiezmiany");
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
-            powtarzalnoscAddRekord(ui->frSzybkieZmianyPrzebieg, ui->szybkiezmianytlumieniagridlayout, "szybkiezmiany",
+            powtarzalnoscAddRekord(ui->frszybkiezmianytlumienia, ui->szybkiezmianytlumieniaGridLayout, "szybkiezmiany",
                                   num, dane.value_dB, d2p(dane.value_dB), dane.ok, dane.error);
             num++;
         }
-        ui->szybkiezmianytlumieniagridlayout->setVerticalSpacing(0);
-        ui->szybkiezmianytlumieniagridlayout->setHorizontalSpacing(0);
-        ui->szybkiezmianytlumieniagridlayout->setSpacing(0);
+        ui->szybkiezmianytlumieniaGridLayout->setVerticalSpacing(0);
+        ui->szybkiezmianytlumieniaGridLayout->setHorizontalSpacing(0);
+        ui->szybkiezmianytlumieniaGridLayout->setSpacing(0);
     } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         ui->stackedWidget->setCurrentWidget(ui->dlugoscdrogioptycznej);
         ui->dlugoscdrogioptycznejCmin->setText(QString::number(daneTestu.getCmin(), 'f', 1) + " dB");
         ui->dlugoscdrogioptycznejCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 1) + " %");
         ui->dlugoscdrogioptycznejCmax->setText(QString::number(daneTestu.getCmax(), 'f', 1)+ " dB");
-        ui->dlugoscdrogioptycznejCmax2->setText(d2p(QString::number(daneTestu.getCmax(), 'f', 1))+ " %");
+        ui->dlugoscdrogioptycznejCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 1) + " %");
         ui->dlugoscdrogioptycznejCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
         if (daneTestu.getCmaxCmin() > ust.getDlugoscDrogiOptycznejCmaxCmin())

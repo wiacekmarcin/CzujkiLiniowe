@@ -16,7 +16,8 @@ ListaBadan::ListaBadan(QWidget *parent) :
     ui(new Ui::ListaBadan),
     procedura(parent),
     badanieWTrakcie(false),
-    intCurrAlarm(0)
+    intCurrAlarm(0),
+    odtwarzalnosc(false)
 {
     ui->setupUi(this);
 
@@ -129,9 +130,12 @@ bool ListaBadan::startBadanie(short id, ParametryBadania & badanie, const Ustawi
         }
         badanieWTrakcie = false;
         return false;
-    }
+    } 
 
     DaneTestu test = procedura.getDane();
+    if (id == REPRODUCIBILITY)
+        odtwarzalnosc = test.getOk();
+
     test.setDataZakonczenia(QDate::currentDate().toString("yyyy-MM-dd") + QString(" ") + QTime::currentTime().toString("HH:mm"));
     test.setWykonany(true);
     badanie.setDaneTestu(id, test);
@@ -166,7 +170,24 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
         ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
         ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
 
-        setDaneTest(test, badanie);
+        if (id == REPRODUCIBILITY) {
+            for (const auto & tid : testyWidget.keys())
+            {
+                const auto & wid = testyWidget[tid];
+                wid.button->setEnabled(odtwarzalnosc);
+            }
+        }
+    } else {
+        testyWidget[id].button->setVisible(true);
+        testyWidget[id].wyniki->setVisible(false);
+        testyWidget[id].button->setEnabled(true);
+        ui->tableWidget->item(id, 2)->setText("");
+        ui->tableWidget->item(id, 3)->setText("");
+        ui->tableWidget->item(id, 4)->setText("");
+        ui->tableWidget->item(id, 5)->setText("");
+        ui->tableWidget->item(id, 6)->setText("");
+        ui->tableWidget->item(id, 7)->setText("");
+        ui->tableWidget->item(id, 8)->setText("");
     }
     ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
 }
@@ -315,7 +336,7 @@ void ListaBadan::setBadanie(const ParametryBadania &badanie)
     for (const auto & tid : testyWidget.keys())
     {
         const auto & wid = testyWidget[tid];
-        wid.button->setEnabled(tid == REPRODUCIBILITY || badanie.getTestOdtwarzalnosci());
+        //wid.button->setEnabled(tid == REPRODUCIBILITY || badanie.getTestOdtwarzalnosci());
         wid.button->setVisible(true);
         wid.wyniki->setVisible(false);
     }
@@ -428,6 +449,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi" ;
         width << 90 << 90 << 90 << 150 << 150 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
+        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -475,6 +497,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr Próby" << "C[n] dB" << "C[n] %" << "Uwagi";
         width << 75 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
+        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -515,6 +538,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
        head << "Nazwa Badania" << "Kąt prod." << "Kąt zmierz." << "Wynik" << "Błąd" << "Uwaga";
        width << 200 << 100 << 100 << 100 << 300 << 500;
        clearinitTable(tablePrzebieg, head, width);
+       tablePrzebieg->setRowCount(daneTestu.getPomiaryKatow().size());
 
        int num=0;
        for (const auto & wynik : daneTestu.getPomiaryKatow()) {
@@ -554,6 +578,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr próby" << "Wartość tłumnienia [dB]" << "Wartość tłumienia [%]" << "Wynik" << "Uwagi";
         width << 75 << 150 << 150 << 100 << 300;
         clearinitTable(tablePrzebieg, head, width);
+        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -598,6 +623,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         head << "Nr Próby" << "Rozstawienie [m]" << "C[n] dB" << "C[n] %" << "Wynik" << "Uwagi";
         width << 75 << 100 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
+        tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
         short num = 0;
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
@@ -627,68 +653,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
                        ui->rozproszoneSwiatloTableNarazenie,
                        ui->rozproszoneSwiatlotableCzujka,
                        ui->rozproszoneSwiatloResult);
-/*
-        QTableWidget * tableParams = ui->rozproszoneSwiatloTableParams;
-        QTableWidget * tablePrzebieg = ui->rozproszoneSwiatloTablePrzebieg;
-        QTableWidget * tableNarazenia = ui->rozproszoneSwiatloTableNarazenie;
-        tableParams->clear();
-        addC(tableParams, "Cmin", QString::number(daneTestu.getCmin(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %", 0);
-        addC(tableParams, "Cmax", QString::number(daneTestu.getCmax(), 'f', 2) + " dB", QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %", 1);
-        addC(tableParams, "Cmax/Cmin", QString::number(daneTestu.getCmaxCmin(), 'f', 2), 2);
 
-        if (daneTestu.getCmaxCmin() > badanie.getRozproszoneSwiatloCmaxCmin()) {
-            tableParams->item(2, 0)->setBackground(Qt::red);
-        }
-        initCzujkaInfo(ui->rozproszoneSwiatlotableCzujka,
-                       transmitter, receiver,
-                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
-                                               daneTestu.getNumerReceiver()),
-                       daneTestu.getNumerTransmitter(),
-                       daneTestu.getNumerReceiver());
-
-        short num = 0;
-        QStringList head;
-        QList<int> width;
-        head << "Stan czujki" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
-        width << 150 << 75 << 75 << 120 << 300;
-        clearinitTable(tablePrzebieg, head, width);
-        for (const auto & dane : daneTestu.getDaneBadanCzujek())
-        {
-            int col = addR(tablePrzebieg, num, 0,
-                           (num == 0 ? "Przed narażeniem" : "Po narażeniu"),
-                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYT." : "NEGAT."), dane.error);
-            if (!dane.ok) {
-                for (short e=0; e<col; ++e) {
-                    if (tablePrzebieg->item(num, e))
-                        tablePrzebieg->item(num, e)->setBackground(Qt::red);
-                }
-            }
-            num++;
-        }
-        QStringList headNar;
-        QList<int> widthNar;
-        headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
-        widthNar << 150 << 250 << 350;
-        clearinitTable(tableNarazenia, headNar, widthNar);
-        tableNarazenia->setRowCount(2);
-        num = 0;
-        int col = addR(tableNarazenia, 0, 0,
-                       daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
-                       QString::fromUtf8("Swiatło rozproszone"), daneTestu.getInfoNarazenia());
-
-        if (!daneTestu.getWynikNarazenia()) {
-            for (short e=0; e<col; ++e) {
-                if (tableNarazenia->item(num, e))
-                    tableNarazenia->item(num, e)->setBackground(Qt::red);
-            }
-        }
-
-        if (daneTestu.getOk()) {
-            ui->rozproszoneSwiatloResult->setText("POZYTYWNY");
-        } else {
-            ui->rozproszoneSwiatloResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
-        }
-    */
     } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
         QTableWidget * tablePrzebieg = ui->tolerancjaNapieciaZasilaniaTablePrzebieg;
@@ -906,6 +871,8 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     head << "Stan czujki" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
     width << 150 << 75 << 75 << 120 << 300;
     clearinitTable(tablePrzebieg, head, width);
+    tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
+
     for (const auto & dane : daneTestu.getDaneBadanCzujek())
     {
         int col = addR(tablePrzebieg, num, 0,

@@ -532,6 +532,7 @@ u.addZakresy("maxNapiecieCzujki", "int", "toUInt", "ParamentryBadania-Czujka/Mak
 
 u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MinimalnyCzasStabilizacji", '10', checkUnsignedIntContent)
 u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Czujka/MaksymalnyCzasStabilizacji", '3600', checkUnsignedIntContent)
+u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "ParamentryBadania-Czujka/CzasWylaczeniaCzujkiDlaResetu", '2', checkUnsignedIntContent)
 
 u.addZakresy("minPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-Alarm/MinimalnyPrzekroczonyPradZasilania", '4.0', checkDoubleContent)
 u.addZakresy("maxPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-Alarm/MaksymalnyPrzekroczonyPradZasilania", '200.0', checkDoubleContent)
@@ -539,36 +540,35 @@ u.addZakresy("maxPrzekrPradZasCzujki", "double", "toDouble", "ParamentryBadania-
 u.addZakresy("minCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
 u.addZakresy("maxCzasPoZmianieFiltra", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
 
-u.addZakresy("czasWylaczeniaCzujkiDlaResetu", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/CzasWylaczeniaCzujkiDlaResetu", '2', checkUnsignedIntContent)
 
-#u.addZakresy("minCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MinimalnyCzasPomiedzyZmianami", '10', checkUnsignedIntContent)
-#u.addZakresy("maxCzasStabCzujki", "int", "toUInt", "ParamentryBadania-Filtry/MaksymalnyCzasPomiedzyZmianami", '3600', checkUnsignedIntContent)
+u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
+u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
+u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.5', checkDoubleContent)
+
 
 u.addZakresy("czasOczekiwaniaPowtarzalnosc4Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/CzasOczekiwaniaNa4Test", '259200', checkUnsignedIntContent)
 u.addZakresy("minimalnyCzasOczekiwaniaPowtarzalnosc1Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/minimalnyCzasOczekiwania1Test", '900', checkUnsignedIntContent)
 u.addZakresy("maksymalnyCzasOczekiwaniaPowtarzalnosc1Test", "unsigned int", "toUInt", "ParamentryBadania-Powtarzalnosc/maksymalnyCzasOczekiwania1Test", '3600', checkUnsignedIntContent)
-u.addZakresy("minimalnaWartoscCzujkiCn", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/MinimalnaWartoscCzujki", '0.4', checkDoubleContent)
+u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)
+
+
 u.addZakresy("czasStabilizacjiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasStabilizacjiDlaKataNieWspolosiowosci", '120', checkUnsignedIntContent)
 u.addZakresy("wartoscTlumienieDlaKataNieWspolosiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/WartoscTlumienia", '6.0', checkDoubleContent)
 u.addZakresy("maksCzasZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasZadzialaniaCzujki", '30', checkUnsignedIntContent)
 u.addZakresy("maksCzasTestuZadzialaniaCzujkiDlaKataNieWspolosiowosci", "unsigned int", "toUInt", "ParamentryBadania-NieWspolOsiowosc/CzasCalkowityTestuZadzialaniaCzujki", '40', checkUnsignedIntContent)
-u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyKat", '15', checkUnsignedIntContent)
-u.addZakresy("maksRoznicaKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-Urzadzenie/MaksymalnyRzonacaKat", '15', checkUnsignedIntContent)
-u.addZakresy("odtwarzalnoscCmaxCrep", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CmaxCrep", '1.33', checkDoubleContent)
-u.addZakresy("odtwarzalnoscCrepCmin", "double", "toDouble", "ParamentryBadania-Odtwarzalnosc/CrepCmin", '1.5', checkDoubleContent)
-u.addZakresy("powtarzalnoscCmaxCmin", "double", "toDouble", "ParamentryBadania-Powtarzalnosc/CmaxCmin", '1.6', checkDoubleContent)
-
-
+u.addZakresy("maksKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/MaksymalnyKat", '15', checkUnsignedIntContent)
+u.addZakresy("maksRoznicaKatNieWspolOsiowosci", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/MaksymalnaRoznicaKat", '15', checkUnsignedIntContent)
 u.addZakresy("niewspolosiowoscMinimalnyKatProducentMierzony", "double", "toDouble", "ParamentryBadania-NieWspolOsiowosc/MinimalnaRoznicaKataMiedzyZmierzonymAZadeklarowanym", '0.4', checkDoubleContent)
+
+
+
 u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '30', checkUnsignedIntContent)
-u.addZakresy("maksCzasTestuCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '40', checkUnsignedIntContent)
+u.addZakresy("maksCzasTestuCzujkidlaTlumnikaA", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaA", '40', checkUnsignedIntContent)
 u.addZakresy("maksCzasZadzialaniaCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '60', checkUnsignedIntContent)
-u.addZakresy("maksCzasTestuCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-Urzadzenie/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '70', checkUnsignedIntContent)
-u.addZakresy("szybkieZmianyWartoscTlumnikaA", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaA", '6.0', checkDoubleContent)
-u.addZakresy("szybkieZmianyWartoscTlumnikaB", "double", "toDouble", "ParamentryBadania-SzybkieZmiany/WartoscTlumnikaB", '10.0', checkDoubleContent)
-u.addZakresy("dlugoscDrogiOptycznejCmaxCmin", "double", "toDouble", "ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", '1.6', checkDoubleContent)
-u.addZakresy("rozproszoneSwiatloCmaxCmin", "double", "toDouble", "ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", '1.6', checkDoubleContent)
-u.addZakresy("tolerancjaNapieciaZasilaniaCmaxCmin", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("maksCzasTestuCzujkidlaTlumnikaB", "unsigned int", "toUInt", "ParamentryBadania-SzybkieZmianyTlumienia/MaksymalnyCzasZadzialaniaCzujkidlaTlumnikaB", '70', checkUnsignedIntContent)
+u.addZakresy("szybkieZmianyWartoscTlumnikaA", "double", "toDouble", "ParamentryBadania-SzybkieZmianyTlumienia/WartoscTlumnikaA", '6.0', checkDoubleContent)
+u.addZakresy("szybkieZmianyWartoscTlumnikaB", "double", "toDouble", "ParamentryBadania-SzybkieZmianyTlumienia/WartoscTlumnikaB", '10.0', checkDoubleContent)
+
 u.addZakresy("minimalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/minimalneNapiecie", '2', checkDoubleContent)
 u.addZakresy("maksymalneNapieciaTolerancjaNapiecia", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/maksymalneNapiecie", '30', checkDoubleContent)
 
@@ -587,6 +587,10 @@ u.addZakresy("wytrzymaloscWibracjeCmaxCmin", "double", "toDouble", "ParamentryBa
 u.addZakresy("odpornoscUderzoniowaCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscUderzeniowa/CmaxCmin", '1.6', checkDoubleContent)
 u.addZakresy("wytrzymaloscKorozyjnaSO2CmaxCmin", "double", "toDouble", "ParamentryBadania-WytrzymaloscKorozyjnaSO2/CmaxCmin", '1.6', checkDoubleContent)
 u.addZakresy("odpornoscElektroMagnetycznaCmaxCmin", "double", "toDouble", "ParamentryBadania-OdpornoscElektroMagnetyczna/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("dlugoscDrogiOptycznejCmaxCmin", "double", "toDouble", "ParamentryBadania-DlugoscDrogiOptycznej/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("rozproszoneSwiatloCmaxCmin", "double", "toDouble", "ParamentryBadania-RozproszoneSwiatlo/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("tolerancjaNapieciaZasilaniaCmaxCmin", "double", "toDouble", "ParamentryBadania-TolerancjaNapieciaZasilania/CmaxCmin", '1.6', checkDoubleContent)
+u.addZakresy("szybkieZmianyTlumieniaCmaxCmin", "double", "toDouble", "ParamentryBadania-SzybkieZmianyTlumienia/CmaxCmin", '1.6', checkDoubleContent)
 u.createHeader()
 u.createSource()
 

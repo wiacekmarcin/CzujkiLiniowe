@@ -160,7 +160,7 @@
    <item row="6" column="0" colspan="2">
     <widget class="QStackedWidget" name="stackedWidget">
      <property name="currentIndex">
-      <number>5</number>
+      <number>3</number>
      </property>
      <widget class="QWidget" name="odtwarzalnosc">
       <layout class="QGridLayout" name="gridLayout_odtwarzalnosc">
@@ -1525,16 +1525,153 @@
       </layout>
      </widget>
      <widget class="QWidget" name="szybkiezmianytlumienia">
-      <layout class="QGridLayout" name="gridLayout_4">
-       <item row="0" column="0">
-        <widget class="QFrame" name="frSzybkieZmianyPrzebieg">
+      <layout class="QGridLayout" name="gridLayout_50">
+       <item row="1" column="1">
+        <widget class="QFrame" name="szybkiezmianytlumieniafrcmax_2">
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
          <property name="frameShadow">
           <enum>QFrame::Raised</enum>
          </property>
-         <layout class="QGridLayout" name="szybkiezmianytlumieniagridlayout"/>
+         <layout class="QHBoxLayout" name="horizontalLayoutoszybkiezmianytlumieniacmax_4">
+          <item>
+           <widget class="QLabel" name="szybkiezmianytlumieniaCmax">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="szybkiezmianytlumieniaCmax2">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="szybkiezmianytlumieniafrcmin_2">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayoutszybkiezmianytlumieniaccmin_4">
+          <item>
+           <widget class="QLabel" name="szybkiezmianytlumieniaCmin">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0 dB</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="szybkiezmianytlumieniaCmin2">
+            <property name="font">
+             <font>
+              <family>Arial</family>
+              <pointsize>14</pointsize>
+             </font>
+            </property>
+            <property name="text">
+             <string>0%</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="eszybkiezmianytlumieniaCmaxCmin">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax/Cmin</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="eszybkiezmianytlumieniaCmax">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmax</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="eszybkiezmianytlumieniaCmin">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Cmin</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QLabel" name="szybkiezmianytlumieniaCmaxCmin">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="frameShape">
+          <enum>QFrame::Box</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <property name="text">
+          <string>1</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QFrame" name="frszybkiezmianytlumienia">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="szybkiezmianytlumieniaGridLayout"/>
         </widget>
        </item>
       </layout>

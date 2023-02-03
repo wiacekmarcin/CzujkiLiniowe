@@ -87,11 +87,11 @@ void OknoZerowanieUrzadzenia::init()
     ui->error->setVisible(false);
     unsigned int timCzas = 1000;
     if (filtry)
-        timCzas += 4000;
+        timCzas += 5000;
     if (nadajnik || odbiornik)
-        timCzas += 10000;
+        timCzas += 11000;
     if (wozek)
-        timCzas += 20000;
+        timCzas += 60000;
     timer.singleShot(timCzas, this, &OknoZerowanieUrzadzenia::timeout);
 }
 

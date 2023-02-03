@@ -110,6 +110,7 @@ private:
     unsigned intCurrAlarm;
     QMap<int, testWidget> testyWidget;
     QDateTime prevCzujkaOn;
+    bool odtwarzalnosc;
 };
 
 #endif // LISTABADAN_H
