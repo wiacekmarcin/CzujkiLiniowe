@@ -7,10 +7,10 @@
 #include <QFont>
 #include <QDebug>
 
-#include "pdfcreator.h"
+//#include "pdfcreator.h"
 int main(int argc, char *argv[])
 {
-    //QApplication a(argc, argv);
+    QApplication a(argc, argv);
 /*
     QTranslator translator;
     const QStringList uiLanguages = QLocale::system().uiLanguages();
@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     }
 */
     //if ()
-/*
+
     Ustawienia u;
     //u.save();
 #if QT_VERSION >= 0x060000
@@ -36,9 +36,7 @@ int main(int argc, char *argv[])
     w.activateWindow();
     w.show();
     w.setWindowModality(Qt::WindowModal);
-*/
-    qDebug() << createPdf();
-    //return a.exec();
-    return 0;
+
+    return a.exec();
 }
 

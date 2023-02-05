@@ -86,6 +86,8 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_concurrent.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_concurrent_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core.pri \
+		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core5compat.pri \
+		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core5compat_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_dbus.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_dbus_private.pri \
@@ -171,6 +173,8 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_quickwidgets_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_serialport.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_serialport_private.pri \
+		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_shadertools.pri \
+		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_shadertools_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_sql.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_sql_private.pri \
 		../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_svg.pri \
@@ -217,6 +221,7 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 		../../../Qt/6.6.0/mingw_64/mkspecs/features/lex.prf \
 		../creatorPdf/creatorPdf.pro \
 		../../../Qt/6.6.0/mingw_64/lib/Qt6Gui.prl \
+		../../../Qt/6.6.0/mingw_64/lib/Qt6Core5Compat.prl \
 		../../../Qt/6.6.0/mingw_64/lib/Qt6Core.prl \
 		../../../Qt/6.6.0/mingw_64/mkspecs/features/build_pass.prf
 	$(QMAKE) -o Makefile ..\creatorPdf\creatorPdf.pro -spec win32-g++ "CONFIG+=debug" "CONFIG-=qml_debug" "CONFIG-=qtquickcompiler" "CONFIG-=separate_debug_info"
@@ -236,6 +241,8 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_concurrent.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_concurrent_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core.pri:
+../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core5compat.pri:
+../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core5compat_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_core_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_dbus.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_dbus_private.pri:
@@ -321,6 +328,8 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_quickwidgets_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_serialport.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_serialport_private.pri:
+../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_shadertools.pri:
+../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_shadertools_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_sql.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_sql_private.pri:
 ../../../Qt/6.6.0/mingw_64/mkspecs/modules/qt_lib_svg.pri:
@@ -367,6 +376,7 @@ Makefile: ../creatorPdf/creatorPdf.pro ../../../Qt/6.6.0/mingw_64/mkspecs/win32-
 ../../../Qt/6.6.0/mingw_64/mkspecs/features/lex.prf:
 ../creatorPdf/creatorPdf.pro:
 ../../../Qt/6.6.0/mingw_64/lib/Qt6Gui.prl:
+../../../Qt/6.6.0/mingw_64/lib/Qt6Core5Compat.prl:
 ../../../Qt/6.6.0/mingw_64/lib/Qt6Core.prl:
 ../../../Qt/6.6.0/mingw_64/mkspecs/features/build_pass.prf:
 qmake: FORCE

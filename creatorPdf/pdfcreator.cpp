@@ -68,16 +68,25 @@ PdfCreator::PdfCreator()
     //czujki.append(czujkaInfo{QByteArray("--"),QByteArray("--"),QByteArray("--")});
     //czujki.append(czujkaInfo{QByteArray("--"),QByteArray("--"),QByteArray("--")});
 
+    zasilaczZewnetrzny = true;
+    zasilaczCentrala = false;
+
+    wartoscNapieciaZasilania = codec->fromUnicode(QString::fromUtf8("24,000 V"));
+    nazwaCentraliPPOZ  = codec->fromUnicode(QString::fromUtf8("Centrala PPOZ"));
+
+    wyzwalaniePradem = true;
+    wyzwalaniePrzekaznikiem = false;
+
+    wartoscPrądu = codec->fromUnicode(QString::fromUtf8("30,0 mA"));
+
+    czasStabilizacjiCzujki =  codec->fromUnicode(QString::fromUtf8("900 s"));
+    czasStabilizacjiPoResecie = codec->fromUnicode(QString::fromUtf8("5 s"));;
+
     iloscStron = 2;
     create();
 }
 void PdfCreator::create()
 {
-
-
-
-
-    float leftMarginNazwaBadania = 130; //odstep pol z nazwa badania
 
 
     HPDF_Doc  pdf;
@@ -130,13 +139,14 @@ void PdfCreator::create()
     page = HPDF_AddPage (pdf);
 
     /* draw grid to the page */
-    print_grid  (pdf, page);
+    //print_grid  (pdf, page);
 
     createHead(page, font);
     createInfoBadanie(page, font, font2, 176, true, true);
     createInformacje(page, font, font2);
     createInformacjeKat(page, font, font2);
     createTablicaCzujek(page, font, font2);
+    createDodatkoweParametry(page, font, font2);
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 8);
@@ -430,7 +440,7 @@ void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font f
     float startY = HPDF_Page_GetHeight(page) - 470;
 
     HPDF_Page_BeginText (page);
-    HPDF_Page_SetFontAndSize (page, font, 10);
+    HPDF_Page_SetFontAndSize (page, font, 12);
 
     float tw = HPDF_Page_TextWidth(page, tytul.data());
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw)/2, startY, tytul.data());
@@ -443,7 +453,7 @@ void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font f
     float wCol2 = 200;
     float wCol3 = 200;
     float mleft = (HPDF_Page_GetWidth(page) - wCol1 - wCol2 - wCol3)/2;
-    startY -= 20;
+    startY -= 25;
     for (short i = 0 ; i < 8; ++i) {
         HPDF_Page_Rectangle(page, mleft, startY-16*i, wCol1, 16);
         HPDF_Page_Rectangle(page, mleft + wCol1, startY-16*i, wCol2, 16);
@@ -492,6 +502,151 @@ void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font f
 
 }
 
+void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+{
+    QByteArray eTytul = codec->fromUnicode(QString::fromUtf8("SPOSÓB ZASILANIA CZUJEK"));
+    QByteArray eZasilanieZasilacza = codec->fromUnicode(QString::fromUtf8("Z zasilacza zewnętrznego"));
+    QByteArray eZasilanieNapiecie = codec->fromUnicode(QString::fromUtf8("Napięcie zasilania:"));
+    QByteArray eCentralaZasilanie = codec->fromUnicode(QString::fromUtf8("Z centrali sygnalizacji pożarowej"));
+    QByteArray eTypCentralaZasilanie = codec->fromUnicode(QString::fromUtf8("Typ centrali:"));
+    QByteArray ePrzekaznik = codec->fromUnicode(QString::fromUtf8("Centrala lub przekaźnik NO"));
+    QByteArray ePrad = codec->fromUnicode(QString::fromUtf8("Przekroczenie prądu zasilania:"));
+    QByteArray eCzasStabilizacji = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po włączeniu zasilania:"));
+    QByteArray eCzasPoResecie = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po zresetowaniu zasilania:"));
+    QByteArray epoZresetowaniuZasilania = codec->fromUnicode(QString::fromUtf8("po zresetowaniu zasilania:"));
+
+    float startY = HPDF_Page_GetHeight(page) - 635;
+    float lMargin = 30;
+    float rMargin = HPDF_Page_GetWidth(page)/2 + 30;
+    float boxSize = 15;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float tw = HPDF_Page_TextWidth (page, eTytul.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                startY, eTytul.data());
+
+    startY -= 30;
+
+    //zasilacz centrala
+    HPDF_Page_TextOut (page, lMargin+5+boxSize, startY, eZasilanieZasilacza.data());
+    HPDF_Page_TextOut (page, rMargin+5+boxSize, startY, eCentralaZasilanie.data());
+    HPDF_Page_EndText (page);
+
+    //boxy dla centrali lub zasilacza
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    HPDF_Page_Rectangle(page, lMargin, startY-2 , boxSize, boxSize);
+    HPDF_Page_Rectangle(page, rMargin, startY-2 , boxSize, boxSize);
+
+    //zaznaczenie boxow centrali lub zasilacza
+    if (zasilaczZewnetrzny) {
+        HPDF_Page_MoveTo (page, lMargin + 2, startY);
+        HPDF_Page_LineTo (page, lMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, lMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, lMargin + 2, startY-2 + boxSize-2);
+    }
+
+    if (zasilaczCentrala) {
+        HPDF_Page_MoveTo (page, rMargin + 2, startY);
+        HPDF_Page_LineTo (page, rMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, rMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, rMargin + 2, startY-2 + boxSize-2);
+    }
+    HPDF_Page_Stroke (page);
+
+    //napiecie zasilania i typ centrali
+    startY -= 20;
+    float boxNapiecieSize = 100;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float twn = HPDF_Page_TextWidth(page, eZasilanieNapiecie.data());
+    float twc = HPDF_Page_TextWidth(page, eTypCentralaZasilanie.data());
+    HPDF_Page_TextOut (page, rMargin-boxNapiecieSize-10-5-twn, startY, eZasilanieNapiecie.data());
+    HPDF_Page_TextOut (page, rMargin, startY, eTypCentralaZasilanie.data());
+    HPDF_Page_EndText (page);
+
+    //text bosy dla zsialnia i typu centrali
+
+    float boxCentralaSize = 165;
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    //HPDF_Page_Rectangle(page, lMargin+twn+5, startY-2, boxNapiecieSize, 16);
+    HPDF_Page_Rectangle(page, rMargin-boxNapiecieSize-10, startY-2, boxNapiecieSize, 16);
+    HPDF_Page_Rectangle(page, rMargin+twc+5, startY-2, boxCentralaSize, 16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    float tw_z1 = HPDF_Page_TextWidth(page, wartoscNapieciaZasilania.data());
+
+    drawTextInBox(page, rMargin-10-5-tw_z1, startY+3, wartoscNapieciaZasilania.data(), boxNapiecieSize-10);
+    drawTextInBox(page, rMargin+twc+5+5, startY+3, nazwaCentraliPPOZ.data(), boxCentralaSize-10);
+    HPDF_Page_EndText (page);
+
+    //alarm czujki prad lub przekaznik
+    startY -= 20;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    HPDF_Page_TextOut (page, lMargin+5+boxSize, startY, ePrad.data());
+    HPDF_Page_TextOut (page, rMargin+5+boxSize, startY, ePrzekaznik.data());
+    HPDF_Page_EndText (page);
+
+    float boxPradSize = 100;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    float tw_pp = HPDF_Page_TextWidth(page, wartoscPrądu.data());
+    drawTextInBox(page, rMargin-10-5-tw_pp, startY+3, wartoscPrądu.data(), boxPradSize-10);
+    HPDF_Page_EndText (page);
+
+    //boxy dla pradu i przekaznik
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    HPDF_Page_Rectangle(page, lMargin, startY-2 , boxSize, boxSize);
+    HPDF_Page_Rectangle(page, rMargin, startY-2 , boxSize, boxSize);
+    if (wyzwalaniePradem) {
+        HPDF_Page_MoveTo (page, lMargin + 2, startY);
+        HPDF_Page_LineTo (page, lMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, lMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, lMargin + 2, startY-2 + boxSize-2);
+    }
+
+    if (wyzwalaniePrzekaznikiem) {
+        HPDF_Page_MoveTo (page, rMargin + 2, startY);
+        HPDF_Page_LineTo (page, rMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, rMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, rMargin + 2, startY-2 + boxSize-2);
+    }
+
+    HPDF_Page_Rectangle(page, rMargin-boxPradSize-10, startY-2, boxPradSize, 16);
+    HPDF_Page_Stroke (page);
+
+    startY -= 30;
+    float czasBoxSize = 75;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float twst1 = HPDF_Page_TextWidth(page, eCzasStabilizacji.data());
+    float twst2 = HPDF_Page_TextWidth(page, epoZresetowaniuZasilania.data());
+    HPDF_Page_TextOut (page, lMargin, startY, eCzasStabilizacji.data());
+    HPDF_Page_TextOut (page, lMargin+10+twst1+czasBoxSize, startY, ",");
+    HPDF_Page_TextOut (page, lMargin+twst1-twst2 , startY - 20, epoZresetowaniuZasilania.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    float twstv1 = HPDF_Page_TextWidth(page, czasStabilizacjiCzujki.data());
+    float twstv2 = HPDF_Page_TextWidth(page, czasStabilizacjiPoResecie.data());
+    HPDF_Page_TextOut (page, lMargin+twst1+10+czasBoxSize-5-twstv1-5, startY, czasStabilizacjiCzujki.data());
+    HPDF_Page_TextOut (page, lMargin+twst1+10+czasBoxSize-5-twstv2-5 , startY-20, czasStabilizacjiPoResecie.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-2, czasBoxSize, 16);
+    HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-22, czasBoxSize, 16);
+    HPDF_Page_Stroke (page);
+
+}
 
 void PdfCreator::print_grid(HPDF_Doc pdf, HPDF_Page    page)
 {

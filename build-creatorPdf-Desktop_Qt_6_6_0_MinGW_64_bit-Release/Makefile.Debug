@@ -324,6 +324,10 @@ debug/main.o: ../creatorPdf/main.cpp ../../../Qt/6.6.0/mingw_64/include/QtCore/Q
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qhash.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qvarlengtharray.h \
 		../creatorPdf/pdfcreator.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QString \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QByteArray \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QVector \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qvector.h \
 		../libHaru-2.2.0-vc/include/hpdf.h \
 		../libHaru-2.2.0-vc/include/hpdf_config.h \
 		../libHaru-2.2.0-vc/include/hpdf_version.h \
@@ -490,12 +494,10 @@ debug/main.o: ../creatorPdf/main.cpp ../../../Qt/6.6.0/mingw_64/include/QtCore/Q
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qvarianthash.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QHash \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QVariant \
-		../../../Qt/6.6.0/mingw_64/include/QtCore/QString \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qvariantlist.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QList \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qvariantmap.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QMap \
-		../../../Qt/6.6.0/mingw_64/include/QtCore/qvector.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qwaitcondition.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QDeadlineTimer \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qwineventnotifier.h \
@@ -505,28 +507,6 @@ debug/main.o: ../creatorPdf/main.cpp ../../../Qt/6.6.0/mingw_64/include/QtCore/Q
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\main.o ..\creatorPdf\main.cpp
 
 debug/pdfcreator.o: ../creatorPdf/pdfcreator.cpp ../creatorPdf/pdfcreator.h \
-		../libHaru-2.2.0-vc/include/hpdf.h \
-		../libHaru-2.2.0-vc/include/hpdf_config.h \
-		../libHaru-2.2.0-vc/include/hpdf_version.h \
-		../libHaru-2.2.0-vc/include/hpdf_consts.h \
-		../libHaru-2.2.0-vc/include/hpdf_types.h \
-		../libHaru-2.2.0-vc/include/hpdf_doc.h \
-		../libHaru-2.2.0-vc/include/hpdf_catalog.h \
-		../libHaru-2.2.0-vc/include/hpdf_objects.h \
-		../libHaru-2.2.0-vc/include/hpdf_encoder.h \
-		../libHaru-2.2.0-vc/include/hpdf_streams.h \
-		../libHaru-2.2.0-vc/include/hpdf_list.h \
-		../libHaru-2.2.0-vc/include/hpdf_error.h \
-		../libHaru-2.2.0-vc/include/hpdf_mmgr.h \
-		../libHaru-2.2.0-vc/include/hpdf_encrypt.h \
-		../libHaru-2.2.0-vc/include/hpdf_image.h \
-		../libHaru-2.2.0-vc/include/hpdf_pages.h \
-		../libHaru-2.2.0-vc/include/hpdf_gstate.h \
-		../libHaru-2.2.0-vc/include/hpdf_font.h \
-		../libHaru-2.2.0-vc/include/hpdf_fontdef.h \
-		../libHaru-2.2.0-vc/include/hpdf_ext_gstate.h \
-		../libHaru-2.2.0-vc/include/hpdf_outline.h \
-		../libHaru-2.2.0-vc/include/hpdf_pdfa.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/QString \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qstring.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qchar.h \
@@ -592,7 +572,71 @@ debug/pdfcreator.o: ../creatorPdf/pdfcreator.cpp ../creatorPdf/pdfcreator.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qanystringview.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/q20functional.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringtokenizer.h \
-		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringbuilder.h
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringbuilder.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QByteArray \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QVector \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qvector.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qlist.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qhashfunctions.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qiterator.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qbytearraylist.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringlist.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qalgorithms.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringmatcher.h \
+		../libHaru-2.2.0-vc/include/hpdf.h \
+		../libHaru-2.2.0-vc/include/hpdf_config.h \
+		../libHaru-2.2.0-vc/include/hpdf_version.h \
+		../libHaru-2.2.0-vc/include/hpdf_consts.h \
+		../libHaru-2.2.0-vc/include/hpdf_types.h \
+		../libHaru-2.2.0-vc/include/hpdf_doc.h \
+		../libHaru-2.2.0-vc/include/hpdf_catalog.h \
+		../libHaru-2.2.0-vc/include/hpdf_objects.h \
+		../libHaru-2.2.0-vc/include/hpdf_encoder.h \
+		../libHaru-2.2.0-vc/include/hpdf_streams.h \
+		../libHaru-2.2.0-vc/include/hpdf_list.h \
+		../libHaru-2.2.0-vc/include/hpdf_error.h \
+		../libHaru-2.2.0-vc/include/hpdf_mmgr.h \
+		../libHaru-2.2.0-vc/include/hpdf_encrypt.h \
+		../libHaru-2.2.0-vc/include/hpdf_image.h \
+		../libHaru-2.2.0-vc/include/hpdf_pages.h \
+		../libHaru-2.2.0-vc/include/hpdf_gstate.h \
+		../libHaru-2.2.0-vc/include/hpdf_font.h \
+		../libHaru-2.2.0-vc/include/hpdf_fontdef.h \
+		../libHaru-2.2.0-vc/include/hpdf_ext_gstate.h \
+		../libHaru-2.2.0-vc/include/hpdf_outline.h \
+		../libHaru-2.2.0-vc/include/hpdf_pdfa.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore5Compat/QTextCodec \
+		../../../Qt/6.6.0/mingw_64/include/QtCore5Compat/qtextcodec.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringconverter.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qstringconverter_base.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore5Compat/qcore5global.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore5Compat/qtcore5compat-config.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QDebug \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qdebug.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qtextstream.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qfloat16.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qmath.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qiodevicebase.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qscopedpointer.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qcontiguouscache.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qsharedpointer.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qshareddata.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qsharedpointer_impl.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qmetatype.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qcompare.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qdatastream.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qiterable.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qmetacontainer.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qcontainerinfo.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qtaggedpointer.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qobjectdefs.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qobjectdefs_impl.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qscopeguard.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qmap.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qshareddata_impl.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qset.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qhash.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qvarlengtharray.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o debug\pdfcreator.o ..\creatorPdf\pdfcreator.cpp
 
 debug/task.o: ../creatorPdf/task.cpp ../creatorPdf/task.h \
@@ -701,6 +745,10 @@ debug/task.o: ../creatorPdf/task.cpp ../creatorPdf/task.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qhash.h \
 		../../../Qt/6.6.0/mingw_64/include/QtCore/qvarlengtharray.h \
 		../creatorPdf/pdfcreator.h \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QString \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QByteArray \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/QVector \
+		../../../Qt/6.6.0/mingw_64/include/QtCore/qvector.h \
 		../libHaru-2.2.0-vc/include/hpdf.h \
 		../libHaru-2.2.0-vc/include/hpdf_config.h \
 		../libHaru-2.2.0-vc/include/hpdf_version.h \

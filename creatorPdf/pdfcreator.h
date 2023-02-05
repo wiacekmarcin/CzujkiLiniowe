@@ -31,6 +31,7 @@ protected:
     void createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
     void createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
     void createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
+    void createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
 private:
     short errCode;
     QByteArray numerZlecenia;
@@ -62,6 +63,16 @@ private:
     QVector<czujkaInfo> czujki;
 
     short iloscStron;
+
+    bool zasilaczZewnetrzny;
+    bool zasilaczCentrala;
+    QByteArray wartoscNapieciaZasilania;
+    QByteArray nazwaCentraliPPOZ;
+    bool wyzwalaniePradem;
+    bool wyzwalaniePrzekaznikiem;
+    QByteArray wartoscPrądu;
+    QByteArray czasStabilizacjiCzujki;
+    QByteArray czasStabilizacjiPoResecie;
     QTextCodec *codec;
 
 };
