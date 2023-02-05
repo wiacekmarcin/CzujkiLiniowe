@@ -1,0 +1,10 @@
+C:/dev/CzujkiLiniowe/build/CMakeFiles/PACKAGE.dir
+C:/dev/CzujkiLiniowe/build/CMakeFiles/INSTALL.dir
+C:/dev/CzujkiLiniowe/build/CMakeFiles/ALL_BUILD.dir
+C:/dev/CzujkiLiniowe/build/CMakeFiles/ZERO_CHECK.dir
+C:/dev/CzujkiLiniowe/build/src/CMakeFiles/libhpdfs.dir
+C:/dev/CzujkiLiniowe/build/src/CMakeFiles/libhpdf.dir
+C:/dev/CzujkiLiniowe/build/src/CMakeFiles/PACKAGE.dir
+C:/dev/CzujkiLiniowe/build/src/CMakeFiles/INSTALL.dir
+C:/dev/CzujkiLiniowe/build/demo/CMakeFiles/PACKAGE.dir
+C:/dev/CzujkiLiniowe/build/demo/CMakeFiles/INSTALL.dir

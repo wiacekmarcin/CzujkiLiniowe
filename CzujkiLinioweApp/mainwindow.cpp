@@ -10,6 +10,8 @@
 #include "danetestu.h"
 #include "teststanowiskadlg.h"
 
+#include "pdfcreator.h"
+
 #include <QIcon>
 #include <QDebug>
 #include <QDate>
@@ -528,33 +530,9 @@ void MainWindow::actionSprawdzCzujke_triggered()
 
 void MainWindow::actionTest_triggered()
 {
-    /*
-    DaneTestu p;
-    p.setId(REPRODUCIBILITY);
-    p.setName("Odtwarzalnosc");
-    p.addWybranaCzujka(1, "N1", "O1");
-    p.setSuccessBadaniaCzujki(false, "-", "Czujka nie wyzwoliła się");
-    p.addWybranaCzujka(5, "N5", "O5");
-    p.setSuccessBadaniaCzujki(true, "2.4", "");
-    p.addWybranaCzujka(2, "N2", "O2");
-    p.setSuccessBadaniaCzujki(false, "-", "blad sprzetowy");
-    p.addWybranaCzujka(6, "N6", "O6");
-    p.setSuccessBadaniaCzujki(true, "2.6", "");
-    p.addWybranaCzujka(3, "N3", "O3");
-    p.setSuccessBadaniaCzujki(true, "2.0", "");
-    p.addWybranaCzujka(4, "N4", "O4");
-    p.setSuccessBadaniaCzujki(true, "2.0", "");
-    //p.addWybranaCzujka(7, "N7", "O7");
-    //p.setSuccessBadaniaCzujki(true, "1.9", "");
-    p.setOk(true);
-    p.setWykonany(true);
-    p.obliczOdtwarzalnosc(&b, u);
-    b.setDaneTestu(REPRODUCIBILITY, p);
-    b.save(QString("falszywedane.dat"));
-    */
-    auto test = b.getTesty()[REPRODUCIBILITY];
-    test.obliczOdtwarzalnosc(&b, u);
-    b.setDaneTestu(REPRODUCIBILITY, test);
+    qDebug() << "createPdf";
+    int ret = createPdf();
+    qDebug() << "Ret " << ret;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

@@ -11,6 +11,8 @@ DEFINES += TESTVAL
 #DEFINES += DEFVAL
 #DEFINES += NOSERIAL
 
+#DEFINES += NOPDF
+
 SOURCES += \
     danetestu.cpp \
     listabadan.cpp \
@@ -28,6 +30,7 @@ SOURCES += \
     parametrybadaniaczujkidlg.cpp \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
+    pdfcreator.cpp \
     proceduratestowa.cpp \
     sterownik_worker.cpp \
     oknozerowanieurzadzenia.cpp \
@@ -74,6 +77,7 @@ HEADERS += \
     parametrybadaniaczujkidlg.h \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
+    pdfcreator.h \
     proceduratestowa.h \
     sterownik_worker.h \
     oknozerowanieurzadzenia.h \
@@ -148,3 +152,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 RESOURCES += \
     icons.qrc \
     ikony.qrc
+
+win32: LIBS += -L$$PWD/../libHaru-2.2.0-vc/lib/ -llibhpdf
+
+INCLUDEPATH += $$PWD/../libHaru-2.2.0-vc/include
+DEPENDPATH += $$PWD/../libHaru-2.2.0-vc/include
