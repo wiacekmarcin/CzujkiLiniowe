@@ -139,9 +139,16 @@ void PdfCreator::create()
 
     //font = HPDF_GetFont (pdf, font_name, "ISO8859-2");
 
-
+    iloscStron = 3;
     /* add a new page object. */
     page = HPDF_AddPage (pdf);
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 8);
+    QByteArray strona = codec->fromUnicode(QString::fromUtf8("Strona 1 z %1").arg(iloscStron));
+    float tw = HPDF_Page_TextWidth (page, strona.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                25, strona.data());
+    HPDF_Page_EndText (page);
 
     HPDF_Image image = HPDF_LoadJpegImageFromFile (pdf, "logo.jpg");
 
@@ -163,21 +170,10 @@ void PdfCreator::create()
     createTablicaCzujek(page, font, font2);
     createDodatkoweParametry(page, font, font2);
 
-    HPDF_Page_BeginText (page);
-    HPDF_Page_SetFontAndSize (page, font, 8);
-    QByteArray strona = codec->fromUnicode(QString::fromUtf8("Strona 1 z %1").arg(iloscStron));
-    float tw = HPDF_Page_TextWidth (page, strona.data());
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
-                25, strona.data());
-    HPDF_Page_EndText (page);
+
+
 
     page = HPDF_AddPage (pdf);
-
-    /* draw grid to the page */
-    //print_grid  (pdf, page);
-    createInfoBadanie(page, font, font2, 60, false, false);
-
-
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 8);
     strona = codec->fromUnicode(QString::fromUtf8("Strona 2 z %1").arg(iloscStron));
@@ -185,6 +181,13 @@ void PdfCreator::create()
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
                 25, strona.data());
     HPDF_Page_EndText (page);
+
+    /* draw grid to the page */
+    //print_grid  (pdf, page);
+    createInfoBadanie(page, font, font2, 60, false, false);
+
+
+
 
     OgolneParametryTestu test;
     test.osobaWykonujaca = codec->fromUnicode(QString::fromUtf8("Michał Wiącek"));
@@ -231,25 +234,21 @@ void PdfCreator::create()
     r << codec->fromUnicode(QString::fromUtf8("-"));
     dane << r;
     r.clear();
-
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-"));
     dane << r;
     r.clear();
-
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-"));
     dane << r;
     r.clear();
-
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-"));
     dane << r;
     r.clear();
-
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-")) << codec->fromUnicode(QString::fromUtf8("-"));
     r << codec->fromUnicode(QString::fromUtf8("-"));
@@ -257,6 +256,80 @@ void PdfCreator::create()
     r.clear();
     createOdtwarzalnosc(page, font, font2, test, wynik, dane);
 
+    page = HPDF_AddPage (pdf);
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 8);
+    strona = codec->fromUnicode(QString::fromUtf8("Strona 3 z %1").arg(iloscStron));
+    tw = HPDF_Page_TextWidth (page, strona.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                25, strona.data());
+    HPDF_Page_EndText (page);
+
+    /* draw grid to the page */
+    //print_grid  (pdf, page);
+    createInfoBadanie(page, font, font2, 60, false, false);
+{
+        OgolneParametryTestu test;
+        test.osobaWykonujaca = codec->fromUnicode(QString::fromUtf8("Mateusz Wiącek"));
+        test.wynikTestu = codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+        test.dataRozpoczecia = codec->fromUnicode(QString::fromUtf8("2023-02-19 11:34"));
+        test.dataZakonczenia = codec->fromUnicode(QString::fromUtf8("2023-02-23 15:57"));
+        test.temperatura = codec->fromUnicode(QString::fromUtf8("27,5 ")+QChar(0xb0)+ QChar('C'));
+        test.wilgotnosc = codec->fromUnicode(QString::fromUtf8("87 %"));
+        test.cisnienie = codec->fromUnicode(QString::fromUtf8("912 mBar"));
+        test.uwagi = codec->fromUnicode(QString::fromUtf8("Badania testowe"));
+
+        CMinCMaxCRep wynik;
+        wynik.Cmin1 = codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        wynik.Cmin2 = codec->fromUnicode(QString::fromUtf8("36,92 %"));
+        wynik.Cmax1 = codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        wynik.Cmax2 = codec->fromUnicode(QString::fromUtf8("36,92 %"));
+        wynik.Crep1 = codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        wynik.Crep2 = codec->fromUnicode(QString::fromUtf8("36,92 %"));
+        wynik.CRepCMin = codec->fromUnicode(QString::fromUtf8("1,00"));
+        wynik.CMaxCrep = codec->fromUnicode(QString::fromUtf8("1,00"));
+        wynik.CMaxCmin = codec->fromUnicode(QString::fromUtf8("1,00"));
+
+        QVector<QVector<QByteArray> > dane;
+        QVector<QByteArray> r;
+        r << codec->fromUnicode(QString::fromUtf8("1"));
+        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
+        r << codec->fromUnicode(QString::fromUtf8("1"));
+        r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
+        r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+        r << codec->fromUnicode(QString::fromUtf8("-"));
+        dane << r;
+        r.clear();
+        r << codec->fromUnicode(QString::fromUtf8("2"));
+        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
+        r << codec->fromUnicode(QString::fromUtf8("1"));
+        r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
+        r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+        r << codec->fromUnicode(QString::fromUtf8("-"));
+        dane << r;
+        r.clear();
+        r << codec->fromUnicode(QString::fromUtf8("3"));
+        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
+        r << codec->fromUnicode(QString::fromUtf8("1"));
+        r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
+        r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+        r << codec->fromUnicode(QString::fromUtf8("-"));
+        dane << r;
+        r.clear();
+        r << codec->fromUnicode(QString::fromUtf8("4"));
+        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
+        r << codec->fromUnicode(QString::fromUtf8("1"));
+        r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
+        r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
+        r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+        r << codec->fromUnicode(QString::fromUtf8("-"));
+        dane << r;
+
+        createPowtarzalnosc(page, font, font2, test, wynik, dane);
+}
     /* save the document to a file */
     errCode = HPDF_SaveToFile (pdf, fname);
 
@@ -803,6 +876,37 @@ void PdfCreator::createOdtwarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font f
 
 }
 
+void PdfCreator::createPowtarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                                     const OgolneParametryTestu & daneOgolne,
+                                     const CMinCMaxCRep & wyniki,
+                                     const QVector<QVector<QByteArray> > &dane)
+{
+    QString nazwaTestu = QString::fromUtf8("TEST NR 2: Powtarzalność (Repeatability)");
+    float endY = createTestInfo(page, font, font2, daneOgolne, nazwaTestu);
+
+
+
+    endY = createCminCmax(page, font, font2, endY - 15, wyniki, false);
+
+    QVector<QByteArray> head;
+    head << codec->fromUnicode(QString::fromUtf8("Próba"));
+    head << eTransmitter;
+    head << eReceiver;
+    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+    head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+    QVector<int> colwidth;
+    colwidth << 40 << 100 << 100 << 65 << 55 << 70 << 100;
+
+    QVector<short> colAlign;
+    colAlign << 0 << -1 << -1 << 1 << 1 << 0 << -1;
+
+    endY = createTable(page, font, font2, 30, endY - 30, head, colwidth, colAlign, dane);
+
+}
+
 float PdfCreator::createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
                                 const OgolneParametryTestu & test, const QString & nazwaTestu)
 {
@@ -925,11 +1029,10 @@ float PdfCreator::createTable(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
     HPDF_Page_SetFontAndSize (page, font2, 10);
     for (short row = 0; row < dane.size(); ++row) {
         actPosX = marginl;
-        for (short col = 0; col < dane.size(); ++col) {
+        for (short col = 0; col < dane.at(row).size(); ++col) {
             if (col >= colwidth.size())
                 break;
-            if (col >= dane.at(row).size())
-                break;
+
             short calign = 0;
             if (col < colCenter.size()) {
                 calign = colCenter.at(col);

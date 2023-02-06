@@ -56,6 +56,9 @@ protected:
                             const OgolneParametryTestu & daneOgolne,
                             const CMinCMaxCRep & wyniki,
                             const QVector<QVector<QByteArray> > &dane);
+    void createPowtarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                            const OgolneParametryTestu &daneOgolne, const CMinCMaxCRep &wyniki,
+                            const QVector<QVector<QByteArray> > &dane);
 private:
     //void drawTextInBox(HPDF_Page page, float posX, float posY, const QByteArray & text, float maxWidth);
     void drawTextInBoxRight(HPDF_Page page, float posX, float posY, const QByteArray & text, float maxWidth);

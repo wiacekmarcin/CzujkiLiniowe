@@ -9,8 +9,8 @@ endobj
 2 0 obj
 <<
 /Type /Pages
-/Kids [ 6 0 R 11 0 R ]
-/Count 2
+/Kids [ 6 0 R 11 0 R 14 0 R ]
+/Count 3
 >>
 endobj
 3 0 obj
@@ -85,12 +85,12 @@ endobj
 /Contents 7 0 R
 /Resources <<
 /ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
-/XObject <<
-/X1 9 0 R
->>
 /Font <<
 /F1 4 0 R
 /F2 5 0 R
+>>
+/XObject <<
+/X1 9 0 R
 >>
 >>
 /Parent 2 0 R
@@ -101,6 +101,11 @@ endobj
 /Length 8 0 R
 >>
 stream
+BT
+/F1 8 Tf
+275.93201 25 Td
+(Strona 1 z 3) Tj
+ET
 q
 60 0 0 60 267.5 771 cm
 /X1 Do
@@ -412,11 +417,6 @@ ET
 279.728 103 75 16 re
 279.728 83 75 16 re
 S
-BT
-/F1 8 Tf
-275.93201 25 Td
-(Strona 1 z 2) Tj
-ET
 
 endstream
 endobj
@@ -591,6 +591,11 @@ endobj
 >>
 stream
 BT
+/F1 8 Tf
+275.93201 25 Td
+(Strona 2 z 3) Tj
+ET
+BT
 /F1 10 Tf
 57.76 781 Td
 (Numer zlecenia:) Tj
@@ -626,11 +631,6 @@ BT
 /F2 10 Tf
 470 766 Td
 (2023-01-12) Tj
-ET
-BT
-/F1 8 Tf
-275.93201 25 Td
-(Strona 2 z 2) Tj
 ET
 BT
 /F1 14 Tf
@@ -913,28 +913,298 @@ endobj
 13 0 obj
 3810
 endobj
+14 0 obj
+<<
+/Type /Page
+/MediaBox [ 0 0 595 841 ]
+/Contents 15 0 R
+/Resources <<
+/ProcSet [ /PDF /Text /ImageB /ImageC /ImageI ]
+/Font <<
+/F1 4 0 R
+/F2 5 0 R
+>>
+>>
+/Parent 2 0 R
+>>
+endobj
+15 0 obj
+<<
+/Length 16 0 R
+>>
+stream
+BT
+/F1 8 Tf
+275.93201 25 Td
+(Strona 3 z 3) Tj
+ET
+BT
+/F1 10 Tf
+57.76 781 Td
+(Numer zlecenia:) Tj
+1.1 -16 Td
+(Numer badania:) Tj
+-32.8 -16 Td
+(Osoba odpowiedzialna:) Tj
+ET
+2 w
+0 0 0 RG
+1 w
+135 777 285 16 re
+135 761 285 16 re
+135 745 285 16 re
+S
+BT
+/F2 10 Tf
+140 781 Td
+(6\057CNBOP-PIB\057BA\0572014) Tj
+0 -16 Td
+(001) Tj
+0 -16 Td
+(Marcin Wi\261cek) Tj
+ET
+BT
+/F1 10 Tf
+488.04999 781 Td
+(Data:) Tj
+ET
+440 761 120 16 re
+S
+BT
+/F2 10 Tf
+470 766 Td
+(2023-01-12) Tj
+ET
+BT
+/F1 14 Tf
+55 701 Td
+(TEST NR 2: Powtarzalno\266\346 \050Repeatability\051) Tj
+ET
+BT
+/F1 10 Tf
+42.74 671 Td
+(Osoba wykonuj\261ca:) Tj
+32.8 -16 Td
+(Wynik testu:) Tj
+-53.91 -16 Td
+(Data i czas rozpocz\352cia:) Tj
+-2.23 -16 Td
+(Data i czas zako\361czenia:) Tj
+50.57999 -16 Td
+(Temperatura:) Tj
+8.34 -16 Td
+(Wilgotno\266\346:) Tj
+7.78 -16 Td
+(Ci\266nienie:) Tj
+13.34 -16 Td
+(Uwagi:) Tj
+ET
+0 0 0 RG
+1 w
+135 667 285 16 re
+135 651 285 16 re
+135 635 285 16 re
+135 619 285 16 re
+135 603 285 16 re
+135 587 285 16 re
+135 571 285 16 re
+135 521 285 50 re
+S
+BT
+/F2 10 Tf
+140 671 Td
+(Mateusz Wi\261cek) Tj
+0 -16 Td
+(POZYTYWNY) Tj
+0 -16 Td
+(2023-02-19 11:34) Tj
+0 -16 Td
+(2023-02-23 15:57) Tj
+0 -16 Td
+(27,5 \260C) Tj
+0 -16 Td
+(87 \045) Tj
+0 -16 Td
+(912 mBar) Tj
+10.55 TL
+0 -3.5 Td
+(Badania testowe) '
+ET
+BT
+/F1 10 Tf
+95.27 494 Td
+(Cmin = ) Tj
+-2.78 -16 Td
+(Cmax = ) Tj
+-26.11 -16 Td
+(Cmax\057Cmin = ) Tj
+ET
+0 0 0 RG
+1 w
+135 490 75 16 re
+210 490 75 16 re
+135 474 75 16 re
+210 474 75 16 re
+135 458 75 16 re
+S
+BT
+/F2 10 Tf
+238 494 Td
+(36,92 \045) Tj
+-75 0 Td
+(2,00 dB) Tj
+0 -16 Td
+(2,00 dB) Tj
+75 0 Td
+(36,92 \045) Tj
+-57 -16 Td
+(1,00) Tj
+ET
+0 0 0 RG
+1 w
+30 416 40 16 re
+70 416 100 16 re
+170 416 100 16 re
+270 416 65 16 re
+335 416 55 16 re
+390 416 70 16 re
+460 416 100 16 re
+30 400 40 16 re
+70 400 100 16 re
+170 400 100 16 re
+270 400 65 16 re
+335 400 55 16 re
+390 400 70 16 re
+460 400 100 16 re
+30 384 40 16 re
+70 384 100 16 re
+170 384 100 16 re
+270 384 65 16 re
+335 384 55 16 re
+390 384 70 16 re
+460 384 100 16 re
+30 368 40 16 re
+70 368 100 16 re
+170 368 100 16 re
+270 368 65 16 re
+335 368 55 16 re
+390 368 70 16 re
+460 368 100 16 re
+30 352 40 16 re
+70 352 100 16 re
+170 352 100 16 re
+270 352 65 16 re
+335 352 55 16 re
+390 352 70 16 re
+460 352 100 16 re
+S
+BT
+/F1 10 Tf
+36.66 421 Td
+(Pr\363ba) Tj
+40.83001 0 Td
+(Nadajnik-Odbiornik) Tj
+122.50499 0 Td
+(Reflektor) Tj
+93.33499 0 Td
+(C\133n\135) Tj
+60 0 Td
+(C\133n\135) Tj
+58.06003 0 Td
+(Wynik) Tj
+84.71997 0 Td
+(Uwagi) Tj
+ET
+BT
+/F2 10 Tf
+47 405 Td
+(1) Tj
+28 0 Td
+(0102-0717) Tj
+100 0 Td
+(1) Tj
+113 0 Td
+(2,00 dB) Tj
+61 0 Td
+(36,9 \045) Tj
+49 0 Td
+(POZYTYWNY) Tj
+67 0 Td
+(-) Tj
+-418 -16 Td
+(2) Tj
+28 0 Td
+(0102-0717) Tj
+100 0 Td
+(1) Tj
+113 0 Td
+(2,00 dB) Tj
+61 0 Td
+(36,9 \045) Tj
+49 0 Td
+(POZYTYWNY) Tj
+67 0 Td
+(-) Tj
+-418 -16 Td
+(3) Tj
+28 0 Td
+(0102-0717) Tj
+100 0 Td
+(1) Tj
+113 0 Td
+(2,00 dB) Tj
+61 0 Td
+(36,9 \045) Tj
+49 0 Td
+(POZYTYWNY) Tj
+67 0 Td
+(-) Tj
+-418 -16 Td
+(4) Tj
+28 0 Td
+(0102-0717) Tj
+100 0 Td
+(1) Tj
+113 0 Td
+(2,00 dB) Tj
+61 0 Td
+(36,9 \045) Tj
+49 0 Td
+(POZYTYWNY) Tj
+67 0 Td
+(-) Tj
+ET
+
+endstream
+endobj
+16 0 obj
+2994
+endobj
 xref
-0 14
+0 17
 0000000000 65535 f
 0000000015 00000 n
 0000000064 00000 n
-0000000130 00000 n
-0000000194 00000 n
-0000002403 00000 n
-0000004609 00000 n
-0000004820 00000 n
-0000009040 00000 n
-0000009060 00000 n
-0000047367 00000 n
-0000047389 00000 n
-0000047577 00000 n
-0000051443 00000 n
+0000000137 00000 n
+0000000201 00000 n
+0000002410 00000 n
+0000004616 00000 n
+0000004827 00000 n
+0000009047 00000 n
+0000009067 00000 n
+0000047374 00000 n
+0000047396 00000 n
+0000047584 00000 n
+0000051450 00000 n
+0000051471 00000 n
+0000051659 00000 n
+0000054709 00000 n
 trailer
 <<
 /Root 1 0 R
 /Info 3 0 R
-/Size 14
+/Size 17
 >>
 startxref
-51464
+54730
 %%EOF
