@@ -43,6 +43,7 @@ private:
 
     QMap<QString,UkladFiltrow> listaUstawienFiltra655;
     QMap<QString,UkladFiltrow> listaUstawienFiltra880;
+    static bool testMode;
 };
 
 #endif // USTAWIENIA_H

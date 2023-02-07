@@ -8,10 +8,14 @@
 char Ustawienia::appnazwa[]="CzujkiLiniowe";
 char Ustawienia::firmnazwa[]="Kolodziejczyk";
 
+bool Ustawienia::testMode = false;
+
 //settings(QFileInfo(QDir(QApplication::applicationDirPath()),  QFileInfo(QApplication::applicationFilePath()).completeBaseName() + ".ini").canonicalFilePath(), QSettings::IniFormat)
 Ustawienia::Ustawienia() :
     UstawieniaGen()
 {
+    testMode = QApplication::applicationName() == "CzujkiLinioweAppTest";
+
     load();
     loadListUstawienFiltra();
     //save();
