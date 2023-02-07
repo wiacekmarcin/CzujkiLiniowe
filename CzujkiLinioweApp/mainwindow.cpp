@@ -9,7 +9,7 @@
 #include "wybortestu.h"
 #include "danetestu.h"
 #include "teststanowiskadlg.h"
-
+#include "haslodialog.h"
 #include "pdfcreator.h"
 
 #include <QIcon>
@@ -465,6 +465,19 @@ void MainWindow::actionOtworzBadanie_triggered()
     setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(false);
     b.load(fileDaneBadania);
+
+    if (!b.getHaslo().isEmpty()) {
+        HasloDialog * dlg = new HasloDialog(this);
+        if (dlg->exec() == QDialog::Rejected) {
+            delete dlg;
+            return;
+        }
+        if (dlg->getHaslo() != b.getHaslo()) {
+            delete dlg;
+            return;
+        }
+        delete dlg;
+    }
     ui->centralwidget->setBadanie(b);
     ui->actionStartTestu->setEnabled(true);
     ui->actionSprawdzCzujke->setEnabled(true);

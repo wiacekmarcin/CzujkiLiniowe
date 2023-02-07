@@ -34,7 +34,7 @@ private slots:
     void on_rbCentralSupply_toggled(bool checked);
     void on_rbAlarmPrzekaznik_toggled(bool checked);
     void on_rbPrad_toggled(bool checked);
-
+    void changeHaslo();
 private:
     Ui::ParametryBadaniaOgolneDlg *ui;
     ParametryBadania * badanie;

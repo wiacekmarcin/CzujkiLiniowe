@@ -14,6 +14,7 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 
 SOURCES += \
     danetestu.cpp \
+    haslodialog.cpp \
     listabadan.cpp \
     oczekiwanienaurzadzenia.cpp \
     oknobadaniakata.cpp \
@@ -61,6 +62,7 @@ SOURCES += \
 
 HEADERS += \
     danetestu.h \
+    haslodialog.h \
     listabadan.h \
     oczekiwanienaurzadzenia.h \
     oknobadaniakata.h \
@@ -106,6 +108,7 @@ HEADERS += \
     zasilacz_worker.h
 
 FORMS += \
+    haslodialog.ui \
     listabadan.ui \
     mainwindow.ui \
     oczekiwanienaurzadzenia.ui \

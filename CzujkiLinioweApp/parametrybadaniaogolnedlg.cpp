@@ -1,6 +1,8 @@
 #include "parametrybadaniaogolnedlg.h"
 #include "ui_parametrybadaniaogolnedlg.h"
 
+#include <QMessageBox>
+
 //#define DEFVAL
 
 ParametryBadaniaOgolneDlg::ParametryBadaniaOgolneDlg(QWidget *parent) :
@@ -20,6 +22,10 @@ ParametryBadaniaOgolneDlg::ParametryBadaniaOgolneDlg(QWidget *parent) :
     connect(ui->czasStabilizacjiCzujki, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     connect(ui->pradAlarmu, &QLineEdit::textChanged, this, [this](const QString &) { this->check(); });
     adjustSize();
+
+    ui->pbOdblokuj->setVisible(false);
+    connect(ui->pbZmienHaslo, &QPushButton::clicked, this, &ParametryBadaniaOgolneDlg::changeHaslo);
+
 
 }
 
@@ -140,6 +146,11 @@ void ParametryBadaniaOgolneDlg::init(bool edit, const Ustawienia &u, ParametryBa
 
     ui->czasPomiedzyZmianamifiltra->setText(QString::number(badanie->getCzasPomZmianaTlumenia_s()));
     ui->dlugoscFali->setCurrentText(QString::number(badanie->getDlugoscFaliFiltrow()));
+
+    if (!badanie->getHaslo().isEmpty()) {
+        ui->password1->setText(badanie->getHaslo());
+        ui->password2->setText(badanie->getHaslo());
+    }
     check();
 
 
@@ -192,6 +203,10 @@ void ParametryBadaniaOgolneDlg::save(ParametryBadania *badanie)
         badanie->setWyzwalanieAlarmuPrzekaznikiem(false);
         badanie->setWyzwalanieAlarmuPradem(true);
         badanie->setPrzekroczeniePraduZasilania_mA(ui->pradAlarmu->text());
+    }
+
+    if (!ui->password1->text().isEmpty() && ui->password1->text() == ui->password2->text()) {
+        badanie->setHaslo(ui->password1->text());
     }
 
     badanie->setDlugoscFaliFiltrow(ui->dlugoscFali->currentText().toUInt());
@@ -370,5 +385,13 @@ void ParametryBadaniaOgolneDlg::on_rbPrad_toggled(bool checked)
 {
     setWyzwolenieAlarmu(!checked);
     check();
+}
+
+void ParametryBadaniaOgolneDlg::changeHaslo()
+{
+    if (ui->password1->text() != ui->password2->text()) {
+        QMessageBox::information(this, "Ustawianie hasła", "Hasła nie są zgodne.");
+        return;
+    }
 }
 

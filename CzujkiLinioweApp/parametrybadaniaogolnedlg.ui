@@ -49,7 +49,11 @@
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="password1"/>
+       <widget class="QLineEdit" name="password1">
+        <property name="echoMode">
+         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+        </property>
+       </widget>
       </item>
       <item row="1" column="0">
        <widget class="QLabel" name="lhaslo2">
@@ -62,12 +66,19 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QLineEdit" name="password2"/>
+       <widget class="QLineEdit" name="password2">
+        <property name="echoMode">
+         <enum>QLineEdit::PasswordEchoOnEdit</enum>
+        </property>
+       </widget>
       </item>
       <item row="2" column="1">
        <layout class="QHBoxLayout" name="horizontalLayout_7">
         <item>
          <widget class="QPushButton" name="pbOdblokuj">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>Odblokuj</string>
           </property>
@@ -89,7 +100,7 @@
         <item>
          <widget class="QPushButton" name="pbZmienHaslo">
           <property name="text">
-           <string>Zmień hasło</string>
+           <string>Ustaw hasło</string>
           </property>
          </widget>
         </item>
