@@ -45,6 +45,7 @@ private:
 
     short nrCzujkiDoWybrania2;
     bool dwieCzujkiDoWybrania;
+    short iloscKrytycznychBledow;
 };
 
 #endif // OKNOPARAMETRYTESTU_H

@@ -115,10 +115,7 @@
    <addaction name="actionZamknijBadanie"/>
    <addaction name="actionUsunBadanie"/>
    <addaction name="separator"/>
-   <addaction name="actionZasilacz"/>
-   <addaction name="actionSterownik"/>
    <addaction name="actionTest"/>
-   <addaction name="separator"/>
   </widget>
   <action name="actionOtw_rz_okno">
    <property name="icon">

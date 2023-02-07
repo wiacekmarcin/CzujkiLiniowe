@@ -168,9 +168,9 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
         ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
         ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
         ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
-        ui->tableWidget->item(id, 6)->setText(test.getTemperatura());
-        ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc());
-        ui->tableWidget->item(id, 8)->setText(test.getCisnienie());
+        ui->tableWidget->item(id, 6)->setText(test.getTemperatura() + QString(" \u00B0C"));
+        ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc() + QString( " %"));
+        ui->tableWidget->item(id, 8)->setText(test.getCisnienie() + QString( " mBar"));
 
         if (id == REPRODUCIBILITY) {
             for (const auto & tid : testyWidget.keys())
@@ -191,7 +191,8 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
         ui->tableWidget->item(id, 7)->setText("");
         ui->tableWidget->item(id, 8)->setText("");
     }
-    ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //ui->tableWidget->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    //resizeColumnsToContents
 }
 
 void ListaBadan::initialTestyTable(const ParametryBadania & badanie)
@@ -208,35 +209,35 @@ void ListaBadan::initialTestyTable(const ParametryBadania & badanie)
 
     QTableWidgetItem *itemName = new QTableWidgetItem(QString::fromUtf8("Nazwa Badania"));
     ui->tableWidget->setHorizontalHeaderItem(1, itemName);
-    ui->tableWidget->setColumnWidth(0, 700);
+    ui->tableWidget->setColumnWidth(1, 600);
 
     QTableWidgetItem *itemPerson = new QTableWidgetItem(QString::fromUtf8("Osoba wykonująca test"));
     ui->tableWidget->setHorizontalHeaderItem(2, itemPerson);
-    ui->tableWidget->setColumnWidth(0, 250);
+    ui->tableWidget->setColumnWidth(2, 250);
 
     QTableWidgetItem *itemStatus = new QTableWidgetItem(QString::fromUtf8("Wynik"));
     ui->tableWidget->setHorizontalHeaderItem(3, itemStatus);
-    ui->tableWidget->setColumnWidth(0, 100);
+    ui->tableWidget->setColumnWidth(3, 100);
 
     QTableWidgetItem *itemBegin = new QTableWidgetItem(QString::fromUtf8("Rozpoczęto"));
     ui->tableWidget->setHorizontalHeaderItem(4, itemBegin);
-    ui->tableWidget->setColumnWidth(0, 100);
+    ui->tableWidget->setColumnWidth(4, 150);
 
     QTableWidgetItem *itemEnd = new QTableWidgetItem(QString::fromUtf8("Zakończono"));
     ui->tableWidget->setHorizontalHeaderItem(5, itemEnd);
-    ui->tableWidget->setColumnWidth(0, 100);
+    ui->tableWidget->setColumnWidth(5, 150);
 
     QTableWidgetItem *itemTemp = new QTableWidgetItem(QString::fromUtf8("Temp."));
     ui->tableWidget->setHorizontalHeaderItem(6, itemTemp);
-    ui->tableWidget->setColumnWidth(0, 75);
+    ui->tableWidget->setColumnWidth(6, 75);
 
     QTableWidgetItem *itemWilg = new QTableWidgetItem(QString::fromUtf8("Wilgotn."));
     ui->tableWidget->setHorizontalHeaderItem(7, itemWilg);
-    ui->tableWidget->setColumnWidth(0, 75);
+    ui->tableWidget->setColumnWidth(7, 75);
 
     QTableWidgetItem *itemCisn = new QTableWidgetItem(QString::fromUtf8("Ciśnienie"));
     ui->tableWidget->setHorizontalHeaderItem(8, itemCisn);
-    ui->tableWidget->setColumnWidth(0, 75);
+    ui->tableWidget->setColumnWidth(8, 75);
 
     short row = 0;
 

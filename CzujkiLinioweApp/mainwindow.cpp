@@ -479,7 +479,29 @@ void MainWindow::actionOtworzBadanie_triggered()
 
 void MainWindow::actionUsunBadanie_triggered()
 {
+    if (question(QString::fromUtf8("Czujki Liniowe - usuwanie badania"),
+                 QString::fromUtf8("Usuwasz badanie, bez możliwości cofnięcia. Czy na pewno chcesz kontynuować?"), this) == QMessageBox::No) {
+        return;
+    }
+    b = ParametryBadania();
 
+    ui->actionStartTestu->setEnabled(false);
+    ui->actionParametryBadania->setEnabled(false);
+    ui->actionSprawdzCzujke->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->actionZapiszJako->setEnabled(false);
+    ui->actionZapiszZadanie->setEnabled(false);
+    ui->actionUsunBadanie->setEnabled(false);
+    ui->centralwidget->clearBadanie();
+    ui->centralwidget->setVisible(false);
+    setWindowTitle("Czujniki Liniowe");
+    setWindowModified(false);
+
+    QFile f (fileDaneBadania);
+    if (f.exists()) {
+        f.remove();
+    }
+    fileDaneBadania = "";
 }
 
 void MainWindow::actionParametryBadania_triggered()

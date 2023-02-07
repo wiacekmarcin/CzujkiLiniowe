@@ -316,17 +316,21 @@ OknoParametryTestu::~OknoParametryTestu()
 
 void OknoParametryTestu::check1Pomiar()
 {
+    iloscKrytycznychBledow = 0;
     //ui->errorLab->setStyleSheet("color : red; font-weight:bold; ");
     if (ui->osobaWykonujaca->text().isEmpty()) {
         addError(QString::fromUtf8("Pole 'Osoba Wykonująca test' nie może być puste"), true);
+        ++iloscKrytycznychBledow;
     }
     if (ui->temperatura->text().isEmpty()) {
         addError(QString::fromUtf8("Pole 'Temperatura' nie może być puste"), true);
+        ++iloscKrytycznychBledow;
     } else {
         bool ok;
         double val = ui->temperatura->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Temperatura' zawiera niepoprawną wartość"), true);
+            ++iloscKrytycznychBledow;
         } else if (val < minTemp || val > maxTemp ){
             addError(QString::fromUtf8("Pole 'Temperatura' zawiera wartość niezgodną z normą"), false);
         }
@@ -334,11 +338,13 @@ void OknoParametryTestu::check1Pomiar()
 
     if (ui->wilgotnosc->text().isEmpty()) {
         addError(QString::fromUtf8("Pole 'Wilgotność' nie może być puste"), true);
+        ++iloscKrytycznychBledow;
     } else {
         bool ok;
         double val = ui->wilgotnosc->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Wilgotność' zawiera niepoprawną wartość"), true);
+            ++iloscKrytycznychBledow;
         } else if (val < minHumi || val > maxHumi ) {
             addError(QString::fromUtf8("Pole 'Wilgotność' zawiera wartość niezgodną z normą"), false);
         }
@@ -346,11 +352,13 @@ void OknoParametryTestu::check1Pomiar()
 
     if (ui->cisnienie->text().isEmpty()) {
         addError(QString::fromUtf8("Pole 'Ciśnienie' nie może być puste"), true);
+        ++iloscKrytycznychBledow;
     } else {
         bool ok;
         double val = ui->cisnienie->text().toDouble(&ok);
         if (!ok) {
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera niepoprawną wartość"), true);
+            ++iloscKrytycznychBledow;
         } else if (val < minCisn || val > maxCisn ){
             addError(QString::fromUtf8("Pole 'Ciśnienie' zawiera wartość niezgodną z normą"), false);
         }
@@ -368,11 +376,13 @@ void OknoParametryTestu::check()
             QString ssecs = ui->powtarzalnosc_czas->text();
             if (ssecs.isEmpty()) {
                 addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
+                ++iloscKrytycznychBledow;
             } else {
                 bool ok;
                 unsigned int secs = ssecs.toInt(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Czas pomiędzy pierwszymi trzema próbami' zawiera niepoprawną wartość"), true);
+                    ++iloscKrytycznychBledow;
                 } else if (secs < miniCzasPowt ||
                            secs > maxiCzasPowt) {
                     addError(QString::fromUtf8("Czas pomiędzy pierwszymi trzema próbami powinien być w zakresie 15-60 minut [900-3600 sekund]"), false);
@@ -382,11 +392,13 @@ void OknoParametryTestu::check()
             QString sminvolt = ui->minVolt->text();
             if (sminvolt.isEmpty()) {
                 addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                ++iloscKrytycznychBledow;
             } else {
                 bool ok;
                 unsigned int mvolt = sminvolt.toDouble(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                    ++iloscKrytycznychBledow;
                 } else if (mvolt < minVolt ||
                            mvolt > maxVolt) {
                     addError(QString::fromUtf8("Pole 'Minimalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
@@ -396,14 +408,18 @@ void OknoParametryTestu::check()
             QString smaxvolt = ui->maxVolt->text();
             if (smaxvolt.isEmpty()) {
                 addError(QString::fromUtf8("Pole 'Maksymalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                ++iloscKrytycznychBledow;
             } else {
                 bool ok;
                 unsigned int mvolt = smaxvolt.toDouble(&ok);
                 if (!ok) {
                     addError(QString::fromUtf8("Pole 'Miaksymalne napięcie zasilania czujki' zawiera niepoprawną wartość"), true);
+                    ++iloscKrytycznychBledow;
                 } else if (mvolt < minVolt ||
                            mvolt > maxVolt) {
                     addError(QString::fromUtf8("Pole 'Maksymalne napięcie zasilania czujki' zawiera wartość z poza zakresu"), false);
+                } else {
+
                 }
             }
         }
@@ -433,10 +449,12 @@ void OknoParametryTestu::check()
         }
     }
 
+    ui->pbDalej->setEnabled(iloscKrytycznychBledow == 0);
     if (errorsMsg.size() == 0) {
         ui->errorLab->setText("Dane sa prawidłowe");
         ui->errorLab->setStyleSheet("color : black; font-weight:normal; ");
     } else {
+
         QString h = "<html><body><p style=\"color:red; font-weight:bold;\">Formularz zawiera błędy</p><ul>";
         for (const auto & err : errorsMsg) {
             h += err;
