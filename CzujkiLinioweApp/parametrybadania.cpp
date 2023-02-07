@@ -327,6 +327,11 @@ void ParametryBadania::setPosortowaneCzujki(const QVector<QPair<QString, QString
     this->posortowaneCzujki = posortowaneCzujki;
 }
 
+QVector<QPair<QString, QString> > ParametryBadania::getWszystkieCzujki() const
+{
+    return wszystkieCzujki;
+}
+
 QDataStream &operator<<(QDataStream &out, const ParametryBadania &dane)
 {
     dane.ParametryBadaniaGen::save(out);

@@ -70,6 +70,9 @@ private slots:
     void actionUsunBadanie_triggered();
     void actionZamknijBadanie_triggered();
     void actionSprawdzCzujke_triggered();
+    void actionJedenRaport_triggered();
+    void actionWszystkieRaporty_triggered();
+    void actionZamknijAplikacje_triggered();
 
     void actionTest_triggered();
 

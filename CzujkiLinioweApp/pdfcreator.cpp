@@ -1,40 +1,22 @@
 #include "pdfcreator.h"
 
-/*
- * << Haru Free PDF Library 2.0.0 >> -- text_demo.c
- *
- * Copyright (c) 1999-2006 Takeshi Kanno <takeshi_kanno@est.hi-ho.ne.jp>
- *
- * Permission to use, copy, modify, distribute and sell this software
- * and its documentation for any purpose is hereby granted without fee,
- * provided that the above copyright notice appear in all copies and
- * that both that copyright notice and this permission notice appear
- * in supporting documentation.
- * It is provided "as is" without express or implied warranty.
- *
- */
-
-#ifdef NOPDF
-
-int createPdf()
-{
-    return 1;
-}
-
-#else
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
 #include <setjmp.h>
 #include <hpdf.h>
+#include <QTextCodec>
+#include <QString>
+#include <QTextCodec>
+#include <QDebug>
+#include <QDateTime>
 
-void
-print_grid  (HPDF_Doc     pdf,
-             HPDF_Page    page);
-
+#include "parametrybadania.h"
 jmp_buf env;
+
+static const int PAGE_WIDTH = 420;
+static const int PAGE_HEIGHT = 400;
 
 #ifdef HPDF_DLL
 void  __stdcall
@@ -47,388 +29,1363 @@ error_handler (HPDF_STATUS   error_no,
 {
     printf ("ERROR: error_no=%04X, detail_no=%u\n", (HPDF_UINT)error_no,
                 (HPDF_UINT)detail_no);
+    PdfCreator::error = QString("ERROR: error_no=%1, detail_no=%2").arg((HPDF_UINT)error_no, 16).arg((HPDF_UINT)detail_no);
     longjmp(env, 1);
 }
 
-void
-show_stripe_pattern  (HPDF_Page   page,
-                      HPDF_REAL   x,
-                      HPDF_REAL   y)
-{
-    HPDF_UINT iy = 0;
+QString PdfCreator::error;
 
-    while (iy < 50) {
-        HPDF_Page_SetRGBStroke (page, 0.0, 0.0, 0.5);
-        HPDF_Page_SetLineWidth (page, 1);
-        HPDF_Page_MoveTo (page, x, y + iy);
-        HPDF_Page_LineTo (page, x + HPDF_Page_TextWidth (page, "ABCabc123"),
-                    y + iy);
-        HPDF_Page_Stroke (page);
-        iy += 3;
+PdfCreator::PdfCreator()
+{
+    codec = QTextCodec::codecForName("ISO 8859-2");
+}
+
+void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 0)
+{
+    numerZlecenia = codec->fromUnicode(badanie.getNumerZlecenia());
+    numerBadania = codec->fromUnicode(badanie.getNumerTestu());
+    osobaOdpowiedzialna1 = codec->fromUnicode(badanie.getOsobaOdpowiedzialna());
+    uwagi1 = codec->fromUnicode(badanie.getUwagi());
+    dataBadania = codec->fromUnicode(QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm"));
+
+    if (badanie.getSystemOdbiornikNadajnik()) {
+        typSystemu = codec->fromUnicode(QString::fromUtf8("Nadajnik + Odbiornik"));
+    } else {
+        typSystemu = codec->fromUnicode(QString::fromUtf8("Nadajnik-Odbiornik + Reflektor"));
     }
 
-    HPDF_Page_SetLineWidth (page, 2.5);
+    producent = codec->fromUnicode(badanie.getProducentCzujki());
+
+    eTypTransmitter = codec->fromUnicode(QString::fromUtf8("Typ %1").arg(badanie.getNazwaTransmitter_a()));
+    eTypReceiver = codec->fromUnicode(QString::fromUtf8("Typ %1").arg(badanie.getNazwaReceiver_a()));
+    eTransmitter = codec->fromUnicode(badanie.getNazwaTransmitter());
+    eReceiver = codec->fromUnicode(badanie.getNazwaReceiver());
+    eNrTransmitter = codec->fromUnicode(badanie.getNazwaNumerTransmitter());
+    eNrReceiver = codec->fromUnicode(badanie.getNazwaNumerReceiver());
+
+    typTransmitter = codec->fromUnicode(badanie.getTypTransmitter());
+    typReceiver = codec->fromUnicode(badanie.getTypReceiver());
+    rozstawienieMinimalne = codec->fromUnicode(QString::fromUtf8("%1 m").arg(badanie.getRozstawienieMinCzujki()).replace('.', ','));
+    rozstawienieMaksymalne = codec->fromUnicode(QString::fromUtf8("%1 m").arg(badanie.getRozstawienieMaxCzujki()).replace('.', ','));
+
+    nadajnikKatPionowy = codec->fromUnicode(badanie.getMaksKatowaNieWspolPionowaNadajnika().replace('.',',')+ ' ' + QChar(0xb0));
+    nadajnikKatPoziomy = codec->fromUnicode(badanie.getMaksKatowaNieWspolPoziomaNadajnika().replace('.',',')+ ' ' +QChar(0xb0));
+    odbiornikKatPionowy = codec->fromUnicode(badanie.getMaksKatowaNieWspolPionowaOdbiornika().replace('.',',')+ ' ' +QChar(0xb0));
+    odbiornikKatPoziomy = codec->fromUnicode(badanie.getMaksKatowaNieWspolPoziomaOdbiornika().replace('.',',')+ ' ' +QChar(0xb0));
+
+    zasilaczZewnetrzny = badanie.getZasilanieCzujekZasilaczZewnetrzny();
+    zasilaczCentrala = badanie.getZasilanieCzujekCentrala();
+    wartoscNapieciaZasilania = codec->fromUnicode(QString::fromUtf8("%1 V").
+                                                  arg(0.001*badanie.getNapiecieZasilaniaCzujki_mV(), 7, 'f', 3).
+                                                  replace('.', ','));
+    nazwaCentraliPPOZ = codec->fromUnicode(badanie.getZasilanieCzujekTypCentrali());
+    wyzwalaniePradem = badanie.getWyzwalanieAlarmuPradem();
+    wyzwalaniePrzekaznikiem = badanie.getWyzwalanieAlarmuPrzekaznikiem();
+    wartoscPrądu = codec->fromUnicode(QString("%1 mA").arg(badanie.getPrzekroczeniePraduZasilania_mA()).replace('.', ','));
+    czasStabilizacjiCzujki = codec->fromUnicode(QString("%1 s").arg(badanie.getCzasStabilizacjiCzujki_s()));
+    czasStabilizacjiPoResecie = codec->fromUnicode(QString("%1 s").arg(badanie.getCzasStabilizacjiPoResecie_s()));
+
+    for (const auto & czujka : badanie.getWszystkieCzujki()) {
+        CzujkaInfo cz;
+        cz.oznaczenie = codec->fromUnicode(badanie.getNumerSortedCzujki(czujka.first, czujka.second));
+        cz.transmiter = codec->fromUnicode(czujka.first);
+        cz.receiver = codec->fromUnicode(czujka.second);
+        czujki << cz;
+    }
+
+
+    short NrTestu = 1;
+    for (const auto & test : badanie.getTesty()) {
+        if (!test.getWykonany())
+            continue;
+
+        if (all || test.getId() == id) {
+            TestWszystko daneTestu;
+            daneTestu.odtwarzalnosc = test.getId() == REPRODUCIBILITY;
+
+            daneTestu.testName = getTestName(test, NrTestu++);
+
+            daneTestu.ogolne.osobaWykonujaca = codec->fromUnicode(test.getOsobaWykonujaca());
+            daneTestu.ogolne.dataRozpoczecia = codec->fromUnicode(test.getDataRozpoczecia());
+            daneTestu.ogolne.dataZakonczenia = codec->fromUnicode(test.getDataZakonczenia());
+            daneTestu.ogolne.temperatura = codec->fromUnicode(QString("%1 %2C").arg(test.getTemperatura(),QChar(0xb0)).replace('.',','));
+            daneTestu.ogolne.cisnienie = codec->fromUnicode(QString("%1 mBar").arg(test.getCisnienie()).replace('.',','));
+            daneTestu.ogolne.wilgotnosc = codec->fromUnicode(QString("%1 %").arg(test.getWilgotnosc()).replace('.',','));
+            daneTestu.ogolne.uwagi = codec->fromUnicode(test.getUwagi());
+            daneTestu.ogolne.receiver = codec->fromUnicode(test.getNumerReceiver());
+            daneTestu.ogolne.transmiter = codec->fromUnicode(test.getNumerTransmitter());
+            if (test.getOk()) {
+                daneTestu.ogolne.wynikTestu = codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
+            } else {
+                daneTestu.ogolne.wynikTestu = codec->fromUnicode(QString::fromUtf8("NEGATYWNY - %1").arg(test.getErrStr()));
+            }
+            daneTestu.wynikiC.CMaxCmin = codec->fromUnicode(QString::fromUtf8("%1").arg(test.getCmaxCmin(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.CMaxCrep = codec->fromUnicode(QString::fromUtf8("%1").arg(test.getCmaxCrep(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.CRepCMin = codec->fromUnicode(QString::fromUtf8("%1").arg(test.getCrepCmin(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Cmin1 = codec->fromUnicode(QString::fromUtf8("%1 dB").arg(test.getCmin(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Cmax1 = codec->fromUnicode(QString::fromUtf8("%1 dB").arg(test.getCmax(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Crep1 = codec->fromUnicode(QString::fromUtf8("%1 dB").arg(test.getCrep(), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Cmin2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmin()), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Cmax2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmax()), 4, 'f', 2).replace('.',','));
+            daneTestu.wynikiC.Crep2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCrep()), 4, 'f', 2).replace('.',','));
+
+            setTableData(test, daneTestu.dane, daneTestu.narazenie, daneTestu.czyNarazenie, daneTestu.showC);
+            testy << daneTestu;
+        }
+    }
+}
+
+QByteArray PdfCreator::getTestName(const DaneTestu & test, short NrTestu)
+{
+    return codec->fromUnicode(QString::fromUtf8("TEST NR %1: %2").arg(NrTestu).arg(test.getName()));
+}
+
+void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, NarazenieDane & narazenie, bool &czyNarazenie, bool & showC)
+{
+    if (test.getId() == REPRODUCIBILITY) {
+        czyNarazenie = false;
+        showC = true;
+        dane.leftMargin = 30;
+        dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
+        dane.head << eTransmitter;
+        dane.head << eReceiver;
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+        dane.colwidth << 40 << 100 << 100 << 65 << 55 << 70 << 100;
+        dane.colAlign << 0  << -1  << -1  << 1  << 1  << 0  << -1;
+
+        short num = 0;
+        for (const auto & d : test.getDaneBadanCzujek())
+        {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(QString::fromUtf8("%1").arg(num+1));
+            row << codec->fromUnicode(d.numerNadajnika);
+            row << codec->fromUnicode(d.numerOdbiornika);
+            row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+            row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+            if (d.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            }
+            dane.dane << row;
+            ++num;
+        }
+        for (short s = num; s < 7; ++s) {
+            QVector<QByteArray> row;
+            row << "-";
+            row << "-";
+            row << "-";
+            row << "-";
+            row << "-";
+            row << "-";
+            row << "-";
+            dane.dane << row;
+        }
+    } else if (test.getId() == REPEATABILITY) {
+        czyNarazenie = false;
+        showC = true;
+        dane.leftMargin = 50;
+        dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+        dane.colwidth << 40 << 90 << 90 << 80 << 200;
+        dane.colAlign << 0  << 1  << 1  << 0  << -1;
+
+        short num = 0;
+        for (const auto & d : test.getDaneBadanCzujek())
+        {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(QString::fromUtf8("%1").arg(num+1));
+            row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+            row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+            if (d.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            }
+            dane.dane << row;
+            num++;
+        }
+    } else if (test.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
+        czyNarazenie = false;
+        showC = true;
+        dane.leftMargin = 20;
+        dane.head << codec->fromUnicode(QString::fromUtf8("Nazwa pomiaru"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Kąt prod."));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Kąt zmierz."));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Błąd"));
+
+        dane.colwidth << 150 << 70 << 70 << 80 << 150;
+        dane.colAlign << 0   << 1  << 1  << 0  << -1;
+
+        for (const auto & wynik : test.getPomiaryKatow()) {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(wynik.nazwaBadania);
+
+            row << codec->fromUnicode(QString("%1 %2").arg(wynik.katProducenta, 4, 'f', 2).arg(QChar(0xb0)).replace('.',','));
+            row << codec->fromUnicode(QString("%1 %2").arg(wynik.katZmierzony, 4, 'f', 2).arg(QChar(0xb0)).replace('.',','));
+            if (wynik.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(wynik.errorStr);
+            }
+            dane.dane << row;
+        }
+    } else if (test.getId() == RAPID_CHANGES_IN_ATTENUATION) {
+        czyNarazenie = false;
+        showC = false;
+        dane.leftMargin = 50;
+
+        dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+        dane.colwidth << 40 << 70 << 70 << 80 << 250;
+        dane.colAlign << 0  << 1  << 1  << 0  << -1;
+
+        short num = 0;
+        for (const auto & d : test.getDaneBadanCzujek())
+        {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(QString::fromUtf8("%1").arg(num+1));
+            row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+            row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+            if (d.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            }
+            dane.dane << row;
+            num++;
+        }
+    } else if (test.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
+        czyNarazenie = false;
+        showC = true;
+        dane.leftMargin = 40;
+        dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Rozstawienie"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+        dane.colwidth << 40 << 90 << 70 << 70 << 80 << 180;
+        dane.colAlign << 0  << 1  << 1  << 1  << 0  << -1;
+
+        short num = 0;
+        for (const auto & d : test.getDaneBadanCzujek())
+        {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(QString::fromUtf8("%1").arg(num+1));
+            if (num == 0) {
+                row << codec->fromUnicode(QString::fromUtf8("%1 m").arg(test.getMinimalneRozstawienie()).replace('.',','));
+            } else {
+                row << codec->fromUnicode(QString::fromUtf8("%1 m").arg(test.getMaksymalneRozstawienie()).replace('.',','));
+            }
+            row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+            row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+            if (d.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            }
+            dane.dane << row;
+            num++;
+        }
+    } else if (test.getId() == STRAY_LIGHT) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    } else if (test.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+        czyNarazenie = false;
+        showC = true;
+        dane.leftMargin = 40;
+        dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Napięcie zasilania"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+        dane.colwidth << 40 << 100 << 70 << 70 << 80 << 160;
+        dane.colAlign << 0  << 1    << 1  << 1  << 0  << -1;
+
+        short num = 0;
+        for (const auto & d : test.getDaneBadanCzujek())
+        {
+            QVector<QByteArray> row;
+            row << codec->fromUnicode(QString::fromUtf8("%1").arg(num+1));
+            if (num == 0) {
+                row << codec->fromUnicode(QString::fromUtf8("%1 V").arg(test.getMinimalneNapiecie()).replace('.',','));
+            } else {
+                row << codec->fromUnicode(QString::fromUtf8("%1 V").arg(test.getMaksymalneNapiecie()).replace('.',','));
+            }
+            row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+            row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+            if (d.ok) {
+                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            }
+            else {
+                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            }
+            dane.dane << row;
+            num++;
+        }
+    }
+
+    else if (test.getId() == DRY_HEAT) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == COLD) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == VIBRATION) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == IMPACT) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+
+    else if (test.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
+        narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
+    }
+}
+
+void PdfCreator::narazeniaWynik(const DaneTestu &test, TabelaDane &dane,
+                                NarazenieDane &narazenie, bool &czyNarazenie, bool & showC)
+{
+    dane.leftMargin = 40;
+    czyNarazenie = true;
+    showC = true;
+
+    dane.head << codec->fromUnicode(QString::fromUtf8("Stan czujki"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
+
+    dane.colwidth << 120 << 70 << 70 << 80 << 180;
+    dane.colAlign << 0   << 1  << 1  << 0  << -1;
+
+    short num = 0;
+    for (const auto & d : test.getDaneBadanCzujek())
+    {
+        QVector<QByteArray> row;
+        if (num == 0) {
+            row << codec->fromUnicode(QString::fromUtf8("Przed narażeniem"));
+        } else {
+            row << codec->fromUnicode(QString::fromUtf8("Po narażeniu"));
+        }
+        row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
+        row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
+        if (d.ok) {
+            row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+        }
+        else {
+            row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+        }
+        dane.dane << row;
+        num++;
+    }
+
+
+    narazenie.wynik = test.getWynikNarazenia() ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
+                                                 codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+    narazenie.uwagi = codec->fromUnicode(test.getInfoNarazenia());
+    narazenie.opis = codec->fromUnicode(test.getOpisNarazenia());
 }
 
 
-void
-show_description  (HPDF_Page          page,
-                   HPDF_REAL          x,
-                   HPDF_REAL          y,
-                   const char   *text)
+
+void PdfCreator::create(const QString & data)
 {
-    float fsize = HPDF_Page_GetCurrentFontSize (page);
-    HPDF_Font font = HPDF_Page_GetCurrentFont (page);
-    HPDF_RGBColor c = HPDF_Page_GetRGBFill (page);
 
-    HPDF_Page_BeginText (page);
-    HPDF_Page_SetRGBFill (page, 0, 0, 0);
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL);
-    HPDF_Page_SetFontAndSize (page, font, 10);
-    HPDF_Page_TextOut (page, x, y - 12, text);
-    HPDF_Page_EndText (page);
-
-    HPDF_Page_SetFontAndSize (page, font, fsize);
-    HPDF_Page_SetRGBFill (page, c.r, c.g, c.b);
-}
-
-
-
-int createPdf()
-{
-    const char *page_title1 = "CENTRUM NAUKOWO BADAWCZE OCHRONY PRZECIWPOŻAROWEJ";
-    const char *page_title2 = "im. Józefa Tuliszkowskiego w Józefowie";
-    const char *page_title3 = "ZAKRES BADAŃ POSIADAJĄCY AKREDYTACJĘ POLSKIEGO CENTRUM AKREDYTACJI";
-    const char *page_title4 = "Numer certyfikatu akredytacji - AB 207";
 
     HPDF_Doc  pdf;
-    HPDF_Font font;
+    HPDF_Font font, font2;
     HPDF_Page page;
-    char fname[256];
 
-    float tw1, tw2, tw3, tw4, th;
-    //float fsize;
-    //int i;
-    //int len;
 
-    //float angle1;
-    //float angle2;
-    //float rad1;
-    //float rad2;
-
-    //float ypos;
-
-    strcpy (fname, "atest.pdf");
-
-    pdf = HPDF_New (error_handler, NULL);
+    pdf = HPDF_NewEx (error_handler,  NULL, NULL, 0, NULL);
     if (!pdf) {
         printf ("error: cannot create PdfDoc object\n");
-        return -1;
+        errCode = -1;
+        return;
     }
 
     if (setjmp(env)) {
         printf ("error: setjump");
         HPDF_Free (pdf);
-        return -1;
+        errCode = -1;
+        return;
     }
 
     /* set compression mode */
     HPDF_SetCompressionMode (pdf, HPDF_COMP_ALL);
 
     /* set encoding */
-    HPDF_SetCurrentEncoder(pdf, "UTF-8");
+    HPDF_SetCurrentEncoder(pdf, "ISO8859-2");
 
-    /* create default-font */
-    font = HPDF_GetFont (pdf, "Helvetica", "UTF-8");
+    /* get default font */
+    font = HPDF_GetFont (pdf, "Helvetica", "ISO8859-2");
+    font2 = HPDF_GetFont (pdf, "Courier", "ISO8859-2");
 
-    /* add a new page object. */
+    iloscStron = testy.size() + 1;
+
+    /* add a new main page object. */
     page = HPDF_AddPage (pdf);
 
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 8);
+    QByteArray strona = codec->fromUnicode(QString::fromUtf8("Strona 1 z %1").arg(iloscStron));
+    float tw = HPDF_Page_TextWidth (page, strona.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                25, strona.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Image image = HPDF_LoadJpegImageFromFile (pdf, "logo.jpg");
+
+    /* Draw image to the canvas. */
+    //HPDF_Page_DrawImage (page, image, x, 0, HPDF_Image_GetWidth (image),
+    //            HPDF_Image_GetHeight (image));
+    HPDF_Page_DrawImage (page, image, (HPDF_Page_GetWidth(page) - 60) / 2,
+                         HPDF_Page_GetHeight(page)-70, 60, 60);
+
+
+
     /* draw grid to the page */
-    print_grid  (pdf, page);
+    //print_grid  (pdf, page);
 
-    /* print the lines of the page.
-    HPDF_Page_SetLineWidth (page, 1);
-    HPDF_Page_Rectangle (page, 50, 50, HPDF_Page_GetWidth(page) - 100,
-                HPDF_Page_GetHeight (page) - 110);
-    HPDF_Page_Stroke (page);
-    */
+    createHead(page, font);
+    createInfoBadanie(page, font, font2, 176, true, true);
+    createInformacje(page, font, font2);
+    createInformacjeKat(page, font, font2);
+    createTablicaCzujek(page, font, font2);
+    createDodatkoweParametry(page, font, font2);
 
-    /* print the title of the page (with positioning center). */
-    HPDF_Page_SetFontAndSize (page, font, 16);
-    tw1 = HPDF_Page_TextWidth (page, page_title1);
-    tw2 = HPDF_Page_TextWidth (page, page_title2);
-    tw3 = HPDF_Page_TextWidth (page, page_title3);
-    tw4 = HPDF_Page_TextWidth (page, page_title4);
+    for (short n = 0; n < testy.size(); ++n)
+    {
+        page = HPDF_AddPage (pdf);
+        /* draw grid to the page */
+        //print_grid  (pdf, page);
 
 
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw1) / 2,
-                HPDF_Page_GetHeight (page) - 50, page_title1);
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw2) / 2,
-                HPDF_Page_GetHeight (page) - 75, page_title2);
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw3) / 2,
-                HPDF_Page_GetHeight (page) - 100, page_title3);
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw4) / 2,
-                HPDF_Page_GetHeight (page) - 125, page_title4);
-    HPDF_Page_EndText (page);
+        HPDF_Page_BeginText (page);
+        HPDF_Page_SetFontAndSize (page, font, 8);
+        strona = codec->fromUnicode(QString::fromUtf8("Strona %1 z %2").arg(n+2).arg(iloscStron));
+        tw = HPDF_Page_TextWidth (page, strona.data());
+        HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                    25, strona.data());
+        HPDF_Page_EndText (page);
 
-    HPDF_Page_BeginText (page);
-    HPDF_Page_MoveTextPos (page, 60, HPDF_Page_GetHeight(page) - 60);
 
-    HPDF_Page_EndText (page);
+        HPDF_Page_BeginText (page);
+        HPDF_Page_SetFontAndSize (page, font, 10);
+        HPDF_Page_EndText (page);
 
-#if 0
-    /*
-     * font size
-     */
-    fsize = 8;
-    while (fsize < 60) {
-        char buf[50];
-        int len;
-
-        /* set style and size of font. */
-        HPDF_Page_SetFontAndSize(page, font, fsize);
-
-        /* set the position of the text. */
-        HPDF_Page_MoveTextPos (page, 0, -5 - fsize);
-
-        /* measure the number of characters which included in the page. */
-        strcpy(buf, samp_text);
-        len = HPDF_Page_MeasureText (page, samp_text,
-                        HPDF_Page_GetWidth(page) - 120, HPDF_FALSE, NULL);
-
-        /* truncate the text. */
-        buf[len] = 0x00;
-
-        HPDF_Page_ShowText (page, buf);
-
-        /* print the description. */
-        HPDF_Page_MoveTextPos (page, 0, -10);
-        HPDF_Page_SetFontAndSize(page, font, 8);
-        #ifdef __WIN32__
-        _snprintf(buf, 50, "Fontsize=%.0f", fsize);
-        #else
-        snprintf(buf, 50, "Fontsize=%.0f", fsize);
-        #endif
-        HPDF_Page_ShowText (page, buf);
-
-        fsize *= 1.5;
+        createInfoBadanie(page, font, font2, 60, false, false);
+        createPageTest(page, font, font2, testy.at(n));
     }
-
-    /*
-     * font color
-     */
-    HPDF_Page_SetFontAndSize(page, font, 8);
-    HPDF_Page_MoveTextPos (page, 0, -30);
-    HPDF_Page_ShowText (page, "Font color");
-
-    HPDF_Page_SetFontAndSize (page, font, 18);
-    HPDF_Page_MoveTextPos (page, 0, -20);
-    len = strlen (samp_text);
-    for (i = 0; i < len; i++) {
-        char buf[2];
-        float r = (float)i / (float)len;
-        float g = 1 - ((float)i / (float)len);
-        buf[0] = samp_text[i];
-        buf[1] = 0x00;
-
-        HPDF_Page_SetRGBFill (page, r, g, 0.0);
-        HPDF_Page_ShowText (page, buf);
-    }
-    HPDF_Page_MoveTextPos (page, 0, -25);
-
-    for (i = 0; i < len; i++) {
-        char buf[2];
-        float r = (float)i / (float)len;
-        float b = 1 - ((float)i / (float)len);
-        buf[0] = samp_text[i];
-        buf[1] = 0x00;
-
-        HPDF_Page_SetRGBFill (page, r, 0.0, b);
-        HPDF_Page_ShowText (page, buf);
-    }
-    HPDF_Page_MoveTextPos (page, 0, -25);
-
-    for (i = 0; i < len; i++) {
-        char buf[2];
-        float b = (float)i / (float)len;
-        float g = 1 - ((float)i / (float)len);
-        buf[0] = samp_text[i];
-        buf[1] = 0x00;
-
-        HPDF_Page_SetRGBFill (page, 0.0, g, b);
-        HPDF_Page_ShowText (page, buf);
-    }
-
-    HPDF_Page_EndText (page);
-
-    ypos = 450;
-
-    /*
-     * Font rendering mode
-     */
-    HPDF_Page_SetFontAndSize(page, font, 32);
-    HPDF_Page_SetRGBFill (page, 0.5, 0.5, 0.0);
-    HPDF_Page_SetLineWidth (page, 1.5);
-
-     /* PDF_FILL */
-    show_description (page,  60, ypos,
-                "RenderingMode=PDF_FILL");
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-    /* PDF_STROKE */
-    show_description (page, 60, ypos - 50,
-                "RenderingMode=PDF_STROKE");
-    HPDF_Page_SetTextRenderingMode (page, HPDF_STROKE);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos - 50, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-    /* PDF_FILL_THEN_STROKE */
-    show_description (page, 60, ypos - 100,
-                "RenderingMode=PDF_FILL_THEN_STROKE");
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL_THEN_STROKE);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos - 100, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-    /* PDF_FILL_CLIPPING */
-    show_description (page, 60, ypos - 150,
-                "RenderingMode=PDF_FILL_CLIPPING");
-    HPDF_Page_GSave (page);
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL_CLIPPING);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos - 150, "ABCabc123");
-    HPDF_Page_EndText (page);
-    show_stripe_pattern (page, 60, ypos - 150);
-    HPDF_Page_GRestore (page);
-
-    /* PDF_STROKE_CLIPPING */
-    show_description (page, 60, ypos - 200,
-                "RenderingMode=PDF_STROKE_CLIPPING");
-    HPDF_Page_GSave (page);
-    HPDF_Page_SetTextRenderingMode (page, HPDF_STROKE_CLIPPING);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos - 200, "ABCabc123");
-    HPDF_Page_EndText (page);
-    show_stripe_pattern (page, 60, ypos - 200);
-    HPDF_Page_GRestore (page);
-
-    /* PDF_FILL_STROKE_CLIPPING */
-    show_description (page, 60, ypos - 250,
-                "RenderingMode=PDF_FILL_STROKE_CLIPPING");
-    HPDF_Page_GSave (page);
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL_STROKE_CLIPPING);
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, ypos - 250, "ABCabc123");
-    HPDF_Page_EndText (page);
-    show_stripe_pattern (page, 60, ypos - 250);
-    HPDF_Page_GRestore (page);
-
-    /* Reset text attributes */
-    HPDF_Page_SetTextRenderingMode (page, HPDF_FILL);
-    HPDF_Page_SetRGBFill (page, 0, 0, 0);
-    HPDF_Page_SetFontAndSize(page, font, 30);
-
-
-    /*
-     * Rotating text
-     */
-    angle1 = 30;                   /* A rotation of 30 degrees. */
-    rad1 = angle1 / 180 * 3.141592; /* Calcurate the radian value. */
-
-    show_description (page, 320, ypos - 60, "Rotating text");
-    HPDF_Page_BeginText (page);
-    HPDF_Page_SetTextMatrix (page, cos(rad1), sin(rad1), -sin(rad1), cos(rad1),
-                330, ypos - 60);
-    HPDF_Page_ShowText (page, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-
-    /*
-     * Skewing text.
-     */
-    show_description (page, 320, ypos - 120, "Skewing text");
-    HPDF_Page_BeginText (page);
-
-    angle1 = 10;
-    angle2 = 20;
-    rad1 = angle1 / 180 * 3.141592;
-    rad2 = angle2 / 180 * 3.141592;
-
-    HPDF_Page_SetTextMatrix (page, 1, tan(rad1), tan(rad2), 1, 320, ypos - 120);
-    HPDF_Page_ShowText (page, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-
-    /*
-     * scaling text (X direction)
-     */
-    show_description (page, 320, ypos - 175, "Scaling text (X direction)");
-    HPDF_Page_BeginText (page);
-    HPDF_Page_SetTextMatrix (page, 1.5, 0, 0, 1, 320, ypos - 175);
-    HPDF_Page_ShowText (page, "ABCabc12");
-    HPDF_Page_EndText (page);
-
-
-    /*
-     * scaling text (Y direction)
-     */
-    show_description (page, 320, ypos - 250, "Scaling text (Y direction)");
-    HPDF_Page_BeginText (page);
-    HPDF_Page_SetTextMatrix (page, 1, 0, 0, 2, 320, ypos - 250);
-    HPDF_Page_ShowText (page, "ABCabc123");
-    HPDF_Page_EndText (page);
-
-
-    /*
-     * char spacing, word spacing
-     */
-
-    show_description (page, 60, 140, "char-spacing 0");
-    show_description (page, 60, 100, "char-spacing 1.5");
-    show_description (page, 60, 60, "char-spacing 1.5, word-spacing 2.5");
-
-    HPDF_Page_SetFontAndSize (page, font, 20);
-    HPDF_Page_SetRGBFill (page, 0.1, 0.3, 0.1);
-
-    /* char-spacing 0 */
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, 140, samp_text2);
-    HPDF_Page_EndText (page);
-
-    /* char-spacing 1.5 */
-    HPDF_Page_SetCharSpace (page, 1.5);
-
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, 100, samp_text2);
-    HPDF_Page_EndText (page);
-
-    /* char-spacing 1.5, word-spacing 3.5 */
-    HPDF_Page_SetWordSpace (page, 2.5);
-
-    HPDF_Page_BeginText (page);
-    HPDF_Page_TextOut (page, 60, 60, samp_text2);
-    HPDF_Page_EndText (page);
-#endif
 
     /* save the document to a file */
-    int ret = HPDF_SaveToFile (pdf, fname);
+    errCode = HPDF_SaveToFile (pdf, data.toStdString().data());
 
     /* clean up */
     HPDF_Free (pdf);
 
+}
+
+void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                                     const TestWszystko & testPage)
+{
+    float endY = createTestInfo(page, font, font2, testPage.ogolne, testPage.testName);
+
+    if (testPage.czyNarazenie) {
+        endY = createNarazenie(page, font, font2, endY - 15, testPage.narazenie);
+    }
+
+    if (!testPage.odtwarzalnosc)
+        endY = createCzujka(page, font, font2, endY-15, eTransmitter, eReceiver,
+                        testPage.ogolne.transmiter, testPage.ogolne.receiver);
+
+    if (testPage.showC)
+        endY = createCminCmax(page, font, font2, endY - 15, testPage.wynikiC, testPage.odtwarzalnosc);
+
+
+    endY = createTable(page, font, font2, testPage.dane.leftMargin, endY - 30,
+                       testPage.dane.head, testPage.dane.colwidth, testPage.dane.colAlign,
+                       testPage.dane.dane);
+}
+
+void PdfCreator::createHead(HPDF_Page page, HPDF_Font font)
+{
+    QByteArray p_title1 = codec->fromUnicode(QString::fromUtf8("CENTRUM NAUKOWO BADAWCZE OCHRONY PRZECIWPOŻAROWEJ"));
+    QByteArray p_title2 = codec->fromUnicode(QString::fromUtf8("im. Józefa Tuliszkowskiego w Józefowie"));
+    QByteArray p_title3 = codec->fromUnicode(QString::fromUtf8("ZAKRES BADAŃ POSIADAJĄCY AKREDYTACJĘ POLSKIEGO CENTRUM AKREDYTACJI"));
+    QByteArray p_title4 = codec->fromUnicode(QString::fromUtf8("Numer certyfikatu akredytacji - AB 207"));
+
+    float tw1, tw2, tw3, tw4;
+
+    /* print the title of the page (with positioning center). */
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 16);
+    tw1 = HPDF_Page_TextWidth (page, p_title1.data());
+    tw2 = HPDF_Page_TextWidth (page, p_title2.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw1) / 2,
+                HPDF_Page_GetHeight (page) - 90, p_title1.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw2) / 2,
+                HPDF_Page_GetHeight (page) - 105, p_title2.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 13);
+    tw3 = HPDF_Page_TextWidth (page, p_title3.data());
+    tw4 = HPDF_Page_TextWidth (page, p_title4.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw3) / 2,
+                HPDF_Page_GetHeight (page) - 130, p_title3.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw4) / 2,
+                HPDF_Page_GetHeight (page) - 145, p_title4.data());
+
+    HPDF_Page_EndText (page);
+}
+
+void PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                                   float startY, bool showUwagi, bool showPodpis)
+{
+    float col1width = 130; //lewy margines etykiet
+    QByteArray eNumerZlecenia = codec->fromUnicode(QString::fromUtf8("Numer zlecenia:"));
+    QByteArray eNumerBadania = codec->fromUnicode(QString::fromUtf8("Numer badania:"));
+    QByteArray eOsobaOdpowiedzialna = codec->fromUnicode(QString::fromUtf8("Osoba odpowiedzialna:"));
+    QByteArray eUwagi = codec->fromUnicode(QString::fromUtf8("Uwagi:"));
+    QByteArray eData = codec->fromUnicode(QString::fromUtf8("Data:"));
+    QByteArray ePodpis = codec->fromUnicode(QString::fromUtf8("Podpis:"));
+
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, eNumerZlecenia.data());
+    float tw2 = HPDF_Page_TextWidth (page, eNumerBadania.data());
+    float tw3 = HPDF_Page_TextWidth (page, eOsobaOdpowiedzialna.data());
+    float tw4 = HPDF_Page_TextWidth (page, eUwagi.data());
+    float twD, twP;
+
+    //176
+    HPDF_Page_TextOut (page, col1width - tw1, HPDF_Page_GetHeight(page) -startY, eNumerZlecenia.data());
+    HPDF_Page_TextOut (page, col1width - tw2, HPDF_Page_GetHeight(page) -startY -16, eNumerBadania.data());
+    HPDF_Page_TextOut (page, col1width - tw3, HPDF_Page_GetHeight(page) -startY -32, eOsobaOdpowiedzialna.data());
+    if (showUwagi)
+        HPDF_Page_TextOut (page, col1width - tw4,  HPDF_Page_GetHeight (page) - startY - 48, eUwagi.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetLineWidth (page, 2);
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float width1Table = 285;
+    //176
+    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -20 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -36 , width1Table, 16);
+    if (showUwagi)
+        HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -86 , width1Table, 50);
+    HPDF_Page_Stroke (page);
+
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    //176
+    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY, numerZlecenia.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY-16, numerBadania.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY-32, osobaOdpowiedzialna1.data(), width1Table-10);
+    if (showUwagi && uwagi1.size() > 0) {
+        QByteArray safeUwagi = uwagi1;
+        if (safeUwagi.size() > 200)
+            safeUwagi = safeUwagi.first(200);
+        HPDF_Page_TextRect (page, col1width + 10, HPDF_Page_GetHeight (page) -startY-39,
+                            col1width + 10 + width1Table-10, HPDF_Page_GetHeight(page) -startY-83,
+                        safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+    twD = HPDF_Page_TextWidth(page, eData.data());
+    twP = HPDF_Page_TextWidth(page, ePodpis.data());
+    float boxDataPodpisWidth = 120;
+    HPDF_Page_TextOut (page, 500-twD/2, HPDF_Page_GetHeight(page) -startY, eData.data());
+    if (showPodpis)
+        HPDF_Page_TextOut (page, 500-twP/2, HPDF_Page_GetHeight(page) -startY-37, ePodpis.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, HPDF_Page_GetHeight (page) -startY-20 , boxDataPodpisWidth, 16);
+    if (showPodpis)
+        HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, HPDF_Page_GetHeight (page) -startY-86 , boxDataPodpisWidth, 44);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    //twD = HPDF_Page_TextWidth(page, dataBadania.data());
+    //drawTextInBoxCenter (page, 500-twD/2, HPDF_Page_GetHeight(page) -startY-15, dataBadania.data(), boxDataPodpisWidth-10);
+    drawTextInBoxCenter (page, 500-boxDataPodpisWidth/2+5, HPDF_Page_GetHeight(page) -startY-15, dataBadania.data(), boxDataPodpisWidth-10);
+    HPDF_Page_EndText (page);
+
+}
+
+void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+{
+    QByteArray p_title = codec->fromUnicode(QString::fromUtf8("INFORMACJE O BADANYCH CZUJKACH"));
+
+    float col1width = 150; //lewy margines etykiet
+    QByteArray eRodzajSystemu = codec->fromUnicode(QString::fromUtf8("Rodzaj systemu:"));
+    QByteArray eProducent = codec->fromUnicode(QString::fromUtf8("Producent:"));
+    QByteArray eTransmitter = eTypTransmitter + ':';
+    QByteArray eReceiver = eTypReceiver + ':';
+
+    QByteArray erozstawienieMinimalne = codec->fromUnicode(QString::fromUtf8("Rozstawienie minimalne:"));
+    QByteArray erozstawienieMaksymalne = codec->fromUnicode(QString::fromUtf8("Rozstawienie maksymalne:"));
+    float width1Table = 380;
+    float widthRozstBox = 75;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float tw = HPDF_Page_TextWidth (page, p_title.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                HPDF_Page_GetHeight (page) - 295, p_title.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+    float tw1 = HPDF_Page_TextWidth (page, eRodzajSystemu.data());
+    float tw2 = HPDF_Page_TextWidth (page, eProducent.data());
+    float tw3 = HPDF_Page_TextWidth (page, eTransmitter.data());
+    float tw4 = HPDF_Page_TextWidth (page, eReceiver.data());
+    float twRmin = HPDF_Page_TextWidth (page, erozstawienieMinimalne.data());
+    float twRmax = HPDF_Page_TextWidth (page, erozstawienieMaksymalne.data());
+
+    float startY = HPDF_Page_GetHeight(page) - 320;
+    HPDF_Page_TextOut (page, col1width - tw1, startY, eRodzajSystemu.data());
+    HPDF_Page_TextOut (page, col1width - tw2, startY -16, eProducent.data());
+    HPDF_Page_TextOut (page, col1width - tw3, startY -32, eTransmitter.data());
+    HPDF_Page_TextOut (page, col1width - tw4, startY - 48, eReceiver.data());
+    HPDF_Page_TextOut (page, col1width - twRmin, startY - 64, erozstawienieMinimalne.data());
+    HPDF_Page_TextOut (page, col1width + 5 + width1Table - 5 - twRmax - widthRozstBox,
+                       startY - 64, erozstawienieMaksymalne.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetLineWidth (page, 2);
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    HPDF_Page_Rectangle(page, col1width + 5, startY -4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -20 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -36 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -52 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -68 , widthRozstBox, 16);
+    HPDF_Page_Rectangle(page, col1width + 5 + width1Table - widthRozstBox, startY -68 , widthRozstBox, 16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+
+    drawTextInBoxLeft (page, col1width + 10, startY, typSystemu.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY-16, producent.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY-32, typTransmitter.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY-48, typReceiver.data(), width1Table-10);
+
+    //float twRminV = HPDF_Page_TextWidth (page, rozstawienieMinimalne.data());
+    //drawTextInBox (page, col1width + 5 + widthRozstBox - 10 - twRminV,
+    //               startY-64, rozstawienieMinimalne.data(), widthRozstBox-10);
+    drawTextInBoxRight (page, col1width + 10,
+                   startY-64, rozstawienieMinimalne.data(), widthRozstBox-10);
+
+
+    //float twRmaxV = HPDF_Page_TextWidth (page, rozstawienieMaksymalne.data());
+    //drawTextInBox (page, col1width + 5 + width1Table - 10 - twRmaxV,
+    //               startY-64, rozstawienieMaksymalne.data(), widthRozstBox-10);
+
+    drawTextInBoxRight (page, col1width + 10 + width1Table - widthRozstBox,
+                   startY-64, rozstawienieMaksymalne.data(), widthRozstBox-10);
+
+    HPDF_Page_EndText (page);
+}
+
+void PdfCreator::createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+{
+
+    float marginleft = 35; //lewy margines etykiet
+    float width1Column = 200;
+    float width2Column = 150;
+    float width3Column = 150;
+    float startY = HPDF_Page_GetHeight(page) - 415;;
+    QByteArray ePionowa = codec->fromUnicode(QString::fromUtf8("Pionowa"));
+    QByteArray ePozioma = codec->fromUnicode(QString::fromUtf8("Pozioma"));
+    QByteArray title = codec->fromUnicode(QString::fromUtf8("Maksymalna kątowa niewspółosiowość"));
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    HPDF_Page_Rectangle(page, marginleft, startY, width1Column, 16);
+    HPDF_Page_Rectangle(page, marginleft, startY-16, width1Column, 16);
+    HPDF_Page_Rectangle(page, marginleft, startY-32, width1Column, 16);
+
+    HPDF_Page_Rectangle(page, marginleft+width1Column, startY, width2Column, 16);
+    HPDF_Page_Rectangle(page, marginleft+width1Column, startY-16, width2Column, 16);
+    HPDF_Page_Rectangle(page, marginleft+width1Column, startY-32, width2Column, 16);
+
+    HPDF_Page_Rectangle(page, marginleft+width1Column+width2Column, startY, width3Column, 16);
+    HPDF_Page_Rectangle(page, marginleft+width1Column+width2Column, startY-16, width3Column, 16);
+    HPDF_Page_Rectangle(page, marginleft+width1Column+width2Column, startY-32, width3Column, 16);
+    HPDF_Page_Stroke (page);
+
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    //float tw1 = HPDF_Page_TextWidth(page, title.data());
+    //drawTextInBox (page, marginleft + (width1Column-tw1)/2,
+    //               startY+5, title.data(), width1Column-10);
+
+    drawTextInBoxCenter (page, marginleft + 5,
+                   startY+5, title.data(), width1Column-10);
+
+    //float tw2 = HPDF_Page_TextWidth(page, eTransmitter.data());
+    //drawTextInBox (page, marginleft + width1Column - tw2 - 5,
+    //               startY-11, eTransmitter.data(), width1Column-10);
+    drawTextInBoxRight (page, marginleft + 5,
+                   startY-11, eTransmitter.data(), width1Column-10);
+
+    //float tw3 = HPDF_Page_TextWidth(page, eReceiver.data());
+    //drawTextInBox (page, marginleft + width1Column - tw3 - 5,
+    //               startY-27, eReceiver.data(), width1Column-10);
+    drawTextInBoxRight (page, marginleft + 5,
+                   startY-27, eReceiver.data(), width1Column-10);
+
+    //float tw4 = HPDF_Page_TextWidth(page, ePionowa.data());
+    //drawTextInBox (page, marginleft + width1Column + (width2Column-tw4)/2,
+    //               startY+5, ePionowa.data(), width2Column-10);
+    drawTextInBoxCenter (page, marginleft + width1Column + 5,
+                   startY+5, ePionowa.data(), width2Column-10);
+
+    //float tw5 = HPDF_Page_TextWidth(page, ePozioma.data());
+    //drawTextInBox (page, marginleft + width1Column + width2Column + (width3Column-tw5)/2,
+    //               startY+5, ePozioma.data(), width3Column-10);
+    drawTextInBoxCenter (page, marginleft + width1Column + width2Column + 5,
+                   startY+5, ePozioma.data(), width3Column-10);
+
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+
+    //float twk1 = HPDF_Page_TextWidth(page, nadajnikKatPionowy.data());
+    //drawTextInBox (page, marginleft + width1Column + width2Column - twk1 - 5,
+    //               startY-11, nadajnikKatPionowy.data(), width2Column-10);
+    drawTextInBoxRight (page, marginleft + width1Column + 5,
+                   startY-11, nadajnikKatPionowy.data(), width2Column-10);
+
+    //float twk2 = HPDF_Page_TextWidth(page, nadajnikKatPoziomy.data());
+    //drawTextInBox (page, marginleft + width1Column + width2Column + width3Column - twk2 - 5,
+    //               startY-11, nadajnikKatPoziomy.data(), width3Column-10);
+    drawTextInBoxRight (page, marginleft + width1Column + width2Column + 5,
+                   startY-11, nadajnikKatPionowy.data(), width2Column-10);
+
+    //float twk3 = HPDF_Page_TextWidth(page, odbiornikKatPionowy.data());
+    //drawTextInBox (page, marginleft + width1Column + width2Column - twk3 - 5,
+    //               startY-27, odbiornikKatPionowy.data(), width2Column-10);
+    drawTextInBoxRight (page, marginleft + width1Column + 5,
+                   startY-27, odbiornikKatPionowy.data(), width2Column-10);
+
+    //float twk4 = HPDF_Page_TextWidth(page, odbiornikKatPoziomy.data());
+    //drawTextInBox (page, marginleft + width1Column + width2Column + width3Column - twk4 - 5,
+    //               startY-27, odbiornikKatPoziomy.data(), width3Column-10);
+    drawTextInBoxRight (page, marginleft + width1Column + width2Column + 5,
+                   startY-27, odbiornikKatPoziomy.data(), width3Column-10);
+
+    HPDF_Page_EndText (page);
+}
+
+void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+{
+    QByteArray tytul = codec->fromUnicode(QString::fromUtf8("NUMERY SERYJNE BADANYCH CZUJEK"));
+    QByteArray eOznaczenie = codec->fromUnicode(QString::fromUtf8("Oznaczenie"));
+
+    float startY = HPDF_Page_GetHeight(page) - 470;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+
+    float tw = HPDF_Page_TextWidth(page, tytul.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw)/2, startY, tytul.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wCol1 = 75;
+    float wCol2 = 200;
+    float wCol3 = 200;
+    float mleft = (HPDF_Page_GetWidth(page) - wCol1 - wCol2 - wCol3)/2;
+    startY -= 25;
+    for (short i = 0 ; i < 8; ++i) {
+        HPDF_Page_Rectangle(page, mleft, startY-16*i, wCol1, 16);
+        HPDF_Page_Rectangle(page, mleft + wCol1, startY-16*i, wCol2, 16);
+        HPDF_Page_Rectangle(page, mleft + wCol1 + wCol2, startY-16*i, wCol3, 16);
+    }
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+    float tw1 = HPDF_Page_TextWidth(page, eOznaczenie.data());
+    float tw2 = HPDF_Page_TextWidth(page, eNrTransmitter.data());
+    float tw3 = HPDF_Page_TextWidth(page, eNrReceiver.data());
+    HPDF_Page_TextOut (page, mleft + (wCol1 - tw1)/2, startY + 5, eOznaczenie.data());
+    HPDF_Page_TextOut (page, mleft + wCol1 + (wCol2 - tw2)/2, startY + 5, eNrTransmitter.data());
+    HPDF_Page_TextOut (page, mleft + wCol1 + wCol2 + (wCol3 - tw3)/2, startY + 5, eNrReceiver.data());
+    HPDF_Page_EndText (page);
+
+    /*dane wlasciwe czujki */
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+
+    for (short i = 0 ; i < 7; ++i) {
+        QByteArray c1, c2, c3;
+        if (i < czujki.size()) {
+            c1 = czujki.at(i).oznaczenie;
+            c2 = czujki.at(i).transmiter;
+            c3 = czujki.at(i).receiver;
+        } else {
+            c1 = "---";
+            c2 = "---";
+            c3 = "---";
+        }
+
+        //float rtw1 = (wCol1 - HPDF_Page_TextWidth(page, c1))/2;
+        //float rtw2 = wCol1 + (wCol2 - HPDF_Page_TextWidth(page, c2))/2;
+        //float rtw3 = wCol1 + wCol2 + (wCol3 - HPDF_Page_TextWidth(page, c3))/2;
+
+        //drawTextInBox(page, mleft + rtw1, startY-16*(i+1)+5, c1.data(), wCol1);
+        //drawTextInBox(page, mleft + rtw2, startY-16*(i+1)+5, c2.data(), wCol2);
+        //drawTextInBox(page, mleft + rtw3, startY-16*(i+1)+5, c3.data(), wCol3);
+
+        drawTextInBoxCenter(page, mleft + 5, startY-16*(i+1)+5, c1.data(), wCol1-10);
+        drawTextInBoxCenter(page, mleft + 5 + wCol1, startY-16*(i+1)+5, c2.data(), wCol2-10);
+        drawTextInBoxCenter(page, mleft + 5 + wCol1 + wCol2, startY-16*(i+1)+5, c3.data(), wCol3-10);
+
+    }
+    HPDF_Page_EndText (page);
+
+}
+
+void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+{
+    QByteArray eTytul = codec->fromUnicode(QString::fromUtf8("SPOSÓB ZASILANIA CZUJEK"));
+    QByteArray eZasilanieZasilacza = codec->fromUnicode(QString::fromUtf8("Z zasilacza zewnętrznego"));
+    QByteArray eZasilanieNapiecie = codec->fromUnicode(QString::fromUtf8("Napięcie zasilania:"));
+    QByteArray eCentralaZasilanie = codec->fromUnicode(QString::fromUtf8("Z centrali sygnalizacji pożarowej"));
+    QByteArray eTypCentralaZasilanie = codec->fromUnicode(QString::fromUtf8("Typ centrali:"));
+    QByteArray ePrzekaznik = codec->fromUnicode(QString::fromUtf8("Centrala lub przekaźnik NO"));
+    QByteArray ePrad = codec->fromUnicode(QString::fromUtf8("Przekroczenie prądu zasilania:"));
+    QByteArray eCzasStabilizacji = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po włączeniu zasilania:"));
+    QByteArray eCzasPoResecie = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po zresetowaniu zasilania:"));
+    QByteArray epoZresetowaniuZasilania = codec->fromUnicode(QString::fromUtf8("po zresetowaniu zasilania:"));
+
+    float startY = HPDF_Page_GetHeight(page) - 635;
+    float lMargin = 30;
+    float rMargin = HPDF_Page_GetWidth(page)/2 + 30;
+    float boxSize = 15;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float tw = HPDF_Page_TextWidth (page, eTytul.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
+                startY, eTytul.data());
+
+    startY -= 30;
+
+    //zasilacz centrala
+    HPDF_Page_TextOut (page, lMargin+5+boxSize, startY, eZasilanieZasilacza.data());
+    HPDF_Page_TextOut (page, rMargin+5+boxSize, startY, eCentralaZasilanie.data());
+    HPDF_Page_EndText (page);
+
+    //boxy dla centrali lub zasilacza
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    HPDF_Page_Rectangle(page, lMargin, startY-2 , boxSize, boxSize);
+    HPDF_Page_Rectangle(page, rMargin, startY-2 , boxSize, boxSize);
+
+    //zaznaczenie boxow centrali lub zasilacza
+    if (zasilaczZewnetrzny) {
+        HPDF_Page_MoveTo (page, lMargin + 2, startY);
+        HPDF_Page_LineTo (page, lMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, lMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, lMargin + 2, startY-2 + boxSize-2);
+    }
+
+    if (zasilaczCentrala) {
+        HPDF_Page_MoveTo (page, rMargin + 2, startY);
+        HPDF_Page_LineTo (page, rMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, rMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, rMargin + 2, startY-2 + boxSize-2);
+    }
+    HPDF_Page_Stroke (page);
+
+    //napiecie zasilania i typ centrali
+    startY -= 20;
+    float boxNapiecieSize = 100;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float twn = HPDF_Page_TextWidth(page, eZasilanieNapiecie.data());
+    float twc = HPDF_Page_TextWidth(page, eTypCentralaZasilanie.data());
+
+    HPDF_Page_TextOut (page, rMargin-boxNapiecieSize-10-5-twn, startY, eZasilanieNapiecie.data());
+    HPDF_Page_TextOut (page, rMargin, startY, eTypCentralaZasilanie.data());
+    HPDF_Page_EndText (page);
+
+    //text bosy dla zsialnia i typu centrali
+
+    float boxCentralaSize = 165;
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    //HPDF_Page_Rectangle(page, lMargin+twn+5, startY-2, boxNapiecieSize, 16);
+    HPDF_Page_Rectangle(page, rMargin-boxNapiecieSize-10, startY-2, boxNapiecieSize, 16);
+    HPDF_Page_Rectangle(page, rMargin+twc+5, startY-2, boxCentralaSize, 16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    //float tw_z1 = HPDF_Page_TextWidth(page, wartoscNapieciaZasilania.data());
+    //drawTextInBox(page, rMargin-10-5-tw_z1, startY+3, wartoscNapieciaZasilania.data(), boxNapiecieSize-10);
+    drawTextInBoxRight(page, rMargin-boxNapiecieSize-10+5, startY+3, wartoscNapieciaZasilania.data(), boxNapiecieSize-10);
+
+    //drawTextInBox(page, rMargin+twc+5+5, startY+3, nazwaCentraliPPOZ.data(), boxCentralaSize-10);
+    drawTextInBoxLeft(page, rMargin+twc+5+5, startY+3, nazwaCentraliPPOZ.data(), boxCentralaSize-10);
+    HPDF_Page_EndText (page);
+
+    //alarm czujki prad lub przekaznik
+    startY -= 20;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    HPDF_Page_TextOut (page, lMargin+5+boxSize, startY, ePrad.data());
+    HPDF_Page_TextOut (page, rMargin+5+boxSize, startY, ePrzekaznik.data());
+    HPDF_Page_EndText (page);
+
+    float boxPradSize = 100;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    //float tw_pp = HPDF_Page_TextWidth(page, wartoscPrądu.data());
+    //drawTextInBox(page, rMargin-10-5-tw_pp, startY+3, wartoscPrądu.data(), boxPradSize-10);
+    drawTextInBoxRight(page, rMargin-10+5-boxPradSize, startY+3, wartoscPrądu.data(), boxPradSize-10);
+    HPDF_Page_EndText (page);
+
+    //boxy dla pradu i przekaznik
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    HPDF_Page_Rectangle(page, lMargin, startY-2 , boxSize, boxSize);
+    HPDF_Page_Rectangle(page, rMargin, startY-2 , boxSize, boxSize);
+    if (wyzwalaniePradem) {
+        HPDF_Page_MoveTo (page, lMargin + 2, startY);
+        HPDF_Page_LineTo (page, lMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, lMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, lMargin + 2, startY-2 + boxSize-2);
+    }
+
+    if (wyzwalaniePrzekaznikiem) {
+        HPDF_Page_MoveTo (page, rMargin + 2, startY);
+        HPDF_Page_LineTo (page, rMargin + boxSize - 2, startY-2 + boxSize-2);
+        HPDF_Page_MoveTo (page, rMargin + boxSize - 2, startY);
+        HPDF_Page_LineTo (page, rMargin + 2, startY-2 + boxSize-2);
+    }
+
+    HPDF_Page_Rectangle(page, rMargin-boxPradSize-10, startY-2, boxPradSize, 16);
+    HPDF_Page_Stroke (page);
+
+    startY -= 30;
+    float czasBoxSize = 75;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 12);
+    float twst1 = HPDF_Page_TextWidth(page, eCzasStabilizacji.data());
+    float twst2 = HPDF_Page_TextWidth(page, epoZresetowaniuZasilania.data());
+    HPDF_Page_TextOut (page, lMargin, startY, eCzasStabilizacji.data());
+    HPDF_Page_TextOut (page, lMargin+10+twst1+czasBoxSize, startY, ",");
+    HPDF_Page_TextOut (page, lMargin+twst1-twst2 , startY - 20, epoZresetowaniuZasilania.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 12);
+    float twstv1 = HPDF_Page_TextWidth(page, czasStabilizacjiCzujki.data());
+    float twstv2 = HPDF_Page_TextWidth(page, czasStabilizacjiPoResecie.data());
+    HPDF_Page_TextOut (page, lMargin+twst1+10+czasBoxSize-5-twstv1-5, startY-1, czasStabilizacjiCzujki.data());
+    HPDF_Page_TextOut (page, lMargin+twst1+10+czasBoxSize-5-twstv2-5 , startY-19, czasStabilizacjiPoResecie.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-3, czasBoxSize, 16);
+    HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-23, czasBoxSize, 16);
+    HPDF_Page_Stroke (page);
+
+}
+
+float PdfCreator::createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                                const OgolneParametryTestu & test, const QByteArray & tytulTestu)
+{
+    QByteArray eOsobaOdpowiedzialna = codec->fromUnicode(QString::fromUtf8("Osoba wykonująca:"));
+    QByteArray eDataRozpoczecia = codec->fromUnicode(QString::fromUtf8("Data i czas rozpoczęcia:"));
+    QByteArray eDataZakonczenia = codec->fromUnicode(QString::fromUtf8("Data i czas zakończenia:"));
+    QByteArray eTemperatura = codec->fromUnicode(QString::fromUtf8("Temperatura:"));
+    QByteArray eWilgotnosc = codec->fromUnicode(QString::fromUtf8("Wilgotność:"));
+    QByteArray ecisnienie = codec->fromUnicode(QString::fromUtf8("Ciśnienie:"));
+    QByteArray ewynikTestu = codec->fromUnicode(QString::fromUtf8("Wynik testu:"));
+    QByteArray eUwagiTestu = codec->fromUnicode(QString::fromUtf8("Uwagi:"));
+
+    float startY = HPDF_Page_GetHeight (page) - 140;
+    float marginl = 130;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 14);
+    HPDF_Page_TextOut (page, marginl-75, startY, tytulTestu.data());
+    HPDF_Page_EndText (page);
+
+    startY -= 30;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, eOsobaOdpowiedzialna.data());
+    float tw2 = HPDF_Page_TextWidth (page, ewynikTestu.data());
+    float tw3 = HPDF_Page_TextWidth (page, eDataRozpoczecia.data());
+    float tw4 = HPDF_Page_TextWidth (page, eDataZakonczenia.data());
+    float tw5 = HPDF_Page_TextWidth (page, eTemperatura.data());
+    float tw6 = HPDF_Page_TextWidth (page, eWilgotnosc.data());
+    float tw7 = HPDF_Page_TextWidth (page, ecisnienie.data());
+    float tw8 = HPDF_Page_TextWidth (page, eUwagiTestu.data());
+
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, eOsobaOdpowiedzialna.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, ewynikTestu.data());
+    HPDF_Page_TextOut (page, marginl - tw3, startY - (nrRow++)*16, eDataRozpoczecia.data());
+    HPDF_Page_TextOut (page, marginl - tw4, startY - (nrRow++)*16, eDataZakonczenia.data());
+    HPDF_Page_TextOut (page, marginl - tw5, startY - (nrRow++)*16, eTemperatura.data());
+    HPDF_Page_TextOut (page, marginl - tw6, startY - (nrRow++)*16, eWilgotnosc.data());
+    HPDF_Page_TextOut (page, marginl - tw7, startY - (nrRow++)*16, ecisnienie.data());
+    HPDF_Page_TextOut (page, marginl - tw8, startY - (nrRow++)*16, eUwagiTestu.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wBox = 285;
+    //176
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5, startY - (nrRow++)*16 -4 -50+16 , wBox, 50);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.osobaWykonujaca.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.wynikTestu.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.dataRozpoczecia.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.dataZakonczenia.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.temperatura.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.wilgotnosc.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, test.cisnienie.data(), wBox-10);
+    if (test.uwagi.size() > 0) {
+        QByteArray safeUwagi = test.uwagi ;
+        if (safeUwagi.size() > 200)
+            safeUwagi = safeUwagi.first(200);
+        HPDF_Page_TextRect(page, marginl + 10, startY - nrRow * 16 + 10,
+                       marginl + 10 + wBox - 10, nrRow * 16 - 50 + 10,
+                       safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    HPDF_Page_EndText (page);
+    return startY - nrRow * 16 - 50;
+}
+
+float PdfCreator::createTable(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                              float marginl,
+                              float startY,
+                              const QVector<QByteArray> &head,
+                              const QVector<int> &colwidth,
+                              const QVector<short> &colCenter,
+                              const QVector<QVector<QByteArray> > &dane)
+{
+    float actY = startY+16;
+    float actPosX = marginl;
+    float ret = 0;
+
+    HPDF_Page_SetLineWidth (page, 1);
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+
+    for (short nrRow = 0; nrRow <= dane.size(); ++nrRow) {
+        actPosX = marginl;
+        for (short nrCol = 0; nrCol < colwidth.size(); ++nrCol) {
+            HPDF_Page_Rectangle(page, actPosX, actY-16, colwidth.at(nrCol), 16);
+            actPosX += colwidth.at(nrCol);
+        }
+        actY -= 16;
+    }
+    ret = actY;
+    HPDF_Page_Stroke (page);
+
+    //naglowki
+    HPDF_Page_BeginText (page);
+    actY = startY + 5;
+    actPosX = marginl;
+    HPDF_Page_SetFontAndSize (page, font, 10);
+    for (short nrCol = 0; nrCol < head.size(); ++nrCol) {
+        if (nrCol >= colwidth.size())
+            break;
+        drawTextInBoxCenter(page, actPosX+5, actY, head.at(nrCol).data(), colwidth.at(nrCol)-10);
+        actPosX += colwidth.at(nrCol);
+    }
+    HPDF_Page_EndText (page);
+
+    //dane
+    HPDF_Page_BeginText (page);
+    actY = startY + 5 - 16;
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    for (short row = 0; row < dane.size(); ++row) {
+        actPosX = marginl;
+        for (short col = 0; col < dane.at(row).size(); ++col) {
+            if (col >= colwidth.size())
+                break;
+
+            short calign = 0;
+            if (col < colCenter.size()) {
+                calign = colCenter.at(col);
+            }
+            if (calign == -1) {
+                drawTextInBoxLeft (page, actPosX + 5, actY, dane.at(row).at(col), colwidth.at(col)-10);
+            } else if (calign == 0) {
+                drawTextInBoxCenter (page, actPosX + 5, actY, dane.at(row).at(col), colwidth.at(col)-10);
+            } else if (calign == 1) {
+                drawTextInBoxRight (page, actPosX + 5, actY, dane.at(row).at(col), colwidth.at(col)-10);
+            }
+            actPosX += colwidth.at(col);
+        }
+        actY -= 16;
+    }
+    HPDF_Page_EndText (page);
+
     return ret;
 }
 
+float PdfCreator::createCminCmax(HPDF_Page page,  HPDF_Font font, HPDF_Font font2, float startY, const CMinCMaxCRep & test, bool crep)
+{
+    QByteArray eCmin = codec->fromUnicode(QString::fromUtf8("Cmin = "));
+    QByteArray eCMax = codec->fromUnicode(QString::fromUtf8("Cmax = "));
+    QByteArray eCRep = codec->fromUnicode(QString::fromUtf8("Crep = "));
+    QByteArray eCmaxCrep = codec->fromUnicode(QString::fromUtf8("Cmax/Crep = "));
+    QByteArray eCrepCmin = codec->fromUnicode(QString::fromUtf8("Crep/Cmin = "));
+    QByteArray eCmaxCmin = codec->fromUnicode(QString::fromUtf8("Cmax/Cmin = "));
 
-void
-print_grid  (HPDF_Doc     pdf,
-             HPDF_Page    page)
+    float marginl = 130;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, eCmin.data());
+    float tw2 = HPDF_Page_TextWidth (page, eCMax.data());
+    float tw3 = HPDF_Page_TextWidth (page, eCRep.data());
+    float tw4 = HPDF_Page_TextWidth (page, eCmaxCrep.data());
+    float tw5 = HPDF_Page_TextWidth (page, eCrepCmin.data());
+    float tw6 = HPDF_Page_TextWidth (page, eCmaxCmin.data());
+
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, eCmin.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, eCMax.data());
+    if (crep) {
+        HPDF_Page_TextOut (page, marginl - tw3, startY - (nrRow++)*16, eCRep.data());
+        HPDF_Page_TextOut (page, marginl - tw4, startY - (nrRow++)*16, eCmaxCrep.data());
+        HPDF_Page_TextOut (page, marginl - tw5, startY - (nrRow++)*16, eCrepCmin.data());
+    } else {
+        HPDF_Page_TextOut (page, marginl - tw6, startY - (nrRow++)*16, eCmaxCmin.data());
+    }
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wBox = 75;
+    //176
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5 + wBox,   startY - (nrRow++)*16 -4 , wBox, 16);
+
+    HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5 + wBox,   startY - (nrRow++)*16 -4 , wBox, 16);
+    if (crep) {
+        HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow)*16 -4 , wBox, 16);
+        HPDF_Page_Rectangle(page, marginl + 5 + wBox,   startY - (nrRow++)*16 -4 , wBox, 16);
+        HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow++)*16 -4 , wBox, 16);
+        HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow++)*16 -4 , wBox, 16);
+    } else {
+        HPDF_Page_Rectangle(page, marginl + 5,          startY - (nrRow++)*16 -4 , wBox, 16);
+    }
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxRight (page, marginl + 10 + wBox,       startY - (nrRow)*16, test.Cmin2.data(), wBox-10);
+    drawTextInBoxRight (page, marginl + 10,              startY - (nrRow++)*16, test.Cmin1.data(), wBox-10);
+    drawTextInBoxRight (page, marginl + 10,              startY - (nrRow)*16, test.Cmax1.data(), wBox-10);
+    drawTextInBoxRight (page, marginl + 10 + wBox,       startY - (nrRow++)*16, test.Cmax2.data(), wBox-10);
+    if (crep) {
+        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow)*16, test.Crep1.data(), wBox-10);
+        drawTextInBoxRight (page, marginl + 10 + wBox,   startY - (nrRow++)*16, test.Crep2.data(), wBox-10);
+        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CRepCMin.data(), wBox-10);
+        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CMaxCrep.data(), wBox-10);
+    } else {
+        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CMaxCmin.data(), wBox-10);
+    }
+    HPDF_Page_EndText (page);
+    return startY - nrRow*16;
+}
+
+float PdfCreator::createCzujka(HPDF_Page page,  HPDF_Font font, HPDF_Font font2,
+                               float startY,
+                               const QByteArray & etTransmiter, const QByteArray & etReceiver,
+                               const QByteArray & transmiter, const QByteArray & receiver)
+{
+
+    float marginl = 130;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, etTransmiter.data());
+    float tw2 = HPDF_Page_TextWidth (page, etReceiver.data());
+
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, etTransmiter.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, etReceiver.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wBox = 200;
+    //176
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, transmiter.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, receiver.data(), wBox-10);
+    HPDF_Page_EndText (page);
+    return startY - nrRow*16;
+}
+
+float PdfCreator::createNarazenie(HPDF_Page page,  HPDF_Font font, HPDF_Font font2,
+                               float startY, const NarazenieDane & narazenie)
+{
+    float marginl = 130;
+    QByteArray eOpis = codec->fromUnicode(QString::fromUtf8("Opis narażenia:"));
+    QByteArray eWynik = codec->fromUnicode(QString::fromUtf8("Wynik narażenia:"));
+    QByteArray eUwagi = codec->fromUnicode(QString::fromUtf8("Uwagi dotyczące narażenia:"));
+
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, eOpis.data());
+    float tw2 = HPDF_Page_TextWidth (page, eWynik.data());
+    float tw3 = HPDF_Page_TextWidth (page, eUwagi.data());
+
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, eOpis.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, eWynik.data());
+    HPDF_Page_TextOut (page, marginl - tw3, startY - (nrRow++)*16, eUwagi.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wBox = 400;
+
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++ + 2)*16 -4 , wBox, 3*16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.opis.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.wynik.data(), wBox-10);
+    if (narazenie.uwagi.size() > 0) {
+        QByteArray safeUwagi = narazenie.uwagi ;
+        if (safeUwagi.size() > 200)
+            safeUwagi = safeUwagi.first(200);
+        HPDF_Page_TextRect(page, marginl + 10, startY - nrRow * 16 + 10,
+                       marginl + 10 + wBox - 10, nrRow * 16 - 50 + 10,
+                       safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    HPDF_Page_EndText (page);
+    return startY - (nrRow+3)*16;
+}
+
+
+void PdfCreator::print_grid(HPDF_Doc pdf, HPDF_Page    page)
 {
     HPDF_REAL height = HPDF_Page_GetHeight (page);
     HPDF_REAL width = HPDF_Page_GetWidth (page);
@@ -548,4 +1505,70 @@ print_grid  (HPDF_Doc     pdf,
     HPDF_Page_SetGrayStroke (page, 0);
 }
 
-#endif
+short PdfCreator::getErrCode() const
+{
+    return errCode;
+}
+
+void PdfCreator::setErrCode(short newErrCode)
+{
+    errCode = newErrCode;
+}
+
+void PdfCreator::drawTextInBoxLeft(HPDF_Page page, float posX, float posY, const QByteArray & text, float maxWidth)
+{
+    float tw = HPDF_Page_TextWidth(page, text.data());
+    if (tw < maxWidth)
+        HPDF_Page_TextOut (page, posX, posY, text.data());
+    else {
+        float twdot = HPDF_Page_TextWidth(page, "... ");
+        QByteArray newArr;
+        int pos = 0;
+        float tw = 0;
+        do {
+            newArr.append(text.at(pos++));
+            tw = HPDF_Page_TextWidth(page, newArr.data());
+        } while (tw < maxWidth - twdot);
+        newArr.append("...");
+        HPDF_Page_TextOut (page, posX, posY, newArr.data());
+    }
+}
+
+void PdfCreator::drawTextInBoxRight(HPDF_Page page, float posX, float posY, const QByteArray &text, float maxWidth)
+{
+    float tw = HPDF_Page_TextWidth(page, text.data());
+    if (tw < maxWidth) {
+        HPDF_Page_TextOut (page, posX + maxWidth - tw, posY, text.data());
+    } else {
+        drawTextInBoxLeft(page, posX, posY, text, maxWidth);
+
+    }
+}
+
+void PdfCreator::drawTextInBoxCenter(HPDF_Page page, float posX, float posY, const QByteArray &text, float maxWidth)
+{
+    float tw = HPDF_Page_TextWidth(page, text.data());
+    if (tw < maxWidth) {
+        HPDF_Page_TextOut (page, posX + (maxWidth - tw)/2, posY, text.data());
+    } else {
+        drawTextInBoxLeft(page, posX, posY, text, maxWidth);
+
+    }
+}
+
+double PdfCreator::d2p(const double &val)
+{
+    double l = std::pow(10, val/10);
+    if (l == 0)
+        return 0;
+    return 100.0/l;
+}
+
+QString PdfCreator::d2p(const QString &val)
+{
+    bool ok;
+    double dval = val.toDouble(&ok);
+    if (!ok)
+        return "-";
+    return QString::number(d2p(dval), 'f', 1);
+}

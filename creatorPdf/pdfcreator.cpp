@@ -278,6 +278,8 @@ void PdfCreator::create()
         test.wilgotnosc = codec->fromUnicode(QString::fromUtf8("87 %"));
         test.cisnienie = codec->fromUnicode(QString::fromUtf8("912 mBar"));
         test.uwagi = codec->fromUnicode(QString::fromUtf8("Badania testowe"));
+        test.transmiter = codec->fromUnicode(QString::fromUtf8("0102-717"));
+        test.receiver = codec->fromUnicode(QString::fromUtf8("2"));
 
         CMinCMaxCRep wynik;
         wynik.Cmin1 = codec->fromUnicode(QString::fromUtf8("2,00 dB"));
@@ -293,8 +295,6 @@ void PdfCreator::create()
         QVector<QVector<QByteArray> > dane;
         QVector<QByteArray> r;
         r << codec->fromUnicode(QString::fromUtf8("1"));
-        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
-        r << codec->fromUnicode(QString::fromUtf8("1"));
         r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
         r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
         r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
@@ -302,8 +302,6 @@ void PdfCreator::create()
         dane << r;
         r.clear();
         r << codec->fromUnicode(QString::fromUtf8("2"));
-        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
-        r << codec->fromUnicode(QString::fromUtf8("1"));
         r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
         r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
         r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
@@ -311,8 +309,6 @@ void PdfCreator::create()
         dane << r;
         r.clear();
         r << codec->fromUnicode(QString::fromUtf8("3"));
-        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
-        r << codec->fromUnicode(QString::fromUtf8("1"));
         r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
         r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
         r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
@@ -320,8 +316,6 @@ void PdfCreator::create()
         dane << r;
         r.clear();
         r << codec->fromUnicode(QString::fromUtf8("4"));
-        r << codec->fromUnicode(QString::fromUtf8("0102-0717"));
-        r << codec->fromUnicode(QString::fromUtf8("1"));
         r << codec->fromUnicode(QString::fromUtf8("2,00 dB"));
         r << codec->fromUnicode(QString::fromUtf8("36,9 %"));
         r << codec->fromUnicode(QString::fromUtf8("POZYTYWNY"));
@@ -884,26 +878,25 @@ void PdfCreator::createPowtarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font f
     QString nazwaTestu = QString::fromUtf8("TEST NR 2: Powtarzalność (Repeatability)");
     float endY = createTestInfo(page, font, font2, daneOgolne, nazwaTestu);
 
+    endY = createCzujka(page, font, font2, endY-15, eTransmitter, eReceiver, daneOgolne.transmiter, daneOgolne.receiver);
 
 
     endY = createCminCmax(page, font, font2, endY - 15, wyniki, false);
 
     QVector<QByteArray> head;
     head << codec->fromUnicode(QString::fromUtf8("Próba"));
-    head << eTransmitter;
-    head << eReceiver;
     head << codec->fromUnicode(QString::fromUtf8("C[n]"));
     head << codec->fromUnicode(QString::fromUtf8("C[n]"));
     head << codec->fromUnicode(QString::fromUtf8("Wynik"));
     head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
     QVector<int> colwidth;
-    colwidth << 40 << 100 << 100 << 65 << 55 << 70 << 100;
+    colwidth << 40 << 90 << 90 << 80 << 200;
 
     QVector<short> colAlign;
-    colAlign << 0 << -1 << -1 << 1 << 1 << 0 << -1;
+    colAlign << 0 << 1 << 1 << 0 << -1;
 
-    endY = createTable(page, font, font2, 30, endY - 30, head, colwidth, colAlign, dane);
+    endY = createTable(page, font, font2, 50, endY - 30, head, colwidth, colAlign, dane);
 
 }
 
@@ -1124,6 +1117,45 @@ float PdfCreator::createCminCmax(HPDF_Page page,  HPDF_Font font, HPDF_Font font
     HPDF_Page_EndText (page);
     return startY - nrRow*16;
 }
+
+float PdfCreator::createCzujka(HPDF_Page page,  HPDF_Font font, HPDF_Font font2,
+                               float startY,
+                               const QByteArray & etTransmiter, const QByteArray & etReceiver,
+                               const QByteArray & transmiter, const QByteArray & receiver)
+{
+
+    float marginl = 130;
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, etTransmiter.data());
+    float tw2 = HPDF_Page_TextWidth (page, etReceiver.data());
+
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, etTransmiter.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, etReceiver.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    float wBox = 200;
+    //176
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, transmiter.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, receiver.data(), wBox-10);
+    HPDF_Page_EndText (page);
+    return startY - nrRow*16;
+}
+
 
 void PdfCreator::print_grid(HPDF_Doc pdf, HPDF_Page    page)
 {

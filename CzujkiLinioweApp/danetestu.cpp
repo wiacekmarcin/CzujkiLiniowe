@@ -7,18 +7,24 @@
 
 ListaTestow::ListaTestow()
 {
-    nazwyTestow << "Odtwarzalność" << "Powtarzalność" << "Zależność kierunkowa"
-    << "Szybkie zmiany tłumienia" << "Zależność od długości drogi optycznej"
-    << "Światło rozproszone" << "Zmiana parametrów zasilania" << "Odporność na suche gorąco"
-    << "Odporność na zimno" << "Odporność na wilgotne gorąco, stan ustalony"
-    << "Wytrzymałość na wilgotne gorąco, stan ustalony" << "Wytrzymałość na wibracje"
-    << "Odporność na uderzenie"
-    
-    << "Odporność na wyładowania elektrostatyczne"
-    << "Odporność na wypromieniowanie pola elektromagnetycznego"
-    << "Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne"
-    << "Odporność na szybkie impulsy przejściowe"
-    << "Odporność na powolne udary napęciowe wysokiej energii"
+    nazwyTestow << QString::fromUtf8("Odtwarzalność")
+                << QString::fromUtf8("Powtarzalność")
+                << QString::fromUtf8("Zależność kierunkowa")
+                << QString::fromUtf8("Szybkie zmiany tłumienia")
+                << QString::fromUtf8("Zależność od długości drogi optycznej")
+                << QString::fromUtf8("Światło rozproszone")
+                << QString::fromUtf8("Zmiana parametrów zasilania")
+                << QString::fromUtf8("Odporność na suche gorąco")
+                << QString::fromUtf8("Odporność na zimno")
+                << QString::fromUtf8("Odporność na wilgotne gorąco, stan ustalony")
+                << QString::fromUtf8("Wytrzymałość na wilgotne gorąco, stan ustalony")
+                << QString::fromUtf8("Wytrzymałość na wibracje")
+                << QString::fromUtf8("Odporność na uderzenie")
+                << QString::fromUtf8("Odporność na wyładowania elektrostatyczne")
+                << QString::fromUtf8("Odporność na wypromieniowanie pola elektromagnetycznego")
+                << QString::fromUtf8("Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne")
+                << QString::fromUtf8("Odporność na szybkie impulsy przejściowe")
+                << QString::fromUtf8("Odporność na powolne udary napęciowe wysokiej energii")
 
     << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki"
 

@@ -107,7 +107,7 @@
       <item row="0" column="0">
        <widget class="QLabel" name="eNumerZlecenia">
         <property name="text">
-         <string>Numer Zlecenia</string>
+         <string>Numer zlecenia</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

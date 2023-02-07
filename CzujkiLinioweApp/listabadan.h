@@ -54,6 +54,8 @@ public:
     const QMap<int, testWidget> &getTestyWidget() const;
     void closeBadanie();
 
+    int getActSelectedTest() const;
+
 protected:
     void initialTestyTable(const ParametryBadania &badanie);
 

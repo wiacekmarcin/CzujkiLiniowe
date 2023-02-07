@@ -48,6 +48,13 @@
     <property name="title">
      <string>Plik</string>
     </property>
+    <widget class="QMenu" name="menuWyeksportuj_dane_do_PDF">
+     <property name="title">
+      <string>Wyeksportuj dane do PDF</string>
+     </property>
+     <addaction name="actionWszystkieRaporty"/>
+     <addaction name="actionJedenRaport"/>
+    </widget>
     <addaction name="actionNoweBadanie"/>
     <addaction name="actionOtworzBadanie"/>
     <addaction name="actionZapiszZadanie"/>
@@ -55,6 +62,9 @@
     <addaction name="actionZamknijBadanie"/>
     <addaction name="actionUsunBadanie"/>
     <addaction name="separator"/>
+    <addaction name="menuWyeksportuj_dane_do_PDF"/>
+    <addaction name="separator"/>
+    <addaction name="actionZamknijAplikacje"/>
    </widget>
    <widget class="QMenu" name="menuOpcje">
     <property name="title">
@@ -182,7 +192,7 @@
      <normaloff>Delete.svg</normaloff>Delete.svg</iconset>
    </property>
    <property name="text">
-    <string>Usuń</string>
+    <string>Usuń Badanie</string>
    </property>
    <property name="toolTip">
     <string>Usuwanie aktualne badanie</string>
@@ -274,6 +284,21 @@
   <action name="actionSprawdzCzujke">
    <property name="text">
     <string>Test zamontowanej czujki</string>
+   </property>
+  </action>
+  <action name="actionJedenRaport">
+   <property name="text">
+    <string>Jeden Raport</string>
+   </property>
+  </action>
+  <action name="actionWszystkieRaporty">
+   <property name="text">
+    <string>WszystkieRaporty</string>
+   </property>
+  </action>
+  <action name="actionZamknijAplikacje">
+   <property name="text">
+    <string>Wyjście</string>
    </property>
   </action>
  </widget>

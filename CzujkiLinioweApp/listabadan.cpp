@@ -365,6 +365,17 @@ void ListaBadan::closeBadanie()
     }
 }
 
+int ListaBadan::getActSelectedTest() const
+{
+    auto * w = ui->stackedWidget->currentWidget();
+    for (const auto & tid : testyWidget.keys())
+    {
+        if (testyWidget[tid].page == w)
+            return tid;
+    }
+    return -1;
+}
+
 void ListaBadan::on_tableWidget_cellClicked(int row, int column)
 {
     (void)column;

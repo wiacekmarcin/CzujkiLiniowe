@@ -45,7 +45,9 @@ public:
     void setPosortowaneCzujki(const QVector<QPair<QString, QString>> & posortowaneCzujki);
 
     inline unsigned short getIloscWszystkichCzujek() const { return wszystkieCzujki.size(); };
-	
+
+    QVector<QPair<QString, QString> > getWszystkieCzujki() const;
+
 private:
     QVector<QPair<QString, QString>> wszystkieCzujki;
     QVector<QPair<QString, QString>> posortowaneCzujki;

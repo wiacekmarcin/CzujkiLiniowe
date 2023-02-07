@@ -27,6 +27,8 @@ struct OgolneParametryTestu
     QByteArray cisnienie;
     QByteArray wilgotnosc;
     QByteArray uwagi;
+    QByteArray receiver;
+    QByteArray transmiter;
 };
 
 struct CMinCMaxCRep {
@@ -80,7 +82,9 @@ private:
                       const QVector<QVector<QByteArray> > &dane);
 
     float createCminCmax(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float startY, const CMinCMaxCRep & test, bool CRep);
-
+    float createCzujka(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float startY,
+                       const QByteArray &etTransmiter, const QByteArray &etReceiver,
+                       const QByteArray &transmiter, const QByteArray &receiver);
 private:
     short errCode;
     QByteArray numerZlecenia;
@@ -125,6 +129,7 @@ private:
 
 
     QTextCodec *codec;
+
 
 };
 

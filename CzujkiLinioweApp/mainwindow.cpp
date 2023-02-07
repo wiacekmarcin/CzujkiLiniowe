@@ -23,6 +23,7 @@
 #include <QScreen>
 #include <QFont>
 #include <QMessageBox>
+#include <QFile>
 
 
 #include "danetestu.h"
@@ -64,9 +65,10 @@ static int questionSave(const QString & title, const QString & pytanie, QWidget 
                     CONN_PB(UsunBadanie); \
                     CONN_PB(ZamknijBadanie); \
                     CONN_PB(Test); \
-                    CONN_PB(SprawdzCzujke);
-
-
+                    CONN_PB(SprawdzCzujke); \
+                    CONN_PB(JedenRaport); \
+                    CONN_PB(WszystkieRaporty); \
+                    CONN_PB(ZamknijAplikacje);
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -499,9 +501,6 @@ void MainWindow::actionParametryBadania_triggered()
 
 void MainWindow::actionZamknijBadanie_triggered()
 {
-
-
-
     if (question(QString::fromUtf8("Czujki Liniowe - zamykanie badania"),
                  QString::fromUtf8("Zamykasz badanie, czy na pewno chcesz zapisać?"), this) == QMessageBox::Yes) {
         actionZapiszJako_triggered();
@@ -528,11 +527,55 @@ void MainWindow::actionSprawdzCzujke_triggered()
 
 }
 
+void MainWindow::actionJedenRaport_triggered()
+{
+    //qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Eksportuj raport do pliku"),
+                               QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+                               tr("Raporty (*.pdf)"));
+    if (fileName.isEmpty())
+        return;
+
+    QFile f(fileName);
+    if (f.exists()) {
+        f.remove();
+    }
+
+    PdfCreator raport;
+    raport.setData(b, false, ui->centralwidget->getActSelectedTest());
+    raport.create(fileName);
+    qDebug() << raport.getErrCode();
+}
+
+void MainWindow::actionWszystkieRaporty_triggered()
+{
+    //qDebug() << QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Eksportuj raporty do pliku"),
+                               QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation),
+                               tr("Raporty (*.pdf)"));
+    if (fileName.isEmpty())
+        return;
+    QFile f(fileName);
+    if (f.exists()) {
+        f.remove();
+    }
+
+    PdfCreator raport;
+    raport.setData(b, true, -1);
+    raport.create(fileName);
+    qDebug() << raport.getErrCode() << PdfCreator::error.toStdString().data();
+}
+
+void MainWindow::actionZamknijAplikacje_triggered()
+{
+    emit close();
+}
+
 void MainWindow::actionTest_triggered()
 {
-    qDebug() << "createPdf";
-    int ret = createPdf();
-    qDebug() << "Ret " << ret;
+    //qDebug() << "createPdf";
+    //int ret = createPdf();
+    //qDebug() << "Ret " << ret;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
