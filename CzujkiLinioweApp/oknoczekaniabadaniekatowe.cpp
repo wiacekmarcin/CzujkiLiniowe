@@ -24,12 +24,12 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     ui->czas->setText(getMM_SS(elapsedTime));
     timer.setInterval(1000);
 
-#ifdef TESTVAL
+    if (ust.testMode) {
         ui->pbBreak->setVisible(true);
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
-#else
+    } else {
         ui->pbBreak->setVisible(false);
-#endif
+    }
 
     setWindowTitle(QString::fromUtf8("Badanie kątowe - postój czujki w skrajnym połozeniu"));
     ui->head->setText(QString::fromUtf8("Badanie kątowe - postój czujki położeniu podanym przez producenta"));
