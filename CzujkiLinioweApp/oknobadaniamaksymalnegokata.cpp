@@ -49,28 +49,28 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     //tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
     deviceisOk = false;
 
-#ifndef TESTVAL
-    ui->frameDebug->setVisible(false);
-#else
-    moveTimer = new QTimer(this);
-    valBeg = startPos;
-    valEnd = destPos;
-    valAct = valBeg;
-    ui->frameDebug->setVisible(true);
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; this->prevVal = this->destPos; done(QDialog::Accepted); });
-    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() {this->czujkaOn(); });
-    connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
-    connect(ui->pbStop, &QPushButton::clicked, this, [this]() {this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, true, false}); });
-#endif
+    if (ust.testMode)
+        ui->frameDebug->setVisible(false);
+    else {
+        moveTimer = new QTimer(this);
+        valBeg = startPos;
+        valEnd = destPos;
+        valAct = valBeg;
+        ui->frameDebug->setVisible(true);
+        connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->wynikBadania = true; this->prevVal = this->destPos; done(QDialog::Accepted); });
+        connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() {this->czujkaOn(); });
+        connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
+        connect(ui->pbStop, &QPushButton::clicked, this, [this]() {this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, true, false}); });
+    }
     adjustSize();
 }
 
 OknoBadaniaMaksymalnegoKata::~OknoBadaniaMaksymalnegoKata()
 {
-#ifdef TESTVAL
-    moveTimer->stop();
-    delete moveTimer;
-#endif
+    if (Ustawienia::testMode) {
+        moveTimer->stop();
+        delete moveTimer;
+    }
     tmSterownika.stop();
     delete ui;
 }
@@ -190,7 +190,6 @@ double OknoBadaniaMaksymalnegoKata::getDegrees() const
     return prevVal;
 }
 
-#ifdef TESTVAL
 void OknoBadaniaMaksymalnegoKata::testValue()
 {
     valPer100ms = 0.3/60/5;
@@ -206,4 +205,3 @@ void OknoBadaniaMaksymalnegoKata::testValue()
                     });
 
 }
-#endif

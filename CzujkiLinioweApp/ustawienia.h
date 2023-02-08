@@ -14,6 +14,7 @@ class Ustawienia : public UstawieniaGen
 public:
     Ustawienia();
     ~Ustawienia();
+    static bool testMode;
     static double wyliczPredkosc(const double & ratioImpJedn, const double & impTime);
     static unsigned long wyliczImp(const double & ratioImpJedn, const double & speed);
     unsigned long wyliczPozycje(short silnik, unsigned long middle, unsigned long max,
@@ -43,7 +44,7 @@ private:
 
     QMap<QString,UkladFiltrow> listaUstawienFiltra655;
     QMap<QString,UkladFiltrow> listaUstawienFiltra880;
-    static bool testMode;
+
 };
 
 #endif // USTAWIENIA_H

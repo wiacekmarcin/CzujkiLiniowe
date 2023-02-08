@@ -113,6 +113,8 @@ private:
     QMap<int, testWidget> testyWidget;
     QDateTime prevCzujkaOn;
     bool odtwarzalnosc;
+    QBrush fgBrush;
+    QBrush bgBrush;
 };
 
 #endif // LISTABADAN_H

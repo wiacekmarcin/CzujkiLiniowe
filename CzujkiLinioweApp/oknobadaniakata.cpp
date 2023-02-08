@@ -46,25 +46,25 @@ OknoBadaniaKata::OknoBadaniaKata(short nrSilnika_, const QString &name,
     tmSterownika.singleShot(5000, this, &OknoBadaniaKata::timeoutSterownika);
     deviceisOk = false;
 
-#ifndef TESTVAL
-    ui->frameDebug->setVisible(false);
-#else
-    deviceisOk = true;
-    moveTimer = new QTimer(this);
-    ui->frameDebug->setVisible(true);
-    connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, false, false}); });
-    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() { this->czujkaOn(); });
-    connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
-#endif
+    if (!ust.testMode)
+        ui->frameDebug->setVisible(false);
+    else {
+        deviceisOk = true;
+        moveTimer = new QTimer(this);
+        ui->frameDebug->setVisible(true);
+        connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->ster_setPositionDone(this->nrSilnika, RuchSilnikaType{false, false, false, false}); });
+        connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this]() { this->czujkaOn(); });
+        connect(ui->pbStartRuchu, &QPushButton::clicked, this, [this]() {this->testValue(); });
+    }
     adjustSize();
 }
 
 OknoBadaniaKata::~OknoBadaniaKata()
 {
-#ifdef TESTVAL
-    moveTimer->stop();
-    delete moveTimer;
-#endif
+    if (Ustawienia::testMode) {
+        moveTimer->stop();
+        delete moveTimer;
+    }
     tmSterownika.stop();
     delete ui;
 }
@@ -79,7 +79,6 @@ void OknoBadaniaKata::czujkaOn()
     done(QDialog::Rejected);
 }
 
-#ifdef TESTVAL
 void OknoBadaniaKata::testValue()
 {
     valBeg = 0.0;
@@ -100,7 +99,6 @@ void OknoBadaniaKata::testValue()
                     });
 
 }
-#endif
 
 void OknoBadaniaKata::timeoutSterownika()
 {

@@ -682,6 +682,8 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
 
     float col1width = 150; //lewy margines etykiet
     QByteArray eRodzajSystemu = codec->fromUnicode(QString::fromUtf8("Rodzaj systemu:"));
+    QByteArray eUrzadzenie = codec->fromUnicode(QString::fromUtf8("Typ Urządzenia:"));
+    QByteArray urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowsiko do badania czujek liniowych dymu - BCL, SN:1-23"));
     QByteArray eProducent = codec->fromUnicode(QString::fromUtf8("Producent:"));
     QByteArray eTransmitter = eTypTransmitter + ':';
     QByteArray eReceiver = eTypReceiver + ':';
@@ -700,48 +702,54 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 10);
-    float tw1 = HPDF_Page_TextWidth (page, eRodzajSystemu.data());
+    float tw1 = HPDF_Page_TextWidth (page, eUrzadzenie.data());
     float tw2 = HPDF_Page_TextWidth (page, eProducent.data());
     float tw3 = HPDF_Page_TextWidth (page, eTransmitter.data());
     float tw4 = HPDF_Page_TextWidth (page, eReceiver.data());
+    float tw5 = HPDF_Page_TextWidth (page, eUrzadzenie.data());
     float twRmin = HPDF_Page_TextWidth (page, erozstawienieMinimalne.data());
     float twRmax = HPDF_Page_TextWidth (page, erozstawienieMaksymalne.data());
 
     float startY = HPDF_Page_GetHeight(page) - 320;
-    HPDF_Page_TextOut (page, col1width - tw1, startY, eRodzajSystemu.data());
-    HPDF_Page_TextOut (page, col1width - tw2, startY -16, eProducent.data());
-    HPDF_Page_TextOut (page, col1width - tw3, startY -32, eTransmitter.data());
-    HPDF_Page_TextOut (page, col1width - tw4, startY - 48, eReceiver.data());
-    HPDF_Page_TextOut (page, col1width - twRmin, startY - 64, erozstawienieMinimalne.data());
+    short nRow = 0;
+    HPDF_Page_TextOut (page, col1width - tw5, startY -(nRow++)*16 , eRodzajSystemu.data());
+    HPDF_Page_TextOut (page, col1width - tw1, startY -(nRow++)*16 , eRodzajSystemu.data());
+    HPDF_Page_TextOut (page, col1width - tw2, startY -(nRow++)*16, eProducent.data());
+    HPDF_Page_TextOut (page, col1width - tw3, startY -(nRow++)*16, eTransmitter.data());
+    HPDF_Page_TextOut (page, col1width - tw4, startY - (nRow++)*16, eReceiver.data());
+    HPDF_Page_TextOut (page, col1width - twRmin, startY -(nRow)*16, erozstawienieMinimalne.data());
     HPDF_Page_TextOut (page, col1width + 5 + width1Table - 5 - twRmax - widthRozstBox,
-                       startY - 64, erozstawienieMaksymalne.data());
+                       startY -(nRow)*16, erozstawienieMaksymalne.data());
     HPDF_Page_EndText (page);
 
-    HPDF_Page_SetLineWidth (page, 2);
     HPDF_Page_SetRGBStroke (page, 0, 0, 0);
     HPDF_Page_SetLineWidth (page, 1);
 
-    HPDF_Page_Rectangle(page, col1width + 5, startY -4 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, startY -20 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, startY -36 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, startY -52 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, startY -68 , widthRozstBox, 16);
-    HPDF_Page_Rectangle(page, col1width + 5 + width1Table - widthRozstBox, startY -68 , widthRozstBox, 16);
+    nRow = 0;
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow)*16-4 , widthRozstBox, 16);
+    HPDF_Page_Rectangle(page, col1width + 5 + width1Table - widthRozstBox, startY -(nRow)*16-4 , widthRozstBox, 16);
     HPDF_Page_Stroke (page);
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font2, 10);
 
-    drawTextInBoxLeft (page, col1width + 10, startY, typSystemu.data(), width1Table-10);
-    drawTextInBoxLeft (page, col1width + 10, startY-16, producent.data(), width1Table-10);
-    drawTextInBoxLeft (page, col1width + 10, startY-32, typTransmitter.data(), width1Table-10);
-    drawTextInBoxLeft (page, col1width + 10, startY-48, typReceiver.data(), width1Table-10);
+    nRow = 0;
+    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, urzadzenie.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, typSystemu.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, producent.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, typTransmitter.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, typReceiver.data(), width1Table-10);
 
     //float twRminV = HPDF_Page_TextWidth (page, rozstawienieMinimalne.data());
     //drawTextInBox (page, col1width + 5 + widthRozstBox - 10 - twRminV,
     //               startY-64, rozstawienieMinimalne.data(), widthRozstBox-10);
     drawTextInBoxRight (page, col1width + 10,
-                   startY-64, rozstawienieMinimalne.data(), widthRozstBox-10);
+                   startY -(nRow)*16, rozstawienieMinimalne.data(), widthRozstBox-10);
 
 
     //float twRmaxV = HPDF_Page_TextWidth (page, rozstawienieMaksymalne.data());
@@ -749,7 +757,7 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
     //               startY-64, rozstawienieMaksymalne.data(), widthRozstBox-10);
 
     drawTextInBoxRight (page, col1width + 10 + width1Table - widthRozstBox,
-                   startY-64, rozstawienieMaksymalne.data(), widthRozstBox-10);
+                   startY -(nRow)*16, rozstawienieMaksymalne.data(), widthRozstBox-10);
 
     HPDF_Page_EndText (page);
 }
@@ -1570,5 +1578,5 @@ QString PdfCreator::d2p(const QString &val)
     double dval = val.toDouble(&ok);
     if (!ok)
         return "-";
-    return QString::number(d2p(dval), 'f', 1);
+    return QString::number(d2p(dval), 'f', 2);
 }

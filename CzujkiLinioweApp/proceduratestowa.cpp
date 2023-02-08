@@ -362,7 +362,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
                                         ust.getSzybkieZmianyWartoscTlumnikaA(),
                                         dane.getName(), QString::fromUtf8("Pomiar dla tłumnika A"), ust, ster, parent);
     testOk1 = dlg12->exec() == QDialog::Accepted;
-    dane.setSuccessBadaniaCzujki(testOk1, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 1), dlg12->getError());
+    dane.setSuccessBadaniaCzujki(testOk1, QString::number(ust.getSzybkieZmianyWartoscTlumnikaA(), 'f', 2), dlg12->getError());
     delete dlg12;
     dlg12 = nullptr;
 
@@ -382,7 +382,7 @@ bool ProceduraTestowa::SzybkieZmianyTlumienia(const ParametryBadania &daneBadani
                                         ust.getSzybkieZmianyWartoscTlumnikaB(),
                                         dane.getName(), QString::fromUtf8("Pomiar dla tłumnika B"), ust, ster, parent);
     testOk2 = dlg12->exec() == QDialog::Accepted;
-    dane.setSuccessBadaniaCzujki(testOk2, QString::number(ust.getSzybkieZmianyWartoscTlumnikaB(), 'f', 1), dlg12->getError());
+    dane.setSuccessBadaniaCzujki(testOk2, QString::number(ust.getSzybkieZmianyWartoscTlumnikaB(), 'f', 2), dlg12->getError());
     delete dlg12;
     dlg12 = nullptr;
 
@@ -1055,7 +1055,7 @@ short ProceduraTestowa::pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika
                                         daneBadania.getDlugoscFaliFiltrow(), ust.getWartoscTlumienieDlaKataNieWspolosiowosci(),
                                         dane.getName(), ptitle, ust, ster, parent);
     if (dlg12->exec() == QDialog::Rejected) {
-        pomiar.errorStr = QString::fromUtf8("Brak reakcji na %1 dB").arg(ust.getWartoscTlumienieDlaKataNieWspolosiowosci(), 3, 'f',1);
+        pomiar.errorStr = QString::fromUtf8("Brak reakcji na %1 dB").arg(ust.getWartoscTlumienieDlaKataNieWspolosiowosci(), 3, 'f', 2);
         pomiar.errorDetail = dlg12->getError();
         pomiar.ok = false;
         qDebug() << "ERROR" << __FILE__ << __LINE__ << "Error:" << dlg12->getError();

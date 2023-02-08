@@ -468,7 +468,7 @@ motordefVals = {
         "nazwa" : 'QString("Odbiornik Gora-Dol")',
         "przelozenieImpJedn" : 0.028,
         "minOdstepImp" : 29,
-        "odwrocObroty" : "true",
+        "odwrocObroty" : "false",
         "czasMiedzyImpZerow" : 4000,
         "czasMiedzyImpNormal" : 5600000,
         "maksIloscImp" : 1300,

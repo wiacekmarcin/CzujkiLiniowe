@@ -275,7 +275,7 @@
       <item row="7" column="0" colspan="5">
        <widget class="QLabel" name="label_26">
         <property name="text">
-         <string>Napęd 2 - części składowej</string>
+         <string>Napęd 2 - Odbiornik, reflektor</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -348,7 +348,7 @@
       <item row="10" column="0" colspan="5">
        <widget class="QLabel" name="label_33">
         <property name="text">
-         <string>Napęd 3 - części składowej</string>
+         <string>Napęd 3 -Wózek filtrów</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>
@@ -393,7 +393,7 @@
       <item row="0" column="0" colspan="5">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Napęd 1 - części składowej</string>
+         <string>Napęd 1 - Czujka, nadajnik</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignBottom|Qt::AlignHCenter</set>

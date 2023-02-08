@@ -39,9 +39,7 @@ public:
 
     void ster_setPositionDone(short silnik, RuchSilnikaType r);
     void ster_setValue(short silnik, const double & val);
-#ifdef TESTVAL
     void testValue();
-#endif
 
 protected slots:
     void timeoutSterownika();
@@ -61,13 +59,13 @@ private:
     double speedMin;
     float startPos;
     float maxDelta;
-#ifdef TESTVAL
+
     QTimer * moveTimer;
     float valBeg;
     float valEnd;
     float valAct;
     float valPer100ms;
-#endif    
+
 
 };
 

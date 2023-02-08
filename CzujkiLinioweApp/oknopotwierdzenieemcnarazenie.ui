@@ -25,7 +25,7 @@
   <property name="font">
    <font>
     <family>Arial</family>
-    <pointsize>10</pointsize>
+    <pointsize>14</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -461,7 +461,14 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QPlainTextEdit" name="komentarz"/>
+       <widget class="QPlainTextEdit" name="komentarz">
+        <property name="maximumSize">
+         <size>
+          <width>540</width>
+          <height>100</height>
+         </size>
+        </property>
+       </widget>
       </item>
      </layout>
     </widget>
@@ -496,7 +503,7 @@
      </property>
     </widget>
    </item>
-   <item row="4" column="0">
+   <item row="4" column="0" colspan="2">
     <widget class="QLabel" name="opisNarazenia">
      <property name="font">
       <font>
@@ -505,7 +512,7 @@
       </font>
      </property>
      <property name="text">
-      <string>TextLabel</string>
+      <string>.</string>
      </property>
     </widget>
    </item>

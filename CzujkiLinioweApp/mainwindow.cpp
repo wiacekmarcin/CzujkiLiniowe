@@ -25,6 +25,10 @@
 #include <QMessageBox>
 #include <QFile>
 
+#include <iostream>
+#include <fstream>
+#include <cstdio>
+#include <stdio.h>
 
 #include "danetestu.h"
 #include "parametrybadania.h"
@@ -365,13 +369,13 @@ void MainWindow::actionNoweBadanie_triggered()
     QFileInfo fi(QDir(QStandardPaths::displayName(QStandardPaths::DocumentsLocation)), fileName);
     fileDaneBadania = fi.absoluteFilePath();
     setWindowTitle("");
-    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    setWindowFilePath(QString("Czujki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(true);
     b = ParametryBadania();
     ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(false, u, &b, this);
     if (dlg->exec() == QDialog::Rejected) {
         fileDaneBadania = "";
-        setWindowTitle("Czujniki Liniowe");
+        setWindowTitle("Czujki Liniowe");
         setWindowModified(false);
         delete dlg;
         return;
@@ -402,7 +406,7 @@ void MainWindow::actionStartTestu_triggered()
     if (ui->centralwidget->startBadanie(idTest, b, u, zas, sd)) {
         setWindowTitle("");
         if (!fileDaneBadania.isEmpty())
-            setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fileDaneBadania));
+            setWindowFilePath(QString("Czujki Liniowe [%1]").arg(fileDaneBadania));
         setWindowModified(true);
     }
 
@@ -441,7 +445,7 @@ void MainWindow::actionZapiszJako_triggered()
     fileDaneBadania = fileName;
     QFileInfo fi(fileName);
     setWindowTitle("");
-    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    setWindowFilePath(QString("Czujki Liniowe [%1]").arg(fi.baseName()));
     saveFile();
 }
 
@@ -462,7 +466,7 @@ void MainWindow::actionOtworzBadanie_triggered()
     fileDaneBadania = fileName;
     QFileInfo fi(fileName);
     setWindowTitle("");
-    setWindowFilePath(QString("Czujniki Liniowe [%1]").arg(fi.baseName()));
+    setWindowFilePath(QString("Czujki Liniowe [%1]").arg(fi.baseName()));
     setWindowModified(false);
     b.load(fileDaneBadania);
 
@@ -507,7 +511,7 @@ void MainWindow::actionUsunBadanie_triggered()
     ui->actionUsunBadanie->setEnabled(false);
     ui->centralwidget->clearBadanie();
     ui->centralwidget->setVisible(false);
-    setWindowTitle("Czujniki Liniowe");
+    setWindowTitle("Czujki Liniowe");
     setWindowModified(false);
 
     QFile f (fileDaneBadania);
@@ -521,14 +525,14 @@ void MainWindow::actionParametryBadania_triggered()
 {
     ParametryBadaniaDlg * dlg = new ParametryBadaniaDlg(true, u, &b, this);
     if (dlg->exec() == QDialog::Rejected) {
-        setWindowTitle("Czujniki Liniowe");
+        setWindowTitle("Czujki Liniowe");
         setWindowModified(false);
         delete dlg;
         return;
     }
     if (!b.getTestOdtwarzalnosci()) {
         ui->centralwidget->setBadanie(b);
-        setWindowTitle("Czujniki Liniowe");
+        setWindowTitle("Czujki Liniowe");
         setWindowModified(false);
     }
     delete dlg;
@@ -551,7 +555,7 @@ void MainWindow::actionZamknijBadanie_triggered()
     ui->actionUsunBadanie->setEnabled(false);
     ui->centralwidget->clearBadanie();
     ui->centralwidget->setVisible(false);
-    setWindowTitle("Czujniki Liniowe");
+    setWindowTitle("Czujki Liniowe");
     setWindowModified(false);
 }
 
@@ -571,9 +575,14 @@ void MainWindow::actionJedenRaport_triggered()
     if (fileName.isEmpty())
         return;
 
-    QFile f(fileName);
-    if (f.exists()) {
-        f.remove();
+    {
+        QFile f(fileName);
+        if (f.exists()) {
+            f.setFileName(fileName+".old");
+            f.remove();
+            f.flush();
+            f.close();
+        }
     }
 
     PdfCreator raport;
@@ -590,10 +599,18 @@ void MainWindow::actionWszystkieRaporty_triggered()
                                tr("Raporty (*.pdf)"));
     if (fileName.isEmpty())
         return;
+
     QFile f(fileName);
     if (f.exists()) {
-        f.remove();
+        qDebug() << fileName;
+        f.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser | QFileDevice::ExeUser);
+        f.setPermissions(QFileDevice::WriteOther | QFileDevice::ReadOther | QFileDevice::ExeOther);
+        qDebug() << f.permissions();
+        qDebug() << f.filesystemFileName().c_str();
+        qDebug() << "R" << f.remove() << f.errorString() << f.error();
+        remove(f.filesystemFileName().string().c_str());
     }
+
 
     PdfCreator raport;
     raport.setData(b, true, -1);

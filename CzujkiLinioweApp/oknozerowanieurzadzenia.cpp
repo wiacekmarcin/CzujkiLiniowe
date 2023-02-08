@@ -2,6 +2,7 @@
 #include "ui_oknozerowanieurzadzenia.h"
 
 #include "sterownik.h"
+#include "ustawienia.h"
 
 #include <QMessageBox>
 #include <QRadioButton>
@@ -35,12 +36,12 @@ OknoZerowanieUrzadzenia::OknoZerowanieUrzadzenia(bool nadajnik_, bool odbiornik_
     buttons[9] = ui->rb_receiver_pion;
 
     init();
-#ifdef TESTVAL
+    if (Ustawienia::testMode) {
         ui->pbDalej->setVisible(true);
         connect(ui->pbDalej, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
-#else
+    } else {
         ui->pbDalej->setVisible(false);
-#endif
+    }
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ this->pbCancel_clicked(); });
         connect(ui->pbAgain, &QPushButton::clicked, this, [this](){ init(); });
         adjustSize();

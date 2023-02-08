@@ -97,8 +97,8 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
                 ui->zaleznosckatowa_errinfo->setText(wynik.errorStr);
                 ui->zaleznosckatowa_errExt->setText(wynik.errorDetail);
             }
-            zaleznoscKatowaVector[id].katmierzony->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katZmierzony, 2, 'f', 1));
-            zaleznoscKatowaVector[id].katproducenta->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katProducenta, 2, 'f', 1));
+            zaleznoscKatowaVector[id].katmierzony->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katZmierzony, 2, 'f', 2));
+            zaleznoscKatowaVector[id].katproducenta->setText(QString("<html><body>%1 &deg;</body></html>").arg(wynik.katProducenta, 2, 'f', 2));
             if (!wynik.ok) {
                 zaleznoscKatowaVector[id].wynik->setText(wynik.errorStr);
             }

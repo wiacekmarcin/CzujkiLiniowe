@@ -7,7 +7,6 @@
 #include <QMutex>
 #include "ustawienia.h"
 
-#ifdef TESTVAL
 
 #include <QDialog>
 #include <QLineEdit>
@@ -23,7 +22,6 @@ public:
 private:
     QLineEdit *m_lineEdit;
 };
-#endif
 
 
 namespace Ui {
@@ -51,9 +49,7 @@ public:
 
     const QString &getTlumienie() const;
 
-#ifdef TESTVAL
     void testValue();
-#endif
 
     const QString &getError() const;
 

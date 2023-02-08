@@ -10,6 +10,7 @@
 #include <QLabel>
 #include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QBrush>
 
 ListaBadan::ListaBadan(QWidget *parent) :
     QWidget(parent),
@@ -161,11 +162,15 @@ void ListaBadan::clearBadanie()
 void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
 {
     const DaneTestu & test = badanie.getTesty()[id];
+    QBrush greenBrush("green"), redBrush("red");
     if (test.getWykonany()) {
         testyWidget[id].button->setVisible(false);
         testyWidget[id].wyniki->setVisible(true);
         ui->tableWidget->item(id, 2)->setText(test.getOsobaWykonujaca());
         ui->tableWidget->item(id, 3)->setText(test.getOk() ? "POZYTYWNY" : "NEGATYWNY");
+        fgBrush = ui->tableWidget->item(id, 3)->foreground();
+        bgBrush = ui->tableWidget->item(id, 3)->background();
+        ui->tableWidget->item(id, 3)->setBackground(test.getOk() ? greenBrush : redBrush);
         ui->tableWidget->item(id, 4)->setText(test.getDataRozpoczecia());
         ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
         ui->tableWidget->item(id, 6)->setText(test.getTemperatura() + QString(" \u00B0C"));
@@ -185,6 +190,8 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
         testyWidget[id].button->setEnabled(true);
         ui->tableWidget->item(id, 2)->setText("");
         ui->tableWidget->item(id, 3)->setText("");
+        ui->tableWidget->item(id, 3)->setBackground(bgBrush);
+        ui->tableWidget->item(id, 3)->setForeground(fgBrush);
         ui->tableWidget->item(id, 4)->setText("");
         ui->tableWidget->item(id, 5)->setText("");
         ui->tableWidget->item(id, 6)->setText("");
@@ -398,7 +405,7 @@ QString ListaBadan::d2p(const QString &val)
     double dval = val.toDouble(&ok);
     if (!ok)
         return "-";
-    return QString::number(d2p(dval), 'f', 1);
+    return QString::number(d2p(dval), 'f', 2);
 }
 
 const QMap<int, testWidget> &ListaBadan::getTestyWidget() const
@@ -464,7 +471,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         QStringList head;
         QList<int> width;
         head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi" ;
-        width << 90 << 90 << 90 << 150 << 150 << 50 << 50 << 200;
+        width << 90 << 90 << 90 << 170 << 170 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
         tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
@@ -978,14 +985,14 @@ void ListaBadan::initCzujkaInfo(QTableWidget * table, const QString & transmitte
 
     QTableWidgetItem *itemh1 = new QTableWidgetItem(transmitterName);
     table->setHorizontalHeaderItem(1, itemh1);
-    table->setColumnWidth(1, 150);
+    table->setColumnWidth(1, 170);
 
     QTableWidgetItem *itemh2 = new QTableWidgetItem(receiverName);
     table->setHorizontalHeaderItem(2, itemh2);
-    table->setColumnWidth(2, 150);
+    table->setColumnWidth(2, 170);
 
-    table->setMinimumWidth(375);
-    table->setMaximumWidth(400);
+    table->setMinimumWidth(415);
+    table->setMaximumWidth(440);
 
 
     addR(table, 0, 0, nrCzujki, transmitter, receiver);

@@ -2,6 +2,7 @@
 #include "ui_oczekiwanienaurzadzenia.h"
 #include "zasilacz.h"
 #include "sterownik.h"
+#include "ustawienia.h"
 #include <QTimer>
 #include <QMessageBox>
 
@@ -25,9 +26,9 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_,
     timer.setInterval(1000);
 
     connect(&timer, &QTimer::timeout, this, &OczekiwanieNaUrzadzenia::timeout);
-#ifndef TESTVAL
-    ui->pbSkip->setVisible(false);
-#endif
+    if (Ustawienia::testMode)
+        ui->pbSkip->setVisible(false);
+
 
     connect(ui->pbBreak, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->pbAgain, &QPushButton::clicked, this, [this]() { this->init(); });

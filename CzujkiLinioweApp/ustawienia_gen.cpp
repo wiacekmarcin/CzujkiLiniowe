@@ -56,7 +56,7 @@ void UstawieniaGen::load()
 	motorOdwrocObroty6 = toBool(settings.value("Silnik-6/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorOdwrocObroty7 = toBool(settings.value("Silnik-7/OdwrocObroty", QVariant::fromValue(true)).toString());
 	motorOdwrocObroty8 = toBool(settings.value("Silnik-8/OdwrocObroty", QVariant::fromValue(false)).toString());
-	motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(true)).toString());
+    motorOdwrocObroty9 = toBool(settings.value("Silnik-9/OdwrocObroty", QVariant::fromValue(false)).toString());
 	motorCzasMiedzyImpZerow1 = toUInt(settings.value("Silnik-1/CzasMiedzyImpZerow", QVariant::fromValue(4000)).toString());
 	motorCzasMiedzyImpZerow2 = toUInt(settings.value("Silnik-2/CzasMiedzyImpZerow", QVariant::fromValue(4000)).toString());
 	motorCzasMiedzyImpZerow3 = toUInt(settings.value("Silnik-3/CzasMiedzyImpZerow", QVariant::fromValue(400)).toString());

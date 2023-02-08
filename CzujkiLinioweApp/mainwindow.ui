@@ -29,7 +29,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Czujniki Liniowe</string>
+   <string>Czujki Liniowe</string>
   </property>
   <property name="documentMode">
    <bool>true</bool>

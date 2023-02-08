@@ -31,11 +31,7 @@ public:
 
 
     void czujkaOn();
-
-
-#ifdef TESTVAL
     void testValue();
-#endif
 
     const QString &getError() const;
 
@@ -45,9 +41,7 @@ public:
 
 
     bool getWynikBadania() const;
-
     double getDegrees() const;
-
     QString getErrDetails() const;
 
 protected slots:
@@ -67,13 +61,12 @@ private:
     bool deviceisOk;
     double prevVal;
     double speedMin;
-#ifdef TESTVAL
+
     QTimer * moveTimer;
     float valBeg;
     float valEnd;
     float valAct;
     float valPer100ms;
-#endif
 };
 
 #endif // OKNOBADANIAKATA_H

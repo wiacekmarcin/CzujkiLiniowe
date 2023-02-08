@@ -87,12 +87,13 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
 
 
 
-#ifndef TESTVAL
-    ui->pbTest->setVisible(false);
-#else
-    connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); this->flt_setUkladFiltrowDone(); });
-    sterResponse = true;
-#endif
+    if (!ust.testMode)
+        ui->pbTest->setVisible(false);
+    else {
+        connect(ui->pbTest, &QPushButton::clicked, this, [this]() { this->czujkaOn(); this->flt_setUkladFiltrowDone(); });
+        sterResponse = true;
+    }
+
     adjustSize();
 }
 

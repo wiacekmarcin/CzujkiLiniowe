@@ -185,14 +185,14 @@
          <item row="5" column="6">
           <widget class="QLabel" name="label_2">
            <property name="text">
-            <string>[*]</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;deg;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
          <item row="4" column="6">
           <widget class="QLabel" name="label">
            <property name="text">
-            <string>[*]</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;deg;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -212,7 +212,7 @@
          <item row="4" column="2">
           <widget class="QLabel" name="lunitpionowa">
            <property name="text">
-            <string>[*]</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;deg;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -265,7 +265,7 @@
          <item row="5" column="2">
           <widget class="QLabel" name="lunitospozioma">
            <property name="text">
-            <string>[*]</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&amp;deg;&lt;/body&gt;&lt;/html&gt;</string>
            </property>
           </widget>
          </item>
@@ -409,6 +409,7 @@ Czujki</string>
           <widget class="QLabel" name="luwaga">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>14</pointsize>
              <bold>true</bold>
             </font>
@@ -425,6 +426,7 @@ Czujki</string>
           <widget class="QLabel" name="lcontext">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>12</pointsize>
             </font>
            </property>
@@ -443,6 +445,7 @@ Czujki</string>
           <widget class="QLabel" name="lError">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>14</pointsize>
              <bold>true</bold>
             </font>
@@ -459,6 +462,7 @@ Czujki</string>
           <widget class="QLabel" name="error">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>12</pointsize>
             </font>
            </property>
@@ -497,6 +501,7 @@ Czujki</string>
           <widget class="QLabel" name="lUwaga2">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>14</pointsize>
              <bold>true</bold>
             </font>
@@ -513,6 +518,7 @@ Czujki</string>
           <widget class="QLabel" name="lContext2">
            <property name="font">
             <font>
+             <family>Arial</family>
              <pointsize>12</pointsize>
             </font>
            </property>

@@ -7,7 +7,7 @@
 #include <QAbstractButton>
 
 #include "danetestu.h"
-
+#include "ustawienia.h"
 
 #include <QMessageBox>
 
@@ -36,12 +36,11 @@ OknoTestRozproszoneSwiatlo::OknoTestRozproszoneSwiatlo(const DaneTestu & daneTes
     connect(ui->cbAlarmYesNo, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->alarm = index == 1; });
     adjustSize();
 
-#ifdef TESTVAL
-    ui->pbCzujkaOn->setVisible(true);
-    connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this](){ this->czujkaOn(); });
-#else
-    ui->pbCzujkaOn->setVisible(false);
-#endif
+    if (Ustawienia::testMode) {
+        ui->pbCzujkaOn->setVisible(true);
+        connect(ui->pbCzujkaOn, &QPushButton::clicked, this, [this](){ this->czujkaOn(); });
+    } else
+        ui->pbCzujkaOn->setVisible(false);
 }
 
 OknoTestRozproszoneSwiatlo::~OknoTestRozproszoneSwiatlo()

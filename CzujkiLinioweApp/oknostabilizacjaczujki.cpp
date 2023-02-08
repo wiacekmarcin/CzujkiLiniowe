@@ -2,7 +2,7 @@
 #include "ui_oknostabilizacjaczujki.h"
 #include <QTimer>
 #include <QDebug>
-
+#include "ustawienia.h"
 OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool powerOn, bool resetPower, bool ignoreAlarms_,
                                                unsigned long timeWait,
                                                const QString & name, const QString & podTitle,
@@ -30,12 +30,11 @@ OknoStabilizacjaCzujki::OknoStabilizacjaCzujki(bool powerOn, bool resetPower, bo
     ui->czas->setText(getMM_SS(elapsedTime));
     timer.setInterval(1000);
 
-#ifdef TESTVAL
+    if (Ustawienia::testMode) {
         ui->pbBreak->setVisible(true);
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
-#else
+    } else
         ui->pbBreak->setVisible(false);
-#endif
 
     if (powerOn) {
         setWindowTitle(QString::fromUtf8("Test - oczekiwanie na stabilizację czujki"));

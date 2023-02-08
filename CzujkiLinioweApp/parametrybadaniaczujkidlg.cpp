@@ -291,6 +291,9 @@ bool ParametryBadaniaCzujkiDlg::check()
     if (errorLabel == nullptr)
         return true;
     errorLabel->setText("");
+    if (testOdtwarzalnosci)
+        return true;
+
     if (ui->producent->text().isEmpty()) {
         errorLabel->setText("Pole 'Producent' nie może być puste");
         return false;
@@ -392,7 +395,7 @@ bool ParametryBadaniaCzujkiDlg::check()
         noEmptyCnt += empty ? 0 : 1;
     }
     if (noEmptyCnt == 0) {
-        errorLabel->setText(QString::fromUtf8("Musi być wpisana conajmniej 1 czujka"));
+        errorLabel->setText(QString::fromUtf8("Musi być wpisana co najmniej 1 czujka"));
         return false;
     }
 
@@ -417,8 +420,10 @@ bool ParametryBadaniaCzujkiDlg::check()
 
 void ParametryBadaniaCzujkiDlg::save(ParametryBadania *badanie)
 {
-    if (testOdtwarzalnosci)
+    if (testOdtwarzalnosci) {
         return;
+    }
+
     badanie->setSystemOdbiornikNadajnik(ui->comboBox->currentIndex() == 0);
     badanie->setProducentCzujki(ui->producent->text());
     badanie->setTypTransmitter(ui->typTransmitter->text());
