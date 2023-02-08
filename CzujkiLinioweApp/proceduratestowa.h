@@ -49,7 +49,7 @@ protected:
     bool CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool EMCNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
-
+    bool CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
