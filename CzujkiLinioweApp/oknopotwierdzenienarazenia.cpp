@@ -51,6 +51,20 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->etAlarm->setVisible(false);
     ui->cbUszkodzenie->setVisible(false);
     ui->etUszkodzenie->setVisible(false);
+    ui->cbCzujkaOk->setVisible(false);
+    ui->cbCzujkaOk->setVisible(false);
+    if (daneTestu.getId() == FIRE_SENSITIVITY) {
+        ui->cbTlumnik->setVisible(false);
+        ui->etTlumnik->setVisible(false);
+        ui->cbAlarmYesNo->setVisible(false);
+        ui->etAlarm->setVisible(false);
+        ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
+                                       "Ocenę reakcji czujki na powolny wzrost gęstości dymu należy "
+                                       "przeprowadzić poprzez analizę układu/oprogramowania, próbę "
+                                       "fizyczną lub symulacje w celu sprawdzenia, czy czujka "
+                                       "spełnia wymagania określone w pkt 4.3.5.</p></body></html>"));
+    }
+
     if (daneTestu.getId() == DRY_HEAT) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
@@ -168,8 +182,8 @@ void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
                 text.remove(QString::fromUtf8("[Czujka nie wykryła tłumnika 6dB w czasie 30s]"));
             }
         }
-    } else if (nrCombo == 2 || idTest == IMPACT) {
-        if (idTest == VIBRATION) {
+    } else if (nrCombo == 2)  {
+        if (idTest == VIBRATION || idTest == IMPACT) {
             if (index == 1) {
                 text.append(QString::fromUtf8("[Czujka została uszkodzona fizycznie]"));
             } else {
@@ -216,7 +230,7 @@ bool OknoPotwierdzenieNarazenia::getWynik() const
     else if (idTest == DAMP_HEAT_STADY_STATE_OPERATIONAL)
         return ui->cbAlarmYesNo->currentIndex() == 0;
     else if (idTest == VIBRATION)
-        return ui->cbUszkodzenie->currentIndex() == 0;
+        return ui->cbUszkodzenie->currentIndex() == 0 && ui->cbUszkodzenie->currentIndex();
     else if (idTest == IMPACT)
         return ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbUszkodzenie->currentIndex() == 0;
     else
@@ -226,6 +240,16 @@ bool OknoPotwierdzenieNarazenia::getWynik() const
 QString OknoPotwierdzenieNarazenia::getKomenatarz() const
 {
     return ui->komentarz->toPlainText();
+}
+
+bool OknoPotwierdzenieNarazenia::czujkaUszkodzona() const
+{
+    return ui->cbUszkodzenie->currentIndex() == 1;
+}
+
+bool OknoPotwierdzenieNarazenia::czujkOk() const
+{
+    return ui->cbCzujkaOk->currentIndex() == 1;
 }
 
 static int question(QWidget * parent, const QString & title, const QString & pytanie) {

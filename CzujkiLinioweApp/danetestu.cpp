@@ -14,6 +14,7 @@ ListaTestow::ListaTestow()
                 << QString::fromUtf8("Zależność od długości drogi optycznej")
                 << QString::fromUtf8("Światło rozproszone")
                 << QString::fromUtf8("Zmiana parametrów zasilania")
+                << QString::fromUtf8("Czułość na pożar")
                 << QString::fromUtf8("Odporność na suche gorąco")
                 << QString::fromUtf8("Odporność na zimno")
                 << QString::fromUtf8("Odporność na wilgotne gorąco, stan ustalony")
@@ -25,17 +26,10 @@ ListaTestow::ListaTestow()
                 << QString::fromUtf8("Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne")
                 << QString::fromUtf8("Odporność na szybkie impulsy przejściowe")
                 << QString::fromUtf8("Odporność na powolne udary napęciowe wysokiej energii")
+                << QString::fromUtf8("Wytrzymałość na korozję powodowaną przez dwutlenek siarki")
+                << QString::fromUtf8("Testowe sprawdzenie czujki");
 
-    << "Wytrzymałość na korozję powodowaną przez dwutlenek siarki"
-
-    << "Testowe sprawdzenie czujki";
-
-    /*
-    << "Czułość na pożar" <<   
-    
-    
-    */
-    
+      
     
     odtwarzalnosc = false;
 
@@ -1041,7 +1035,10 @@ QString DaneTestu::getOpisNarazenia() const {
     case STRAY_LIGHT:
         narazenieOpis = QString::fromUtf8("Narażenia na światło rozproszone");
         break;
-
+    case FIRE_SENSITIVITY:
+        narazenieOpis = QString::fromUtf8("Narażenia na pożar");
+        break;
+    
     case DRY_HEAT :
         narazenieOpis = QString::fromUtf8("Narażenie na gorące i suche powietrze");
         break;

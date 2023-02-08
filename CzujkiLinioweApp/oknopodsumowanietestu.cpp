@@ -107,14 +107,20 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
     } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         ui->stackedWidget->setCurrentWidget(ui->szybkiezmianytlumienia);
 
-        ui->szybkiezmianytlumieniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
-        ui->szybkiezmianytlumieniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
-        ui->szybkiezmianytlumieniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
-        ui->szybkiezmianytlumieniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
-        ui->szybkiezmianytlumieniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
+        //ui->szybkiezmianytlumieniaCmin->setText(QString::number(daneTestu.getCmin(), 'f', 2) + " dB");
+        //ui->szybkiezmianytlumieniaCmax->setText(QString::number(daneTestu.getCmax(), 'f', 2) + " dB");
+        //ui->szybkiezmianytlumieniaCmin2->setText(QString::number(d2p(daneTestu.getCmin()), 'f', 2) + " %");
+        //ui->szybkiezmianytlumieniaCmax2->setText(QString::number(d2p(daneTestu.getCmax()), 'f', 2) + " %");
+        //ui->szybkiezmianytlumieniaCmaxCmin->setText(QString::number(daneTestu.getCmaxCmin(), 'f', 2));
 
-        if (daneTestu.getCmaxCmin() > ust.getSzybkieZmianyTlumieniaCmaxCmin())
-            ui->szybkiezmianytlumieniaCmaxCmin->setStyleSheet("background-color:red");
+        ui->szybkiezmianytlumieniaCmin->setVisible(false);
+        ui->szybkiezmianytlumieniaCmax->setVisible(false);
+        ui->szybkiezmianytlumieniaCmin2->setVisible(false);
+        ui->szybkiezmianytlumieniaCmax2->setVisible(false);
+        ui->szybkiezmianytlumieniaCmaxCmin->setVisible(false);
+
+        //if (daneTestu.getCmaxCmin() > ust.getSzybkieZmianyTlumieniaCmaxCmin())
+        //    ui->szybkiezmianytlumieniaCmaxCmin->setStyleSheet("background-color:red");
 
 
         short num = 0;

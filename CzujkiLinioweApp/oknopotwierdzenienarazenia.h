@@ -18,6 +18,8 @@ public:
     void changeComboBox(short nrCombo, int index);
     bool getWynik() const;
     QString getKomenatarz() const;
+    bool czujkaUszkodzona() const;
+    bool czujkOk() const;
 protected:
     void pbCancel_clicked();
 private:

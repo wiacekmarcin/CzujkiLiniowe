@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>909</height>
+    <height>900</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -32,37 +32,8 @@
    <string>Parametry Testu - potwierdzenie wykonanych czynności</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="7" column="0">
-    <widget class="QLabel" name="eTransmitter">
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Wybrany Nadajnik: </string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="4" column="0">
-    <spacer name="verticalSpacer">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
-     </property>
-     <property name="sizeHint" stdset="0">
-      <size>
-       <width>20</width>
-       <height>40</height>
-      </size>
-     </property>
-    </spacer>
-   </item>
-   <item row="8" column="1">
-    <widget class="QLabel" name="numerReceiver">
+   <item row="5" column="1">
+    <widget class="QLabel" name="osobaWykonujacaTest">
      <property name="font">
       <font>
        <family>Arial</family>
@@ -71,131 +42,25 @@
       </font>
      </property>
      <property name="text">
-      <string>a tamtus</string>
+      <string>MHL</string>
      </property>
     </widget>
    </item>
-   <item row="1" column="0">
-    <widget class="QLabel" name="lTestName">
+   <item row="6" column="1">
+    <widget class="QLabel" name="numerNadajnika">
      <property name="font">
       <font>
        <family>Arial</family>
        <pointsize>14</pointsize>
+       <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string>Nazwa testu</string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+      <string>a cus</string>
      </property>
     </widget>
    </item>
-   <item row="3" column="0" colspan="2">
-    <widget class="QFrame" name="fr_rozproszoneSwiatlo">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLabel" name="narazenie">
-        <property name="font">
-         <font>
-          <family>Arial</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i zostawiona na &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;16 godzin&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; w temperaturze w &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;temperatura 55 ± 2 °C&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Pod koniec czasu narażenia należy umieśić tłumnik 6 dB w torze optycznym. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami pokojowymi na czas 1 godziny. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="wordWrap">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="5" column="0" colspan="2">
-    <widget class="QLabel" name="label_4">
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Czy wybrana czujka została podana na narażenia zewnetrznych czynników, zgodnie z nazwą testu i opisem narażenia powyżej</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="0">
-    <widget class="QLabel" name="lOsobaWykonujacaTest">
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-      </font>
-     </property>
-     <property name="text">
-      <string>Osoba wykonująca test: </string>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="12" column="0" colspan="2">
-    <widget class="QWidget" name="widget" native="true">
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <property name="spacing">
-       <number>20</number>
-      </property>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>349</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbDalej">
-        <property name="text">
-         <string>Dalej</string>
-        </property>
-        <property name="icon">
-         <iconset theme="media-playback-start">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pbPrzerwij">
-        <property name="text">
-         <string>Przerwij</string>
-        </property>
-        <property name="icon">
-         <iconset theme="media-playback-stop">
-          <normaloff>.</normaloff>.</iconset>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item row="11" column="0" colspan="2">
+   <item row="10" column="0" colspan="2">
     <widget class="QFrame" name="frame_2">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -220,36 +85,40 @@
      </layout>
     </widget>
    </item>
-   <item row="7" column="1">
-    <widget class="QLabel" name="numerNadajnika">
+   <item row="1" column="0">
+    <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
        <family>Arial</family>
        <pointsize>14</pointsize>
-       <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string>a cus</string>
+      <string>Nazwa testu</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QLabel" name="testName">
+   <item row="4" column="0" colspan="2">
+    <widget class="QLabel" name="label_4">
      <property name="font">
       <font>
        <family>Arial</family>
        <pointsize>14</pointsize>
-       <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string>......</string>
+      <string>Czy potwierdzasz, że wybrana czujka została podana na narażenia zewnetrznych czynników, zgodnie z nazwą testu i opisem narażenia powyżej. Jeżeli tak, odpowiedz na poniższe pytania i przejdź dalej</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
-   <item row="8" column="0">
-    <widget class="QLabel" name="eReceiver">
+   <item row="5" column="0">
+    <widget class="QLabel" name="lOsobaWykonujacaTest">
      <property name="font">
       <font>
        <family>Arial</family>
@@ -257,24 +126,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Wybrany odbiornika: </string>
+      <string>Osoba wykonująca test: </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-     </property>
-    </widget>
-   </item>
-   <item row="6" column="1">
-    <widget class="QLabel" name="osobaWykonujacaTest">
-     <property name="font">
-      <font>
-       <family>Arial</family>
-       <pointsize>14</pointsize>
-       <bold>true</bold>
-      </font>
-     </property>
-     <property name="text">
-      <string>MHL</string>
      </property>
     </widget>
    </item>
@@ -328,7 +183,123 @@
      </layout>
     </widget>
    </item>
-   <item row="9" column="0" colspan="2">
+   <item row="11" column="0" colspan="2">
+    <widget class="QWidget" name="widget" native="true">
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <property name="spacing">
+       <number>20</number>
+      </property>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>349</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbDalej">
+        <property name="text">
+         <string>Dalej</string>
+        </property>
+        <property name="icon">
+         <iconset theme="media-playback-start">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="pbPrzerwij">
+        <property name="text">
+         <string>Przerwij</string>
+        </property>
+        <property name="icon">
+         <iconset theme="media-playback-stop">
+          <normaloff>.</normaloff>.</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="7" column="1">
+    <widget class="QLabel" name="numerReceiver">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>a tamtus</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <widget class="QFrame" name="fr_rozproszoneSwiatlo">
+     <property name="frameShape">
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow">
+      <enum>QFrame::Raised</enum>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_4">
+      <item>
+       <widget class="QLabel" name="narazenie">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>12</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i zostawiona na &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;16 godzin&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt; w temperaturze w &lt;/span&gt;&lt;span style=&quot; font-size:14pt; font-weight:700;&quot;&gt;temperatura 55 ± 2 °C&lt;/span&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Pod koniec czasu narażenia należy umieśić tłumnik 6 dB w torze optycznym. &lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami pokojowymi na czas 1 godziny. &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QLabel" name="testName">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>......</string>
+     </property>
+    </widget>
+   </item>
+   <item row="7" column="0">
+    <widget class="QLabel" name="eReceiver">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wybrany odbiornika: </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="8" column="0" colspan="2">
     <widget class="QFrame" name="frame_potwierdzenienarazenia">
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -506,6 +477,51 @@
        </layout>
       </item>
       <item row="3" column="0">
+       <widget class="QLabel" name="etCzujkaOk">
+        <property name="text">
+         <string>Czy czujka przeszła pozytywnie badanie lub test narażenia.</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <layout class="QHBoxLayout" name="horizontalLayout_62">
+        <item>
+         <widget class="QComboBox" name="cbCzujkaOk">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>14</pointsize>
+            <bold>true</bold>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>Tak</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Nie</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_32">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+      <item row="4" column="0">
        <widget class="QLabel" name="label_3">
         <property name="font">
          <font>
@@ -521,7 +537,7 @@
         </property>
        </widget>
       </item>
-      <item row="3" column="1">
+      <item row="4" column="1">
        <widget class="QPlainTextEdit" name="komentarz">
         <property name="maximumSize">
          <size>
@@ -531,7 +547,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="0">
+      <item row="5" column="0">
        <widget class="QLabel" name="etWynik">
         <property name="font">
          <font>
@@ -547,7 +563,7 @@
         </property>
        </widget>
       </item>
-      <item row="4" column="1">
+      <item row="5" column="1">
        <widget class="QLabel" name="wynik_narazenia">
         <property name="font">
          <font>
@@ -561,6 +577,22 @@
        </widget>
       </item>
      </layout>
+    </widget>
+   </item>
+   <item row="6" column="0">
+    <widget class="QLabel" name="eTransmitter">
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>14</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wybrany Nadajnik: </string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+     </property>
     </widget>
    </item>
   </layout>

@@ -46,22 +46,22 @@ protected:
     bool DlugoscDrogiOptycznej(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool RozproszoneSwiatlo(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool ZmienneParametryZasilania(const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool EMCNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
 
     bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
-    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
-
-    bool montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
+    short parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
+    short montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
 
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
-    bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
-    bool potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    short zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
+    short potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
     bool potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
-    bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
+    short zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(uint32_t flags, const ParametryBadania &daneBadania, const Ustawienia &);

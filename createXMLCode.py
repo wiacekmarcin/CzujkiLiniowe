@@ -465,9 +465,10 @@ nazwy = ['EMC_wyladowaniaelektrostatyczne', 'EMC_promieniowaniepolaelektromagnet
 #for n in nazwy:
 #  printonePage(n)
 
-printonePage('EMC_szybkiekrotkieblyski')
-printonePage('EMC_powolneSkokiNapieciaDuzejEnergii')
+#printonePage('EMC_szybkiekrotkieblyski')
+#printonePage('EMC_powolneSkokiNapieciaDuzejEnergii')
 
+printonePage('CzuloscNaPozar')
 
 
 

@@ -36,6 +36,9 @@ ListaBadan::ListaBadan(QWidget *parent) :
     testyWidget[STRAY_LIGHT] = testWidget{ui->pRozproszoneSwiatlo, ui->rozproszoneSwiatloWyniki,
                                                 ui->pbRozproszoneSwiatlo};
 
+    testyWidget[FIRE_SENSITIVITY] = testWidget{ui->pCzuloscNaPozar, ui->czuloscNaPozarWyniki,
+                                                ui->pbCzuloscNaPozar};
+
     testyWidget[TOLERANCE_TO_SUPPLY_VOLTAGE] = testWidget{ui->pTolerancjaNapieciaZasilania, ui->tolerancjaNapieciaZasilaniaWyniki,
                                                 ui->pbTolerancjaNapieciaZasilania};
 
@@ -497,7 +500,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
             }
             ++num;
         }
-    } else if (daneTestu.getId() == REPEATABILITY) {
+    } 
+    
+    else if (daneTestu.getId() == REPEATABILITY) {
         QTableWidget * tableParams = ui->powtarzalnoscTableParams;
         QTableWidget * tablePrzebieg = ui->powtarzalnoscTablePrzebieg;
         QTableWidget * tableCzujka = ui->powarzalnosctableCzujka;
@@ -547,7 +552,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->powtarzalnoscResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-    } else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
+    } 
+    
+    else if (daneTestu.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
         QTableWidget * tablePrzebieg = ui->zaleznoscKierunkowaTablePrzebieg;
 
 
@@ -590,7 +597,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
        } else {
            ui->zaleznoscKierunkowaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
        }
-    } else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
+    } 
+    
+    else if (daneTestu.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         QTableWidget * tablePrzebieg = ui->szybkieZmianyTlumieniaTablePrzebieg;
 
 
@@ -628,7 +637,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->szybkieZmianyTlumieniaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-    } else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
+    } 
+    
+    else if (daneTestu.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         QTableWidget * tableParams = ui->zaleznoscDlugisciDrogiOptycznejTableParams;
         QTableWidget * tablePrzebieg = ui->zaleznoscDlugisciDrogiOptycznejTablePrzebieg;
         QTableWidget * tableCzujka = ui->zaleznoscDlugisciDrogiOptycznejtableCzujka;
@@ -677,7 +688,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->zaleznoscDlugisciDrogiOptycznejResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-    } else if (daneTestu.getId() == STRAY_LIGHT) {
+    } 
+    
+    else if (daneTestu.getId() == STRAY_LIGHT) {
         narazeniaWynik(daneTestu, badanie, transmitter, receiver,
                        badanie.getRozproszoneSwiatloCmaxCmin(),
                        daneTestu.getOpisNarazenia(),
@@ -687,7 +700,9 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
                        ui->rozproszoneSwiatlotableCzujka,
                        ui->rozproszoneSwiatloResult);
 
-    } if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
+    } 
+    
+    else if (daneTestu.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         QTableWidget * tableParams = ui->tolerancjaNapieciaZasilaniaTableParams;
         QTableWidget * tablePrzebieg = ui->tolerancjaNapieciaZasilaniaTablePrzebieg;
         QTableWidget * tableCzujka = ui->tolerancjaNapieciaZasilaniatableCzujka;
@@ -734,7 +749,43 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         } else {
             ui->tolerancjaNapieciaZasilaniaResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
         }
-    }
+    
+    } 
+    
+    else if (daneTestu.getId() == FIRE_SENSITIVITY) {
+        initCzujkaInfo(ui->czuloscNaPozartableCzujka,
+                       transmitter, receiver,
+                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
+                                               daneTestu.getNumerReceiver()),
+                       daneTestu.getNumerTransmitter(),
+                       daneTestu.getNumerReceiver());
+
+
+        QStringList headNar;
+        QList<int> widthNar;
+        headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
+        widthNar << 150 << 250 << 350;
+        clearinitTable(ui->etczuloscNaPozarNarazenie, headNar, widthNar);
+        ui->etczuloscNaPozarNarazenie->setRowCount(1);
+
+        int col = addR(ui->etczuloscNaPozarNarazenie, 0, 0,
+                       daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
+                       daneTestu.getOpisNarazenia(), daneTestu.getInfoNarazenia());
+
+        if (!daneTestu.getWynikNarazenia()) {
+            for (short e=0; e<col; ++e) {
+                if (ui->etczuloscNaPozarNarazenie->item(0, e))
+                    ui->etczuloscNaPozarNarazenie->item(0, e)->setBackground(Qt::red);
+            }
+        }
+
+        if (daneTestu.getOk()) {
+            ui->czuloscNaPozarResult->setText("POZYTYWNY");
+        } else {
+            ui->czuloscNaPozarResult->setText(QString::fromUtf8("NEGATYWNY - %1").arg(daneTestu.getErrStr()));
+        }
+    }                  
+
     else if (daneTestu.getId() == DRY_HEAT) {
             narazeniaWynik(daneTestu, badanie, transmitter, receiver,
                            badanie.getSucheCieploCmaxCmin(),

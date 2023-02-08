@@ -60,98 +60,103 @@ ParametryBadania::ParametryBadania()
 
     DaneTestu odtwarzalnosc;
     odtwarzalnosc.setId(REPRODUCIBILITY);
-    odtwarzalnosc.setName("Odtwarzalność");
+    odtwarzalnosc.setName(QString::fromUtf8("Odtwarzalność"));
     testy[REPRODUCIBILITY] = odtwarzalnosc;
 
     DaneTestu powtarzalnosc;
     powtarzalnosc.setId(REPEATABILITY);
-    powtarzalnosc.setName("Powtarzalność");
+    powtarzalnosc.setName(QString::fromUtf8("Powtarzalność"));
     testy[REPEATABILITY] = powtarzalnosc;
 
     DaneTestu zaleznosckierunkowa;
     zaleznosckierunkowa.setId(TOLERANCE_TO_BEAM_MISALIGNMENT);
-    zaleznosckierunkowa.setName("Zależność kierunkowa");
+    zaleznosckierunkowa.setName(QString::fromUtf8("Zależność kierunkowa"));
     testy[TOLERANCE_TO_BEAM_MISALIGNMENT] = zaleznosckierunkowa;
 
     DaneTestu szybkiezmiany;
     szybkiezmiany.setId(RAPID_CHANGES_IN_ATTENUATION);
-    szybkiezmiany.setName("Szybkie zmiany tłumienia");
+    szybkiezmiany.setName(QString::fromUtf8("Szybkie zmiany tłumienia"));
     testy[RAPID_CHANGES_IN_ATTENUATION] = szybkiezmiany;
 
 
     DaneTestu dlugoscdrogioptycznej;
     dlugoscdrogioptycznej.setId(OPTICAL_PATH_LENGTH_DEPEDENCE);
-    dlugoscdrogioptycznej.setName("Zależność od długości drogi optycznej");
+    dlugoscdrogioptycznej.setName(QString::fromUtf8("Zależność od długości drogi optycznej"));
     testy[OPTICAL_PATH_LENGTH_DEPEDENCE] = dlugoscdrogioptycznej;
 
     DaneTestu rozproszoneSwiatlo;
     rozproszoneSwiatlo.setId(STRAY_LIGHT);
-    rozproszoneSwiatlo.setName("Rozproszone Światło");
+    rozproszoneSwiatlo.setName(QString::fromUtf8("Rozproszone Światło"));
     testy[STRAY_LIGHT] = rozproszoneSwiatlo;
 
     DaneTestu tolerancjaNapieciaZasilania;
     tolerancjaNapieciaZasilania.setId(TOLERANCE_TO_SUPPLY_VOLTAGE);
-    tolerancjaNapieciaZasilania.setName("Zmienność parametrów zasilania");
+    tolerancjaNapieciaZasilania.setName(QString::fromUtf8("Zmienność parametrów zasilania"));
     testy[TOLERANCE_TO_SUPPLY_VOLTAGE] = tolerancjaNapieciaZasilania;
+
+    DaneTestu czuloscNaPozar;
+    czuloscNaPozar.setId(FIRE_SENSITIVITY);
+    czuloscNaPozar.setName(QString::fromUtf8("Czułość na pożar"));
+    testy[FIRE_SENSITIVITY] = czuloscNaPozar;
 
     DaneTestu sucheCieplo;
     sucheCieplo.setId(DRY_HEAT);
-    sucheCieplo.setName("Odporność na suche gorąco");
+    sucheCieplo.setName(QString::fromUtf8("Odporność na suche gorąco"));
     testy[DRY_HEAT] = sucheCieplo;
 
     DaneTestu sucheZimno;
     sucheZimno.setId(COLD);
-    sucheZimno.setName("Odporność na zimno");
+    sucheZimno.setName(QString::fromUtf8("Odporność na zimno"));
     testy[COLD] = sucheZimno;
         
     DaneTestu odpornoscWilgotnoscGoraco;
     odpornoscWilgotnoscGoraco.setId(DAMP_HEAT_STADY_STATE_OPERATIONAL);
-    odpornoscWilgotnoscGoraco.setName("Odporność na wilgotne gorąco, stan ustalony");
+    odpornoscWilgotnoscGoraco.setName(QString::fromUtf8("Odporność na wilgotne gorąco, stan ustalony"));
     testy[DAMP_HEAT_STADY_STATE_OPERATIONAL] = odpornoscWilgotnoscGoraco;
 
     DaneTestu wytrzymaloscWilgotnoscGoraco;
     wytrzymaloscWilgotnoscGoraco.setId(DAMP_HEAT_STADY_STATE_ENDURANCE);
-    wytrzymaloscWilgotnoscGoraco.setName("Odporność na wilgotne gorąco, stan ustalony");
+    wytrzymaloscWilgotnoscGoraco.setName(QString::fromUtf8("Odporność na wilgotne gorąco, stan ustalony"));
     testy[DAMP_HEAT_STADY_STATE_ENDURANCE] = wytrzymaloscWilgotnoscGoraco;
         
     DaneTestu wibracje;
     wibracje.setId(VIBRATION);
-    wibracje.setName("Wytrzymałość na wibracje");
+    wibracje.setName(QString::fromUtf8("Wytrzymałość na wibracje"));
     testy[VIBRATION] = wibracje;        
     
     DaneTestu uderzenie;
     uderzenie.setId(IMPACT);
-    uderzenie.setName("Odporność na uderzenie");
+    uderzenie.setName(QString::fromUtf8("Odporność na uderzenie"));
     testy[IMPACT] = uderzenie;        
 
     DaneTestu emc1;
     emc1.setId(ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE);
-    emc1.setName("Odporność na wyładowania elektrostatyczne");
+    emc1.setName(QString::fromUtf8("Odporność na wyładowania elektrostatyczne"));
     testy[ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE] = emc1;
 
     DaneTestu emc2;
     emc2.setId(ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS);
-    emc2.setName("Odporność na wypromieniowanie pola elektromagnetycznego");
+    emc2.setName(QString::fromUtf8("Odporność na wypromieniowanie pola elektromagnetycznego"));
     testy[ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS] = emc2;
 
     DaneTestu emc3;
     emc3.setId(ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED);
-    emc3.setName("Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne");
+    emc3.setName(QString::fromUtf8("Odporność na przewodzone zakłocenia indukowane przez pola elektromagnetyczne"));
     testy[ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED] = emc3;
 
     DaneTestu emc4;
     emc4.setId(ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS);
-    emc4.setName("Odporność na szybkie impulsy przejściowe");
+    emc4.setName(QString::fromUtf8("Odporność na szybkie impulsy przejściowe"));
     testy[ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS] = emc4;
 
     DaneTestu emc5;
     emc5.setId(ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES);
-    emc5.setName("Odporność na powolne udary napęciowe wysokiej energii");
+    emc5.setName(QString::fromUtf8("Odporność na powolne udary napęciowe wysokiej energii"));
     testy[ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES] = emc5;
 
     DaneTestu korozjaS02;
     korozjaS02.setId(SULPHUR_DIOXIDE_SO2_CORROSION);
-    korozjaS02.setName("Wytrzymałość na korozję powodowaną przez dwutlenek siarki");
+    korozjaS02.setName(QString::fromUtf8("Wytrzymałość na korozję powodowaną przez dwutlenek siarki"));
     testy[SULPHUR_DIOXIDE_SO2_CORROSION] = korozjaS02;        
 }
 

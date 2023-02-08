@@ -2,6 +2,7 @@
 #include "ui_oknoczekaniabadaniekatowe.h"
 #include <QTimer>
 #include <QDebug>
+#include "ustawienia.h"
 
 OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, const QString & name,
                                                      const QString & ptitle, QWidget *parent) :
@@ -24,7 +25,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     ui->czas->setText(getMM_SS(elapsedTime));
     timer.setInterval(1000);
 
-    if (ust.testMode) {
+    if (Ustawienia::testMode) {
         ui->pbBreak->setVisible(true);
         connect(ui->pbBreak, &QPushButton::clicked, this, [this](){ done(QDialog::Accepted); });
     } else {

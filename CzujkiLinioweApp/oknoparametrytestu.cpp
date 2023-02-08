@@ -494,7 +494,9 @@ void OknoParametryTestu::pbOK_clicked()
         test->setMinimalneNapiecie(ui->minVolt->text());
         test->setMaksymalneNapiecie(ui->maxVolt->text());
     }
+
     else if (test->getId() == STRAY_LIGHT ||
+             test->getId() == FIRE_SENSITIVITY ||
              test->getId() == DRY_HEAT ||
              test->getId() == COLD ||
              test->getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||

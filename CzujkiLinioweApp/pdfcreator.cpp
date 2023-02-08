@@ -346,6 +346,18 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
         }
     }
 
+    else if (test.getId() == FIRE_SENSITIVITY) {
+        czyNarazenie = true;
+        showC = false;
+        dane.leftMargin = 40;
+
+        narazenie.wynik = test.getWynikNarazenia() ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
+                                                 codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+        narazenie.uwagi = codec->fromUnicode(test.getInfoNarazenia());
+        narazenie.opis = codec->fromUnicode(test.getOpisNarazenia());
+        showC = false;
+    }
+
     else if (test.getId() == DRY_HEAT) {
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
@@ -555,8 +567,8 @@ void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
     if (testPage.showC)
         endY = createCminCmax(page, font, font2, endY - 15, testPage.wynikiC, testPage.odtwarzalnosc);
 
-
-    endY = createTable(page, font, font2, testPage.dane.leftMargin, endY - 30,
+    if (testPage.dane.dane.size() > 0)
+        endY = createTable(page, font, font2, testPage.dane.leftMargin, endY - 30,
                        testPage.dane.head, testPage.dane.colwidth, testPage.dane.colAlign,
                        testPage.dane.dane);
 }
@@ -702,7 +714,7 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 10);
-    float tw1 = HPDF_Page_TextWidth (page, eUrzadzenie.data());
+    float tw1 = HPDF_Page_TextWidth (page, eRodzajSystemu.data());
     float tw2 = HPDF_Page_TextWidth (page, eProducent.data());
     float tw3 = HPDF_Page_TextWidth (page, eTransmitter.data());
     float tw4 = HPDF_Page_TextWidth (page, eReceiver.data());
@@ -712,7 +724,7 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
 
     float startY = HPDF_Page_GetHeight(page) - 320;
     short nRow = 0;
-    HPDF_Page_TextOut (page, col1width - tw5, startY -(nRow++)*16 , eRodzajSystemu.data());
+    HPDF_Page_TextOut (page, col1width - tw5, startY -(nRow++)*16 , eUrzadzenie.data());
     HPDF_Page_TextOut (page, col1width - tw1, startY -(nRow++)*16 , eRodzajSystemu.data());
     HPDF_Page_TextOut (page, col1width - tw2, startY -(nRow++)*16, eProducent.data());
     HPDF_Page_TextOut (page, col1width - tw3, startY -(nRow++)*16, eTransmitter.data());
@@ -769,7 +781,7 @@ void PdfCreator::createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font f
     float width1Column = 200;
     float width2Column = 150;
     float width3Column = 150;
-    float startY = HPDF_Page_GetHeight(page) - 415;;
+    float startY = HPDF_Page_GetHeight(page) - 435;;
     QByteArray ePionowa = codec->fromUnicode(QString::fromUtf8("Pionowa"));
     QByteArray ePozioma = codec->fromUnicode(QString::fromUtf8("Pozioma"));
     QByteArray title = codec->fromUnicode(QString::fromUtf8("Maksymalna kątowa niewspółosiowość"));
@@ -862,7 +874,7 @@ void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font f
     QByteArray tytul = codec->fromUnicode(QString::fromUtf8("NUMERY SERYJNE BADANYCH CZUJEK"));
     QByteArray eOznaczenie = codec->fromUnicode(QString::fromUtf8("Oznaczenie"));
 
-    float startY = HPDF_Page_GetHeight(page) - 470;
+    float startY = HPDF_Page_GetHeight(page) - 490;
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 12);
@@ -943,7 +955,7 @@ void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_F
     QByteArray eCzasPoResecie = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po zresetowaniu zasilania:"));
     QByteArray epoZresetowaniuZasilania = codec->fromUnicode(QString::fromUtf8("po zresetowaniu zasilania:"));
 
-    float startY = HPDF_Page_GetHeight(page) - 635;
+    float startY = HPDF_Page_GetHeight(page) - 655;
     float lMargin = 30;
     float rMargin = HPDF_Page_GetWidth(page)/2 + 30;
     float boxSize = 15;
