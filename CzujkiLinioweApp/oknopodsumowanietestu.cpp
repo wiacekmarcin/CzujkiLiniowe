@@ -265,7 +265,7 @@ void OknoPodsumowanieTestu::odtwarzalnoscAddRekord(
     ADDLINETABLETD(odbiornik);
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())
@@ -332,7 +332,7 @@ void OknoPodsumowanieTestu::powtarzalnoscAddRekord(
     ADDLINETABLETD(QString::number(r+1));
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())
@@ -375,7 +375,7 @@ void OknoPodsumowanieTestu::szybkiezmianytlumieniaAddRekord(
     ADDLINETABLETD(QString::number(r+1));
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())
@@ -430,7 +430,7 @@ void OknoPodsumowanieTestu::rozproszoneswiatloAddRekord(QFrame *fr, QGridLayout 
     ADDLINETABLETD(r == 0 ? "Przed narażeniem" : "Po narażeniu");
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())
@@ -453,7 +453,7 @@ void OknoPodsumowanieTestu::tolerancjanapieciazasilaniaAddRekord(QFrame *fr, QGr
     ADDLINETABLETD(QString("%1 V").arg(napiecie));
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())
@@ -496,7 +496,7 @@ void OknoPodsumowanieTestu::dlugoscdrogioptycznejAddRekord(
     ADDLINETABLETD(QString("%1 m").arg(rozstawienie));
     ADDLINETABLETD(tlumienie_db);
     ADDLINETABLETD(tlumienie_per);
-    ADDLINETABLETD(ok ? "POZYTYWNY" : "NEGATYWNY");
+    ADDLINETABLETD(ok ? "POPRAWNY" : "NIE POPRAWNY");
     addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));
     ++col;
     if (inneText.isEmpty())

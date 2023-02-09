@@ -15,12 +15,24 @@ Ustawienia::Ustawienia() :
     UstawieniaGen()
 {
     testMode = QApplication::applicationName() == "CzujkiLinioweAppTest";
+    qDebug() << QApplication::applicationName();
+#ifdef NDEBUG
+    testMode = true;
+#endif
 
+#ifdef _NDEBUG
+    testMode = true;
+#endif
+
+#ifdef _DEBUG
+    testMode = true;
+#endif
+    //testMode = true;
     load();
     loadListUstawienFiltra();
-    //save();
-    //saveListUstawienFiltra();
-    //sync();
+    save();
+    saveListUstawienFiltra();
+    sync();
 }
 
 Ustawienia::~Ustawienia()

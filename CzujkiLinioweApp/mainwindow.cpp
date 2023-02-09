@@ -588,7 +588,7 @@ void MainWindow::actionJedenRaport_triggered()
     PdfCreator raport;
     raport.setData(b, false, ui->centralwidget->getActSelectedTest());
     raport.create(fileName);
-    //qDebug() << raport.getErrCode();
+    qDebug() << raport.getErrCode();
 }
 
 void MainWindow::actionWszystkieRaporty_triggered()
@@ -616,7 +616,7 @@ void MainWindow::actionWszystkieRaporty_triggered()
     PdfCreator raport;
     raport.setData(b, true, -1);
     raport.create(fileName);
-    //qDebug() << raport.getErrCode() << PdfCreator::error.toStdString().data();
+    qDebug() << raport.getErrCode() << PdfCreator::error.toStdString().data();
 }
 
 void MainWindow::actionZamknijAplikacje_triggered()

@@ -33,7 +33,7 @@ WyborTestu::WyborTestu(const QMap<int, DaneTestu> & testy, bool powtarzalnosc, Q
                 ui->gridLayout->addWidget(label, num, 0, 1, 1);
             }
         } else {
-            if (!powtarzalnosc || test.getWykonany()) {
+            if (!powtarzalnosc /*|| test.getWykonany()*/) {
                 QLabel * label = new QLabel(ui->groupBox);
                 label->setObjectName(QString("label%1").arg(t));
                 label->setIndent(20);

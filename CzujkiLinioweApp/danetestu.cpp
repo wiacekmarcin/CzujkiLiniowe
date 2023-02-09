@@ -1288,7 +1288,7 @@ void DaneTestu::posortuj(ParametryBadania * badanie)
     }
     if (pmax1 != -1) {
         wszystkieDane[pmax1].nrSortCzujki = nrPom++;
-        listaPosortowana.push_back(qMakePair(wszystkieDane[pmax2].numerNadajnika, wszystkieDane[pmax2].numerOdbiornika));
+        listaPosortowana.push_back(qMakePair(wszystkieDane[pmax1].numerNadajnika, wszystkieDane[pmax1].numerOdbiornika));
 
     }
     badanie->setPosortowaneCzujki(listaPosortowana);

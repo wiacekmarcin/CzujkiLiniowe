@@ -473,8 +473,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "C[n] dB" << "C[n] %" << "Uwagi" ;
-        width << 90 << 90 << 90 << 170 << 170 << 50 << 50 << 200;
+        head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "Wynik" << "C[n] dB" << "C[n] %" << "Uwagi" ;
+        width << 90 << 90 << 90 << 170 << 170 << 130 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
         tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
 
@@ -487,6 +487,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
                            (dane.nrSortCzujki == 0 ? QString("-") : QString::number(dane.nrSortCzujki)),
                            dane.numerNadajnika,
                            dane.numerOdbiornika,
+                           (dane.ok ? "POPRAWNY" : "NIE POPRAWNY"),
                            dane.value_dB,
                            d2p(dane.value_dB),
                            dane.error
@@ -526,8 +527,8 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Nr Próby" << "C[n] dB" << "C[n] %" << "Uwagi";
-        width << 75 << 50 << 50 << 200;
+        head << "Nr Próby" << "wynik" << "C[n] dB" << "C[n] %" << "Uwagi";
+        width << 75 << 120 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
         //tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
         tablePrzebieg->setRowCount(4);
@@ -537,6 +538,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         {
             int col = addR(tablePrzebieg, num, 0,
                            QString::number(num+1),
+                           (dane.ok ? "POPRAWNY" : "NIE POPRAWNY"),
                            dane.value_dB, d2p(dane.value_dB), dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
@@ -567,7 +569,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
 
        QString err;
-       qDebug() << __FILE__ << __LINE__ << daneTestu.getPomiaryKatow().size();
+       //qDebug() << __FILE__ << __LINE__ << daneTestu.getPomiaryKatow().size();
        QStringList head;
        QList<int> width;
        head << "Nazwa Badania" << "Kąt prod." << "Kąt zmierz." << "Wynik" << "Błąd" << "Uwaga";
@@ -580,7 +582,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
            int col = addR(tablePrzebieg, num, 0, wynik.nazwaBadania,
                           QString::number(wynik.katProducenta, 'f', 2),
                           QString::number(wynik.katZmierzony, 'f', 2),
-                          (wynik.ok ? "POZYTYWNY" : "NEGATYWNY"),
+                          (wynik.ok ? "POPRAWNY" : "NIE POPRAWNY"),
                           wynik.errorStr,
                           wynik.errorDetail);
            if (!wynik.ok) {
@@ -622,7 +624,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         for (const auto & dane : daneTestu.getDaneBadanCzujek())
         {
             int col = addR(tablePrzebieg, num, 0, QString::number(num+1),
-                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"),  dane.error);
+                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POPRAWNY" : "NIE POPRAWNY"),  dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
                     if (tablePrzebieg->item(num, e))
@@ -674,7 +676,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         {
             int col = addR(tablePrzebieg, num, 0, QString::number(num+1),
                            (num == 0 ? daneTestu.getMinimalneRozstawienie() : daneTestu.getMaksymalneRozstawienie()),
-                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"), dane.error);
+                           dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POPRAWNY" : "NIE POPRAWNY"), dane.error);
             if (!dane.ok) {
                 for (short e=0; e<col; ++e) {
                     if (tablePrzebieg->item(num, e))
@@ -788,7 +790,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         {
             int col = addR(ui->etczuloscNaPozarNarazenie, numRow, 0,
                            dane.numerNadajnika, dane.numerOdbiornika,
-                           dane.ok ? "POZYTYWNY" : "NEGATYWNY",
+                           dane.ok ? "POPRAWNY" : "NIE POPRAWNY",
                            daneTestu.getOpisNarazenia(),
                            dane.error);
 
@@ -986,7 +988,7 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     {
         int col = addR(tablePrzebieg, num, 0,
                        (num == 0 ? "Przed narażeniem" : "Po narażeniu"),
-                       dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POZYTYWNY" : "NEGATYWNY"), dane.error);
+                       dane.value_dB, d2p(dane.value_dB), (dane.ok ? "POPRAWNY" : "NIE POPRAWNY"), dane.error);
         if (!dane.ok) {
             for (short e=0; e<col; ++e) {
                 if (tablePrzebieg->item(num, e))
@@ -1094,7 +1096,7 @@ void ListaBadan::initNarazenieInfo(QTableWidget * table, bool wynik, const QStri
     table->setMaximumWidth(710);
 
 
-    int col = addR(table, 0, 0, wynik ? "POZYTYWNY" : "NEGATYWNY", rodzaj, uwagi);
+    int col = addR(table, 0, 0, wynik ? "POPRAWNY" : "NEGATYWNY", rodzaj, uwagi);
     if (!wynik) {
         for (short e=0; e<col; ++e) {
             if (table->item(0, e))

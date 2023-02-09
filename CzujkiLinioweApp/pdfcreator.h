@@ -52,6 +52,16 @@ struct NarazenieDane {
     QByteArray uwagi;
 };
 
+struct NadazenieDaneExt : public NarazenieDane, public CzujkaInfo
+{
+};
+
+struct NarazenieDane2
+{
+    NadazenieDaneExt first;
+    NadazenieDaneExt second;
+};
+
 struct TabelaDane {
     QVector<QByteArray> head;
     QVector<int> colwidth;
@@ -72,7 +82,7 @@ struct TestWszystko {
     bool showC;
     bool czyNarazenie2;
     CzujkaInfo czujka2;
-    NarazenieDane narazenie2;
+    NarazenieDane2 narazenie2;
 };
 
 class PdfCreator
@@ -89,25 +99,27 @@ public:
     void setErrCode(short newErrCode);
 protected:
     void createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
-                            const TestWszystko &testPage);
+                            float endY, const TestWszystko &testPage);
 
 
-    void setTableData(const DaneTestu & test, TabelaDane & dane, NarazenieDane &narazenie, bool &czyNarazenie, bool &showC);
+    void setTableData(const DaneTestu & test, TabelaDane & dane,
+                      NarazenieDane &narazenie, bool &czyNarazenie,
+                      NarazenieDane2 &narazenie2, bool &czyNarazenie2, bool &showC);
     QByteArray getTestName(const DaneTestu &test, short NrTestu);
 private:
     //void drawTextInBox(HPDF_Page page, float posX, float posY, const QByteArray & text, float maxWidth);
     void drawTextInBoxRight(HPDF_Page page, float posX, float posY, const QByteArray & text, float maxWidth);
     void drawTextInBoxCenter(HPDF_Page page, float posX, float posY, const QByteArray &text, float maxWidth);
     void drawTextInBoxLeft(HPDF_Page page, float posX, float posY, const QByteArray &text, float maxWidth);
-    void createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+    float createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
                            float startY, bool showUwagi, bool showPodpis);
-    void createHead(HPDF_Page page, HPDF_Font font);
-    void createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
-    void createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
-    void createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
-    void createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2);
+    float createHead(HPDF_Page page, HPDF_Font font, float endY);
+    float createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY);
+    float createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY);
+    float createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY);
+    float createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY);
 
-    float createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+    float createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY,
                                     const OgolneParametryTestu & test, const QByteArray &nazwaTest);
     float createTable(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float marginl, float startY,
                       const QVector<QByteArray> & head,
@@ -119,8 +131,10 @@ private:
                        const QByteArray &etTransmiter, const QByteArray &etReceiver,
                        const QByteArray &transmiter, const QByteArray &receiver);
     float createNarazenie(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float startY, const NarazenieDane &narazenie);
-
+    float createNarazenie2(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY, const QByteArray &etTransmiter, const QByteArray &etReceiver,
+                           const NarazenieDane2 &narazenie);
     void narazeniaWynik(const DaneTestu &test, TabelaDane &dane, NarazenieDane &narazenie, bool &czyNarazenie, bool &showC);
+
 
     double d2p(const double & val);
     QString d2p(const QString &val);
@@ -131,6 +145,7 @@ private:
     QByteArray rodzajSystemu;
     QByteArray osobaOdpowiedzialna1;
     QByteArray uwagi1;
+    QByteArray urzadzenie;
     QByteArray dataBadania;
 
     QByteArray typSystemu;
@@ -169,6 +184,7 @@ private:
     QVector<TestWszystko> testy;
 
     QTextCodec *codec;
+
 
 
 };

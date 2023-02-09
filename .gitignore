@@ -13,3 +13,4 @@ CppProperties.json
 .vs/CzujkiLiniowe/v16/*
 install/*
 CzujkiLinioweApp/.qtc_clangd/*
+CzujkiLinioweApp/debug*

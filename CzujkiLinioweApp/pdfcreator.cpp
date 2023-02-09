@@ -38,6 +38,7 @@ QString PdfCreator::error;
 PdfCreator::PdfCreator()
 {
     codec = QTextCodec::codecForName("ISO 8859-2");
+    urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowsiko do badania czujek liniowych dymu - BCL, SN:1-23"));
 }
 
 void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 0)
@@ -128,33 +129,11 @@ void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 
             daneTestu.wynikiC.Cmin2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmin()), 4, 'f', 2).replace('.',','));
             daneTestu.wynikiC.Cmax2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmax()), 4, 'f', 2).replace('.',','));
             daneTestu.wynikiC.Crep2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCrep()), 4, 'f', 2).replace('.',','));
-            if (test.getId() == FIRE_SENSITIVITY) {
-                daneTestu.czyNarazenie = true;
-                daneTestu.czyNarazenie2 = true;
+            setTableData(test, daneTestu.dane,
+                             daneTestu.narazenie, daneTestu.czyNarazenie,
+                             daneTestu.narazenie2, daneTestu.czyNarazenie2,
+                             daneTestu.showC);
 
-                const auto & pomiar1 = test.getDaneBadanCzujek()[0];
-                daneTestu.czujka.transmiter = codec->fromUnicode(pomiar1.numerNadajnika);
-                daneTestu.czujka.receiver = codec->fromUnicode(pomiar1.numerOdbiornika);
-                daneTestu.czujka.oznaczenie = codec->fromUnicode(badanie.getNumerCzujki(pomiar1.numerNadajnika, pomiar1.numerOdbiornika));
-
-                const auto & pomiar2 = test.getDaneBadanCzujek()[1];
-                daneTestu.czujka2.transmiter = codec->fromUnicode(pomiar2.numerNadajnika);
-                daneTestu.czujka2.receiver = codec->fromUnicode(pomiar2.numerOdbiornika);
-                daneTestu.czujka2.oznaczenie = codec->fromUnicode(badanie.getNumerCzujki(pomiar2.numerNadajnika, pomiar2.numerOdbiornika));
-
-                daneTestu.narazenie.wynik = pomiar1.ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
-                                                         codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
-                daneTestu.narazenie.uwagi = codec->fromUnicode(test.getInfoNarazenia());
-                daneTestu.narazenie.opis = codec->fromUnicode(pomiar1.error);
-
-                daneTestu.narazenie2.wynik = pomiar2.ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
-                                                         codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
-                daneTestu.narazenie2.uwagi = codec->fromUnicode(test.getInfoNarazenia());
-                daneTestu.narazenie2.opis = codec->fromUnicode(pomiar2.error);
-                daneTestu.showC = false;
-            } else {
-                setTableData(test, daneTestu.dane, daneTestu.narazenie, daneTestu.czyNarazenie, daneTestu.showC);
-            }
             testy << daneTestu;
         }
     }
@@ -165,10 +144,14 @@ QByteArray PdfCreator::getTestName(const DaneTestu & test, short NrTestu)
     return codec->fromUnicode(QString::fromUtf8("TEST NR %1: %2").arg(NrTestu).arg(test.getName()));
 }
 
-void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, NarazenieDane & narazenie, bool &czyNarazenie, bool & showC)
+void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
+                              NarazenieDane & narazenie, bool &czyNarazenie,
+                              NarazenieDane2 & narazenie2, bool &czyNarazenie2,
+                              bool & showC)
 {
     if (test.getId() == REPRODUCIBILITY) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = true;
         dane.leftMargin = 30;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
@@ -192,10 +175,10 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
             row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
             if (d.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
             }
             dane.dane << row;
             ++num;
@@ -213,6 +196,7 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
         }
     } else if (test.getId() == REPEATABILITY) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = true;
         dane.leftMargin = 50;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
@@ -232,16 +216,17 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
             row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
             if (d.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
             }
             dane.dane << row;
             num++;
         }
     } else if (test.getId() == TOLERANCE_TO_BEAM_MISALIGNMENT) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = true;
         dane.leftMargin = 20;
         dane.head << codec->fromUnicode(QString::fromUtf8("Nazwa pomiaru"));
@@ -260,15 +245,16 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString("%1 %2").arg(wynik.katProducenta, 4, 'f', 2).arg(QChar(0xb0)).replace('.',','));
             row << codec->fromUnicode(QString("%1 %2").arg(wynik.katZmierzony, 4, 'f', 2).arg(QChar(0xb0)).replace('.',','));
             if (wynik.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(wynik.errorStr);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(wynik.errorStr);
             }
             dane.dane << row;
         }
     } else if (test.getId() == RAPID_CHANGES_IN_ATTENUATION) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = false;
         dane.leftMargin = 50;
 
@@ -289,16 +275,17 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
             row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
             if (d.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
             }
             dane.dane << row;
             num++;
         }
     } else if (test.getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = true;
         dane.leftMargin = 40;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
@@ -324,18 +311,20 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
             row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
             if (d.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
             }
             dane.dane << row;
             num++;
         }
     } else if (test.getId() == STRAY_LIGHT) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     } else if (test.getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = true;
         dane.leftMargin = 40;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
@@ -361,10 +350,10 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
             row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
             row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
             if (d.ok) {
-                row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+                row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
             }
             else {
-                row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+                row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
             }
             dane.dane << row;
             num++;
@@ -372,22 +361,37 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
     }
 
     else if (test.getId() == FIRE_SENSITIVITY) {
-        czyNarazenie = true;
+        czyNarazenie = false;
+        czyNarazenie2 = false;
         showC = false;
         dane.leftMargin = 40;
 
-        narazenie.wynik = test.getWynikNarazenia() ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
-                                                 codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
-        narazenie.uwagi = codec->fromUnicode(test.getInfoNarazenia());
-        narazenie.opis = codec->fromUnicode(test.getOpisNarazenia());
+        const auto & dane = test.getDaneBadanCzujek();
+        if (dane.size() > 1)  {
+            czyNarazenie2 = true;
+            narazenie2.first.wynik = dane[0].ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) : codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+            narazenie2.first.transmiter = codec->fromUnicode(dane[0].numerNadajnika);
+            narazenie2.first.receiver = codec->fromUnicode(dane[0].numerOdbiornika);
+            narazenie2.first.oznaczenie = codec->fromUnicode(QString::number(dane[0].nrSortCzujki));
+            narazenie2.first.opis = codec->fromUnicode(test.getOpisNarazenia());
+            narazenie2.first.uwagi = codec->fromUnicode(dane[0].error);
+            narazenie2.second.wynik = dane[1].ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) : codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+            narazenie2.second.transmiter = codec->fromUnicode(dane[1].numerNadajnika);
+            narazenie2.second.receiver = codec->fromUnicode(dane[1].numerOdbiornika);
+            narazenie2.second.oznaczenie = codec->fromUnicode(QString::number(dane[1].nrSortCzujki));
+            narazenie2.second.opis = codec->fromUnicode(test.getOpisNarazenia());
+            narazenie2.second.uwagi = codec->fromUnicode(dane[1].error);
+        }
         showC = false;
     }
 
     else if (test.getId() == DRY_HEAT) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == COLD) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
@@ -396,38 +400,47 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane, Narazenie
     }
 
     else if (test.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == VIBRATION) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == IMPACT) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == ELECTROMAGNETIC_ELEKTROSTATIC_DISCHARGE) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == ELECTROMAGNETIC_RADIATED_ELEKTROMAGNETIC_FIELDS) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == ELECTROMAGNETIC_CONDUCTED_DISTURBANCE_INDUCED) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == ELECTROMAGNETIC_FAST_TRANSIENT_BURSTS) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == ELECTROMAGNETIC_SLOW_HIGH_ENERGY_VOLTAGE_SURGES) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 
     else if (test.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
+        czyNarazenie2 = false;
         narazeniaWynik(test, dane, narazenie, czyNarazenie, showC);
     }
 }
@@ -460,10 +473,10 @@ void PdfCreator::narazeniaWynik(const DaneTestu &test, TabelaDane &dane,
         row << codec->fromUnicode(QString::fromUtf8("%1 dB").arg(d.value_dB).replace('.',','));
         row << codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(d.value_dB)).replace('.',','));
         if (d.ok) {
-            row << codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) << "-";
+            row << codec->fromUnicode(QString::fromUtf8("POPRAWNY")) << "-";
         }
         else {
-            row << codec->fromUnicode(QString::fromUtf8("NEGATYWNY")) << codec->fromUnicode(d.error);
+            row << codec->fromUnicode(QString::fromUtf8("NIE POPRAWNY")) << codec->fromUnicode(d.error);
         }
         dane.dane << row;
         num++;
@@ -536,13 +549,13 @@ void PdfCreator::create(const QString & data)
 
     /* draw grid to the page */
     //print_grid  (pdf, page);
-
-    createHead(page, font);
-    createInfoBadanie(page, font, font2, 176, true, true);
-    createInformacje(page, font, font2);
-    createInformacjeKat(page, font, font2);
-    createTablicaCzujek(page, font, font2);
-    createDodatkoweParametry(page, font, font2);
+    float endY = HPDF_Page_GetHeight(page)-70;
+    endY = createHead(page, font, endY);
+    endY = createInfoBadanie(page, font, font2, endY - 32, true, true);
+    endY = createInformacje(page, font, font2, endY);
+    endY = createInformacjeKat(page, font, font2, endY - 20);
+    endY = createTablicaCzujek(page, font, font2, endY - 20);
+    endY = createDodatkoweParametry(page, font, font2, endY - 20);
 
     for (short n = 0; n < testy.size(); ++n)
     {
@@ -564,8 +577,8 @@ void PdfCreator::create(const QString & data)
         HPDF_Page_SetFontAndSize (page, font, 10);
         HPDF_Page_EndText (page);
 
-        createInfoBadanie(page, font, font2, 60, false, false);
-        createPageTest(page, font, font2, testy.at(n));
+        float endY = createInfoBadanie(page, font, font2, HPDF_Page_GetHeight (page) - 60, false, false);
+        createPageTest(page, font, font2, endY - 60, testy.at(n));
     }
 
     /* save the document to a file */
@@ -576,10 +589,10 @@ void PdfCreator::create(const QString & data)
 
 }
 
-void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float startY,
                                      const TestWszystko & testPage)
 {
-    float endY = createTestInfo(page, font, font2, testPage.ogolne, testPage.testName);
+    float endY = createTestInfo(page, font, font2, startY, testPage.ogolne, testPage.testName);
 
     if (testPage.czyNarazenie) {
         endY = createNarazenie(page, font, font2, endY - 15, testPage.narazenie);
@@ -598,16 +611,16 @@ void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
                        testPage.dane.dane);
 
     if (testPage.czyNarazenie2) {
-        endY = createNarazenie(page, font, font2, endY - 15, testPage.narazenie);
+        endY = createNarazenie2(page, font, font2, endY - 15,
+                                eTransmitter, eReceiver,
+                                testPage.narazenie2);
 
-        endY = createCzujka(page, font, font2, endY-15, eTransmitter, eReceiver,
-                        testPage.ogolne.transmiter, testPage.ogolne.receiver);
     }
 
 
 }
 
-void PdfCreator::createHead(HPDF_Page page, HPDF_Font font)
+float PdfCreator::createHead(HPDF_Page page, HPDF_Font font, float startY)
 {
     QByteArray p_title1 = codec->fromUnicode(QString::fromUtf8("CENTRUM NAUKOWO BADAWCZE OCHRONY PRZECIWPOŻAROWEJ"));
     QByteArray p_title2 = codec->fromUnicode(QString::fromUtf8("im. Józefa Tuliszkowskiego w Józefowie"));
@@ -637,10 +650,11 @@ void PdfCreator::createHead(HPDF_Page page, HPDF_Font font)
                 HPDF_Page_GetHeight (page) - 145, p_title4.data());
 
     HPDF_Page_EndText (page);
+    return HPDF_Page_GetHeight (page) - 145;
 }
 
-void PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
-                                   float startY, bool showUwagi, bool showPodpis)
+float PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
+                                   float endY, bool showUwagi, bool showPodpis)
 {
     float col1width = 130; //lewy margines etykiet
     QByteArray eNumerZlecenia = codec->fromUnicode(QString::fromUtf8("Numer zlecenia:"));
@@ -649,8 +663,9 @@ void PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font fon
     QByteArray eUwagi = codec->fromUnicode(QString::fromUtf8("Uwagi:"));
     QByteArray eData = codec->fromUnicode(QString::fromUtf8("Data:"));
     QByteArray ePodpis = codec->fromUnicode(QString::fromUtf8("Podpis:"));
+    QByteArray eTypUrzadzenia = codec->fromUnicode(QString::fromUtf8("Typ urządzenia:"));
 
-
+    float startY = endY;
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 10);
 
@@ -658,43 +673,55 @@ void PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font fon
     float tw2 = HPDF_Page_TextWidth (page, eNumerBadania.data());
     float tw3 = HPDF_Page_TextWidth (page, eOsobaOdpowiedzialna.data());
     float tw4 = HPDF_Page_TextWidth (page, eUwagi.data());
+    float tw5 = HPDF_Page_TextWidth (page, eTypUrzadzenia.data());
     float twD, twP;
 
     //176
-    HPDF_Page_TextOut (page, col1width - tw1, HPDF_Page_GetHeight(page) -startY, eNumerZlecenia.data());
-    HPDF_Page_TextOut (page, col1width - tw2, HPDF_Page_GetHeight(page) -startY -16, eNumerBadania.data());
-    HPDF_Page_TextOut (page, col1width - tw3, HPDF_Page_GetHeight(page) -startY -32, eOsobaOdpowiedzialna.data());
-    if (showUwagi)
-        HPDF_Page_TextOut (page, col1width - tw4,  HPDF_Page_GetHeight (page) - startY - 48, eUwagi.data());
+    HPDF_Page_TextOut (page, col1width - tw1, startY, eNumerZlecenia.data());
+    HPDF_Page_TextOut (page, col1width - tw2, startY -16, eNumerBadania.data());
+    HPDF_Page_TextOut (page, col1width - tw3, startY -32, eOsobaOdpowiedzialna.data());
+    if (showUwagi) {
+        HPDF_Page_TextOut (page, col1width - tw4, startY -48, eUwagi.data());
+        HPDF_Page_TextOut (page, col1width - tw5, startY -96, eTypUrzadzenia.data());
+    }
     HPDF_Page_EndText (page);
 
-    HPDF_Page_SetLineWidth (page, 2);
     HPDF_Page_SetRGBStroke (page, 0, 0, 0);
     HPDF_Page_SetLineWidth (page, 1);
 
     float width1Table = 285;
     //176
-    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -4 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -20 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -36 , width1Table, 16);
-    if (showUwagi)
-        HPDF_Page_Rectangle(page, col1width + 5, HPDF_Page_GetHeight(page) -startY -86 , width1Table, 50);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -4 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -20 , width1Table, 16);
+    HPDF_Page_Rectangle(page, col1width + 5, startY -36 , width1Table, 16);
+    if (showUwagi) {
+        HPDF_Page_Rectangle(page, col1width + 5, startY -84 , width1Table, 48);
+        HPDF_Page_Rectangle(page, col1width + 5, startY -116 , width1Table, 32);
+    }
     HPDF_Page_Stroke (page);
 
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font2, 10);
     //176
-    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY, numerZlecenia.data(), width1Table-10);
-    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY-16, numerBadania.data(), width1Table-10);
-    drawTextInBoxLeft (page, col1width + 10, HPDF_Page_GetHeight(page) -startY-32, osobaOdpowiedzialna1.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY, numerZlecenia.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY-16, numerBadania.data(), width1Table-10);
+    drawTextInBoxLeft (page, col1width + 10, startY-32, osobaOdpowiedzialna1.data(), width1Table-10);
     if (showUwagi && uwagi1.size() > 0) {
         QByteArray safeUwagi = uwagi1;
         if (safeUwagi.size() > 200)
             safeUwagi = safeUwagi.first(200);
-        HPDF_Page_TextRect (page, col1width + 10, HPDF_Page_GetHeight (page) -startY-39,
-                            col1width + 10 + width1Table-10, HPDF_Page_GetHeight(page) -startY-83,
+        HPDF_Page_TextRect (page, col1width + 10, startY -39,
+                            col1width + 10 + width1Table-10, startY -83,
                         safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    if (showUwagi && urzadzenie.size() > 0) {
+        QByteArray safeUrzadzenie = urzadzenie;
+        if (safeUrzadzenie.size() > 130)
+            safeUrzadzenie = safeUrzadzenie.first(130);
+        HPDF_Page_TextRect (page, col1width + 10, startY -87,
+                            col1width + 10 + width1Table-10, startY -115,
+                        safeUrzadzenie.data(), HPDF_TALIGN_LEFT, NULL);
     }
     HPDF_Page_EndText (page);
 
@@ -703,32 +730,31 @@ void PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font fon
     twD = HPDF_Page_TextWidth(page, eData.data());
     twP = HPDF_Page_TextWidth(page, ePodpis.data());
     float boxDataPodpisWidth = 120;
-    HPDF_Page_TextOut (page, 500-twD/2, HPDF_Page_GetHeight(page) -startY, eData.data());
+    HPDF_Page_TextOut (page, 500-twD/2, startY, eData.data());
     if (showPodpis)
-        HPDF_Page_TextOut (page, 500-twP/2, HPDF_Page_GetHeight(page) -startY-37, ePodpis.data());
+        HPDF_Page_TextOut (page, 500-twP/2, startY-37, ePodpis.data());
     HPDF_Page_EndText (page);
 
-    HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, HPDF_Page_GetHeight (page) -startY-20 , boxDataPodpisWidth, 16);
+    HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, startY -20 , boxDataPodpisWidth, 16);
     if (showPodpis)
-        HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, HPDF_Page_GetHeight (page) -startY-86 , boxDataPodpisWidth, 44);
+        HPDF_Page_Rectangle(page, 500-boxDataPodpisWidth/2, startY -86 , boxDataPodpisWidth, 44);
     HPDF_Page_Stroke (page);
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font2, 10);
     //twD = HPDF_Page_TextWidth(page, dataBadania.data());
-    //drawTextInBoxCenter (page, 500-twD/2, HPDF_Page_GetHeight(page) -startY-15, dataBadania.data(), boxDataPodpisWidth-10);
-    drawTextInBoxCenter (page, 500-boxDataPodpisWidth/2+5, HPDF_Page_GetHeight(page) -startY-15, dataBadania.data(), boxDataPodpisWidth-10);
+    //drawTextInBoxCenter (page, 500-twD/2, startY-15, dataBadania.data(), boxDataPodpisWidth-10);
+    drawTextInBoxCenter (page, 500-boxDataPodpisWidth/2+5, startY -15, dataBadania.data(), boxDataPodpisWidth-10);
     HPDF_Page_EndText (page);
-
+    return showUwagi ? startY -148 : startY -36;
 }
 
-void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+float PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY)
 {
     QByteArray p_title = codec->fromUnicode(QString::fromUtf8("INFORMACJE O BADANYCH CZUJKACH"));
 
     float col1width = 150; //lewy margines etykiet
     QByteArray eRodzajSystemu = codec->fromUnicode(QString::fromUtf8("Rodzaj systemu:"));
-    QByteArray eUrzadzenie = codec->fromUnicode(QString::fromUtf8("Typ Urządzenia:"));
     QByteArray urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowsiko do badania czujek liniowych dymu - BCL, SN:1-23"));
     QByteArray eProducent = codec->fromUnicode(QString::fromUtf8("Producent:"));
     QByteArray eTransmitter = eTypTransmitter + ':';
@@ -738,12 +764,13 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
     QByteArray erozstawienieMaksymalne = codec->fromUnicode(QString::fromUtf8("Rozstawienie maksymalne:"));
     float width1Table = 380;
     float widthRozstBox = 75;
+    float startY = endY;
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 12);
     float tw = HPDF_Page_TextWidth (page, p_title.data());
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw) / 2,
-                HPDF_Page_GetHeight (page) - 295, p_title.data());
+                startY, p_title.data());
     HPDF_Page_EndText (page);
 
     HPDF_Page_BeginText (page);
@@ -752,13 +779,11 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
     float tw2 = HPDF_Page_TextWidth (page, eProducent.data());
     float tw3 = HPDF_Page_TextWidth (page, eTransmitter.data());
     float tw4 = HPDF_Page_TextWidth (page, eReceiver.data());
-    float tw5 = HPDF_Page_TextWidth (page, eUrzadzenie.data());
     float twRmin = HPDF_Page_TextWidth (page, erozstawienieMinimalne.data());
     float twRmax = HPDF_Page_TextWidth (page, erozstawienieMaksymalne.data());
 
-    float startY = HPDF_Page_GetHeight(page) - 320;
+    startY -= 32;
     short nRow = 0;
-    HPDF_Page_TextOut (page, col1width - tw5, startY -(nRow++)*16 , eUrzadzenie.data());
     HPDF_Page_TextOut (page, col1width - tw1, startY -(nRow++)*16 , eRodzajSystemu.data());
     HPDF_Page_TextOut (page, col1width - tw2, startY -(nRow++)*16, eProducent.data());
     HPDF_Page_TextOut (page, col1width - tw3, startY -(nRow++)*16, eTransmitter.data());
@@ -776,7 +801,6 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
     HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
     HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
     HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
-    HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow++)*16-4 , width1Table, 16);
     HPDF_Page_Rectangle(page, col1width + 5, startY -(nRow)*16-4 , widthRozstBox, 16);
     HPDF_Page_Rectangle(page, col1width + 5 + width1Table - widthRozstBox, startY -(nRow)*16-4 , widthRozstBox, 16);
     HPDF_Page_Stroke (page);
@@ -785,7 +809,6 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
     HPDF_Page_SetFontAndSize (page, font2, 10);
 
     nRow = 0;
-    drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, urzadzenie.data(), width1Table-10);
     drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, typSystemu.data(), width1Table-10);
     drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, producent.data(), width1Table-10);
     drawTextInBoxLeft (page, col1width + 10, startY -(nRow++)*16, typTransmitter.data(), width1Table-10);
@@ -806,16 +829,17 @@ void PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font font
                    startY -(nRow)*16, rozstawienieMaksymalne.data(), widthRozstBox-10);
 
     HPDF_Page_EndText (page);
+    return startY -(5)*16 -4;
 }
 
-void PdfCreator::createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+float PdfCreator::createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY)
 {
 
     float marginleft = 35; //lewy margines etykiet
     float width1Column = 200;
     float width2Column = 150;
     float width3Column = 150;
-    float startY = HPDF_Page_GetHeight(page) - 435;;
+    float startY = endY;
     QByteArray ePionowa = codec->fromUnicode(QString::fromUtf8("Pionowa"));
     QByteArray ePozioma = codec->fromUnicode(QString::fromUtf8("Pozioma"));
     QByteArray title = codec->fromUnicode(QString::fromUtf8("Maksymalna kątowa niewspółosiowość"));
@@ -901,14 +925,15 @@ void PdfCreator::createInformacjeKat(HPDF_Page page, HPDF_Font font, HPDF_Font f
                    startY-27, odbiornikKatPoziomy.data(), width3Column-10);
 
     HPDF_Page_EndText (page);
+    return startY-32;
 }
 
-void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+float PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY)
 {
     QByteArray tytul = codec->fromUnicode(QString::fromUtf8("NUMERY SERYJNE BADANYCH CZUJEK"));
     QByteArray eOznaczenie = codec->fromUnicode(QString::fromUtf8("Oznaczenie"));
 
-    float startY = HPDF_Page_GetHeight(page) - 490;
+    float startY = endY;
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 12);
@@ -973,10 +998,10 @@ void PdfCreator::createTablicaCzujek(HPDF_Page page, HPDF_Font font, HPDF_Font f
 
     }
     HPDF_Page_EndText (page);
-
+    return startY-16*7;
 }
 
-void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2)
+float PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_Font font2, float endY)
 {
     QByteArray eTytul = codec->fromUnicode(QString::fromUtf8("SPOSÓB ZASILANIA CZUJEK"));
     QByteArray eZasilanieZasilacza = codec->fromUnicode(QString::fromUtf8("Z zasilacza zewnętrznego"));
@@ -989,7 +1014,7 @@ void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_F
     QByteArray eCzasPoResecie = codec->fromUnicode(QString::fromUtf8("Czas stabilizacji czujki po zresetowaniu zasilania:"));
     QByteArray epoZresetowaniuZasilania = codec->fromUnicode(QString::fromUtf8("po zresetowaniu zasilania:"));
 
-    float startY = HPDF_Page_GetHeight(page) - 655;
+    float startY = endY;
     float lMargin = 30;
     float rMargin = HPDF_Page_GetWidth(page)/2 + 30;
     float boxSize = 15;
@@ -1123,11 +1148,12 @@ void PdfCreator::createDodatkoweParametry(HPDF_Page page, HPDF_Font font, HPDF_F
     HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-3, czasBoxSize, 16);
     HPDF_Page_Rectangle(page, lMargin+twst1+5, startY-23, czasBoxSize, 16);
     HPDF_Page_Stroke (page);
+    return startY-23;
 
 }
 
 float PdfCreator::createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
-                                const OgolneParametryTestu & test, const QByteArray & tytulTestu)
+                                float endY, const OgolneParametryTestu & test, const QByteArray & tytulTestu)
 {
     QByteArray eOsobaOdpowiedzialna = codec->fromUnicode(QString::fromUtf8("Osoba wykonująca:"));
     QByteArray eDataRozpoczecia = codec->fromUnicode(QString::fromUtf8("Data i czas rozpoczęcia:"));
@@ -1138,7 +1164,8 @@ float PdfCreator::createTestInfo(HPDF_Page page, HPDF_Font font, HPDF_Font font2
     QByteArray ewynikTestu = codec->fromUnicode(QString::fromUtf8("Wynik testu:"));
     QByteArray eUwagiTestu = codec->fromUnicode(QString::fromUtf8("Uwagi:"));
 
-    float startY = HPDF_Page_GetHeight (page) - 140;
+    //float startY = HPDF_Page_GetHeight (page) - 140;
+    float startY = endY;
     float marginl = 130;
 
     HPDF_Page_BeginText (page);
@@ -1438,6 +1465,109 @@ float PdfCreator::createNarazenie(HPDF_Page page,  HPDF_Font font, HPDF_Font fon
     return startY - (nrRow+3)*16;
 }
 
+float PdfCreator::createNarazenie2(HPDF_Page page,  HPDF_Font font, HPDF_Font font2,
+                               float endY,
+                               const QByteArray & etTransmiter,
+                               const QByteArray & etReceiver,
+                               const NarazenieDane2 & narazenie)
+{
+    float marginl = 130;
+    QByteArray eOpis = codec->fromUnicode(QString::fromUtf8("Opis narażenia:"));
+    QByteArray eWynik = codec->fromUnicode(QString::fromUtf8("Wynik narażenia:"));
+    QByteArray eUwagi = codec->fromUnicode(QString::fromUtf8("Uwagi dotyczące narażenia:"));
+
+
+    float startY = endY;
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+
+    float tw1 = HPDF_Page_TextWidth (page, eOpis.data());
+    float tw2 = HPDF_Page_TextWidth (page, etTransmiter.data());
+    float tw3 = HPDF_Page_TextWidth (page, etReceiver.data());
+    float tw4 = HPDF_Page_TextWidth (page, eWynik.data());
+    float tw5 = HPDF_Page_TextWidth (page, eUwagi.data());
+    float wBox = 400;
+    //begin
+    short nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, eOpis.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, etTransmiter.data());
+    HPDF_Page_TextOut (page, marginl - tw3, startY - (nrRow++)*16, etReceiver.data());
+    HPDF_Page_TextOut (page, marginl - tw4, startY - (nrRow++)*16, eWynik.data());
+    HPDF_Page_TextOut (page, marginl - tw5, startY - (nrRow++)*16, eUwagi.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++ + 2)*16 -4 , wBox, 3*16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.first.opis.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.first.transmiter.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.first.receiver.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.first.wynik.data(), wBox-10);
+    if (narazenie.first.uwagi.size() > 0) {
+        QByteArray safeUwagi = narazenie.first.uwagi ;
+        if (safeUwagi.size() > 200)
+            safeUwagi = safeUwagi.first(200);
+        HPDF_Page_TextRect(page, marginl + 10, startY - nrRow * 16 + 10,
+                       marginl + 10 + wBox - 10, nrRow * 16 - 50 + 10,
+                       safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    HPDF_Page_EndText (page);
+    //end
+
+    startY -= (nrRow+7)*16;
+
+    //begin
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font, 10);
+    nrRow = 0;
+    HPDF_Page_TextOut (page, marginl - tw1, startY - (nrRow++)*16, eOpis.data());
+    HPDF_Page_TextOut (page, marginl - tw2, startY - (nrRow++)*16, etTransmiter.data());
+    HPDF_Page_TextOut (page, marginl - tw3, startY - (nrRow++)*16, etReceiver.data());
+    HPDF_Page_TextOut (page, marginl - tw4, startY - (nrRow++)*16, eWynik.data());
+    HPDF_Page_TextOut (page, marginl - tw5, startY - (nrRow++)*16, eUwagi.data());
+    HPDF_Page_EndText (page);
+
+    HPDF_Page_SetRGBStroke (page, 0, 0, 0);
+    HPDF_Page_SetLineWidth (page, 1);
+    nrRow = 0;
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++)*16 -4 , wBox, 16);
+    HPDF_Page_Rectangle(page, marginl + 5,   startY - (nrRow++ + 2)*16 -4 , wBox, 3*16);
+    HPDF_Page_Stroke (page);
+
+    HPDF_Page_BeginText (page);
+    HPDF_Page_SetFontAndSize (page, font2, 10);
+    nrRow = 0;
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.second.opis.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.second.transmiter.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.second.receiver.data(), wBox-10);
+    drawTextInBoxLeft (page, marginl + 10, startY - (nrRow++)*16, narazenie.second.wynik.data(), wBox-10);
+    if (narazenie.second.uwagi.size() > 0) {
+        QByteArray safeUwagi = narazenie.second.uwagi ;
+        if (safeUwagi.size() > 200)
+            safeUwagi = safeUwagi.first(200);
+        HPDF_Page_TextRect(page, marginl + 10, startY - nrRow * 16 + 10,
+                       marginl + 10 + wBox - 10, nrRow * 16 - 50 + 10,
+                       safeUwagi.data(), HPDF_TALIGN_LEFT, NULL);
+    }
+    HPDF_Page_EndText (page);
+    //end
+
+    return startY - (nrRow+6)*16;
+}
 
 void PdfCreator::print_grid(HPDF_Doc pdf, HPDF_Page    page)
 {

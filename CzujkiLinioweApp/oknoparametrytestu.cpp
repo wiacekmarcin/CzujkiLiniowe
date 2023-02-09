@@ -14,7 +14,8 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
     ui(new Ui::OknoParametryTestu),
     test(test_),
     nrPomiar(nrPomiar_),
-    badanie(badanie_)
+    badanie(badanie_),
+    iloscKrytycznychBledow(0)
 {
     ui->setupUi(this);
     ui->testName->setText(test->getName());
