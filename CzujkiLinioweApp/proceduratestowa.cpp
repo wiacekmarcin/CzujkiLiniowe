@@ -566,19 +566,31 @@ bool ProceduraTestowa::ZmienneParametryZasilania(const ParametryBadania &daneBad
 
 bool ProceduraTestowa::CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust)
 {
-    if (parametryTest(1, daneBadania, ust) != NEXT_STEP)
+    if (!parametryTest(1, daneBadania, ust))
+        return false;
+    bool pomiar;
+    bool ret = potwierdzenieNarazenia(dane, pomiar, daneBadania, ust);
+    if (!ret)
         return false;
 
-    short ret = potwierdzenieNarazenia(dane, daneBadania, ust);
-    if (ret == EXIT_NORMAL)
+    bool ok1 = dane.getWynikNarazenia();
+    dane.setSuccessBadaniaCzujki(dane.getWynikNarazenia(), "-", dane.getInfoNarazenia());
+
+    if (!parametryTest(2, daneBadania, ust))
         return false;
-    dane.setWynikNarazenia(ret == NEXT_STEP);
+
+    ret = potwierdzenieNarazenia(dane, pomiar, daneBadania, ust);
+    if (!ret)
+        return false;
+
+    bool ok2 = dane.getWynikNarazenia();
+    dane.setSuccessBadaniaCzujki(dane.getWynikNarazenia(), "-", dane.getInfoNarazenia());
+
+    dane.setWynikNarazenia(ok1 && ok2);
 
     dane.setOk(dane.getWynikNarazenia());
     dane.setDataZakonczenia();
     dane.setWykonany(true);
-
-    dane.obliczTestNarazenia(dane.getId(), ust);
     return true;
 }
 
@@ -586,43 +598,44 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
 {
     if (!parametryTest(1, daneBadania, ust))
         return false;
-
-    bool ret = potwierdzenieNarazenia(dane, daneBadania, ust);
+    bool czujkaOk;
+    bool ret = potwierdzenieNarazenia(dane, czujkaOk, daneBadania, ust);
     if (!ret)
         return false;
 
     short powtorzPomiar;
-    bool ok1;
-    do {
-        if (!montazZerowanieZasilanie(ZER_FILTRY, daneBadania))
+    bool ok1 = true;
+    if (czujkaOk) {
+        do {
+            if (!montazZerowanieZasilanie(ZER_FILTRY, daneBadania))
+                return false;
+
+            powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+
+            if (powtorzPomiar == -1)
+                return false;
+            ok1 = powtorzPomiar == 0;
+        } while (powtorzPomiar != 0);
+
+        if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
             return false;
 
-        powtorzPomiar = pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+        if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+            zas->setOutput(false);
+    }
 
-        if (powtorzPomiar == -1)
-            return false;
-        ok1 = powtorzPomiar == 0;
-    } while (powtorzPomiar != 0);
-
-    if(!zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver()))
-        return false;
-
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
-        zas->setOutput(false);
-
-    dane.setOk(dane.getWynikNarazenia() && ok1);
+    dane.setOk(dane.getWynikNarazenia() && !czujkaOk && ok1);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
 
     dane.obliczTestNarazenia(dane.getId(), ust);
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
-        zas->setOutput(false);
 
-    do {
-        QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
-        dlg->exec();
-    } while(false);
-
+    if (czujkaOk) {
+        do {
+            QSharedPointer<OknoPodsumowanieTestu> dlg(new OknoPodsumowanieTestu(dane, daneBadania, ust));
+            dlg->exec();
+        } while(false);
+    }
     return true;
 }
 
@@ -707,13 +720,14 @@ bool ProceduraTestowa::zerowanieSterownika(uint32_t flags, const QString & trans
 }
 
 
-bool ProceduraTestowa::potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania &,
+bool ProceduraTestowa::potwierdzenieNarazenia(DaneTestu &daneTestu, bool & czujkaOk, const ParametryBadania &,
                                               const Ustawienia &)
 {
     OknoPotwierdzenieNarazenia *dlg3 = new OknoPotwierdzenieNarazenia(daneTestu, parent);
     bool ret = dlg3->exec() == QDialog::Accepted;
     daneTestu.setWynikNarazenia(dlg3->getWynik());
     daneTestu.setInfoNarazenia(dlg3->getKomenatarz());
+    czujkaOk = !dlg3->czujkaUszkodzona();
     delete dlg3;
     return ret;
 }

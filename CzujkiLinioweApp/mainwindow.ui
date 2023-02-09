@@ -128,8 +128,8 @@
   </action>
   <action name="actionNoweBadanie">
    <property name="icon">
-    <iconset>
-     <normaloff>NewDocument.svg</normaloff>NewDocument.svg</iconset>
+    <iconset resource="ikony.qrc">
+     <normaloff>:/document/NewDocument.svg</normaloff>:/document/NewDocument.svg</iconset>
    </property>
    <property name="text">
     <string>Nowy</string>
@@ -144,7 +144,7 @@
   <action name="actionOtworzBadanie">
    <property name="icon">
     <iconset theme="document-open">
-     <normaloff>OpenFile.svg</normaloff>OpenFile.svg</iconset>
+     <normaloff>:/document/OpenFile.svg</normaloff>:/document/OpenFile.svg</iconset>
    </property>
    <property name="text">
     <string>Otwórz</string>
@@ -159,7 +159,7 @@
   <action name="actionZapiszZadanie">
    <property name="icon">
     <iconset>
-     <normaloff>Save.svg</normaloff>Save.svg</iconset>
+     <normaloff>:/document/Save.svg</normaloff>:/document/Save.svg</iconset>
    </property>
    <property name="text">
     <string>Zapisz</string>
@@ -174,7 +174,7 @@
   <action name="actionZapiszJako">
    <property name="icon">
     <iconset>
-     <normaloff>SaveAs.svg</normaloff>SaveAs.svg</iconset>
+     <normaloff>:/document/SaveAs.svg</normaloff>:/document/SaveAs.svg</iconset>
    </property>
    <property name="text">
     <string>Zapisz jako</string>
@@ -186,7 +186,7 @@
   <action name="actionUsunBadanie">
    <property name="icon">
     <iconset>
-     <normaloff>Delete.svg</normaloff>Delete.svg</iconset>
+     <normaloff>:/document/Delete.svg</normaloff>:/document/Delete.svg</iconset>
    </property>
    <property name="text">
     <string>Usuń Badanie</string>
@@ -237,7 +237,7 @@
   <action name="actionStartTestu">
    <property name="icon">
     <iconset>
-     <normaloff>StartupApplication.svg</normaloff>StartupApplication.svg</iconset>
+     <normaloff>:/document/StartupApplication.svg</normaloff>:/document/StartupApplication.svg</iconset>
    </property>
    <property name="text">
     <string>Start Testu</string>
@@ -251,7 +251,7 @@
   <action name="actionParametryBadania">
    <property name="icon">
     <iconset>
-     <normaloff>ProcedureSettings.svg</normaloff>ProcedureSettings.svg</iconset>
+     <normaloff>:/document/ProcedureSettings.svg</normaloff>:/document/ProcedureSettings.svg</iconset>
    </property>
    <property name="text">
     <string>Parametry Badania</string>
@@ -260,7 +260,7 @@
   <action name="actionZamknijBadanie">
    <property name="icon">
     <iconset>
-     <normaloff>CloseDocument.svg</normaloff>CloseDocument.svg</iconset>
+     <normaloff>:/document/CloseDocument.svg</normaloff>:/document/CloseDocument.svg</iconset>
    </property>
    <property name="text">
     <string>Zamknij Badanie</string>
@@ -290,7 +290,7 @@
   </action>
   <action name="actionWszystkieRaporty">
    <property name="text">
-    <string>WszystkieRaporty</string>
+    <string>Wszystkie Raporty</string>
    </property>
   </action>
   <action name="actionZamknijAplikacje">
@@ -309,6 +309,7 @@
  </customwidgets>
  <resources>
   <include location="icons.qrc"/>
+  <include location="ikony.qrc"/>
  </resources>
  <connections/>
 </ui>

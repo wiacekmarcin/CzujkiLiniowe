@@ -38,7 +38,7 @@ TestStanowiskaDlg::TestStanowiskaDlg(Zasilacz * zas_, Sterownik * ster_, Ustawie
     ui->setupUi(this);
 
     SETCONF_ALL
-
+    ui->groupBox->setVisible(false);
     bool conn = zas->getConnected() && ster->getConnected();
     ui->pbConnect->setEnabled(!conn);
     connect(ui->pbConnect, &QPushButton::clicked, this, &TestStanowiskaDlg::connect2Device);

@@ -628,6 +628,23 @@
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>testName</tabstop>
+  <tabstop>osobaWykonujaca</tabstop>
+  <tabstop>dataRozpoczecia</tabstop>
+  <tabstop>temperatura</tabstop>
+  <tabstop>wilgotnosc</tabstop>
+  <tabstop>cisnienie</tabstop>
+  <tabstop>uwagi</tabstop>
+  <tabstop>powtarzalnosc_czas</tabstop>
+  <tabstop>minVolt</tabstop>
+  <tabstop>maxVolt</tabstop>
+  <tabstop>cbCzujka</tabstop>
+  <tabstop>typReceiver</tabstop>
+  <tabstop>typTransmitter</tabstop>
+  <tabstop>pbDalej</tabstop>
+  <tabstop>pbPrzerwij</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

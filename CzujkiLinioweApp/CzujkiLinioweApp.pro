@@ -12,6 +12,8 @@ DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs depr
 #DEFINES += DEFVAL
 #DEFINES += NOSERIAL
 
+RC_ICONS = logo_cnbop.ico
+
 SOURCES += \
     danetestu.cpp \
     haslodialog.cpp \
@@ -31,7 +33,6 @@ SOURCES += \
     parametrybadaniadlg.cpp \
     parametrybadaniaogolnedlg.cpp \
     pdfcreator.cpp \
-    proceduratestowa.cpp \
     sterownik_worker.cpp \
     oknozerowanieurzadzenia.cpp \
     oknoparametrytestu.cpp \
@@ -58,7 +59,8 @@ SOURCES += \
     ustawieniafiltrow.cpp \
     ustawienianapedow.cpp \
     oknozasilaniaczujki.cpp \
-    zasilacz_worker.cpp
+    zasilacz_worker.cpp \
+    proceduratestowa.cpp
 
 HEADERS += \
     danetestu.h \
@@ -79,7 +81,6 @@ HEADERS += \
     parametrybadaniadlg.h \
     parametrybadaniaogolnedlg.h \
     pdfcreator.h \
-    proceduratestowa.h \
     sterownik_worker.h \
     oknozerowanieurzadzenia.h \
     oknoparametrytestu.h \
@@ -105,7 +106,8 @@ HEADERS += \
     ustawieniafiltrow.h \
     ustawienianapedow.h \
     oknozasilaniaczujki.h \
-    zasilacz_worker.h
+    zasilacz_worker.h \
+    proceduratestowa.h
 
 FORMS += \
     haslodialog.ui \

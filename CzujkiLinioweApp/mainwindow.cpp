@@ -588,7 +588,7 @@ void MainWindow::actionJedenRaport_triggered()
     PdfCreator raport;
     raport.setData(b, false, ui->centralwidget->getActSelectedTest());
     raport.create(fileName);
-    qDebug() << raport.getErrCode();
+    //qDebug() << raport.getErrCode();
 }
 
 void MainWindow::actionWszystkieRaporty_triggered()
@@ -600,22 +600,23 @@ void MainWindow::actionWszystkieRaporty_triggered()
     if (fileName.isEmpty())
         return;
 
-    QFile f(fileName);
-    if (f.exists()) {
-        qDebug() << fileName;
-        f.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser | QFileDevice::ExeUser);
-        f.setPermissions(QFileDevice::WriteOther | QFileDevice::ReadOther | QFileDevice::ExeOther);
-        qDebug() << f.permissions();
-        qDebug() << f.filesystemFileName().c_str();
-        qDebug() << "R" << f.remove() << f.errorString() << f.error();
-        remove(f.filesystemFileName().string().c_str());
-    }
-
+    /*{
+    //    QFile f(fileName);
+        if (f.exists()) {
+            qDebug() << fileName;
+            f.setPermissions(QFileDevice::WriteUser | QFileDevice::ReadUser | QFileDevice::ExeUser);
+            f.setPermissions(QFileDevice::WriteOther | QFileDevice::ReadOther | QFileDevice::ExeOther);
+            qDebug() << f.permissions();
+            qDebug() << f.filesystemFileName().c_str();
+            qDebug() << "R" << f.remove() << f.errorString() << f.error();
+            remove(f.filesystemFileName().string().c_str());
+        }
+    }*/
 
     PdfCreator raport;
     raport.setData(b, true, -1);
     raport.create(fileName);
-    qDebug() << raport.getErrCode() << PdfCreator::error.toStdString().data();
+    //qDebug() << raport.getErrCode() << PdfCreator::error.toStdString().data();
 }
 
 void MainWindow::actionZamknijAplikacje_triggered()

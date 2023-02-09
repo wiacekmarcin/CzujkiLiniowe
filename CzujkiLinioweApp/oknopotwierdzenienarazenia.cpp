@@ -39,11 +39,18 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->eTransmitter->setText(daneTestu.getNazwaNumerTransmitter());
     ui->eReceiver->setText(daneTestu.getNazwaNumerReceiver());
 
+    ui->cbAlarmYesNo->setCurrentIndex(0);
+    ui->cbTlumnik->setCurrentIndex(0);
+    ui->cbUszkodzenie->setCurrentIndex(0);
+    ui->cbCzujkaOk->setCurrentIndex(0);
+    ui->komentarz->setPlainText("");
+
     connect(ui->pbDalej, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
     connect(ui->pbPrzerwij, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->cbAlarmYesNo, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(0,index); });
     connect(ui->cbTlumnik, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(1,index); });
     connect(ui->cbUszkodzenie, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(2,index); });
+    connect(ui->cbCzujkaOk, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(3,index); });
 
     ui->cbTlumnik->setVisible(false);
     ui->etTlumnik->setVisible(false);
@@ -51,21 +58,17 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     ui->etAlarm->setVisible(false);
     ui->cbUszkodzenie->setVisible(false);
     ui->etUszkodzenie->setVisible(false);
-    ui->cbCzujkaOk->setVisible(false);
+    ui->etCzujkaOk->setVisible(false);
     ui->cbCzujkaOk->setVisible(false);
     if (daneTestu.getId() == FIRE_SENSITIVITY) {
-        ui->cbTlumnik->setVisible(false);
-        ui->etTlumnik->setVisible(false);
-        ui->cbAlarmYesNo->setVisible(false);
-        ui->etAlarm->setVisible(false);
+        ui->cbCzujkaOk->setVisible(true);
+        ui->etCzujkaOk->setVisible(true);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Ocenę reakcji czujki na powolny wzrost gęstości dymu należy "
                                        "przeprowadzić poprzez analizę układu/oprogramowania, próbę "
                                        "fizyczną lub symulacje w celu sprawdzenia, czy czujka "
                                        "spełnia wymagania określone w pkt 4.3.5.</p></body></html>"));
-    }
-
-    if (daneTestu.getId() == DRY_HEAT) {
+    } else if (daneTestu.getId() == DRY_HEAT) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                        "zostawiona na <b>16 godzin w temperaturze w 55 ± 2 °C</b> .</p>"
@@ -130,10 +133,8 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                "<p>Należy uważać, aby wyniki jednej serii trzech ciosów nie miały wpływu na kolejne serie. "
                                "W przypadku wątpliwości co do wpływu poprzednich uderzeń, wadę należy pominąć i "
                                "wykonać kolejne trzy uderzenia w to samo miejsce na nowej próbce</p></body></html>"));
-        ui->cbUszkodzenie->setVisible(false);
-        ui->etUszkodzenie->setVisible(false);
-        ui->cbAlarmYesNo->setVisible(true);
-        ui->etAlarm->setVisible(true);
+        ui->cbUszkodzenie->setVisible(true);
+        ui->etUszkodzenie->setVisible(true);
     } else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujkę należy zamontować zgodnie z normą, jednak nie należy podłączać zasilania, "
@@ -164,6 +165,13 @@ void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
     if (idTest == DAMP_HEAT_STADY_STATE_ENDURANCE)
         return;
 
+    if (ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0
+            && ui->cbUszkodzenie->currentIndex() == 0 && ui->cbCzujkaOk->currentIndex() == 0)
+    {
+        ui->wynik_narazenia->setText("POZYTYWNY");
+    } else {
+        ui->wynik_narazenia->setText("NEGATYWNY");
+    }
 
     QString text = ui->komentarz->toPlainText();
     if (nrCombo == 0) {
@@ -190,9 +198,17 @@ void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
                 text.remove(QString::fromUtf8("[Czujka została uszkodzona fizycznie]"));
             }
         }
+    } else if (nrCombo == 3)  {
+        if (idTest == FIRE_SENSITIVITY) {
+            if (index == 1) {
+                text.append(QString::fromUtf8("[Czujka została uszkodzona podczas narażenia]"));
+            } else {
+                text.remove(QString::fromUtf8("[Czujka została uszkodzona podczas narażenia]"));
+            }
+        }
     }
 
-
+/*
     ui->komentarz->setPlainText(text);
     if (idTest == DRY_HEAT || idTest == COLD) {
         if (ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0) {
@@ -219,22 +235,13 @@ void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
             ui->wynik_narazenia->setText("NEGATYWNY");
         }
     }
+    */
 }
 
 bool OknoPotwierdzenieNarazenia::getWynik() const
 {
-    if (idTest == DAMP_HEAT_STADY_STATE_ENDURANCE)
-        return true;
-    else if (idTest == DRY_HEAT || idTest == COLD)
-        return ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0;
-    else if (idTest == DAMP_HEAT_STADY_STATE_OPERATIONAL)
-        return ui->cbAlarmYesNo->currentIndex() == 0;
-    else if (idTest == VIBRATION)
-        return ui->cbUszkodzenie->currentIndex() == 0 && ui->cbUszkodzenie->currentIndex();
-    else if (idTest == IMPACT)
-        return ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbUszkodzenie->currentIndex() == 0;
-    else
-        return true;
+    return ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0 &&
+           ui->cbUszkodzenie->currentIndex() == 0 && ui->cbCzujkaOk->currentIndex() == 0;
 }
 
 QString OknoPotwierdzenieNarazenia::getKomenatarz() const
@@ -247,7 +254,7 @@ bool OknoPotwierdzenieNarazenia::czujkaUszkodzona() const
     return ui->cbUszkodzenie->currentIndex() == 1;
 }
 
-bool OknoPotwierdzenieNarazenia::czujkOk() const
+bool OknoPotwierdzenieNarazenia::czujkaOk() const
 {
     return ui->cbCzujkaOk->currentIndex() == 1;
 }

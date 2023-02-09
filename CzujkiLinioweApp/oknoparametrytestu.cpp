@@ -184,6 +184,20 @@ OknoParametryTestu::OknoParametryTestu(short nrPomiar_, DaneTestu * test_, const
             changeCzujka(0);
             nrCzujkiDoWybrania = 1;
             break;
+        case FIRE_SENSITIVITY:
+            ui->frameSpec->setVisible(false);
+            ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 6 lub 7 zgodnie z normą"));
+            if (ui->cbCzujka->count() >= 6) {
+                ui->cbCzujka->setCurrentIndex(5);
+                changeCzujka(5);
+            } else {
+                ui->cbCzujka->setCurrentIndex(0);
+                changeCzujka(0);
+            }
+            nrCzujkiDoWybrania = 6;
+            nrCzujkiDoWybrania2 = 7;
+            dwieCzujkiDoWybrania = true;
+            break;
         case DRY_HEAT:
             ui->frameSpec->setVisible(false);
             ui->lUwagaWyborCzujek->setText(QString::fromUtf8("Wybierz czujkę nr 3 zgodnie z normą"));
@@ -484,19 +498,22 @@ void OknoParametryTestu::pbOK_clicked()
                test->setCzasPowtarzalnosci(secs);
             }
         }
-
+        test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
     }
+
     else if (test->getId() == OPTICAL_PATH_LENGTH_DEPEDENCE) {
         test->setMinimalneRozstawienie(ui->rozstawienieMinimalne->text());
         test->setMaksymalneRozstawienie(ui->rozstawienieMaksymalne->text());
+        test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
     }
+
     else if (test->getId() == TOLERANCE_TO_SUPPLY_VOLTAGE) {
         test->setMinimalneNapiecie(ui->minVolt->text());
         test->setMaksymalneNapiecie(ui->maxVolt->text());
+        test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
     }
 
     else if (test->getId() == STRAY_LIGHT ||
-             test->getId() == FIRE_SENSITIVITY ||
              test->getId() == DRY_HEAT ||
              test->getId() == COLD ||
              test->getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL ||
@@ -513,7 +530,10 @@ void OknoParametryTestu::pbOK_clicked()
     {
         test->setDanePomiarowe(badanie.getDaneDlaCzujki(ui->typTransmitter->text(), ui->typReceiver->text()));
     }
-    test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
+    else {
+        test->addWybranaCzujka(ui->cbCzujka->currentText().toShort(), ui->typTransmitter->text(), ui->typReceiver->text());
+    }
+
     
     done(QDialog::Accepted);
 }

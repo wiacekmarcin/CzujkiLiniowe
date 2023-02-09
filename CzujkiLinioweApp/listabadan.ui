@@ -96,7 +96,7 @@
          </font>
         </property>
         <property name="currentIndex">
-         <number>7</number>
+         <number>9</number>
         </property>
         <widget class="QWidget" name="pOdtwarzalnosc">
          <property name="styleSheet">
@@ -161,6 +161,12 @@
              </item>
              <item row="0" column="1">
               <widget class="QLabel" name="odtwarzalnoscNazwaTestu">
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -599,6 +605,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1047,6 +1059,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -1500,6 +1518,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -1806,6 +1830,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -2152,6 +2182,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pRozproszoneSwiatlo">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -2222,6 +2258,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -2697,6 +2739,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -3101,6 +3149,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -3174,7 +3228,7 @@
                <property name="minimumSize">
                 <size>
                  <width>500</width>
-                 <height>70</height>
+                 <height>100</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -3189,6 +3243,11 @@
                <row>
                 <property name="text">
                  <string>1</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>2</string>
                 </property>
                </row>
                <column>
@@ -3227,7 +3286,7 @@
                <property name="minimumSize">
                 <size>
                  <width>309</width>
-                 <height>70</height>
+                 <height>100</height>
                 </size>
                </property>
                <property name="maximumSize">
@@ -3242,6 +3301,11 @@
                <row>
                 <property name="text">
                  <string>1</string>
+                </property>
+               </row>
+               <row>
+                <property name="text">
+                 <string>2</string>
                 </property>
                </row>
                <column>
@@ -3352,6 +3416,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -3722,6 +3792,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pZimno">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -3792,6 +3868,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -4233,6 +4315,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -4673,6 +4761,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -5042,6 +5136,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pWibracja">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -5112,6 +5212,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -5553,6 +5659,12 @@
                  <height>35</height>
                 </size>
                </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
                </property>
@@ -5922,6 +6034,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pEMC_wyladowanieElektroStatyczne">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -5992,6 +6110,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -6395,6 +6519,12 @@
          </layout>
         </widget>
         <widget class="QWidget" name="pEMC_promieniowaniepolaelektromagnetycznego">
+         <property name="font">
+          <font>
+           <family>Arial</family>
+           <pointsize>12</pointsize>
+          </font>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
@@ -6465,6 +6595,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -6941,6 +7077,12 @@
                  <width>16777215</width>
                  <height>35</height>
                 </size>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Arial</family>
+                 <pointsize>12</pointsize>
+                </font>
                </property>
                <property name="frameShape">
                 <enum>QFrame::StyledPanel</enum>
@@ -7421,7 +7563,7 @@
                <property name="font">
                 <font>
                  <family>Arial</family>
-                 <pointsize>10</pointsize>
+                 <pointsize>12</pointsize>
                 </font>
                </property>
                <property name="frameShape">

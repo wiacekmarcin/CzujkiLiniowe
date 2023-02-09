@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1000</width>
-    <height>900</height>
+    <width>1200</width>
+    <height>770</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>950</width>
-    <height>900</height>
+    <width>1200</width>
+    <height>770</height>
    </size>
   </property>
   <property name="maximumSize">
@@ -478,6 +478,12 @@
       </item>
       <item row="3" column="0">
        <widget class="QLabel" name="etCzujkaOk">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>14</pointsize>
+         </font>
+        </property>
         <property name="text">
          <string>Czy czujka przeszła pozytywnie badanie lub test narażenia.</string>
         </property>

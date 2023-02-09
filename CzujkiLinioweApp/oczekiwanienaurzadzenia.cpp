@@ -5,6 +5,7 @@
 #include "ustawienia.h"
 #include <QTimer>
 #include <QMessageBox>
+#include "ustawienia.h"
 
 OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_, Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
@@ -33,6 +34,7 @@ OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_,
     connect(ui->pbBreak, &QPushButton::clicked, this, [this]() { this->pbCancel_clicked(); });
     connect(ui->pbAgain, &QPushButton::clicked, this, [this]() { this->init(); });
     connect(ui->pbSkip, &QPushButton::clicked, this, [this]() { this->done(QDialog::Accepted); });
+    ui->pbSkip->setVisible(Ustawienia::testMode);
     init();
     adjustSize();
 }

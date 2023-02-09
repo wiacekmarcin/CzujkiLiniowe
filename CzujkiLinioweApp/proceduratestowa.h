@@ -49,19 +49,18 @@ protected:
     bool CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool KlimatyczneMechaniczneNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool EMCNarazenia(const ParametryBadania &daneBadania, const Ustawienia &ust);
-    bool CzuloscNaPozar(const ParametryBadania &daneBadania, const Ustawienia &ust);
     bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
-    short parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
-    short montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
+    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
+    bool montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
 
 
     bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
-    short zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
-    short potwierdzenieNarazenia(DaneTestu &daneTestu, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
+    bool potwierdzenieNarazenia(DaneTestu &daneTestu, bool &czujkaOk, const ParametryBadania & daneBadania, const Ustawienia & ust);
     bool potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
-    short zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
+    bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
     short pomiarCzujki(uint32_t flags, const ParametryBadania &daneBadania, const Ustawienia &);

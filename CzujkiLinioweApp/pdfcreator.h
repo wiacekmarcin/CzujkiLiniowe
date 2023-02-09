@@ -70,6 +70,9 @@ struct TestWszystko {
     bool czyNarazenie;
     QByteArray testName;
     bool showC;
+    bool czyNarazenie2;
+    CzujkaInfo czujka2;
+    NarazenieDane narazenie2;
 };
 
 class PdfCreator

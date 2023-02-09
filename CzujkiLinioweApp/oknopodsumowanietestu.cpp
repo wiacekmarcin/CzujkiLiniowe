@@ -585,7 +585,7 @@ QString OknoPodsumowanieTestu::d2p(const QString &val)
     double dval = val.toDouble(&ok);
     if (!ok)
         return "-";
-    return QString::number(d2p(dval), 'f', 1);
+    return QString::number(d2p(dval), 'f', 2);
 }
 
 

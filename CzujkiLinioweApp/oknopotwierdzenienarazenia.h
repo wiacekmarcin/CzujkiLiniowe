@@ -19,7 +19,7 @@ public:
     bool getWynik() const;
     QString getKomenatarz() const;
     bool czujkaUszkodzona() const;
-    bool czujkOk() const;
+    bool czujkaOk() const;
 protected:
     void pbCancel_clicked();
 private:

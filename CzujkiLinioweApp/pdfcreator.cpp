@@ -128,8 +128,33 @@ void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 
             daneTestu.wynikiC.Cmin2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmin()), 4, 'f', 2).replace('.',','));
             daneTestu.wynikiC.Cmax2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCmax()), 4, 'f', 2).replace('.',','));
             daneTestu.wynikiC.Crep2 = codec->fromUnicode(QString::fromUtf8("%1 %").arg(d2p(test.getCrep()), 4, 'f', 2).replace('.',','));
+            if (test.getId() == FIRE_SENSITIVITY) {
+                daneTestu.czyNarazenie = true;
+                daneTestu.czyNarazenie2 = true;
 
-            setTableData(test, daneTestu.dane, daneTestu.narazenie, daneTestu.czyNarazenie, daneTestu.showC);
+                const auto & pomiar1 = test.getDaneBadanCzujek()[0];
+                daneTestu.czujka.transmiter = codec->fromUnicode(pomiar1.numerNadajnika);
+                daneTestu.czujka.receiver = codec->fromUnicode(pomiar1.numerOdbiornika);
+                daneTestu.czujka.oznaczenie = codec->fromUnicode(badanie.getNumerCzujki(pomiar1.numerNadajnika, pomiar1.numerOdbiornika));
+
+                const auto & pomiar2 = test.getDaneBadanCzujek()[1];
+                daneTestu.czujka2.transmiter = codec->fromUnicode(pomiar2.numerNadajnika);
+                daneTestu.czujka2.receiver = codec->fromUnicode(pomiar2.numerOdbiornika);
+                daneTestu.czujka2.oznaczenie = codec->fromUnicode(badanie.getNumerCzujki(pomiar2.numerNadajnika, pomiar2.numerOdbiornika));
+
+                daneTestu.narazenie.wynik = pomiar1.ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
+                                                         codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+                daneTestu.narazenie.uwagi = codec->fromUnicode(test.getInfoNarazenia());
+                daneTestu.narazenie.opis = codec->fromUnicode(pomiar1.error);
+
+                daneTestu.narazenie2.wynik = pomiar2.ok ? codec->fromUnicode(QString::fromUtf8("POZYTYWNY")) :
+                                                         codec->fromUnicode(QString::fromUtf8("NEGATYWNY"));
+                daneTestu.narazenie2.uwagi = codec->fromUnicode(test.getInfoNarazenia());
+                daneTestu.narazenie2.opis = codec->fromUnicode(pomiar2.error);
+                daneTestu.showC = false;
+            } else {
+                setTableData(test, daneTestu.dane, daneTestu.narazenie, daneTestu.czyNarazenie, daneTestu.showC);
+            }
             testy << daneTestu;
         }
     }
@@ -571,6 +596,15 @@ void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
         endY = createTable(page, font, font2, testPage.dane.leftMargin, endY - 30,
                        testPage.dane.head, testPage.dane.colwidth, testPage.dane.colAlign,
                        testPage.dane.dane);
+
+    if (testPage.czyNarazenie2) {
+        endY = createNarazenie(page, font, font2, endY - 15, testPage.narazenie);
+
+        endY = createCzujka(page, font, font2, endY-15, eTransmitter, eReceiver,
+                        testPage.ogolne.transmiter, testPage.ogolne.receiver);
+    }
+
+
 }
 
 void PdfCreator::createHead(HPDF_Page page, HPDF_Font font)

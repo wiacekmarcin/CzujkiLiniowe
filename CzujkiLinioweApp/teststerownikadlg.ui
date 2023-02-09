@@ -2020,7 +2020,7 @@ ilość impulsów</string>
          <item>
           <widget class="QLabel" name="label_65">
            <property name="text">
-            <string>Wylicz czas pomiędzy impulsami dla wybranego silnika na podstawie podanej prędkośc.i</string>
+            <string>Wylicz czas pomiędzy impulsami dla wybranego silnika na podstawie podanej prędkości.</string>
            </property>
           </widget>
          </item>

@@ -753,30 +753,52 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
     } 
     
     else if (daneTestu.getId() == FIRE_SENSITIVITY) {
+
+        const auto & czujki = daneTestu.getDaneBadanCzujek();
+
+        QString r1 = "-", t1 = "-", r2 = "-", t2 = "-", n1 = "-", n2 = "-";
+        if (czujki.size() >= 2) {
+            t1 = czujki.at(0).numerNadajnika;
+            r1 = czujki.at(0).numerOdbiornika;
+            n1 = badanie.getNumerSortedCzujki(t1, r1);
+            t2 = czujki.at(1).numerNadajnika;
+            r2 = czujki.at(1).numerOdbiornika;
+            n2 = badanie.getNumerSortedCzujki(t2, r2);
+        }
+
         initCzujkaInfo(ui->czuloscNaPozartableCzujka,
                        transmitter, receiver,
-                       badanie.getNumerSortedCzujki(daneTestu.getNumerTransmitter(),
-                                               daneTestu.getNumerReceiver()),
-                       daneTestu.getNumerTransmitter(),
-                       daneTestu.getNumerReceiver());
+                       n1, t1, r1);
 
+        if (ui->czuloscNaPozartableCzujka->rowCount() != 2)
+            ui->czuloscNaPozartableCzujka->setRowCount(2);
+
+
+        addR(ui->czuloscNaPozartableCzujka, 1, 0, n2, t2, r2);
 
         QStringList headNar;
         QList<int> widthNar;
-        headNar << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
-        widthNar << 150 << 250 << 350;
+        headNar << transmitter << receiver << "Wynik narażenia" << "Opis narażenia" << "Uwagi";
+        widthNar << 150 << 150 << 150 << 250 << 350;
         clearinitTable(ui->etczuloscNaPozarNarazenie, headNar, widthNar);
-        ui->etczuloscNaPozarNarazenie->setRowCount(1);
+        ui->etczuloscNaPozarNarazenie->setRowCount(2);
 
-        int col = addR(ui->etczuloscNaPozarNarazenie, 0, 0,
-                       daneTestu.getWynikNarazenia() ? "POZYTYWNY" : "NEGATYWNY",
-                       daneTestu.getOpisNarazenia(), daneTestu.getInfoNarazenia());
+        short numRow = 0;
+        for (const auto & dane : daneTestu.getDaneBadanCzujek())
+        {
+            int col = addR(ui->etczuloscNaPozarNarazenie, numRow, 0,
+                           dane.numerNadajnika, dane.numerOdbiornika,
+                           dane.ok ? "POZYTYWNY" : "NEGATYWNY",
+                           daneTestu.getOpisNarazenia(),
+                           dane.error);
 
-        if (!daneTestu.getWynikNarazenia()) {
-            for (short e=0; e<col; ++e) {
-                if (ui->etczuloscNaPozarNarazenie->item(0, e))
-                    ui->etczuloscNaPozarNarazenie->item(0, e)->setBackground(Qt::red);
+            if (!dane.ok) {
+                for (short e=0; e<col; ++e) {
+                    if (ui->etczuloscNaPozarNarazenie->item(numRow, e))
+                        ui->etczuloscNaPozarNarazenie->item(numRow, e)->setBackground(Qt::red);
+                }
             }
+            numRow++;
         }
 
         if (daneTestu.getOk()) {
