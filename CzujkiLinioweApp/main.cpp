@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     Ustawienia u;
     //u.save();
 #if QT_VERSION >= 0x060000
-    QFont font(QStringList() << "Ariel" << "Times New Roman");
+    QFont font(QStringList() << "Arial" << "Times New Roman");
     a.setFont(font);
 #endif    
     a.setStyleSheet("QLineEdit[readOnly=\"true\"] {background-color: #F0F0F0;}");

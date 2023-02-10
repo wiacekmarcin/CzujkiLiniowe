@@ -68,6 +68,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                        "przeprowadzić poprzez analizę układu/oprogramowania, próbę "
                                        "fizyczną lub symulacje w celu sprawdzenia, czy czujka "
                                        "spełnia wymagania określone w pkt 4.3.5.</p></body></html>"));
+    resize(1200,770);
     } else if (daneTestu.getId() == DRY_HEAT) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
@@ -79,6 +80,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->etTlumnik->setVisible(true);
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
+        resize(1500,770);
     } else if (daneTestu.getId() == COLD) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
@@ -91,6 +93,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
         ui->etTlumnik->setVisible(true);
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
+        resize(1370, 770);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                    "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
@@ -99,6 +102,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                    "pokojowymi na czas 1 godziny.</p></body></html>"));
         ui->cbAlarmYesNo->setVisible(true);
         ui->etAlarm->setVisible(true);
+        resize(1270, 770);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , tylko powinna zostać umieszoczna w pomieszczeniu "
@@ -107,6 +111,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                "pokojowymi na czas 1 godziny w celu regeneracji.</p></body></html>"));
         ui->wynik_narazenia->setVisible(false);
         ui->etWynik->setVisible(false);
+        resize(1270, 770);
     } else if (daneTestu.getId() == VIBRATION) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , ale powinna zostać zamontowana zgodnie z normą do sztywnego uchwytu.</p>"
@@ -119,6 +124,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                "po zakończeniu testu</p><p>Po zakończeniu testu nie należy regulować ustawienia kątowego</p></body></html>"));
         ui->cbUszkodzenie->setVisible(true);
         ui->etUszkodzenie->setVisible(true);
+        resize(1330,840);
     } else if (daneTestu.getId() == IMPACT) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość.</p>"
@@ -135,6 +141,7 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                "wykonać kolejne trzy uderzenia w to samo miejsce na nowej próbce</p></body></html>"));
         ui->cbUszkodzenie->setVisible(true);
         ui->etUszkodzenie->setVisible(true);
+        resize(1250,850);
     } else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujkę należy zamontować zgodnie z normą, jednak nie należy podłączać zasilania, "
@@ -150,8 +157,8 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                        "warunkach laboratoryjnych.</p></body></html>"));
         ui->wynik_narazenia->setVisible(false);
         ui->etWynik->setVisible(false);
+        resize(1200,770);
     }
-    adjustSize();
     CenterWidgets(this, parent);
 }
 
@@ -275,4 +282,5 @@ void OknoPotwierdzenieNarazenia::pbCancel_clicked()
                              QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
+    qDebug() << size();
 }

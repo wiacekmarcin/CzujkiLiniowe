@@ -33,7 +33,7 @@ OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, con
     }
 
     setWindowTitle(QString::fromUtf8("Badanie kątowe - postój czujki w skrajnym połozeniu"));
-    ui->head->setText(QString::fromUtf8("Badanie kątowe - postój czujki położeniu podanym przez producenta"));
+    ui->head->setText(QString::fromUtf8("Badanie kątowe - postój czujki w położeniu podanym przez producenta"));
     ui->lczas->setText("Pozostały czas oczekiwania");
 
     connect(&timer, &QTimer::timeout, this, &OknoCzekaniaBadanieKatowe::timeout);

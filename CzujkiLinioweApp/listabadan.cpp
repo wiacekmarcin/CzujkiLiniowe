@@ -178,7 +178,7 @@ void ListaBadan::setUkonczoneBadanie(short id, const ParametryBadania & badanie)
         ui->tableWidget->item(id, 5)->setText(test.getDataZakonczenia());
         ui->tableWidget->item(id, 6)->setText(test.getTemperatura() + QString(" \u00B0C"));
         ui->tableWidget->item(id, 7)->setText(test.getWilgotnosc() + QString( " %"));
-        ui->tableWidget->item(id, 8)->setText(test.getCisnienie() + QString( " mBar"));
+        ui->tableWidget->item(id, 8)->setText(test.getCisnienie() + QString( " hPa"));
 
         if (id == REPRODUCIBILITY) {
             for (const auto & tid : testyWidget.keys())

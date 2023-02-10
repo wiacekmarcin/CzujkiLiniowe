@@ -12,7 +12,7 @@ OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *pa
     ui->numerNadajnika->setText(test.getNumerTransmitter());
     ui->numerReceiver->setText(test.getNumerReceiver());
     ui->temperatura->setText(QString("<html><body>%1 &deg; C</body></html>").arg(test.getTemperatura()));
-    ui->cisnienie->setText(QString("%1 mbar").arg(test.getCisnienie()));
+    ui->cisnienie->setText(QString("%1 hPar").arg(test.getCisnienie()));
     ui->wilgotnosc->setText(QString("%1 %").arg(test.getWilgotnosc()));
     ui->testName->setText(test.getName());
 

@@ -38,7 +38,7 @@ QString PdfCreator::error;
 PdfCreator::PdfCreator()
 {
     codec = QTextCodec::codecForName("ISO 8859-2");
-    urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowsiko do badania czujek liniowych dymu - BCL, SN:1-23"));
+    urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowisko do badania czujek liniowych dymu - BCL, SN:1-23"));
 }
 
 void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 0)
@@ -110,7 +110,7 @@ void PdfCreator::setData(const ParametryBadania & badanie, bool all, short id = 
             daneTestu.ogolne.dataRozpoczecia = codec->fromUnicode(test.getDataRozpoczecia());
             daneTestu.ogolne.dataZakonczenia = codec->fromUnicode(test.getDataZakonczenia());
             daneTestu.ogolne.temperatura = codec->fromUnicode(QString("%1 %2C").arg(test.getTemperatura(),QChar(0xb0)).replace('.',','));
-            daneTestu.ogolne.cisnienie = codec->fromUnicode(QString("%1 mBar").arg(test.getCisnienie()).replace('.',','));
+            daneTestu.ogolne.cisnienie = codec->fromUnicode(QString("%1 hPa").arg(test.getCisnienie()).replace('.',','));
             daneTestu.ogolne.wilgotnosc = codec->fromUnicode(QString("%1 %").arg(test.getWilgotnosc()).replace('.',','));
             daneTestu.ogolne.uwagi = codec->fromUnicode(test.getUwagi());
             daneTestu.ogolne.receiver = codec->fromUnicode(test.getNumerReceiver());
@@ -382,7 +382,6 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
             narazenie2.second.opis = codec->fromUnicode(test.getOpisNarazenia());
             narazenie2.second.uwagi = codec->fromUnicode(dane[1].error);
         }
-        showC = false;
     }
 
     else if (test.getId() == DRY_HEAT) {
@@ -598,7 +597,7 @@ void PdfCreator::createPageTest(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
         endY = createNarazenie(page, font, font2, endY - 15, testPage.narazenie);
     }
 
-    if (!testPage.odtwarzalnosc)
+    if (!testPage.odtwarzalnosc && !testPage.czyNarazenie2)
         endY = createCzujka(page, font, font2, endY-15, eTransmitter, eReceiver,
                         testPage.ogolne.transmiter, testPage.ogolne.receiver);
 
@@ -624,33 +623,37 @@ float PdfCreator::createHead(HPDF_Page page, HPDF_Font font, float startY)
 {
     QByteArray p_title1 = codec->fromUnicode(QString::fromUtf8("CENTRUM NAUKOWO BADAWCZE OCHRONY PRZECIWPOŻAROWEJ"));
     QByteArray p_title2 = codec->fromUnicode(QString::fromUtf8("im. Józefa Tuliszkowskiego w Józefowie"));
-    QByteArray p_title3 = codec->fromUnicode(QString::fromUtf8("ZAKRES BADAŃ POSIADAJĄCY AKREDYTACJĘ POLSKIEGO CENTRUM AKREDYTACJI"));
-    QByteArray p_title4 = codec->fromUnicode(QString::fromUtf8("Numer certyfikatu akredytacji - AB 207"));
+    QByteArray p_title3 = codec->fromUnicode(QString::fromUtf8("Państwowy Instytut Badawaczy"));
+    QByteArray p_title4 = codec->fromUnicode(QString::fromUtf8("ZAKRES BADAŃ POSIADAJĄCY AKREDYTACJĘ POLSKIEGO CENTRUM AKREDYTACJI"));
+    QByteArray p_title5 = codec->fromUnicode(QString::fromUtf8("Numer certyfikatu akredytacji - AB 207"));
 
-    float tw1, tw2, tw3, tw4;
+    float tw1, tw2, tw3, tw4, tw5;
 
     /* print the title of the page (with positioning center). */
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 16);
     tw1 = HPDF_Page_TextWidth (page, p_title1.data());
     tw2 = HPDF_Page_TextWidth (page, p_title2.data());
+    tw3 = HPDF_Page_TextWidth (page, p_title3.data());
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw1) / 2,
                 HPDF_Page_GetHeight (page) - 90, p_title1.data());
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw2) / 2,
                 HPDF_Page_GetHeight (page) - 105, p_title2.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw3) / 2,
+                HPDF_Page_GetHeight (page) - 120, p_title3.data());
     HPDF_Page_EndText (page);
 
     HPDF_Page_BeginText (page);
     HPDF_Page_SetFontAndSize (page, font, 13);
-    tw3 = HPDF_Page_TextWidth (page, p_title3.data());
     tw4 = HPDF_Page_TextWidth (page, p_title4.data());
-    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw3) / 2,
-                HPDF_Page_GetHeight (page) - 130, p_title3.data());
+    tw5 = HPDF_Page_TextWidth (page, p_title5.data());
     HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw4) / 2,
                 HPDF_Page_GetHeight (page) - 145, p_title4.data());
+    HPDF_Page_TextOut (page, (HPDF_Page_GetWidth(page) - tw5) / 2,
+                HPDF_Page_GetHeight (page) - 160, p_title5.data());
 
     HPDF_Page_EndText (page);
-    return HPDF_Page_GetHeight (page) - 145;
+    return HPDF_Page_GetHeight (page) - 160;
 }
 
 float PdfCreator::createInfoBadanie(HPDF_Page page, HPDF_Font font, HPDF_Font font2,
@@ -755,7 +758,7 @@ float PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font fon
 
     float col1width = 150; //lewy margines etykiet
     QByteArray eRodzajSystemu = codec->fromUnicode(QString::fromUtf8("Rodzaj systemu:"));
-    QByteArray urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowsiko do badania czujek liniowych dymu - BCL, SN:1-23"));
+    QByteArray urzadzenie = codec->fromUnicode(QString::fromUtf8("Stanowisko do badania czujek liniowych dymu - BCL, SN:1-23"));
     QByteArray eProducent = codec->fromUnicode(QString::fromUtf8("Producent:"));
     QByteArray eTransmitter = eTypTransmitter + ':';
     QByteArray eReceiver = eTypReceiver + ':';
@@ -782,7 +785,7 @@ float PdfCreator::createInformacje(HPDF_Page page, HPDF_Font font, HPDF_Font fon
     float twRmin = HPDF_Page_TextWidth (page, erozstawienieMinimalne.data());
     float twRmax = HPDF_Page_TextWidth (page, erozstawienieMaksymalne.data());
 
-    startY -= 32;
+    startY -= 24;
     short nRow = 0;
     HPDF_Page_TextOut (page, col1width - tw1, startY -(nRow++)*16 , eRodzajSystemu.data());
     HPDF_Page_TextOut (page, col1width - tw2, startY -(nRow++)*16, eProducent.data());
@@ -1368,8 +1371,8 @@ float PdfCreator::createCminCmax(HPDF_Page page,  HPDF_Font font, HPDF_Font font
     if (crep) {
         drawTextInBoxRight (page, marginl + 10,          startY - (nrRow)*16, test.Crep1.data(), wBox-10);
         drawTextInBoxRight (page, marginl + 10 + wBox,   startY - (nrRow++)*16, test.Crep2.data(), wBox-10);
-        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CRepCMin.data(), wBox-10);
         drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CMaxCrep.data(), wBox-10);
+        drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CRepCMin.data(), wBox-10);
     } else {
         drawTextInBoxRight (page, marginl + 10,          startY - (nrRow++)*16, test.CMaxCmin.data(), wBox-10);
     }

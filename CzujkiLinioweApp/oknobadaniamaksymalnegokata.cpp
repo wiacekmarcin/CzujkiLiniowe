@@ -49,7 +49,7 @@ OknoBadaniaMaksymalnegoKata::OknoBadaniaMaksymalnegoKata(short nrSilnika_, const
     //tmSterownika.singleShot(15000, this, &OknoBadaniaMaksymalnegoKata::timeoutSterownika);
     deviceisOk = false;
 
-    if (ust.testMode)
+    if (!ust.testMode)
         ui->frameDebug->setVisible(false);
     else {
         moveTimer = new QTimer(this);

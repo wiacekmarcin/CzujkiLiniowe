@@ -603,11 +603,11 @@ void DaneTestu::obliczZaleznoscKatowa(const Ustawienia &ust)
     QStringList errors;
     for (auto & wynik : pomiaryKatow) {
         if (wynik.ok) {
-            double val = abs(wynik.katZmierzony - wynik.katProducenta);
+            double val = abs(wynik.katProducenta);
             double delta = ust.getNiewspolosiowoscMinimalnyKatProducentMierzony();
             if (val < delta) {
                 ok = false;
-                errors << QString::fromUtf8("Różnica<%1").arg(delta,2,'f',1);
+                errors << QString::fromUtf8("Kąt <%1").arg(delta,2,'f',1);
             }
         } else {
             ok = false;
@@ -1091,7 +1091,7 @@ QString DaneTestu::getOpisNarazenia() const {
         break;
 
     default:
-        narazenieOpis = "Inne narażenie";
+        narazenieOpis = QString::fromUtf8("Inne narażenie");
     break;
     }
     return narazenieOpis;
