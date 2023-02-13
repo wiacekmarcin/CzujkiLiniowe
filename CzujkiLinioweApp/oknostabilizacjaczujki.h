@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
+#include <QCloseEvent>
 namespace Ui {
 class OknoStabilizacjaCzujki;
 }
@@ -17,6 +18,7 @@ public:
                                     QWidget *parent = 0);
     ~OknoStabilizacjaCzujki();
     void czujkaOn();
+    void closeEvent(QCloseEvent *event);
 protected:
     QString getMM_SS(unsigned long secs);
 private slots:

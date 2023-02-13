@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
+#include <QCloseEvent>
 namespace Ui {
 class OknoCzekaniaBadanieKatowe;
 }
@@ -19,6 +20,7 @@ protected:
     QString getMM_SS(unsigned long secs);
 private slots:
     void timeout();
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::OknoCzekaniaBadanieKatowe *ui;
     QTimer timer;

@@ -133,6 +133,23 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType
     done(QDialog::Accepted);
 }
 
+void OknoZerowanieUrzadzenia::closeEvent(QCloseEvent *event)
+{
+    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                            this);
+
+    if (btn == QMessageBox::Cancel) {
+        event->ignore();
+        return;
+    }
+
+    if (btn == QMessageBox::Close) {
+        event->accept();
+        return;
+    }
+}
+
 void OknoZerowanieUrzadzenia::timeout()
 {
     ui->frameError->setVisible(true);

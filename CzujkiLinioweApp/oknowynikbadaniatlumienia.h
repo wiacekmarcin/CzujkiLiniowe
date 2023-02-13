@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
-
+#include <QCloseEvent>
 #include "danetestu.h"
 #include "parametrybadania.h"
 #include "ustawienia.h"
@@ -22,7 +22,7 @@ public:
     ~OknoWynikBadaniaTlumienia();
 
     bool getPowtorzPomiar() const;
-
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:

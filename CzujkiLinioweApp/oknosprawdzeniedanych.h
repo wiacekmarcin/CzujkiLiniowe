@@ -2,7 +2,7 @@
 #define OKNOSPRAWDZENIEDANYCH_H
 
 #include <QDialog>
-
+#include <QCloseEvent>
 #include "danetestu.h"
 
 namespace Ui {
@@ -17,6 +17,7 @@ public:
     explicit OknoSprawdzenieDanych(const DaneTestu & test,
                                 QWidget *parent = nullptr);
     ~OknoSprawdzenieDanych();
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:

@@ -5,7 +5,7 @@
 #include "zasilacz.h"
 #include <QTimer>
 #include <QDialog>
-
+#include <QCloseEvent>
 namespace Ui {
 class OczekiwanieNaUrzadzenia;
 }
@@ -20,6 +20,7 @@ public:
 public slots:
     void zasilacz(int state);
     void sterownik(int state);
+    void closeEvent(QCloseEvent *event);
 protected:
 
     void init();

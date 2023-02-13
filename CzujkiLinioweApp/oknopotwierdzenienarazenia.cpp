@@ -266,6 +266,23 @@ bool OknoPotwierdzenieNarazenia::czujkaOk() const
     return ui->cbCzujkaOk->currentIndex() == 1;
 }
 
+void OknoPotwierdzenieNarazenia::closeEvent(QCloseEvent *event)
+{
+    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                            this);
+
+    if (btn == QMessageBox::Cancel) {
+        event->ignore();
+        return;
+    }
+
+    if (btn == QMessageBox::Close) {
+        event->accept();
+        return;
+    }
+}
+
 static int question(QWidget * parent, const QString & title, const QString & pytanie) {
     QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
                         QMessageBox::Yes | QMessageBox::No, parent);

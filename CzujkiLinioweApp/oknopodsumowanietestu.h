@@ -4,6 +4,7 @@
 #include "parametrybadania.h"
 #include <QDialog>
 #include <QTimer>
+#include <QCloseEvent>
 
 #include "danetestu.h"
 #include "ustawienia.h"
@@ -33,7 +34,7 @@ public:
                           QWidget *parent = 0);
     ~OknoPodsumowanieTestu();
 
-
+    void closeEvent(QCloseEvent *event);
 
 protected:
 

@@ -3,7 +3,7 @@
 #include "parametrybadania.h"
 #include <QDialog>
 #include <QTimer>
-
+#include <QCloseEvent>
 class Zasilacz;
 
 namespace Ui {
@@ -24,6 +24,7 @@ signals:
     void setZasilanie(bool on);
 public slots:
     void timeoutProgress();
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:

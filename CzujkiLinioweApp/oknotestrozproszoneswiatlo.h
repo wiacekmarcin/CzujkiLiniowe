@@ -4,6 +4,7 @@
 #include <QDialog>
 #include "danetestu.h"
 #include <QTime>
+#include <QCloseEvent>
 namespace Ui {
 class OknoTestRozproszoneSwiatlo;
 }
@@ -20,7 +21,7 @@ public:
     bool getAlarm() const;
 
     QString getInfo() const;
-
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
     void pbNext_clicked();

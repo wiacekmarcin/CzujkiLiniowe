@@ -2,6 +2,7 @@
 #define OKNOMONTAZ_H
 
 #include <QDialog>
+#include <QCloseEvent>
 #include "danetestu.h"
 namespace Ui {
 class OknoMontaz;
@@ -19,6 +20,7 @@ public:
 
 protected:
     void pbCancel_clicked();
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::OknoMontaz *ui;
 };

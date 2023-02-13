@@ -2,7 +2,7 @@
 #define OKNOZEROWANIEURZADZENIA_H
 
 #include "sterownik.h"
-
+#include <QCloseEvent>
 class QCheckBox;
 
 #include <QDialog>
@@ -24,7 +24,7 @@ public:
 
 
     void ster_setPositionDone(short silnik, RuchSilnikaType ruch);
-
+    void closeEvent(QCloseEvent *event);
 protected:
     void init();
     void pbCancel_clicked();

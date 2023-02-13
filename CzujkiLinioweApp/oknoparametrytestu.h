@@ -2,6 +2,7 @@
 #define OKNOPARAMETRYTESTU_H
 
 #include <QDialog>
+#include <QCloseEvent>
 #include "parametrybadania.h"
 #include "danetestu.h"
 #include "ustawienia.h"
@@ -24,6 +25,7 @@ protected:
     void pbCancel_clicked();
 private slots:
     void changeCzujka(int index);
+    void closeEvent(QCloseEvent *event);
 
 private:
 

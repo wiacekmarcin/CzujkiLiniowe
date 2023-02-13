@@ -3,7 +3,7 @@
 
 #include <QDialog>
 #include <QTimer>
-
+#include <QCloseEvent>
 #include <QMutex>
 #include "ustawienia.h"
 
@@ -46,6 +46,7 @@ public:
 
 protected slots:
     void timeoutSterownika();
+    void closeEvent(QCloseEvent *event);
 private:
     Ui::OknoBadaniaKata *ui;
 

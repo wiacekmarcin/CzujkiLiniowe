@@ -41,6 +41,11 @@ bool OknoWynikBadaniaTlumienia::getPowtorzPomiar() const
     return powtorzPomiar;
 }
 
+void OknoWynikBadaniaTlumienia::closeEvent(QCloseEvent *event)
+{
+
+}
+
 static int question(QWidget * parent, const QString & title, const QString & pytanie) {
     QMessageBox messageBox(QMessageBox::Question, title, pytanie, 
                         QMessageBox::Yes | QMessageBox::No, parent);

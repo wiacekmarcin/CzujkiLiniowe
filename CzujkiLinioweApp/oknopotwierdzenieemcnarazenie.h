@@ -2,6 +2,7 @@
 #define OKNOPOTWIERDZENIEEMCNARAZENIE_H
 
 #include <QDialog>
+#include <QCloseEvent>
 #include "danetestu.h"
 namespace Ui {
 class OknoPotwierdzenieEMCNarazenie;
@@ -18,6 +19,7 @@ public:
     void changeComboBox(short nrCombo, int index);
     bool getWynik() const;
     QString getKomenatarz() const;
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:

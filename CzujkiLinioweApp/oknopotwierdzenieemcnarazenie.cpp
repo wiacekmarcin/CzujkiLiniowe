@@ -110,3 +110,20 @@ void OknoPotwierdzenieEMCNarazenie::pbCancel_clicked()
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }
+
+void OknoPotwierdzenieEMCNarazenie::closeEvent(QCloseEvent *event)
+{
+    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                            this);
+
+    if (btn == QMessageBox::Cancel) {
+        event->ignore();
+        return;
+    }
+
+    if (btn == QMessageBox::Close) {
+        event->accept();
+        return;
+    }
+}

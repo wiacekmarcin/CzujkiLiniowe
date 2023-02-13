@@ -3,7 +3,7 @@
 #include "parametrybadania.h"
 #include "danetestu.h"
 #include <QDialog>
-
+#include <QCloseEvent>
 namespace Ui {
 class OknoZasilaniaCzujki;
 }
@@ -20,6 +20,7 @@ public:
     void setVolage_mV(int mV);
 public slots:
     void value(int kind, int value);
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:

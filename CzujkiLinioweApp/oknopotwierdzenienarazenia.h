@@ -2,6 +2,7 @@
 #define OKNOPOTWIERDZENIENARAZENIA_H
 
 #include <QDialog>
+#include <QCloseEvent>
 #include "danetestu.h"
 namespace Ui {
 class OknoPotwierdzenieNarazenia;
@@ -20,6 +21,7 @@ public:
     QString getKomenatarz() const;
     bool czujkaUszkodzona() const;
     bool czujkaOk() const;
+    void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
 private:
