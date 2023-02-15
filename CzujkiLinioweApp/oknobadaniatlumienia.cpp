@@ -7,6 +7,18 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 #include <QDebug>
+#include <QMessageBox>
+
+static int questionQuit(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
 
 OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsigned int dlugoscFali,
                            const QString & name, const Ustawienia &ust,
@@ -20,7 +32,8 @@ OknoBadaniaTlumienia::OknoBadaniaTlumienia(unsigned int czasPostojuFiltra, unsig
     maxTlum(0),
     ster(ster_),
     czasPostoju(czasPostojuFiltra),
-    tlumienie("0.0")
+    tlumienie("0.0"),
+    breakBadanie(false)
 {
     ui->setupUi(this);
 
@@ -167,8 +180,8 @@ void OknoBadaniaTlumienia::timeoutSterownika()
 
 void OknoBadaniaTlumienia::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -177,9 +190,15 @@ void OknoBadaniaTlumienia::closeEvent(QCloseEvent *event)
     }
 
     if (btn == QMessageBox::Close) {
+        breakBadanie = true;
         event->accept();
         return;
     }
+}
+
+bool OknoBadaniaTlumienia::getBreakBadanie() const
+{
+    return breakBadanie;
 }
 
 const QString &OknoBadaniaTlumienia::getError() const

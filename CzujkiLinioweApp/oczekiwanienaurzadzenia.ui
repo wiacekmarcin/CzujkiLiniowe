@@ -27,7 +27,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>10</pointsize>
    </font>
   </property>
@@ -68,7 +68,7 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
@@ -123,7 +123,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>

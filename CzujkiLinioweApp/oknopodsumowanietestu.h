@@ -34,8 +34,6 @@ public:
                           QWidget *parent = 0);
     ~OknoPodsumowanieTestu();
 
-    void closeEvent(QCloseEvent *event);
-
 protected:
 
     void odtwarzalnoscAddRekord(QFrame * fr, QGridLayout * lay, const QString & suffix,

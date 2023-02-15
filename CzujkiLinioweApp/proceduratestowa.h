@@ -3,12 +3,22 @@
 
 #include <QObject>
 #include <QWidget>
+#include <QException>
+
 #include "danetestu.h"
 #include "parametrybadania.h"
 #include "oknobadaniatlumienia.h"
 #include "zasilacz.h"
 #include "sterownik.h"
 #include "ustawienia.h"
+
+
+class ProceduraException : public QException
+{
+public:
+    void raise() const override { throw *this; }
+    ProceduraException *clone() const override { return new ProceduraException(*this); }
+};
 
 
 class OknoBadaniaTlumienia;
@@ -52,22 +62,22 @@ protected:
     bool ProbnyPomiar(ParametryBadania &daneBadania, const Ustawienia &ust);
 
 private:
-    bool parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
-    bool montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
+    void parametryTest(short numerProby, const ParametryBadania &b, const Ustawienia & ust);
+    void montazZerowanieZasilanie(uint32_t flags, const ParametryBadania &daneBadania);
 
 
-    bool oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
-    bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv);
-    bool potwierdzenieNarazenia(DaneTestu &daneTestu, bool &czujkaOk, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    bool potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
-    bool zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
+    void oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
+    bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv, bool raiseError = true);
+    void potwierdzenieNarazenia(DaneTestu &daneTestu, bool &czujkaOk, const ParametryBadania & daneBadania, const Ustawienia & ust);
+    void potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
+    void zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);
-    short pomiarCzujki(uint32_t flags, const ParametryBadania &daneBadania, const Ustawienia &);
+    bool pomiarCzujki(uint32_t flags, const ParametryBadania &daneBadania, const Ustawienia &);
     void podsumowanie(DaneTestu &daneTestu, const ParametryBadania &badanie);
-    short pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle, const ParametryBadania &daneBadania, const Ustawienia &ust);
-    short pomiarKata(short nrSilnika, const QString & ptitle, const double & kat, const ParametryBadania &daneBadania, const Ustawienia &ust);
-    short resetCzujki(const QString &testName, const QString &subTestName, unsigned int czasOffOn, unsigned int czasStabilizacji, const ParametryBadania &daneBadania);
+    bool pomiarKataProcedura(PomiarKata & pomiar, short nrSilnika, const QString & ptitle, const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool pomiarKata(short nrSilnika, const QString & ptitle, const double & kat, const ParametryBadania &daneBadania, const Ustawienia &ust);
+    bool resetCzujki(const QString &testName, const QString &subTestName, unsigned int czasOffOn, unsigned int czasStabilizacji, const ParametryBadania &daneBadania);
 private:
     QWidget* parent;
     DaneTestu dane;

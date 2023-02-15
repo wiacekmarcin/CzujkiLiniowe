@@ -56,6 +56,8 @@ public:
     bool getResetFiltrowOk();
     void setResetFiltrowOk(bool newResetFiltrowOk);
 
+    bool getBreakBadanie() const;
+
 private slots:
     void uplynalCzasPostojuFiltra();
     void progressBarUpdate();
@@ -79,6 +81,7 @@ private:
 
     QString error;
     bool sterResponse;
+    bool breakBadanie;
 
 };
 

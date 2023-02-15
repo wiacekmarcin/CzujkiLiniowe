@@ -36,6 +36,8 @@ public:
     bool getResetFiltrowOk();
     void setResetFiltrowOk(bool newResetFiltrowOk);
 
+    bool getBreakBadanie() const;
+
 protected:
     void usunTlumnik();
 
@@ -60,6 +62,7 @@ private:
     bool endReject;
     QString pos0A, pos0B, pos0C;
     bool czujkaWyzwolona;
+    bool breakBadanie;
 };
 
 #endif // OKNOBADANIEREAKCJI6DB_H

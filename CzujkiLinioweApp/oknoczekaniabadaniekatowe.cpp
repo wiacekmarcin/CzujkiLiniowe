@@ -4,11 +4,25 @@
 #include <QDebug>
 #include "ustawienia.h"
 
+#include <QMessageBox>
+
+static int questionQuit(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
+
 OknoCzekaniaBadanieKatowe::OknoCzekaniaBadanieKatowe(unsigned long timeWait, const QString & name,
                                                      const QString & ptitle, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoCzekaniaBadanieKatowe),
-    timer(this)
+    timer(this),
+    breakBadanie(false)
 {
     //qDebug() << "Wait window" << timeWait;
     elapsedTime = timeWait;
@@ -98,8 +112,8 @@ void OknoCzekaniaBadanieKatowe::timeout()
 
 void OknoCzekaniaBadanieKatowe::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -108,7 +122,13 @@ void OknoCzekaniaBadanieKatowe::closeEvent(QCloseEvent *event)
     }
 
     if (btn == QMessageBox::Close) {
+        breakBadanie = true;
         event->accept();
         return;
     }
+}
+
+bool OknoCzekaniaBadanieKatowe::getBreakBadanie() const
+{
+    return breakBadanie;
 }

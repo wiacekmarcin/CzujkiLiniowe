@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>14</pointsize>
    </font>
   </property>
@@ -36,7 +36,7 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -50,7 +50,7 @@
     <widget class="QLabel" name="kat">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>33</pointsize>
        <bold>true</bold>
       </font>
@@ -67,7 +67,7 @@
     <widget class="QLabel" name="ekat">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -89,7 +89,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>16</pointsize>
           <bold>true</bold>
          </font>
@@ -106,7 +106,7 @@
     <widget class="QLabel" name="speed">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -133,7 +133,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -149,7 +149,7 @@
     <widget class="QLabel" name="label_3">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -162,7 +162,7 @@
     <widget class="QLabel" name="szacowanyczas">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -176,7 +176,7 @@
     <widget class="QLabel" name="eBadanie">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -192,7 +192,7 @@
     <widget class="QLabel" name="nazwaPodTestu">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
       </font>
@@ -206,7 +206,7 @@
     <widget class="QLabel" name="maxkat">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -220,7 +220,7 @@
     <widget class="QLabel" name="emaxkat">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -233,7 +233,7 @@
     <widget class="QLabel" name="eCzas">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>

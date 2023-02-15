@@ -16,6 +16,8 @@ public:
     explicit OknoCzekaniaBadanieKatowe(unsigned long timeWait, const QString &name, const QString &ptitle, QWidget *parent = 0);
     ~OknoCzekaniaBadanieKatowe();
     void czujkaOn();
+    bool getBreakBadanie() const;
+
 protected:
     QString getMM_SS(unsigned long secs);
 private slots:
@@ -25,6 +27,7 @@ private:
     Ui::OknoCzekaniaBadanieKatowe *ui;
     QTimer timer;
     unsigned long elapsedTime;
+    bool breakBadanie;
 };
 
 #endif // OKNOCZEKANIABADANIEKATOWE_H

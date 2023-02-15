@@ -7,6 +7,19 @@
 #include <QMessageBox>
 #include "ustawienia.h"
 
+#include <QMessageBox>
+
+static int questionQuit(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
+
 OczekiwanieNaUrzadzenia::OczekiwanieNaUrzadzenia(bool zasilacz, Zasilacz * zas_, Sterownik * ster_, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OczekiwanieNaUrzadzenia),
@@ -152,8 +165,8 @@ void OczekiwanieNaUrzadzenia::sterownik(int state)
 
 void OczekiwanieNaUrzadzenia::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
                             this);
 
     if (btn == QMessageBox::Cancel) {

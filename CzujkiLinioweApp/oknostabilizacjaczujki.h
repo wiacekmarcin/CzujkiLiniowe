@@ -19,6 +19,8 @@ public:
     ~OknoStabilizacjaCzujki();
     void czujkaOn();
     void closeEvent(QCloseEvent *event);
+    bool getBreakBadanie() const;
+
 protected:
     QString getMM_SS(unsigned long secs);
 private slots:
@@ -28,6 +30,7 @@ private:
     QTimer timer;
     unsigned long elapsedTime;
     bool ignoreAlarms;
+    bool breakBadanie;
 };
 
 #endif // OKNOSTABILIZACJACZUJKI_H

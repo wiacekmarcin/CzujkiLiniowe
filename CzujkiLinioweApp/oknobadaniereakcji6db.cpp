@@ -7,6 +7,18 @@
 #include "sterownik.h"
 #include <QMutexLocker>
 #include <QDebug>
+#include <QMessageBox>
+
+static int questionQuit(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
 
 OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int time2,
                            unsigned int dlugoscFali, const double & tlumnienie,
@@ -29,7 +41,8 @@ OknoBadanieReakcji6dB::OknoBadanieReakcji6dB(unsigned int time1, unsigned int ti
     pos0A(""),
     pos0B(""),
     pos0C(""),
-    czujkaWyzwolona(false)
+    czujkaWyzwolona(false),
+    breakBadanie(false)
 
 {
     ui->setupUi(this);
@@ -220,8 +233,8 @@ void OknoBadanieReakcji6dB::timeoutSterownika()
 
 void OknoBadanieReakcji6dB::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -230,9 +243,15 @@ void OknoBadanieReakcji6dB::closeEvent(QCloseEvent *event)
     }
 
     if (btn == QMessageBox::Close) {
+        breakBadanie = true;
         event->accept();
         return;
     }
+}
+
+bool OknoBadanieReakcji6dB::getBreakBadanie() const
+{
+    return breakBadanie;
 }
 
 const QString &OknoBadanieReakcji6dB::getError() const

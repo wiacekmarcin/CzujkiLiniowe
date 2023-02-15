@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>10</pointsize>
    </font>
   </property>
@@ -86,7 +86,7 @@
     <widget class="QLabel" name="label">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -176,7 +176,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -328,7 +328,7 @@
     <widget class="QLabel" name="head1">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -378,7 +378,7 @@
     <widget class="QLabel" name="head3">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -398,7 +398,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -418,7 +418,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -438,7 +438,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -458,7 +458,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -485,7 +485,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -524,7 +524,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -677,7 +677,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -742,7 +742,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>

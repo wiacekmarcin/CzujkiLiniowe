@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>14</pointsize>
    </font>
   </property>
@@ -36,7 +36,7 @@
     <widget class="QLabel" name="label_6">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
        <bold>false</bold>
@@ -51,7 +51,7 @@
     <widget class="QLabel" name="time0">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -77,7 +77,7 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -93,7 +93,7 @@
     <widget class="QLabel" name="time3">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>false</italic>
        <bold>true</bold>
@@ -111,7 +111,7 @@
     <widget class="QLabel" name="label_9">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
        <bold>false</bold>
@@ -126,7 +126,7 @@
     <widget class="QLabel" name="time1">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>false</italic>
        <bold>true</bold>
@@ -208,7 +208,7 @@
     <widget class="QLabel" name="time2">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>false</italic>
        <bold>true</bold>
@@ -226,7 +226,7 @@
     <widget class="QLabel" name="label_8">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
        <bold>false</bold>
@@ -241,7 +241,7 @@
     <widget class="QLabel" name="time4">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>false</italic>
        <bold>true</bold>
@@ -268,7 +268,7 @@
        <widget class="QLabel" name="infonext">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -317,7 +317,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>17</pointsize>
           <bold>true</bold>
          </font>
@@ -334,7 +334,7 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -357,7 +357,7 @@
        <widget class="QComboBox" name="cbAlarmYesNo">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
@@ -391,7 +391,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -404,7 +404,7 @@
        <widget class="QLabel" name="label_3">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -426,7 +426,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -439,7 +439,7 @@
     <widget class="QLabel" name="label_4">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
        <bold>false</bold>
@@ -454,7 +454,7 @@
     <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -482,7 +482,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <italic>true</italic>
       </font>

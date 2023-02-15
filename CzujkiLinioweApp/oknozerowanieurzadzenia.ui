@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>14</pointsize>
    </font>
   </property>
@@ -139,7 +139,7 @@
     <widget class="QLabel" name="error">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>10</pointsize>
        <bold>true</bold>
       </font>
@@ -356,7 +356,7 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
@@ -386,7 +386,7 @@
     <widget class="QPushButton" name="pbDalej">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>

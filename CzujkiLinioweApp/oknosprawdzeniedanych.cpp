@@ -2,6 +2,17 @@
 #include "ui_oknosprawdzeniedanych.h"
 #include <QMessageBox>
 
+static int questionQuit(const QString & title, const QString & pytanie, QWidget * parent) {
+    QMessageBox messageBox(QMessageBox::Question, title, pytanie,
+                        QMessageBox::Close | QMessageBox::Cancel, parent);
+
+
+    messageBox.setButtonText(QMessageBox::Close, QString::fromUtf8("Zamknij"));
+    messageBox.setButtonText(QMessageBox::Cancel, QString::fromUtf8("Anuluj"));
+
+    return messageBox.exec();
+}
+
 OknoSprawdzenieDanych::OknoSprawdzenieDanych(const DaneTestu & test, QWidget *parent) :
     QDialog(parent),
     ui(new Ui::OknoSprawdzenieDanych)
@@ -36,8 +47,8 @@ OknoSprawdzenieDanych::~OknoSprawdzenieDanych()
 
 void OknoSprawdzenieDanych::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
                             this);
 
     if (btn == QMessageBox::Cancel) {

@@ -24,7 +24,7 @@
   </property>
   <property name="font">
    <font>
-    <family>Arial</family>
+    <family>Times New Roman</family>
     <pointsize>14</pointsize>
    </font>
   </property>
@@ -36,7 +36,7 @@
     <widget class="QLabel" name="napiecieMierz">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -50,7 +50,7 @@
     <widget class="QLabel" name="infoZasilanie">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -63,7 +63,7 @@
     <widget class="QLabel" name="lTestName">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -79,7 +79,7 @@
     <widget class="QLabel" name="lNapiecieUst">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -95,7 +95,7 @@
     <widget class="QLabel" name="lPradMierz">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -144,7 +144,7 @@
         </property>
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>17</pointsize>
           <bold>true</bold>
          </font>
@@ -167,7 +167,7 @@
      </property>
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -183,7 +183,7 @@
     <widget class="QLabel" name="lTypCentrali">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -208,7 +208,7 @@
        <widget class="QLabel" name="label">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
           <bold>true</bold>
          </font>
@@ -225,7 +225,7 @@
        <widget class="QLabel" name="label_2">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -266,7 +266,7 @@
        <widget class="QLabel" name="info2">
         <property name="font">
          <font>
-          <family>Arial</family>
+          <family>Times New Roman</family>
           <pointsize>14</pointsize>
          </font>
         </property>
@@ -285,7 +285,7 @@
     <widget class="QLabel" name="lNapiecieMierz">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -314,7 +314,7 @@
     <widget class="QLabel" name="napiecieUst">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -328,7 +328,7 @@
     <widget class="QLabel" name="pradMierz">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -342,7 +342,7 @@
     <widget class="QLabel" name="rodzajZasilania">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -359,7 +359,7 @@
     <widget class="QLabel" name="lrodzaj">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -432,7 +432,7 @@
     <widget class="QLabel" name="typCentrali">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -446,7 +446,7 @@
     <widget class="QLabel" name="testName">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>
@@ -460,7 +460,7 @@
     <widget class="QLabel" name="enomVoltege">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
       </font>
      </property>
@@ -476,7 +476,7 @@
     <widget class="QLabel" name="nominalVolt">
      <property name="font">
       <font>
-       <family>Arial</family>
+       <family>Times New Roman</family>
        <pointsize>14</pointsize>
        <bold>true</bold>
       </font>

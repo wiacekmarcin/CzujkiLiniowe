@@ -41,6 +41,8 @@ public:
     void ster_setValue(short silnik, const double & val);
     void testValue();
 
+    bool getBreakBadanie() const;
+
 protected slots:
     void timeoutSterownika();
     void closeEvent(QCloseEvent *event);
@@ -66,7 +68,7 @@ private:
     float valEnd;
     float valAct;
     float valPer100ms;
-
+    bool breakBadanie;
 
 };
 

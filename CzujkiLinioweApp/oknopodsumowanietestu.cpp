@@ -5,7 +5,7 @@
 #include <math.h>
 
 #include "ustawienia.h"
-
+#include <QMessageBox>
 
 OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const ParametryBadania & /*badanie*/,
                                              const Ustawienia & ust_, QWidget *parent) :
@@ -242,23 +242,6 @@ OknoPodsumowanieTestu::OknoPodsumowanieTestu(DaneTestu &daneTestu, const Paramet
 OknoPodsumowanieTestu::~OknoPodsumowanieTestu()
 {
     delete ui;
-}
-
-void OknoPodsumowanieTestu::closeEvent(QCloseEvent *event)
-{
-    auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
-                            this);
-
-    if (btn == QMessageBox::Cancel) {
-        event->ignore();
-        return;
-    }
-
-    if (btn == QMessageBox::Close) {
-        event->accept();
-        return;
-    }
 }
 
 #define ADDLINETABLETD(S)  addLine(fr, lay, true, row, col, 1, 1, QString("line_%1_%2_%3").arg(suffix).arg(row).arg(col));\
