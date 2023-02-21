@@ -855,8 +855,8 @@ void PdfCreator::createOdtwarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font f
     head << codec->fromUnicode(QString::fromUtf8("Próba"));
     head << eTransmitter;
     head << eReceiver;
-    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    head << codec->fromUnicode(QString::fromUtf8("Cn"));
+    head << codec->fromUnicode(QString::fromUtf8("Cn"));
     head << codec->fromUnicode(QString::fromUtf8("Wynik"));
     head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -885,8 +885,8 @@ void PdfCreator::createPowtarzalnosc(HPDF_Page page, HPDF_Font font, HPDF_Font f
 
     QVector<QByteArray> head;
     head << codec->fromUnicode(QString::fromUtf8("Próba"));
-    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-    head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    head << codec->fromUnicode(QString::fromUtf8("Cn"));
+    head << codec->fromUnicode(QString::fromUtf8("Cn"));
     head << codec->fromUnicode(QString::fromUtf8("Wynik"));
     head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 

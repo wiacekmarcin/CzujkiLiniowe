@@ -417,12 +417,12 @@ xmlcode = u"""        <widget class="QWidget" name="p%(Uname)s">
                </row>
                <column>
                 <property name="text">
-                 <string>C[n]</string>
+                 <string>Cn</string>
                 </property>
                </column>
                <column>
                 <property name="text">
-                 <string>C[n]</string>
+                 <string>Cn</string>
                 </property>
                </column>
                <column>

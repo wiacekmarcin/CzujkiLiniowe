@@ -6,20 +6,28 @@
 #include <QMessageBox>
 #include <QTime>
 
-#define SETCONF(N) ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
-                   ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImpZerow##N())); \
-                   ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
-                   ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
-                   ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
-                   ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N())); \
-                   ui->motorName##N->setText(u->getMotorNazwa##N()); \
-                   ui->speed##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
+#define SETCONF(N)  ui->base##N->setText(QString::number(u->getMotorIloscImpBaza##N())); \
+                    ui->base##N->setReadOnly(true);\
+                    ui->delay##N->setText(QString::number(u->getMotorCzasMiedzyImpZerow##N())); \
+                    ui->maxSteps##N->setText(QString::number(u->getMotorMaksIloscImp##N())); \
+                    ui->maxSteps##N->setReadOnly(true);\
+                    ui->obrot##N->setChecked(u->getMotorOdwrocObroty##N()); \
+                    ui->obrotText##N->setText(u->getMotorOdwrocObroty##N()?QString::fromUtf8("lewe"):QString::fromUtf8("prawe")); \
+                    ui->obrot##N->setVisible(false);\
+                    ui->obrotText##N->setVisible(true);\
+                    ui->ratio##N->setText(QString::number(u->getMotorPrzelozenieImpJedn##N())); \
+                    ui->ratio##N->setReadOnly(true);\
+                    ui->srodekKroki##N->setText(QString::number(u->getMotorIloscImpSrodek##N())); \
+                    ui->srodekKroki##N->setReadOnly(true);\
+                    ui->motorName##N->setText(u->getMotorNazwa##N()); \
+                    ui->motorName##N->setReadOnly(true); \
+                    ui->speed##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
                                                                                 u->getMotorCzasMiedzyImpZerow##N()))); \
-                   ui->speedPos##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
+                    ui->speedPos##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
                                                          u->getMotorCzasMiedzyImpZerow##N())));\
-                   ui->speedWork##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
+                    ui->speedWork##N->setText(QString::number(u->wyliczPredkosc(u->getMotorPrzelozenieImpJedn##N(),\
                                                                                u->getMotorCzasMiedzyImpNormal##N()))); \
-                   ui->delayWork##N->setText(QString::number(u->getMotorCzasMiedzyImpNormal##N()));
+                    ui->delayWork##N->setText(QString::number(u->getMotorCzasMiedzyImpNormal##N()));
 
 
 #define SETCONF_ALL SETCONF(1) \

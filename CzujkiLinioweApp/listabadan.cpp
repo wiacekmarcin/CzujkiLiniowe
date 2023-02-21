@@ -473,7 +473,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "Wynik" << "C[n] dB" << "C[n] %" << "Uwagi" ;
+        head << "Kolej. pomiar." << "Nr czujki"  << "Nr uporząd." << transmitter << receiver << "Wynik" << "Cn dB" << "Cn %" << "Uwagi" ;
         width << 90 << 90 << 90 << 170 << 170 << 130 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
         tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
@@ -527,7 +527,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Nr Próby" << "wynik" << "C[n] dB" << "C[n] %" << "Uwagi";
+        head << "Nr Próby" << "wynik" << "Cn dB" << "Cn %" << "Uwagi";
         width << 75 << 120 << 50 << 50 << 200;
         clearinitTable(tablePrzebieg, head, width);
         //tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
@@ -664,7 +664,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
 
         QStringList head;
         QList<int> width;
-        head << "Nr Próby" << "Rozstawienie [m]" << "C[n] dB" << "C[n] %" << "Wynik" << "Uwagi";
+        head << "Nr Próby" << "Rozstawienie [m]" << "Cn dB" << "Cn %" << "Wynik" << "Uwagi";
         width << 75 << 100 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
 
@@ -728,7 +728,7 @@ void ListaBadan::setDaneTest(const DaneTestu &daneTestu, const ParametryBadania 
         short num = 0;
         QStringList head;
         QList<int> width;
-        head << "Napięcie zasilania" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
+        head << "Napięcie zasilania" << "Cn dB" << "Cn %" << "Wynik" <<  "Uwagi";
         width << 150 << 50 << 50 << 100 << 200;
         clearinitTable(tablePrzebieg, head, width);
         tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());
@@ -979,7 +979,7 @@ void ListaBadan::narazeniaWynik(const DaneTestu & daneTestu,
     short num = 0;
     QStringList head;
     QList<int> width;
-    head << "Stan czujki" << "C[n] dB" << "C[n] %" << "Wynik" <<  "Uwagi";
+    head << "Stan czujki" << "Cn dB" << "Cn %" << "Wynik" <<  "Uwagi";
     width << 150 << 75 << 75 << 120 << 300;
     clearinitTable(tablePrzebieg, head, width);
     tablePrzebieg->setRowCount(daneTestu.getDaneBadanCzujek().size());

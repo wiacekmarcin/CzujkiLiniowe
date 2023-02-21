@@ -47,69 +47,8 @@
       <enum>QFrame::Raised</enum>
      </property>
      <layout class="QGridLayout" name="gridLayout_2">
-      <item row="8" column="1">
-       <widget class="QLineEdit" name="motorName8">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="6">
-       <widget class="QLabel" name="label_17">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="3">
-       <widget class="QLineEdit" name="base3">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="19">
-       <widget class="QLabel" name="label_81">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="5">
-       <widget class="QLineEdit" name="ratio4">
+      <item row="8" column="5">
+       <widget class="QLineEdit" name="ratio8">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -127,45 +66,32 @@
         </property>
        </widget>
       </item>
-      <item row="1" column="15">
-       <widget class="QLabel" name="label_18">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0">
-       <widget class="QLabel" name="et2">
-        <property name="text">
-         <string>M2</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="17">
-       <widget class="QLineEdit" name="delayWork7"/>
-      </item>
-      <item row="8" column="2">
-       <widget class="QLineEdit" name="maxSteps8">
+      <item row="7" column="15">
+       <widget class="QLabel" name="speed7">
         <property name="minimumSize">
          <size>
-          <width>50</width>
-          <height>0</height>
+          <width>60</width>
+          <height>15</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
           <width>100</width>
-          <height>16777215</height>
+          <height>25</height>
          </size>
         </property>
         <property name="text">
-         <string/>
+         <string>0</string>
         </property>
-        <property name="maxLength">
-         <number>15</number>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="7">
+       <widget class="QCheckBox" name="obrot7">
+        <property name="text">
+         <string>lewe</string>
         </property>
        </widget>
       </item>
@@ -181,45 +107,67 @@ wych impulsów
         </property>
        </widget>
       </item>
-      <item row="3" column="17">
-       <widget class="QLineEdit" name="delayWork3"/>
+      <item row="3" column="7">
+       <widget class="QCheckBox" name="obrot3">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
       </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="head1">
+      <item row="4" column="15">
+       <widget class="QLabel" name="speed4">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="18">
+       <widget class="QLineEdit" name="delayWork2"/>
+      </item>
+      <item row="2" column="10">
+       <widget class="QLineEdit" name="delay2">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
          <string/>
         </property>
-       </widget>
-      </item>
-      <item row="2" column="19">
-       <widget class="QLabel" name="label_74">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        <property name="maxLength">
+         <number>15</number>
         </property>
        </widget>
       </item>
-      <item row="6" column="15">
-       <widget class="QLabel" name="label_23">
+      <item row="1" column="10">
+       <widget class="QLineEdit" name="delay1">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
         <property name="text">
-         <string>mm/min</string>
+         <string/>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="4">
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>Ilość impulsów
-do środka
-(zero na środku)</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
+        <property name="maxLength">
+         <number>15</number>
         </property>
        </widget>
       </item>
@@ -245,229 +193,28 @@ do środka
         </property>
        </widget>
       </item>
-      <item row="1" column="9">
-       <widget class="QLineEdit" name="delay1">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="0" column="15" colspan="2">
+       <widget class="QLabel" name="head7">
         <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="14">
-       <widget class="QLabel" name="speed3">
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="19">
-       <widget class="QLabel" name="label_75">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="14">
-       <widget class="QLabel" name="speed7">
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="1">
-       <widget class="QLineEdit" name="motorName4">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="15">
-       <widget class="QLabel" name="label_22">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="18">
-       <widget class="QLabel" name="speedWork4">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="5">
-       <widget class="QLabel" name="head6">
-        <property name="text">
-         <string>Ilość jednostki
-na impuls</string>
+         <string>Prędkość
+zerowania</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="2" column="9">
-       <widget class="QLineEdit" name="delay2">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
+      <item row="8" column="7">
+       <widget class="QCheckBox" name="obrot8">
         <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
+         <string>lewe</string>
         </property>
        </widget>
       </item>
-      <item row="2" column="6">
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
+      <item row="1" column="18">
+       <widget class="QLineEdit" name="delayWork1"/>
       </item>
-      <item row="3" column="4">
-       <widget class="QLineEdit" name="srodekKroki3">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="4">
-       <widget class="QLineEdit" name="srodekKroki2">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="2">
-       <widget class="QLineEdit" name="maxSteps2">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="4">
-       <widget class="QLineEdit" name="srodekKroki7">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="17">
-       <widget class="QLineEdit" name="delayWork9"/>
-      </item>
-      <item row="8" column="14">
+      <item row="8" column="15">
        <widget class="QLabel" name="speed8">
         <property name="minimumSize">
          <size>
@@ -489,49 +236,30 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="5">
-       <widget class="QLineEdit" name="ratio7">
+      <item row="6" column="3">
+       <widget class="QLineEdit" name="base6">
         <property name="minimumSize">
          <size>
-          <width>100</width>
+          <width>30</width>
           <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>200</width>
+          <width>80</width>
           <height>16777215</height>
          </size>
         </property>
+        <property name="text">
+         <string/>
+        </property>
         <property name="maxLength">
-         <number>20</number>
+         <number>15</number>
         </property>
        </widget>
       </item>
-      <item row="8" column="5">
-       <widget class="QLineEdit" name="ratio8">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="17">
-       <widget class="QLineEdit" name="delayWork2"/>
-      </item>
-      <item row="6" column="18">
-       <widget class="QLabel" name="speedWork6">
+      <item row="5" column="19">
+       <widget class="QLabel" name="speedWork5">
         <property name="minimumSize">
          <size>
           <width>56</width>
@@ -552,8 +280,8 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="15">
-       <widget class="QLabel" name="label_26">
+      <item row="2" column="20">
+       <widget class="QLabel" name="unitwork2">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -562,30 +290,19 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="5" column="14">
-       <widget class="QLabel" name="speed5">
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
+      <item row="0" column="2">
+       <widget class="QLabel" name="head2">
         <property name="text">
-         <string>0</string>
+         <string>Maksymalna
+ilość impulsów</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="6" column="2">
-       <widget class="QLineEdit" name="maxSteps6">
+      <item row="7" column="2">
+       <widget class="QLineEdit" name="maxSteps7">
         <property name="minimumSize">
          <size>
           <width>50</width>
@@ -606,8 +323,21 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="9" column="9">
-       <widget class="QLineEdit" name="delay9">
+      <item row="3" column="6">
+       <widget class="QLabel" name="unit3">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="18">
+       <widget class="QLineEdit" name="delayWork8"/>
+      </item>
+      <item row="6" column="10">
+       <widget class="QLineEdit" name="delay6">
         <property name="maximumSize">
          <size>
           <width>150</width>
@@ -644,69 +374,71 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="14">
-       <widget class="QLabel" name="speed4">
+      <item row="9" column="5">
+       <widget class="QLineEdit" name="ratio9">
         <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>15</height>
+          <width>100</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
-          <height>25</height>
+          <width>200</width>
+          <height>16777215</height>
          </size>
         </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="maxLength">
+         <number>20</number>
         </property>
        </widget>
       </item>
-      <item row="3" column="18">
-       <widget class="QLabel" name="speedWork3">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
+      <item row="0" column="19" colspan="2">
+       <widget class="QLabel" name="head9">
         <property name="text">
-         <string>0</string>
+         <string>Prędkość
+robocza</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
-      <item row="2" column="14">
-       <widget class="QLabel" name="speed2">
+      <item row="8" column="10">
+       <widget class="QLineEdit" name="delay8">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QLineEdit" name="base3">
         <property name="minimumSize">
          <size>
-          <width>60</width>
-          <height>15</height>
+          <width>30</width>
+          <height>0</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>100</width>
-          <height>25</height>
+          <width>80</width>
+          <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>0</string>
+         <string/>
         </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        <property name="maxLength">
+         <number>15</number>
         </property>
        </widget>
       </item>
@@ -729,103 +461,26 @@ na impuls</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="0">
-       <widget class="QLabel" name="et7">
-        <property name="text">
-         <string>M7</string>
+      <item row="5" column="4">
+       <widget class="QLineEdit" name="srodekKroki5">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
         </property>
        </widget>
       </item>
-      <item row="8" column="17">
-       <widget class="QLineEdit" name="delayWork8"/>
-      </item>
-      <item row="4" column="6">
-       <widget class="QLabel" name="label_12">
+      <item row="8" column="6">
+       <widget class="QLabel" name="unit8">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Nazwa</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="5">
-       <widget class="QLineEdit" name="ratio2">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="9">
-       <widget class="QLabel" name="head4">
-        <property name="text">
-         <string>Czas między impulsami
-w mikrosekundach
-(zerowanie) </string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="15">
-       <widget class="QLabel" name="label_20">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="motorName1">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="17">
-       <widget class="QLineEdit" name="delayWork5"/>
-      </item>
-      <item row="2" column="7">
-       <widget class="QCheckBox" name="obrot2">
-        <property name="text">
-         <string>lewe</string>
         </property>
        </widget>
       </item>
@@ -836,200 +491,7 @@ w mikrosekundach
         </property>
        </widget>
       </item>
-      <item row="3" column="9">
-       <widget class="QLineEdit" name="delay3">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="14">
-       <widget class="QLabel" name="speed9">
-        <property name="minimumSize">
-         <size>
-          <width>60</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="19">
-       <widget class="QLabel" name="label_64">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="6">
-       <widget class="QLabel" name="label_15">
-        <property name="text">
-         <string>mm</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="6">
-       <widget class="QLabel" name="label_11">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="9">
-       <widget class="QLineEdit" name="delay4">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="2">
-       <widget class="QLineEdit" name="maxSteps9">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="3">
-       <widget class="QLineEdit" name="base1">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="0">
-       <widget class="QLabel" name="et3">
-        <property name="text">
-         <string>M3</string>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="15">
-       <widget class="QLabel" name="label_19">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="7">
-       <widget class="QCheckBox" name="obrot1">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QLineEdit" name="base5">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="7">
-       <widget class="QCheckBox" name="obrot7">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="14">
+      <item row="6" column="15">
        <widget class="QLabel" name="speed6">
         <property name="minimumSize">
          <size>
@@ -1051,623 +513,7 @@ w mikrosekundach
         </property>
        </widget>
       </item>
-      <item row="5" column="7">
-       <widget class="QCheckBox" name="obrot5">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="0">
-       <widget class="QLabel" name="et4">
-        <property name="text">
-         <string>M4</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="9">
-       <widget class="QLineEdit" name="delay8">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="4">
-       <widget class="QLineEdit" name="srodekKroki6">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="17">
-       <widget class="QLabel" name="label_28">
-        <property name="text">
-         <string>Czas między impulsami
-w mikrosekundach
-(praca normalna) </string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="5">
-       <widget class="QLineEdit" name="ratio9">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="8" rowspan="9">
-       <widget class="Line" name="line_4">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="6">
-       <widget class="QLabel" name="label_16">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="0">
-       <widget class="QLabel" name="et8">
-        <property name="text">
-         <string>M8</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="9">
-       <widget class="QLineEdit" name="delay6">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="1">
-       <widget class="QLineEdit" name="motorName7">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="18">
-       <widget class="QLabel" name="speedWork2">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="2">
-       <widget class="QLineEdit" name="maxSteps7">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="1">
-       <widget class="QLineEdit" name="motorName6">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="7">
-       <widget class="QCheckBox" name="obrot9">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="19">
-       <widget class="QLabel" name="label_79">
-        <property name="text">
-         <string>mm/min</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="3">
-       <widget class="QLineEdit" name="base8">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="15">
-       <widget class="QLabel" name="label_21">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="7">
-       <widget class="QCheckBox" name="obrot8">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="18" colspan="2">
-       <widget class="QLabel" name="label_63">
-        <property name="text">
-         <string>Prędkość
-robocza</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="3">
-       <widget class="QLineEdit" name="base6">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="4">
-       <widget class="QLineEdit" name="srodekKroki4">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
-       <widget class="QLineEdit" name="motorName9">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="6">
-       <widget class="QLabel" name="label_13">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="18">
-       <widget class="QLabel" name="speedWork9">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QLineEdit" name="maxSteps1">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="5">
-       <widget class="QLineEdit" name="ratio3">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="6">
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLineEdit" name="motorName5">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="7">
-       <widget class="QLabel" name="heaad5">
-        <property name="text">
-         <string>Kierunek
-obrotow</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="4">
-       <widget class="QLineEdit" name="srodekKroki9">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="19">
-       <widget class="QLabel" name="label_77">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="5">
-       <widget class="QLineEdit" name="ratio1">
-        <property name="minimumSize">
-         <size>
-          <width>100</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>200</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>20</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="4">
-       <widget class="QLineEdit" name="srodekKroki1">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="2">
-       <widget class="QLineEdit" name="maxSteps4">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="16" rowspan="9">
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="19">
-       <widget class="QLabel" name="label_80">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="4" column="17">
-       <widget class="QLineEdit" name="delayWork4"/>
-      </item>
-      <item row="7" column="3">
-       <widget class="QLineEdit" name="base7">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="14" colspan="2">
-       <widget class="QLabel" name="label_27">
-        <property name="text">
-         <string>Prędkość
-zerowania</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="2">
-       <widget class="QLabel" name="head2">
-        <property name="text">
-         <string>Maksymalna
-ilość impulsów</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="18">
-       <widget class="QLabel" name="speedWork8">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="4">
-       <widget class="QLineEdit" name="srodekKroki5">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="15">
-       <widget class="QLabel" name="label_24">
-        <property name="text">
-         <string>mm/min</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="17">
-       <widget class="QLineEdit" name="delayWork1"/>
-      </item>
-      <item row="1" column="18">
+      <item row="1" column="19">
        <widget class="QLabel" name="speedWork1">
         <property name="minimumSize">
          <size>
@@ -1689,59 +535,7 @@ ilość impulsów</string>
         </property>
        </widget>
       </item>
-      <item row="3" column="7">
-       <widget class="QCheckBox" name="obrot3">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="6">
-       <widget class="QLabel" name="label_14">
-        <property name="text">
-         <string>mm</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="9">
-       <widget class="QLineEdit" name="delay5">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="1">
-       <widget class="QLineEdit" name="motorName3">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="14">
+      <item row="1" column="15">
        <widget class="QLabel" name="speed1">
         <property name="minimumSize">
          <size>
@@ -1753,222 +547,6 @@ ilość impulsów</string>
          <size>
           <width>100</width>
           <height>25</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="7">
-       <widget class="QCheckBox" name="obrot6">
-        <property name="text">
-         <string>lewe</string>
-        </property>
-       </widget>
-      </item>
-      <item row="3" column="2">
-       <widget class="QLineEdit" name="maxSteps3">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="17">
-       <widget class="QLineEdit" name="delayWork6"/>
-      </item>
-      <item row="8" column="4">
-       <widget class="QLineEdit" name="srodekKroki8">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="0">
-       <widget class="QLabel" name="et5">
-        <property name="text">
-         <string>M5</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="15">
-       <widget class="QLabel" name="label_25">
-        <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="19">
-       <widget class="QLabel" name="label_78">
-        <property name="text">
-         <string>mm/min</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="0">
-       <widget class="QLabel" name="et1">
-        <property name="text">
-         <string>M1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="9">
-       <widget class="QLineEdit" name="delay7">
-        <property name="maximumSize">
-         <size>
-          <width>150</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="1">
-       <widget class="QLineEdit" name="motorName2">
-        <property name="minimumSize">
-         <size>
-          <width>150</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>300</width>
-          <height>30</height>
-         </size>
-        </property>
-        <property name="maxLength">
-         <number>100</number>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="base2">
-        <property name="minimumSize">
-         <size>
-          <width>30</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="0">
-       <widget class="QLabel" name="et9">
-        <property name="text">
-         <string>M9</string>
-        </property>
-       </widget>
-      </item>
-      <item row="6" column="0">
-       <widget class="QLabel" name="et6">
-        <property name="text">
-         <string>M6</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLineEdit" name="maxSteps5">
-        <property name="minimumSize">
-         <size>
-          <width>50</width>
-          <height>0</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string/>
-        </property>
-        <property name="maxLength">
-         <number>15</number>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="18">
-       <widget class="QLabel" name="speedWork5">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>0</string>
-        </property>
-        <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="18">
-       <widget class="QLabel" name="speedWork7">
-        <property name="minimumSize">
-         <size>
-          <width>56</width>
-          <height>15</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>100</height>
          </size>
         </property>
         <property name="text">
@@ -1998,8 +576,132 @@ ilość impulsów</string>
         </property>
        </widget>
       </item>
-      <item row="4" column="19">
-       <widget class="QLabel" name="label_76">
+      <item row="3" column="15">
+       <widget class="QLabel" name="speed3">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="19">
+       <widget class="QLabel" name="speedWork3">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="10">
+       <widget class="QLineEdit" name="delay7">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="2">
+       <widget class="QLineEdit" name="maxSteps8">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="6">
+       <widget class="QLabel" name="unit4">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="10">
+       <widget class="QLineEdit" name="delay5">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="10">
+       <widget class="QLineEdit" name="delay9">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="16">
+       <widget class="QLabel" name="unitsp2">
         <property name="text">
          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
         </property>
@@ -2008,7 +710,215 @@ ilość impulsów</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="0" colspan="20">
+      <item row="4" column="16">
+       <widget class="QLabel" name="unitsp4">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="20">
+       <widget class="QLabel" name="unitwork8">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="20">
+       <widget class="QLabel" name="unitwork4">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="7">
+       <widget class="QCheckBox" name="obrot2">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="0">
+       <widget class="QLabel" name="et4">
+        <property name="text">
+         <string>M4</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="9" rowspan="9">
+       <widget class="Line" name="line_4">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="16">
+       <widget class="QLabel" name="unitsp9">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="4">
+       <widget class="QLineEdit" name="srodekKroki3">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QLineEdit" name="motorName2">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="4">
+       <widget class="QLineEdit" name="srodekKroki9">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="18">
+       <widget class="QLineEdit" name="delayWork5"/>
+      </item>
+      <item row="5" column="15">
+       <widget class="QLabel" name="speed5">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="4">
+       <widget class="QLineEdit" name="srodekKroki8">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="15">
+       <widget class="QLabel" name="speed9">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="3">
+       <widget class="QLineEdit" name="base7">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="16">
+       <widget class="QLabel" name="unitsp6">
+        <property name="text">
+         <string>mm/min</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="6">
+       <widget class="QLabel" name="unit7">
+        <property name="text">
+         <string>mm</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="10" column="0" colspan="21">
        <widget class="QFrame" name="frame_2">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
@@ -2125,6 +1035,1159 @@ ilość impulsów</string>
           </widget>
          </item>
         </layout>
+       </widget>
+      </item>
+      <item row="2" column="4">
+       <widget class="QLineEdit" name="srodekKroki2">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="18">
+       <widget class="QLineEdit" name="delayWork4"/>
+      </item>
+      <item row="9" column="0">
+       <widget class="QLabel" name="et9">
+        <property name="text">
+         <string>M9</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="4">
+       <widget class="QLineEdit" name="srodekKroki1">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="18">
+       <widget class="QLineEdit" name="delayWork7"/>
+      </item>
+      <item row="6" column="2">
+       <widget class="QLineEdit" name="maxSteps6">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLineEdit" name="motorName3">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="18">
+       <widget class="QLineEdit" name="delayWork6"/>
+      </item>
+      <item row="3" column="18">
+       <widget class="QLineEdit" name="delayWork3"/>
+      </item>
+      <item row="9" column="20">
+       <widget class="QLabel" name="unitwork9">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="7">
+       <widget class="QCheckBox" name="obrot1">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="16">
+       <widget class="QLabel" name="unitsp1">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="1">
+       <widget class="QLineEdit" name="motorName8">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="2">
+       <widget class="QLineEdit" name="maxSteps5">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="20">
+       <widget class="QLabel" name="unitwork7">
+        <property name="text">
+         <string>mm/min</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="6">
+       <widget class="QLabel" name="unit6">
+        <property name="text">
+         <string>mm</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="4">
+       <widget class="QLineEdit" name="srodekKroki6">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="7">
+       <widget class="QCheckBox" name="obrot6">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="maxSteps4">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="7">
+       <widget class="QCheckBox" name="obrot5">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="16">
+       <widget class="QLabel" name="unitsp8">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="3">
+       <widget class="QLineEdit" name="base1">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="15">
+       <widget class="QLabel" name="speed2">
+        <property name="minimumSize">
+         <size>
+          <width>60</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>25</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="et1">
+        <property name="text">
+         <string>M1</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="16">
+       <widget class="QLabel" name="unitsp7">
+        <property name="text">
+         <string>mm/min</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="20">
+       <widget class="QLabel" name="unitwork3">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="base2">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="10">
+       <widget class="QLineEdit" name="delay4">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="0">
+       <widget class="QLabel" name="et6">
+        <property name="text">
+         <string>M6</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="5">
+       <widget class="QLineEdit" name="ratio7">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="2">
+       <widget class="QLineEdit" name="maxSteps9">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="1">
+       <widget class="QLineEdit" name="motorName9">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
+       <widget class="QLineEdit" name="motorName4">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="3">
+       <widget class="QLineEdit" name="base8">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="4">
+       <widget class="QLineEdit" name="srodekKroki7">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="5">
+       <widget class="QLineEdit" name="ratio3">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="3">
+       <widget class="QLineEdit" name="base5">
+        <property name="minimumSize">
+         <size>
+          <width>30</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="16">
+       <widget class="QLabel" name="unitsp3">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="19">
+       <widget class="QLabel" name="speedWork9">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="19">
+       <widget class="QLabel" name="speedWork6">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="1">
+       <widget class="QLineEdit" name="motorName6">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="5">
+       <widget class="QLineEdit" name="ratio1">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="20">
+       <widget class="QLabel" name="unitwork6">
+        <property name="text">
+         <string>mm/min</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="2">
+       <widget class="QLineEdit" name="maxSteps1">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="18">
+       <widget class="QLineEdit" name="delayWork9"/>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="maxSteps3">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="0">
+       <widget class="QLabel" name="et7">
+        <property name="text">
+         <string>M7</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLineEdit" name="motorName1">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="6">
+       <widget class="QLabel" name="unit9">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="10">
+       <widget class="QLabel" name="head4">
+        <property name="text">
+         <string>Czas między impulsami
+w mikrosekundach
+(zerowanie) </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="17" rowspan="9">
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="4">
+       <widget class="QLabel" name="head3_2">
+        <property name="text">
+         <string>Ilość impulsów
+do środka
+(zero na środku)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="4">
+       <widget class="QLineEdit" name="srodekKroki4">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="2">
+       <widget class="QLineEdit" name="maxSteps2">
+        <property name="minimumSize">
+         <size>
+          <width>50</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="5">
+       <widget class="QLabel" name="head6">
+        <property name="text">
+         <string>Ilość jednostki
+na impuls</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="5">
+       <widget class="QLineEdit" name="ratio4">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="19">
+       <widget class="QLabel" name="speedWork8">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="1">
+       <widget class="QLineEdit" name="motorName5">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="20">
+       <widget class="QLabel" name="unitwork5">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="19">
+       <widget class="QLabel" name="speedWork7">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="5">
+       <widget class="QLineEdit" name="ratio2">
+        <property name="minimumSize">
+         <size>
+          <width>100</width>
+          <height>0</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>200</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>20</number>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="0">
+       <widget class="QLabel" name="et8">
+        <property name="text">
+         <string>M8</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="0">
+       <widget class="QLabel" name="et2">
+        <property name="text">
+         <string>M2</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="6">
+       <widget class="QLabel" name="unit1">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="6">
+       <widget class="QLabel" name="unit2">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="0">
+       <widget class="QLabel" name="et3">
+        <property name="text">
+         <string>M3</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="19">
+       <widget class="QLabel" name="speedWork4">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="head0">
+        <property name="text">
+         <string>Nazwa</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="10">
+       <widget class="QLineEdit" name="delay3">
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string/>
+        </property>
+        <property name="maxLength">
+         <number>15</number>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="20">
+       <widget class="QLabel" name="unitwork1">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLineEdit" name="motorName7">
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>300</width>
+          <height>30</height>
+         </size>
+        </property>
+        <property name="maxLength">
+         <number>100</number>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="7">
+       <widget class="QCheckBox" name="obrot9">
+        <property name="text">
+         <string>lewe</string>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="0">
+       <widget class="QLabel" name="et5">
+        <property name="text">
+         <string>M5</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="18">
+       <widget class="QLabel" name="head8">
+        <property name="text">
+         <string>Czas między impulsami
+w mikrosekundach
+(praca normalna) </string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="19">
+       <widget class="QLabel" name="speedWork2">
+        <property name="minimumSize">
+         <size>
+          <width>56</width>
+          <height>15</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>100</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>0</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="head1">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="6">
+       <widget class="QLabel" name="unit5">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="16">
+       <widget class="QLabel" name="unitsp5">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&amp;deg;/min&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="8">
+       <widget class="QLabel" name="obrotText1">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="8">
+       <widget class="QLabel" name="obrotText2">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="8">
+       <widget class="QLabel" name="obrotText3">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="8">
+       <widget class="QLabel" name="obrotText4">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="5" column="8">
+       <widget class="QLabel" name="obrotText5">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="6" column="8">
+       <widget class="QLabel" name="obrotText6">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="8">
+       <widget class="QLabel" name="obrotText7">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="8" column="8">
+       <widget class="QLabel" name="obrotText8">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="9" column="8">
+       <widget class="QLabel" name="obrotText9">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="7" colspan="2">
+       <widget class="QLabel" name="head5">
+        <property name="text">
+         <string>Kierunek
+obrotow</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
        </widget>
       </item>
      </layout>

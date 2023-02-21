@@ -157,8 +157,8 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
         dane.head << eTransmitter;
         dane.head << eReceiver;
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -200,8 +200,8 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
         showC = true;
         dane.leftMargin = 50;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -259,8 +259,8 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
         dane.leftMargin = 50;
 
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -290,8 +290,8 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
         dane.leftMargin = 40;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Rozstawienie"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -329,8 +329,8 @@ void PdfCreator::setTableData(const DaneTestu &test, TabelaDane &dane,
         dane.leftMargin = 40;
         dane.head << codec->fromUnicode(QString::fromUtf8("Próba"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Napięcie zasilania"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-        dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+        dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
         dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
@@ -452,8 +452,8 @@ void PdfCreator::narazeniaWynik(const DaneTestu &test, TabelaDane &dane,
     showC = true;
 
     dane.head << codec->fromUnicode(QString::fromUtf8("Stan czujki"));
-    dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
-    dane.head << codec->fromUnicode(QString::fromUtf8("C[n]"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
+    dane.head << codec->fromUnicode(QString::fromUtf8("Cn"));
     dane.head << codec->fromUnicode(QString::fromUtf8("Wynik"));
     dane.head << codec->fromUnicode(QString::fromUtf8("Uwagi"));
 
