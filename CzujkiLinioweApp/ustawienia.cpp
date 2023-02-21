@@ -27,7 +27,7 @@ Ustawienia::Ustawienia() :
 #ifdef _DEBUG
     testMode = true;
 #endif
-    //testMode = true;
+    testMode = true;
     load();
     loadListUstawienFiltra();
     save();

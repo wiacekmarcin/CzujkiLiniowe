@@ -362,7 +362,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka zgłosiła alarm w trakcie 30 sekund od momentu umieszczenia tłumnika 6dB w torze optycznym</string>
+         <string>Czy czujka zgłosiła alarm w trakcie 30 sekund od momentu umieszczenia tłumnika 6dB w torze optycznym?</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -434,7 +434,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka została fizycznie uszkodzona i nie można przeprowadzić badania</string>
+         <string>Czy czujka została fizycznie uszkodzona i nie można przeprowadzić badania?</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
@@ -500,7 +500,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka przeszła pozytywnie badanie lub test narażenia.</string>
+         <string>Czy czujka przeszła pozytywnie badanie lub test narażenia?</string>
         </property>
        </widget>
       </item>
@@ -563,7 +563,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka podczas narażenia zgłosiła alarm lub błąd w czasie bezczynności</string>
+         <string>Czy czujka podczas narażenia zgłosiła alarm lub błąd w czasie bezczynności?</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>

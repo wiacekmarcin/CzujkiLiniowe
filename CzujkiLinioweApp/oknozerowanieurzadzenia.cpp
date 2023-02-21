@@ -147,7 +147,7 @@ void OknoZerowanieUrzadzenia::ster_setPositionDone(short silnik, RuchSilnikaType
 void OknoZerowanieUrzadzenia::closeEvent(QCloseEvent *event)
 {
     auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych?"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -178,7 +178,7 @@ static int question(QWidget * parent, const QString & title, const QString & pyt
 void OknoZerowanieUrzadzenia::pbCancel_clicked()
 {
     int ret = question(this, QString::fromUtf8("Oczekiwanie zerowanie stanowiska"),
-                                    QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
+                                    QString::fromUtf8("Czy napewno chcesz przerwać badanie?"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }

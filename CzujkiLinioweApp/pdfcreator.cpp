@@ -520,8 +520,8 @@ void PdfCreator::create(const QString & data)
     HPDF_SetCurrentEncoder(pdf, "ISO8859-2");
 
     /* get default font */
-    font = HPDF_GetFont (pdf, "Helvetica", "ISO8859-2");
-    font2 = HPDF_GetFont (pdf, "Courier", "ISO8859-2");
+    font = HPDF_GetFont (pdf, HPDF_LoadTTFontFromFile(pdf, "czcionka1.ttf", false), "ISO8859-2");
+    font2 = HPDF_GetFont (pdf, HPDF_LoadTTFontFromFile(pdf, "czcionka2.ttf", false), "ISO8859-2");
 
     iloscStron = testy.size() + 1;
 
@@ -623,7 +623,7 @@ float PdfCreator::createHead(HPDF_Page page, HPDF_Font font, float startY)
 {
     QByteArray p_title1 = codec->fromUnicode(QString::fromUtf8("CENTRUM NAUKOWO BADAWCZE OCHRONY PRZECIWPOŻAROWEJ"));
     QByteArray p_title2 = codec->fromUnicode(QString::fromUtf8("im. Józefa Tuliszkowskiego w Józefowie"));
-    QByteArray p_title3 = codec->fromUnicode(QString::fromUtf8("Państwowy Instytut Badawaczy"));
+    QByteArray p_title3 = codec->fromUnicode(QString::fromUtf8("Państwowy Instytut Badawczy"));
     QByteArray p_title4 = codec->fromUnicode(QString::fromUtf8("ZAKRES BADAŃ POSIADAJĄCY AKREDYTACJĘ POLSKIEGO CENTRUM AKREDYTACJI"));
     QByteArray p_title5 = codec->fromUnicode(QString::fromUtf8("Numer certyfikatu akredytacji - AB 207"));
 

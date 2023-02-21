@@ -634,7 +634,7 @@ void MainWindow::actionTest_triggered()
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     auto btn = questionSave(QString::fromUtf8("CzujkiLiniowe"), 
-                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych"),
+                            QString::fromUtf8("Czy chcesz zamknąć program bez zapisania danych?"),
                             this);
 
     if (btn == QMessageBox::Cancel) {

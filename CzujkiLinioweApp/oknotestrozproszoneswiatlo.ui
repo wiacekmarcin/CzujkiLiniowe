@@ -396,7 +396,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Czy czujka podczas narażenia zgłosiła alarm lub błąd.</string>
+         <string>Czy czujka podczas narażenia zgłosiła alarm lub błąd?</string>
         </property>
        </widget>
       </item>

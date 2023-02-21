@@ -604,24 +604,27 @@ bool ProceduraTestowa::EMCNarazenia(const ParametryBadania &daneBadania, const U
 {
     parametryTest(1, daneBadania, ust);
 
-    potwierdzenieNarazeniaEMC(dane, daneBadania, ust);
+    bool czujkaOk;
+    potwierdzenieNarazeniaEMC(dane, czujkaOk, daneBadania, ust);
 
     bool powtorzPomiar;
     bool ok1;
-    do {
-        montazZerowanieZasilanie(ZER_FILTRY, daneBadania);
 
-        powtorzPomiar = !pomiarCzujki(POWT_POMIAR, daneBadania, ust);
+    if (czujkaOk) {
+        do {
+            montazZerowanieZasilanie(ZER_FILTRY, daneBadania);
 
-        ok1 = !powtorzPomiar;
-    } while (powtorzPomiar);
+            powtorzPomiar = !pomiarCzujki(POWT_POMIAR, daneBadania, ust);
 
-    zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver(), false);
+            ok1 = !powtorzPomiar;
+        } while (powtorzPomiar);
 
-    if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
-        zas->setOutput(false);
+        zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver(), false);
 
-    dane.setOk(dane.getWynikNarazenia() && ok1);
+        if (daneBadania.getZasilanieCzujekZasilaczZewnetrzny())
+            zas->setOutput(false);
+    }
+    dane.setOk(czujkaOk && dane.getWynikNarazenia() && ok1);
     dane.setDataZakonczenia();
     dane.setWykonany(true);
 
@@ -685,13 +688,14 @@ void ProceduraTestowa::potwierdzenieNarazenia(DaneTestu &daneTestu, bool & czujk
         throw ProceduraException();
 }
 
-void ProceduraTestowa::potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &,
+void ProceduraTestowa::potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, bool & czujkaOk, const ParametryBadania &,
                                               const Ustawienia &)
 {
     OknoPotwierdzenieEMCNarazenie *dlg3 = new OknoPotwierdzenieEMCNarazenie(daneTestu, parent);
     bool ret = dlg3->exec() == QDialog::Accepted;
     daneTestu.setWynikNarazenia(dlg3->getWynik());
     daneTestu.setInfoNarazenia(dlg3->getKomenatarz());
+    czujkaOk = !dlg3->czujkaUszkodzona();
     delete dlg3;
     if (!ret)
         throw ProceduraException();

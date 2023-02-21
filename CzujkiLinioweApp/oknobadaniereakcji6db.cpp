@@ -233,8 +233,8 @@ void OknoBadanieReakcji6dB::timeoutSterownika()
 
 void OknoBadanieReakcji6dB::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
+    auto btn = questionQuit(QString::fromUtf8("Czujki Liniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych?"),
                             this);
 
     if (btn == QMessageBox::Cancel) {

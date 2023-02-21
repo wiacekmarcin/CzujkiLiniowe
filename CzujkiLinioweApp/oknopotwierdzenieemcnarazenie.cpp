@@ -126,8 +126,8 @@ void OknoPotwierdzenieEMCNarazenie::pbCancel_clicked()
 
 void OknoPotwierdzenieEMCNarazenie::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
+    auto btn = questionQuit(QString::fromUtf8("Czujki Liniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych?"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -139,4 +139,9 @@ void OknoPotwierdzenieEMCNarazenie::closeEvent(QCloseEvent *event)
         event->accept();
         return;
     }
+}
+
+bool OknoPotwierdzenieEMCNarazenie::czujkaUszkodzona() const
+{
+    return ui->cbUszkodzenie->currentIndex() == 1;
 }

@@ -165,8 +165,8 @@ void OczekiwanieNaUrzadzenia::sterownik(int state)
 
 void OczekiwanieNaUrzadzenia::closeEvent(QCloseEvent *event)
 {
-    auto btn = questionQuit(QString::fromUtf8("CzujkiLiniowe"),
-                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych"),
+    auto btn = questionQuit(QString::fromUtf8("Czujki Liniowe"),
+                            QString::fromUtf8("Czy chcesz wyjść z badania bez zapisywania danych?"),
                             this);
 
     if (btn == QMessageBox::Cancel) {
@@ -192,7 +192,7 @@ static int question(QWidget * parent, const QString & title, const QString & pyt
 void OczekiwanieNaUrzadzenia::pbCancel_clicked()
 {
     int ret = question(this, QString::fromUtf8("Oczekiwanie na urządzenia"),
-                             QString::fromUtf8("Czy napewno chcesz przerwać badanie"));
+                             QString::fromUtf8("Czy napewno chcesz przerwać badanie?"));
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
 }

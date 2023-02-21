@@ -69,7 +69,7 @@ private:
     void oczekiwanieNaUrzadzenie(const ParametryBadania & daneBadania);
     bool zerowanieSterownika(uint32_t flags, const QString &trans, const QString &receiv, bool raiseError = true);
     void potwierdzenieNarazenia(DaneTestu &daneTestu, bool &czujkaOk, const ParametryBadania & daneBadania, const Ustawienia & ust);
-    void potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, const ParametryBadania &, const Ustawienia &);
+    void potwierdzenieNarazeniaEMC(DaneTestu &daneTestu, bool &czujkaOk, const ParametryBadania &, const Ustawienia &);
     void zasilenieCzujki(uint32_t flags, unsigned long timeWait, const ParametryBadania &daneBadania);
     
     void stabilizacjaCzujki(short nrPomiaru, const DaneTestu &daneTestu, const ParametryBadania &daneBadania, const Ustawienia &);

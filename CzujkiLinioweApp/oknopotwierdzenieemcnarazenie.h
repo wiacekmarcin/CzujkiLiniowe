@@ -20,6 +20,7 @@ public:
     bool getWynik() const;
     QString getKomenatarz() const;
     void closeEvent(QCloseEvent *event);
+    bool czujkaUszkodzona() const;
 protected:
     void pbCancel_clicked();
 private:
