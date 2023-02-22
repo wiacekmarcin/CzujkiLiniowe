@@ -468,6 +468,7 @@ bool ProceduraTestowa::RozproszoneSwiatlo(const ParametryBadania &daneBadania, c
     delete dlg15;
     dlg15 = nullptr;
     bool ok2 = true;
+    dane.addNextPomiar();
     ok2 = pomiarCzujki(0, daneBadania, ust);
 
     zerowanieSterownika(ZER_FILTRY, daneBadania.getNazwaTransmitter(), daneBadania.getNazwaReceiver(), false);
@@ -571,6 +572,7 @@ bool ProceduraTestowa::KlimatyczneMechaniczneNarazenia(const ParametryBadania &d
     bool powtorzPomiar;
     bool ok1 = true;
     if (czujkaOk) {
+        dane.addNextPomiar();
         do {
             montazZerowanieZasilanie(ZER_FILTRY, daneBadania);
 
@@ -611,6 +613,7 @@ bool ProceduraTestowa::EMCNarazenia(const ParametryBadania &daneBadania, const U
     bool ok1;
 
     if (czujkaOk) {
+        dane.addNextPomiar();
         do {
             montazZerowanieZasilanie(ZER_FILTRY, daneBadania);
 
