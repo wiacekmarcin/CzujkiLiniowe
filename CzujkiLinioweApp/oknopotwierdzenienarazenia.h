@@ -24,6 +24,7 @@ public:
     void closeEvent(QCloseEvent *event);
 protected:
     void pbCancel_clicked();
+    void removeButtons(bool tlumnik, bool alarm, bool uszkodz, bool czujkaOk);
 private:
     Ui::OknoPotwierdzenieNarazenia *ui;
     unsigned idTest;

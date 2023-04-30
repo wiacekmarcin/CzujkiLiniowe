@@ -65,36 +65,23 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
     connect(ui->cbUszkodzenie, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(2,index); });
     connect(ui->cbCzujkaOk, qOverload<int>(&QComboBox::currentIndexChanged), this, [this](int index) { this->changeComboBox(3,index); });
 
-    ui->cbTlumnik->setVisible(false);
-    ui->etTlumnik->setVisible(false);
-    ui->cbAlarmYesNo->setVisible(false);
-    ui->etAlarm->setVisible(false);
-    ui->cbUszkodzenie->setVisible(false);
-    ui->etUszkodzenie->setVisible(false);
-    ui->etCzujkaOk->setVisible(false);
-    ui->cbCzujkaOk->setVisible(false);
     if (daneTestu.getId() == FIRE_SENSITIVITY) {
-        ui->cbCzujkaOk->setVisible(true);
-        ui->etCzujkaOk->setVisible(true);
+        removeButtons(true, true, true, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Ocenę reakcji czujki na powolny wzrost gęstości dymu należy "
                                        "przeprowadzić poprzez analizę układu/oprogramowania, próbę "
                                        "fizyczną lub symulacje w celu sprawdzenia, czy czujka "
                                        "spełnia wymagania określone w pkt 4.3.5.</p></body></html>"));
-    resize(1200,770);
     } else if (daneTestu.getId() == DRY_HEAT) {
+        removeButtons(false, false, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                        "zostawiona na <b>16 godzin w temperaturze w 55 ± 2 °C</b> .</p>"
                                        "<p>Pod koniec czasu narażenia należy umieśić tłumnik 6 dB w torze optycznym.</p>"
                                        "<p>Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami "
                                        "pokojowymi na czas 1 godziny.</p></body></html>"));
-        ui->cbTlumnik->setVisible(true);
-        ui->etTlumnik->setVisible(true);
-        ui->cbAlarmYesNo->setVisible(true);
-        ui->etAlarm->setVisible(true);
-        resize(1500,770);
     } else if (daneTestu.getId() == COLD) {
+        removeButtons(false, false, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                        "zostawiona na <b>16 godzin w temperaturze w -10 ± 3 °C</b> .</p>"
@@ -102,43 +89,33 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                        "<p>Pod koniec czasu narażenia należy umieśić tłumnik 6 dB w torze optycznym.</p>"
                                        "<p>Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami "
                                        "pokojowymi na czas 1 godziny.</p></body></html>"));
-        ui->cbTlumnik->setVisible(true);
-        ui->etTlumnik->setVisible(true);
-        ui->cbAlarmYesNo->setVisible(true);
-        ui->etAlarm->setVisible(true);
-        resize(1370, 770);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
+        removeButtons(true, true, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                    "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość i "
                                    "zostawiona na <b>4 doby w temperaturze w 40 ± 2 °C i wilgotności względnej 93 ± 3 %</b> .</p>"
                                    "<p>Czujka powinna zostać wyłączona i przeniesiona do pomieszczenia z warunkami "
                                    "pokojowymi na czas 1 godziny.</p></body></html>"));
-        ui->cbAlarmYesNo->setVisible(true);
-        ui->etAlarm->setVisible(true);
-        resize(1270, 770);
     } else if (daneTestu.getId() == DAMP_HEAT_STADY_STATE_ENDURANCE) {
+        removeButtons(true, true, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , tylko powinna zostać umieszoczna w pomieszczeniu "
-                               " <b>21 dni w temperaturze w 40 ± 2 °C i wilgotności względnej 93 ± 3 %</b> .</p>"
+                               " <b>na 21 dni w temperaturze w 40 ± 2 °C i wilgotności względnej 93 ± 3 %</b> .</p>"
                                "<p>Czujka powinna zostać przeniesiona do pomieszczenia z warunkami "
                                "pokojowymi na czas 1 godziny w celu regeneracji.</p></body></html>"));
-        ui->wynik_narazenia->setVisible(false);
-        ui->etWynik->setVisible(false);
-        resize(1270, 770);
     } else if (daneTestu.getId() == VIBRATION) {
+        removeButtons(true, true, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                "Czujki nie powinno się podłączać , ale powinna zostać zamontowana zgodnie z normą do sztywnego uchwytu.</p>"
                                "<p>Drgania należy przykładać kolejno w każdej z trzech wzajemnie prostopadłych osi. Element należy "
                                "zamontować tak, aby jedna z trzech osi była prostopadła do jego normalnej osi montażowej.</p>"
-                               "<p>Stosuje się następujące warunki : zakres częstotliwości <b>10 Hz do 150 Hz</b>, "
+                               "<p>Stosuje się następujące warunki : zakres częstotliwości <b>od 10 Hz do 150 Hz</b>, "
                                "amplituda przyspieszenia <b>9,81 ms<sup>-2</sup> (1,0 gn)</b>, liczba osi <b>3</b>,"
                                " szybkość przemiatania <b>1 oktawa/min</b>, liczba cykli przemiatania <b>20</b></p>"
                                "<p>Należy zadbać o to, aby wyrównanie urządzeń wibracyjnych nie uległo znaczącym zmianom "
                                "po zakończeniu testu</p><p>Po zakończeniu testu nie należy regulować ustawienia kątowego</p></body></html>"));
-        ui->cbUszkodzenie->setVisible(true);
-        ui->etUszkodzenie->setVisible(true);
-        resize(1330,840);
     } else if (daneTestu.getId() == IMPACT) {
+        removeButtons(true, true, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujka powinna zostać podłączona a następnie ustawiona na maksymalną czułość.</p>"
                                "<p>Stosuje się następujące warunki: energia uderzenia: <b>(0,5 ± 0,04) J</b>,"
@@ -152,10 +129,8 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                "<p>Należy uważać, aby wyniki jednej serii trzech ciosów nie miały wpływu na kolejne serie. "
                                "W przypadku wątpliwości co do wpływu poprzednich uderzeń, wadę należy pominąć i "
                                "wykonać kolejne trzy uderzenia w to samo miejsce na nowej próbce</p></body></html>"));
-        ui->cbUszkodzenie->setVisible(true);
-        ui->etUszkodzenie->setVisible(true);
-        resize(1250,850);
-    } else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
+     } else if (daneTestu.getId() == SULPHUR_DIOXIDE_SO2_CORROSION) {
+        removeButtons(true, true, false, false);
         ui->narazenie->setText(QString::fromUtf8("<html><head/><body style=\"font-size:14pt;\"><p>"
                                        "Czujkę należy zamontować zgodnie z normą, jednak nie należy podłączać zasilania, "
                                        ", ale czujka musi mieć niecynowane przewody miedziane o odpowiedniej średnicy, "
@@ -168,10 +143,8 @@ OknoPotwierdzenieNarazenia::OknoPotwierdzenieNarazenia(const DaneTestu & daneTes
                                        " temperaturze <b>40+-2 °C</b> i wilgotności względnej nie większej niż <b>50%</b>,"
                                        " po czym następuje okres regeneracji trwający od 1 do 2 godzin w standardowych "
                                        "warunkach laboratoryjnych.</p></body></html>"));
-        ui->wynik_narazenia->setVisible(false);
-        ui->etWynik->setVisible(false);
-        resize(1200,770);
     }
+    resize(sizeHint());
     CenterWidgets(this, parent);
 }
 
@@ -180,11 +153,8 @@ OknoPotwierdzenieNarazenia::~OknoPotwierdzenieNarazenia()
     delete ui;
 }
 
-void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
+void OknoPotwierdzenieNarazenia::changeComboBox(short /*nrCombo*/, int /*index*/)
 {
-    if (idTest == DAMP_HEAT_STADY_STATE_ENDURANCE)
-        return;
-
     if (ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0
             && ui->cbUszkodzenie->currentIndex() == 0 && ui->cbCzujkaOk->currentIndex() == 0)
     {
@@ -193,69 +163,7 @@ void OknoPotwierdzenieNarazenia::changeComboBox(short nrCombo, int index)
         ui->wynik_narazenia->setText("NEGATYWNY");
     }
 
-    QString text = ui->komentarz->toPlainText();
-    if (nrCombo == 0) {
-        if (idTest == DRY_HEAT || idTest == COLD || idTest == DAMP_HEAT_STADY_STATE_OPERATIONAL || idTest == IMPACT) {
-            if (index == 1) {
-                text.append(QString::fromUtf8("[Czujka zgłosiła błąd poczas bezczynności]"));
-            } else {
-                text.remove(QString::fromUtf8("[Czujka zgłosiła błąd poczas bezczynności]"));
-            }
-        }
-    } else if (nrCombo == 1) {
-        if (idTest == DRY_HEAT || idTest == COLD) {
-            if (index == 1) {
-                text.append(QString::fromUtf8("[Czujka nie wykryła tłumnika 6dB w czasie 30s]"));
-            } else {
-                text.remove(QString::fromUtf8("[Czujka nie wykryła tłumnika 6dB w czasie 30s]"));
-            }
-        }
-    } else if (nrCombo == 2)  {
-        if (idTest == VIBRATION || idTest == IMPACT) {
-            if (index == 1) {
-                text.append(QString::fromUtf8("[Czujka została uszkodzona fizycznie]"));
-            } else {
-                text.remove(QString::fromUtf8("[Czujka została uszkodzona fizycznie]"));
-            }
-        }
-    } else if (nrCombo == 3)  {
-        if (idTest == FIRE_SENSITIVITY) {
-            if (index == 1) {
-                text.append(QString::fromUtf8("[Czujka została uszkodzona podczas narażenia]"));
-            } else {
-                text.remove(QString::fromUtf8("[Czujka została uszkodzona podczas narażenia]"));
-            }
-        }
-    }
 
-/*
-    ui->komentarz->setPlainText(text);
-    if (idTest == DRY_HEAT || idTest == COLD) {
-        if (ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbTlumnik->currentIndex() == 0) {
-            ui->wynik_narazenia->setText("POZYTYWNY");
-        } else {
-            ui->wynik_narazenia->setText("NEGATYWNY");
-        }
-    } else if (idTest == DAMP_HEAT_STADY_STATE_OPERATIONAL) {
-        if (ui->cbAlarmYesNo->currentIndex() == 0) {
-            ui->wynik_narazenia->setText("POZYTYWNY");
-        } else {
-            ui->wynik_narazenia->setText("NEGATYWNY");
-        }
-    } else if (idTest == VIBRATION) {
-        if (ui->cbUszkodzenie->currentIndex() == 0) {
-            ui->wynik_narazenia->setText("POZYTYWNY");
-        } else {
-            ui->wynik_narazenia->setText("NEGATYWNY");
-        }
-    } else if (idTest == IMPACT) {
-        if (ui->cbAlarmYesNo->currentIndex() == 0 && ui->cbUszkodzenie->currentIndex() == 0) {
-            ui->wynik_narazenia->setText("POZYTYWNY");
-        } else {
-            ui->wynik_narazenia->setText("NEGATYWNY");
-        }
-    }
-    */
 }
 
 bool OknoPotwierdzenieNarazenia::getWynik() const
@@ -313,4 +221,35 @@ void OknoPotwierdzenieNarazenia::pbCancel_clicked()
     if (ret == QMessageBox::Yes)
         done(QDialog::Rejected);
     qDebug() << size();
+}
+
+void OknoPotwierdzenieNarazenia::removeButtons(bool tlumnik, bool alarm, bool uszkodz, bool czujkaOk)
+{
+    if (tlumnik) {
+        ui->cbTlumnik->hide();
+        ui->etTlumnik->hide();
+        ui->formLayout->removeWidget(ui->cbTlumnik);
+        ui->formLayout->removeWidget(ui->etTlumnik);
+    }
+
+    if (alarm) {
+        ui->cbAlarmYesNo->hide();
+        ui->etAlarm->hide();
+        ui->formLayout->removeWidget(ui->cbAlarmYesNo);
+        ui->formLayout->removeWidget(ui->etAlarm);
+    }
+
+    if (uszkodz) {
+        ui->cbUszkodzenie->hide();
+        ui->etUszkodzenie->hide();
+        ui->formLayout->removeWidget(ui->cbUszkodzenie);
+        ui->formLayout->removeWidget(ui->etUszkodzenie);
+    }
+
+    if (czujkaOk) {
+        ui->etCzujkaOk->hide();
+        ui->cbCzujkaOk->hide();
+        ui->formLayout->removeWidget(ui->etCzujkaOk);
+        ui->formLayout->removeWidget(ui->cbCzujkaOk);
+    }
 }
